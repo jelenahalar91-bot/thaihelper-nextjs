@@ -29,8 +29,8 @@ export default function Privacy() {
     <>
       <Head>
         <title>Privacy Policy — ThaiHelper</title>
-        <meta name="description" content="Privacy Policy for ThaiHelper" />
-        <meta name="robots" content="noindex" />
+        <meta name="description" content="Privacy Policy for ThaiHelper — how we collect, use, and protect your personal data." />
+        <link rel="canonical" href="https://thaihelper.app/privacy" />
       </Head>
 
       {/* ── NAV ── */}

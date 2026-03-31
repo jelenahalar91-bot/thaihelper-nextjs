@@ -29,8 +29,8 @@ export default function Terms() {
     <>
       <Head>
         <title>Terms of Service — ThaiHelper</title>
-        <meta name="description" content="Terms of Service for ThaiHelper" />
-        <meta name="robots" content="noindex" />
+        <meta name="description" content="Terms of Service for ThaiHelper — rules and guidelines for using our platform." />
+        <link rel="canonical" href="https://thaihelper.app/terms" />
       </Head>
 
       {/* ── NAV ── */}

@@ -449,6 +449,12 @@ export default function Employers() {
         <title>{t.page_title}</title>
         <meta name="description" content="Find trusted household staff in Thailand. Browse verified nannies, housekeepers, chefs, drivers and more. No agency fees." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="canonical" href="https://thaihelper.app/employers" />
+        <meta property="og:title" content="Find Household Staff in Thailand – ThaiHelper" />
+        <meta property="og:description" content="Browse verified nannies, housekeepers, chefs, drivers and more. Register free as an employer — no agency fees." />
+        <meta property="og:url" content="https://thaihelper.app/employers" />
+        <meta name="twitter:title" content="Find Household Staff in Thailand – ThaiHelper" />
+        <meta name="twitter:description" content="Browse verified nannies, housekeepers, chefs, drivers and more. No agency fees." />
       </Head>
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
@@ -493,9 +499,9 @@ export default function Employers() {
                 <h1 className="font-extrabold font-headline leading-[1.0] text-on-background mb-1 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
                   {t.hero_h1}
                 </h1>
-                <h1 className="font-extrabold font-headline leading-[1.0] text-[#001b3d] mb-4 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
+                <span className="block font-extrabold font-headline leading-[1.0] text-[#001b3d] mb-4 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
                   {t.hero_h1b}
-                </h1>
+                </span>
                 <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.3rem,2.8vw,2rem)'}}>
                   {t.hero_shimmer}
                 </p>

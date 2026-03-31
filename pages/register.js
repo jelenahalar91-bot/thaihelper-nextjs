@@ -506,7 +506,14 @@ export default function Register() {
     <>
       <Head>
         <title>{t.page_title}</title>
+        <meta name="description" content="Register as a household helper on ThaiHelper. Create your free profile and get discovered by families in Thailand." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="canonical" href="https://thaihelper.app/register" />
+        <meta property="og:title" content="Register as a Helper – ThaiHelper" />
+        <meta property="og:description" content="Create your free profile and get discovered by families in Thailand. No fees, no middlemen." />
+        <meta property="og:url" content="https://thaihelper.app/register" />
+        <meta name="twitter:title" content="Register as a Helper – ThaiHelper" />
+        <meta name="twitter:description" content="Create your free profile and get discovered by families in Thailand. No fees." />
       </Head>
 
       <div className={`register-body ${lang === 'th' ? 'lang-th' : ''}`}>

@@ -241,6 +241,12 @@ export default function Home() {
         <title>ThaiHelper – Find Trusted Household Staff in Thailand</title>
         <meta name="description" content="ThaiHelper connects families and expats in Thailand with trusted nannies, housekeepers, cooks, drivers and more. No agency fees." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="canonical" href="https://thaihelper.app/" />
+        <meta property="og:title" content="ThaiHelper – Find Trusted Household Staff in Thailand" />
+        <meta property="og:description" content="Connect directly with verified nannies, housekeepers, chefs, drivers and more. No agency fees, no middlemen." />
+        <meta property="og:url" content="https://thaihelper.app/" />
+        <meta name="twitter:title" content="ThaiHelper – Find Trusted Household Staff in Thailand" />
+        <meta name="twitter:description" content="Connect directly with verified nannies, housekeepers, chefs, drivers and more. No agency fees." />
       </Head>
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
@@ -534,7 +540,7 @@ export default function Home() {
               <a className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="mailto:support@thaihelper.app">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               </a>
-              <a className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="#">
+              <a className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="mailto:support@thaihelper.app">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               </a>
             </div>
@@ -545,7 +551,7 @@ export default function Home() {
               <ul className="space-y-3">
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#benefits">{t.footer_find}</a></li>
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#categories">{t.footer_hire}</a></li>
-                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#">{t.footer_pricing}</a></li>
+                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#how">{t.footer_pricing}</a></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/employers">{t.footer_employers}</Link></li>
               </ul>
             </div>
@@ -553,8 +559,8 @@ export default function Home() {
               <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
               <ul className="space-y-3">
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
-                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#">{t.footer_about}</a></li>
-                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#">{t.footer_faq}</a></li>
+                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_about}</a></li>
+                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_faq}</a></li>
               </ul>
             </div>
             <div>

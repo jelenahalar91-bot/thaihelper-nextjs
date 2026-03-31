@@ -203,6 +203,10 @@ export default function Helpers() {
         <title>{lang === 'th' ? 'ค้นหาผู้ช่วย — ThaiHelper' : 'Find Helpers — ThaiHelper'}</title>
         <meta name="description" content="Browse trusted household helpers in Thailand. Find nannies, housekeepers, chefs, drivers and more." />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="canonical" href="https://thaihelper.app/helpers" />
+        <meta property="og:title" content="Find Helpers — ThaiHelper" />
+        <meta property="og:description" content="Browse trusted household helpers in Thailand. Find nannies, housekeepers, chefs, drivers and more." />
+        <meta property="og:url" content="https://thaihelper.app/helpers" />
       </Head>
 
       <div className={lang === 'th' ? 'lang-th' : ''}>
