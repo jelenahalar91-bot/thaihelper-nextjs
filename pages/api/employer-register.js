@@ -1,5 +1,7 @@
 // POST /api/employer-register
-// Receives employer registration data and forwards it to a Google Sheet via Apps Script Web App
+// Receives employer registration data, saves to Google Sheet, and sends confirmation email
+
+import { sendEmployerConfirmation } from '../../lib/send-confirmation-email';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -45,6 +47,21 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       throw new Error(`Google Sheet responded with ${response.status}`);
+    }
+
+    // Send confirmation email (don't fail the registration if email fails)
+    try {
+      if (process.env.RESEND_API_KEY) {
+        await sendEmployerConfirmation({
+          firstName: payload.firstName,
+          email: payload.email,
+          city: payload.city,
+          helperTypes: payload.helperTypes,
+        });
+      }
+    } catch (emailErr) {
+      console.error('Failed to send confirmation email:', emailErr);
+      // Don't fail the registration — email is best-effort
     }
 
     return res.status(200).json({ success: true });
