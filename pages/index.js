@@ -257,9 +257,6 @@ export default function Home() {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <a className="text-sm font-semibold tracking-wide text-slate-600 hover:text-teal-600 transition-colors" href="#benefits">{t.nav_find}</a>
-            <a className="text-sm font-semibold tracking-wide text-slate-600 hover:text-teal-600 transition-colors" href="#categories">{t.nav_hire}</a>
-            <a className="text-sm font-semibold tracking-wide text-slate-600 hover:text-teal-600 transition-colors" href="#how-it-works">{t.nav_how}</a>
             <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/employers">{t.nav_employers}</Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">

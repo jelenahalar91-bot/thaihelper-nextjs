@@ -468,7 +468,7 @@ export default function Employers() {
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-semibold tracking-wide text-slate-600 hover:text-[#001b3d] transition-colors" href="/">{t.nav_home}</Link>
-            <Link className="text-sm font-semibold tracking-wide text-slate-600 hover:text-[#001b3d] transition-colors" href="/register">{t.nav_helpers}</Link>
+            <Link className="text-sm font-semibold tracking-wide text-slate-600 hover:text-[#001b3d] transition-colors" href="/">{t.nav_helpers}</Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
