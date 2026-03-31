@@ -5,7 +5,7 @@ import { CircularTestimonials } from '@/components/ui/circular-testimonials';
 
 const T = {
   en: {
-    nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_cta:'Register Free',
+    nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Employers',nav_cta:'Register Free',
     hero_badge:'Premium Marketplace',
     hero_h1:'Stop Paying Agencies.',hero_h1_em:'Get Hired Directly.',
     hero_p:"Connect directly with Thailand's best nannies, chefs, drivers, and domestic helpers. No middleman, no hidden fees, just pure Thai hospitality at its finest.",
@@ -56,12 +56,12 @@ const T = {
     cta_btn1:'Register Now – Free',cta_btn2:'Learn More',
     footer_desc:'The free platform for domestic helpers to create their profile and get discovered by families in Thailand.',
     footer_product:'Product',footer_company:'Company',footer_legal:'Legal',
-    footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',
+    footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',footer_employers:'For Employers',
     footer_contact:'Contact Us',footer_about:'About Us',footer_faq:'FAQ',
     footer_privacy:'Privacy Policy',footer_terms:'Terms of Service',
   },
   th: {
-    nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_cta:'ลงทะเบียนฟรี',
+    nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_employers:'สำหรับนายจ้าง',nav_cta:'ลงทะเบียนฟรี',
     hero_badge:'แพลตฟอร์มพรีเมียม',
     hero_h1:'หยุดจ่ายค่าเอเจนซี่',hero_h1_em:'หางานโดยตรง',
     hero_p:'เชื่อมต่อโดยตรงกับพี่เลี้ยง พ่อครัว คนขับรถ และผู้ช่วยงานบ้านที่ดีที่สุดในประเทศไทย ไม่มีคนกลาง ไม่มีค่าธรรมเนียมซ่อนเร้น',
@@ -111,12 +111,12 @@ const T = {
     cta_btn1:'สมัครเลย – ฟรี',cta_btn2:'เรียนรู้เพิ่มเติม',
     footer_desc:'แพลตฟอร์มฟรีสำหรับผู้ช่วยในบ้านที่จะสร้างโปรไฟล์และถูกค้นพบโดยครอบครัวในประเทศไทย',
     footer_product:'ผลิตภัณฑ์',footer_company:'บริษัท',footer_legal:'กฎหมาย',
-    footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',
+    footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',footer_employers:'สำหรับนายจ้าง',
     footer_contact:'ติดต่อเรา',footer_about:'เกี่ยวกับเรา',footer_faq:'คำถามที่พบบ่อย',
     footer_privacy:'นโยบายความเป็นส่วนตัว',footer_terms:'ข้อกำหนดการใช้งาน',
   },
   ru: {
-    nav_find:'Преимущества',nav_hire:'Категории',nav_how:'Как это работает',nav_cta:'Регистрация',
+    nav_find:'Преимущества',nav_hire:'Категории',nav_how:'Как это работает',nav_employers:'Для работодателей',nav_cta:'Регистрация',
     hero_badge:'Премиум платформа',
     hero_h1:'Хватит платить агентствам.',hero_h1_em:'Устройтесь напрямую.',
     hero_p:'Свяжитесь напрямую с лучшими нянями, поварами, водителями и домашними помощниками в Таиланде. Без посредников, без скрытых комиссий.',
@@ -163,7 +163,7 @@ const T = {
     cta_btn1:'Регистрация – Бесплатно',cta_btn2:'Узнать больше',
     footer_desc:'Бесплатная платформа для домашних помощников — создайте профиль и будьте найдены семьями в Таиланде.',
     footer_product:'Продукт',footer_company:'Компания',footer_legal:'Правовая информация',
-    footer_find:'Преимущества',footer_hire:'Категории',footer_pricing:'Цены',
+    footer_find:'Преимущества',footer_hire:'Категории',footer_pricing:'Цены',footer_employers:'Для работодателей',
     footer_contact:'Связаться',footer_about:'О нас',footer_faq:'Частые вопросы',
     footer_privacy:'Политика конфиденциальности',footer_terms:'Условия использования',
   }
@@ -245,15 +245,22 @@ export default function Home() {
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
 
+        {/* TEAL TOP BAR — helper page indicator */}
+        <div className="fixed top-0 left-0 w-full h-1 bg-primary z-[60]"></div>
+
         {/* NAV */}
-        <nav className="fixed top-0 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xl md:text-2xl font-bold font-headline"><span>Thai</span><span style={{color:"#006a62"}}>Helper</span></span>
+        <nav className="fixed top-1 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
+          <div className="flex items-center gap-3 shrink-0">
+            <Link href="/" className="text-xl md:text-2xl font-bold font-headline"><span>Thai</span><span style={{color:"#006a62"}}>Helper</span></Link>
+            <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-primary text-white text-[10px] font-bold tracking-wide uppercase">
+              {lang === 'en' ? 'For Helpers' : lang === 'ru' ? 'Помощники' : 'ผู้ช่วย'}
+            </span>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <a className="text-sm font-semibold tracking-wide text-slate-600 hover:text-teal-600 transition-colors" href="#benefits">{t.nav_find}</a>
             <a className="text-sm font-semibold tracking-wide text-slate-600 hover:text-teal-600 transition-colors" href="#categories">{t.nav_hire}</a>
             <a className="text-sm font-semibold tracking-wide text-slate-600 hover:text-teal-600 transition-colors" href="#how-it-works">{t.nav_how}</a>
+            <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/employers">{t.nav_employers}</Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
@@ -542,6 +549,7 @@ export default function Home() {
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#benefits">{t.footer_find}</a></li>
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#categories">{t.footer_hire}</a></li>
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#">{t.footer_pricing}</a></li>
+                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/employers">{t.footer_employers}</Link></li>
               </ul>
             </div>
             <div>
