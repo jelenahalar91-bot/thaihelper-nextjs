@@ -334,48 +334,42 @@ const HELPER_TYPES = [
   { key: 'tutor', emoji: '📚', en: 'Tutor & Teacher', th: 'ติวเตอร์', ru: 'Репетитор' },
 ];
 
-const EMPLOYER_CATEGORIES = [
+const EMPLOYER_TRUST_SLIDES = [
   {
-    name: '👶 Nanny & Babysitter',
-    designation: 'Childcare & Development',
-    quote: 'Trusted nannies and babysitters who provide loving, attentive care for your children — from infants to school-age kids.',
+    name: '💰 No Agency Fees',
+    designation: 'Save Thousands',
+    quote: 'Agencies charge 1–3 months salary as commission. On ThaiHelper, browsing and registering is completely free for employers.',
     src: '/images/categories/nanny.jpg',
   },
   {
-    name: '🏠 Housekeeper & Cleaner',
-    designation: 'Home Management',
-    quote: 'Professional housekeepers who keep your home spotless, organized, and running smoothly — daily or weekly service.',
+    name: '✅ Verified Helpers',
+    designation: 'Trust & Safety',
+    quote: 'Every helper verifies their ID before going live. Background checks, references, and real reviews from other families — all on one profile.',
     src: '/images/categories/housekeeper.jpg',
   },
   {
-    name: '👨‍🍳 Private Chef & Cook',
-    designation: 'Culinary Arts',
-    quote: 'Skilled private chefs preparing delicious Thai, Western, and international cuisine tailored to your family\'s taste.',
+    name: '💬 Direct Contact',
+    designation: 'No Middleman',
+    quote: 'Chat directly with helpers. Negotiate your own terms, schedule, and salary — no agency interference, no delays.',
     src: '/images/categories/chef.jpg',
   },
   {
-    name: '🚗 Driver & Chauffeur',
-    designation: 'Transportation',
-    quote: 'Reliable drivers for school runs, airport transfers, errands, and daily commutes across Thailand.',
+    name: '📍 Helpers Near You',
+    designation: 'City-Based Matching',
+    quote: 'Find household staff in Bangkok, Phuket, Chiang Mai, Pattaya, Koh Samui, and more. We show you helpers in your area.',
     src: '/images/categories/driver.jpg',
   },
   {
-    name: '🌿 Gardener & Pool Care',
-    designation: 'Outdoor Maintenance',
-    quote: 'Expert gardeners and pool technicians who keep your outdoor spaces lush, clean, and beautiful year-round.',
+    name: '⭐ Ratings & Reviews',
+    designation: 'Transparent Hiring',
+    quote: 'See real ratings and reviews from other families before you hire. Build trust before the first conversation.',
     src: '/images/categories/gardener.jpg',
   },
   {
-    name: '🏥 Elder Care & Caregiver',
-    designation: 'Senior Support',
-    quote: 'Compassionate caregivers providing personal care, medication management, and companionship for elderly family members.',
+    name: '🏠 All Staff, One Platform',
+    designation: '7 Categories',
+    quote: 'Nannies, housekeepers, chefs, drivers, gardeners, elder care, tutors — find everyone you need in one place.',
     src: '/images/categories/caregiver.jpg',
-  },
-  {
-    name: '📚 Tutor & Teacher',
-    designation: 'Education & Learning',
-    quote: 'Qualified tutors for maths, languages, exam prep, and more — helping your children excel academically.',
-    src: '/images/categories/tutor.jpg',
   },
 ];
 
@@ -565,7 +559,7 @@ export default function Employers() {
               {/* Right: category carousel */}
               <div className="relative">
                 <CircularTestimonials
-                  testimonials={EMPLOYER_CATEGORIES}
+                  testimonials={EMPLOYER_TRUST_SLIDES}
                   autoplay={true}
                   colors={{
                     name: '#001b3d',
