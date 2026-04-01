@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { CircularTestimonials } from '@/components/ui/circular-testimonials';
+import { Gallery4 } from '@/components/ui/gallery4';
 
 const T = {
   en: {
@@ -336,40 +336,40 @@ const HELPER_TYPES = [
 
 const EMPLOYER_TRUST_SLIDES = [
   {
-    name: '💰 No Agency Fees',
-    designation: 'Save Thousands',
-    quote: 'Agencies charge 1–3 months salary as commission. On ThaiHelper, browsing and registering is completely free for employers.',
-    src: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&h=400&fit=crop',
+    id: 'no-fees',
+    title: '💰 No Agency Fees',
+    description: 'Agencies charge 1–3 months salary as commission. On ThaiHelper, browsing and registering is completely free for employers. You save thousands.',
+    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=600&fit=crop',
   },
   {
-    name: '✅ Verified Helpers',
-    designation: 'Trust & Safety',
-    quote: 'Every helper verifies their ID before going live. Background checks, references, and real reviews from other families — all on one profile.',
-    src: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&h=400&fit=crop',
+    id: 'verified',
+    title: '✅ Verified Helpers',
+    description: 'Every helper verifies their ID before going live. Background checks, references, and real reviews from other families — all on one profile.',
+    image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop',
   },
   {
-    name: '💬 Direct Contact',
-    designation: 'No Middleman',
-    quote: 'Chat directly with helpers. Negotiate your own terms, schedule, and salary — no agency interference, no delays.',
-    src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=400&fit=crop',
+    id: 'direct',
+    title: '💬 Direct Contact',
+    description: 'Chat directly with helpers. Negotiate your own terms, schedule, and salary — no agency interference, no delays, no middleman.',
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
   },
   {
-    name: '📍 Helpers Near You',
-    designation: 'City-Based Matching',
-    quote: 'Find household staff in Bangkok, Phuket, Chiang Mai, Pattaya, Koh Samui, and more. We show you helpers in your area.',
-    src: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=400&h=400&fit=crop',
+    id: 'nearby',
+    title: '📍 Helpers Near You',
+    description: 'Find household staff in Bangkok, Phuket, Chiang Mai, Pattaya, Koh Samui, and more. We show you helpers in your area.',
+    image: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&h=600&fit=crop',
   },
   {
-    name: '⭐ Ratings & Reviews',
-    designation: 'Transparent Hiring',
-    quote: 'See real ratings and reviews from other families before you hire. Build trust before the first conversation.',
-    src: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=400&fit=crop',
+    id: 'reviews',
+    title: '⭐ Ratings & Reviews',
+    description: 'See real ratings and reviews from other families before you hire. Build trust before the first conversation.',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop',
   },
   {
-    name: '🏠 All Staff, One Platform',
-    designation: '7 Categories',
-    quote: 'Nannies, housekeepers, chefs, drivers, gardeners, elder care, tutors — find everyone you need in one place.',
-    src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=400&fit=crop',
+    id: 'all-staff',
+    title: '🏠 All Staff, One Platform',
+    description: 'Nannies, housekeepers, chefs, drivers, gardeners, elder care, tutors — find everyone you need in one place.',
+    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop',
   },
 ];
 
@@ -530,7 +530,7 @@ export default function Employers() {
 
           {/* HERO */}
           <section className="relative px-6 py-16 md:py-24 overflow-hidden">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-4xl mx-auto text-center">
               <div className="z-10">
                 <div className="flex items-center gap-3 mb-5">
                   <span className="block w-8 h-0.5 bg-gold"></span>
@@ -548,7 +548,7 @@ export default function Employers() {
                 <p className="text-lg md:text-xl max-w-xl mb-8 leading-relaxed text-on-surface-variant">
                   {t.hero_p}
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 items-start">
+                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
                   <a className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all text-center" href="#register">{t.hero_cta}</a>
                   <span className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gold/10 text-gold font-bold text-sm">
                     <span className="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
@@ -556,28 +556,15 @@ export default function Employers() {
                   </span>
                 </div>
               </div>
-              {/* Right: category carousel */}
-              <div className="relative">
-                <CircularTestimonials
-                  testimonials={EMPLOYER_TRUST_SLIDES}
-                  autoplay={true}
-                  colors={{
-                    name: '#001b3d',
-                    designation: '#006a62',
-                    testimony: '#3d4947',
-                    arrowBackground: '#001b3d',
-                    arrowForeground: '#ffffff',
-                    arrowHoverBackground: '#002d5f',
-                  }}
-                  fontSizes={{
-                    name: '24px',
-                    designation: '16px',
-                    quote: '16px',
-                  }}
-                />
-              </div>
             </div>
           </section>
+
+          {/* WHY THAIHELPER — GALLERY CAROUSEL */}
+          <Gallery4
+            title={t.why_label ? `${t.why_label}` : 'Why ThaiHelper'}
+            description={t.why_sub || 'We built ThaiHelper because hiring through agencies is expensive, slow, and opaque. Here\'s why families choose us.'}
+            items={EMPLOYER_TRUST_SLIDES}
+          />
 
           {/* LAUNCH BANNER */}
           <section className="px-6 pb-8">
