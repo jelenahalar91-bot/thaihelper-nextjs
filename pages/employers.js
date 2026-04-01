@@ -1,7 +1,66 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Gallery4 } from '@/components/ui/gallery4';
+import useEmblaCarousel from 'embla-carousel-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+
+// ─── HERO CAROUSEL (2 visible cards) ────────────────────────────────────────
+function HeroCarousel({ items }) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: 'start',
+    loop: true,
+    slidesToScroll: 1,
+  });
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCanScrollPrev(emblaApi.canScrollPrev());
+    setCanScrollNext(emblaApi.canScrollNext());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+
+    // Auto-play
+    const interval = setInterval(() => { emblaApi.scrollNext(); }, 4000);
+    return () => { clearInterval(interval); emblaApi.off('select', onSelect); };
+  }, [emblaApi, onSelect]);
+
+  return (
+    <div className="relative">
+      <div ref={emblaRef} className="overflow-hidden rounded-2xl">
+        <div className="flex">
+          {items.map((item) => (
+            <div key={item.id} className="flex-[0_0_50%] min-w-0 pl-3 first:pl-0">
+              <div className="relative h-[320px] md:h-[380px] overflow-hidden rounded-2xl">
+                <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#001b3d] via-[#001b3d]/50 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <div className="text-lg font-bold text-white mb-1.5">{item.title}</div>
+                  <div className="text-sm text-white/80 leading-relaxed line-clamp-3">{item.description}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Navigation arrows */}
+      <div className="flex gap-2 mt-4 justify-end">
+        <button onClick={() => emblaApi?.scrollPrev()} className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-[#001b3d] hover:text-white hover:border-[#001b3d] transition-all">
+          <ArrowLeft className="w-4 h-4" />
+        </button>
+        <button onClick={() => emblaApi?.scrollNext()} className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-[#001b3d] hover:text-white hover:border-[#001b3d] transition-all">
+          <ArrowRight className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 const T = {
   en: {
@@ -528,9 +587,10 @@ export default function Employers() {
 
         <main className="pt-20">
 
-          {/* HERO */}
+          {/* HERO + CAROUSEL SIDE BY SIDE */}
           <section className="relative px-6 py-16 md:py-24 overflow-hidden">
-            <div className="max-w-4xl mx-auto text-center">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left: text */}
               <div className="z-10">
                 <div className="flex items-center gap-3 mb-5">
                   <span className="block w-8 h-0.5 bg-gold"></span>
@@ -548,7 +608,7 @@ export default function Employers() {
                 <p className="text-lg md:text-xl max-w-xl mb-8 leading-relaxed text-on-surface-variant">
                   {t.hero_p}
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+                <div className="flex flex-col sm:flex-row gap-4 items-start">
                   <a className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all text-center" href="#register">{t.hero_cta}</a>
                   <span className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gold/10 text-gold font-bold text-sm">
                     <span className="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
@@ -556,15 +616,12 @@ export default function Employers() {
                   </span>
                 </div>
               </div>
+              {/* Right: mini carousel showing 2 cards */}
+              <div className="relative">
+                <HeroCarousel items={EMPLOYER_TRUST_SLIDES} />
+              </div>
             </div>
           </section>
-
-          {/* WHY THAIHELPER — GALLERY CAROUSEL */}
-          <Gallery4
-            title={t.why_label ? `${t.why_label}` : 'Why ThaiHelper'}
-            description={t.why_sub || 'We built ThaiHelper because hiring through agencies is expensive, slow, and opaque. Here\'s why families choose us.'}
-            items={EMPLOYER_TRUST_SLIDES}
-          />
 
           {/* LAUNCH BANNER */}
           <section className="px-6 pb-8">
