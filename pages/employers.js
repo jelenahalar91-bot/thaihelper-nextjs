@@ -517,17 +517,17 @@ export default function Employers() {
                 </div>
               </div>
               {/* Right: category list */}
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              <div className="space-y-3">
                 {HELPER_TYPES.map((ht) => (
-                  <span key={ht.key} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur border border-gray-200 text-sm font-medium text-on-background">
-                    <span className="text-lg">{ht.emoji}</span>
-                    {lang === 'th' ? ht.th : lang === 'ru' ? ht.ru : ht.en}
-                  </span>
+                  <div key={ht.key} className="flex items-center gap-3">
+                    <span className="text-2xl">{ht.emoji}</span>
+                    <span className="text-base text-on-background">{lang === 'th' ? ht.th : lang === 'ru' ? ht.ru : ht.en}</span>
+                  </div>
                 ))}
-                <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#001b3d] text-white text-sm font-bold">
-                  <span className="text-lg">✨</span>
-                  {lang === 'en' ? 'And more...' : lang === 'ru' ? 'И другие...' : 'และอื่นๆ...'}
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">✨</span>
+                  <span className="text-base font-semibold text-[#001b3d]">{lang === 'en' ? 'And more...' : lang === 'ru' ? 'И другие...' : 'และอื่นๆ...'}</span>
+                </div>
               </div>
             </div>
           </section>
