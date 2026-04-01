@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { firstName, lastName, email, city, helperTypes, jobDescription } = req.body;
+  const { firstName, lastName, email, city, area, helperTypes, jobDescription } = req.body;
 
   // Validate required fields
   if (!firstName || !lastName || !email || !city || !helperTypes?.length) {
@@ -33,6 +33,7 @@ export default async function handler(req, res) {
     lastName: lastName.trim(),
     email: email.trim().toLowerCase(),
     city,
+    area: (area || '').trim(),
     helperTypes: helperTypes.join(', '),
     jobDescription: sanitizedJobDesc,
     source: 'thaihelper.app/employers',
@@ -65,6 +66,7 @@ export default async function handler(req, res) {
             lastName: payload.lastName,
             email: payload.email,
             city: payload.city,
+            area: payload.area,
             helperTypes: payload.helperTypes,
           }),
         ]);

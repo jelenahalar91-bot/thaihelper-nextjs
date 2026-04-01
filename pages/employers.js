@@ -126,6 +126,8 @@ const T = {
     form_email_ph: 'you@example.com',
     form_city: 'Your City',
     form_city_ph: '— Select your location —',
+    form_area: 'Area / District (optional)',
+    form_area_ph: 'e.g. Sukhumvit, Silom, Rawai, Old City…',
     form_needs: 'What help do you need?',
     form_needs_sub: 'Select all that apply',
     form_job: 'Your Job Offer (optional)',
@@ -238,6 +240,8 @@ const T = {
     form_email_ph: 'you@example.com',
     form_city: 'เมืองของคุณ',
     form_city_ph: '— เลือกเมือง —',
+    form_area: 'พื้นที่ / เขต (ไม่จำเป็น)',
+    form_area_ph: 'เช่น สุขุมวิท, สีลม, ราไวย์, เมืองเก่า…',
     form_needs: 'คุณต้องการความช่วยเหลือแบบไหน?',
     form_needs_sub: 'เลือกทั้งหมดที่ต้องการ',
     form_job: 'รายละเอียดงาน (ไม่จำเป็น)',
@@ -333,6 +337,8 @@ const T = {
     form_email_ph: 'you@example.com',
     form_city: 'Ваш город',
     form_city_ph: '— Выберите город —',
+    form_area: 'Район (необязательно)',
+    form_area_ph: 'напр. Сукхумвит, Силом, Раваи, Старый город…',
     form_needs: 'Какая помощь вам нужна?',
     form_needs_sub: 'Выберите все подходящие',
     form_job: 'Описание вакансии (необязательно)',
@@ -494,6 +500,7 @@ export default function Employers() {
   const [lname, setLname] = useState('');
   const [email, setEmail] = useState('');
   const [city, setCity] = useState('');
+  const [area, setArea] = useState('');
   const [needs, setNeeds] = useState([]);
   const [jobDesc, setJobDesc] = useState('');
   const [agree, setAgree] = useState(false);
@@ -527,6 +534,7 @@ export default function Employers() {
           lastName: lname.trim(),
           email: email.trim(),
           city,
+          area: area.trim(),
           helperTypes: needs,
           jobDescription: jobDesc,
         }),
@@ -778,6 +786,12 @@ export default function Employers() {
                       <option value="">{t.form_city_ph}</option>
                       {CITIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
                     </select>
+                  </div>
+
+                  <div className="mb-6">
+                    <label className="block text-sm font-semibold text-on-background mb-1.5">{t.form_area}</label>
+                    <input type="text" value={area} onChange={e => setArea(e.target.value)} placeholder={t.form_area_ph}
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
                   </div>
 
                   <div className="mb-6">
