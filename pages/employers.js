@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { CircularTestimonials } from '@/components/ui/circular-testimonials';
 
 const T = {
   en: {
@@ -333,6 +334,51 @@ const HELPER_TYPES = [
   { key: 'tutor', emoji: '📚', en: 'Tutor & Teacher', th: 'ติวเตอร์', ru: 'Репетитор' },
 ];
 
+const EMPLOYER_CATEGORIES = [
+  {
+    name: '👶 Nanny & Babysitter',
+    designation: 'Childcare & Development',
+    quote: 'Trusted nannies and babysitters who provide loving, attentive care for your children — from infants to school-age kids.',
+    src: '/images/categories/nanny.jpg',
+  },
+  {
+    name: '🏠 Housekeeper & Cleaner',
+    designation: 'Home Management',
+    quote: 'Professional housekeepers who keep your home spotless, organized, and running smoothly — daily or weekly service.',
+    src: '/images/categories/housekeeper.jpg',
+  },
+  {
+    name: '👨‍🍳 Private Chef & Cook',
+    designation: 'Culinary Arts',
+    quote: 'Skilled private chefs preparing delicious Thai, Western, and international cuisine tailored to your family\'s taste.',
+    src: '/images/categories/chef.jpg',
+  },
+  {
+    name: '🚗 Driver & Chauffeur',
+    designation: 'Transportation',
+    quote: 'Reliable drivers for school runs, airport transfers, errands, and daily commutes across Thailand.',
+    src: '/images/categories/driver.jpg',
+  },
+  {
+    name: '🌿 Gardener & Pool Care',
+    designation: 'Outdoor Maintenance',
+    quote: 'Expert gardeners and pool technicians who keep your outdoor spaces lush, clean, and beautiful year-round.',
+    src: '/images/categories/gardener.jpg',
+  },
+  {
+    name: '🏥 Elder Care & Caregiver',
+    designation: 'Senior Support',
+    quote: 'Compassionate caregivers providing personal care, medication management, and companionship for elderly family members.',
+    src: '/images/categories/caregiver.jpg',
+  },
+  {
+    name: '📚 Tutor & Teacher',
+    designation: 'Education & Learning',
+    quote: 'Qualified tutors for maths, languages, exam prep, and more — helping your children excel academically.',
+    src: '/images/categories/tutor.jpg',
+  },
+];
+
 const PROFILES = [
   { photo:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face', name:'Maria S.', verified:true, role_en:'👶 Nanny & Babysitter', role_th:'👶 พี่เลี้ยงเด็ก', city:'Phuket', exp:5, langs:'🇵🇭 🇬🇧', stars:4.9, reviews:12, rate:'300', skills_en:'Infant care · School run · Overnight', skills_th:'ดูแลทารก · รับส่งโรงเรียน · ดูแลกลางคืน' },
   { photo:'https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face', name:'Sunisa K.', verified:true, role_en:'🏠 Housekeeper', role_th:'🏠 แม่บ้าน', city:'Bangkok', exp:8, langs:'🇹🇭 🇬🇧', stars:4.8, reviews:7, rate:'200', skills_en:'Cleaning · Laundry · Cooking', skills_th:'ทำความสะอาด · ซักรีด · ทำอาหาร' },
@@ -516,18 +562,25 @@ export default function Employers() {
                   </span>
                 </div>
               </div>
-              {/* Right: category list */}
-              <div className="space-y-3">
-                {HELPER_TYPES.map((ht) => (
-                  <div key={ht.key} className="flex items-center gap-3">
-                    <span className="text-2xl">{ht.emoji}</span>
-                    <span className="text-base text-on-background">{lang === 'th' ? ht.th : lang === 'ru' ? ht.ru : ht.en}</span>
-                  </div>
-                ))}
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">✨</span>
-                  <span className="text-base font-semibold text-[#001b3d]">{lang === 'en' ? 'And more...' : lang === 'ru' ? 'И другие...' : 'และอื่นๆ...'}</span>
-                </div>
+              {/* Right: category carousel */}
+              <div className="relative">
+                <CircularTestimonials
+                  testimonials={EMPLOYER_CATEGORIES}
+                  autoplay={true}
+                  colors={{
+                    name: '#001b3d',
+                    designation: '#006a62',
+                    testimony: '#3d4947',
+                    arrowBackground: '#001b3d',
+                    arrowForeground: '#ffffff',
+                    arrowHoverBackground: '#002d5f',
+                  }}
+                  fontSizes={{
+                    name: '24px',
+                    designation: '16px',
+                    quote: '16px',
+                  }}
+                />
               </div>
             </div>
           </section>
