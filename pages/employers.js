@@ -833,32 +833,34 @@ export default function Employers() {
         </main>
 
         {/* FOOTER */}
-        <footer className="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-start gap-8 bg-slate-50 border-t border-slate-100">
-          <div className="max-w-xs">
-            <div className="text-xl font-bold text-on-background mb-4 font-headline">Thai<span style={{color:"#006a62"}}>Helper</span></div>
-            <p className="text-slate-500 text-sm leading-relaxed mb-6">{t.footer_desc}</p>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
-            <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_product}</h4>
-              <div className="space-y-2 text-sm text-slate-500">
-                <Link href="/register" className="block hover:text-teal-600 transition-colors">{t.footer_fp1}</Link>
-                <Link href="/employers" className="block hover:text-teal-600 transition-colors">{t.footer_fp2}</Link>
-                <Link href="/#how-it-works" className="block hover:text-teal-600 transition-colors">{t.footer_fp3}</Link>
-              </div>
+        <footer className="w-full py-12 px-6 md:px-8 bg-slate-50 border-t border-slate-100">
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-8">
+              <div className="text-xl font-bold text-on-background mb-3 font-headline">Thai<span style={{color:"#006a62"}}>Helper</span></div>
+              <p className="text-slate-500 text-sm leading-relaxed max-w-sm">{t.footer_desc}</p>
             </div>
-            <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
-              <div className="space-y-2 text-sm text-slate-500">
-                <a href="#" className="block hover:text-teal-600 transition-colors">{t.footer_fc1}</a>
-                <a href="mailto:support@thaihelper.app" className="block hover:text-teal-600 transition-colors">{t.footer_fc2}</a>
+            <div className="grid grid-cols-3 gap-6 md:gap-12">
+              <div>
+                <h4 className="font-bold text-teal-700 mb-3 text-xs md:text-sm uppercase tracking-widest font-headline">{t.footer_product}</h4>
+                <div className="space-y-2 text-sm text-slate-500">
+                  <Link href="/register" className="block hover:text-teal-600 transition-colors">{t.footer_fp1}</Link>
+                  <Link href="/employers" className="block hover:text-teal-600 transition-colors">{t.footer_fp2}</Link>
+                  <Link href="/#how-it-works" className="block hover:text-teal-600 transition-colors">{t.footer_fp3}</Link>
+                </div>
               </div>
-            </div>
-            <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_legal}</h4>
-              <div className="space-y-2 text-sm text-slate-500">
-                <Link href="/privacy" className="block hover:text-teal-600 transition-colors">{t.footer_fl1}</Link>
-                <Link href="/terms" className="block hover:text-teal-600 transition-colors">{t.footer_fl2}</Link>
+              <div>
+                <h4 className="font-bold text-teal-700 mb-3 text-xs md:text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
+                <div className="space-y-2 text-sm text-slate-500">
+                  <a href="mailto:support@thaihelper.app" className="block hover:text-teal-600 transition-colors">{t.footer_fc1}</a>
+                  <a href="mailto:support@thaihelper.app" className="block hover:text-teal-600 transition-colors">{t.footer_fc2}</a>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-bold text-teal-700 mb-3 text-xs md:text-sm uppercase tracking-widest font-headline">{t.footer_legal}</h4>
+                <div className="space-y-2 text-sm text-slate-500">
+                  <Link href="/privacy" className="block hover:text-teal-600 transition-colors">{t.footer_fl1}</Link>
+                  <Link href="/terms" className="block hover:text-teal-600 transition-colors">{t.footer_fl2}</Link>
+                </div>
               </div>
             </div>
           </div>
