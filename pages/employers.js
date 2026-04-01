@@ -70,8 +70,8 @@ const T = {
     nav_cta: 'Join Waitlist – Free',
     // Hero
     hero_eyebrow: 'For Employers & Families',
-    hero_h1: 'Find Trusted Helpers.',
-    hero_h1b: 'Directly.',
+    hero_h1: 'Find Trusted',
+    hero_h1b: 'Helpers.',
     hero_shimmer: 'No agencies, no fees.',
     hero_p: 'Browse verified nannies, housekeepers, chefs, drivers, and more in your city. Register now to be first in line when we launch.',
     hero_cta: 'Join the Free Waitlist',
@@ -658,9 +658,11 @@ export default function Employers() {
                   {n:'3', h:t.how3_h, p:t.how3_p, icon: <PartyPopper className="w-7 h-7" />, color:'text-[#8B5CF6]', bg:'bg-[#8B5CF6]/10'},
                 ].map((s,i) => (
                   <div key={i} className="text-center relative">
-                    {/* Dashed connector line to next step (desktop only) */}
+                    {/* Wavy connector line to next step (desktop only) */}
                     {i < 2 && (
-                      <div className="hidden md:block absolute top-10 left-[calc(50%+50px)] w-[calc(100%-60px)] border-t-2 border-dashed border-gray-300"></div>
+                      <svg className="hidden md:block absolute top-10 left-[calc(50%+48px)] z-0" width="calc(100% - 180px)" height="20" style={{width:'calc(100% - 180px)'}} viewBox="0 0 200 20" preserveAspectRatio="none" fill="none">
+                        <path d="M0 10 Q 12.5 0, 25 10 T 50 10 T 75 10 T 100 10 T 125 10 T 150 10 T 175 10 T 200 10" stroke="#d1d5db" strokeWidth="2" strokeDasharray="6 4" fill="none" />
+                      </svg>
                     )}
                     <div className={`w-20 h-20 rounded-full ${s.bg} ${s.color} flex items-center justify-center mx-auto mb-5 relative z-10`}>
                       {s.icon}
