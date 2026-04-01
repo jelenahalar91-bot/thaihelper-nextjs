@@ -1,7 +1,7 @@
 // POST /api/register
 // Receives helper registration data, saves to Google Sheet, and sends confirmation email
 
-import { sendHelperConfirmation } from '../../lib/send-confirmation-email';
+import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -60,13 +60,24 @@ export default async function handler(req, res) {
     // Send confirmation email (don't fail the registration if email fails)
     try {
       if (process.env.RESEND_API_KEY) {
-        await sendHelperConfirmation({
-          firstName: first_name.trim(),
-          email: email.trim().toLowerCase(),
-          ref,
-          category,
-          city,
-        });
+        await Promise.all([
+          sendHelperConfirmation({
+            firstName: first_name.trim(),
+            email: email.trim().toLowerCase(),
+            ref,
+            category,
+            city,
+          }),
+          sendAdminNotification({
+            type: 'helper',
+            firstName: first_name.trim(),
+            lastName: last_name.trim(),
+            email: email.trim().toLowerCase(),
+            city,
+            category,
+            ref,
+          }),
+        ]);
       }
     } catch (emailErr) {
       console.error('Failed to send confirmation email:', emailErr);
