@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import useEmblaCarousel from 'embla-carousel-react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, UserPlus, MessageCircle, PartyPopper } from 'lucide-react';
 
 // ─── HERO CAROUSEL (2 visible cards) ────────────────────────────────────────
 function HeroCarousel({ items }) {
@@ -651,13 +651,21 @@ export default function Employers() {
                 <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-background mb-4">{t.how_title}</h2>
                 <p className="text-on-surface-variant max-w-2xl mx-auto">{t.how_sub}</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {[{n:'1', h:t.how1_h, p:t.how1_p, icon:'📝'},{n:'2', h:t.how2_h, p:t.how2_p, icon:'👀'},{n:'3', h:t.how3_h, p:t.how3_p, icon:'📧'}].map((s,i) => (
-                  <div key={i} className="relative bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-shadow">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-2xl mb-4">{s.icon}</div>
-                    <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-gold/10 flex items-center justify-center text-gold font-extrabold text-sm">{s.n}</div>
-                    <h3 className="text-lg font-bold font-headline text-on-background mb-2">{s.h}</h3>
-                    <p className="text-on-surface-variant text-sm leading-relaxed">{s.p}</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                {/* Connecting dashed lines (desktop only) */}
+                <div className="hidden md:block absolute top-10 left-[calc(33.3%+8px)] w-[calc(33.3%-48px)] border-t-2 border-dashed border-gray-300"></div>
+                <div className="hidden md:block absolute top-10 left-[calc(66.6%+8px)] w-[calc(33.3%-48px)] border-t-2 border-dashed border-gray-300"></div>
+                {[
+                  {n:'1', h:t.how1_h, p:t.how1_p, icon: <UserPlus className="w-7 h-7" />, color:'text-[#F4A261]', bg:'bg-[#F4A261]/10'},
+                  {n:'2', h:t.how2_h, p:t.how2_p, icon: <MessageCircle className="w-7 h-7" />, color:'text-[#006a62]', bg:'bg-[#006a62]/10'},
+                  {n:'3', h:t.how3_h, p:t.how3_p, icon: <PartyPopper className="w-7 h-7" />, color:'text-[#8B5CF6]', bg:'bg-[#8B5CF6]/10'},
+                ].map((s,i) => (
+                  <div key={i} className="text-center">
+                    <div className={`w-20 h-20 rounded-full ${s.bg} ${s.color} flex items-center justify-center mx-auto mb-5`}>
+                      {s.icon}
+                    </div>
+                    <h3 className="text-xl font-bold font-headline text-on-background mb-3">{s.h}</h3>
+                    <p className="text-on-surface-variant text-sm leading-relaxed max-w-xs mx-auto">{s.p}</p>
                   </div>
                 ))}
               </div>
