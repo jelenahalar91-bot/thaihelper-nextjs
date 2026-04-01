@@ -19,10 +19,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  const SHEET_URL = process.env.HELPER_SHEET_URL;
+  const SHEET_URL = process.env.GOOGLE_SHEETS_URL;
 
   if (!SHEET_URL) {
-    console.error('HELPER_SHEET_URL not set in environment variables');
+    console.error('GOOGLE_SHEETS_URL not set in environment variables');
     return res.status(500).json({ error: 'Server configuration error' });
   }
 
