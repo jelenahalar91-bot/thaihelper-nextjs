@@ -516,18 +516,18 @@ export default function Employers() {
                   </span>
                 </div>
               </div>
-              {/* Right: category grid */}
-              <div className="grid grid-cols-2 gap-3">
+              {/* Right: category list */}
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 {HELPER_TYPES.map((ht) => (
-                  <div key={ht.key} className="bg-white rounded-2xl p-5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all border border-gray-100 text-center">
-                    <span className="text-3xl mb-2 block">{ht.emoji}</span>
-                    <span className="font-bold text-sm text-on-background">{lang === 'th' ? ht.th : lang === 'ru' ? ht.ru : ht.en}</span>
-                  </div>
+                  <span key={ht.key} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur border border-gray-200 text-sm font-medium text-on-background">
+                    <span className="text-lg">{ht.emoji}</span>
+                    {lang === 'th' ? ht.th : lang === 'ru' ? ht.ru : ht.en}
+                  </span>
                 ))}
-                <div className="bg-[#001b3d] rounded-2xl p-5 shadow-md text-center flex flex-col items-center justify-center">
-                  <span className="text-2xl mb-1">✨</span>
-                  <span className="font-bold text-sm text-on-primary">{lang === 'en' ? 'And more...' : lang === 'ru' ? 'И другие...' : 'และอื่นๆ...'}</span>
-                </div>
+                <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#001b3d] text-white text-sm font-bold">
+                  <span className="text-lg">✨</span>
+                  {lang === 'en' ? 'And more...' : lang === 'ru' ? 'И другие...' : 'และอื่นๆ...'}
+                </span>
               </div>
             </div>
           </section>
