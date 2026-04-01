@@ -58,6 +58,10 @@ const T = {
     lang_error:      'Please select at least one language.',
     rate_label:      'Hourly Rate',
     rate_ph:         '— What is your rate per hour? —',
+    edu_label:       'Education (optional)',
+    edu_ph:          'e.g. High School, Bachelor\'s Degree, Vocational Training…',
+    cert_label:      'Certificates & Qualifications (optional)',
+    cert_ph:         'e.g. First Aid, Childcare Certificate, Food Safety, Cooking Diploma…',
     bio_label:       'About You',
     bio_ph:          'e.g. I have 5 years of experience as a nanny for a Thai-expat family in Phuket. I speak English and some Thai. I love working with children and am patient, caring and reliable.',
     bio_generate:    '✨ Write bio for me',
@@ -157,6 +161,10 @@ const T = {
     lang_error:      'กรุณาเลือกอย่างน้อยหนึ่งภาษา',
     rate_label:      'ค่าจ้างต่อชั่วโมง',
     rate_ph:         '— คุณต้องการเท่าไหร่ต่อชั่วโมง? —',
+    edu_label:       'การศึกษา (ไม่จำเป็น)',
+    edu_ph:          'เช่น มัธยมปลาย, ปริญญาตรี, อาชีวศึกษา…',
+    cert_label:      'ใบรับรอง / คุณสมบัติ (ไม่จำเป็น)',
+    cert_ph:         'เช่น ปฐมพยาบาล, ใบรับรองดูแลเด็ก, อาหารปลอดภัย, ประกาศนียบัตรทำอาหาร…',
     bio_label:       'เกี่ยวกับคุณ',
     bio_ph:          'เช่น ฉันมีประสบการณ์ 5 ปีในการดูแลเด็กให้กับครอบครัวชาวต่างชาติในภูเก็ต พูดภาษาอังกฤษได้และไทยได้บ้าง ฉันรักการทำงานกับเด็กและมีความอดทน ใส่ใจ และน่าเชื่อถือ',
     bio_generate:    '✨ เขียน Bio ให้ฉัน',
@@ -360,6 +368,8 @@ export default function Register() {
   const [experience,  setExperience]  = useState('');
   const [languages,   setLanguages]   = useState([]);
   const [rate,        setRate]        = useState('');
+  const [education,   setEducation]   = useState('');
+  const [certificates,setCertificates]= useState('');
   const [bio,         setBio]         = useState('');
   const [whatsapp,    setWhatsapp]    = useState('');
   const [hasWhatsApp, setHasWhatsApp] = useState(true);
@@ -466,6 +476,8 @@ export default function Register() {
       experience,
       languages,
       rate,
+      education:    education.trim(),
+      certificates: certificates.trim(),
       bio:        bio.trim(),
       whatsapp:   whatsapp.trim(),
       hasWhatsApp,
@@ -715,6 +727,18 @@ export default function Register() {
                       <option key={r.value} value={r.value}>{lang === 'th' ? r.th : r.en}</option>
                     ))}
                   </select>
+                </div>
+
+                {/* Education (optional) */}
+                <div className="field">
+                  <label>{t.edu_label}</label>
+                  <input type="text" value={education} onChange={e => setEducation(e.target.value)} placeholder={t.edu_ph} />
+                </div>
+
+                {/* Certificates (optional) */}
+                <div className="field">
+                  <label>{t.cert_label}</label>
+                  <input type="text" value={certificates} onChange={e => setCertificates(e.target.value)} placeholder={t.cert_ph} />
                 </div>
 
                 {/* Bio with hints + generate button */}

@@ -10,7 +10,8 @@ export default async function handler(req, res) {
 
   const {
     ref, first_name, last_name, age, category, skills,
-    city, area, experience, languages, rate, bio,
+    city, area, experience, languages, rate,
+    education, certificates, bio,
     whatsapp, hasWhatsApp, email,
   } = req.body;
 
@@ -39,6 +40,8 @@ export default async function handler(req, res) {
     experience: experience || '',
     languages: languages || '',
     rate: rate || '',
+    education: education || '',
+    certificates: certificates || '',
     bio: bio || '',
     whatsapp: whatsapp || '',
     hasWhatsApp: hasWhatsApp ? 'Yes' : 'No',
