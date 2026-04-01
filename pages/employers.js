@@ -34,9 +34,9 @@ function HeroCarousel({ items }) {
   return (
     <div className="relative">
       <div ref={emblaRef} className="overflow-hidden">
-        <div className="flex gap-4">
+        <div className="flex -ml-4">
           {items.map((item) => (
-            <div key={item.id} className="flex-[0_0_calc(50%-8px)] min-w-0">
+            <div key={item.id} className="flex-[0_0_50%] min-w-0 pl-4">
               <div className="relative h-[320px] md:h-[380px] overflow-hidden rounded-2xl">
                 <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#001b3d]/95 via-[#001b3d]/40 to-transparent" />
