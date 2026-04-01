@@ -660,8 +660,8 @@ export default function Employers() {
                   <div key={i} className="text-center relative">
                     {/* Curved dotted connector to next step (desktop only) */}
                     {i < 2 && (
-                      <svg className="hidden md:block absolute top-8 left-[calc(50%+48px)] z-0" style={{width:'calc(100% - 180px)', height:'24px'}} viewBox="0 0 100 24" preserveAspectRatio="none" fill="none">
-                        <path d="M0 2 C 30 22, 70 22, 100 2" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" fill="none" />
+                      <svg className="hidden md:block absolute top-6 z-0" style={{left:'calc(50% + 44px)', width:'calc(100% - 88px)', height:'28px'}} viewBox="0 0 100 28" preserveAspectRatio="none" fill="none">
+                        <path d="M0 4 C 30 26, 70 26, 100 4" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" fill="none" />
                       </svg>
                     )}
                     <div className={`w-20 h-20 rounded-full ${s.bg} ${s.color} flex items-center justify-center mx-auto mb-5 relative z-10`}>
