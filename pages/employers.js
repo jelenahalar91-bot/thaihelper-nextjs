@@ -572,7 +572,6 @@ export default function Employers() {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-8">
-            <Link className="text-sm font-semibold tracking-wide text-slate-600 hover:text-[#001b3d] transition-colors" href="/">{t.nav_home}</Link>
             <Link className="text-sm font-semibold tracking-wide text-slate-600 hover:text-[#001b3d] transition-colors" href="/">{t.nav_helpers}</Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
