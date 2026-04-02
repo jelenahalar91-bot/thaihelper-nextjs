@@ -15,9 +15,9 @@ export default async function handler(req, res) {
     whatsapp, hasWhatsApp, email,
   } = req.body;
 
-  // Validate required fields
-  if (!first_name || !last_name || !email || !city || !category) {
-    return res.status(400).json({ error: 'Missing required fields' });
+  // Validate required fields (trim to catch whitespace-only values)
+  if (!first_name?.trim() || !last_name?.trim() || !email?.trim() || !city || !category) {
+    return res.status(400).json({ error: 'Missing required fields: first name, last name, email, city, and category are required.' });
   }
 
   const SHEET_URL = process.env.GOOGLE_SHEETS_URL;
