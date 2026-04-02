@@ -5,7 +5,7 @@ import { CircularTestimonials } from '@/components/ui/circular-testimonials';
 
 const T = {
   en: {
-    nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Employers',nav_cta:'Register Free',
+    nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Employers',nav_login:'Login',nav_cta:'Register Free',
     hero_badge:'Premium Marketplace',
     hero_h1:'Stop Paying Agencies.',hero_h1_em:'Get Hired Directly.',
     hero_p:"Connect directly with Thailand's best nannies, chefs, drivers, and domestic helpers. No middleman, no hidden fees, just pure Thai hospitality at its finest.",
@@ -61,7 +61,7 @@ const T = {
     footer_privacy:'Privacy Policy',footer_terms:'Terms of Service',
   },
   th: {
-    nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_employers:'สำหรับนายจ้าง',nav_cta:'ลงทะเบียนฟรี',
+    nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_employers:'สำหรับนายจ้าง',nav_login:'เข้าสู่ระบบ',nav_cta:'ลงทะเบียนฟรี',
     hero_badge:'แพลตฟอร์มพรีเมียม',
     hero_h1:'หยุดจ่ายค่าเอเจนซี่',hero_h1_em:'หางานโดยตรง',
     hero_p:'เชื่อมต่อโดยตรงกับพี่เลี้ยง พ่อครัว คนขับรถ และผู้ช่วยงานบ้านที่ดีที่สุดในประเทศไทย ไม่มีคนกลาง ไม่มีค่าธรรมเนียมซ่อนเร้น',
@@ -116,7 +116,7 @@ const T = {
     footer_privacy:'นโยบายความเป็นส่วนตัว',footer_terms:'ข้อกำหนดการใช้งาน',
   },
   ru: {
-    nav_find:'Преимущества',nav_hire:'Категории',nav_how:'Как это работает',nav_employers:'Для работодателей',nav_cta:'Регистрация',
+    nav_find:'Преимущества',nav_hire:'Категории',nav_how:'Как это работает',nav_employers:'Для работодателей',nav_login:'Войти',nav_cta:'Регистрация',
     hero_badge:'Премиум платформа',
     hero_h1:'Хватит платить агентствам.',hero_h1_em:'Устройтесь напрямую.',
     hero_p:'Свяжитесь напрямую с лучшими нянями, поварами, водителями и домашними помощниками в Таиланде. Без посредников, без скрытых комиссий.',
@@ -266,6 +266,7 @@ export default function Home() {
             <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/employers">{t.nav_employers}</Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
+            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
             <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
               <button className={`px-2.5 md:px-4 py-1.5 md:py-2 rounded-lg text-sm md:text-base font-bold transition-all ${lang === 'en' ? 'bg-white text-on-background shadow-sm' : 'text-gray-500'}`} onClick={() => changeLang('en')}>🇬🇧 <span className="hidden md:inline text-xs">EN</span></button>
               <button className={`px-2.5 md:px-4 py-1.5 md:py-2 rounded-lg text-sm md:text-base font-bold transition-all ${lang === 'th' ? 'bg-white text-on-background shadow-sm' : 'text-gray-500'}`} onClick={() => changeLang('th')}>🇹🇭 <span className="hidden md:inline text-xs">TH</span></button>
