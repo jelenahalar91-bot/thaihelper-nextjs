@@ -103,6 +103,7 @@ const T = {
     success_p1:      'Thanks for registering on ThaiHelper. Your profile has been received.',
     success_p2:      "We'll review it and get in touch as soon as the platform goes live in your city.",
     success_share:   'Know other nannies or housekeepers? Share ThaiHelper with them:',
+    success_login:   'Log in to your profile',
     trust_secure:    '🔒 Secure & private',
     trust_free:      '✅ 100% free for providers',
     trust_mobile:    '📱 Works on any phone',
@@ -206,6 +207,7 @@ const T = {
     success_p1:      'ขอบคุณที่ลงทะเบียนกับ ThaiHelper โปรไฟล์ของคุณได้รับแล้ว',
     success_p2:      'เราจะตรวจสอบและติดต่อคุณทันทีที่แพลตฟอร์มเปิดตัวในเมืองของคุณ',
     success_share:   'รู้จักพี่เลี้ยงหรือแม่บ้านคนอื่นไหม? แชร์ ThaiHelper ให้พวกเขา:',
+    success_login:   'เข้าสู่ระบบโปรไฟล์ของคุณ',
     trust_secure:    '🔒 ปลอดภัยและเป็นส่วนตัว',
     trust_free:      '✅ ฟรี 100% สำหรับผู้ให้บริการ',
     trust_mobile:    '📱 ใช้งานได้ทุกอุปกรณ์',
@@ -572,6 +574,15 @@ export default function Register() {
                 <p>{t.success_p1}</p>
                 <p>{t.success_p2}</p>
                 <div className="success-ref">Ref: {refNumber}</div>
+                <div style={{ textAlign: 'center', margin: '16px 0' }}>
+                  <Link href="/login" style={{
+                    display: 'inline-block', padding: '12px 28px', borderRadius: '10px',
+                    background: 'var(--primary)', color: 'white', fontWeight: 700,
+                    textDecoration: 'none', fontSize: '15px',
+                  }}>
+                    {t.success_login}
+                  </Link>
+                </div>
                 <div className="success-share">
                   <p>{t.success_share}</p>
                   <a className="share-btn share-wa" href="https://wa.me/?text=I+just+signed+up+on+ThaiHelper%21" target="_blank" rel="noreferrer">💬 Share on WhatsApp</a>

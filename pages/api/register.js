@@ -28,6 +28,7 @@ export default async function handler(req, res) {
   }
 
   const payload = {
+    action: 'register',
     timestamp: new Date().toISOString(),
     ref,
     firstName: first_name.trim(),
