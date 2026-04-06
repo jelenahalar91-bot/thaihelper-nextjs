@@ -318,27 +318,31 @@ export default function Profile() {
   const cancelEditing = () => { setEditing(false); setEditData({}); setPhotoPreview(''); setSaveError(''); };
   const handleFieldChange = (field, value) => { setEditData(prev => ({ ...prev, [field]: value })); };
 
-  const handlePhotoChange = (e) => {
+  const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) { alert(t.photo_size_err); e.target.value = ''; return; }
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const maxSize = 400;
-        let w = img.width, h = img.height;
-        if (w > maxSize || h > maxSize) { if (w > h) { h = (h / w) * maxSize; w = maxSize; } else { w = (w / h) * maxSize; h = maxSize; } }
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        const compressed = canvas.toDataURL('image/jpeg', 0.7);
-        setPhotoPreview(compressed);
-        setEditData(prev => ({ ...prev, photo: compressed }));
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
+
+    // Show local preview immediately
+    const previewUrl = URL.createObjectURL(file);
+    setPhotoPreview(previewUrl);
+
+    // Upload to Supabase Storage via API
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/photo', { method: 'POST', body: formData });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Photo upload failed');
+      }
+      const { url } = await res.json();
+      setPhotoPreview(url);
+      setEditData(prev => ({ ...prev, photo: url }));
+    } catch (err) {
+      alert(err.message);
+      setPhotoPreview('');
+    }
   };
 
   const handleSave = async () => {
