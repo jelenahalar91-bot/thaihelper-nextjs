@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import Head from 'next/head';
+import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
+import { useLang } from './_app';
 import Link from 'next/link';
+import { registerHelper } from '@/lib/api/helpers';
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
@@ -98,6 +100,7 @@ const T = {
     submit_label:    'Create My Free Profile ✓',
     submitting:      'Submitting...',
     submit_error:    'Something went wrong. Please try again or contact hello@thaihelper.com',
+    duplicate_email: 'An account with this email already exists. Please log in instead.',
     photo_size_err:  'Photo must be smaller than 5 MB.',
     success_h2:      "You're on the list!",
     success_p1:      'Thanks for registering on ThaiHelper. Your profile has been received.',
@@ -202,6 +205,7 @@ const T = {
     submit_label:    'สร้างโปรไฟล์ฟรีของฉัน ✓',
     submitting:      'กำลังบันทึก...',
     submit_error:    'เกิดข้อผิดพลาด กรุณาลองใหม่หรือติดต่อ hello@thaihelper.com',
+    duplicate_email: 'อีเมลนี้มีบัญชีอยู่แล้ว กรุณาเข้าสู่ระบบแทน',
     photo_size_err:  'รูปภาพต้องมีขนาดไม่เกิน 5 MB',
     success_h2:      'คุณอยู่ในรายชื่อแล้ว!',
     success_p1:      'ขอบคุณที่ลงทะเบียนกับ ThaiHelper โปรไฟล์ของคุณได้รับแล้ว',
@@ -214,7 +218,8 @@ const T = {
   }
 };
 
-// ─── SKILLS PER CATEGORY ─────────────────────────────────────────────────────
+// ─── SKILLS PER CATEGORY ────────���─────────────────────────────────���──────────
+// NOTE: Canonical source is @/lib/constants/categories.js — keep in sync
 const SKILLS_BY_CATEGORY = {
   nanny: [
     { value: 'infant_care',   en: '👶 Infant care (0–2 years)',      th: '👶 ดูแลทารก (0–2 ปี)' },
@@ -353,7 +358,7 @@ function generateBio({ lang, category, skills, experience, languages, city }) {
 
 // ─── MAIN COMPONENT ──────────────────────────────────────────────────────────
 export default function Register() {
-  const [lang, setLangState]        = useState('en');
+  const { lang, setLang: changeLang } = useLang();
   const [step, setStep]             = useState(1);
   const [success, setSuccess]       = useState(false);
   const [refNumber, setRefNumber]   = useState('');
@@ -386,16 +391,8 @@ export default function Register() {
   const t = T[lang];
 
   useEffect(() => {
-    const saved = localStorage.getItem('th_lang') || 'en';
-    setLangState(saved);
-    setPhotoText(T[saved].photo_strong);
-  }, []);
-
-  const changeLang = (l) => {
-    setLangState(l);
-    localStorage.setItem('th_lang', l);
-    if (!photoPreview) setPhotoText(T[l].photo_strong);
-  };
+    if (!photoPreview) setPhotoText(T[lang].photo_strong);
+  }, [lang]);
 
   // When category changes, reset skills
   const handleCategoryChange = (val) => {
@@ -476,7 +473,7 @@ export default function Register() {
       city,
       area,
       experience,
-      languages,
+      languages:  languages.join(', '),
       rate,
       education:    education.trim(),
       certificates: certificates.trim(),
@@ -487,21 +484,14 @@ export default function Register() {
     };
 
     try {
-      const response = await fetch('/api/register', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(data),
-      });
-
-      const result = await response.json();
-      if (!result.success) throw new Error('Speichern fehlgeschlagen');
+      await registerHelper(data);
 
       setRefNumber(ref);
       setSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error('Submit error:', err);
-      alert(t.submit_error);
+      alert(err.message === 'duplicate_email' ? t.duplicate_email : t.submit_error);
     } finally {
       setSubmitting(false);
     }
@@ -518,17 +508,13 @@ export default function Register() {
   // ─── RENDER ─────────────────────────────────────────────────────────────────
   return (
     <>
-      <Head>
-        <title>{t.page_title}</title>
-        <meta name="description" content="Register as a household helper on ThaiHelper. Create your free profile and get discovered by families in Thailand." />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="canonical" href="https://thaihelper.app/register" />
-        <meta property="og:title" content="Register as a Helper – ThaiHelper" />
-        <meta property="og:description" content="Create your free profile and get discovered by families in Thailand. No fees, no middlemen." />
-        <meta property="og:url" content="https://thaihelper.app/register" />
-        <meta name="twitter:title" content="Register as a Helper – ThaiHelper" />
-        <meta name="twitter:description" content="Create your free profile and get discovered by families in Thailand. No fees." />
-      </Head>
+      <SEOHead
+        title="Register as a Helper – Create Your Free Profile"
+        description="Create your free profile on ThaiHelper. Get discovered by families in Thailand looking for nannies, housekeepers, chefs, drivers and more."
+        path="/register"
+        lang={lang}
+        jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Register', path: '/register' }])}
+      />
 
       <div className={`register-body ${lang === 'th' ? 'lang-th' : ''}`}>
 

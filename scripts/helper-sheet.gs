@@ -71,6 +71,18 @@ function asText(val) {
 
 function handleRegister(data) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var email = (data.email || '').trim().toLowerCase();
+
+  // Check for duplicate email
+  if (email) {
+    var rows = sheet.getDataRange().getValues();
+    for (var i = 1; i < rows.length; i++) {
+      var rowEmail = (rows[i][COL.email - 1] || '').toString().replace(/^'+/, '').trim().toLowerCase();
+      if (rowEmail === email) {
+        return jsonResponse({ success: false, error: 'duplicate_email' });
+      }
+    }
+  }
 
   sheet.appendRow([
     data.timestamp    || new Date().toISOString(),

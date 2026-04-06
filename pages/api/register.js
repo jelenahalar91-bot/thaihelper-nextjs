@@ -55,10 +55,17 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
+      redirect: 'follow',
     });
 
-    if (!response.ok) {
-      throw new Error(`Google Sheet responded with ${response.status}`);
+    const result = await response.json().catch(() => null);
+
+    if (result && result.error === 'duplicate_email') {
+      return res.status(409).json({ error: 'duplicate_email' });
+    }
+
+    if (!result || result.success === false) {
+      throw new Error(result?.error || `Google Sheet responded with ${response.status}`);
     }
 
     // Send confirmation email (don't fail the registration if email fails)
