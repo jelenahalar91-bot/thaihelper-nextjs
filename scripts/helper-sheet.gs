@@ -83,7 +83,7 @@ function handleRegister(data) {
     data.city         || '',
     data.area         || '',
     asText(data.experience),
-    data.languages    || '',
+    Array.isArray(data.languages) ? data.languages.join(', ') : (data.languages || ''),
     asText(data.rate),
     data.education    || '',
     data.certificates || '',

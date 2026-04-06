@@ -925,7 +925,7 @@ export default function Profile() {
                     <ProfileField label={t.label_category} value={p.category} t={t} />
                     <ProfileField label={t.label_skills} value={p.skills} t={t} />
                     <ProfileField label={t.label_experience} value={p.experience} t={t} />
-                    <ProfileField label={t.label_languages} value={Array.isArray(p.languages) ? p.languages.join(', ') : p.languages} t={t} />
+                    <ProfileField label={t.label_languages} value={(() => { const v = Array.isArray(p.languages) ? p.languages.join(', ') : (p.languages || ''); return v.includes('[Ljava.lang') ? '' : v; })()} t={t} />
                     <ProfileField label={t.label_rate} value={p.rate} t={t} />
                     <ProfileField label={t.label_education} value={p.education} t={t} />
                     <ProfileField label={t.label_certificates} value={p.certificates} t={t} />
