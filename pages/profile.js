@@ -247,6 +247,9 @@ export default function Profile() {
   const [showRefForm, setShowRefForm] = useState(false);
   const [editingRef, setEditingRef] = useState(null);
   const [refForm, setRefForm] = useState({ reference_name: '', relationship: 'employer', contact_info: '', reference_text: '' });
+  const [refInputMode, setRefInputMode] = useState('text'); // 'text' or 'file'
+  const [refFile, setRefFile] = useState(null);
+  const [uploadingRef, setUploadingRef] = useState(false);
   // Messaging
   const [conversations, setConversations] = useState([]);
   const [selectedConv, setSelectedConv] = useState(null);
@@ -379,21 +382,36 @@ export default function Profile() {
     setRefForm({ reference_name: '', relationship: 'employer', contact_info: '', reference_text: '' });
     setShowRefForm(false);
     setEditingRef(null);
+    setRefInputMode('text');
+    setRefFile(null);
+    setUploadingRef(false);
   };
 
   const handleRefSave = async () => {
     if (!refForm.reference_name.trim()) return;
+    setUploadingRef(true);
     try {
+      // If file mode and a file is selected, upload it first
+      let finalForm = { ...refForm };
+      if (refInputMode === 'file' && refFile) {
+        const uploadResult = await uploadDocument(refFile, 'reference');
+        finalForm.reference_text = `[Uploaded: ${refFile.name}]`;
+        // Reload documents to show the new reference doc
+        fetchDocuments().then(r => setDocuments(r.documents || []));
+      }
+
       if (editingRef) {
-        const result = await updateReference(editingRef, refForm);
+        const result = await updateReference(editingRef, finalForm);
         setReferences(prev => prev.map(r => r.id === editingRef ? result.reference : r));
       } else {
-        const result = await addReference(refForm);
+        const result = await addReference(finalForm);
         setReferences(prev => [result.reference, ...prev]);
       }
       resetRefForm();
     } catch (err) {
       alert(err.message);
+    } finally {
+      setUploadingRef(false);
     }
   };
 
@@ -712,13 +730,47 @@ export default function Profile() {
                         <input type="text" value={refForm.contact_info} onChange={e => setRefForm(prev => ({ ...prev, contact_info: e.target.value }))} placeholder="Email or phone" style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px' }} />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_text}</label>
-                        <textarea value={refForm.reference_text} onChange={e => setRefForm(prev => ({ ...prev, reference_text: e.target.value }))} rows={3} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px', resize: 'vertical', fontFamily: 'inherit' }} />
+                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '8px' }}>{t.ref_text}</label>
+                        <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
+                          <button
+                            type="button"
+                            onClick={() => { setRefInputMode('text'); setRefFile(null); }}
+                            style={{ padding: '5px 14px', borderRadius: '6px', border: refInputMode === 'text' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'text' ? '#e6f5f3' : 'white', color: refInputMode === 'text' ? '#006a62' : '#666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                          >
+                            ✏️ {lang === 'th' ? 'พิมพ์ข้อความ' : 'Type Text'}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => { setRefInputMode('file'); setRefForm(prev => ({ ...prev, reference_text: '' })); }}
+                            style={{ padding: '5px 14px', borderRadius: '6px', border: refInputMode === 'file' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'file' ? '#e6f5f3' : 'white', color: refInputMode === 'file' ? '#006a62' : '#666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                          >
+                            📄 {lang === 'th' ? 'อัปโหลด PDF' : 'Upload PDF'}
+                          </button>
+                        </div>
+                        {refInputMode === 'text' ? (
+                          <textarea value={refForm.reference_text} onChange={e => setRefForm(prev => ({ ...prev, reference_text: e.target.value }))} rows={3} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px', resize: 'vertical', fontFamily: 'inherit' }} />
+                        ) : (
+                          <div style={{ border: '2px dashed #e5e7eb', borderRadius: '8px', padding: '16px', textAlign: 'center' }}>
+                            {refFile ? (
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                <span style={{ fontSize: '13px', color: '#333' }}>📄 {refFile.name}</span>
+                                <button type="button" onClick={() => setRefFile(null)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '14px' }}>✕</button>
+                              </div>
+                            ) : (
+                              <label style={{ cursor: 'pointer', display: 'block' }}>
+                                <div style={{ fontSize: '24px', marginBottom: '4px' }}>📁</div>
+                                <span style={{ fontSize: '13px', color: '#006a62', fontWeight: 600 }}>{lang === 'th' ? 'เลือกไฟล์' : 'Choose file'}</span>
+                                <p style={{ fontSize: '11px', color: '#999', marginTop: '4px' }}>PDF, JPG, PNG (max 10 MB)</p>
+                                <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={e => setRefFile(e.target.files[0] || null)} style={{ display: 'none' }} />
+                              </label>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
                       <button onClick={resetRefForm} style={{ padding: '6px 16px', borderRadius: '8px', border: '1px solid #e5e7eb', background: 'white', color: '#666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>{t.ref_cancel}</button>
-                      <button onClick={handleRefSave} style={{ padding: '6px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>{t.ref_save}</button>
+                      <button onClick={handleRefSave} disabled={uploadingRef} style={{ padding: '6px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '12px', fontWeight: 600, cursor: uploadingRef ? 'wait' : 'pointer', opacity: uploadingRef ? 0.6 : 1 }}>{uploadingRef ? (lang === 'th' ? 'กำลังบันทึก...' : 'Saving...') : t.ref_save}</button>
                     </div>
                   </div>
                 )}
