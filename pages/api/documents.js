@@ -91,7 +91,7 @@ export default async function handler(req, res) {
 
       if (uploadError) {
         console.error('Storage upload error:', uploadError);
-        return res.status(500).json({ error: 'Failed to upload file' });
+        return res.status(500).json({ error: `Storage error: ${uploadError.message}` });
       }
 
       // Save metadata to database
@@ -112,7 +112,7 @@ export default async function handler(req, res) {
         console.error('Document insert error:', dbError);
         // Clean up uploaded file
         await supabase.storage.from(BUCKET).remove([storagePath]);
-        return res.status(500).json({ error: 'Failed to save document' });
+        return res.status(500).json({ error: `DB error: ${dbError.message}` });
       }
 
       return res.status(201).json({ document: data });
