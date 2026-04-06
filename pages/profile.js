@@ -545,7 +545,7 @@ export default function Profile() {
           padding: '12px 24px', background: 'white', borderBottom: '1px solid #e5e7eb',
           position: 'sticky', top: 0, zIndex: 50,
         }}>
-          <Link href="/" style={{ fontSize: '20px', fontWeight: 800, textDecoration: 'none', color: '#1a1a1a' }}>
+          <Link href="/profile" style={{ fontSize: '20px', fontWeight: 800, textDecoration: 'none', color: '#1a1a1a' }}>
             Thai<span style={{ color: '#006a62' }}>Helper</span>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
