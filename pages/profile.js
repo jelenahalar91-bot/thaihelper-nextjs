@@ -1,7 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { fetchProfile as fetchProfileApi, updateProfile as updateProfileApi } from '@/lib/api/helpers';
+import { logout } from '@/lib/api/auth-client';
+import { fetchDocuments, uploadDocument, deleteDocument } from '@/lib/api/documents';
+import { fetchReferences, addReference, updateReference, deleteReference } from '@/lib/api/references';
+import { fetchConversations, fetchMessages, sendMessage, markAsRead } from '@/lib/api/messages';
+import { fetchSettings, updateLanguagePreference } from '@/lib/api/settings';
+import ConversationList from '@/components/messaging/ConversationList';
+import ConversationDetail from '@/components/messaging/ConversationDetail';
 
 const T = {
   en: {
@@ -71,6 +79,46 @@ const T = {
     chars: 'characters',
     login_required: 'Please log in to view your dashboard.',
     login_btn: 'Go to Login',
+    // Documents
+    doc_title: 'Documents & Certificates',
+    doc_upload: 'Upload Document',
+    doc_uploading: 'Uploading...',
+    doc_empty: 'Upload certificates, IDs, or reference letters to strengthen your profile.',
+    doc_type_certificate: 'Certificate',
+    doc_type_id: 'ID Document',
+    doc_type_reference: 'Reference Letter',
+    doc_type_other: 'Other',
+    doc_delete_confirm: 'Delete this document?',
+    doc_max_size: 'Max 10 MB · PDF, JPG, PNG, WEBP',
+    // References
+    ref_title: 'Professional References',
+    ref_add: 'Add Reference',
+    ref_empty: 'Add references from previous employers to build trust with families.',
+    ref_name: 'Name',
+    ref_relationship: 'Relationship',
+    ref_contact: 'Contact Info',
+    ref_text: 'Reference Text',
+    ref_rel_employer: 'Employer',
+    ref_rel_colleague: 'Colleague',
+    ref_rel_trainer: 'Trainer',
+    ref_rel_other: 'Other',
+    ref_save: 'Save',
+    ref_cancel: 'Cancel',
+    ref_delete_confirm: 'Delete this reference?',
+    // Messaging
+    msg_no_conv: 'No conversations yet',
+    msg_no_conv_text: 'When families contact you, their messages will appear here.',
+    msg_back: 'Back',
+    msg_placeholder: 'Type a message...',
+    msg_send: 'Send',
+    msg_show_original: 'Show original',
+    msg_show_translated: 'Show translated',
+    msg_unread: 'unread',
+    // Settings
+    settings_title: 'Language & Settings',
+    settings_lang: 'Preferred Language',
+    settings_lang_hint: 'Messages from families will be translated to your preferred language.',
+    settings_saved: 'Settings saved!',
   },
   th: {
     page_title: 'แดชบอร์ด – ThaiHelper',
@@ -135,6 +183,46 @@ const T = {
     chars: 'ตัวอักษร',
     login_required: 'กรุณาเข้าสู่ระบบเพื่อดูแดชบอร์ด',
     login_btn: 'ไปหน้าเข้าสู่ระบบ',
+    // Documents
+    doc_title: 'เอกสารและใบรับรอง',
+    doc_upload: 'อัปโหลดเอกสาร',
+    doc_uploading: 'กำลังอัปโหลด...',
+    doc_empty: 'อัปโหลดใบรับรอง, บัตรประจำตัว หรือจดหมายอ้างอิงเพื่อเสริมโปรไฟล์ของคุณ',
+    doc_type_certificate: 'ใบรับรอง',
+    doc_type_id: 'เอกสารประจำตัว',
+    doc_type_reference: 'จดหมายอ้างอิง',
+    doc_type_other: 'อื่นๆ',
+    doc_delete_confirm: 'ลบเอกสารนี้?',
+    doc_max_size: 'สูงสุด 10 MB · PDF, JPG, PNG, WEBP',
+    // References
+    ref_title: 'ข้อมูลอ้างอิงจากการทำงาน',
+    ref_add: 'เพิ่มข้อมูลอ้างอิง',
+    ref_empty: 'เพิ่มข้อมูลอ้างอิงจากนายจ้างเดิมเพื่อสร้างความน่าเชื่อถือ',
+    ref_name: 'ชื่อ',
+    ref_relationship: 'ความสัมพันธ์',
+    ref_contact: 'ข้อมูลติดต่อ',
+    ref_text: 'ข้อความอ้างอิง',
+    ref_rel_employer: 'นายจ้าง',
+    ref_rel_colleague: 'เพื่อนร่วมงาน',
+    ref_rel_trainer: 'ผู้ฝึกอบรม',
+    ref_rel_other: 'อื่นๆ',
+    ref_save: 'บันทึก',
+    ref_cancel: 'ยกเลิก',
+    ref_delete_confirm: 'ลบข้อมูลอ้างอิงนี้?',
+    // Messaging
+    msg_no_conv: 'ยังไม่มีการสนทนา',
+    msg_no_conv_text: 'เมื่อครอบครัวติดต่อคุณ ข้อความจะปรากฏที่นี่',
+    msg_back: 'กลับ',
+    msg_placeholder: 'พิมพ์ข้อความ...',
+    msg_send: 'ส่ง',
+    msg_show_original: 'แสดงต้นฉบับ',
+    msg_show_translated: 'แสดงคำแปล',
+    msg_unread: 'ยังไม่ได้อ่าน',
+    // Settings
+    settings_title: 'ภาษาและการตั้งค่า',
+    settings_lang: 'ภาษาที่ต้องการ',
+    settings_lang_hint: 'ข้อความจากครอบครัวจะถูกแปลเป็นภาษาที่คุณต้องการ',
+    settings_saved: 'บันทึกการตั้งค่าแล้ว!',
   },
 };
 
@@ -151,6 +239,24 @@ export default function Profile() {
   const [saveError, setSaveError] = useState('');
   const [editData, setEditData] = useState({});
   const [photoPreview, setPhotoPreview] = useState('');
+  // Documents & References
+  const [documents, setDocuments] = useState([]);
+  const [references, setReferences] = useState([]);
+  const [uploadingDoc, setUploadingDoc] = useState(false);
+  const [docType, setDocType] = useState('certificate');
+  const [showRefForm, setShowRefForm] = useState(false);
+  const [editingRef, setEditingRef] = useState(null);
+  const [refForm, setRefForm] = useState({ reference_name: '', relationship: 'employer', contact_info: '', reference_text: '' });
+  // Messaging
+  const [conversations, setConversations] = useState([]);
+  const [selectedConv, setSelectedConv] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [msgInput, setMsgInput] = useState('');
+  const [sendingMsg, setSendingMsg] = useState(false);
+  const [loadingMsgs, setLoadingMsgs] = useState(false);
+  // Settings
+  const [prefLang, setPrefLang] = useState('en');
+  const [settingsSaved, setSettingsSaved] = useState('');
 
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
@@ -160,20 +266,38 @@ export default function Profile() {
   const changeLang = (l) => { setLangState(l); localStorage.setItem('th_lang', l); };
   const t = T[lang] || T.en;
 
-  useEffect(() => { fetchProfile(); }, []);
+  useEffect(() => { fetchProfile(); loadSupabaseData(); }, []);
+
+  const loadSupabaseData = async () => {
+    try {
+      const [docsRes, refsRes, convsRes, settingsRes] = await Promise.allSettled([
+        fetchDocuments(),
+        fetchReferences(),
+        fetchConversations(),
+        fetchSettings(),
+      ]);
+      if (docsRes.status === 'fulfilled') setDocuments(docsRes.value.documents || []);
+      if (refsRes.status === 'fulfilled') setReferences(refsRes.value.references || []);
+      if (convsRes.status === 'fulfilled') setConversations(convsRes.value.conversations || []);
+      if (settingsRes.status === 'fulfilled' && settingsRes.value.preferred_language) {
+        setPrefLang(settingsRes.value.preferred_language);
+      }
+    } catch (err) {
+      console.error('Failed to load Supabase data:', err);
+    }
+  };
 
   const fetchProfile = async () => {
     try {
-      const res = await fetch('/api/profile');
-      if (res.status === 401) { setAuthError(true); setLoading(false); return; }
-      const data = await res.json();
+      const data = await fetchProfileApi();
+      if (data.authError) { setAuthError(true); setLoading(false); return; }
       if (data.success) { setProfile(data.profile); } else { setAuthError(true); }
     } catch { setAuthError(true); }
     finally { setLoading(false); }
   };
 
   const handleLogout = async () => {
-    await fetch('/api/auth', { method: 'DELETE' });
+    await logout();
     router.push('/login');
   };
 
@@ -217,12 +341,126 @@ export default function Profile() {
   const handleSave = async () => {
     setSaving(true); setSaveError('');
     try {
-      const res = await fetch('/api/profile', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editData) });
-      if (!res.ok) throw new Error();
+      await updateProfileApi(editData);
       await fetchProfile(); setEditing(false);
       setSavedMsg(t.saved_msg); setTimeout(() => setSavedMsg(''), 4000);
     } catch { setSaveError(t.error_save); }
     finally { setSaving(false); }
+  };
+
+  // Document handlers
+  const handleDocUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploadingDoc(true);
+    try {
+      const result = await uploadDocument(file, docType);
+      setDocuments(prev => [result.document, ...prev]);
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setUploadingDoc(false);
+      e.target.value = '';
+    }
+  };
+
+  const handleDocDelete = async (id) => {
+    if (!confirm(t.doc_delete_confirm)) return;
+    try {
+      await deleteDocument(id);
+      setDocuments(prev => prev.filter(d => d.id !== id));
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  // Reference handlers
+  const resetRefForm = () => {
+    setRefForm({ reference_name: '', relationship: 'employer', contact_info: '', reference_text: '' });
+    setShowRefForm(false);
+    setEditingRef(null);
+  };
+
+  const handleRefSave = async () => {
+    if (!refForm.reference_name.trim()) return;
+    try {
+      if (editingRef) {
+        const result = await updateReference(editingRef, refForm);
+        setReferences(prev => prev.map(r => r.id === editingRef ? result.reference : r));
+      } else {
+        const result = await addReference(refForm);
+        setReferences(prev => [result.reference, ...prev]);
+      }
+      resetRefForm();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleRefEdit = (ref) => {
+    setRefForm({
+      reference_name: ref.reference_name,
+      relationship: ref.relationship || 'other',
+      contact_info: ref.contact_info || '',
+      reference_text: ref.reference_text || '',
+    });
+    setEditingRef(ref.id);
+    setShowRefForm(true);
+  };
+
+  const handleRefDelete = async (id) => {
+    if (!confirm(t.ref_delete_confirm)) return;
+    try {
+      await deleteReference(id);
+      setReferences(prev => prev.filter(r => r.id !== id));
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  // Messaging handlers
+  const openConversation = async (conv) => {
+    setSelectedConv(conv);
+    setLoadingMsgs(true);
+    try {
+      const res = await fetchMessages(conv.id);
+      setMessages(res.messages || []);
+      if (conv.unread_count > 0) {
+        await markAsRead(conv.id);
+        setConversations(prev => prev.map(c => c.id === conv.id ? { ...c, unread_count: 0 } : c));
+      }
+    } catch (err) {
+      console.error('Failed to load messages:', err);
+    } finally {
+      setLoadingMsgs(false);
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (!msgInput.trim() || !selectedConv) return;
+    setSendingMsg(true);
+    try {
+      const res = await sendMessage(selectedConv.id, msgInput.trim());
+      setMessages(prev => [...prev, res.message]);
+      setMsgInput('');
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setSendingMsg(false);
+    }
+  };
+
+  // Settings handlers
+  const handleLanguageChange = async (newLang) => {
+    setPrefLang(newLang);
+    changeLang(newLang);
+    try {
+      await updateLanguagePreference(newLang);
+      setSettingsSaved(t.settings_saved);
+      setTimeout(() => setSettingsSaved(''), 3000);
+    } catch (err) {
+      console.error('Failed to save language preference:', err);
+    }
   };
 
   // Check profile completeness
@@ -274,6 +512,7 @@ export default function Profile() {
   const p = profile;
   const photoSrc = photoPreview || p.photo || null;
   const completeness = getCompleteness(p);
+  const totalUnread = conversations.reduce((sum, c) => sum + (c.unread_count || 0), 0);
 
   // ─── MAIN RENDER ────────────────────────────────────────────────────────────
   return (
@@ -328,7 +567,12 @@ export default function Profile() {
               <span style={{ marginRight: '6px' }}>{tab.icon}</span>
               {tab.label}
               {tab.key === 'messages' && (
-                <span style={{ marginLeft: '6px', fontSize: '10px', padding: '1px 6px', borderRadius: '10px', background: '#f3f4f6', color: '#999' }}>0</span>
+                <span style={{
+                  marginLeft: '6px', fontSize: '10px', padding: '1px 6px', borderRadius: '10px',
+                  background: totalUnread > 0 ? '#006a62' : '#f3f4f6',
+                  color: totalUnread > 0 ? 'white' : '#999',
+                  fontWeight: totalUnread > 0 ? 700 : 400,
+                }}>{totalUnread}</span>
               )}
             </button>
           ))}
@@ -395,6 +639,120 @@ export default function Profile() {
                 </button>
               </div>
 
+              {/* ─── DOCUMENTS SECTION ──────────────────────────────── */}
+              <div style={{ background: 'white', borderRadius: '16px', padding: '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>📄 {t.doc_title}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <select value={docType} onChange={e => setDocType(e.target.value)} style={{ padding: '6px 10px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '12px', background: 'white' }}>
+                      <option value="certificate">{t.doc_type_certificate}</option>
+                      <option value="id">{t.doc_type_id}</option>
+                      <option value="reference">{t.doc_type_reference}</option>
+                      <option value="other">{t.doc_type_other}</option>
+                    </select>
+                    <label style={{ padding: '6px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '12px', fontWeight: 600, cursor: uploadingDoc ? 'wait' : 'pointer', opacity: uploadingDoc ? 0.6 : 1 }}>
+                      {uploadingDoc ? t.doc_uploading : t.doc_upload}
+                      <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={handleDocUpload} disabled={uploadingDoc} style={{ display: 'none' }} />
+                    </label>
+                  </div>
+                </div>
+                <p style={{ fontSize: '11px', color: '#999', margin: '0 0 16px' }}>{t.doc_max_size}</p>
+
+                {documents.length === 0 ? (
+                  <p style={{ fontSize: '14px', color: '#999', textAlign: 'center', padding: '24px 0' }}>{t.doc_empty}</p>
+                ) : (
+                  <div style={{ display: 'grid', gap: '8px' }}>
+                    {documents.map(doc => (
+                      <div key={doc.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', background: '#f9fafb', borderRadius: '10px' }}>
+                        <span style={{ fontSize: '24px' }}>{doc.mime_type?.includes('pdf') ? '📑' : '🖼️'}</span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '14px', fontWeight: 600, color: '#333', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{doc.file_name}</div>
+                          <div style={{ fontSize: '11px', color: '#999' }}>
+                            <span style={{ padding: '1px 6px', borderRadius: '4px', background: '#e6f5f3', color: '#006a62', fontWeight: 600, marginRight: '8px' }}>
+                              {t[`doc_type_${doc.file_type}`] || doc.file_type}
+                            </span>
+                            {doc.file_size ? `${(doc.file_size / 1024).toFixed(0)} KB` : ''}
+                            {' · '}{new Date(doc.uploaded_at).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <button onClick={() => handleDocDelete(doc.id)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '16px', padding: '4px 8px' }} title="Delete">✕</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* ─── REFERENCES SECTION ─────────────────────────────── */}
+              <div style={{ background: 'white', borderRadius: '16px', padding: '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>👥 {t.ref_title}</h3>
+                  {!showRefForm && (
+                    <button onClick={() => { resetRefForm(); setShowRefForm(true); }} style={{ padding: '6px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>+ {t.ref_add}</button>
+                  )}
+                </div>
+
+                {showRefForm && (
+                  <div style={{ background: '#f9fafb', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
+                    <div style={{ display: 'grid', gap: '10px' }}>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_name} *</label>
+                        <input type="text" value={refForm.reference_name} onChange={e => setRefForm(prev => ({ ...prev, reference_name: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px' }} />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_relationship}</label>
+                        <select value={refForm.relationship} onChange={e => setRefForm(prev => ({ ...prev, relationship: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px', background: 'white' }}>
+                          <option value="employer">{t.ref_rel_employer}</option>
+                          <option value="colleague">{t.ref_rel_colleague}</option>
+                          <option value="trainer">{t.ref_rel_trainer}</option>
+                          <option value="other">{t.ref_rel_other}</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_contact}</label>
+                        <input type="text" value={refForm.contact_info} onChange={e => setRefForm(prev => ({ ...prev, contact_info: e.target.value }))} placeholder="Email or phone" style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px' }} />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_text}</label>
+                        <textarea value={refForm.reference_text} onChange={e => setRefForm(prev => ({ ...prev, reference_text: e.target.value }))} rows={3} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px', resize: 'vertical', fontFamily: 'inherit' }} />
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
+                      <button onClick={resetRefForm} style={{ padding: '6px 16px', borderRadius: '8px', border: '1px solid #e5e7eb', background: 'white', color: '#666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>{t.ref_cancel}</button>
+                      <button onClick={handleRefSave} style={{ padding: '6px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>{t.ref_save}</button>
+                    </div>
+                  </div>
+                )}
+
+                {references.length === 0 && !showRefForm ? (
+                  <p style={{ fontSize: '14px', color: '#999', textAlign: 'center', padding: '24px 0' }}>{t.ref_empty}</p>
+                ) : (
+                  <div style={{ display: 'grid', gap: '8px' }}>
+                    {references.map(ref => (
+                      <div key={ref.id} style={{ padding: '14px', background: '#f9fafb', borderRadius: '10px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                          <div>
+                            <div style={{ fontSize: '14px', fontWeight: 600, color: '#333' }}>{ref.reference_name}</div>
+                            <div style={{ fontSize: '12px', color: '#999', marginTop: '2px' }}>
+                              <span style={{ padding: '1px 6px', borderRadius: '4px', background: '#eef2ff', color: '#6366f1', fontWeight: 600 }}>
+                                {t[`ref_rel_${ref.relationship}`] || ref.relationship}
+                              </span>
+                              {ref.contact_info && <span style={{ marginLeft: '8px' }}>{ref.contact_info}</span>}
+                            </div>
+                            {ref.reference_text && (
+                              <p style={{ fontSize: '13px', color: '#555', margin: '8px 0 0', lineHeight: 1.5, fontStyle: 'italic' }}>{ref.reference_text}</p>
+                            )}
+                          </div>
+                          <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
+                            <button onClick={() => handleRefEdit(ref)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', padding: '2px 6px' }}>✏️</button>
+                            <button onClick={() => handleRefDelete(ref.id)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '14px', padding: '2px 6px' }}>✕</button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {/* Launch info */}
               <div style={{ background: 'linear-gradient(135deg, #006a62, #004d47)', borderRadius: '16px', padding: '28px', color: 'white' }}>
                 <h3 style={{ fontSize: '16px', fontWeight: 700, margin: '0 0 8px' }}>🚀 {t.dash_launch_title}</h3>
@@ -406,29 +764,24 @@ export default function Profile() {
           {/* ─── MESSAGES TAB ───────────────────────────────────────────── */}
           {activeTab === 'messages' && (
             <>
-              <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>{t.msg_title}</h1>
-
-              {/* Empty state */}
-              <div style={{ background: 'white', borderRadius: '16px', padding: '48px 32px', border: '1px solid #e5e7eb', textAlign: 'center', marginBottom: '16px' }}>
-                <div style={{ fontSize: '56px', marginBottom: '16px' }}>{t.msg_empty_icon}</div>
-                <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#1a1a1a', marginBottom: '8px' }}>{t.msg_empty_title}</h2>
-                <p style={{ fontSize: '14px', color: '#666', maxWidth: '400px', margin: '0 auto', lineHeight: 1.6 }}>{t.msg_empty_text}</p>
-              </div>
-
-              {/* Coming soon features */}
-              <div style={{ background: 'white', borderRadius: '16px', padding: '24px', border: '1px solid #e5e7eb' }}>
-                <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#006a62', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  🔮 {t.msg_coming_title}
-                </h3>
-                <div style={{ display: 'grid', gap: '10px' }}>
-                  {t.msg_coming_features.map((feat, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#555' }}>
-                      <span style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', flexShrink: 0 }}>✓</span>
-                      {feat}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              {!selectedConv ? (
+                <>
+                  <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>{t.msg_title}</h1>
+                  <ConversationList conversations={conversations} onSelect={openConversation} t={t} />
+                </>
+              ) : (
+                <ConversationDetail
+                  conversation={selectedConv}
+                  messages={messages}
+                  loading={loadingMsgs}
+                  msgInput={msgInput}
+                  setMsgInput={setMsgInput}
+                  onSend={handleSendMessage}
+                  sending={sendingMsg}
+                  onBack={() => { setSelectedConv(null); setMessages([]); }}
+                  t={t}
+                />
+              )}
             </>
           )}
 
@@ -542,6 +895,38 @@ export default function Profile() {
                     <ProfileField label={t.label_email} value={p.email} t={t} />
                   </div>
                 )}
+              </div>
+
+              {/* ─── LANGUAGE SETTINGS ──────────────────────────────── */}
+              <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #e5e7eb', marginTop: '16px' }}>
+                <SectionTitle>{t.settings_title}</SectionTitle>
+                <div style={{ marginBottom: '8px' }}>
+                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#555', marginBottom: '8px' }}>{t.settings_lang}</label>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    {[
+                      { code: 'en', label: 'English' },
+                      { code: 'th', label: 'ภาษาไทย' },
+                      { code: 'ru', label: 'Русский' },
+                    ].map(l => (
+                      <button
+                        key={l.code}
+                        onClick={() => handleLanguageChange(l.code)}
+                        style={{
+                          padding: '8px 20px', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                          border: prefLang === l.code ? '2px solid #006a62' : '1px solid #e5e7eb',
+                          background: prefLang === l.code ? '#e6f5f3' : 'white',
+                          color: prefLang === l.code ? '#006a62' : '#666',
+                        }}
+                      >
+                        {l.label}
+                      </button>
+                    ))}
+                  </div>
+                  <p style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>{t.settings_lang_hint}</p>
+                  {settingsSaved && (
+                    <p style={{ fontSize: '13px', color: '#059669', fontWeight: 600, marginTop: '8px' }}>{settingsSaved}</p>
+                  )}
+                </div>
               </div>
             </>
           )}

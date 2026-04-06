@@ -62,6 +62,13 @@ function doPost(e) {
 }
 
 // ─── REGISTER (append new row) ──────────────────────────────────────────────
+// Helper: prefix with apostrophe so Google Sheets treats the value as plain text
+// (prevents "1-2" being auto-formatted as a date, "3-5" as March 5, etc.)
+function asText(val) {
+  var s = (val || '').toString();
+  return s ? "'" + s : '';
+}
+
 function handleRegister(data) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
@@ -70,18 +77,18 @@ function handleRegister(data) {
     data.ref          || '',
     data.firstName    || '',
     data.lastName     || '',
-    data.age          || '',
+    asText(data.age),
     data.category     || '',
     data.skills       || '',
     data.city         || '',
     data.area         || '',
-    data.experience   || '',
+    asText(data.experience),
     data.languages    || '',
-    data.rate         || '',
+    asText(data.rate),
     data.education    || '',
     data.certificates || '',
     data.bio          || '',
-    data.whatsapp     || '',
+    "'" + (data.whatsapp || ''),
     data.hasWhatsApp  || '',
     data.email        || '',
     data.photo        || '',
@@ -105,15 +112,15 @@ function handleLookup(data) {
 
   // Skip header row (index 0)
   for (var i = 1; i < rows.length; i++) {
-    var rowRef   = (rows[i][COL.ref - 1] || '').toString().trim().toUpperCase();
-    var rowEmail = (rows[i][COL.email - 1] || '').toString().trim().toLowerCase();
+    var rowRef   = (rows[i][COL.ref - 1] || '').toString().replace(/^'+/, '').trim().toUpperCase();
+    var rowEmail = (rows[i][COL.email - 1] || '').toString().replace(/^'+/, '').trim().toLowerCase();
 
     if (rowRef === ref && rowEmail === email) {
       var profile = {};
       var keys = Object.keys(COL);
       for (var k = 0; k < keys.length; k++) {
         var key = keys[k];
-        profile[key] = (rows[i][COL[key] - 1] || '').toString();
+        profile[key] = (rows[i][COL[key] - 1] || '').toString().replace(/^'+/, '');
       }
       return jsonResponse({ found: true, data: profile, row: i + 1 });
     }
@@ -138,8 +145,8 @@ function handleUpdate(data) {
   // Find the row
   var rowIndex = -1;
   for (var i = 1; i < rows.length; i++) {
-    var rowRef   = (rows[i][COL.ref - 1] || '').toString().trim().toUpperCase();
-    var rowEmail = (rows[i][COL.email - 1] || '').toString().trim().toLowerCase();
+    var rowRef   = (rows[i][COL.ref - 1] || '').toString().replace(/^'+/, '').trim().toUpperCase();
+    var rowEmail = (rows[i][COL.email - 1] || '').toString().replace(/^'+/, '').trim().toLowerCase();
     if (rowRef === ref && rowEmail === email) {
       rowIndex = i + 1; // 1-based for Sheet API
       break;

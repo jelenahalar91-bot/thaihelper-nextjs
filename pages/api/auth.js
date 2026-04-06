@@ -2,6 +2,7 @@
 // DELETE /api/auth — Logout (clear session cookie)
 
 import { createToken, setSessionCookie, clearSessionCookie } from '../../lib/auth';
+import { getServiceSupabase } from '../../lib/supabase';
 
 // Simple rate limiting (in-memory, resets on redeploy)
 const loginAttempts = new Map();
@@ -50,19 +51,43 @@ export default async function handler(req, res) {
 
   try {
     // Call Google Apps Script to look up helper
+    const lookupPayload = {
+      action: 'lookup',
+      email: email.trim().toLowerCase(),
+      ref: ref.trim().toUpperCase(),
+    };
+
     const response = await fetch(SHEET_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'lookup',
-        email: email.trim().toLowerCase(),
-        ref: ref.trim().toUpperCase(),
-      }),
+      body: JSON.stringify(lookupPayload),
+      redirect: 'follow',
     });
 
-    const result = await response.json();
+    const contentType = response.headers.get('content-type') || '';
+    const rawText = await response.text();
+
+    // Google Apps Script sometimes returns HTML redirects instead of JSON
+    if (!contentType.includes('application/json') && !rawText.startsWith('{')) {
+      console.error('Auth lookup: unexpected response', {
+        status: response.status,
+        contentType,
+        bodyPreview: rawText.substring(0, 200),
+        lookup: { email: lookupPayload.email, ref: lookupPayload.ref },
+      });
+      return res.status(500).json({ error: 'Login service temporarily unavailable. Please try again.' });
+    }
+
+    let result;
+    try {
+      result = JSON.parse(rawText);
+    } catch (parseErr) {
+      console.error('Auth lookup: JSON parse failed', { rawText: rawText.substring(0, 500) });
+      return res.status(500).json({ error: 'Login service error. Please try again.' });
+    }
 
     if (!result.found) {
+      console.log('Auth lookup: not found', { email: lookupPayload.email, ref: lookupPayload.ref, result });
       return res.status(401).json({ error: 'Invalid email or reference number.' });
     }
 
@@ -74,6 +99,17 @@ export default async function handler(req, res) {
     });
 
     setSessionCookie(res, token);
+
+    // Sync user to Supabase (non-blocking)
+    try {
+      const supabase = getServiceSupabase();
+      await supabase.from('user_preferences').upsert(
+        { helper_ref: result.data.ref, email: result.data.email },
+        { onConflict: 'helper_ref' }
+      );
+    } catch (syncErr) {
+      console.error('Supabase user sync failed (non-critical):', syncErr.message);
+    }
 
     return res.status(200).json({
       success: true,

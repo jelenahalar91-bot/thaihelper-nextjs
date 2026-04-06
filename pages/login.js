@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { login } from '@/lib/api/auth-client';
 
 const T = {
   en: {
@@ -74,31 +75,14 @@ export default function Login() {
 
     setSubmitting(true);
     try {
-      const response = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email.trim(),
-          ref: ref.trim(),
-        }),
-      });
+      const result = await login({ email: email.trim(), ref: ref.trim() });
 
-      if (response.status === 429) {
-        setError(t.error_rate);
+      if (!result.success) {
+        const errorMap = { rate_limit: t.error_rate, invalid: t.error_invalid };
+        setError(errorMap[result.error] || t.error_generic);
         return;
       }
 
-      if (response.status === 401) {
-        setError(t.error_invalid);
-        return;
-      }
-
-      if (!response.ok) {
-        setError(t.error_generic);
-        return;
-      }
-
-      // Success — redirect to profile
       router.push('/profile');
     } catch {
       setError(t.error_generic);
@@ -118,17 +102,15 @@ export default function Login() {
         {/* Nav */}
         <nav className="register-nav">
           <Link href="/" className="brand">Thai<span>Helper</span></Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div className="lang-toggle">
-              <button className={lang === 'en' ? 'active' : ''} onClick={() => changeLang('en')}>EN</button>
-              <button className={lang === 'th' ? 'active' : ''} onClick={() => changeLang('th')}>TH</button>
-            </div>
+          <div className="lang-toggle">
+            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => changeLang('en')}>EN</button>
+            <button className={`lang-btn ${lang === 'th' ? 'active' : ''}`} onClick={() => changeLang('th')}>TH</button>
           </div>
         </nav>
 
         {/* Login Card */}
-        <div className="register-container" style={{ maxWidth: '480px' }}>
-          <div className="card" style={{ padding: '40px 32px' }}>
+        <div className="register-container">
+          <div className="card" style={{ padding: '40px 32px', maxWidth: '480px', width: '100%' }}>
             {/* Icon */}
             <div style={{ textAlign: 'center', marginBottom: '24px' }}>
               <span style={{
