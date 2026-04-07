@@ -1,0 +1,591 @@
+/**
+ * Employer Profile + Settings page.
+ *
+ * Mirrors the helper-side profile page in spirit:
+ *  - Header card with photo + name + ref
+ *  - "Personal Information" section
+ *  - "Where you need help" section (location)
+ *  - "What you're looking for" section (preferences + job description)
+ *  - "Settings" section (preferred language + logout)
+ *
+ * Photo upload uses the same flow as helper photos but goes through
+ * /api/employer-photo so the employer auth cookie is checked.
+ *
+ * Auth: redirects to /employer-login on 401.
+ */
+
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useLang } from './_app';
+import {
+  fetchEmployerProfile,
+  updateEmployerProfile,
+  uploadEmployerPhoto,
+  employerLogout,
+} from '@/lib/api/employer-auth-client';
+import { CITIES } from '@/lib/constants/cities';
+
+const LOOKING_FOR_OPTIONS = [
+  { value: 'nanny',       en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
+  { value: 'housekeeper', en: 'Housekeeper & Cleaner', th: 'แม่บ้าน / ทำความสะอาด' },
+  { value: 'chef',        en: 'Private Chef & Cook',   th: 'พ่อครัว / แม่ครัว' },
+  { value: 'driver',      en: 'Driver & Chauffeur',    th: 'คนขับรถ' },
+  { value: 'gardener',    en: 'Gardener & Pool Care',  th: 'ดูแลสวน / สระน้ำ' },
+  { value: 'elder_care',  en: 'Elder Care',            th: 'ดูแลผู้สูงอายุ' },
+  { value: 'tutor',       en: 'Tutor & Teacher',       th: 'ติวเตอร์' },
+];
+
+const AGE_RANGES = ['any', '20-30', '30-40', '40-50', '50+'];
+
+const T = {
+  en: {
+    page_title: 'Profile – ThaiHelper',
+    loading: 'Loading...',
+    back: '← Dashboard',
+    saved: 'Profile updated.',
+    photo_uploading: 'Uploading...',
+    photo_change: 'Change photo',
+    photo_add: 'Add photo',
+    photo_hint: 'JPG, PNG or WEBP · max 5 MB',
+    photo_err_size: 'Photo must be smaller than 5 MB.',
+    photo_err_type: 'Only JPG, PNG and WEBP allowed.',
+    section_personal: 'Personal Information',
+    section_location: 'Where you need help',
+    section_preferences: 'What you\'re looking for',
+    section_job: 'Job description',
+    section_settings: 'Settings',
+    label_first: 'First name',
+    label_last: 'Last name',
+    label_email: 'Email',
+    email_locked: 'Cannot be changed',
+    label_phone: 'Phone',
+    label_city: 'City',
+    label_area: 'Area / neighbourhood',
+    label_arrangement: 'Arrangement',
+    arr_live_in: 'Live-in',
+    arr_live_out: 'Live-out',
+    arr_either: 'Either is fine',
+    arr_unset: 'No preference',
+    label_age_pref: 'Preferred helper age',
+    age_any: 'Any age',
+    label_looking_for: 'Helper types',
+    looking_hint: 'Select all categories you\'re open to',
+    label_job_desc: 'About the job (optional)',
+    job_hint: 'Phone numbers and emails will be hidden automatically.',
+    label_lang: 'Preferred language for messages',
+    lang_hint: 'Messages from helpers will be auto-translated into this language.',
+    save: 'Save changes',
+    saving: 'Saving...',
+    logout: 'Log out',
+    ref_label: 'Your reference',
+    member_since: 'Member since',
+  },
+  th: {
+    page_title: 'โปรไฟล์ – ThaiHelper',
+    loading: 'กำลังโหลด...',
+    back: '← แดชบอร์ด',
+    saved: 'อัปเดตโปรไฟล์เรียบร้อย',
+    photo_uploading: 'กำลังอัปโหลด...',
+    photo_change: 'เปลี่ยนรูป',
+    photo_add: 'เพิ่มรูป',
+    photo_hint: 'JPG, PNG หรือ WEBP · สูงสุด 5 MB',
+    photo_err_size: 'รูปภาพต้องเล็กกว่า 5 MB',
+    photo_err_type: 'อนุญาตเฉพาะ JPG, PNG และ WEBP',
+    section_personal: 'ข้อมูลส่วนตัว',
+    section_location: 'พื้นที่ที่คุณต้องการความช่วยเหลือ',
+    section_preferences: 'สิ่งที่คุณกำลังมองหา',
+    section_job: 'รายละเอียดงาน',
+    section_settings: 'การตั้งค่า',
+    label_first: 'ชื่อ',
+    label_last: 'นามสกุล',
+    label_email: 'อีเมล',
+    email_locked: 'ไม่สามารถเปลี่ยนได้',
+    label_phone: 'โทรศัพท์',
+    label_city: 'จังหวัด',
+    label_area: 'ย่าน',
+    label_arrangement: 'รูปแบบการจ้าง',
+    arr_live_in: 'อยู่ประจำ',
+    arr_live_out: 'มาเช้าเย็นกลับ',
+    arr_either: 'ทั้งสองแบบก็ได้',
+    arr_unset: 'ไม่ระบุ',
+    label_age_pref: 'อายุของผู้ช่วยที่ต้องการ',
+    age_any: 'ทุกช่วงอายุ',
+    label_looking_for: 'ประเภทผู้ช่วย',
+    looking_hint: 'เลือกทุกประเภทที่คุณสนใจ',
+    label_job_desc: 'เกี่ยวกับงาน (ถ้ามี)',
+    job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนอัตโนมัติ',
+    label_lang: 'ภาษาที่ต้องการสำหรับข้อความ',
+    lang_hint: 'ข้อความจากผู้ช่วยจะถูกแปลเป็นภาษานี้โดยอัตโนมัติ',
+    save: 'บันทึก',
+    saving: 'กำลังบันทึก...',
+    logout: 'ออกจากระบบ',
+    ref_label: 'หมายเลขอ้างอิง',
+    member_since: 'สมาชิกตั้งแต่',
+  },
+};
+
+const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
+const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+// Map a "looking_for" string from the DB back into an array of slugs
+function lookingForToArray(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  return value.split(',').map(s => s.trim()).filter(Boolean);
+}
+
+export default function EmployerProfile() {
+  const router = useRouter();
+  const { lang, setLang } = useLang();
+  const t = T[lang] || T.en;
+
+  const [profile, setProfile] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [form, setForm] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [savedMsg, setSavedMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const fileInputRef = useRef(null);
+
+  // Mount: load profile
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const res = await fetchEmployerProfile();
+      if (!res || !res.success) {
+        router.replace('/employer-login');
+        return;
+      }
+      if (cancelled) return;
+      const p = res.profile;
+      setProfile(p);
+      setPhotoUrl(p.photo_url || '');
+      setForm({
+        first_name: p.first_name || '',
+        last_name: p.last_name || '',
+        phone: p.phone || '',
+        city: p.city || '',
+        area: p.area || '',
+        arrangement_preference: p.arrangement_preference || '',
+        preferred_age_range: p.preferred_age_range || '',
+        looking_for: lookingForToArray(p.looking_for),
+        job_description: p.job_description || '',
+        preferred_language: p.preferred_language || 'en',
+      });
+      setAuthChecked(true);
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Auto-clear toast
+  useEffect(() => {
+    if (!savedMsg) return;
+    const id = setTimeout(() => setSavedMsg(''), 3000);
+    return () => clearTimeout(id);
+  }, [savedMsg]);
+
+  function update(field, value) {
+    setForm(prev => ({ ...prev, [field]: value }));
+  }
+
+  function toggleLookingFor(slug) {
+    setForm(prev => {
+      const set = new Set(prev.looking_for);
+      if (set.has(slug)) set.delete(slug);
+      else set.add(slug);
+      return { ...prev, looking_for: Array.from(set) };
+    });
+  }
+
+  async function handleSave() {
+    setSaving(true);
+    setErrorMsg('');
+    try {
+      const res = await updateEmployerProfile({
+        ...form,
+        // Send empty arrangement as null so the CHECK constraint accepts it
+        arrangement_preference: form.arrangement_preference || null,
+        preferred_age_range: form.preferred_age_range || null,
+      });
+      if (res?.success) {
+        setSavedMsg(t.saved);
+      } else {
+        setErrorMsg('Save failed');
+      }
+    } catch (err) {
+      setErrorMsg(err.message || 'Save failed');
+    }
+    setSaving(false);
+  }
+
+  async function handlePhotoChange(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setErrorMsg('');
+
+    if (file.size > MAX_PHOTO_BYTES) {
+      setErrorMsg(t.photo_err_size);
+      return;
+    }
+    if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+      setErrorMsg(t.photo_err_type);
+      return;
+    }
+
+    setUploadingPhoto(true);
+    const res = await uploadEmployerPhoto(file);
+    setUploadingPhoto(false);
+    if (res.success) {
+      setPhotoUrl(res.url);
+      setSavedMsg(t.saved);
+    } else {
+      setErrorMsg(res.error || 'Upload failed');
+    }
+    // Reset the input so selecting the same file again still triggers onChange
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  }
+
+  async function handleLogout() {
+    await employerLogout();
+    router.replace('/employer-login');
+  }
+
+  const initial = useMemo(
+    () => (form?.first_name || profile?.first_name || '?')[0]?.toUpperCase() || '?',
+    [form, profile]
+  );
+
+  if (!authChecked) {
+    return (
+      <div style={{
+        minHeight: '60vh', display: 'flex',
+        alignItems: 'center', justifyContent: 'center', color: '#999',
+      }}>
+        {t.loading}
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Head>
+        <title>{t.page_title}</title>
+        <meta name="robots" content="noindex" />
+      </Head>
+
+      <div className={`min-h-screen bg-gray-50 ${lang === 'th' ? 'lang-th' : ''}`}>
+        {/* ── NAV ───────────────────────────────────────── */}
+        <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+          <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between w-full">
+            <button
+              onClick={() => router.push('/employer-dashboard')}
+              className="text-xl md:text-2xl font-bold"
+            >
+              Thai<span style={{color:'#006a62'}}>Helper</span>
+            </button>
+
+            <div className="flex items-center gap-2 md:gap-3">
+              <button
+                onClick={() => router.push('/employer-dashboard')}
+                className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors"
+              >
+                {t.back}
+              </button>
+              <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
+                <button
+                  className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all ${lang === 'en' ? 'bg-white shadow-sm' : 'text-gray-500'}`}
+                  onClick={() => setLang('en')}
+                >🇬🇧</button>
+                <button
+                  className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all ${lang === 'th' ? 'bg-white shadow-sm' : 'text-gray-500'}`}
+                  onClick={() => setLang('th')}
+                >🇹🇭</button>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="px-3 md:px-4 py-2 rounded-lg border border-gray-200 text-xs md:text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
+              >
+                {t.logout}
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <main className="max-w-3xl mx-auto px-4 md:px-6 py-6 md:py-10">
+          {/* Toast banners */}
+          {savedMsg && (
+            <div className="mb-4 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold text-center">
+              {savedMsg}
+            </div>
+          )}
+          {errorMsg && (
+            <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-center justify-between gap-3">
+              <span>{errorMsg}</span>
+              <button onClick={() => setErrorMsg('')} className="text-red-700 text-lg leading-none">×</button>
+            </div>
+          )}
+
+          {/* ── Header card with photo ───────────────── */}
+          <section className="bg-white rounded-2xl border border-gray-200 p-5 md:p-7 mb-4">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
+              {/* Avatar */}
+              <div className="relative flex-shrink-0">
+                <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden bg-[#e6f5f3] border-4 border-[#006a62] flex items-center justify-center">
+                  {photoUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={photoUrl}
+                      alt={form.first_name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-4xl font-bold text-[#006a62]">{initial}</span>
+                  )}
+                </div>
+                <label className="absolute -bottom-1 -right-1 px-3 py-1.5 rounded-full bg-[#006a62] text-white text-[11px] font-bold cursor-pointer shadow-lg hover:bg-[#004d47] transition-colors whitespace-nowrap">
+                  {uploadingPhoto ? t.photo_uploading : (photoUrl ? t.photo_change : t.photo_add)}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={handlePhotoChange}
+                    disabled={uploadingPhoto}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              {/* Name + meta */}
+              <div className="flex-1 text-center sm:text-left">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                  {form.first_name} {form.last_name}
+                </h1>
+                <div className="text-sm text-gray-500 mt-1">
+                  {profile.email}
+                </div>
+                <div className="mt-3 flex flex-wrap justify-center sm:justify-start gap-2 text-xs">
+                  <span className="px-2.5 py-1 rounded-md bg-[#e6f5f3] text-[#006a62] font-bold">
+                    {t.ref_label}: {profile.employer_ref}
+                  </span>
+                  {profile.created_at && (
+                    <span className="px-2.5 py-1 rounded-md bg-gray-100 text-gray-600">
+                      {t.member_since} {new Date(profile.created_at).toLocaleDateString()}
+                    </span>
+                  )}
+                </div>
+                <div className="text-xs text-gray-400 mt-2">{t.photo_hint}</div>
+              </div>
+            </div>
+          </section>
+
+          {/* ── Personal information ─────────────────── */}
+          <Section title={t.section_personal}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label={t.label_first}>
+                <input
+                  type="text"
+                  value={form.first_name}
+                  onChange={e => update('first_name', e.target.value)}
+                  className={inputClass}
+                />
+              </Field>
+              <Field label={t.label_last}>
+                <input
+                  type="text"
+                  value={form.last_name}
+                  onChange={e => update('last_name', e.target.value)}
+                  className={inputClass}
+                />
+              </Field>
+              <Field label={t.label_email} hint={t.email_locked}>
+                <input
+                  type="email"
+                  value={profile.email}
+                  disabled
+                  className={`${inputClass} bg-gray-100 text-gray-500 cursor-not-allowed`}
+                />
+              </Field>
+              <Field label={t.label_phone}>
+                <input
+                  type="tel"
+                  value={form.phone}
+                  onChange={e => update('phone', e.target.value)}
+                  placeholder="+66 …"
+                  className={inputClass}
+                />
+              </Field>
+            </div>
+          </Section>
+
+          {/* ── Location ─────────────────────────────── */}
+          <Section title={t.section_location}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Field label={t.label_city}>
+                <select
+                  value={form.city}
+                  onChange={e => update('city', e.target.value)}
+                  className={inputClass}
+                >
+                  {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </Field>
+              <Field label={t.label_area}>
+                <input
+                  type="text"
+                  value={form.area}
+                  onChange={e => update('area', e.target.value)}
+                  placeholder="e.g. Sukhumvit, Rawai…"
+                  className={inputClass}
+                />
+              </Field>
+            </div>
+          </Section>
+
+          {/* ── Preferences ──────────────────────────── */}
+          <Section title={t.section_preferences}>
+            {/* Looking for chips */}
+            <div className="mb-5">
+              <Label>{t.label_looking_for}</Label>
+              <div className="text-xs text-gray-500 mb-3">{t.looking_hint}</div>
+              <div className="flex flex-wrap gap-2">
+                {LOOKING_FOR_OPTIONS.map(opt => {
+                  const active = form.looking_for.includes(opt.value);
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => toggleLookingFor(opt.value)}
+                      className={`px-3 py-2 rounded-full text-sm font-semibold border transition-all ${
+                        active
+                          ? 'bg-[#006a62] text-white border-[#006a62]'
+                          : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62]'
+                      }`}
+                    >
+                      {opt[lang] || opt.en}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Arrangement */}
+            <div className="mb-5">
+              <Label>{t.label_arrangement}</Label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
+                {[
+                  { v: '',         label: t.arr_unset },
+                  { v: 'live_in',  label: t.arr_live_in },
+                  { v: 'live_out', label: t.arr_live_out },
+                  { v: 'either',   label: t.arr_either },
+                ].map(opt => (
+                  <button
+                    key={opt.v}
+                    type="button"
+                    onClick={() => update('arrangement_preference', opt.v)}
+                    className={`px-3 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
+                      form.arrangement_preference === opt.v
+                        ? 'bg-[#006a62] text-white border-[#006a62]'
+                        : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62]'
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Age range */}
+            <Field label={t.label_age_pref}>
+              <select
+                value={form.preferred_age_range}
+                onChange={e => update('preferred_age_range', e.target.value)}
+                className={inputClass}
+              >
+                {AGE_RANGES.map(r => (
+                  <option key={r} value={r === 'any' ? '' : r}>
+                    {r === 'any' ? t.age_any : `${r} years`}
+                  </option>
+                ))}
+              </select>
+            </Field>
+          </Section>
+
+          {/* ── Job description ──────────────────────── */}
+          <Section title={t.section_job}>
+            <Field label={t.label_job_desc} hint={t.job_hint}>
+              <textarea
+                value={form.job_description}
+                onChange={e => update('job_description', e.target.value)}
+                rows={5}
+                className={`${inputClass} resize-y font-sans`}
+              />
+            </Field>
+          </Section>
+
+          {/* ── Settings ─────────────────────────────── */}
+          <Section title={t.section_settings}>
+            <Field label={t.label_lang} hint={t.lang_hint}>
+              <select
+                value={form.preferred_language}
+                onChange={e => update('preferred_language', e.target.value)}
+                className={inputClass}
+              >
+                <option value="en">English</option>
+                <option value="th">ไทย</option>
+                <option value="ru">Русский</option>
+                <option value="de">Deutsch</option>
+              </select>
+            </Field>
+          </Section>
+
+          {/* Save button */}
+          <div className="mt-2 mb-12 flex justify-end">
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="px-7 py-3 rounded-xl bg-[#006a62] text-white text-sm font-bold cursor-pointer hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
+            >
+              {saving ? t.saving : t.save}
+            </button>
+          </div>
+        </main>
+      </div>
+    </>
+  );
+}
+
+// ─── Sub-components ──────────────────────────────────────────────────────
+
+const inputClass =
+  'w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#006a62]/30 focus:border-[#006a62] transition-colors';
+
+function Section({ title, children }) {
+  return (
+    <section className="bg-white rounded-2xl border border-gray-200 p-5 md:p-7 mb-4">
+      <h2 className="text-base md:text-lg font-bold text-gray-900 mb-4">{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+function Label({ children }) {
+  return (
+    <label className="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">
+      {children}
+    </label>
+  );
+}
+
+function Field({ label, hint, children }) {
+  return (
+    <div>
+      <Label>{label}</Label>
+      {children}
+      {hint && <div className="text-xs text-gray-500 mt-1.5">{hint}</div>}
+    </div>
+  );
+}

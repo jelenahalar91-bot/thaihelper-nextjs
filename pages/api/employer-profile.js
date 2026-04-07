@@ -11,9 +11,13 @@ const EDITABLE_FIELDS = [
   'city',
   'area',
   'looking_for',
+  'arrangement_preference',
+  'preferred_age_range',
   'job_description',
   'preferred_language',
 ];
+
+const ARRANGEMENT_VALUES = ['live_in', 'live_out', 'either'];
 
 export default async function handler(req, res) {
   const session = await getEmployerSession(req);
@@ -27,7 +31,9 @@ export default async function handler(req, res) {
       .from('employer_accounts')
       .select(
         'employer_ref, first_name, last_name, email, phone, city, area, ' +
-        'looking_for, job_description, preferred_language, created_at, last_login_at'
+        'looking_for, arrangement_preference, preferred_age_range, ' +
+        'job_description, preferred_language, photo_url, ' +
+        'access_until, access_tier, created_at, last_login_at'
       )
       .eq('employer_ref', ref)
       .single();
@@ -51,6 +57,18 @@ export default async function handler(req, res) {
         patch[field] =
           typeof value === 'string' ? value.trim() || null : value;
       }
+    }
+
+    // Whitelist arrangement preference (matches DB CHECK constraint)
+    if ('arrangement_preference' in patch && patch.arrangement_preference) {
+      if (!ARRANGEMENT_VALUES.includes(patch.arrangement_preference)) {
+        patch.arrangement_preference = null;
+      }
+    }
+
+    // looking_for can come as array or string
+    if ('looking_for' in body && Array.isArray(body.looking_for)) {
+      patch.looking_for = body.looking_for.join(', ') || null;
     }
 
     // Sanitize job description

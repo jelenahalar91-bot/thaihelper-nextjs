@@ -344,6 +344,27 @@ export default function EmployerDashboard() {
                 )}
               </button>
 
+              {/* Profile button — avatar or initial */}
+              <button
+                onClick={() => router.push('/employer-profile')}
+                className="relative w-10 h-10 rounded-full overflow-hidden bg-[#e6f5f3] border-2 border-[#006a62] flex items-center justify-center hover:opacity-80 transition-opacity"
+                title="Profile"
+                aria-label="Profile"
+              >
+                {profile?.photo_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={profile.photo_url}
+                    alt={profile.first_name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-sm font-bold text-[#006a62]">
+                    {(profile?.first_name || '?')[0]?.toUpperCase()}
+                  </span>
+                )}
+              </button>
+
               {/* Language toggle */}
               <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
                 <button
