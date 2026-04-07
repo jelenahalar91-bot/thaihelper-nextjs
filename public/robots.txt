@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /login
+Disallow: /profile
 
+# Sitemaps
 Sitemap: https://thaihelper.app/sitemap.xml

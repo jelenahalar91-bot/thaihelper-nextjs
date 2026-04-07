@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
-import Head from 'next/head';
+import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
+import { useLang } from './_app';
+import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
+import { CITIES } from '@/lib/constants/cities';
+import { CATEGORY_NAMES, CAT_EMOJI } from '@/lib/constants/categories';
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
@@ -80,28 +84,7 @@ const T = {
   }
 };
 
-const CITIES = ['Phuket', 'Bangkok', 'Chiang Mai', 'Pattaya', 'Koh Samui', 'Hua Hin'];
-
-const CATEGORIES = [
-  'Nanny & Babysitter',
-  'Housekeeper & Cleaner',
-  'Private Chef & Cook',
-  'Driver & Chauffeur',
-  'Gardener & Pool Care',
-  'Elder Care & Caregiver',
-  'Tutor & Teacher',
-];
-
-// Map category names to emoji keys
-const CAT_EMOJI = {
-  'Nanny & Babysitter': '👶',
-  'Housekeeper & Cleaner': '🏠',
-  'Private Chef & Cook': '👨‍🍳',
-  'Driver & Chauffeur': '🚗',
-  'Gardener & Pool Care': '🌿',
-  'Elder Care & Caregiver': '🏥',
-  'Tutor & Teacher': '📚',
-};
+// CITIES, CATEGORY_NAMES, CAT_EMOJI imported from @/lib/constants/
 
 // Stock photos for demo profiles
 const DEMO_PHOTOS = [
@@ -117,7 +100,7 @@ const DEMO_PHOTOS = [
 ];
 
 export default function Helpers() {
-  const [lang, setLangState] = useState('en');
+  const { lang, setLang: changeLang } = useLang();
   const [helpers, setHelpers] = useState([]);
   const [isDemo, setIsDemo] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -128,26 +111,15 @@ export default function Helpers() {
   const [filterArea, setFilterArea] = useState('');
 
   useEffect(() => {
-    const saved = localStorage.getItem('th_lang') || 'en';
-    setLangState(saved);
-  }, []);
-
-  useEffect(() => {
     fetchHelpers();
   }, []);
-
-  const changeLang = (l) => {
-    setLangState(l);
-    localStorage.setItem('th_lang', l);
-  };
 
   const fetchHelpers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/helpers');
-      const data = await res.json();
-      setHelpers(data.helpers || []);
-      setIsDemo(data.demo || false);
+      const data = await fetchHelpersApi();
+      setHelpers(data.helpers);
+      setIsDemo(data.demo);
     } catch (err) {
       console.error('Failed to load helpers:', err);
       setHelpers([]);
@@ -199,15 +171,13 @@ export default function Helpers() {
 
   return (
     <>
-      <Head>
-        <title>{lang === 'th' ? 'ค้นหาผู้ช่วย — ThaiHelper' : 'Find Helpers — ThaiHelper'}</title>
-        <meta name="description" content="Browse trusted household helpers in Thailand. Find nannies, housekeepers, chefs, drivers and more." />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="canonical" href="https://thaihelper.app/helpers" />
-        <meta property="og:title" content="Find Helpers — ThaiHelper" />
-        <meta property="og:description" content="Browse trusted household helpers in Thailand. Find nannies, housekeepers, chefs, drivers and more." />
-        <meta property="og:url" content="https://thaihelper.app/helpers" />
-      </Head>
+      <SEOHead
+        title="Browse Helpers – Find Nannies, Chefs, Drivers & More"
+        description="Browse verified household staff profiles in Thailand. Find nannies, housekeepers, private chefs, drivers, gardeners, caregivers and tutors."
+        path="/helpers"
+        lang={lang}
+        jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Browse Helpers', path: '/helpers' }])}
+      />
 
       <div className={lang === 'th' ? 'lang-th' : ''}>
 
@@ -257,7 +227,7 @@ export default function Helpers() {
               className="filter-select"
             >
               <option value="">{t.filter_cat}</option>
-              {CATEGORIES.map(c => (
+              {CATEGORY_NAMES.map(c => (
                 <option key={c} value={c}>{getCatDisplay(c)}</option>
               ))}
             </select>

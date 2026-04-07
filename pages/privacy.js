@@ -1,6 +1,6 @@
-import Head from 'next/head';
+import SEOHead from '@/components/SEOHead';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useLang } from './_app';
 
 const T = {
   en: {
@@ -22,16 +22,17 @@ const T = {
 };
 
 export default function Privacy() {
-  const [lang, setLang] = useState('en');
+  const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
 
   return (
     <>
-      <Head>
-        <title>Privacy Policy — ThaiHelper</title>
-        <meta name="description" content="Privacy Policy for ThaiHelper — how we collect, use, and protect your personal data." />
-        <link rel="canonical" href="https://thaihelper.app/privacy" />
-      </Head>
+      <SEOHead
+        title="Privacy Policy"
+        description="ThaiHelper privacy policy. Learn how we protect your data. We only use local storage for language preferences — no tracking."
+        path="/privacy"
+        lang={lang}
+      />
 
       {/* ── NAV ── */}
       <nav>
@@ -40,7 +41,7 @@ export default function Privacy() {
           <div className="nav-links">
             <Link href="/">{t.nav_home}</Link>
             <Link href="/register" className="btn-primary" style={{ padding: '8px 18px', fontSize: '14px' }}>{t.nav_join}</Link>
-            <button className="lang-btn" onClick={() => setLang(l => l === 'en' ? 'th' : 'en')}>{t.lang_toggle}</button>
+            <button className="lang-btn" onClick={() => changeLang(l => l === 'en' ? 'th' : 'en')}>{t.lang_toggle}</button>
           </div>
         </div>
       </nav>

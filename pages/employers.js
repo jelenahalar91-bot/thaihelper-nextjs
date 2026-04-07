@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import Head from 'next/head';
+import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
+import { useLang } from './_app';
 import Link from 'next/link';
+import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ArrowLeft, ArrowRight, UserPlus, MessageCircle, PartyPopper } from 'lucide-react';
+import { registerEmployer } from '@/lib/api/employers';
 
 // ─── HERO CAROUSEL (2 visible cards) ────────────────────────────────────────
 function HeroCarousel({ items }) {
@@ -38,7 +41,7 @@ function HeroCarousel({ items }) {
           {items.map((item) => (
             <div key={item.id} className="flex-[0_0_50%] min-w-0 pl-4">
               <div className="relative h-[320px] md:h-[380px] overflow-hidden rounded-2xl">
-                <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
+                <Image src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover" fill sizes="(max-width: 768px) 100vw, 50vw" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#001b3d]/95 via-[#001b3d]/40 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <div className="text-base font-bold text-white mb-1">{item.title}</div>
@@ -490,9 +493,7 @@ const SAMPLE_JOBS = [
 ];
 
 export default function Employers() {
-  const [lang, setLangState] = useState('en');
-  useEffect(() => { const saved = localStorage.getItem('th_lang') || 'en'; setLangState(saved); }, []);
-  const changeLang = (l) => { setLangState(l); localStorage.setItem('th_lang', l); };
+  const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
 
   // Form state
@@ -526,20 +527,15 @@ export default function Employers() {
 
     setSubmitting(true);
     try {
-      const response = await fetch('/api/employer-register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: fname.trim(),
-          lastName: lname.trim(),
-          email: email.trim(),
-          city,
-          area: area.trim(),
-          helperTypes: needs,
-          jobDescription: jobDesc,
-        }),
+      await registerEmployer({
+        firstName: fname,
+        lastName: lname,
+        email,
+        city,
+        area,
+        helperTypes: needs,
+        jobDescription: jobDesc,
       });
-      if (!response.ok) throw new Error('Registration failed');
       setSubmitted(true);
     } catch (err) {
       console.error('Registration error:', err);
@@ -552,17 +548,14 @@ export default function Employers() {
 
   return (
     <>
-      <Head>
-        <title>{t.page_title}</title>
-        <meta name="description" content="Find trusted household staff in Thailand. Browse verified nannies, housekeepers, chefs, drivers and more. No agency fees." />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="canonical" href="https://thaihelper.app/employers" />
-        <meta property="og:title" content="Find Household Staff in Thailand – ThaiHelper" />
-        <meta property="og:description" content="Browse verified nannies, housekeepers, chefs, drivers and more. Register free as an employer — no agency fees." />
-        <meta property="og:url" content="https://thaihelper.app/employers" />
-        <meta name="twitter:title" content="Find Household Staff in Thailand – ThaiHelper" />
-        <meta name="twitter:description" content="Browse verified nannies, housekeepers, chefs, drivers and more. No agency fees." />
-      </Head>
+      <SEOHead
+        title="For Employers – Hire Trusted Household Staff"
+        description="Find and hire verified nannies, housekeepers, chefs, drivers and more in Thailand. No agency fees, direct communication with candidates."
+        path="/employers"
+        lang={lang}
+        jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'For Employers', path: '/employers' }])}
+      />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
 
@@ -715,7 +708,7 @@ export default function Employers() {
                 {PROFILES.map((p, i) => (
                   <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100" key={i}>
                     <div className="flex items-start gap-4 mb-4">
-                      <img src={p.photo} alt={p.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20" />
+                      <Image src={p.photo} alt={p.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20" width={56} height={56} />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-on-background truncate">{p.name}</span>

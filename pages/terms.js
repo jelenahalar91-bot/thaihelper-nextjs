@@ -1,6 +1,6 @@
-import Head from 'next/head';
+import SEOHead from '@/components/SEOHead';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useLang } from './_app';
 
 const T = {
   en: {
@@ -22,16 +22,17 @@ const T = {
 };
 
 export default function Terms() {
-  const [lang, setLang] = useState('en');
+  const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
 
   return (
     <>
-      <Head>
-        <title>Terms of Service — ThaiHelper</title>
-        <meta name="description" content="Terms of Service for ThaiHelper — rules and guidelines for using our platform." />
-        <link rel="canonical" href="https://thaihelper.app/terms" />
-      </Head>
+      <SEOHead
+        title="Terms of Service"
+        description="ThaiHelper terms of service. Read our terms and conditions for using the platform."
+        path="/terms"
+        lang={lang}
+      />
 
       {/* ── NAV ── */}
       <nav>
@@ -40,7 +41,7 @@ export default function Terms() {
           <div className="nav-links">
             <Link href="/">{t.nav_home}</Link>
             <Link href="/register" className="btn-primary" style={{ padding: '8px 18px', fontSize: '14px' }}>{t.nav_join}</Link>
-            <button className="lang-btn" onClick={() => setLang(l => l === 'en' ? 'th' : 'en')}>{t.lang_toggle}</button>
+            <button className="lang-btn" onClick={() => changeLang(l => l === 'en' ? 'th' : 'en')}>{t.lang_toggle}</button>
           </div>
         </div>
       </nav>

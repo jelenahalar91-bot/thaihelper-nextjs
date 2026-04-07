@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import { CircularTestimonials } from '@/components/ui/circular-testimonials';
+import SEOHead, { getServiceSchema, getFAQSchema } from '@/components/SEOHead';
+import { useLang } from './_app';
 
 const T = {
   en: {
@@ -230,24 +232,27 @@ const JOB_CATEGORIES = [
 ];
 
 export default function Home() {
-  const [lang, setLangState] = useState('en');
-  useEffect(() => { const saved = localStorage.getItem('th_lang') || 'en'; setLangState(saved); }, []);
-  const changeLang = (l) => { setLangState(l); localStorage.setItem('th_lang', l); };
+  const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
+
+  // FAQ data for structured data
+  const homeFaqs = [
+    { question: 'Is ThaiHelper really free for helpers?', answer: 'Yes, creating a profile on ThaiHelper is 100% free for helpers — forever. Only employers pay for verified access to contact helpers directly.' },
+    { question: 'How does ThaiHelper work?', answer: 'Sign up for free, create your profile with experience, skills and a photo, then get discovered by families searching for household staff in your city. Chat directly and agree on terms — no agency involved.' },
+    { question: 'What types of helpers can register?', answer: 'Nannies, babysitters, housekeepers, private chefs, drivers, gardeners, pool care specialists, elder caregivers, tutors, and teachers are all welcome to register.' },
+    { question: 'Which cities does ThaiHelper cover?', answer: 'ThaiHelper covers all major cities in Thailand including Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, and more.' },
+    { question: 'Are helpers verified?', answer: 'Yes, ThaiHelper verifies IDs and can conduct background checks so families can hire with confidence.' },
+  ];
 
   return (
     <>
-      <Head>
-        <title>ThaiHelper – Find Trusted Household Staff in Thailand</title>
-        <meta name="description" content="ThaiHelper connects families and expats in Thailand with trusted nannies, housekeepers, cooks, drivers and more. No agency fees." />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="canonical" href="https://thaihelper.app/" />
-        <meta property="og:title" content="ThaiHelper – Find Trusted Household Staff in Thailand" />
-        <meta property="og:description" content="Connect directly with verified nannies, housekeepers, chefs, drivers and more. No agency fees, no middlemen." />
-        <meta property="og:url" content="https://thaihelper.app/" />
-        <meta name="twitter:title" content="ThaiHelper – Find Trusted Household Staff in Thailand" />
-        <meta name="twitter:description" content="Connect directly with verified nannies, housekeepers, chefs, drivers and more. No agency fees." />
-      </Head>
+      <SEOHead
+        title="ThaiHelper – Find Trusted Household Staff in Thailand"
+        description="ThaiHelper connects families and expats in Thailand with trusted nannies, housekeepers, cooks, drivers and more. No agency fees."
+        path="/"
+        lang={lang}
+        jsonLd={[getServiceSchema(), getFAQSchema(homeFaqs)]}
+      />
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
 
@@ -336,10 +341,10 @@ export default function Home() {
             <div className="max-w-md mx-auto text-center">
               <div className="flex justify-center mb-3">
                 <div className="flex -space-x-2.5">
-                  <img className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face" alt="" />
-                  <img className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face" alt="" />
-                  <img className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face" alt="" />
-                  <img className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=80&h=80&fit=crop&crop=face" alt="" />
+                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face" alt="Helper profile" width={36} height={36} />
+                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face" alt="Helper profile" width={36} height={36} />
+                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face" alt="Helper profile" width={36} height={36} />
+                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=80&h=80&fit=crop&crop=face" alt="Helper profile" width={36} height={36} />
                 </div>
               </div>
               <p className="text-sm font-medium text-on-surface-variant tracking-wide">
@@ -396,7 +401,7 @@ export default function Home() {
                 {PROFILES.map((p, i) => (
                   <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100" key={i}>
                     <div className="flex items-start gap-4 mb-4">
-                      <img src={p.photo} alt={p.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20" />
+                      <Image src={p.photo} alt={p.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20" width={56} height={56} />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-on-background truncate">{p.name}</span>

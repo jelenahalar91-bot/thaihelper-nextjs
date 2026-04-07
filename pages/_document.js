@@ -8,24 +8,27 @@ export default function Document() {
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
 
         {/* Preconnect for Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
-        {/* Open Graph defaults */}
-        <meta property="og:site_name" content="ThaiHelper" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://thaihelper.app/og-image.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://thaihelper.app/og-image.jpg" />
+        {/* DNS prefetch for external resources */}
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
 
         {/* Theme color */}
         <meta name="theme-color" content="#006a62" />
+
+        {/* Geo meta tags for local SEO */}
+        <meta name="geo.region" content="TH" />
+        <meta name="geo.placename" content="Thailand" />
+
+        {/* App identification */}
+        <meta name="application-name" content="ThaiHelper" />
+        <meta name="apple-mobile-web-app-title" content="ThaiHelper" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </Head>
       <body>
         <Main />
