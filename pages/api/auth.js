@@ -1,4 +1,4 @@
-// POST /api/auth — Login (verify email + ref against Google Sheet)
+// POST /api/auth — Login (verify email + ref against Supabase)
 // DELETE /api/auth — Logout (clear session cookie)
 
 import { createToken, setSessionCookie, clearSessionCookie } from '../../lib/auth';
@@ -43,68 +43,35 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Email and reference number are required.' });
   }
 
-  const SHEET_URL = process.env.GOOGLE_SHEETS_URL;
-  if (!SHEET_URL) {
-    console.error('GOOGLE_SHEETS_URL not set');
-    return res.status(500).json({ error: 'Server configuration error' });
-  }
-
   try {
-    // Call Google Apps Script to look up helper
-    const lookupPayload = {
-      action: 'lookup',
-      email: email.trim().toLowerCase(),
-      ref: ref.trim().toUpperCase(),
-    };
+    const supabase = getServiceSupabase();
 
-    const response = await fetch(SHEET_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(lookupPayload),
-      redirect: 'follow',
-    });
+    // Look up helper in Supabase
+    const { data: profile, error } = await supabase
+      .from('helper_profiles')
+      .select('helper_ref, email, first_name')
+      .eq('email', email.trim().toLowerCase())
+      .eq('helper_ref', ref.trim().toUpperCase())
+      .single();
 
-    const contentType = response.headers.get('content-type') || '';
-    const rawText = await response.text();
-
-    // Google Apps Script sometimes returns HTML redirects instead of JSON
-    if (!contentType.includes('application/json') && !rawText.startsWith('{')) {
-      console.error('Auth lookup: unexpected response', {
-        status: response.status,
-        contentType,
-        bodyPreview: rawText.substring(0, 200),
-        lookup: { email: lookupPayload.email, ref: lookupPayload.ref },
-      });
-      return res.status(500).json({ error: 'Login service temporarily unavailable. Please try again.' });
-    }
-
-    let result;
-    try {
-      result = JSON.parse(rawText);
-    } catch (parseErr) {
-      console.error('Auth lookup: JSON parse failed', { rawText: rawText.substring(0, 500) });
-      return res.status(500).json({ error: 'Login service error. Please try again.' });
-    }
-
-    if (!result.found) {
-      console.log('Auth lookup: not found', { email: lookupPayload.email, ref: lookupPayload.ref, result });
+    if (error || !profile) {
+      console.log('Auth lookup: not found', { email: email.trim().toLowerCase(), ref: ref.trim().toUpperCase() });
       return res.status(401).json({ error: 'Invalid email or reference number.' });
     }
 
     // Create JWT session token
     const token = await createToken({
-      ref: result.data.ref,
-      email: result.data.email,
-      firstName: result.data.firstName,
+      ref: profile.helper_ref,
+      email: profile.email,
+      firstName: profile.first_name,
     });
 
     setSessionCookie(res, token);
 
-    // Sync user to Supabase (non-blocking)
+    // Ensure user_preferences exists (for documents, references, etc.)
     try {
-      const supabase = getServiceSupabase();
       await supabase.from('user_preferences').upsert(
-        { helper_ref: result.data.ref, email: result.data.email },
+        { helper_ref: profile.helper_ref, email: profile.email },
         { onConflict: 'helper_ref' }
       );
     } catch (syncErr) {
@@ -113,7 +80,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      firstName: result.data.firstName,
+      firstName: profile.first_name,
     });
   } catch (err) {
     console.error('Auth error:', err);

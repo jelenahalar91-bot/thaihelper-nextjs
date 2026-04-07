@@ -1,7 +1,12 @@
 // POST /api/register
-// Receives helper registration data, saves to Google Sheet, and sends confirmation email
+// Receives helper registration data, saves to Supabase, sends confirmation email
 
+import { getServiceSupabase } from '../../lib/supabase';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
+
+function generateRef() {
+  return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -9,66 +14,63 @@ export default async function handler(req, res) {
   }
 
   const {
-    ref, first_name, last_name, age, category, skills,
+    first_name, last_name, age, category, skills,
     city, area, experience, languages, rate,
     education, certificates, bio,
     whatsapp, hasWhatsApp, email,
   } = req.body;
 
-  // Validate required fields (trim to catch whitespace-only values)
+  // Validate required fields
   if (!first_name?.trim() || !last_name?.trim() || !email?.trim() || !city || !category) {
     return res.status(400).json({ error: 'Missing required fields: first name, last name, email, city, and category are required.' });
   }
 
-  const SHEET_URL = process.env.GOOGLE_SHEETS_URL;
-
-  if (!SHEET_URL) {
-    console.error('GOOGLE_SHEETS_URL not set in environment variables');
-    return res.status(500).json({ error: 'Server configuration error' });
-  }
-
-  const payload = {
-    action: 'register',
-    timestamp: new Date().toISOString(),
-    ref,
-    firstName: first_name.trim(),
-    lastName: last_name.trim(),
-    age,
-    category,
-    skills,
-    city,
-    area: area || '',
-    experience: experience || '',
-    languages: languages || '',
-    rate: rate || '',
-    education: education || '',
-    certificates: certificates || '',
-    bio: bio || '',
-    whatsapp: whatsapp || '',
-    hasWhatsApp: hasWhatsApp ? 'Yes' : 'No',
-    email: email.trim().toLowerCase(),
-    source: 'thaihelper.app/register',
-  };
+  const supabase = getServiceSupabase();
+  const ref = generateRef();
 
   try {
-    const response = await fetch(SHEET_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      redirect: 'follow',
-    });
+    // Insert into helper_profiles
+    const { error: insertError } = await supabase
+      .from('helper_profiles')
+      .insert({
+        helper_ref: ref,
+        first_name: first_name.trim(),
+        last_name: last_name.trim(),
+        email: email.trim().toLowerCase(),
+        age: age || null,
+        category,
+        skills: skills || null,
+        city,
+        area: area || null,
+        experience: experience || null,
+        languages: languages || null,
+        rate: rate || null,
+        education: education?.trim() || null,
+        certificates: certificates?.trim() || null,
+        bio: bio?.trim() || null,
+        whatsapp: whatsapp?.trim() || null,
+        has_whatsapp: hasWhatsApp ? true : false,
+        source: 'thaihelper.app/register',
+      });
 
-    const result = await response.json().catch(() => null);
-
-    if (result && result.error === 'duplicate_email') {
-      return res.status(409).json({ error: 'duplicate_email' });
+    if (insertError) {
+      // Duplicate email (unique constraint violation)
+      if (insertError.code === '23505' && insertError.message.includes('email')) {
+        return res.status(409).json({ error: 'duplicate_email' });
+      }
+      console.error('Registration insert error:', insertError);
+      return res.status(500).json({ error: 'Failed to save registration' });
     }
 
-    if (!result || result.success === false) {
-      throw new Error(result?.error || `Google Sheet responded with ${response.status}`);
-    }
+    // Create user_preferences row (for documents, references, etc.)
+    await supabase
+      .from('user_preferences')
+      .upsert(
+        { helper_ref: ref, email: email.trim().toLowerCase() },
+        { onConflict: 'helper_ref' }
+      );
 
-    // Send confirmation email (don't fail the registration if email fails)
+    // Send confirmation email (don't fail registration if email fails)
     try {
       if (process.env.RESEND_API_KEY) {
         await Promise.all([
@@ -92,10 +94,9 @@ export default async function handler(req, res) {
       }
     } catch (emailErr) {
       console.error('Failed to send confirmation email:', emailErr);
-      // Don't fail the registration — email is best-effort
     }
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, ref });
   } catch (err) {
     console.error('Failed to save helper registration:', err);
     return res.status(500).json({ error: 'Failed to save registration' });

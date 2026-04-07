@@ -462,9 +462,7 @@ export default function Register() {
     if (!validate(3)) return;
     setSubmitting(true);
 
-    const ref = generateRef();
     const data = {
-      ref,
       first_name: firstname.trim(),
       last_name:  lastname.trim(),
       age,
@@ -484,9 +482,9 @@ export default function Register() {
     };
 
     try {
-      await registerHelper(data);
+      const result = await registerHelper(data);
 
-      setRefNumber(ref);
+      setRefNumber(result.ref);
       setSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
