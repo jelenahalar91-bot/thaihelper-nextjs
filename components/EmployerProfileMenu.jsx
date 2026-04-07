@@ -50,7 +50,7 @@ export default function EmployerProfileMenu({ profile, lang = 'en', current }) {
 
   async function handleLogout() {
     await employerLogout();
-    router.replace('/employer-login');
+    router.replace('/login');
   }
 
   const firstInitial = (profile?.first_name || '?')[0]?.toUpperCase() || '?';

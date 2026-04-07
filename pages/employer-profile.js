@@ -11,7 +11,7 @@
  * Photo upload uses the same flow as helper photos but goes through
  * /api/employer-photo so the employer auth cookie is checked.
  *
- * Auth: redirects to /employer-login on 401.
+ * Auth: redirects to /login on 401.
  */
 
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -157,7 +157,7 @@ export default function EmployerProfile() {
     (async () => {
       const res = await fetchEmployerProfile();
       if (!res || !res.success) {
-        router.replace('/employer-login');
+        router.replace('/login');
         return;
       }
       if (cancelled) return;

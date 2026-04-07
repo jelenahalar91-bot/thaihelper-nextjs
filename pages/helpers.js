@@ -131,7 +131,7 @@ export default function Helpers() {
               <Link href="/" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
                 {t.nav_home}
               </Link>
-              <Link href="/employer-login" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
+              <Link href="/login" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
                 {t.nav_login}
               </Link>
               <LangSwitcher languages={['en', 'th']} />
@@ -343,7 +343,7 @@ function HelperCard({ helper, t }) {
             🔒 {t.card_signin}
           </div>
           <Link
-            href="/employer-login"
+            href="/login"
             className="block w-full text-center px-4 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
           >
             {t.card_signin_btn}

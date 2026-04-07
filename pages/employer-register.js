@@ -491,7 +491,7 @@ export default function EmployerRegisterPage() {
             <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--gray-100)' }}>
               <p style={{ fontSize: '15px', color: 'var(--gray-500)' }}>
                 {t.have_account}{' '}
-                <Link href="/employer-login" style={{ color: '#001b3d', fontWeight: 600, textDecoration: 'none' }}>
+                <Link href="/login" style={{ color: '#001b3d', fontWeight: 600, textDecoration: 'none' }}>
                   {t.login_link}
                 </Link>
               </p>

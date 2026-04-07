@@ -675,7 +675,7 @@ export default function Employers() {
 
                 <p className="text-xs text-on-surface-variant mt-6">
                   {t.cta_card_login_q}{' '}
-                  <Link href="/employer-login" className="text-primary font-semibold hover:underline">
+                  <Link href="/login" className="text-primary font-semibold hover:underline">
                     {t.cta_card_login}
                   </Link>
                 </p>

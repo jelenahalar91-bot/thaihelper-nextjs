@@ -13,7 +13,7 @@
  *    All masking happens server-side.
  *  - Promo / Paid: full access — green banner showing days remaining.
  *
- * Auth: redirects to /employer-login on 401.
+ * Auth: redirects to /login on 401.
  */
 
 import { useEffect, useMemo, useState } from 'react';
@@ -155,7 +155,7 @@ export default function EmployerDashboard() {
     (async () => {
       const profileRes = await fetchEmployerProfile();
       if (!profileRes || !profileRes.success) {
-        router.replace('/employer-login');
+        router.replace('/login');
         return;
       }
       if (cancelled) return;
