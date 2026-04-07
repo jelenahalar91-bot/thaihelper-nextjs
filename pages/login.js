@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { login } from '@/lib/api/auth-client';
+import { fetchProfile as fetchProfileApi } from '@/lib/api/helpers';
 
 const T = {
   en: {
@@ -60,6 +61,23 @@ export default function Login() {
     setLangState(saved);
   }, []);
 
+  // If the user is already logged in (valid session cookie), send them straight
+  // to /profile so the Back button from /profile never lands them on the login form.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const data = await fetchProfileApi();
+        if (!cancelled && data && data.success) {
+          router.replace('/profile');
+        }
+      } catch {
+        /* not logged in — stay on login page */
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [router]);
+
   const changeLang = (l) => {
     setLangState(l);
     localStorage.setItem('th_lang', l);
@@ -83,7 +101,9 @@ export default function Login() {
         return;
       }
 
-      router.push('/profile');
+      // Use replace so /login is removed from history — Back button from /profile
+      // then goes to whatever was before login (e.g. landing page), not back to login.
+      router.replace('/profile');
     } catch {
       setError(t.error_generic);
     } finally {
