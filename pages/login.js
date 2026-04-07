@@ -110,7 +110,7 @@ export default function Login() {
 
         {/* Login Card */}
         <div className="register-container">
-          <div className="card" style={{ padding: '40px 32px', maxWidth: '480px', width: '100%' }}>
+          <div className="card" style={{ padding: '48px 40px', maxWidth: '520px', width: '100%' }}>
             {/* Icon */}
             <div style={{ textAlign: 'center', marginBottom: '24px' }}>
               <span style={{
@@ -122,17 +122,17 @@ export default function Login() {
               </span>
             </div>
 
-            <h1 style={{ fontSize: '24px', fontWeight: 700, textAlign: 'center', marginBottom: '8px', color: 'var(--gray-900)' }}>
+            <h1 style={{ fontSize: '32px', fontWeight: 700, textAlign: 'center', marginBottom: '10px', color: 'var(--gray-900)' }}>
               {t.h1}
             </h1>
-            <p style={{ textAlign: 'center', color: 'var(--gray-500)', marginBottom: '32px', fontSize: '15px' }}>
+            <p style={{ textAlign: 'center', color: 'var(--gray-500)', marginBottom: '32px', fontSize: '18px' }}>
               {t.sub}
             </p>
 
             {error && (
               <div style={{
                 background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px',
-                padding: '12px 16px', marginBottom: '20px', color: '#dc2626', fontSize: '14px',
+                padding: '14px 18px', marginBottom: '20px', color: '#dc2626', fontSize: '15px',
               }}>
                 {error}
               </div>
@@ -160,7 +160,7 @@ export default function Login() {
                   required
                   style={{ fontFamily: 'monospace', letterSpacing: '1px' }}
                 />
-                <p style={{ fontSize: '12px', color: 'var(--gray-400)', marginTop: '6px' }}>
+                <p style={{ fontSize: '14px', color: 'var(--gray-400)', marginTop: '6px' }}>
                   {t.ref_hint}
                 </p>
               </div>
@@ -176,14 +176,14 @@ export default function Login() {
             </form>
 
             {/* Forgot ref */}
-            <details style={{ marginTop: '20px', fontSize: '13px', color: 'var(--gray-500)' }}>
+            <details style={{ marginTop: '20px', fontSize: '15px', color: 'var(--gray-500)' }}>
               <summary style={{ cursor: 'pointer', color: 'var(--primary)' }}>{t.forgot_ref}</summary>
               <p style={{ marginTop: '8px', lineHeight: 1.5 }}>{t.forgot_hint}</p>
             </details>
 
             {/* Register link */}
             <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--gray-100)' }}>
-              <p style={{ fontSize: '14px', color: 'var(--gray-500)' }}>
+              <p style={{ fontSize: '16px', color: 'var(--gray-500)' }}>
                 {t.no_account}{' '}
                 <Link href="/register" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>
                   {t.register_link}
