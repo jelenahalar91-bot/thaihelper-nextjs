@@ -21,10 +21,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useLang } from './_app';
-import {
-  fetchEmployerProfile,
-  employerLogout,
-} from '@/lib/api/employer-auth-client';
+import LangSwitcher from '@/components/LangSwitcher';
+import EmployerProfileMenu from '@/components/EmployerProfileMenu';
+import { fetchEmployerProfile } from '@/lib/api/employer-auth-client';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import {
   fetchConversations,
@@ -209,12 +208,6 @@ export default function EmployerDashboard() {
     setFilterArea('');
   }
 
-  // ── Logout ────────────────────────────────────────────────────────────
-  async function handleLogout() {
-    await employerLogout();
-    router.replace('/employer-login');
-  }
-
   // ── Start a conversation from a helper card ───────────────────────────
   async function handleMessageHelper(helperRef) {
     setErrorBanner('');
@@ -344,46 +337,15 @@ export default function EmployerDashboard() {
                 )}
               </button>
 
-              {/* Profile button — avatar or initial */}
-              <button
-                onClick={() => router.push('/employer-profile')}
-                className="relative w-10 h-10 rounded-full overflow-hidden bg-[#e6f5f3] border-2 border-[#006a62] flex items-center justify-center hover:opacity-80 transition-opacity"
-                title="Profile"
-                aria-label="Profile"
-              >
-                {profile?.photo_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={profile.photo_url}
-                    alt={profile.first_name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <span className="text-sm font-bold text-[#006a62]">
-                    {(profile?.first_name || '?')[0]?.toUpperCase()}
-                  </span>
-                )}
-              </button>
-
               {/* Language toggle */}
-              <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
-                <button
-                  className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all ${lang === 'en' ? 'bg-white shadow-sm' : 'text-gray-500'}`}
-                  onClick={() => setLang('en')}
-                >🇬🇧</button>
-                <button
-                  className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all ${lang === 'th' ? 'bg-white shadow-sm' : 'text-gray-500'}`}
-                  onClick={() => setLang('th')}
-                >🇹🇭</button>
-              </div>
+              <LangSwitcher languages={['en', 'th']} />
 
-              {/* Logout */}
-              <button
-                onClick={handleLogout}
-                className="px-3 md:px-4 py-2 rounded-lg border border-gray-200 text-xs md:text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
-              >
-                {t.logout}
-              </button>
+              {/* Profile avatar with dropdown menu (Dashboard / Profile / Settings / Logout) */}
+              <EmployerProfileMenu
+                profile={profile}
+                lang={lang}
+                current="dashboard"
+              />
             </div>
           </div>
         </header>
