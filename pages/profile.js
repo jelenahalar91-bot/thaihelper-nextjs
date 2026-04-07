@@ -727,14 +727,14 @@ export default function Profile() {
                 <StatCard
                   label={t.dash_status}
                   value={t.dash_status_active}
-                  icon="✅"
+                  icon={<IconCheck />}
                   color="#059669"
                   bg="#ecfdf5"
                 />
                 <StatCard
                   label={t.dash_views}
                   value={t.dash_coming}
-                  icon="👁"
+                  icon={<IconEye />}
                   color="#6366f1"
                   bg="#eef2ff"
                 />
@@ -1177,15 +1177,31 @@ function IconLogout() {
     </svg>
   );
 }
+function IconCheck() {
+  return (
+    <svg {...iconProps}>
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </svg>
+  );
+}
+function IconEye() {
+  return (
+    <svg {...iconProps}>
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
 
 function StatCard({ label, value, icon, color, bg }) {
   return (
     <div style={{ background: 'white', borderRadius: '14px', padding: '20px', border: '1px solid #e5e7eb' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-        <span style={{ width: '32px', height: '32px', borderRadius: '8px', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px' }}>{icon}</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+        <span style={{ width: '38px', height: '38px', borderRadius: '10px', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color }}>{icon}</span>
       </div>
-      <div style={{ fontSize: '11px', color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>{label}</div>
-      <div style={{ fontSize: '16px', fontWeight: 700, color }}>{value}</div>
+      <div style={{ fontSize: '12px', color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px', fontWeight: 600 }}>{label}</div>
+      <div style={{ fontSize: '17px', fontWeight: 700, color }}>{value}</div>
     </div>
   );
 }
