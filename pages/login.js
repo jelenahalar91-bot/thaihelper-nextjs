@@ -4,50 +4,60 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { login } from '@/lib/api/auth-client';
 import { fetchProfile as fetchProfileApi } from '@/lib/api/helpers';
+import {
+  employerLogin,
+  fetchEmployerProfile,
+} from '@/lib/api/employer-auth-client';
 import LangSwitcher from '@/components/LangSwitcher';
 
 const T = {
   en: {
-    page_title: 'Helper Login – ThaiHelper',
-    nav_back: '← Back to Home',
+    page_title: 'Log In – ThaiHelper',
     h1: 'Welcome Back',
-    sub: 'Log in to view and edit your helper profile.',
+    sub: 'Log in to your ThaiHelper account.',
     email_label: 'Email Address',
     email_ph: 'The email you registered with',
     ref_label: 'Reference Number',
-    ref_ph: 'e.g. TH-A1B2C3',
-    ref_hint: 'Your reference number was included in your registration confirmation email.',
+    ref_ph: 'e.g. TH-A1B2C3 or EMP-A1B2C3',
+    ref_hint: 'Your reference number was included in your registration email. Helpers start with TH-, employers with EMP-.',
     submit: 'Log In',
     submitting: 'Logging in...',
-    error_invalid: 'We couldn\'t find an account with this email and reference number. Please check and try again.',
+    error_invalid: "We couldn't find an account with this email and reference number. Please check and try again.",
     error_rate: 'Too many login attempts. Please wait a few minutes and try again.',
     error_generic: 'Something went wrong. Please try again.',
-    no_account: 'Don\'t have an account yet?',
-    register_link: 'Register as a Helper',
+    no_account: "Don't have an account yet?",
+    register_helper: 'Register as a Helper',
+    register_employer: 'Register as an Employer',
     forgot_ref: 'Forgot your reference number?',
     forgot_hint: 'Check your registration confirmation email or contact us at support@thaihelper.app',
   },
   th: {
-    page_title: 'เข้าสู่ระบบผู้ช่วย – ThaiHelper',
-    nav_back: '← กลับหน้าหลัก',
+    page_title: 'เข้าสู่ระบบ – ThaiHelper',
     h1: 'ยินดีต้อนรับกลับ',
-    sub: 'เข้าสู่ระบบเพื่อดูและแก้ไขโปรไฟล์ผู้ช่วยของคุณ',
+    sub: 'เข้าสู่ระบบบัญชี ThaiHelper ของคุณ',
     email_label: 'อีเมล',
     email_ph: 'อีเมลที่คุณใช้ลงทะเบียน',
     ref_label: 'หมายเลขอ้างอิง',
-    ref_ph: 'เช่น TH-A1B2C3',
-    ref_hint: 'หมายเลขอ้างอิงอยู่ในอีเมลยืนยันการลงทะเบียนของคุณ',
+    ref_ph: 'เช่น TH-A1B2C3 หรือ EMP-A1B2C3',
+    ref_hint: 'หมายเลขอ้างอิงอยู่ในอีเมลลงทะเบียนของคุณ ผู้ช่วยขึ้นต้นด้วย TH- นายจ้างขึ้นต้นด้วย EMP-',
     submit: 'เข้าสู่ระบบ',
     submitting: 'กำลังเข้าสู่ระบบ...',
     error_invalid: 'ไม่พบบัญชีที่ตรงกับอีเมลและหมายเลขอ้างอิงนี้ กรุณาตรวจสอบอีกครั้ง',
     error_rate: 'ลองเข้าสู่ระบบหลายครั้งเกินไป กรุณารอสักครู่แล้วลองใหม่',
     error_generic: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
     no_account: 'ยังไม่มีบัญชี?',
-    register_link: 'ลงทะเบียนเป็นผู้ช่วย',
+    register_helper: 'ลงทะเบียนเป็นผู้ช่วย',
+    register_employer: 'ลงทะเบียนเป็นนายจ้าง',
     forgot_ref: 'ลืมหมายเลขอ้างอิง?',
     forgot_hint: 'ตรวจสอบอีเมลยืนยันการลงทะเบียนหรือติดต่อเราที่ support@thaihelper.app',
   },
 };
+
+// Detect account type from reference number prefix.
+// EMP- → employer, anything else (TH- or unknown) → helper.
+function isEmployerRef(ref) {
+  return ref.trim().toUpperCase().startsWith('EMP-');
+}
 
 export default function Login() {
   const router = useRouter();
@@ -62,19 +72,26 @@ export default function Login() {
     setLangState(saved);
   }, []);
 
-  // If the user is already logged in (valid session cookie), send them straight
-  // to /profile so the Back button from /profile never lands them on the login form.
+  // If already logged in (helper OR employer), send straight to the right dashboard.
   useEffect(() => {
     let cancelled = false;
     (async () => {
+      // Check helper session first
       try {
         const data = await fetchProfileApi();
         if (!cancelled && data && data.success) {
           router.replace('/profile');
+          return;
         }
-      } catch {
-        /* not logged in — stay on login page */
-      }
+      } catch { /* not a helper, try employer */ }
+
+      // Then check employer session
+      try {
+        const data = await fetchEmployerProfile();
+        if (!cancelled && data && data.success) {
+          router.replace('/employer-dashboard');
+        }
+      } catch { /* not logged in — stay here */ }
     })();
     return () => { cancelled = true; };
   }, [router]);
@@ -94,7 +111,10 @@ export default function Login() {
 
     setSubmitting(true);
     try {
-      const result = await login({ email: email.trim(), ref: ref.trim() });
+      const isEmployer = isEmployerRef(ref);
+      const result = isEmployer
+        ? await employerLogin({ email: email.trim(), ref: ref.trim() })
+        : await login({ email: email.trim(), ref: ref.trim() });
 
       if (!result.success) {
         const errorMap = { rate_limit: t.error_rate, invalid: t.error_invalid };
@@ -102,9 +122,7 @@ export default function Login() {
         return;
       }
 
-      // Use replace so /login is removed from history — Back button from /profile
-      // then goes to whatever was before login (e.g. landing page), not back to login.
-      router.replace('/profile');
+      router.replace(isEmployer ? '/employer-dashboard' : '/profile');
     } catch {
       setError(t.error_generic);
     } finally {
@@ -116,7 +134,7 @@ export default function Login() {
     <>
       <Head>
         <title>{t.page_title}</title>
-        <meta name="description" content="Log in to your ThaiHelper profile to view and update your information." />
+        <meta name="description" content="Log in to your ThaiHelper account." />
       </Head>
 
       <div className="register-body">
@@ -129,17 +147,6 @@ export default function Login() {
         {/* Login Card */}
         <div className="register-container">
           <div className="card" style={{ padding: '48px 40px', maxWidth: '520px', width: '100%' }}>
-            {/* Icon */}
-            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                width: '64px', height: '64px', borderRadius: '50%',
-                background: 'var(--primary-light, #e6f5f3)', fontSize: '28px'
-              }}>
-                👋
-              </span>
-            </div>
-
             <h1 style={{ fontSize: '32px', fontWeight: 700, textAlign: 'center', marginBottom: '10px', color: 'var(--gray-900)' }}>
               {t.h1}
             </h1>
@@ -199,12 +206,18 @@ export default function Login() {
               <p style={{ marginTop: '8px', lineHeight: 1.5 }}>{t.forgot_hint}</p>
             </details>
 
-            {/* Register link */}
+            {/* Register links */}
             <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--gray-100)' }}>
-              <p style={{ fontSize: '16px', color: 'var(--gray-500)' }}>
-                {t.no_account}{' '}
+              <p style={{ fontSize: '16px', color: 'var(--gray-500)', marginBottom: '8px' }}>
+                {t.no_account}
+              </p>
+              <p style={{ fontSize: '15px' }}>
                 <Link href="/register" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>
-                  {t.register_link}
+                  {t.register_helper}
+                </Link>
+                <span style={{ color: 'var(--gray-300)', margin: '0 10px' }}>·</span>
+                <Link href="/employer-register" style={{ color: '#001b3d', fontWeight: 600, textDecoration: 'none' }}>
+                  {t.register_employer}
                 </Link>
               </p>
             </div>

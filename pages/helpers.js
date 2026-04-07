@@ -204,8 +204,8 @@ export default function Helpers() {
           </div>
         </section>
 
-        {/* ── HELPER GRID ──────────────────────────────────────────────── */}
-        <section className="max-w-7xl mx-auto px-4 md:px-6 py-8">
+        {/* ── HELPER LIST ──────────────────────────────────────────────── */}
+        <section className="max-w-4xl mx-auto px-4 md:px-6 py-8">
           <div className="text-sm text-gray-600 mb-4">
             <strong className="text-gray-900">{filtered.length}</strong> {t.results}
           </div>
@@ -228,7 +228,7 @@ export default function Helpers() {
               )}
             </div>
           ) : (
-            <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col gap-4">
               {filtered.map(h => (
                 <HelperCard key={h.ref} helper={h} t={t} />
               ))}
@@ -266,14 +266,14 @@ export default function Helpers() {
   );
 }
 
-// ─── HELPER CARD ───────────────────────────────────────────────────────
+// ─── HELPER CARD (horizontal list item) ────────────────────────────────
 function HelperCard({ helper, t }) {
   const displayName = [helper.firstName, helper.lastName].filter(Boolean).join(' ');
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
-      {/* Photo */}
-      <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
+    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
+      {/* Photo — square on desktop, full-width 16:9 on mobile */}
+      <div className="bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square">
         {helper.photo ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -288,17 +288,17 @@ function HelperCard({ helper, t }) {
         )}
       </div>
 
-      {/* Body */}
-      <div className="p-5 flex flex-col flex-1 gap-3">
-        {/* Name + age */}
+      {/* Body — fills remaining space, more room for bio */}
+      <div className="p-5 sm:p-6 flex flex-col flex-1 min-w-0 gap-3">
+        {/* Name + age + category + location */}
         <div>
-          <h3 className="text-lg font-bold text-gray-900 leading-tight">
+          <h3 className="text-xl font-bold text-gray-900 leading-tight">
             {displayName}
             {helper.age && (
               <span className="text-gray-400 font-medium text-base ml-1">· {helper.age}</span>
             )}
           </h3>
-          <div className="text-sm text-gray-600 mt-0.5">
+          <div className="text-sm text-gray-700 mt-1 font-medium">
             {categoryLabel(helper.category)}
           </div>
           <div className="text-xs text-gray-500 mt-1">
@@ -306,9 +306,9 @@ function HelperCard({ helper, t }) {
           </div>
         </div>
 
-        {/* Bio */}
+        {/* Bio — generous, no clamp */}
         {helper.bio && (
-          <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+          <p className="text-sm text-gray-600 leading-relaxed">
             {helper.bio}
           </p>
         )}

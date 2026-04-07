@@ -576,10 +576,7 @@ function BrowseTab({
           <p style={{ fontSize: '14px', color: '#666' }}>{t.no_helpers_sub}</p>
         </div>
       ) : (
-        <div style={{
-          display: 'grid', gap: '14px',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-        }}>
+        <div className="flex flex-col gap-4">
           {helpers.map(h => (
             <HelperCard
               key={h.ref}
@@ -598,75 +595,70 @@ function BrowseTab({
 function HelperCard({ helper, t, onMessage, isStarting }) {
   const displayName = [helper.firstName, helper.lastName].filter(Boolean).join(' ');
   return (
-    <div style={{
-      background: 'white', borderRadius: '14px',
-      border: '1px solid #e5e7eb', padding: '18px',
-      display: 'flex', flexDirection: 'column', gap: '12px',
-    }}>
-      <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-        <div style={{
-          width: '56px', height: '56px', borderRadius: '50%',
-          overflow: 'hidden', background: '#e6f5f3', flexShrink: 0,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: '22px', color: '#006a62', fontWeight: 700,
-        }}>
-          {helper.photo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={helper.photo}
-              alt={displayName}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          ) : (
-            (helper.firstName || '?')[0].toUpperCase()
-          )}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{
-            fontSize: '15px', fontWeight: 700, color: '#1a1a1a',
-            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-          }}>
+    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
+      {/* Photo */}
+      <div className="bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square">
+        {helper.photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={helper.photo}
+            alt={displayName}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-5xl text-gray-300">
+            👤
+          </div>
+        )}
+      </div>
+
+      {/* Body */}
+      <div className="p-5 sm:p-6 flex flex-col flex-1 min-w-0 gap-3">
+        <div>
+          <h3 className="text-xl font-bold text-gray-900 leading-tight">
             {displayName}
             {helper.age && (
-              <span style={{ color: '#999', fontWeight: 500, fontSize: '13px' }}>
-                {' '}· {helper.age}
-              </span>
+              <span className="text-gray-400 font-medium text-base ml-1">· {helper.age}</span>
             )}
-          </div>
-          <div style={{ fontSize: '13px', color: '#666', marginTop: '2px' }}>
+          </h3>
+          <div className="text-sm text-gray-700 mt-1 font-medium">
             {categoryWithEmoji(helper.category)}
           </div>
           {helper.city && (
-            <div style={{ fontSize: '12px', color: '#999', marginTop: '2px' }}>
+            <div className="text-xs text-gray-500 mt-1">
               📍 {helper.city}{helper.area ? ` · ${helper.area}` : ''}
             </div>
           )}
         </div>
-      </div>
 
-      {helper.experience && (
-        <div style={{ fontSize: '12px', color: '#666' }}>
-          ⏱ {helper.experience} {t.card_yrs}
-        </div>
-      )}
-      {helper.languages && (
-        <div style={{ fontSize: '12px', color: '#666' }}>
-          🗣 {helper.languages}
-        </div>
-      )}
+        {/* Bio */}
+        {helper.bio && (
+          <p className="text-sm text-gray-600 leading-relaxed">
+            {helper.bio}
+          </p>
+        )}
 
-      <button
-        onClick={onMessage}
-        disabled={isStarting}
-        style={{
-          marginTop: 'auto',
-          padding: '10px 16px', borderRadius: '10px', border: 'none',
-          background: '#006a62', color: 'white', fontSize: '14px',
-          fontWeight: 700, cursor: isStarting ? 'wait' : 'pointer',
-          opacity: isStarting ? 0.6 : 1,
-        }}
-      >
-        💬 {isStarting ? t.card_messaging : t.card_message}
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5 text-xs">
+          {helper.experience && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              ⏱ {helper.experience} {t.card_yrs}
+            </span>
+          )}
+          {helper.languages && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              🗣 {helper.languages}
+            </span>
+          )}
+        </div>
+
+        {/* Message button — full width on mobile, auto on desktop */}
+        <button
+          onClick={onMessage}
+          disabled={isStarting}
+          className="mt-2 sm:self-start px-5 py-2.5 rounded-xl bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
+        >
+          💬 {isStarting ? t.card_messaging : t.card_message}
       </button>
     </div>
   );
