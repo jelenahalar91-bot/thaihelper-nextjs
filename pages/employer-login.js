@@ -6,6 +6,7 @@ import {
   employerLogin,
   fetchEmployerProfile,
 } from '@/lib/api/employer-auth-client';
+import LangSwitcher from '@/components/LangSwitcher';
 
 const T = {
   en: {
@@ -122,10 +123,7 @@ export default function EmployerLoginPage() {
       <div className="register-body">
         <nav className="register-nav">
           <Link href="/" className="brand">Thai<span>Helper</span></Link>
-          <div className="lang-toggle">
-            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => changeLang('en')}>EN</button>
-            <button className={`lang-btn ${lang === 'th' ? 'active' : ''}`} onClick={() => changeLang('th')}>TH</button>
-          </div>
+          <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
         </nav>
 
         <div className="register-container">

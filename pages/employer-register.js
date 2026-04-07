@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { employerSignup } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
+import LangSwitcher from '@/components/LangSwitcher';
 
 // Plain category labels for the multi-select (no emojis — we'll show clean chips)
 const LOOKING_FOR_OPTIONS = [
@@ -277,10 +278,7 @@ export default function EmployerRegisterPage() {
       <div className="register-body">
         <nav className="register-nav">
           <Link href="/" className="brand">Thai<span>Helper</span></Link>
-          <div className="lang-toggle">
-            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => changeLang('en')}>EN</button>
-            <button className={`lang-btn ${lang === 'th' ? 'active' : ''}`} onClick={() => changeLang('th')}>TH</button>
-          </div>
+          <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
         </nav>
 
         <div className="register-container">

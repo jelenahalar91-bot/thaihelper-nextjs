@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
 import { useLang } from './_app';
+import LangSwitcher from '@/components/LangSwitcher';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import { CITIES } from '@/lib/constants/cities';
 import { CATEGORY_NAMES, CAT_EMOJI } from '@/lib/constants/categories';
@@ -133,16 +134,7 @@ export default function Helpers() {
               <Link href="/employer-login" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
                 {t.nav_login}
               </Link>
-              <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
-                <button
-                  className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all ${lang === 'en' ? 'bg-white shadow-sm' : 'text-gray-500'}`}
-                  onClick={() => changeLang('en')}
-                >🇬🇧</button>
-                <button
-                  className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all ${lang === 'th' ? 'bg-white shadow-sm' : 'text-gray-500'}`}
-                  onClick={() => changeLang('th')}
-                >🇹🇭</button>
-              </div>
+              <LangSwitcher languages={['en', 'th']} />
               <Link
                 href="/register"
                 className="px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-[#006a62] to-[#004d47] text-white text-xs md:text-sm font-semibold hover:shadow-lg transition-all"

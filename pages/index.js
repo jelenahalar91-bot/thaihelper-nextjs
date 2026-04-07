@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { CircularTestimonials } from '@/components/ui/circular-testimonials';
 import SEOHead, { getServiceSchema, getFAQSchema } from '@/components/SEOHead';
+import LangSwitcher from '@/components/LangSwitcher';
 import { useLang } from './_app';
 
 const T = {
@@ -272,11 +273,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
-            <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
-              <button className={`px-2.5 md:px-4 py-1.5 md:py-2 rounded-lg text-sm md:text-base font-bold transition-all ${lang === 'en' ? 'bg-white text-on-background shadow-sm' : 'text-gray-500'}`} onClick={() => changeLang('en')}>🇬🇧 <span className="hidden md:inline text-xs">EN</span></button>
-              <button className={`px-2.5 md:px-4 py-1.5 md:py-2 rounded-lg text-sm md:text-base font-bold transition-all ${lang === 'th' ? 'bg-white text-on-background shadow-sm' : 'text-gray-500'}`} onClick={() => changeLang('th')}>🇹🇭 <span className="hidden md:inline text-xs">TH</span></button>
-              <button className={`px-2.5 md:px-4 py-1.5 md:py-2 rounded-lg text-sm md:text-base font-bold transition-all ${lang === 'ru' ? 'bg-white text-on-background shadow-sm' : 'text-gray-500'}`} onClick={() => changeLang('ru')}>🇷🇺 <span className="hidden md:inline text-xs">RU</span></button>
-            </div>
+            <LangSwitcher />
             <Link className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150" href="/register">{t.nav_cta}</Link>
           </div>
         </nav>

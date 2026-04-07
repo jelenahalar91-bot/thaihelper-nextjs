@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
+import LangSwitcher from '@/components/LangSwitcher';
 import { useLang } from './_app';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -477,11 +478,7 @@ export default function Employers() {
             <Link className="text-sm font-semibold tracking-wide text-slate-600 hover:text-[#001b3d] transition-colors" href="/">{t.nav_helpers}</Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
-              <button className={`px-2.5 md:px-4 py-1.5 md:py-2 rounded-lg text-sm md:text-base font-bold transition-all ${lang === 'en' ? 'bg-white text-on-background shadow-sm' : 'text-gray-500'}`} onClick={() => changeLang('en')}>🇬🇧</button>
-              <button className={`px-2.5 md:px-4 py-1.5 md:py-2 rounded-lg text-sm md:text-base font-bold transition-all ${lang === 'th' ? 'bg-white text-on-background shadow-sm' : 'text-gray-500'}`} onClick={() => changeLang('th')}>🇹🇭</button>
-              <button className={`px-2.5 md:px-4 py-1.5 md:py-2 rounded-lg text-sm md:text-base font-bold transition-all ${lang === 'ru' ? 'bg-white text-on-background shadow-sm' : 'text-gray-500'}`} onClick={() => changeLang('ru')}>🇷🇺</button>
-            </div>
+            <LangSwitcher />
             <a className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="#register">{t.nav_cta}</a>
           </div>
         </nav>

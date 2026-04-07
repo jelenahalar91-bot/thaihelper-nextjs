@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { login } from '@/lib/api/auth-client';
 import { fetchProfile as fetchProfileApi } from '@/lib/api/helpers';
+import LangSwitcher from '@/components/LangSwitcher';
 
 const T = {
   en: {
@@ -122,10 +123,7 @@ export default function Login() {
         {/* Nav */}
         <nav className="register-nav">
           <Link href="/" className="brand">Thai<span>Helper</span></Link>
-          <div className="lang-toggle">
-            <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => changeLang('en')}>EN</button>
-            <button className={`lang-btn ${lang === 'th' ? 'active' : ''}`} onClick={() => changeLang('th')}>TH</button>
-          </div>
+          <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
         </nav>
 
         {/* Login Card */}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
+import LangSwitcher from '@/components/LangSwitcher';
 import { useLang } from './_app';
 import Link from 'next/link';
 import { registerHelper } from '@/lib/api/helpers';
@@ -507,10 +508,7 @@ export default function Register() {
         <nav>
           <Link className="nav-brand" href="/">Thai<span>Helper</span></Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <div className="lang-toggle">
-              <button className={`lang-btn ${lang === 'en' ? 'active' : ''}`} onClick={() => changeLang('en')}>🇬🇧 EN</button>
-              <button className={`lang-btn ${lang === 'th' ? 'active' : ''}`} onClick={() => changeLang('th')}>🇹🇭 TH</button>
-            </div>
+            <LangSwitcher />
             <Link className="nav-back" href="/">{t.nav_back}</Link>
           </div>
         </nav>
