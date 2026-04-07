@@ -75,13 +75,9 @@ const T = {
     chars_label:     'characters',
     bio_error:       'Please write a short description (at least 30 characters).',
     btn_back:        '← Back',
-    btn_next2:       'Next: Contact Info →',
-    step3_title:     'How to reach you',
-    step3_sub:       'Only paying families will see your contact details. Your data is safe.',
-    wa_label:        'Phone Number',
-    wa_hint:         'Include country code. This is how employers will contact you.',
-    wa_check:        'This number is reachable via WhatsApp',
-    wa_error:        'Please enter a valid phone number.',
+    btn_next2:       'Next: Finish →',
+    step3_title:     'Almost done',
+    step3_sub:       'Families will contact you through our platform messaging. Your email stays private and is only used for login and notifications.',
     email_label:     'Email Address',
     email_error:     'Please enter a valid email address.',
     photo_label:     'Profile Photo',
@@ -180,13 +176,9 @@ const T = {
     chars_label:     'ตัวอักษร',
     bio_error:       'กรุณาเขียนคำอธิบายสั้นๆ (อย่างน้อย 30 ตัวอักษร)',
     btn_back:        '← ย้อนกลับ',
-    btn_next2:       'ถัดไป: ข้อมูลติดต่อ →',
-    step3_title:     'ช่องทางติดต่อ',
-    step3_sub:       'เฉพาะครอบครัวที่สมัครสมาชิกเท่านั้นที่จะเห็นข้อมูลติดต่อของคุณ ข้อมูลของคุณปลอดภัย',
-    wa_label:        'เบอร์โทรศัพท์',
-    wa_hint:         'ใส่รหัสประเทศด้วย นี่คือช่องทางที่นายจ้างจะติดต่อคุณ',
-    wa_check:        'เบอร์นี้ใช้ WhatsApp ได้',
-    wa_error:        'กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง',
+    btn_next2:       'ถัดไป: เสร็จสิ้น →',
+    step3_title:     'ใกล้เสร็จแล้ว',
+    step3_sub:       'ครอบครัวจะติดต่อคุณผ่านระบบข้อความบนแพลตฟอร์มของเรา อีเมลของคุณเป็นส่วนตัว ใช้สำหรับเข้าสู่ระบบและแจ้งเตือนเท่านั้น',
     email_label:     'อีเมล',
     email_error:     'กรุณากรอกอีเมลที่ถูกต้อง',
     photo_label:     'รูปโปรไฟล์',
@@ -378,8 +370,6 @@ export default function Register() {
   const [education,   setEducation]   = useState('');
   const [certificates,setCertificates]= useState('');
   const [bio,         setBio]         = useState('');
-  const [whatsapp,    setWhatsapp]    = useState('');
-  const [hasWhatsApp, setHasWhatsApp] = useState(true);
   const [email,       setEmail]       = useState('');
   const [terms,       setTerms]       = useState(false);
   const [photoFile,   setPhotoFile]   = useState(null);
@@ -443,7 +433,6 @@ export default function Register() {
       if (bio.trim().length < 30)errs.bio        = t.bio_error;
     }
     if (stepNum === 3) {
-      if (!whatsapp.trim())      errs.whatsapp = t.wa_error;
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = t.email_error;
       if (!terms)                errs.terms    = t.terms_error;
     }
@@ -476,8 +465,6 @@ export default function Register() {
       education:    education.trim(),
       certificates: certificates.trim(),
       bio:        bio.trim(),
-      whatsapp:   whatsapp.trim(),
-      hasWhatsApp,
       email:      email.trim(),
     };
 
@@ -782,19 +769,6 @@ export default function Register() {
               <div>
                 <h2 className="step-title">{t.step3_title}</h2>
                 <p className="step-sub">{t.step3_sub}</p>
-
-                {/* Phone */}
-                <div className={`field ${errors.whatsapp ? 'has-error' : ''}`}>
-                  <label>{t.wa_label} <span className="req">*</span></label>
-                  <input type="tel" value={whatsapp} placeholder="+66 81 234 5678"
-                    onChange={e => { setWhatsapp(e.target.value); setErrors(ev => ({...ev, whatsapp:''})); }} />
-                  <div className="field-hint">{t.wa_hint}</div>
-                  <label className="checkbox-row">
-                    <input type="checkbox" checked={hasWhatsApp} onChange={e => setHasWhatsApp(e.target.checked)} />
-                    <span>💬 {t.wa_check}</span>
-                  </label>
-                  <div className="field-error">{errors.whatsapp}</div>
-                </div>
 
                 {/* Email */}
                 <div className={`field ${errors.email ? 'has-error' : ''}`}>

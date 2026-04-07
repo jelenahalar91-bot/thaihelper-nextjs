@@ -1,14 +1,83 @@
 /**
  * Individual message bubble with translation toggle.
+ *
+ * Dual-role aware:
+ *  - `isOwn` controls bubble alignment / colour
+ *  - `message.is_locked === true` is set by the API for free-tier employers.
+ *    In that case the API only sent us a short preview (`content_preview`)
+ *    and the full text is never available client-side. We render the preview
+ *    with a blur overlay + an upgrade CTA.
  */
 
 import { useState } from 'react';
 
-export default function MessageBubble({ message, isOwn, t }) {
+export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
   const [showOriginal, setShowOriginal] = useState(false);
-  const hasTranslation = message.content_translated && message.content_translated !== message.content_original;
 
-  const displayText = showOriginal ? message.content_original : (message.content_translated || message.content_original);
+  // ── Locked variant ──────────────────────────────────────────────────────
+  if (message.is_locked) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: isOwn ? 'flex-end' : 'flex-start',
+        marginBottom: '8px',
+      }}>
+        <div style={{
+          maxWidth: '75%',
+          padding: '10px 14px',
+          borderRadius: isOwn ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
+          background: isOwn ? '#006a62' : '#f3f4f6',
+          color: isOwn ? 'white' : '#333',
+          position: 'relative',
+        }}>
+          <p style={{
+            margin: 0,
+            fontSize: '14px',
+            lineHeight: 1.5,
+            filter: 'blur(3px)',
+            userSelect: 'none',
+            pointerEvents: 'none',
+          }}>
+            {message.content_preview || '••• ••• •••'}
+          </p>
+          <button
+            type="button"
+            onClick={onUpgrade}
+            style={{
+              marginTop: '8px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 12px',
+              border: 'none',
+              borderRadius: '999px',
+              background: isOwn ? 'rgba(255,255,255,0.2)' : '#006a62',
+              color: 'white',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            🔒 {t.msg_locked_cta || 'Upgrade to read'}
+          </button>
+          <div style={{
+            marginTop: '4px',
+            fontSize: '10px',
+            color: isOwn ? 'rgba(255,255,255,0.6)' : '#bbb',
+          }}>
+            {formatTime(message.created_at)}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Normal variant ──────────────────────────────────────────────────────
+  const hasTranslation =
+    message.content_translated && message.content_translated !== message.content_original;
+  const displayText = showOriginal
+    ? message.content_original
+    : (message.content_translated || message.content_original);
 
   return (
     <div style={{
@@ -27,7 +96,13 @@ export default function MessageBubble({ message, isOwn, t }) {
           {displayText}
         </p>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px', gap: '8px' }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginTop: '4px',
+          gap: '8px',
+        }}>
           {hasTranslation && (
             <button
               onClick={() => setShowOriginal(!showOriginal)}

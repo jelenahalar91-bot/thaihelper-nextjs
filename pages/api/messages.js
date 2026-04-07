@@ -1,40 +1,94 @@
-// GET /api/messages?conversation_id=X — Get messages for a conversation
-// POST /api/messages — Send a message (with auto-translation)
-// PUT /api/messages — Mark messages as read
+// GET  /api/messages?conversation_id=X — Get messages for a conversation
+// POST /api/messages                     — Send a message (with auto-translation)
+// PUT  /api/messages                     — Mark messages as read
+//
+// Dual-role endpoint: works for both helpers (via th_session cookie) and
+// employers (via th_emp_session cookie). Messaging is gated by the paywall
+// for employers:
+//   - Free tier: can GET messages but only sees a preview (first 3 words).
+//                Cannot POST — returns 402 payment_required.
+//   - Paid/promo tier: full access to both GET and POST.
+// Helpers ALWAYS have full access (they're producing the value).
 
-import { getSession } from '../../lib/auth';
+import { getAnySession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { translateText, detectLanguage } from '../../lib/translate';
+import {
+  hasActiveAccess,
+  maskMessageForEmployer,
+  getAccessStatus,
+} from '../../lib/access';
 
 const MESSAGES_PER_PAGE = 50;
 
+// Look up the current employer's live access state from the database.
+// We never trust the JWT for access state — it's 30 days old.
+async function loadEmployer(supabase, employerRef) {
+  const { data } = await supabase
+    .from('employer_accounts')
+    .select('employer_ref, preferred_language, access_until, access_tier')
+    .eq('employer_ref', employerRef)
+    .single();
+  return data || null;
+}
+
+async function loadHelperRef(supabase, helperRef) {
+  const { data } = await supabase
+    .from('user_preferences')
+    .select('helper_ref, preferred_language')
+    .eq('helper_ref', helperRef)
+    .single();
+  return data || { helper_ref: helperRef, preferred_language: 'th' };
+}
+
+// Verify that the given session owns this conversation, and return
+// conversation metadata for routing / translation.
+async function loadConversation(supabase, conversationId, session) {
+  const { data } = await supabase
+    .from('conversations')
+    .select('id, helper_ref, employer_id, employer_name')
+    .eq('id', conversationId)
+    .single();
+  if (!data) return null;
+  if (session.role === 'helper' && data.helper_ref !== session.ref) return null;
+  if (session.role === 'employer' && data.employer_id !== session.ref) return null;
+  return data;
+}
+
 export default async function handler(req, res) {
-  const session = await getSession(req);
+  const session = await getAnySession(req);
   if (!session) return res.status(401).json({ error: 'Not authenticated' });
 
   const supabase = getServiceSupabase();
-  const { ref } = session;
+  const isEmployer = session.role === 'employer';
 
-  // GET messages
+  // Preload employer state (for access checks + target language)
+  let employer = null;
+  let employerHasAccess = true; // helpers are always "full access"
+  if (isEmployer) {
+    employer = await loadEmployer(supabase, session.ref);
+    if (!employer) return res.status(401).json({ error: 'Not authenticated' });
+    employerHasAccess = hasActiveAccess(employer);
+  }
+
+  // ─── GET messages ─────────────────────────────────────────────────────
   if (req.method === 'GET') {
     const { conversation_id, page = '1' } = req.query;
-    if (!conversation_id) return res.status(400).json({ error: 'conversation_id required' });
+    if (!conversation_id) {
+      return res.status(400).json({ error: 'conversation_id required' });
+    }
 
-    // Verify conversation belongs to this helper
-    const { data: conv } = await supabase
-      .from('conversations')
-      .select('id')
-      .eq('id', conversation_id)
-      .eq('helper_ref', ref)
-      .single();
-
+    const conv = await loadConversation(supabase, conversation_id, session);
     if (!conv) return res.status(404).json({ error: 'Conversation not found' });
 
-    const offset = (parseInt(page) - 1) * MESSAGES_PER_PAGE;
+    const offset = (parseInt(page, 10) - 1) * MESSAGES_PER_PAGE;
 
     const { data: messages, error } = await supabase
       .from('messages')
-      .select('id, sender_type, sender_ref, content_original, content_translated, source_language, target_language, is_read, created_at')
+      .select(
+        'id, conversation_id, sender_type, sender_ref, content_original, ' +
+        'content_translated, source_language, target_language, is_read, created_at'
+      )
       .eq('conversation_id', conversation_id)
       .order('created_at', { ascending: true })
       .range(offset, offset + MESSAGES_PER_PAGE - 1);
@@ -44,44 +98,55 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to load messages' });
     }
 
-    return res.status(200).json({ messages: messages || [] });
+    // Mask content for free-tier employers
+    const payload = (messages || []).map((m) =>
+      isEmployer ? maskMessageForEmployer(m, employerHasAccess) : { ...m, is_locked: false }
+    );
+
+    return res.status(200).json({
+      messages: payload,
+      accessStatus: isEmployer ? getAccessStatus(employer) : null,
+    });
   }
 
-  // POST — Send message
+  // ─── POST — Send message ──────────────────────────────────────────────
   if (req.method === 'POST') {
-    const { conversation_id, content } = req.body;
+    // Free-tier employers cannot send messages
+    if (isEmployer && !employerHasAccess) {
+      return res.status(402).json({
+        error: 'payment_required',
+        accessStatus: getAccessStatus(employer),
+      });
+    }
 
+    const { conversation_id, content } = req.body;
     if (!conversation_id || !content?.trim()) {
       return res.status(400).json({ error: 'conversation_id and content required' });
     }
 
-    // Verify conversation belongs to this helper
-    const { data: conv } = await supabase
-      .from('conversations')
-      .select('id, employer_id')
-      .eq('id', conversation_id)
-      .eq('helper_ref', ref)
-      .single();
-
+    const conv = await loadConversation(supabase, conversation_id, session);
     if (!conv) return res.status(404).json({ error: 'Conversation not found' });
 
-    // Detect source language and translate
+    // Determine target language based on who the recipient is.
+    // Helper -> Employer: translate to employer.preferred_language
+    // Employer -> Helper: translate to helper.preferred_language (default 'th')
+    let targetLanguage = null;
+    if (session.role === 'helper') {
+      // Recipient is the employer — look up their language
+      const recipient = await loadEmployer(supabase, conv.employer_id);
+      targetLanguage = recipient?.preferred_language || 'en';
+    } else {
+      // Recipient is the helper
+      const recipient = await loadHelperRef(supabase, conv.helper_ref);
+      targetLanguage = recipient?.preferred_language || 'th';
+    }
+
+    // Auto-translate if source != target
     let sourceLanguage = null;
     let translatedContent = null;
-    let targetLanguage = null;
-
     try {
       sourceLanguage = await detectLanguage(content.trim());
-
-      // Get employer's preferred language (if we had it)
-      // For now, translate to English if source isn't English, or to Thai if source is English
-      if (sourceLanguage && sourceLanguage !== 'en') {
-        targetLanguage = 'en';
-      } else if (sourceLanguage === 'en') {
-        targetLanguage = 'th';
-      }
-
-      if (targetLanguage) {
+      if (sourceLanguage && targetLanguage && sourceLanguage !== targetLanguage) {
         const result = await translateText(content.trim(), targetLanguage, sourceLanguage);
         if (result) {
           translatedContent = result.translatedText;
@@ -97,13 +162,13 @@ export default async function handler(req, res) {
       .from('messages')
       .insert({
         conversation_id,
-        sender_type: 'helper',
-        sender_ref: ref,
+        sender_type: session.role,
+        sender_ref: session.ref,
         content_original: content.trim(),
         content_translated: translatedContent,
         source_language: sourceLanguage,
         target_language: targetLanguage,
-        is_read: true,
+        is_read: true, // sender has read their own message
       })
       .select()
       .single();
@@ -113,7 +178,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to send message' });
     }
 
-    // Update conversation last_message_at
+    // Bump conversation last_message_at
     await supabase
       .from('conversations')
       .update({ last_message_at: new Date().toISOString() })
@@ -122,26 +187,23 @@ export default async function handler(req, res) {
     return res.status(201).json({ message });
   }
 
-  // PUT — Mark as read
+  // ─── PUT — Mark incoming messages as read ─────────────────────────────
   if (req.method === 'PUT') {
     const { conversation_id } = req.body;
-    if (!conversation_id) return res.status(400).json({ error: 'conversation_id required' });
+    if (!conversation_id) {
+      return res.status(400).json({ error: 'conversation_id required' });
+    }
 
-    // Verify ownership
-    const { data: conv } = await supabase
-      .from('conversations')
-      .select('id')
-      .eq('id', conversation_id)
-      .eq('helper_ref', ref)
-      .single();
-
+    const conv = await loadConversation(supabase, conversation_id, session);
     if (!conv) return res.status(404).json({ error: 'Conversation not found' });
 
+    // Mark messages from the OTHER party as read
+    const otherPartyType = session.role === 'helper' ? 'employer' : 'helper';
     const { error } = await supabase
       .from('messages')
       .update({ is_read: true })
       .eq('conversation_id', conversation_id)
-      .eq('sender_type', 'employer')
+      .eq('sender_type', otherPartyType)
       .eq('is_read', false);
 
     if (error) {

@@ -19,4 +19,6 @@ npm-debug.log*
 
 # claude
 .claude/
+.agents/
+skills-lock.json
 .vercel

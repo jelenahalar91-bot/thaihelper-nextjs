@@ -92,6 +92,7 @@ const T = {
     doc_type_certificate: 'Certificate',
     doc_type_id: 'ID Document',
     doc_type_reference: 'Reference Letter',
+    doc_type_resume: 'CV / Resume',
     doc_type_other: 'Other',
     doc_delete_confirm: 'Delete this document?',
     doc_max_size: 'Max 10 MB · PDF, JPG, PNG, WEBP',
@@ -200,6 +201,7 @@ const T = {
     doc_type_certificate: 'ใบรับรอง',
     doc_type_id: 'เอกสารประจำตัว',
     doc_type_reference: 'จดหมายอ้างอิง',
+    doc_type_resume: 'ประวัติย่อ (CV)',
     doc_type_other: 'อื่นๆ',
     doc_delete_confirm: 'ลบเอกสารนี้?',
     doc_max_size: 'สูงสุด 10 MB · PDF, JPG, PNG, WEBP',
@@ -765,6 +767,7 @@ export default function Profile() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: isMobile ? '100%' : 'auto' }}>
                     <select value={docType} onChange={e => setDocType(e.target.value)} style={{ flex: isMobile ? 1 : 'none', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '13px', background: 'white' }}>
                       <option value="certificate">{t.doc_type_certificate}</option>
+                      <option value="resume">{t.doc_type_resume}</option>
                       <option value="id">{t.doc_type_id}</option>
                       <option value="reference">{t.doc_type_reference}</option>
                       <option value="other">{t.doc_type_other}</option>
@@ -929,6 +932,8 @@ export default function Profile() {
                 <ConversationDetail
                   conversation={selectedConv}
                   messages={messages}
+                  currentRole="helper"
+                  canSend={true}
                   loading={loadingMsgs}
                   msgInput={msgInput}
                   setMsgInput={setMsgInput}
@@ -1052,7 +1057,6 @@ export default function Profile() {
                 ) : (
                   <div style={{ display: 'grid', gap: isMobile ? '16px' : '10px' }}>
                     <ProfileField label={t.label_phone} value={p.whatsapp} t={t} isMobile={isMobile} />
-                    <ProfileField label={t.label_whatsapp} value={p.hasWhatsApp === 'Yes' ? t.yes : t.no} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_email} value={p.email} t={t} isMobile={isMobile} />
                   </div>
                 )}

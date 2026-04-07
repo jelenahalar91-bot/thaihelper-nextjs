@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
 import { useLang } from './_app';
@@ -9,100 +9,69 @@ import { CATEGORY_NAMES, CAT_EMOJI } from '@/lib/constants/categories';
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
   en: {
-    nav_cta:        'Register Free →',
-    nav_helpers:    'Browse Helpers',
     nav_home:       'Home',
+    nav_login:      'Login',
+    nav_cta:        'Register Free',
     hero_badge:     '🇹🇭 Find Help in Thailand',
     hero_h1:        'Browse Trusted Helpers',
     hero_sub:       'Find nannies, housekeepers, chefs, drivers, and more — directly, without agencies.',
     filter_city:    'All Cities',
     filter_cat:     'All Categories',
     filter_area_ph: 'Search by area...',
-    filter_btn:     'Search',
-    filter_reset:   'Reset',
+    filter_reset:   'Reset filters',
     results:        'helpers found',
-    no_results:     'No helpers found matching your filters.',
+    no_results:     'No helpers found',
     no_results_sub: 'Try adjusting your filters or check back soon — new helpers register every day.',
     card_exp:       'yrs experience',
-    card_call:      'Call',
-    card_whatsapp:  'WhatsApp',
+    card_wa:        'WhatsApp',
     card_email:     'Email',
-    card_wa_yes:    '✓ WhatsApp',
-    card_wa_no:     '✗ No WhatsApp',
-    card_langs:     'Languages:',
-    card_area:      'Area:',
-    demo_banner:    'These are sample profiles. Real helper profiles will appear here once providers register.',
+    card_signin:    'Sign in as employer to message',
+    card_signin_btn:'Log in / Register',
     cta_title:      'Are you a helper looking for work?',
     cta_sub:        'Create your free profile and let families find you.',
     cta_btn:        'Register Now — Free →',
     footer_privacy: 'Privacy Policy',
     footer_terms:   'Terms of Service',
-    cat_nanny:      '👶 Nanny & Babysitter',
-    cat_housekeeper:'🏠 Housekeeper & Cleaner',
-    cat_chef:       '👨‍🍳 Private Chef & Cook',
-    cat_driver:     '🚗 Driver & Chauffeur',
-    cat_gardener:   '🌿 Gardener & Pool Care',
-    cat_elder:      '🏥 Elder Care & Caregiver',
-    cat_tutor:      '📚 Tutor & Teacher',
   },
   th: {
-    nav_cta:        'ลงทะเบียนฟรี →',
-    nav_helpers:    'ค้นหาผู้ช่วย',
     nav_home:       'หน้าแรก',
+    nav_login:      'เข้าสู่ระบบ',
+    nav_cta:        'ลงทะเบียนฟรี',
     hero_badge:     '🇹🇭 หาผู้ช่วยในประเทศไทย',
     hero_h1:        'ค้นหาผู้ช่วยที่ไว้ใจได้',
     hero_sub:       'หาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ — โดยตรง ไม่ผ่านเอเจนซี่',
     filter_city:    'ทุกจังหวัด',
     filter_cat:     'ทุกประเภท',
     filter_area_ph: 'ค้นหาตามย่าน...',
-    filter_btn:     'ค้นหา',
-    filter_reset:   'รีเซ็ต',
+    filter_reset:   'ล้างตัวกรอง',
     results:        'ผู้ช่วยที่พบ',
-    no_results:     'ไม่พบผู้ช่วยตามเงื่อนไขที่เลือก',
+    no_results:     'ไม่พบผู้ช่วย',
     no_results_sub: 'ลองปรับตัวกรอง หรือกลับมาดูอีกครั้ง — มีผู้ช่วยใหม่ลงทะเบียนทุกวัน',
     card_exp:       'ปีประสบการณ์',
-    card_call:      'โทร',
-    card_whatsapp:  'WhatsApp',
+    card_wa:        'WhatsApp',
     card_email:     'อีเมล',
-    card_wa_yes:    '✓ WhatsApp',
-    card_wa_no:     '✗ ไม่มี WhatsApp',
-    card_langs:     'ภาษา:',
-    card_area:      'ย่าน:',
-    demo_banner:    'เหล่านี้คือโปรไฟล์ตัวอย่าง โปรไฟล์จริงจะปรากฏเมื่อผู้ให้บริการลงทะเบียน',
+    card_signin:    'เข้าสู่ระบบในฐานะนายจ้างเพื่อส่งข้อความ',
+    card_signin_btn:'เข้าสู่ระบบ / ลงทะเบียน',
     cta_title:      'คุณเป็นผู้ช่วยที่กำลังหางานอยู่หรือเปล่า?',
     cta_sub:        'สร้างโปรไฟล์ฟรีเพื่อให้ครอบครัวค้นหาคุณ',
     cta_btn:        'ลงทะเบียนฟรี →',
     footer_privacy: 'นโยบายความเป็นส่วนตัว',
     footer_terms:   'ข้อกำหนดการใช้งาน',
-    cat_nanny:      '👶 พี่เลี้ยงเด็ก',
-    cat_housekeeper:'🏠 แม่บ้านและพนักงานทำความสะอาด',
-    cat_chef:       '👨‍🍳 พ่อครัว / แม่ครัวส่วนตัว',
-    cat_driver:     '🚗 คนขับรถ',
-    cat_gardener:   '🌿 คนสวนและดูแลสระว่ายน้ำ',
-    cat_elder:      '🏥 ผู้ดูแลผู้สูงอายุ',
-    cat_tutor:      '📚 ติวเตอร์ / ครูสอนพิเศษ',
-  }
+  },
 };
 
-// CITIES, CATEGORY_NAMES, CAT_EMOJI imported from @/lib/constants/
-
-// Stock photos for demo profiles
-const DEMO_PHOTOS = [
-  'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&h=200&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=200&h=200&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200&h=200&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=200&h=200&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1541823709867-1b206113eafd?w=200&h=200&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face',
-  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face',
-];
+// Map category string → emoji + clean label
+function categoryLabel(cat) {
+  if (!cat) return '';
+  const found = Object.entries(CAT_EMOJI).find(([k]) =>
+    cat.toLowerCase().includes(k.toLowerCase().split(' ')[0])
+  );
+  return found ? `${found[1]} ${cat}` : cat;
+}
 
 export default function Helpers() {
   const { lang, setLang: changeLang } = useLang();
   const [helpers, setHelpers] = useState([]);
-  const [isDemo, setIsDemo] = useState(false);
   const [loading, setLoading] = useState(true);
 
   // Filters
@@ -111,62 +80,32 @@ export default function Helpers() {
   const [filterArea, setFilterArea] = useState('');
 
   useEffect(() => {
-    fetchHelpers();
+    (async () => {
+      setLoading(true);
+      try {
+        const data = await fetchHelpersApi();
+        setHelpers(data.helpers || []);
+      } catch (err) {
+        console.error('Failed to load helpers:', err);
+        setHelpers([]);
+      }
+      setLoading(false);
+    })();
   }, []);
 
-  const fetchHelpers = async () => {
-    setLoading(true);
-    try {
-      const data = await fetchHelpersApi();
-      setHelpers(data.helpers);
-      setIsDemo(data.demo);
-    } catch (err) {
-      console.error('Failed to load helpers:', err);
-      setHelpers([]);
-    }
-    setLoading(false);
-  };
+  const t = T[lang] || T.en;
 
-  const t = T[lang];
-
-  // Apply filters
-  const filtered = helpers.filter(h => {
+  const filtered = useMemo(() => helpers.filter(h => {
     if (filterCity && h.city?.toLowerCase() !== filterCity.toLowerCase()) return false;
     if (filterCat && !h.category?.toLowerCase().includes(filterCat.toLowerCase())) return false;
     if (filterArea && !h.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
     return true;
-  });
+  }), [helpers, filterCity, filterCat, filterArea]);
 
   const resetFilters = () => {
     setFilterCity('');
     setFilterCat('');
     setFilterArea('');
-  };
-
-  // Get category display name with emoji
-  const getCatDisplay = (cat) => {
-    const emoji = Object.entries(CAT_EMOJI).find(([k]) =>
-      cat?.toLowerCase().includes(k.toLowerCase().split(' ')[0])
-    );
-    return emoji ? `${emoji[1]} ${cat}` : cat;
-  };
-
-  // Get translated category
-  const getTranslatedCat = (cat) => {
-    const key = Object.keys(CAT_EMOJI).find(k =>
-      cat?.toLowerCase().includes(k.toLowerCase().split(' ')[0])
-    );
-    if (!key) return cat;
-    const catKey = 'cat_' + {
-      'Nanny & Babysitter': 'nanny',
-      'Housekeeper & Cleaner': 'housekeeper',
-      'Private Chef & Cook': 'chef',
-      'Driver & Chauffeur': 'driver',
-      'Gardener & Pool Care': 'gardener',
-      'Elder Care & Caregiver': 'elder',
-      'Tutor & Teacher': 'tutor',
-    }[key];
-    return t[catKey] || getCatDisplay(cat);
   };
 
   return (
@@ -179,186 +118,246 @@ export default function Helpers() {
         jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Browse Helpers', path: '/helpers' }])}
       />
 
-      <div className={lang === 'th' ? 'lang-th' : ''}>
+      <div className={`min-h-screen bg-gray-50 ${lang === 'th' ? 'lang-th' : ''}`}>
 
-        {/* ── NAV ───────────────────────────────── */}
-        <nav>
-          <Link className="nav-brand" href="/">Thai<span>Helper</span></Link>
-          <div className="nav-right">
-            <Link className="nav-link" href="/">{t.nav_home}</Link>
-            <div className="lang-toggle">
-              <button
-                className={`lang-btn ${lang === 'en' ? 'active' : ''}`}
-                onClick={() => changeLang('en')}
-              >🇬🇧 EN</button>
-              <button
-                className={`lang-btn ${lang === 'th' ? 'active' : ''}`}
-                onClick={() => changeLang('th')}
-              >🇹🇭 TH</button>
+        {/* ── NAV ──────────────────────────────────────────────────────── */}
+        <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+            <Link href="/" className="text-xl md:text-2xl font-bold">
+              Thai<span style={{color:'#006a62'}}>Helper</span>
+            </Link>
+            <div className="flex items-center gap-2 md:gap-3">
+              <Link href="/" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
+                {t.nav_home}
+              </Link>
+              <Link href="/employer-login" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
+                {t.nav_login}
+              </Link>
+              <div className="flex bg-gray-100 rounded-xl p-1 gap-1">
+                <button
+                  className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all ${lang === 'en' ? 'bg-white shadow-sm' : 'text-gray-500'}`}
+                  onClick={() => changeLang('en')}
+                >🇬🇧</button>
+                <button
+                  className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all ${lang === 'th' ? 'bg-white shadow-sm' : 'text-gray-500'}`}
+                  onClick={() => changeLang('th')}
+                >🇹🇭</button>
+              </div>
+              <Link
+                href="/register"
+                className="px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-[#006a62] to-[#004d47] text-white text-xs md:text-sm font-semibold hover:shadow-lg transition-all"
+              >
+                {t.nav_cta}
+              </Link>
             </div>
-            <Link className="nav-cta" href="/register">{t.nav_cta}</Link>
           </div>
         </nav>
 
-        {/* ── HERO ──────────────────────────────── */}
-        <section className="helpers-hero">
-          <div className="helpers-hero-inner">
-            <div className="hero-badge">{t.hero_badge}</div>
-            <h1>{t.hero_h1}</h1>
-            <p>{t.hero_sub}</p>
-          </div>
-        </section>
-
-        {/* ── FILTER BAR ──────────────────────────── */}
-        <section className="helpers-filters">
-          <div className="helpers-filters-inner">
-            <select
-              value={filterCity}
-              onChange={e => setFilterCity(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">{t.filter_city}</option>
-              {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-
-            <select
-              value={filterCat}
-              onChange={e => setFilterCat(e.target.value)}
-              className="filter-select"
-            >
-              <option value="">{t.filter_cat}</option>
-              {CATEGORY_NAMES.map(c => (
-                <option key={c} value={c}>{getCatDisplay(c)}</option>
-              ))}
-            </select>
-
-            <input
-              type="text"
-              value={filterArea}
-              onChange={e => setFilterArea(e.target.value)}
-              placeholder={t.filter_area_ph}
-              className="filter-input"
-            />
-
-            {(filterCity || filterCat || filterArea) && (
-              <button className="filter-reset-btn" onClick={resetFilters}>{t.filter_reset}</button>
-            )}
-          </div>
-        </section>
-
-        {/* ── DEMO BANNER ─────────────────────────── */}
-        {isDemo && (
-          <div className="demo-banner">
-            <span>ℹ️ {t.demo_banner}</span>
-          </div>
-        )}
-
-        {/* ── HELPER GRID ─────────────────────────── */}
-        <section className="helpers-grid-section">
-          <div className="helpers-grid-inner">
-
-            {/* Results count */}
-            <div className="helpers-results-count">
-              <strong>{filtered.length}</strong> {t.results}
+        {/* ── HERO ─────────────────────────────────────────────────────── */}
+        <section className="bg-gradient-to-b from-white to-gray-50 border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-14 text-center">
+            <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-[#e6f5f3] text-[#006a62] text-xs md:text-sm font-bold">
+              {t.hero_badge}
             </div>
+            <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-3">
+              {t.hero_h1}
+            </h1>
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+              {t.hero_sub}
+            </p>
+          </div>
+        </section>
 
-            {loading ? (
-              <div className="helpers-loading">
-                <div className="loading-spinner"></div>
-              </div>
-            ) : filtered.length === 0 ? (
-              <div className="helpers-empty">
-                <h3>{t.no_results}</h3>
-                <p>{t.no_results_sub}</p>
-                <button className="btn-outline" onClick={resetFilters}>{t.filter_reset}</button>
-              </div>
-            ) : (
-              <div className="helpers-grid">
-                {filtered.map((h, i) => (
-                  <div className="helper-card" key={i}>
-                    <div className="helper-card-header">
-                      <div className="helper-avatar">
-                        <img
-                          src={DEMO_PHOTOS[i % DEMO_PHOTOS.length]}
-                          alt={h.name}
-                        />
-                      </div>
-                      <div className="helper-info">
-                        <h3 className="helper-name">{h.name}</h3>
-                        <div className="helper-category">{getTranslatedCat(h.category)}</div>
-                        <div className="helper-location">
-                          📍 {h.city}{h.area ? ` · ${h.area}` : ''}
-                        </div>
-                      </div>
-                    </div>
+        {/* ── FILTERS ──────────────────────────────────────────────────── */}
+        <section className="border-b border-gray-200 bg-white sticky top-[60px] z-40">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
+            <div className="flex flex-wrap gap-2 md:gap-3 items-center">
+              <select
+                value={filterCity}
+                onChange={e => setFilterCity(e.target.value)}
+                className="px-3 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-medium min-w-[140px] focus:outline-none focus:ring-2 focus:ring-[#006a62]/30"
+              >
+                <option value="">{t.filter_city}</option>
+                {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
 
-                    {h.about && (
-                      <p className="helper-about">{h.about}</p>
-                    )}
-
-                    <div className="helper-details">
-                      {h.experience && (
-                        <span className="helper-tag">⏱ {h.experience} {t.card_exp}</span>
-                      )}
-                      {h.languages && (
-                        <span className="helper-tag">🗣 {h.languages}</span>
-                      )}
-                    </div>
-
-                    <div className="helper-card-footer">
-                      {h.phone && (
-                        <div className="helper-contact-row">
-                          <a className="helper-contact-btn phone" href={`tel:${h.phone.replace(/[^0-9+]/g, '')}`}>
-                            📞 {h.phone}
-                          </a>
-                          <span className={`wa-badge ${h.hasWhatsApp ? 'wa-yes' : 'wa-no'}`}>
-                            {h.hasWhatsApp ? t.card_wa_yes : t.card_wa_no}
-                          </span>
-                        </div>
-                      )}
-                      {h.phone && h.hasWhatsApp && (
-                        <a
-                          className="helper-contact-btn whatsapp"
-                          href={`https://wa.me/${h.phone.replace(/[^0-9]/g, '')}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          💬 {t.card_whatsapp}
-                        </a>
-                      )}
-                      {h.email && (
-                        <a className="helper-contact-btn email" href={`mailto:${h.email}`}>
-                          ✉️ {h.email}
-                        </a>
-                      )}
-                      {!h.phone && !h.email && (
-                        <div className="helper-no-contact">Contact info not available</div>
-                      )}
-                    </div>
-                  </div>
+              <select
+                value={filterCat}
+                onChange={e => setFilterCat(e.target.value)}
+                className="px-3 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-medium min-w-[180px] focus:outline-none focus:ring-2 focus:ring-[#006a62]/30"
+              >
+                <option value="">{t.filter_cat}</option>
+                {CATEGORY_NAMES.map(c => (
+                  <option key={c} value={c}>{categoryLabel(c)}</option>
                 ))}
-              </div>
-            )}
+              </select>
+
+              <input
+                type="text"
+                value={filterArea}
+                onChange={e => setFilterArea(e.target.value)}
+                placeholder={t.filter_area_ph}
+                className="flex-1 min-w-[160px] px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#006a62]/30"
+              />
+
+              {(filterCity || filterCat || filterArea) && (
+                <button
+                  onClick={resetFilters}
+                  className="px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                >
+                  {t.filter_reset}
+                </button>
+              )}
+            </div>
           </div>
         </section>
 
-        {/* ── CTA FOR PROVIDERS ───────────────────── */}
-        <section className="helpers-cta">
-          <div className="section-inner">
-            <h2>{t.cta_title}</h2>
-            <p>{t.cta_sub}</p>
-            <Link className="btn-gold" href="/register">{t.cta_btn}</Link>
+        {/* ── HELPER GRID ──────────────────────────────────────────────── */}
+        <section className="max-w-7xl mx-auto px-4 md:px-6 py-8">
+          <div className="text-sm text-gray-600 mb-4">
+            <strong className="text-gray-900">{filtered.length}</strong> {t.results}
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <div className="w-10 h-10 border-4 border-gray-200 border-t-[#006a62] rounded-full animate-spin" />
+            </div>
+          ) : filtered.length === 0 ? (
+            <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{t.no_results}</h3>
+              <p className="text-sm text-gray-600 mb-4">{t.no_results_sub}</p>
+              {(filterCity || filterCat || filterArea) && (
+                <button
+                  onClick={resetFilters}
+                  className="px-5 py-2.5 rounded-lg border border-[#006a62] text-[#006a62] text-sm font-semibold hover:bg-[#006a62] hover:text-white transition-colors"
+                >
+                  {t.filter_reset}
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map(h => (
+                <HelperCard key={h.ref} helper={h} t={t} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* ── CTA FOR HELPERS ──────────────────────────────────────────── */}
+        <section className="bg-gradient-to-br from-[#006a62] to-[#004d47] text-white py-12 md:py-16">
+          <div className="max-w-3xl mx-auto px-4 md:px-6 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">{t.cta_title}</h2>
+            <p className="text-base md:text-lg opacity-90 mb-6">{t.cta_sub}</p>
+            <Link
+              href="/register"
+              className="inline-block px-7 py-3.5 rounded-full bg-white text-[#006a62] text-base font-bold hover:shadow-2xl transition-all"
+            >
+              {t.cta_btn}
+            </Link>
           </div>
         </section>
 
-        {/* ── FOOTER ──────────────────────────────── */}
-        <footer>
-          <p>© 2026 ThaiHelper · <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a></p>
-          <p style={{ marginTop: '6px' }}>
-            <Link href="/privacy">{t.footer_privacy}</Link> · <Link href="/terms">{t.footer_terms}</Link>
-          </p>
+        {/* ── FOOTER ───────────────────────────────────────────────────── */}
+        <footer className="bg-gray-100 border-t border-gray-200 py-8">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 text-center text-sm text-gray-600">
+            <p>© 2026 ThaiHelper · <a className="hover:text-[#006a62]" href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a></p>
+            <p className="mt-2">
+              <Link className="hover:text-[#006a62]" href="/privacy">{t.footer_privacy}</Link>
+              {' · '}
+              <Link className="hover:text-[#006a62]" href="/terms">{t.footer_terms}</Link>
+            </p>
+          </div>
         </footer>
       </div>
     </>
+  );
+}
+
+// ─── HELPER CARD ───────────────────────────────────────────────────────
+function HelperCard({ helper, t }) {
+  const displayName = [helper.firstName, helper.lastName].filter(Boolean).join(' ');
+
+  return (
+    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
+      {/* Photo */}
+      <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
+        {helper.photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={helper.photo}
+            alt={displayName}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-5xl text-gray-300">
+            👤
+          </div>
+        )}
+      </div>
+
+      {/* Body */}
+      <div className="p-5 flex flex-col flex-1 gap-3">
+        {/* Name + age */}
+        <div>
+          <h3 className="text-lg font-bold text-gray-900 leading-tight">
+            {displayName}
+            {helper.age && (
+              <span className="text-gray-400 font-medium text-base ml-1">· {helper.age}</span>
+            )}
+          </h3>
+          <div className="text-sm text-gray-600 mt-0.5">
+            {categoryLabel(helper.category)}
+          </div>
+          <div className="text-xs text-gray-500 mt-1">
+            📍 {helper.city}{helper.area ? ` · ${helper.area}` : ''}
+          </div>
+        </div>
+
+        {/* Bio */}
+        {helper.bio && (
+          <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+            {helper.bio}
+          </p>
+        )}
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5 text-xs">
+          {helper.experience && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              ⏱ {helper.experience} {t.card_exp}
+            </span>
+          )}
+          {helper.languages && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              🗣 {helper.languages}
+            </span>
+          )}
+          {helper.hasWhatsApp && (
+            <span className="px-2 py-1 rounded-md bg-green-50 text-green-700 font-medium">
+              ✓ {t.card_wa}
+            </span>
+          )}
+          {helper.hasEmail && (
+            <span className="px-2 py-1 rounded-md bg-blue-50 text-blue-700 font-medium">
+              ✓ {t.card_email}
+            </span>
+          )}
+        </div>
+
+        {/* Sign-in CTA */}
+        <div className="mt-auto pt-3 border-t border-gray-100">
+          <div className="text-xs text-gray-500 text-center mb-2">
+            🔒 {t.card_signin}
+          </div>
+          <Link
+            href="/employer-login"
+            className="block w-full text-center px-4 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
+          >
+            {t.card_signin_btn}
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

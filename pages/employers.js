@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ArrowLeft, ArrowRight, UserPlus, MessageCircle, PartyPopper } from 'lucide-react';
-import { registerEmployer } from '@/lib/api/employers';
 
 // ─── HERO CAROUSEL (2 visible cards) ────────────────────────────────────────
 function HeroCarousel({ items }) {
@@ -70,25 +69,25 @@ const T = {
     page_title: 'Find Household Staff in Thailand – ThaiHelper',
     nav_home: 'Home',
     nav_helpers: 'For Helpers',
-    nav_cta: 'Join Waitlist – Free',
+    nav_cta: 'Register – Free',
     // Hero
     hero_eyebrow: 'For Employers & Families',
     hero_h1: 'Find Trusted',
     hero_h1b: 'Helpers.',
     hero_shimmer: 'No agencies, no fees.',
-    hero_p: 'Browse verified nannies, housekeepers, chefs, drivers, and more in your city. Register now to be first in line when we launch.',
-    hero_cta: 'Join the Free Waitlist',
-    hero_badge: 'Launching April 2026',
+    hero_p: 'Browse verified nannies, housekeepers, chefs, drivers, and more in your city. Create a free account and start messaging helpers today.',
+    hero_cta: 'Create Free Account',
+    hero_badge: 'Free for the first 4 weeks',
     // How it works
     how_label: 'How It Works',
     how_title: '3 simple steps',
     how_sub: 'We connect you directly with household professionals. No middleman.',
-    how1_h: 'Join the Waitlist',
+    how1_h: 'Create Your Account',
     how1_p: 'Register for free in 30 seconds. Tell us your city and what type of help you need.',
     how2_h: 'Browse Profiles',
-    how2_p: 'As helpers register, you can browse their verified profiles, ratings, and experience — for free.',
-    how3_h: 'Get Matched',
-    how3_p: "We'll notify you by email as soon as helpers in your area are available. Then contact them directly.",
+    how2_p: 'Browse verified helper profiles, ratings, and experience — for free.',
+    how3_h: 'Message Directly',
+    how3_p: 'Chat with helpers right on the platform. Free for the first 4 weeks — no credit card required.',
     // Why
     why_label: 'Why ThaiHelper',
     why_title: 'A better way to find help',
@@ -117,36 +116,19 @@ const T = {
     cat_label: 'What do you need?',
     cat_title: 'All household staff, one platform',
     cat_sub: 'Select the categories that match your needs. You can choose multiple.',
-    // Form
-    form_label: 'Join the Waitlist',
-    form_title: 'Register as an Employer',
-    form_sub: 'Completely free. We notify you when helpers are available in your area.',
-    form_fname: 'First Name',
-    form_fname_ph: 'e.g. Sarah',
-    form_lname: 'Last Name',
-    form_lname_ph: 'e.g. Johnson',
-    form_email: 'Email Address',
-    form_email_ph: 'you@example.com',
-    form_city: 'Your City',
-    form_city_ph: '— Select your location —',
-    form_area: 'Area / District (optional)',
-    form_area_ph: 'e.g. Sukhumvit, Silom, Rawai, Old City…',
-    form_needs: 'What help do you need?',
-    form_needs_sub: 'Select all that apply',
-    form_job: 'Your Job Offer (optional)',
-    form_job_ph: 'Describe what you\'re looking for in detail:\n\n• Which days/hours do you need help?\n• How long (ongoing, temporary)?\n• Salary or hourly rate you offer?\n• Ages of children (if nanny)?\n• Tasks & responsibilities?\n• Any special requirements?',
-    form_job_sub: 'Write a detailed job description so helpers know exactly what you need. This will be visible to all helpers.',
-    form_job_privacy: 'Phone numbers and email addresses are automatically hidden to protect your privacy.',
-    form_agree: 'I agree to the',
-    form_terms: 'Terms of Service',
-    form_and: 'and',
-    form_privacy: 'Privacy Policy',
-    form_submit: 'Join Waitlist – Free',
-    form_submitting: 'Registering...',
-    // Success
-    success_h: 'You\'re on the list! 🎉',
-    success_p: 'We\'ll email you as soon as helpers in your area are available. In the meantime, you can browse existing profiles.',
-    success_cta: 'Browse Helper Profiles',
+    // CTA Card
+    form_label: 'Register Now',
+    form_title: 'Start Hiring Today',
+    form_sub: 'Create your free employer account and message helpers directly.',
+    promo_badge: 'Free for the first 4 weeks — no credit card',
+    cta_card_h: 'Create Your Employer Account',
+    cta_card_sub: 'Free account with full messaging access for your first 4 weeks. Find the perfect helper for your family.',
+    cta_card_b1: 'Browse verified helper profiles in your city',
+    cta_card_b2: 'Message helpers directly with built-in translation',
+    cta_card_b3: 'No agency fees — ever',
+    cta_card_btn: 'Create Free Account',
+    cta_card_login_q: 'Already have an account?',
+    cta_card_login: 'Log in',
     // Job Board
     jobs_label: 'Job Board',
     jobs_title: 'What families are looking for',
@@ -195,18 +177,18 @@ const T = {
     hero_h1: 'หาผู้ช่วยที่ไว้ใจได้',
     hero_h1b: 'โดยตรง',
     hero_shimmer: 'ไม่มีเอเจนซี่ ไม่มีค่าธรรมเนียม',
-    hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ ในเมืองของคุณ ลงทะเบียนตอนนี้เพื่อเป็นคนแรกเมื่อเราเปิดตัว',
-    hero_cta: 'ลงทะเบียนฟรี',
-    hero_badge: 'เปิดตัวเมษายน 2026',
+    hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ สร้างบัญชีฟรีและเริ่มส่งข้อความหาผู้ช่วยได้วันนี้',
+    hero_cta: 'สร้างบัญชีฟรี',
+    hero_badge: 'ฟรี 4 สัปดาห์แรก',
     how_label: 'วิธีการใช้งาน',
     how_title: '3 ขั้นตอนง่ายๆ',
     how_sub: 'เราเชื่อมต่อคุณกับผู้เชี่ยวชาญดูแลบ้านโดยตรง ไม่มีคนกลาง',
-    how1_h: 'ลงทะเบียน',
+    how1_h: 'สร้างบัญชี',
     how1_p: 'ลงทะเบียนฟรีใน 30 วินาที บอกเราว่าคุณอยู่เมืองไหนและต้องการความช่วยเหลือแบบไหน',
     how2_h: 'ดูโปรไฟล์',
-    how2_p: 'เมื่อผู้ช่วยลงทะเบียน คุณสามารถดูโปรไฟล์ที่ผ่านการยืนยัน เรตติ้ง และประสบการณ์ได้ฟรี',
-    how3_h: 'รับการแจ้งเตือน',
-    how3_p: 'เราจะแจ้งคุณทางอีเมลทันทีที่ผู้ช่วยในพื้นที่ของคุณพร้อมให้บริการ จากนั้นติดต่อพวกเขาโดยตรง',
+    how2_p: 'ดูโปรไฟล์ผู้ช่วยที่ผ่านการยืนยัน เรตติ้ง และประสบการณ์ได้ฟรี',
+    how3_h: 'ส่งข้อความโดยตรง',
+    how3_p: 'แชทกับผู้ช่วยบนแพลตฟอร์มได้เลย ฟรี 4 สัปดาห์แรก ไม่ต้องใช้บัตรเครดิต',
     why_label: 'ทำไม ThaiHelper',
     why_title: 'วิธีที่ดีกว่าในการหาผู้ช่วย',
     why_sub: 'เราสร้าง ThaiHelper เพราะการจ้างผ่านเอเจนซี่นั้นแพง ช้า และไม่โปร่งใส',
@@ -232,34 +214,18 @@ const T = {
     cat_label: 'คุณต้องการอะไร?',
     cat_title: 'พนักงานดูแลบ้านทุกประเภท',
     cat_sub: 'เลือกหมวดหมู่ที่ตรงกับความต้องการ เลือกได้หลายอย่าง',
-    form_label: 'ลงทะเบียน',
-    form_title: 'ลงทะเบียนเป็นนายจ้าง',
-    form_sub: 'ฟรีทั้งหมด เราจะแจ้งคุณเมื่อผู้ช่วยพร้อมในพื้นที่ของคุณ',
-    form_fname: 'ชื่อ',
-    form_fname_ph: 'เช่น สมหญิง',
-    form_lname: 'นามสกุล',
-    form_lname_ph: 'เช่น สุขใจ',
-    form_email: 'อีเมล',
-    form_email_ph: 'you@example.com',
-    form_city: 'เมืองของคุณ',
-    form_city_ph: '— เลือกเมือง —',
-    form_area: 'พื้นที่ / เขต (ไม่จำเป็น)',
-    form_area_ph: 'เช่น สุขุมวิท, สีลม, ราไวย์, เมืองเก่า…',
-    form_needs: 'คุณต้องการความช่วยเหลือแบบไหน?',
-    form_needs_sub: 'เลือกทั้งหมดที่ต้องการ',
-    form_job: 'รายละเอียดงาน (ไม่จำเป็น)',
-    form_job_ph: 'อธิบายสิ่งที่คุณต้องการอย่างละเอียด:\n\n• ต้องการความช่วยเหลือวันไหน/เวลาไหน?\n• ระยะเวลา (ถาวร, ชั่วคราว)?\n• เงินเดือนหรืออัตราต่อชั่วโมง?\n• อายุเด็ก (ถ้าต้องการพี่เลี้ยง)?\n• หน้าที่รับผิดชอบ?\n• ข้อกำหนดพิเศษ?',
-    form_job_sub: 'เขียนรายละเอียดงานเพื่อให้ผู้ช่วยรู้ว่าคุณต้องการอะไร จะแสดงให้ผู้ช่วยทุกคนเห็น',
-    form_job_privacy: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนโดยอัตโนมัติเพื่อปกป้องความเป็นส่วนตัว',
-    form_agree: 'ฉันยอมรับ',
-    form_terms: 'ข้อกำหนดการใช้บริการ',
-    form_and: 'และ',
-    form_privacy: 'นโยบายความเป็นส่วนตัว',
-    form_submit: 'ลงทะเบียนฟรี',
-    form_submitting: 'กำลังลงทะเบียน...',
-    success_h: 'คุณอยู่ในรายชื่อแล้ว! 🎉',
-    success_p: 'เราจะส่งอีเมลถึงคุณทันทีที่ผู้ช่วยในพื้นที่ของคุณพร้อมให้บริการ',
-    success_cta: 'ดูโปรไฟล์ผู้ช่วย',
+    form_label: 'ลงทะเบียนเลย',
+    form_title: 'เริ่มจ้างวันนี้',
+    form_sub: 'สร้างบัญชีนายจ้างฟรีและส่งข้อความหาผู้ช่วยโดยตรง',
+    promo_badge: 'ฟรี 4 สัปดาห์แรก — ไม่ต้องใช้บัตรเครดิต',
+    cta_card_h: 'สร้างบัญชีนายจ้างของคุณ',
+    cta_card_sub: 'บัญชีฟรีพร้อมสิทธิ์ส่งข้อความเต็มรูปแบบใน 4 สัปดาห์แรก หาผู้ช่วยที่ใช่สำหรับครอบครัวของคุณ',
+    cta_card_b1: 'ดูโปรไฟล์ผู้ช่วยที่ผ่านการยืนยันในเมืองของคุณ',
+    cta_card_b2: 'ส่งข้อความหาผู้ช่วยพร้อมการแปลอัตโนมัติ',
+    cta_card_b3: 'ไม่มีค่าธรรมเนียมเอเจนซี่ — ตลอดไป',
+    cta_card_btn: 'สร้างบัญชีฟรี',
+    cta_card_login_q: 'มีบัญชีอยู่แล้ว?',
+    cta_card_login: 'เข้าสู่ระบบ',
     jobs_label: 'กระดานงาน',
     jobs_title: 'สิ่งที่ครอบครัวกำลังมองหา',
     jobs_sub: 'ดูว่าครอบครัวอื่นต้องการอะไร — ผู้ช่วยสามารถดูคำขอเหล่านี้และสมัครเมื่อเราเปิดตัว',
@@ -288,22 +254,23 @@ const T = {
     nav_home: 'Главная',
     nav_helpers: 'Для помощников',
     nav_cta: 'Регистрация – Бесплатно',
+    // (CTA wording updated below)
     hero_eyebrow: 'Для работодателей и семей',
     hero_h1: 'Найдите проверенных помощников.',
     hero_h1b: 'Напрямую.',
     hero_shimmer: 'Без агентств, без комиссий.',
-    hero_p: 'Просматривайте проверенных нянь, домработниц, поваров, водителей и других специалистов в вашем городе. Зарегистрируйтесь сейчас.',
-    hero_cta: 'Присоединиться бесплатно',
-    hero_badge: 'Запуск — апрель 2026',
+    hero_p: 'Просматривайте проверенных нянь, домработниц, поваров, водителей. Создайте бесплатный аккаунт и пишите помощникам напрямую уже сегодня.',
+    hero_cta: 'Создать бесплатный аккаунт',
+    hero_badge: 'Бесплатно первые 4 недели',
     how_label: 'Как это работает',
     how_title: '3 простых шага',
     how_sub: 'Мы связываем вас напрямую с домашним персоналом. Без посредников.',
-    how1_h: 'Регистрация',
+    how1_h: 'Создайте аккаунт',
     how1_p: 'Зарегистрируйтесь бесплатно за 30 секунд. Укажите город и тип помощника.',
     how2_h: 'Просмотр профилей',
-    how2_p: 'Просматривайте проверенные профили, рейтинги и опыт помощников — бесплатно.',
-    how3_h: 'Получите уведомление',
-    how3_p: 'Мы отправим вам email, когда помощники в вашем районе будут доступны.',
+    how2_p: 'Просматривайте проверенные профили, рейтинги и опыт — бесплатно.',
+    how3_h: 'Пишите напрямую',
+    how3_p: 'Общайтесь с помощниками прямо на платформе. Бесплатно первые 4 недели — без карты.',
     why_label: 'Почему ThaiHelper',
     why_title: 'Лучший способ найти помощника',
     why_sub: 'Мы создали ThaiHelper, потому что агентства берут слишком много.',
@@ -330,33 +297,17 @@ const T = {
     cat_title: 'Весь домашний персонал на одной платформе',
     cat_sub: 'Выберите категории, соответствующие вашим потребностям.',
     form_label: 'Регистрация',
-    form_title: 'Зарегистрируйтесь как работодатель',
-    form_sub: 'Полностью бесплатно. Мы уведомим вас, когда помощники появятся в вашем районе.',
-    form_fname: 'Имя',
-    form_fname_ph: 'напр. Анна',
-    form_lname: 'Фамилия',
-    form_lname_ph: 'напр. Иванова',
-    form_email: 'Email',
-    form_email_ph: 'you@example.com',
-    form_city: 'Ваш город',
-    form_city_ph: '— Выберите город —',
-    form_area: 'Район (необязательно)',
-    form_area_ph: 'напр. Сукхумвит, Силом, Раваи, Старый город…',
-    form_needs: 'Какая помощь вам нужна?',
-    form_needs_sub: 'Выберите все подходящие',
-    form_job: 'Описание вакансии (необязательно)',
-    form_job_ph: 'Опишите подробно, что вам нужно:\n\n• В какие дни/часы нужна помощь?\n• На какой срок (постоянно, временно)?\n• Зарплата или почасовая оплата?\n• Возраст детей (если няня)?\n• Обязанности?\n• Особые требования?',
-    form_job_sub: 'Напишите подробное описание вакансии, чтобы помощники знали, что вам нужно. Будет видно всем помощникам.',
-    form_job_privacy: 'Номера телефонов и email автоматически скрываются для защиты вашей конфиденциальности.',
-    form_agree: 'Я согласен с',
-    form_terms: 'Условиями использования',
-    form_and: 'и',
-    form_privacy: 'Политикой конфиденциальности',
-    form_submit: 'Зарегистрироваться — Бесплатно',
-    form_submitting: 'Регистрация...',
-    success_h: 'Вы в списке! 🎉',
-    success_p: 'Мы отправим вам email, как только помощники в вашем районе станут доступны.',
-    success_cta: 'Смотреть профили помощников',
+    form_title: 'Начните нанимать сегодня',
+    form_sub: 'Создайте бесплатный аккаунт работодателя и пишите помощникам напрямую.',
+    promo_badge: 'Бесплатно первые 4 недели — без карты',
+    cta_card_h: 'Создайте аккаунт работодателя',
+    cta_card_sub: 'Бесплатный аккаунт с полным доступом к сообщениям первые 4 недели. Найдите идеального помощника для вашей семьи.',
+    cta_card_b1: 'Просматривайте проверенные профили в вашем городе',
+    cta_card_b2: 'Пишите помощникам напрямую со встроенным переводом',
+    cta_card_b3: 'Без комиссий агентств — никогда',
+    cta_card_btn: 'Создать бесплатный аккаунт',
+    cta_card_login_q: 'Уже есть аккаунт?',
+    cta_card_login: 'Войти',
     jobs_label: 'Доска вакансий',
     jobs_title: 'Что ищут семьи',
     jobs_sub: 'Посмотрите, что нужно другим семьям — помощники смогут откликнуться при запуске.',
@@ -495,56 +446,6 @@ const SAMPLE_JOBS = [
 export default function Employers() {
   const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
-
-  // Form state
-  const [fname, setFname] = useState('');
-  const [lname, setLname] = useState('');
-  const [email, setEmail] = useState('');
-  const [city, setCity] = useState('');
-  const [area, setArea] = useState('');
-  const [needs, setNeeds] = useState([]);
-  const [jobDesc, setJobDesc] = useState('');
-  const [agree, setAgree] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState({});
-
-  const toggleNeed = (key) => {
-    setNeeds(prev => prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const errs = {};
-    if (!fname.trim()) errs.fname = true;
-    if (!lname.trim()) errs.lname = true;
-    if (!email.trim() || !email.includes('@')) errs.email = true;
-    if (!city) errs.city = true;
-    if (needs.length === 0) errs.needs = true;
-    if (!agree) errs.agree = true;
-    setErrors(errs);
-    if (Object.keys(errs).length > 0) return;
-
-    setSubmitting(true);
-    try {
-      await registerEmployer({
-        firstName: fname,
-        lastName: lname,
-        email,
-        city,
-        area,
-        helperTypes: needs,
-        jobDescription: jobDesc,
-      });
-      setSubmitted(true);
-    } catch (err) {
-      console.error('Registration error:', err);
-      // Still show success in pre-launch phase (data might not save but UX stays smooth)
-      setSubmitted(true);
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   return (
     <>
@@ -737,7 +638,7 @@ export default function Employers() {
             </div>
           </section>
 
-          {/* REGISTRATION FORM */}
+          {/* CALL TO ACTION — links to dedicated registration page */}
           <section id="register" className="py-16 md:py-24 px-6">
             <div className="max-w-2xl mx-auto">
               <div className="text-center mb-10">
@@ -746,93 +647,42 @@ export default function Employers() {
                 <p className="text-on-surface-variant">{t.form_sub}</p>
               </div>
 
-              {submitted ? (
-                <div className="bg-white rounded-[2rem] p-10 md:p-14 shadow-xl text-center">
-                  <div className="text-5xl mb-4">🎉</div>
-                  <h3 className="text-2xl font-extrabold font-headline text-on-background mb-4">{t.success_h}</h3>
-                  <p className="text-on-surface-variant mb-8 max-w-md mx-auto">{t.success_p}</p>
-                  <Link href="/" className="inline-block px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-lg hover:bg-[#002d5f] hover:scale-[1.02] transition-all">
-                    {t.success_cta}
-                  </Link>
+              <div className="bg-white rounded-[2rem] p-10 md:p-14 shadow-xl text-center">
+                {/* Promo badge */}
+                <div className="inline-block px-4 py-2 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-sm font-semibold mb-6">
+                  🎉 {t.promo_badge}
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="bg-white rounded-[2rem] p-8 md:p-12 shadow-xl">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-                    <div>
-                      <label className="block text-sm font-semibold text-on-background mb-1.5">{t.form_fname}</label>
-                      <input type="text" value={fname} onChange={e => setFname(e.target.value)} placeholder={t.form_fname_ph} className={`w-full px-4 py-3 rounded-xl border ${errors.fname ? 'border-red-400 bg-red-50' : 'border-gray-200'} focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all`} />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-on-background mb-1.5">{t.form_lname}</label>
-                      <input type="text" value={lname} onChange={e => setLname(e.target.value)} placeholder={t.form_lname_ph} className={`w-full px-4 py-3 rounded-xl border ${errors.lname ? 'border-red-400 bg-red-50' : 'border-gray-200'} focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all`} />
-                    </div>
-                  </div>
 
-                  <div className="mb-5">
-                    <label className="block text-sm font-semibold text-on-background mb-1.5">{t.form_email}</label>
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t.form_email_ph} className={`w-full px-4 py-3 rounded-xl border ${errors.email ? 'border-red-400 bg-red-50' : 'border-gray-200'} focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all`} />
-                  </div>
+                <h3 className="text-2xl md:text-3xl font-extrabold font-headline text-on-background mb-3">
+                  {t.cta_card_h}
+                </h3>
+                <p className="text-on-surface-variant mb-8 max-w-md mx-auto leading-relaxed">
+                  {t.cta_card_sub}
+                </p>
 
-                  <div className="mb-6">
-                    <label className="block text-sm font-semibold text-on-background mb-1.5">{t.form_city}</label>
-                    <select value={city} onChange={e => setCity(e.target.value)} className={`w-full px-4 py-3 rounded-xl border ${errors.city ? 'border-red-400 bg-red-50' : 'border-gray-200'} focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all bg-white`}>
-                      <option value="">{t.form_city_ph}</option>
-                      {CITIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
-                    </select>
-                  </div>
+                {/* Bullet points */}
+                <ul className="text-left max-w-sm mx-auto mb-10 space-y-3">
+                  {[t.cta_card_b1, t.cta_card_b2, t.cta_card_b3].map((b, i) => (
+                    <li key={i} className="flex items-start gap-3 text-on-surface-variant">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#006a62" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      <span className="text-sm md:text-base">{b}</span>
+                    </li>
+                  ))}
+                </ul>
 
-                  <div className="mb-6">
-                    <label className="block text-sm font-semibold text-on-background mb-1.5">{t.form_area}</label>
-                    <input type="text" value={area} onChange={e => setArea(e.target.value)} placeholder={t.form_area_ph}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
-                  </div>
+                <Link href="/employer-register" className="inline-block px-10 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all">
+                  {t.cta_card_btn} →
+                </Link>
 
-                  <div className="mb-6">
-                    <label className="block text-sm font-semibold text-on-background mb-1.5">{t.form_needs}</label>
-                    <p className="text-xs text-on-surface-variant mb-3">{t.form_needs_sub}</p>
-                    <div className={`grid grid-cols-2 gap-2 ${errors.needs ? 'ring-2 ring-red-400 rounded-xl p-1' : ''}`}>
-                      {HELPER_TYPES.map(ht => (
-                        <button type="button" key={ht.key} onClick={() => toggleNeed(ht.key)}
-                          className={`flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left ${
-                            needs.includes(ht.key) ? 'bg-primary/10 text-primary border-2 border-primary' : 'bg-gray-50 text-on-surface-variant border-2 border-transparent hover:bg-gray-100'
-                          }`}>
-                          <span>{ht.emoji}</span>
-                          <span>{lang === 'th' ? ht.th : lang === 'ru' ? ht.ru : ht.en}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <label className="block text-sm font-semibold text-on-background mb-1.5">{t.form_job}</label>
-                    <p className="text-xs text-on-surface-variant mb-3">{t.form_job_sub}</p>
-                    <textarea
-                      value={jobDesc}
-                      onChange={e => setJobDesc(e.target.value)}
-                      placeholder={t.form_job_ph}
-                      rows={6}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-y"
-                    />
-                    <p className="text-xs text-amber-600 mt-2 flex items-center gap-1.5">
-                      <span>🔒</span> {t.form_job_privacy}
-                    </p>
-                  </div>
-
-                  <div className="mb-8">
-                    <label className={`flex items-start gap-3 cursor-pointer ${errors.agree ? 'text-red-500' : ''}`}>
-                      <input type="checkbox" checked={agree} onChange={e => setAgree(e.target.checked)} className="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" />
-                      <span className="text-sm text-on-surface-variant">
-                        {t.form_agree} <Link href="/terms" className="text-primary font-semibold hover:underline">{t.form_terms}</Link> {t.form_and} <Link href="/privacy" className="text-primary font-semibold hover:underline">{t.form_privacy}</Link>
-                      </span>
-                    </label>
-                  </div>
-
-                  <button type="submit" disabled={submitting}
-                    className="w-full py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.01] transition-all disabled:opacity-60 disabled:cursor-not-allowed">
-                    {submitting ? t.form_submitting : t.form_submit}
-                  </button>
-                </form>
-              )}
+                <p className="text-xs text-on-surface-variant mt-6">
+                  {t.cta_card_login_q}{' '}
+                  <Link href="/employer-login" className="text-primary font-semibold hover:underline">
+                    {t.cta_card_login}
+                  </Link>
+                </p>
+              </div>
             </div>
           </section>
 
