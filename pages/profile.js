@@ -723,7 +723,7 @@ export default function Profile() {
               </h1>
 
               {/* Stats row */}
-              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '12px', marginBottom: '24px' }}>
                 <StatCard
                   label={t.dash_status}
                   value={t.dash_status_active}
@@ -737,13 +737,6 @@ export default function Profile() {
                   icon="👁"
                   color="#6366f1"
                   bg="#eef2ff"
-                />
-                <StatCard
-                  label={t.dash_messages}
-                  value="0"
-                  icon="💬"
-                  color="#f59e0b"
-                  bg="#fffbeb"
                 />
               </div>
 
