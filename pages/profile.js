@@ -531,7 +531,7 @@ export default function Profile() {
           <nav className="register-nav"><Link href="/" className="brand">Thai<span>Helper</span></Link></nav>
           <div className="register-container" style={{ maxWidth: '480px' }}>
             <div className="card" style={{ padding: '40px 32px', textAlign: 'center' }}>
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔒</div>
+              <div style={{ marginBottom: '16px', color: '#006a62', display: 'flex', justifyContent: 'center' }}><IconLock /></div>
               <h1 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '8px' }}>{t.login_required}</h1>
               <Link href="/login" className="btn-next" style={{ display: 'inline-block', marginTop: '16px', textDecoration: 'none' }}>{t.login_btn}</Link>
             </div>
@@ -719,7 +719,7 @@ export default function Profile() {
             <>
               {/* Welcome */}
               <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>
-                {t.dash_welcome}, {p.firstName}! 👋
+                {t.dash_welcome}, {p.firstName}
               </h1>
 
               {/* Stats row */}
@@ -782,8 +782,10 @@ export default function Profile() {
                 ) : (
                   <div style={{ display: 'grid', gap: '8px' }}>
                     {documents.map(doc => (
-                      <div key={doc.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', background: '#f9fafb', borderRadius: '10px' }}>
-                        <span style={{ fontSize: '24px' }}>{doc.mime_type?.includes('pdf') ? '📑' : '🖼️'}</span>
+                      <div key={doc.id} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px', background: '#f9fafb', borderRadius: '10px' }}>
+                        <span style={{ width: '42px', height: '42px', borderRadius: '10px', background: '#e6f5f3', color: '#006a62', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          {doc.mime_type?.includes('pdf') ? <IconFile size={22} /> : <IconImage size={22} />}
+                        </span>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: '14px', fontWeight: 600, color: '#333', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{doc.file_name}</div>
                           <div style={{ fontSize: '11px', color: '#999' }}>
@@ -836,16 +838,16 @@ export default function Profile() {
                           <button
                             type="button"
                             onClick={() => { setRefInputMode('text'); setRefFile(null); }}
-                            style={{ padding: '5px 14px', borderRadius: '6px', border: refInputMode === 'text' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'text' ? '#e6f5f3' : 'white', color: refInputMode === 'text' ? '#006a62' : '#666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '6px', border: refInputMode === 'text' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'text' ? '#e6f5f3' : 'white', color: refInputMode === 'text' ? '#006a62' : '#666', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
                           >
-                            ✏️ {lang === 'th' ? 'พิมพ์ข้อความ' : 'Type Text'}
+                            <IconType size={14} /> {lang === 'th' ? 'พิมพ์ข้อความ' : 'Type Text'}
                           </button>
                           <button
                             type="button"
                             onClick={() => { setRefInputMode('file'); setRefForm(prev => ({ ...prev, reference_text: '' })); }}
-                            style={{ padding: '5px 14px', borderRadius: '6px', border: refInputMode === 'file' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'file' ? '#e6f5f3' : 'white', color: refInputMode === 'file' ? '#006a62' : '#666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '6px', border: refInputMode === 'file' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'file' ? '#e6f5f3' : 'white', color: refInputMode === 'file' ? '#006a62' : '#666', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
                           >
-                            📄 {lang === 'th' ? 'อัปโหลด PDF' : 'Upload PDF'}
+                            <IconUpload size={14} /> {lang === 'th' ? 'อัปโหลด PDF' : 'Upload PDF'}
                           </button>
                         </div>
                         {refInputMode === 'text' ? (
@@ -853,15 +855,16 @@ export default function Profile() {
                         ) : (
                           <div style={{ border: '2px dashed #e5e7eb', borderRadius: '8px', padding: '16px', textAlign: 'center' }}>
                             {refFile ? (
-                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                                <span style={{ fontSize: '13px', color: '#333' }}>📄 {refFile.name}</span>
-                                <button type="button" onClick={() => setRefFile(null)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '14px' }}>✕</button>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#333' }}>
+                                <IconFile size={16} />
+                                <span style={{ fontSize: '14px' }}>{refFile.name}</span>
+                                <button type="button" onClick={() => setRefFile(null)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '16px', marginLeft: '4px' }}>✕</button>
                               </div>
                             ) : (
                               <label style={{ cursor: 'pointer', display: 'block' }}>
-                                <div style={{ fontSize: '24px', marginBottom: '4px' }}>📁</div>
-                                <span style={{ fontSize: '13px', color: '#006a62', fontWeight: 600 }}>{lang === 'th' ? 'เลือกไฟล์' : 'Choose file'}</span>
-                                <p style={{ fontSize: '11px', color: '#999', marginTop: '4px' }}>PDF, JPG, PNG (max 10 MB)</p>
+                                <div style={{ color: '#006a62', marginBottom: '6px', display: 'flex', justifyContent: 'center' }}><IconFolderOpen /></div>
+                                <span style={{ fontSize: '14px', color: '#006a62', fontWeight: 600 }}>{lang === 'th' ? 'เลือกไฟล์' : 'Choose file'}</span>
+                                <p style={{ fontSize: '12px', color: '#999', marginTop: '4px' }}>PDF, JPG, PNG (max 10 MB)</p>
                                 <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={e => setRefFile(e.target.files[0] || null)} style={{ display: 'none' }} />
                               </label>
                             )}
@@ -896,8 +899,8 @@ export default function Profile() {
                             )}
                           </div>
                           <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
-                            <button onClick={() => handleRefEdit(ref)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', padding: '2px 6px' }}>✏️</button>
-                            <button onClick={() => handleRefDelete(ref.id)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '14px', padding: '2px 6px' }}>✕</button>
+                            <button onClick={() => handleRefEdit(ref)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 6px', color: '#666', display: 'flex', alignItems: 'center' }} title="Edit"><IconEdit size={16} /></button>
+                            <button onClick={() => handleRefDelete(ref.id)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '16px', padding: '2px 6px' }}>✕</button>
                           </div>
                         </div>
                       </div>
@@ -1190,6 +1193,64 @@ function IconEye() {
     <svg {...iconProps}>
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
       <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+function IconLock() {
+  return (
+    <svg {...iconProps} width="48" height="48">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  );
+}
+function IconFile({ size = 22 }) {
+  return (
+    <svg {...iconProps} width={size} height={size}>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+    </svg>
+  );
+}
+function IconImage({ size = 22 }) {
+  return (
+    <svg {...iconProps} width={size} height={size}>
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+      <circle cx="8.5" cy="8.5" r="1.5" />
+      <polyline points="21 15 16 10 5 21" />
+    </svg>
+  );
+}
+function IconEdit({ size = 16 }) {
+  return (
+    <svg {...iconProps} width={size} height={size}>
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+    </svg>
+  );
+}
+function IconType({ size = 16 }) {
+  return (
+    <svg {...iconProps} width={size} height={size}>
+      <polyline points="4 7 4 4 20 4 20 7" />
+      <line x1="9" y1="20" x2="15" y2="20" />
+      <line x1="12" y1="4" x2="12" y2="20" />
+    </svg>
+  );
+}
+function IconUpload({ size = 16 }) {
+  return (
+    <svg {...iconProps} width={size} height={size}>
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="17 8 12 3 7 8" />
+      <line x1="12" y1="3" x2="12" y2="15" />
+    </svg>
+  );
+}
+function IconFolderOpen() {
+  return (
+    <svg {...iconProps} width="28" height="28">
+      <path d="M6 14l1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2" />
     </svg>
   );
 }
