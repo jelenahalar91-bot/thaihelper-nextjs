@@ -20,6 +20,11 @@ const T = {
     tab_dashboard: 'Dashboard',
     tab_messages: 'Messages',
     tab_profile: 'Profile',
+    // Nav
+    nav_help: 'Help',
+    menu_profile: 'Profile',
+    menu_settings: 'Settings',
+    menu_dashboard: 'Dashboard',
     // Dashboard
     dash_welcome: 'Welcome back',
     dash_status: 'Profile Status',
@@ -127,6 +132,10 @@ const T = {
     tab_dashboard: 'แดชบอร์ด',
     tab_messages: 'ข้อความ',
     tab_profile: 'โปรไฟล์',
+    nav_help: 'ช่วยเหลือ',
+    menu_profile: 'โปรไฟล์',
+    menu_settings: 'ตั้งค่า',
+    menu_dashboard: 'แดชบอร์ด',
     dash_welcome: 'ยินดีต้อนรับกลับ',
     dash_status: 'สถานะโปรไฟล์',
     dash_status_active: 'ใช้งาน',
@@ -260,6 +269,17 @@ export default function Profile() {
   // Settings
   const [prefLang, setPrefLang] = useState('en');
   const [settingsSaved, setSettingsSaved] = useState('');
+  // Menu dropdown
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleClick = (e) => {
+      if (!e.target.closest('[data-profile-menu]')) setMenuOpen(false);
+    };
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, [menuOpen]);
 
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
@@ -543,62 +563,132 @@ export default function Profile() {
       <style jsx>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
 
       <div style={{ minHeight: '100vh', background: '#f8f9fa' }}>
-        {/* Top Nav */}
+        {/* Top Nav – Putzperle style */}
         <nav style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '12px 24px', background: 'white', borderBottom: '1px solid #e5e7eb',
+          padding: '18px 40px', background: 'white', borderBottom: '1px solid #e5e7eb',
           position: 'sticky', top: 0, zIndex: 50,
         }}>
-          <Link href="/profile" style={{ fontSize: '20px', fontWeight: 800, textDecoration: 'none', color: '#1a1a1a' }}>
+          <button
+            onClick={() => { setActiveTab('dashboard'); if (editing) cancelEditing(); }}
+            style={{ fontSize: '26px', fontWeight: 800, background: 'none', border: 'none', cursor: 'pointer', color: '#1a1a1a', padding: 0, letterSpacing: '-0.5px' }}
+          >
             Thai<span style={{ color: '#006a62' }}>Helper</span>
-          </Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div className="lang-toggle" style={{ display: 'flex', gap: '2px', background: '#f3f4f6', borderRadius: '8px', padding: '2px' }}>
-              <button onClick={() => changeLang('en')} style={{ padding: '4px 10px', borderRadius: '6px', border: 'none', fontSize: '12px', fontWeight: 600, cursor: 'pointer', background: lang === 'en' ? 'white' : 'transparent', color: lang === 'en' ? '#1a1a1a' : '#999', boxShadow: lang === 'en' ? '0 1px 2px rgba(0,0,0,0.08)' : 'none' }}>EN</button>
-              <button onClick={() => changeLang('th')} style={{ padding: '4px 10px', borderRadius: '6px', border: 'none', fontSize: '12px', fontWeight: 600, cursor: 'pointer', background: lang === 'th' ? 'white' : 'transparent', color: lang === 'th' ? '#1a1a1a' : '#999', boxShadow: lang === 'th' ? '0 1px 2px rgba(0,0,0,0.08)' : 'none' }}>TH</button>
-            </div>
-            {/* Profile pill */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 12px 4px 4px', background: '#f3f4f6', borderRadius: '20px' }}>
-              <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #006a62' }}>
-                {photoSrc ? <img src={photoSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '14px' }}>👤</span>}
-              </div>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: '#1a1a1a' }}>{p.firstName}</span>
-            </div>
-            <button onClick={handleLogout} style={{ padding: '6px 14px', borderRadius: '8px', border: '1px solid #e5e7eb', background: 'white', color: '#666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>{t.logout}</button>
-          </div>
-        </nav>
+          </button>
 
-        {/* Tab Navigation */}
-        <div style={{ background: 'white', borderBottom: '1px solid #e5e7eb', padding: '0 24px', display: 'flex', gap: '0' }}>
-          {[
-            { key: 'dashboard', label: t.tab_dashboard, icon: '📊' },
-            { key: 'messages', label: t.tab_messages, icon: '💬' },
-            { key: 'profile', label: t.tab_profile, icon: '👤' },
-          ].map(tab => (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '36px' }}>
+            {/* Help */}
+            <a
+              href="mailto:support@thaihelper.app"
+              style={{ fontSize: '16px', fontWeight: 500, color: '#374151', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}
+            >
+              <IconHelp />
+              {t.nav_help}
+            </a>
+
+            {/* Messages */}
             <button
-              key={tab.key}
-              onClick={() => { setActiveTab(tab.key); if (tab.key === 'profile' && editing) cancelEditing(); }}
+              onClick={() => { setActiveTab('messages'); if (editing) cancelEditing(); }}
               style={{
-                padding: '14px 20px', fontSize: '14px', fontWeight: 600, cursor: 'pointer',
-                border: 'none', background: 'none',
-                color: activeTab === tab.key ? '#006a62' : '#999',
-                borderBottom: activeTab === tab.key ? '2px solid #006a62' : '2px solid transparent',
-                transition: 'all 0.2s',
+                position: 'relative', background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: '16px', fontWeight: 500,
+                color: activeTab === 'messages' ? '#006a62' : '#374151',
+                display: 'flex', alignItems: 'center', gap: '8px', padding: 0,
               }}
             >
-              <span style={{ marginRight: '6px' }}>{tab.icon}</span>
-              {tab.label}
-              {tab.key === 'messages' && (
+              <IconMessage />
+              {t.tab_messages}
+              {totalUnread > 0 && (
                 <span style={{
-                  marginLeft: '6px', fontSize: '10px', padding: '1px 6px', borderRadius: '10px',
-                  background: totalUnread > 0 ? '#006a62' : '#f3f4f6',
-                  color: totalUnread > 0 ? 'white' : '#999',
-                  fontWeight: totalUnread > 0 ? 700 : 400,
+                  position: 'absolute', top: '-6px', right: '-12px',
+                  minWidth: '20px', height: '20px', borderRadius: '10px',
+                  background: '#dc2626', color: 'white',
+                  fontSize: '11px', fontWeight: 700,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  padding: '0 6px', border: '2px solid white',
                 }}>{totalUnread}</span>
               )}
             </button>
-          ))}
-        </div>
+
+            {/* Profile avatar with dropdown */}
+            <div data-profile-menu style={{ position: 'relative' }}>
+              <button
+                onClick={(e) => { e.stopPropagation(); setMenuOpen(o => !o); }}
+                style={{
+                  width: '46px', height: '46px', borderRadius: '50%', overflow: 'hidden',
+                  background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  border: '2px solid #006a62', cursor: 'pointer', padding: 0,
+                }}
+                aria-label="Profile menu"
+              >
+                {photoSrc ? (
+                  <img src={photoSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  <span style={{ fontSize: '17px', fontWeight: 700, color: '#006a62' }}>
+                    {(p.firstName || '').charAt(0).toUpperCase()}{(p.lastName || '').charAt(0).toUpperCase()}
+                  </span>
+                )}
+              </button>
+
+              {menuOpen && (
+                <div style={{
+                  position: 'absolute', top: 'calc(100% + 12px)', right: 0,
+                  minWidth: '280px', background: 'white',
+                  borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.14)',
+                  border: '1px solid #e5e7eb', overflow: 'hidden', zIndex: 100,
+                }}>
+                  {/* User info header */}
+                  <div style={{ padding: '20px 22px', borderBottom: '1px solid #f3f4f6', display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div style={{ width: '52px', height: '52px', borderRadius: '50%', overflow: 'hidden', background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #006a62', flexShrink: 0 }}>
+                      {photoSrc ? (
+                        <img src={photoSrc} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <span style={{ fontSize: '18px', fontWeight: 700, color: '#006a62' }}>
+                          {(p.firstName || '').charAt(0).toUpperCase()}{(p.lastName || '').charAt(0).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <div style={{ fontSize: '15px', fontWeight: 600, color: '#1a1a1a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.firstName} {p.lastName}</div>
+                      {p.email && <div style={{ fontSize: '12px', color: '#999', marginTop: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.email}</div>}
+                    </div>
+                  </div>
+
+                  {/* Menu items */}
+                  <div style={{ padding: '8px 0' }}>
+                    <MenuItem icon={<IconDashboard />} label={t.menu_dashboard} onClick={() => { setActiveTab('dashboard'); setMenuOpen(false); if (editing) cancelEditing(); }} />
+                    <MenuItem icon={<IconUser />} label={t.menu_profile} onClick={() => { setActiveTab('profile'); setMenuOpen(false); }} />
+                    <MenuItem icon={<IconSettings />} label={t.menu_settings} onClick={() => { setActiveTab('settings'); setMenuOpen(false); if (editing) cancelEditing(); }} />
+
+                    {/* Language quick switch */}
+                    <div style={{ padding: '12px 22px 10px', borderTop: '1px solid #f3f4f6', marginTop: '6px' }}>
+                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '10px' }}>Language</div>
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        {[{ c: 'en', l: 'EN' }, { c: 'th', l: 'TH' }].map(x => (
+                          <button
+                            key={x.c}
+                            onClick={() => changeLang(x.c)}
+                            style={{
+                              flex: 1, padding: '8px 12px', borderRadius: '8px',
+                              border: lang === x.c ? '2px solid #006a62' : '1px solid #e5e7eb',
+                              background: lang === x.c ? '#e6f5f3' : 'white',
+                              color: lang === x.c ? '#006a62' : '#666',
+                              fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+                            }}
+                          >{x.l}</button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div style={{ borderTop: '1px solid #f3f4f6', marginTop: '6px' }}>
+                      <MenuItem icon={<IconLogout />} label={t.logout} onClick={handleLogout} danger />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </nav>
 
         {/* Content */}
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '24px 16px' }}>
@@ -811,8 +901,8 @@ export default function Profile() {
 
               {/* Launch info */}
               <div style={{ background: 'linear-gradient(135deg, #006a62, #004d47)', borderRadius: '16px', padding: '28px', color: 'white' }}>
-                <h3 style={{ fontSize: '16px', fontWeight: 700, margin: '0 0 8px' }}>🚀 {t.dash_launch_title}</h3>
-                <p style={{ fontSize: '14px', margin: 0, opacity: 0.9, lineHeight: 1.6 }}>{t.dash_launch_text}</p>
+                <h3 style={{ fontSize: '17px', fontWeight: 700, margin: '0 0 10px' }}>{t.dash_launch_title}</h3>
+                <p style={{ fontSize: '15px', margin: 0, opacity: 0.9, lineHeight: 1.6 }}>{t.dash_launch_text}</p>
               </div>
             </>
           )}
@@ -844,44 +934,49 @@ export default function Profile() {
           {/* ─── PROFILE TAB ────────────────────────────────────────────── */}
           {activeTab === 'profile' && (
             <>
+              {/* Page title — matches Dashboard h1 scale */}
+              <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>
+                {t.tab_profile}
+              </h1>
+
               {/* Profile Header */}
               <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #e5e7eb', marginBottom: '16px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                   <div style={{ position: 'relative', flexShrink: 0 }}>
-                    <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid #006a62' }}>
-                      {photoSrc ? <img src={photoSrc} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '32px' }}>👤</span>}
+                    <div style={{ width: '88px', height: '88px', borderRadius: '50%', overflow: 'hidden', background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid #006a62' }}>
+                      {photoSrc ? <img src={photoSrc} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '26px', fontWeight: 700, color: '#006a62' }}>{(p.firstName || '').charAt(0).toUpperCase()}{(p.lastName || '').charAt(0).toUpperCase()}</span>}
                     </div>
                     {editing && (
-                      <label style={{ position: 'absolute', bottom: '-2px', right: '-2px', background: '#006a62', color: 'white', borderRadius: '50%', width: '26px', height: '26px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '13px', border: '2px solid white' }}>
-                        📷<input type="file" accept="image/*" onChange={handlePhotoChange} style={{ display: 'none' }} />
+                      <label style={{ position: 'absolute', bottom: '-2px', right: '-2px', background: '#006a62', color: 'white', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '14px', border: '2px solid white' }}>
+                        <svg {...iconProps} width="14" height="14"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
+                        <input type="file" accept="image/*" onChange={handlePhotoChange} style={{ display: 'none' }} />
                       </label>
                     )}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px' }}>{p.firstName} {p.lastName}</h2>
-                    <p style={{ fontSize: '13px', color: '#666', margin: '0 0 8px' }}>{p.category} &middot; {p.city}{p.area ? ` — ${p.area}` : ''}</p>
+                    <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px' }}>{p.firstName} {p.lastName}</h2>
+                    <p style={{ fontSize: '15px', color: '#666', margin: '0 0 10px' }}>{p.category} &middot; {p.city}{p.area ? ` — ${p.area}` : ''}</p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '11px', fontWeight: 600, padding: '2px 8px', borderRadius: '20px', background: '#ecfdf5', color: '#059669' }}>{t.verified} ✓</span>
-                      <span style={{ fontSize: '11px', color: '#bbb', fontFamily: 'monospace' }}>{t.ref_label}: {p.ref}</span>
+                      <span style={{ fontSize: '12px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#ecfdf5', color: '#059669' }}>{t.verified} ✓</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Edit / Save buttons */}
-              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '12px', gap: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px', gap: '8px' }}>
                 {editing ? (
                   <>
-                    <button onClick={cancelEditing} style={{ padding: '8px 20px', borderRadius: '8px', border: '1px solid #e5e7eb', background: 'white', color: '#666', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>{t.cancel_btn}</button>
-                    <button onClick={handleSave} disabled={saving} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer', opacity: saving ? 0.6 : 1 }}>{saving ? t.saving : t.save_btn}</button>
+                    <button onClick={cancelEditing} style={{ padding: '10px 22px', borderRadius: '8px', border: '1px solid #e5e7eb', background: 'white', color: '#666', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>{t.cancel_btn}</button>
+                    <button onClick={handleSave} disabled={saving} style={{ padding: '10px 22px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '14px', fontWeight: 600, cursor: 'pointer', opacity: saving ? 0.6 : 1 }}>{saving ? t.saving : t.save_btn}</button>
                   </>
                 ) : (
-                  <button onClick={startEditing} style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>✏️ {t.edit_btn}</button>
+                  <button onClick={startEditing} style={{ padding: '10px 22px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>{t.edit_btn}</button>
                 )}
               </div>
 
               {saveError && (
-                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '10px 14px', marginBottom: '12px', color: '#dc2626', fontSize: '13px' }}>{saveError}</div>
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '12px 16px', marginBottom: '14px', color: '#dc2626', fontSize: '14px' }}>{saveError}</div>
               )}
 
               {/* Profile Details */}
@@ -919,9 +1014,9 @@ export default function Profile() {
                     <EditField label={t.label_education} value={editData.education} onChange={v => handleFieldChange('education', v)} placeholder="e.g. Bachelor's Degree..." />
                     <EditField label={t.label_certificates} value={editData.certificates} onChange={v => handleFieldChange('certificates', v)} placeholder="e.g. First Aid, Childcare..." />
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t.label_bio}</label>
-                      <textarea value={editData.bio} onChange={e => handleFieldChange('bio', e.target.value)} maxLength={500} rows={5} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '14px', resize: 'vertical', fontFamily: 'inherit' }} />
-                      <div style={{ fontSize: '11px', color: '#bbb', textAlign: 'right' }}>{(editData.bio || '').length} / 500 {t.chars}</div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t.label_bio}</label>
+                      <textarea value={editData.bio} onChange={e => handleFieldChange('bio', e.target.value)} maxLength={500} rows={5} style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', resize: 'vertical', fontFamily: 'inherit', lineHeight: 1.6 }} />
+                      <div style={{ fontSize: '12px', color: '#bbb', textAlign: 'right', marginTop: '4px' }}>{(editData.bio || '').length} / 500 {t.chars}</div>
                     </div>
                   </div>
                 ) : (
@@ -953,36 +1048,42 @@ export default function Profile() {
                 )}
               </div>
 
-              {/* ─── LANGUAGE SETTINGS ──────────────────────────────── */}
-              <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #e5e7eb', marginTop: '16px' }}>
-                <SectionTitle>{t.settings_title}</SectionTitle>
-                <div style={{ marginBottom: '8px' }}>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#555', marginBottom: '8px' }}>{t.settings_lang}</label>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    {[
-                      { code: 'en', label: 'English' },
-                      { code: 'th', label: 'ภาษาไทย' },
-                      { code: 'ru', label: 'Русский' },
-                    ].map(l => (
-                      <button
-                        key={l.code}
-                        onClick={() => handleLanguageChange(l.code)}
-                        style={{
-                          padding: '8px 20px', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
-                          border: prefLang === l.code ? '2px solid #006a62' : '1px solid #e5e7eb',
-                          background: prefLang === l.code ? '#e6f5f3' : 'white',
-                          color: prefLang === l.code ? '#006a62' : '#666',
-                        }}
-                      >
-                        {l.label}
-                      </button>
-                    ))}
-                  </div>
-                  <p style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>{t.settings_lang_hint}</p>
-                  {settingsSaved && (
-                    <p style={{ fontSize: '13px', color: '#059669', fontWeight: 600, marginTop: '8px' }}>{settingsSaved}</p>
-                  )}
+            </>
+          )}
+
+          {/* ─── SETTINGS TAB ───────────────────────────────────────────── */}
+          {activeTab === 'settings' && (
+            <>
+              <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>
+                {t.settings_title}
+              </h1>
+
+              <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #e5e7eb' }}>
+                <SectionTitle>{t.settings_lang}</SectionTitle>
+                <p style={{ fontSize: '14px', color: '#666', margin: '0 0 16px', lineHeight: 1.6 }}>{t.settings_lang_hint}</p>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                  {[
+                    { code: 'en', label: 'English' },
+                    { code: 'th', label: 'ภาษาไทย' },
+                    { code: 'ru', label: 'Русский' },
+                  ].map(l => (
+                    <button
+                      key={l.code}
+                      onClick={() => handleLanguageChange(l.code)}
+                      style={{
+                        padding: '12px 24px', borderRadius: '10px', fontSize: '15px', fontWeight: 600, cursor: 'pointer',
+                        border: prefLang === l.code ? '2px solid #006a62' : '1px solid #e5e7eb',
+                        background: prefLang === l.code ? '#e6f5f3' : 'white',
+                        color: prefLang === l.code ? '#006a62' : '#666',
+                      }}
+                    >
+                      {l.label}
+                    </button>
+                  ))}
                 </div>
+                {settingsSaved && (
+                  <p style={{ fontSize: '14px', color: '#059669', fontWeight: 600, marginTop: '14px' }}>{settingsSaved}</p>
+                )}
               </div>
             </>
           )}
@@ -994,6 +1095,81 @@ export default function Profile() {
 }
 
 // ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function MenuItem({ icon, label, onClick, danger }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        width: '100%', display: 'flex', alignItems: 'center', gap: '14px',
+        padding: '12px 22px', border: 'none', background: 'none',
+        cursor: 'pointer', fontSize: '15px', fontWeight: 500,
+        color: danger ? '#dc2626' : '#374151', textAlign: 'left',
+        transition: 'background 0.15s',
+      }}
+      onMouseEnter={(e) => e.currentTarget.style.background = '#f9fafb'}
+      onMouseLeave={(e) => e.currentTarget.style.background = 'none'}
+    >
+      <span style={{ width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: danger ? '#dc2626' : '#4b5563' }}>{icon}</span>
+      {label}
+    </button>
+  );
+}
+
+// ─── ICONS (Lucide-style inline SVG) ─────────────────────────────────────────
+const iconProps = { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' };
+
+function IconHelp() {
+  return (
+    <svg {...iconProps}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </svg>
+  );
+}
+function IconMessage() {
+  return (
+    <svg {...iconProps}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+function IconDashboard() {
+  return (
+    <svg {...iconProps}>
+      <rect x="3" y="3" width="7" height="9" />
+      <rect x="14" y="3" width="7" height="5" />
+      <rect x="14" y="12" width="7" height="9" />
+      <rect x="3" y="16" width="7" height="5" />
+    </svg>
+  );
+}
+function IconUser() {
+  return (
+    <svg {...iconProps}>
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+function IconSettings() {
+  return (
+    <svg {...iconProps}>
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+    </svg>
+  );
+}
+function IconLogout() {
+  return (
+    <svg {...iconProps}>
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
 
 function StatCard({ label, value, icon, color, bg }) {
   return (
@@ -1009,7 +1185,7 @@ function StatCard({ label, value, icon, color, bg }) {
 
 function SectionTitle({ children }) {
   return (
-    <h3 style={{ fontSize: '12px', fontWeight: 700, color: '#006a62', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #f3f4f6', paddingBottom: '8px', marginBottom: '14px' }}>
+    <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#006a62', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px', marginBottom: '18px' }}>
       {children}
     </h3>
   );
@@ -1017,9 +1193,9 @@ function SectionTitle({ children }) {
 
 function ProfileField({ label, value, t, multiline }) {
   return (
-    <div style={{ display: 'flex', flexDirection: multiline ? 'column' : 'row', gap: multiline ? '4px' : '0' }}>
-      <span style={{ fontSize: '12px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', minWidth: '120px', paddingTop: '2px' }}>{label}</span>
-      <span style={{ fontSize: '14px', color: value ? '#333' : '#ccc', lineHeight: 1.5, whiteSpace: multiline ? 'pre-wrap' : 'normal' }}>{value || t.not_set}</span>
+    <div style={{ display: 'flex', flexDirection: multiline ? 'column' : 'row', gap: multiline ? '6px' : '0' }}>
+      <span style={{ fontSize: '13px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', minWidth: '140px', paddingTop: '2px' }}>{label}</span>
+      <span style={{ fontSize: '15px', color: value ? '#1a1a1a' : '#ccc', lineHeight: 1.6, whiteSpace: multiline ? 'pre-wrap' : 'normal' }}>{value || t.not_set}</span>
     </div>
   );
 }
@@ -1027,8 +1203,8 @@ function ProfileField({ label, value, t, multiline }) {
 function EditField({ label, value, onChange, placeholder }) {
   return (
     <div>
-      <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
-      <input type="text" value={value || ''} onChange={e => onChange(e.target.value)} placeholder={placeholder || ''} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '14px', fontFamily: 'inherit' }} />
+      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
+      <input type="text" value={value || ''} onChange={e => onChange(e.target.value)} placeholder={placeholder || ''} style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit' }} />
     </div>
   );
 }
