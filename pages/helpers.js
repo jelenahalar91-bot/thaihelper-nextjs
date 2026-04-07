@@ -121,8 +121,8 @@ export default function Helpers() {
       <div className={`min-h-screen bg-gray-50 ${lang === 'th' ? 'lang-th' : ''}`}>
 
         {/* ── NAV ──────────────────────────────────────────────────────── */}
-        <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+        <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between w-full">
             <Link href="/" className="text-xl md:text-2xl font-bold">
               Thai<span style={{color:'#006a62'}}>Helper</span>
             </Link>
@@ -151,7 +151,7 @@ export default function Helpers() {
               </Link>
             </div>
           </div>
-        </nav>
+        </header>
 
         {/* ── HERO ─────────────────────────────────────────────────────── */}
         <section className="bg-gradient-to-b from-white to-gray-50 border-b border-gray-200">
