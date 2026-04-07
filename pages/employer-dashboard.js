@@ -659,7 +659,8 @@ function HelperCard({ helper, t, onMessage, isStarting }) {
           className="mt-2 sm:self-start px-5 py-2.5 rounded-xl bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
         >
           💬 {isStarting ? t.card_messaging : t.card_message}
-      </button>
+        </button>
+      </div>
     </div>
   );
 }
