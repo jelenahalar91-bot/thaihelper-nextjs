@@ -69,6 +69,8 @@ export default function App({ Component, pageProps }) {
         </>
       )}
       <Head>
+        {/* Viewport — critical for mobile rendering */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         {/* Global JSON-LD: Organization + WebSite */}
         <script
           type="application/ld+json"

@@ -271,6 +271,15 @@ export default function Profile() {
   const [settingsSaved, setSettingsSaved] = useState('');
   // Menu dropdown
   const [menuOpen, setMenuOpen] = useState(false);
+  // Responsive breakpoint
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -566,29 +575,32 @@ export default function Profile() {
         {/* Top Nav – Putzperle style */}
         <nav style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '18px 40px', background: 'white', borderBottom: '1px solid #e5e7eb',
+          padding: isMobile ? '14px 18px' : '18px 40px',
+          background: 'white', borderBottom: '1px solid #e5e7eb',
           position: 'sticky', top: 0, zIndex: 50,
         }}>
           <button
             onClick={() => { setActiveTab('dashboard'); if (editing) cancelEditing(); }}
-            style={{ fontSize: '26px', fontWeight: 800, background: 'none', border: 'none', cursor: 'pointer', color: '#1a1a1a', padding: 0, letterSpacing: '-0.5px' }}
+            style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 800, background: 'none', border: 'none', cursor: 'pointer', color: '#1a1a1a', padding: 0, letterSpacing: '-0.5px' }}
           >
             Thai<span style={{ color: '#006a62' }}>Helper</span>
           </button>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '36px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '18px' : '36px' }}>
             {/* Help */}
             <a
               href="mailto:support@thaihelper.app"
+              aria-label={t.nav_help}
               style={{ fontSize: '16px', fontWeight: 500, color: '#374151', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}
             >
               <IconHelp />
-              {t.nav_help}
+              {!isMobile && t.nav_help}
             </a>
 
             {/* Messages */}
             <button
               onClick={() => { setActiveTab('messages'); if (editing) cancelEditing(); }}
+              aria-label={t.tab_messages}
               style={{
                 position: 'relative', background: 'none', border: 'none', cursor: 'pointer',
                 fontSize: '16px', fontWeight: 500,
@@ -597,15 +609,15 @@ export default function Profile() {
               }}
             >
               <IconMessage />
-              {t.tab_messages}
+              {!isMobile && t.tab_messages}
               {totalUnread > 0 && (
                 <span style={{
-                  position: 'absolute', top: '-6px', right: '-12px',
-                  minWidth: '20px', height: '20px', borderRadius: '10px',
+                  position: 'absolute', top: '-6px', right: isMobile ? '-8px' : '-12px',
+                  minWidth: '18px', height: '18px', borderRadius: '9px',
                   background: '#dc2626', color: 'white',
-                  fontSize: '11px', fontWeight: 700,
+                  fontSize: '10px', fontWeight: 700,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  padding: '0 6px', border: '2px solid white',
+                  padding: '0 5px', border: '2px solid white',
                 }}>{totalUnread}</span>
               )}
             </button>
@@ -633,7 +645,9 @@ export default function Profile() {
               {menuOpen && (
                 <div style={{
                   position: 'absolute', top: 'calc(100% + 12px)', right: 0,
-                  minWidth: '280px', background: 'white',
+                  minWidth: isMobile ? '260px' : '280px',
+                  maxWidth: 'calc(100vw - 32px)',
+                  background: 'white',
                   borderRadius: '16px', boxShadow: '0 16px 48px rgba(0,0,0,0.14)',
                   border: '1px solid #e5e7eb', overflow: 'hidden', zIndex: 100,
                 }}>
@@ -691,7 +705,7 @@ export default function Profile() {
         </nav>
 
         {/* Content */}
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '24px 16px' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', padding: isMobile ? '18px 14px' : '24px 16px' }}>
 
           {/* Success message */}
           {savedMsg && (
@@ -709,7 +723,7 @@ export default function Profile() {
               </h1>
 
               {/* Stats row */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
                 <StatCard
                   label={t.dash_status}
                   value={t.dash_status_active}
@@ -734,7 +748,7 @@ export default function Profile() {
               </div>
 
               {/* Profile completeness */}
-              <div style={{ background: 'white', borderRadius: '16px', padding: '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
+              <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '20px' : '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                   <h3 style={{ fontSize: '14px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{t.dash_tip_title}</h3>
                   <span style={{ fontSize: '14px', fontWeight: 700, color: completeness === 100 ? '#059669' : '#f59e0b' }}>{completeness}%</span>
@@ -752,17 +766,17 @@ export default function Profile() {
               </div>
 
               {/* ─── DOCUMENTS SECTION ──────────────────────────────── */}
-              <div style={{ background: 'white', borderRadius: '16px', padding: '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                  <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>📄 {t.doc_title}</h3>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <select value={docType} onChange={e => setDocType(e.target.value)} style={{ padding: '6px 10px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '12px', background: 'white' }}>
+              <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '20px' : '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
+                <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'stretch' : 'center', gap: isMobile ? '14px' : '8px', marginBottom: '16px' }}>
+                  <h3 style={{ fontSize: '17px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{t.doc_title}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: isMobile ? '100%' : 'auto' }}>
+                    <select value={docType} onChange={e => setDocType(e.target.value)} style={{ flex: isMobile ? 1 : 'none', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '13px', background: 'white' }}>
                       <option value="certificate">{t.doc_type_certificate}</option>
                       <option value="id">{t.doc_type_id}</option>
                       <option value="reference">{t.doc_type_reference}</option>
                       <option value="other">{t.doc_type_other}</option>
                     </select>
-                    <label style={{ padding: '6px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '12px', fontWeight: 600, cursor: uploadingDoc ? 'wait' : 'pointer', opacity: uploadingDoc ? 0.6 : 1 }}>
+                    <label style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: uploadingDoc ? 'wait' : 'pointer', opacity: uploadingDoc ? 0.6 : 1, whiteSpace: 'nowrap' }}>
                       {uploadingDoc ? t.doc_uploading : t.doc_upload}
                       <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={handleDocUpload} disabled={uploadingDoc} style={{ display: 'none' }} />
                     </label>
@@ -795,11 +809,11 @@ export default function Profile() {
               </div>
 
               {/* ─── REFERENCES SECTION ─────────────────────────────── */}
-              <div style={{ background: 'white', borderRadius: '16px', padding: '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                  <h3 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>👥 {t.ref_title}</h3>
+              <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '20px' : '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                  <h3 style={{ fontSize: '17px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{t.ref_title}</h3>
                   {!showRefForm && (
-                    <button onClick={() => { resetRefForm(); setShowRefForm(true); }} style={{ padding: '6px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>+ {t.ref_add}</button>
+                    <button onClick={() => { resetRefForm(); setShowRefForm(true); }} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>+ {t.ref_add}</button>
                   )}
                 </div>
 
@@ -900,7 +914,7 @@ export default function Profile() {
               </div>
 
               {/* Launch info */}
-              <div style={{ background: 'linear-gradient(135deg, #006a62, #004d47)', borderRadius: '16px', padding: '28px', color: 'white' }}>
+              <div style={{ background: 'linear-gradient(135deg, #006a62, #004d47)', borderRadius: '16px', padding: isMobile ? '22px' : '28px', color: 'white' }}>
                 <h3 style={{ fontSize: '17px', fontWeight: 700, margin: '0 0 10px' }}>{t.dash_launch_title}</h3>
                 <p style={{ fontSize: '15px', margin: 0, opacity: 0.9, lineHeight: 1.6 }}>{t.dash_launch_text}</p>
               </div>
@@ -940,11 +954,11 @@ export default function Profile() {
               </h1>
 
               {/* Profile Header */}
-              <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #e5e7eb', marginBottom: '16px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '22px' : '28px', border: '1px solid #e5e7eb', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '14px' : '20px' }}>
                   <div style={{ position: 'relative', flexShrink: 0 }}>
-                    <div style={{ width: '88px', height: '88px', borderRadius: '50%', overflow: 'hidden', background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid #006a62' }}>
-                      {photoSrc ? <img src={photoSrc} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '26px', fontWeight: 700, color: '#006a62' }}>{(p.firstName || '').charAt(0).toUpperCase()}{(p.lastName || '').charAt(0).toUpperCase()}</span>}
+                    <div style={{ width: isMobile ? '72px' : '88px', height: isMobile ? '72px' : '88px', borderRadius: '50%', overflow: 'hidden', background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid #006a62' }}>
+                      {photoSrc ? <img src={photoSrc} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 700, color: '#006a62' }}>{(p.firstName || '').charAt(0).toUpperCase()}{(p.lastName || '').charAt(0).toUpperCase()}</span>}
                     </div>
                     {editing && (
                       <label style={{ position: 'absolute', bottom: '-2px', right: '-2px', background: '#006a62', color: 'white', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '14px', border: '2px solid white' }}>
@@ -953,9 +967,9 @@ export default function Profile() {
                       </label>
                     )}
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px' }}>{p.firstName} {p.lastName}</h2>
-                    <p style={{ fontSize: '15px', color: '#666', margin: '0 0 10px' }}>{p.category} &middot; {p.city}{p.area ? ` — ${p.area}` : ''}</p>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <h2 style={{ fontSize: isMobile ? '19px' : '22px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px', wordBreak: 'break-word' }}>{p.firstName} {p.lastName}</h2>
+                    <p style={{ fontSize: isMobile ? '14px' : '15px', color: '#666', margin: '0 0 10px' }}>{p.category} &middot; {p.city}{p.area ? ` — ${p.area}` : ''}</p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span style={{ fontSize: '12px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#ecfdf5', color: '#059669' }}>{t.verified} ✓</span>
                     </div>
@@ -980,7 +994,7 @@ export default function Profile() {
               )}
 
               {/* Profile Details */}
-              <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #e5e7eb' }}>
+              <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '22px' : '28px', border: '1px solid #e5e7eb' }}>
                 {/* Personal */}
                 <SectionTitle>{t.section_personal}</SectionTitle>
                 {editing ? (
@@ -994,11 +1008,11 @@ export default function Profile() {
                     <EditField label={t.label_area} value={editData.area} onChange={v => handleFieldChange('area', v)} placeholder="e.g. Sukhumvit, Rawai..." />
                   </div>
                 ) : (
-                  <div style={{ display: 'grid', gap: '10px', marginBottom: '28px' }}>
-                    <ProfileField label={t.label_name} value={`${p.firstName} ${p.lastName}`} t={t} />
-                    <ProfileField label={t.label_age} value={p.age} t={t} />
-                    <ProfileField label={t.label_city} value={p.city} t={t} />
-                    <ProfileField label={t.label_area} value={p.area} t={t} />
+                  <div style={{ display: 'grid', gap: isMobile ? '16px' : '10px', marginBottom: '28px' }}>
+                    <ProfileField label={t.label_name} value={`${p.firstName} ${p.lastName}`} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_age} value={p.age} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_city} value={p.city} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_area} value={p.area} t={t} isMobile={isMobile} />
                   </div>
                 )}
 
@@ -1020,15 +1034,15 @@ export default function Profile() {
                     </div>
                   </div>
                 ) : (
-                  <div style={{ display: 'grid', gap: '10px', marginBottom: '28px' }}>
-                    <ProfileField label={t.label_category} value={p.category} t={t} />
-                    <ProfileField label={t.label_skills} value={p.skills} t={t} />
-                    <ProfileField label={t.label_experience} value={p.experience} t={t} />
-                    <ProfileField label={t.label_languages} value={(() => { const v = Array.isArray(p.languages) ? p.languages.join(', ') : (p.languages || ''); return v.includes('[Ljava.lang') ? '' : v; })()} t={t} />
-                    <ProfileField label={t.label_rate} value={p.rate} t={t} />
-                    <ProfileField label={t.label_education} value={p.education} t={t} />
-                    <ProfileField label={t.label_certificates} value={p.certificates} t={t} />
-                    <ProfileField label={t.label_bio} value={p.bio} t={t} multiline />
+                  <div style={{ display: 'grid', gap: isMobile ? '16px' : '10px', marginBottom: '28px' }}>
+                    <ProfileField label={t.label_category} value={p.category} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_skills} value={p.skills} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_experience} value={p.experience} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_languages} value={(() => { const v = Array.isArray(p.languages) ? p.languages.join(', ') : (p.languages || ''); return v.includes('[Ljava.lang') ? '' : v; })()} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_rate} value={p.rate} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_education} value={p.education} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_certificates} value={p.certificates} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_bio} value={p.bio} t={t} multiline isMobile={isMobile} />
                   </div>
                 )}
 
@@ -1037,13 +1051,13 @@ export default function Profile() {
                 {editing ? (
                   <div style={{ display: 'grid', gap: '14px' }}>
                     <EditField label={t.label_phone} value={editData.whatsapp} onChange={v => handleFieldChange('whatsapp', v)} />
-                    <ProfileField label={t.label_email} value={p.email} t={t} />
+                    <ProfileField label={t.label_email} value={p.email} t={t} isMobile={isMobile} />
                   </div>
                 ) : (
-                  <div style={{ display: 'grid', gap: '10px' }}>
-                    <ProfileField label={t.label_phone} value={p.whatsapp} t={t} />
-                    <ProfileField label={t.label_whatsapp} value={p.hasWhatsApp === 'Yes' ? t.yes : t.no} t={t} />
-                    <ProfileField label={t.label_email} value={p.email} t={t} />
+                  <div style={{ display: 'grid', gap: isMobile ? '16px' : '10px' }}>
+                    <ProfileField label={t.label_phone} value={p.whatsapp} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_whatsapp} value={p.hasWhatsApp === 'Yes' ? t.yes : t.no} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_email} value={p.email} t={t} isMobile={isMobile} />
                   </div>
                 )}
               </div>
@@ -1058,7 +1072,7 @@ export default function Profile() {
                 {t.settings_title}
               </h1>
 
-              <div style={{ background: 'white', borderRadius: '16px', padding: '28px', border: '1px solid #e5e7eb' }}>
+              <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '22px' : '28px', border: '1px solid #e5e7eb' }}>
                 <SectionTitle>{t.settings_lang}</SectionTitle>
                 <p style={{ fontSize: '14px', color: '#666', margin: '0 0 16px', lineHeight: 1.6 }}>{t.settings_lang_hint}</p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
@@ -1191,11 +1205,12 @@ function SectionTitle({ children }) {
   );
 }
 
-function ProfileField({ label, value, t, multiline }) {
+function ProfileField({ label, value, t, multiline, isMobile }) {
+  const stack = multiline || isMobile;
   return (
-    <div style={{ display: 'flex', flexDirection: multiline ? 'column' : 'row', gap: multiline ? '6px' : '0' }}>
-      <span style={{ fontSize: '13px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', minWidth: '140px', paddingTop: '2px' }}>{label}</span>
-      <span style={{ fontSize: '15px', color: value ? '#1a1a1a' : '#ccc', lineHeight: 1.6, whiteSpace: multiline ? 'pre-wrap' : 'normal' }}>{value || t.not_set}</span>
+    <div style={{ display: 'flex', flexDirection: stack ? 'column' : 'row', gap: stack ? '4px' : '0' }}>
+      <span style={{ fontSize: '12px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', minWidth: stack ? 'auto' : '140px', paddingTop: '2px' }}>{label}</span>
+      <span style={{ fontSize: '15px', color: value ? '#1a1a1a' : '#ccc', lineHeight: 1.6, whiteSpace: multiline ? 'pre-wrap' : 'normal', wordBreak: 'break-word' }}>{value || t.not_set}</span>
     </div>
   );
 }
