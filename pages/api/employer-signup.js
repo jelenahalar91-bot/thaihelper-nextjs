@@ -16,14 +16,14 @@ function generateRef() {
 
 // Promo access during the launch phase:
 // When PROMO_ACTIVE=true (env var), every new employer account automatically
-// gets free access to contact info for PROMO_DAYS days (default 28).
+// gets free access to contact info for PROMO_DAYS days (default 56 = 8 weeks).
 // After the promo period ends, set PROMO_ACTIVE=false and employers will sign
 // up on the free tier and need to upgrade to see WhatsApp / phone numbers.
 function getPromoAccess() {
   const active = process.env.PROMO_ACTIVE === 'true';
   if (!active) return { access_until: null, access_tier: 'free' };
 
-  const days = parseInt(process.env.PROMO_DAYS || '28', 10);
+  const days = parseInt(process.env.PROMO_DAYS || '56', 10);
   const expires = new Date();
   expires.setDate(expires.getDate() + days);
   return {
