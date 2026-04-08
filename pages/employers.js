@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
+import HelperCard from '@/components/HelperCard';
 import { useLang } from './_app';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -113,10 +114,6 @@ const T = {
     preview_exp: 'yrs experience',
     preview_locked: 'Contact at Launch',
     preview_note: 'These are example profiles. Real helper profiles will be available after launch in April 2026.',
-    // Categories
-    cat_label: 'What do you need?',
-    cat_title: 'All household staff, one platform',
-    cat_sub: 'Select the categories that match your needs. You can choose multiple.',
     // CTA Card
     form_label: 'Register Now',
     form_title: 'Start Hiring Today',
@@ -130,17 +127,6 @@ const T = {
     cta_card_btn: 'Create Free Account',
     cta_card_login_q: 'Already have an account?',
     cta_card_login: 'Log in',
-    // Job Board
-    jobs_label: 'Job Board',
-    jobs_title: 'What families are looking for',
-    jobs_sub: 'See what other families need — helpers can browse these requests and apply when we launch.',
-    jobs_posted: 'Posted',
-    jobs_active: 'Active',
-    jobs_last_seen: 'Last seen',
-    jobs_ago: 'ago',
-    jobs_days: 'days',
-    jobs_hours: 'hours',
-    jobs_contact_launch: 'Apply at Launch',
     // Launch banner
     launch_label: 'Launch Timeline',
     launch_title: 'We\'re launching in April 2026',
@@ -212,9 +198,6 @@ const T = {
     preview_exp: 'ปี ประสบการณ์',
     preview_locked: 'ติดต่อเมื่อเปิดตัว',
     preview_note: 'นี่คือโปรไฟล์ตัวอย่าง โปรไฟล์จริงจะพร้อมใช้งานหลังเปิดตัวในเดือนเมษายน 2026',
-    cat_label: 'คุณต้องการอะไร?',
-    cat_title: 'พนักงานดูแลบ้านทุกประเภท',
-    cat_sub: 'เลือกหมวดหมู่ที่ตรงกับความต้องการ เลือกได้หลายอย่าง',
     form_label: 'ลงทะเบียนเลย',
     form_title: 'เริ่มจ้างวันนี้',
     form_sub: 'สร้างบัญชีนายจ้างฟรีและส่งข้อความหาผู้ช่วยโดยตรง',
@@ -227,16 +210,6 @@ const T = {
     cta_card_btn: 'สร้างบัญชีฟรี',
     cta_card_login_q: 'มีบัญชีอยู่แล้ว?',
     cta_card_login: 'เข้าสู่ระบบ',
-    jobs_label: 'กระดานงาน',
-    jobs_title: 'สิ่งที่ครอบครัวกำลังมองหา',
-    jobs_sub: 'ดูว่าครอบครัวอื่นต้องการอะไร — ผู้ช่วยสามารถดูคำขอเหล่านี้และสมัครเมื่อเราเปิดตัว',
-    jobs_posted: 'โพสต์เมื่อ',
-    jobs_active: 'ใช้งานอยู่',
-    jobs_last_seen: 'เข้าใช้ล่าสุด',
-    jobs_ago: 'ที่แล้ว',
-    jobs_days: 'วัน',
-    jobs_hours: 'ชั่วโมง',
-    jobs_contact_launch: 'สมัครเมื่อเปิดตัว',
     launch_label: 'เปิดตัว',
     launch_title: 'เราเปิดตัวเมษายน 2026',
     launch_p: 'ThaiHelper เป็นแพลตฟอร์มใหม่ เรากำลังสร้างเครือข่ายพนักงานดูแลบ้านที่ผ่านการยืนยันที่ใหญ่ที่สุดในประเทศไทย',
@@ -294,9 +267,6 @@ const T = {
     preview_exp: 'лет опыта',
     preview_locked: 'Связь при запуске',
     preview_note: 'Это примеры профилей. Настоящие профили помощников будут доступны после запуска в апреле 2026.',
-    cat_label: 'Что вам нужно?',
-    cat_title: 'Весь домашний персонал на одной платформе',
-    cat_sub: 'Выберите категории, соответствующие вашим потребностям.',
     form_label: 'Регистрация',
     form_title: 'Начните нанимать сегодня',
     form_sub: 'Создайте бесплатный аккаунт работодателя и пишите помощникам напрямую.',
@@ -309,16 +279,6 @@ const T = {
     cta_card_btn: 'Создать бесплатный аккаунт',
     cta_card_login_q: 'Уже есть аккаунт?',
     cta_card_login: 'Войти',
-    jobs_label: 'Доска вакансий',
-    jobs_title: 'Что ищут семьи',
-    jobs_sub: 'Посмотрите, что нужно другим семьям — помощники смогут откликнуться при запуске.',
-    jobs_posted: 'Опубликовано',
-    jobs_active: 'Активен',
-    jobs_last_seen: 'Был в сети',
-    jobs_ago: 'назад',
-    jobs_days: 'дней',
-    jobs_hours: 'часов',
-    jobs_contact_launch: 'Откликнуться при запуске',
     launch_label: 'Запуск',
     launch_title: 'Мы запускаемся в апреле 2026',
     launch_p: 'ThaiHelper — новая платформа. Мы создаём крупнейшую сеть проверенного домашнего персонала в Таиланде.',
@@ -333,26 +293,6 @@ const T = {
     footer_copy: '© 2026 ThaiHelper. Все права защищены.',
   },
 };
-
-const CITIES = [
-  { value: 'bangkok', label: 'Bangkok' },
-  { value: 'phuket', label: 'Phuket' },
-  { value: 'chiang_mai', label: 'Chiang Mai' },
-  { value: 'pattaya', label: 'Pattaya' },
-  { value: 'koh_samui', label: 'Koh Samui' },
-  { value: 'hua_hin', label: 'Hua Hin' },
-  { value: 'other', label: 'Other' },
-];
-
-const HELPER_TYPES = [
-  { key: 'nanny', emoji: '👶', en: 'Nanny & Babysitter', th: 'พี่เลี้ยงเด็ก', ru: 'Няня' },
-  { key: 'housekeeper', emoji: '🏠', en: 'Housekeeper & Cleaner', th: 'แม่บ้าน', ru: 'Домработница' },
-  { key: 'chef', emoji: '👨‍🍳', en: 'Private Chef & Cook', th: 'พ่อครัว/แม่ครัว', ru: 'Повар' },
-  { key: 'driver', emoji: '🚗', en: 'Driver & Chauffeur', th: 'คนขับรถ', ru: 'Водитель' },
-  { key: 'gardener', emoji: '🌿', en: 'Gardener & Pool Care', th: 'คนสวน', ru: 'Садовник' },
-  { key: 'elder', emoji: '🏥', en: 'Elder Care & Caregiver', th: 'ดูแลผู้สูงอายุ', ru: 'Сиделка' },
-  { key: 'tutor', emoji: '📚', en: 'Tutor & Teacher', th: 'ติวเตอร์', ru: 'Репетитор' },
-];
 
 const EMPLOYER_TRUST_SLIDES = [
   {
@@ -393,54 +333,42 @@ const EMPLOYER_TRUST_SLIDES = [
   },
 ];
 
+// Sample profiles for the employer-landing preview. Same shape as the
+// /helpers API and the helper-landing preview, so the shared <HelperCard>
+// component renders all three places identically.
 const PROFILES = [
-  { photo:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face', name:'Maria S.', verified:true, role_en:'👶 Nanny & Babysitter', role_th:'👶 พี่เลี้ยงเด็ก', city:'Phuket', exp:5, langs:'🇵🇭 🇬🇧', stars:4.9, reviews:12, rate:'300', skills_en:'Infant care · School run · Overnight', skills_th:'ดูแลทารก · รับส่งโรงเรียน · ดูแลกลางคืน' },
-  { photo:'https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face', name:'Sunisa K.', verified:true, role_en:'🏠 Housekeeper', role_th:'🏠 แม่บ้าน', city:'Bangkok', exp:8, langs:'🇹🇭 🇬🇧', stars:4.8, reviews:7, rate:'200', skills_en:'Cleaning · Laundry · Cooking', skills_th:'ทำความสะอาด · ซักรีด · ทำอาหาร' },
-  { photo:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face', name:'Ana R.', verified:true, role_en:'👨‍🍳 Private Chef', role_th:'👨‍🍳 แม่ครัวส่วนตัว', city:'Phuket', exp:3, langs:'🇵🇭 🇬🇧 🇹🇭', stars:5.0, reviews:4, rate:'450', skills_en:'Thai cuisine · Western · Baking', skills_th:'อาหารไทย · อาหารตะวันตก · ขนมอบ' },
-  { photo:'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=80&h=80&fit=crop&crop=face', name:'Narin P.', verified:true, role_en:'📚 Maths Tutor', role_th:'📚 ติวเตอร์คณิตศาสตร์', city:'Bangkok', exp:4, langs:'🇹🇭 🇬🇧', stars:5.0, reviews:6, rate:'400', skills_en:'Maths · Physics · Exam prep', skills_th:'คณิตศาสตร์ · ฟิสิกส์ · เตรียมสอบ' },
-  { photo:'https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=80&h=80&fit=crop&crop=face', name:'Dao W.', verified:true, role_en:'🌿 Gardener & Pool Care', role_th:'🌿 คนสวน / ดูแลสระ', city:'Koh Samui', exp:6, langs:'🇹🇭', stars:4.9, reviews:9, rate:'180', skills_en:'Garden care · Pool cleaning · Lawn', skills_th:'ดูแลสวน · ทำความสะอาดสระ · ตัดหญ้า' },
-  { photo:'https://images.unsplash.com/photo-1541823709867-1b206113eafd?w=80&h=80&fit=crop&crop=face', name:'Malee T.', verified:true, role_en:'🏥 Elder Care', role_th:'🏥 ดูแลผู้สูงอายุ', city:'Chiang Mai', exp:7, langs:'🇹🇭 🇬🇧', stars:4.8, reviews:5, rate:'250', skills_en:'Personal care · Medication · Companionship', skills_th:'ดูแลสุขอนามัย · เตือนทานยา · คอยเป็นเพื่อน' },
-];
-
-const SAMPLE_JOBS = [
   {
-    name: 'Sarah M.',
-    city: 'Phuket',
-    category_en: '👶 Nanny & Babysitter',
-    category_th: '👶 พี่เลี้ยงเด็ก',
-    category_ru: '👶 Няня',
-    text_en: 'Looking for an experienced nanny for our 2 children (ages 3 and 6). Monday to Friday, 8:00–17:00. Must speak English. We offer 18,000 THB/month. Light housekeeping included. Start date: May 2026. Long-term position preferred.',
-    text_th: 'ต้องการพี่เลี้ยงดูแลเด็ก 2 คน (อายุ 3 และ 6 ปี) วันจันทร์-ศุกร์ 8:00-17:00 ต้องพูดภาษาอังกฤษได้ เงินเดือน 18,000 บาท รวมงานบ้านเบาๆ เริ่มงานพฤษภาคม 2026 ต้องการคนทำงานระยะยาว',
-    text_ru: 'Ищем опытную няню для 2 детей (3 и 6 лет). Пн-Пт, 8:00–17:00. Обязательно владение английским. Зарплата 18,000 THB/мес. Включая легкую уборку. Начало: май 2026. Предпочтительно долгосрочно.',
-    posted_days: 2,
-    last_seen_hours: 3,
-    active: true,
+    photo:'/images/profiles/maria.jpg',
+    name:'Maria S.', age:32, verified:true,
+    category_en:'👶 Nanny & Babysitter', category_th:'👶 พี่เลี้ยงเด็ก', category_ru:'👶 Няня',
+    city:'Phuket', area:'Rawai',
+    bio_en:'Loving nanny with 5 years caring for infants and toddlers. Experienced with school runs and overnight care.',
+    bio_th:'พี่เลี้ยงใจดี ดูแลทารกและเด็กเล็กมา 5 ปี รับส่งโรงเรียนและดูแลกลางคืนได้',
+    bio_ru:'Заботливая няня с 5-летним опытом ухода за младенцами и малышами.',
+    experience:5, languages:'English, Filipino',
+    hasWhatsApp:true, hasEmail:true,
   },
   {
-    name: 'Thomas & Lisa K.',
-    city: 'Bangkok',
-    category_en: '🏠 Housekeeper & Cleaner',
-    category_th: '🏠 แม่บ้าน',
-    category_ru: '🏠 Домработница',
-    text_en: 'We need a full-time housekeeper for our condo in Sukhumvit. Tasks: daily cleaning, laundry, ironing, grocery shopping, and cooking Thai & Western food. 6 days/week (Sunday off). Salary: 15,000–20,000 THB depending on experience. Thai nationals preferred.',
-    text_th: 'ต้องการแม่บ้านเต็มเวลาสำหรับคอนโดในสุขุมวิท งาน: ทำความสะอาด ซักรีด รีดผ้า ซื้อของ ทำอาหารไทยและตะวันตก 6 วัน/สัปดาห์ (หยุดวันอาทิตย์) เงินเดือน 15,000-20,000 บาท ตามประสบการณ์',
-    text_ru: 'Нужна домработница на полную ставку для кондо в Сукхумвит. Уборка, стирка, глажка, покупки, приготовление тайской и западной кухни. 6 дней/неделю (воскресенье выходной). Зарплата: 15,000–20,000 THB.',
-    posted_days: 5,
-    last_seen_hours: 12,
-    active: true,
+    photo:'/images/profiles/sunisa.jpg',
+    name:'Sunisa K.', age:41, verified:true,
+    category_en:'🏠 Housekeeper & Cleaner', category_th:'🏠 แม่บ้าน', category_ru:'🏠 Домработница',
+    city:'Bangkok', area:'Sukhumvit',
+    bio_en:'Reliable housekeeper. 8 years with expat families. Cleaning, laundry, light cooking.',
+    bio_th:'แม่บ้านที่ไว้ใจได้ ทำงานกับครอบครัวต่างชาติ 8 ปี ทำความสะอาด ซักรีด ทำอาหารง่ายๆ',
+    bio_ru:'Надёжная домработница. 8 лет работы с экспатами.',
+    experience:8, languages:'Thai, English',
+    hasWhatsApp:true, hasEmail:false,
   },
   {
-    name: 'Michael R.',
-    city: 'Chiang Mai',
-    category_en: '🚗 Driver & Chauffeur',
-    category_th: '🚗 คนขับรถ',
-    category_ru: '🚗 Водитель',
-    text_en: 'Part-time driver needed for school runs and weekend errands. Mon–Fri 7:00–8:30 and 14:30–16:00, plus Saturday mornings. Must have own car and clean driving record. Offering 12,000 THB/month. English speaking is a plus.',
-    text_th: 'ต้องการคนขับรถพาร์ทไทม์สำหรับรับส่งโรงเรียนและธุระวันหยุด จันทร์-ศุกร์ 7:00-8:30 และ 14:30-16:00 บวกเสาร์เช้า ต้องมีรถยนต์ส่วนตัวและประวัติขับขี่ดี เงินเดือน 12,000 บาท พูดภาษาอังกฤษได้จะพิจารณาเป็นพิเศษ',
-    text_ru: 'Нужен водитель на частичную занятость: школа и поручения по выходным. Пн–Пт 7:00–8:30 и 14:30–16:00, + суббота утро. Свой автомобиль, чистый стаж. 12,000 THB/мес. Английский — плюс.',
-    posted_days: 1,
-    last_seen_hours: 1,
-    active: true,
+    photo:'/images/profiles/ana.jpg',
+    name:'Ana R.', age:29, verified:true,
+    category_en:'👨‍🍳 Private Chef & Cook', category_th:'👨‍🍳 พ่อครัวส่วนตัว', category_ru:'👨‍🍳 Личный повар',
+    city:'Phuket', area:'Kata',
+    bio_en:'Private chef specialising in Thai and Western cuisine. Trained in pastry and weekly meal prep.',
+    bio_th:'พ่อครัวส่วนตัว ชำนาญอาหารไทยและตะวันตก ทำขนมอบและเตรียมอาหารรายสัปดาห์',
+    bio_ru:'Личный повар, специализируется на тайской и западной кухне.',
+    experience:3, languages:'English, Thai, Filipino',
+    hasWhatsApp:true, hasEmail:true,
   },
 ];
 
@@ -457,15 +385,25 @@ export default function Employers() {
         lang={lang}
         jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'For Employers', path: '/employers' }])}
       />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
 
-        {/* NAVY TOP BAR — employer page indicator */}
-        <div className="fixed top-0 left-0 w-full h-1 bg-[#001b3d] z-[60]"></div>
+        {/* UTILITY TOP BAR — audience switch to helper landing.
+            Mirrors the navy bar on the helper landing (pages/index.js) but
+            in primary teal so the two pages feel like a matched set. */}
+        <div className="fixed top-0 left-0 w-full bg-[#006a62] text-white z-[60]">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 md:py-2.5 flex justify-end items-center text-xs md:text-sm">
+            <Link href="/" className="font-medium hover:text-gold transition-colors flex items-center gap-1.5 whitespace-nowrap">
+              <span className="opacity-80">
+                {lang === 'en' ? 'Are you a helper looking for work?' : lang === 'ru' ? 'Вы помощник в поиске работы?' : 'คุณเป็นผู้ช่วยที่กำลังหางาน?'}
+              </span>
+              <span className="font-bold">{t.nav_helpers} →</span>
+            </Link>
+          </div>
+        </div>
 
         {/* NAV */}
-        <nav className="fixed top-1 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
+        <nav className="fixed top-9 md:top-11 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
           <div className="flex items-center gap-3 shrink-0">
             <Link href="/" className="flex items-center gap-2">
               <span className="text-xl md:text-2xl font-bold font-headline"><span>Thai</span><span style={{color:"#006a62"}}>Helper</span></span>
@@ -474,16 +412,16 @@ export default function Employers() {
               {lang === 'en' ? 'For Employers' : lang === 'ru' ? 'Работодатели' : 'นายจ้าง'}
             </span>
           </div>
-          <div className="hidden md:flex items-center gap-8">
-            <Link className="text-sm font-semibold tracking-wide text-slate-600 hover:text-[#001b3d] transition-colors" href="/">{t.nav_helpers}</Link>
-          </div>
           <div className="flex items-center gap-2 md:gap-3">
+            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
+              {lang === 'en' ? 'Log In' : lang === 'ru' ? 'Войти' : 'เข้าสู่ระบบ'}
+            </Link>
             <LangSwitcher />
             <a className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="#register">{t.nav_cta}</a>
           </div>
         </nav>
 
-        <main className="pt-20">
+        <main className="pt-24 md:pt-28">
 
           {/* HERO + CAROUSEL SIDE BY SIDE */}
           <section className="relative px-6 py-16 md:py-24 overflow-hidden">
@@ -594,41 +532,40 @@ export default function Employers() {
             </div>
           </section>
 
-          {/* PROFILE PREVIEW */}
+          {/* PROFILE PREVIEW — uses the shared <HelperCard> so the
+              employer landing matches the helper landing and /helpers. */}
           <section className="py-16 md:py-24 px-6 bg-surface-container-low">
             <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-16">
+              <div className="text-center mb-12">
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2 block">{t.preview_label}</span>
                 <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-background mb-4">{t.preview_title}</h2>
                 <p className="text-on-surface-variant max-w-2xl mx-auto">{t.preview_sub}</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="flex flex-col gap-4 max-w-4xl mx-auto">
                 {PROFILES.map((p, i) => (
-                  <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100" key={i}>
-                    <div className="flex items-start gap-4 mb-4">
-                      <Image src={p.photo} alt={p.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20" width={56} height={56} />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-on-background truncate">{p.name}</span>
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold whitespace-nowrap">{t.preview_badge}</span>
-                        </div>
-                        <div className="text-sm text-on-surface-variant mt-0.5">{lang === 'th' ? p.role_th : p.role_en}</div>
-                        <div className="text-xs text-gray-500 mt-1">📍 {p.city} · {p.exp} {t.preview_exp} · {p.langs}</div>
-                      </div>
-                    </div>
-                    <div className="text-xs text-on-surface-variant bg-surface-container-low rounded-lg px-3 py-2 mb-4">{lang === 'th' ? p.skills_th : p.skills_en}</div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-amber-400 text-sm">★★★★★</span>
-                        <span className="text-sm font-bold text-on-background">{p.stars}</span>
-                        <span className="text-xs text-gray-400">({p.reviews})</span>
-                      </div>
-                      <span className="text-sm font-bold text-primary">{p.rate} THB/hr</span>
-                    </div>
-                    <button className="w-full mt-4 py-2.5 rounded-xl bg-surface-container-highest text-secondary font-semibold text-sm cursor-not-allowed opacity-50 flex items-center justify-center gap-2" disabled>
-                      🔒 {t.preview_locked}
-                    </button>
-                  </div>
+                  <HelperCard
+                    key={i}
+                    mode="preview"
+                    helper={{
+                      photo: p.photo,
+                      name: p.name,
+                      age: p.age,
+                      verified: p.verified,
+                      categoryLabel: p[`category_${lang}`] || p.category_en,
+                      city: p.city,
+                      area: p.area,
+                      bio: p[`bio_${lang}`] || p.bio_en,
+                      experience: p.experience,
+                      languages: p.languages,
+                      hasWhatsApp: p.hasWhatsApp,
+                      hasEmail: p.hasEmail,
+                    }}
+                    t={{
+                      card_exp: t.preview_exp,
+                      card_verified: (t.preview_badge || '').replace(/^✓\s*/, ''),
+                      card_preview_note: t.preview_locked,
+                    }}
+                  />
                 ))}
               </div>
               <p className="text-center text-sm text-on-surface-variant mt-8">🔒 {t.preview_note}</p>
