@@ -306,19 +306,25 @@ export default function Home() {
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
 
-        {/* TEAL TOP BAR — helper page indicator */}
-        <div className="fixed top-0 left-0 w-full h-1 bg-primary z-[60]"></div>
+        {/* UTILITY TOP BAR — audience switch to employer landing */}
+        <div className="fixed top-0 left-0 w-full bg-[#001b3d] text-white z-[60]">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 md:py-2.5 flex justify-end items-center text-xs md:text-sm">
+            <Link href="/employers" className="font-medium hover:text-gold transition-colors flex items-center gap-1.5 whitespace-nowrap">
+              <span className="opacity-80">
+                {lang === 'en' ? 'Looking to hire a helper?' : lang === 'ru' ? 'Ищете помощника?' : 'กำลังหาผู้ช่วย?'}
+              </span>
+              <span className="font-bold">{t.nav_employers} →</span>
+            </Link>
+          </div>
+        </div>
 
         {/* NAV */}
-        <nav className="fixed top-1 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
+        <nav className="fixed top-9 md:top-11 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
           <div className="flex items-center gap-3 shrink-0">
             <Link href="/" className="text-xl md:text-2xl font-bold font-headline"><span>Thai</span><span style={{color:"#006a62"}}>Helper</span></Link>
             <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-primary text-white text-[10px] font-bold tracking-wide uppercase">
               {lang === 'en' ? 'For Helpers' : lang === 'ru' ? 'Помощники' : 'ผู้ช่วย'}
             </span>
-          </div>
-          <div className="hidden md:flex items-center gap-8">
-            <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/employers">{t.nav_employers}</Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
