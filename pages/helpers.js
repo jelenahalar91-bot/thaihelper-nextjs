@@ -3,6 +3,7 @@ import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
 import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
+import HelperCard from '@/components/HelperCard';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import { CITIES } from '@/lib/constants/cities';
 import { CATEGORY_NAMES, CAT_EMOJI } from '@/lib/constants/categories';
@@ -230,7 +231,11 @@ export default function Helpers() {
           ) : (
             <div className="flex flex-col gap-4">
               {filtered.map(h => (
-                <HelperCard key={h.ref} helper={h} t={t} />
+                <HelperCard
+                  key={h.ref}
+                  helper={{ ...h, categoryLabel: categoryLabel(h.category) }}
+                  t={t}
+                />
               ))}
             </div>
           )}
@@ -266,90 +271,3 @@ export default function Helpers() {
   );
 }
 
-// ─── HELPER CARD (horizontal list item) ────────────────────────────────
-function HelperCard({ helper, t }) {
-  const displayName = [helper.firstName, helper.lastName].filter(Boolean).join(' ');
-
-  return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
-      {/* Photo — square on desktop, full-width 16:9 on mobile */}
-      <div className="bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square">
-        {helper.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={helper.photo}
-            alt={displayName}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-5xl text-gray-300">
-            👤
-          </div>
-        )}
-      </div>
-
-      {/* Body — fills remaining space, more room for bio */}
-      <div className="p-5 sm:p-6 flex flex-col flex-1 min-w-0 gap-3">
-        {/* Name + age + category + location */}
-        <div>
-          <h3 className="text-xl font-bold text-gray-900 leading-tight">
-            {displayName}
-            {helper.age && (
-              <span className="text-gray-400 font-medium text-base ml-1">· {helper.age}</span>
-            )}
-          </h3>
-          <div className="text-sm text-gray-700 mt-1 font-medium">
-            {categoryLabel(helper.category)}
-          </div>
-          <div className="text-xs text-gray-500 mt-1">
-            📍 {helper.city}{helper.area ? ` · ${helper.area}` : ''}
-          </div>
-        </div>
-
-        {/* Bio — generous, no clamp */}
-        {helper.bio && (
-          <p className="text-sm text-gray-600 leading-relaxed">
-            {helper.bio}
-          </p>
-        )}
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 text-xs">
-          {helper.experience && (
-            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
-              ⏱ {helper.experience} {t.card_exp}
-            </span>
-          )}
-          {helper.languages && (
-            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
-              🗣 {helper.languages}
-            </span>
-          )}
-          {helper.hasWhatsApp && (
-            <span className="px-2 py-1 rounded-md bg-green-50 text-green-700 font-medium">
-              ✓ {t.card_wa}
-            </span>
-          )}
-          {helper.hasEmail && (
-            <span className="px-2 py-1 rounded-md bg-blue-50 text-blue-700 font-medium">
-              ✓ {t.card_email}
-            </span>
-          )}
-        </div>
-
-        {/* Sign-in CTA */}
-        <div className="mt-auto pt-3 border-t border-gray-100">
-          <div className="text-xs text-gray-500 text-center mb-2">
-            🔒 {t.card_signin}
-          </div>
-          <Link
-            href="/login"
-            className="block w-full text-center px-4 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
-          >
-            {t.card_signin_btn}
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
