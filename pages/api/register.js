@@ -1,11 +1,23 @@
 // POST /api/register
-// Receives helper registration data, saves to Supabase, sends confirmation email
+// Receives helper registration data, saves to Supabase, sends confirmation
+// email, and signs the new helper in immediately so the client can upload a
+// profile photo and land on /profile without a manual login step.
 
 import { getServiceSupabase } from '../../lib/supabase';
+import { createToken, setSessionCookie } from '../../lib/auth';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
 
 function generateRef() {
   return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+}
+
+// Strip phone numbers and email addresses from free-text fields. Helpers
+// shouldn't share contact info in their bio — communication happens via the
+// on-platform messaging system. Mirrors the sanitizer in employer-signup.
+function sanitizeFreeText(text) {
+  return (text || '')
+    .replace(/(\+?\d[\d\s\-().]{7,}\d)/g, '[contact hidden]')
+    .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '[contact hidden]');
 }
 
 export default async function handler(req, res) {
@@ -16,8 +28,7 @@ export default async function handler(req, res) {
   const {
     first_name, last_name, age, category, skills,
     city, area, experience, languages, rate,
-    education, certificates, bio,
-    whatsapp, hasWhatsApp, email,
+    education, certificates, bio, email,
   } = req.body;
 
   // Validate required fields
@@ -27,6 +38,9 @@ export default async function handler(req, res) {
 
   const supabase = getServiceSupabase();
   const ref = generateRef();
+  const cleanEmail = email.trim().toLowerCase();
+  const cleanFirstName = first_name.trim();
+  const sanitizedBio = bio ? sanitizeFreeText(bio.trim()) : null;
 
   try {
     // Insert into helper_profiles
@@ -34,9 +48,9 @@ export default async function handler(req, res) {
       .from('helper_profiles')
       .insert({
         helper_ref: ref,
-        first_name: first_name.trim(),
+        first_name: cleanFirstName,
         last_name: last_name.trim(),
-        email: email.trim().toLowerCase(),
+        email: cleanEmail,
         age: age || null,
         category,
         skills: skills || null,
@@ -47,9 +61,7 @@ export default async function handler(req, res) {
         rate: rate || null,
         education: education?.trim() || null,
         certificates: certificates?.trim() || null,
-        bio: bio?.trim() || null,
-        whatsapp: whatsapp?.trim() || null,
-        has_whatsapp: hasWhatsApp ? true : false,
+        bio: sanitizedBio,
         source: 'thaihelper.app/register',
       });
 
@@ -66,26 +78,37 @@ export default async function handler(req, res) {
     await supabase
       .from('user_preferences')
       .upsert(
-        { helper_ref: ref, email: email.trim().toLowerCase() },
+        { helper_ref: ref, email: cleanEmail },
         { onConflict: 'helper_ref' }
       );
+
+    // Auto-login: set session cookie immediately so the next requests
+    // (photo upload, profile redirect) are authenticated. Mirrors the
+    // employer-signup flow.
+    const token = await createToken({
+      ref,
+      email: cleanEmail,
+      firstName: cleanFirstName,
+      role: 'helper',
+    });
+    setSessionCookie(res, token, 'helper');
 
     // Send confirmation email (don't fail registration if email fails)
     try {
       if (process.env.RESEND_API_KEY) {
         await Promise.all([
           sendHelperConfirmation({
-            firstName: first_name.trim(),
-            email: email.trim().toLowerCase(),
+            firstName: cleanFirstName,
+            email: cleanEmail,
             ref,
             category,
             city,
           }),
           sendAdminNotification({
             type: 'helper',
-            firstName: first_name.trim(),
+            firstName: cleanFirstName,
             lastName: last_name.trim(),
-            email: email.trim().toLowerCase(),
+            email: cleanEmail,
             city,
             category,
             ref,
@@ -96,7 +119,7 @@ export default async function handler(req, res) {
       console.error('Failed to send confirmation email:', emailErr);
     }
 
-    return res.status(200).json({ success: true, ref });
+    return res.status(200).json({ success: true, ref, firstName: cleanFirstName });
   } catch (err) {
     console.error('Failed to save helper registration:', err);
     return res.status(500).json({ error: 'Failed to save registration' });

@@ -3,7 +3,7 @@ import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { useLang } from './_app';
 import Link from 'next/link';
-import { registerHelper } from '@/lib/api/helpers';
+import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/helpers';
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
@@ -103,7 +103,7 @@ const T = {
     success_p1:      'Thanks for registering on ThaiHelper. Your profile has been received.',
     success_p2:      "We'll review it and get in touch as soon as the platform goes live in your city.",
     success_share:   'Know other nannies or housekeepers? Share ThaiHelper with them:',
-    success_login:   'Log in to your profile',
+    success_login:   'Go to my profile →',
     trust_secure:    '🔒 Secure & private',
     trust_free:      '✅ 100% free for providers',
     trust_mobile:    '📱 Works on any phone',
@@ -204,7 +204,7 @@ const T = {
     success_p1:      'ขอบคุณที่ลงทะเบียนกับ ThaiHelper โปรไฟล์ของคุณได้รับแล้ว',
     success_p2:      'เราจะตรวจสอบและติดต่อคุณทันทีที่แพลตฟอร์มเปิดตัวในเมืองของคุณ',
     success_share:   'รู้จักพี่เลี้ยงหรือแม่บ้านคนอื่นไหม? แชร์ ThaiHelper ให้พวกเขา:',
-    success_login:   'เข้าสู่ระบบโปรไฟล์ของคุณ',
+    success_login:   'ไปที่โปรไฟล์ของฉัน →',
     trust_secure:    '🔒 ปลอดภัยและเป็นส่วนตัว',
     trust_free:      '✅ ฟรี 100% สำหรับผู้ให้บริการ',
     trust_mobile:    '📱 ใช้งานได้ทุกอุปกรณ์',
@@ -314,10 +314,6 @@ const LANGUAGES = [
 ];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
-function generateRef() {
-  return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-}
-
 function generateBio({ lang, category, skills, experience, languages, city }) {
   const catEN = {
     nanny: 'nanny and childcare provider', housekeeper: 'housekeeper and cleaner',
@@ -378,6 +374,7 @@ export default function Register() {
   const [photoText,   setPhotoText]   = useState('');
 
   const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState('');
 
   const t = T[lang];
 
@@ -451,6 +448,7 @@ export default function Register() {
   const handleSubmit = async () => {
     if (!validate(3)) return;
     setSubmitting(true);
+    setSubmitError('');
 
     const data = {
       first_name: firstname.trim(),
@@ -470,14 +468,31 @@ export default function Register() {
     };
 
     try {
+      // 1) Create the helper account. The API sets a session cookie on
+      //    success, so the next two requests are authenticated.
       const result = await registerHelper(data);
+
+      // 2) Upload the profile photo (if any) using the new session.
+      //    Failures here are non-fatal: the account exists, the user can
+      //    add a photo later from /profile. We log it but still show the
+      //    success screen.
+      if (photoFile) {
+        try {
+          const { url } = await uploadProfilePhoto(photoFile);
+          if (url) {
+            await updateProfile({ photo: url });
+          }
+        } catch (photoErr) {
+          console.warn('Profile photo upload failed (non-fatal):', photoErr);
+        }
+      }
 
       setRefNumber(result.ref);
       setSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error('Submit error:', err);
-      alert(err.message === 'duplicate_email' ? t.duplicate_email : t.submit_error);
+      setSubmitError(err.message === 'duplicate_email' ? t.duplicate_email : t.submit_error);
     } finally {
       setSubmitting(false);
     }
@@ -544,7 +559,7 @@ export default function Register() {
                 <p>{t.success_p2}</p>
                 <div className="success-ref">Ref: {refNumber}</div>
                 <div style={{ textAlign: 'center', margin: '16px 0' }}>
-                  <Link href="/login" style={{
+                  <Link href="/profile" style={{
                     display: 'inline-block', padding: '12px 28px', borderRadius: '10px',
                     background: 'var(--primary)', color: 'white', fontWeight: 700,
                     textDecoration: 'none', fontSize: '15px',
@@ -821,6 +836,20 @@ export default function Register() {
                   </label>
                   {errors.terms && <div className="field-error" style={{ display: 'block' }}>{errors.terms}</div>}
                 </div>
+
+                {submitError && (
+                  <div style={{
+                    background: '#fee2e2',
+                    border: '1px solid #fecaca',
+                    color: '#991b1b',
+                    padding: '12px 16px',
+                    borderRadius: '10px',
+                    marginBottom: '16px',
+                    fontSize: '14px',
+                  }}>
+                    {submitError}
+                  </div>
+                )}
 
                 <div className="btn-row">
                   <button className="btn-back" onClick={() => goToStep(2)}>{t.btn_back}</button>
