@@ -12,10 +12,14 @@ import Image from 'next/image';
  * Expected `helper` shape (all fields optional unless noted):
  *   photo, name OR (firstName + lastName) [required],
  *   age, categoryLabel, city, area, bio,
- *   experience, languages, hasWhatsApp, hasEmail, verified
+ *   experience, languages, verified
  *
- * Expected `t` keys: card_exp, card_wa, card_email,
- *   card_signin, card_signin_btn, card_preview_note, card_verified
+ * Expected `t` keys: card_exp, card_signin, card_signin_btn,
+ *   card_preview_note, card_verified
+ *
+ * NOTE: WhatsApp/Email contact badges are intentionally NOT shown.
+ * All communication happens on-platform; users decide what contact
+ * data to share AFTER messaging through ThaiHelper.
  */
 export default function HelperCard({ helper, mode = 'browse', t }) {
   const displayName =
@@ -93,16 +97,6 @@ export default function HelperCard({ helper, mode = 'browse', t }) {
           {helper.languages && (
             <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
               🗣 {helper.languages}
-            </span>
-          )}
-          {helper.hasWhatsApp && (
-            <span className="px-2 py-1 rounded-md bg-green-50 text-green-700 font-medium">
-              ✓ {t.card_wa || 'WhatsApp'}
-            </span>
-          )}
-          {helper.hasEmail && (
-            <span className="px-2 py-1 rounded-md bg-blue-50 text-blue-700 font-medium">
-              ✓ {t.card_email || 'Email'}
             </span>
           )}
         </div>

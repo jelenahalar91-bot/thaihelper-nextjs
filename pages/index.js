@@ -171,7 +171,6 @@ const PROFILES = [
     bio_th:'พี่เลี้ยงใจดี ดูแลทารกและเด็กเล็กมา 5 ปี รับส่งโรงเรียนและดูแลกลางคืนได้',
     bio_ru:'Заботливая няня с 5-летним опытом ухода за младенцами и малышами.',
     experience:5, languages:'English, Filipino',
-    hasWhatsApp:true, hasEmail:true,
   },
   {
     photo:'/images/profiles/sunisa.jpg',
@@ -182,7 +181,6 @@ const PROFILES = [
     bio_th:'แม่บ้านที่ไว้ใจได้ ทำงานกับครอบครัวต่างชาติ 8 ปี ทำความสะอาด ซักรีด ทำอาหารง่ายๆ',
     bio_ru:'Надёжная домработница. 8 лет работы с экспатами.',
     experience:8, languages:'Thai, English',
-    hasWhatsApp:true, hasEmail:false,
   },
   {
     photo:'/images/profiles/ana.jpg',
@@ -193,7 +191,6 @@ const PROFILES = [
     bio_th:'พ่อครัวส่วนตัว ชำนาญอาหารไทยและตะวันตก ทำขนมอบและเตรียมอาหารรายสัปดาห์',
     bio_ru:'Личный повар, специализируется на тайской и западной кухне.',
     experience:3, languages:'English, Thai, Filipino',
-    hasWhatsApp:true, hasEmail:true,
   },
 ];
 
@@ -427,8 +424,6 @@ export default function Home() {
                       bio: p[`bio_${lang}`] || p.bio_en,
                       experience: p.experience,
                       languages: p.languages,
-                      hasWhatsApp: p.hasWhatsApp,
-                      hasEmail: p.hasEmail,
                     }}
                     t={{
                       card_exp: t.preview_exp,
