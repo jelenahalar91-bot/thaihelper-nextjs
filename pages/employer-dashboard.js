@@ -339,7 +339,7 @@ export default function EmployerDashboard() {
               </button>
 
               {/* Language toggle */}
-              <LangSwitcher languages={['en', 'th']} />
+              <LangSwitcher languages={['en', 'th', 'ru']} />
 
               {/* Profile avatar with dropdown menu (Dashboard / Profile / Settings / Logout) */}
               <EmployerProfileMenu

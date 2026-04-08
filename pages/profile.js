@@ -547,7 +547,7 @@ export default function Profile() {
         <Head><title>{t.page_title}</title><meta name="robots" content="noindex, nofollow" /></Head>
         <div className="register-body">
           <nav className="register-nav"><Link href="/" className="brand">Thai<span>Helper</span></Link></nav>
-          <div className="register-container" style={{ maxWidth: '480px' }}>
+          <div className="register-container" style={{ maxWidth: '480px', marginLeft: 'auto', marginRight: 'auto' }}>
             <div className="card" style={{ padding: '40px 32px', textAlign: 'center' }}>
               <div style={{ marginBottom: '16px', color: '#006a62', display: 'flex', justifyContent: 'center' }}><IconLock /></div>
               <h1 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '8px' }}>{t.login_required}</h1>
@@ -566,9 +566,9 @@ export default function Profile() {
         <Head><title>{t.page_title}</title><meta name="robots" content="noindex, nofollow" /></Head>
         <div className="register-body">
           <nav className="register-nav"><Link href="/" className="brand">Thai<span>Helper</span></Link></nav>
-          <div className="register-container" style={{ maxWidth: '600px' }}>
+          <div className="register-container" style={{ maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
             <div className="card" style={{ padding: '60px 32px', textAlign: 'center' }}>
-              <div style={{ margin: '0 auto 16px', width: '40px', height: '40px', border: '3px solid #e5e7eb', borderTop: '3px solid var(--primary)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+              <div style={{ margin: '0 auto 16px', width: '40px', height: '40px', border: '3px solid #e5e7eb', borderTop: '3px solid #006a62', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
               <p style={{ color: 'var(--gray-500)' }}>{t.loading}</p>
             </div>
           </div>
@@ -696,7 +696,7 @@ export default function Profile() {
                     <div style={{ padding: '12px 22px 10px', borderTop: '1px solid #f3f4f6', marginTop: '6px' }}>
                       <div style={{ fontSize: '11px', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '10px' }}>Language</div>
                       <div style={{ display: 'flex', gap: '6px' }}>
-                        {[{ c: 'en', l: 'EN' }, { c: 'th', l: 'TH' }].map(x => (
+                        {[{ c: 'en', l: 'EN' }, { c: 'th', l: 'TH' }, { c: 'ru', l: 'RU' }].map(x => (
                           <button
                             key={x.c}
                             onClick={() => changeLang(x.c)}

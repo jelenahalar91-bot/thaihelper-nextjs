@@ -291,7 +291,7 @@ export default function EmployerProfile() {
               >
                 {t.back}
               </button>
-              <LangSwitcher languages={['en', 'th']} />
+              <LangSwitcher languages={['en', 'th', 'ru']} />
               <EmployerProfileMenu
                 profile={{ ...profile, photo_url: photoUrl }}
                 lang={lang}

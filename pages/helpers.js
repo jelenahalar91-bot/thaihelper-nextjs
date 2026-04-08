@@ -131,7 +131,7 @@ export default function Helpers() {
               <Link href="/login" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
                 {t.nav_login}
               </Link>
-              <LangSwitcher languages={['en', 'th']} />
+              <LangSwitcher languages={['en', 'th', 'ru']} />
               <Link
                 href="/register"
                 className="px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-[#006a62] to-[#004d47] text-white text-xs md:text-sm font-semibold hover:shadow-lg transition-all"
