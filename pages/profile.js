@@ -26,23 +26,31 @@ const T = {
     menu_settings: 'Settings',
     menu_dashboard: 'Dashboard',
     // Dashboard
-    dash_welcome: 'Welcome back',
+    dash_hi_morning: 'Good morning',
+    dash_hi_afternoon: 'Good afternoon',
+    dash_hi_evening: 'Good evening',
+    dash_subtitle_live: 'Your profile is live — families can find you right now.',
+    dash_subtitle_incomplete: 'Almost there — finish your profile so families can discover you.',
     dash_status: 'Profile Status',
-    dash_status_active: 'Active',
+    dash_status_active: 'Live',
     dash_status_review: 'Under Review',
-    dash_views: 'Profile Views',
-    dash_messages: 'Messages',
-    dash_coming: 'Coming at launch',
-    dash_tip_title: 'Complete your profile',
-    dash_tip_text: 'Helpers with complete profiles (photo, bio, certificates) get 3x more contact requests from families.',
+    dash_stat_messages: 'Messages',
+    dash_stat_documents: 'Documents',
+    dash_stat_references: 'References',
+    dash_stat_unread: 'unread',
+    dash_tip_title: 'Profile completeness',
+    dash_tip_text: 'Helpers with complete profiles (photo, bio, certificates) get 3× more contact requests from families.',
     dash_tip_btn: 'Edit Profile',
-    dash_launch_title: 'Launching April 2026',
-    dash_launch_text: 'Your profile is registered and will be visible to families when we launch. We\'ll notify you by email!',
+    dash_promo_title: 'Get noticed faster',
+    dash_promo_tip1: 'Add a friendly profile photo',
+    dash_promo_tip2: 'Write a short bio about yourself',
+    dash_promo_tip3: 'Upload certificates & references',
+    dash_promo_cta: 'Improve my profile',
     // Messages
     msg_title: 'Your Messages',
     msg_empty_icon: '💬',
     msg_empty_title: 'No messages yet',
-    msg_empty_text: 'When families contact you, their messages will appear here. This feature will be available at launch.',
+    msg_empty_text: 'When families contact you, their messages will appear here.',
     msg_coming_title: 'Coming Soon',
     msg_coming_features: [
       'Direct messages from families',
@@ -137,22 +145,30 @@ const T = {
     menu_profile: 'โปรไฟล์',
     menu_settings: 'ตั้งค่า',
     menu_dashboard: 'แดชบอร์ด',
-    dash_welcome: 'ยินดีต้อนรับกลับ',
+    dash_hi_morning: 'อรุณสวัสดิ์',
+    dash_hi_afternoon: 'สวัสดีตอนบ่าย',
+    dash_hi_evening: 'สวัสดีตอนเย็น',
+    dash_subtitle_live: 'โปรไฟล์ของคุณเปิดใช้งานแล้ว — ครอบครัวสามารถค้นหาคุณได้ทันที',
+    dash_subtitle_incomplete: 'ใกล้เสร็จแล้ว — ทำโปรไฟล์ให้สมบูรณ์เพื่อให้ครอบครัวค้นพบคุณ',
     dash_status: 'สถานะโปรไฟล์',
-    dash_status_active: 'ใช้งาน',
+    dash_status_active: 'เปิดใช้งาน',
     dash_status_review: 'กำลังตรวจสอบ',
-    dash_views: 'การเข้าชมโปรไฟล์',
-    dash_messages: 'ข้อความ',
-    dash_coming: 'พร้อมเมื่อเปิดตัว',
-    dash_tip_title: 'ทำโปรไฟล์ให้สมบูรณ์',
+    dash_stat_messages: 'ข้อความ',
+    dash_stat_documents: 'เอกสาร',
+    dash_stat_references: 'ข้อมูลอ้างอิง',
+    dash_stat_unread: 'ยังไม่ได้อ่าน',
+    dash_tip_title: 'ความสมบูรณ์ของโปรไฟล์',
     dash_tip_text: 'ผู้ช่วยที่มีโปรไฟล์สมบูรณ์ (รูปภาพ, เกี่ยวกับตัวเอง, ใบรับรอง) ได้รับการติดต่อจากครอบครัวมากขึ้น 3 เท่า',
     dash_tip_btn: 'แก้ไขโปรไฟล์',
-    dash_launch_title: 'เปิดตัวเมษายน 2026',
-    dash_launch_text: 'โปรไฟล์ของคุณลงทะเบียนแล้วและจะปรากฏให้ครอบครัวเห็นเมื่อเราเปิดตัว เราจะแจ้งคุณทางอีเมล!',
+    dash_promo_title: 'ทำให้คุณโดดเด่นเร็วขึ้น',
+    dash_promo_tip1: 'เพิ่มรูปโปรไฟล์ที่เป็นมิตร',
+    dash_promo_tip2: 'เขียนแนะนำตัวสั้นๆ เกี่ยวกับคุณ',
+    dash_promo_tip3: 'อัปโหลดใบรับรองและข้อมูลอ้างอิง',
+    dash_promo_cta: 'ปรับปรุงโปรไฟล์ของฉัน',
     msg_title: 'ข้อความของคุณ',
     msg_empty_icon: '💬',
     msg_empty_title: 'ยังไม่มีข้อความ',
-    msg_empty_text: 'เมื่อครอบครัวติดต่อคุณ ข้อความจะปรากฏที่นี่ ฟีเจอร์นี้จะพร้อมใช้งานเมื่อเปิดตัว',
+    msg_empty_text: 'เมื่อครอบครัวติดต่อคุณ ข้อความจะปรากฏที่นี่',
     msg_coming_title: 'เร็วๆ นี้',
     msg_coming_features: [
       'ข้อความโดยตรงจากครอบครัว',
@@ -719,26 +735,66 @@ export default function Profile() {
           {/* ─── DASHBOARD TAB ──────────────────────────────────────────── */}
           {activeTab === 'dashboard' && (
             <>
-              {/* Welcome */}
-              <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>
-                {t.dash_welcome}, {p.firstName}
-              </h1>
+              {/* Hero card – gradient with greeting + ring */}
+              <div style={{
+                position: 'relative', overflow: 'hidden',
+                background: 'linear-gradient(135deg, #006a62 0%, #00897e 50%, #00b29c 100%)',
+                borderRadius: '20px',
+                padding: isMobile ? '22px 22px 24px' : '32px 36px',
+                marginBottom: '20px',
+                color: 'white',
+                boxShadow: '0 12px 32px rgba(0, 106, 98, 0.25)',
+              }}>
+                {/* Decorative blobs */}
+                <div aria-hidden style={{ position: 'absolute', top: '-60px', right: '-60px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+                <div aria-hidden style={{ position: 'absolute', bottom: '-80px', left: '-40px', width: '180px', height: '180px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
 
-              {/* Stats row */}
-              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '12px', marginBottom: '24px' }}>
-                <StatCard
-                  label={t.dash_status}
-                  value={t.dash_status_active}
-                  icon={<IconCheck />}
-                  color="#059669"
-                  bg="#ecfdf5"
+                <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: isMobile ? '16px' : '28px', flexDirection: isMobile ? 'column' : 'row', textAlign: isMobile ? 'center' : 'left' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 12px', borderRadius: '999px', background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: '12px' }}>
+                      <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#7dffb0', boxShadow: '0 0 0 3px rgba(125,255,176,0.3)' }} />
+                      {t.dash_status_active} · {p.helper_ref || p.ref || ''}
+                    </div>
+                    <h1 style={{ fontSize: isMobile ? '24px' : '30px', fontWeight: 800, margin: '0 0 8px', lineHeight: 1.15, letterSpacing: '-0.5px' }}>
+                      {getGreeting(t)}, {p.firstName} 👋
+                    </h1>
+                    <p style={{ fontSize: isMobile ? '14px' : '15px', margin: 0, opacity: 0.92, lineHeight: 1.5, maxWidth: '460px' }}>
+                      {completeness === 100 ? t.dash_subtitle_live : t.dash_subtitle_incomplete}
+                    </p>
+                  </div>
+
+                  {/* Completeness ring */}
+                  <CompletenessRing percent={completeness} />
+                </div>
+              </div>
+
+              {/* Stats row – real metrics */}
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(3, 1fr)', gap: isMobile ? '8px' : '12px', marginBottom: '20px' }}>
+                <MiniStat
+                  label={t.dash_stat_messages}
+                  value={conversations.length}
+                  badge={totalUnread > 0 ? `${totalUnread} ${t.dash_stat_unread}` : null}
+                  icon={<IconMessage />}
+                  accent="#006a62"
+                  bg="#e6f5f3"
+                  onClick={() => setActiveTab('messages')}
+                  isMobile={isMobile}
                 />
-                <StatCard
-                  label={t.dash_views}
-                  value={t.dash_coming}
-                  icon={<IconEye />}
-                  color="#6366f1"
+                <MiniStat
+                  label={t.dash_stat_documents}
+                  value={documents.length}
+                  icon={<IconFile size={20} />}
+                  accent="#6366f1"
                   bg="#eef2ff"
+                  isMobile={isMobile}
+                />
+                <MiniStat
+                  label={t.dash_stat_references}
+                  value={references.length}
+                  icon={<IconUser />}
+                  accent="#f59e0b"
+                  bg="#fef3c7"
+                  isMobile={isMobile}
                 />
               </div>
 
@@ -762,21 +818,19 @@ export default function Profile() {
 
               {/* ─── DOCUMENTS SECTION ──────────────────────────────── */}
               <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '20px' : '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
-                <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'stretch' : 'center', gap: isMobile ? '14px' : '8px', marginBottom: '16px' }}>
-                  <h3 style={{ fontSize: '17px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{t.doc_title}</h3>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: isMobile ? '100%' : 'auto' }}>
-                    <select value={docType} onChange={e => setDocType(e.target.value)} style={{ flex: isMobile ? 1 : 'none', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '13px', background: 'white' }}>
-                      <option value="certificate">{t.doc_type_certificate}</option>
-                      <option value="resume">{t.doc_type_resume}</option>
-                      <option value="id">{t.doc_type_id}</option>
-                      <option value="reference">{t.doc_type_reference}</option>
-                      <option value="other">{t.doc_type_other}</option>
-                    </select>
-                    <label style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: uploadingDoc ? 'wait' : 'pointer', opacity: uploadingDoc ? 0.6 : 1, whiteSpace: 'nowrap' }}>
-                      {uploadingDoc ? t.doc_uploading : t.doc_upload}
-                      <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={handleDocUpload} disabled={uploadingDoc} style={{ display: 'none' }} />
-                    </label>
-                  </div>
+                <h3 style={{ fontSize: '17px', fontWeight: 700, margin: '0 0 12px', color: '#1a1a1a' }}>{t.doc_title}</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', width: '100%' }}>
+                  <select value={docType} onChange={e => setDocType(e.target.value)} style={{ flex: 1, minWidth: 0, padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '13px', background: 'white' }}>
+                    <option value="certificate">{t.doc_type_certificate}</option>
+                    <option value="resume">{t.doc_type_resume}</option>
+                    <option value="id">{t.doc_type_id}</option>
+                    <option value="reference">{t.doc_type_reference}</option>
+                    <option value="other">{t.doc_type_other}</option>
+                  </select>
+                  <label style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: uploadingDoc ? 'wait' : 'pointer', opacity: uploadingDoc ? 0.6 : 1, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                    {uploadingDoc ? t.doc_uploading : t.doc_upload}
+                    <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={handleDocUpload} disabled={uploadingDoc} style={{ display: 'none' }} />
+                  </label>
                 </div>
                 <p style={{ fontSize: '11px', color: '#999', margin: '0 0 16px' }}>{t.doc_max_size}</p>
 
@@ -912,11 +966,36 @@ export default function Profile() {
                 )}
               </div>
 
-              {/* Launch info */}
-              <div style={{ background: 'linear-gradient(135deg, #006a62, #004d47)', borderRadius: '16px', padding: isMobile ? '22px' : '28px', color: 'white' }}>
-                <h3 style={{ fontSize: '17px', fontWeight: 700, margin: '0 0 10px' }}>{t.dash_launch_title}</h3>
-                <p style={{ fontSize: '15px', margin: 0, opacity: 0.9, lineHeight: 1.6 }}>{t.dash_launch_text}</p>
-              </div>
+              {/* Get noticed faster – tips card */}
+              {completeness < 100 && (
+                <div style={{
+                  position: 'relative', overflow: 'hidden',
+                  background: 'linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)',
+                  borderRadius: '16px',
+                  padding: isMobile ? '22px' : '28px',
+                  border: '1px solid #fed7aa',
+                }}>
+                  <div aria-hidden style={{ position: 'absolute', top: '-30px', right: '-30px', fontSize: '120px', opacity: 0.12 }}>✨</div>
+                  <h3 style={{ fontSize: '17px', fontWeight: 800, margin: '0 0 14px', color: '#9a3412', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>✨</span> {t.dash_promo_title}
+                  </h3>
+                  <ul style={{ margin: '0 0 18px', padding: 0, listStyle: 'none', display: 'grid', gap: '10px' }}>
+                    {[t.dash_promo_tip1, t.dash_promo_tip2, t.dash_promo_tip3].map((tip, i) => (
+                      <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#7c2d12' }}>
+                        <span style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#f97316', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0 }}>✓</span>
+                        {tip}
+                      </li>
+                    ))}
+                  </ul>
+                  <button onClick={() => { setActiveTab('profile'); startEditing(); }} style={{
+                    padding: '10px 22px', borderRadius: '10px', border: 'none',
+                    background: '#f97316', color: 'white', fontSize: '14px', fontWeight: 700, cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(249,115,22,0.3)',
+                  }}>
+                    {t.dash_promo_cta}
+                  </button>
+                </div>
+              )}
             </>
           )}
 
@@ -1256,6 +1335,77 @@ function IconFolderOpen() {
     <svg {...iconProps} width="28" height="28">
       <path d="M6 14l1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2" />
     </svg>
+  );
+}
+
+// Time-aware greeting (server-rendered safe: defaults to morning, hydrates on client)
+function getGreeting(t) {
+  if (typeof window === 'undefined') return t.dash_hi_morning;
+  const h = new Date().getHours();
+  if (h < 12) return t.dash_hi_morning;
+  if (h < 18) return t.dash_hi_afternoon;
+  return t.dash_hi_evening;
+}
+
+function CompletenessRing({ percent }) {
+  const size = 96;
+  const stroke = 9;
+  const radius = (size - stroke) / 2;
+  const circ = 2 * Math.PI * radius;
+  const offset = circ - (percent / 100) * circ;
+  return (
+    <div style={{ position: 'relative', width: size, height: size, flexShrink: 0 }}>
+      <svg width={size} height={size}>
+        <circle cx={size / 2} cy={size / 2} r={radius} stroke="rgba(255,255,255,0.22)" strokeWidth={stroke} fill="none" />
+        <circle
+          cx={size / 2} cy={size / 2} r={radius}
+          stroke="white" strokeWidth={stroke} fill="none"
+          strokeLinecap="round"
+          strokeDasharray={circ}
+          strokeDashoffset={offset}
+          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+          style={{ transition: 'stroke-dashoffset 0.8s ease' }}
+        />
+      </svg>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+        <div style={{ fontSize: '22px', fontWeight: 800, lineHeight: 1 }}>{percent}%</div>
+        <div style={{ fontSize: '9px', fontWeight: 700, opacity: 0.85, letterSpacing: '0.5px', textTransform: 'uppercase', marginTop: '2px' }}>complete</div>
+      </div>
+    </div>
+  );
+}
+
+function MiniStat({ label, value, badge, icon, accent, bg, onClick, isMobile }) {
+  const interactive = !!onClick;
+  return (
+    <div
+      onClick={onClick}
+      role={interactive ? 'button' : undefined}
+      tabIndex={interactive ? 0 : undefined}
+      style={{
+        background: 'white', borderRadius: '14px',
+        padding: isMobile ? '14px 12px' : '18px 18px',
+        border: '1px solid #e5e7eb',
+        cursor: interactive ? 'pointer' : 'default',
+        transition: 'transform 0.15s, box-shadow 0.15s',
+        position: 'relative',
+      }}
+      onMouseEnter={interactive ? (e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.06)'; } : undefined}
+      onMouseLeave={interactive ? (e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; } : undefined}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: isMobile ? '8px' : '12px' }}>
+        <span style={{ width: isMobile ? '32px' : '36px', height: isMobile ? '32px' : '36px', borderRadius: '10px', background: bg, color: accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {icon}
+        </span>
+        {badge && (
+          <span style={{ fontSize: '10px', fontWeight: 700, color: 'white', background: '#dc2626', padding: '3px 8px', borderRadius: '999px' }}>
+            {badge}
+          </span>
+        )}
+      </div>
+      <div style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 800, color: '#1a1a1a', lineHeight: 1 }}>{value}</div>
+      <div style={{ fontSize: isMobile ? '10px' : '11px', color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '6px', fontWeight: 600 }}>{label}</div>
+    </div>
   );
 }
 
