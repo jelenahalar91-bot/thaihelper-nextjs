@@ -131,6 +131,8 @@ const T = {
     msg_translation_failed: 'Message sent, but auto-translation failed. Recipient sees the original text.',
     msg_too_long: 'Message is too long (max {n} characters).',
     msg_send_error: 'Failed to send message. Please try again.',
+    msg_empty_title: 'Say hi to {name} 👋',
+    msg_empty_hint: 'Send your first reply to get the conversation started. Messages are auto-translated into your preferred language.',
     // Settings
     settings_title: 'Language & Settings',
     settings_lang: 'Preferred Language',
@@ -251,6 +253,8 @@ const T = {
     msg_translation_failed: 'ส่งข้อความแล้ว แต่การแปลอัตโนมัติล้มเหลว ผู้รับจะเห็นข้อความต้นฉบับ',
     msg_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
     msg_send_error: 'ส่งข้อความไม่สำเร็จ กรุณาลองอีกครั้ง',
+    msg_empty_title: 'ทักทาย {name} กันเถอะ 👋',
+    msg_empty_hint: 'ส่งข้อความตอบกลับแรกเพื่อเริ่มการสนทนา ข้อความจะถูกแปลเป็นภาษาที่คุณต้องการโดยอัตโนมัติ',
     // Settings
     settings_title: 'ภาษาและการตั้งค่า',
     settings_lang: 'ภาษาที่ต้องการ',

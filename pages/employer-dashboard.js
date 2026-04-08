@@ -35,6 +35,7 @@ import {
 } from '@/lib/api/messages';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
+import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { CITIES } from '@/lib/constants/cities';
 import { CATEGORY_NAMES, CAT_EMOJI } from '@/lib/constants/categories';
 
@@ -87,6 +88,18 @@ const T = {
     err_generic: 'Something went wrong. Please try again.',
     err_translation_failed: 'Message sent, but automatic translation failed. The recipient will see the original text.',
     err_too_long: 'Message is too long (max {n} characters).',
+    // Conversation empty state
+    msg_empty_title: 'Say hi to {name} 👋',
+    msg_empty_hint: 'Send your first message to get the conversation started. Messages are auto-translated, so you can write in your own language.',
+    // Helper profile modal
+    profile_location: 'Location',
+    profile_experience: 'Experience',
+    profile_languages: 'Languages',
+    profile_education: 'Education',
+    profile_rate: 'Rate',
+    profile_about: 'About',
+    profile_skills: 'Skills',
+    profile_certificates: 'Certificates',
   },
   th: {
     page_title: 'แดชบอร์ดนายจ้าง – ThaiHelper',
@@ -135,6 +148,18 @@ const T = {
     err_generic: 'เกิดข้อผิดพลาด กรุณาลองอีกครั้ง',
     err_translation_failed: 'ส่งข้อความแล้ว แต่การแปลอัตโนมัติล้มเหลว ผู้รับจะเห็นข้อความต้นฉบับ',
     err_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
+    // Conversation empty state
+    msg_empty_title: 'ทักทาย {name} กันเถอะ 👋',
+    msg_empty_hint: 'ส่งข้อความแรกเพื่อเริ่มการสนทนา ข้อความจะถูกแปลอัตโนมัติ คุณจึงสามารถเขียนเป็นภาษาของคุณเองได้',
+    // Helper profile modal
+    profile_location: 'ที่ตั้ง',
+    profile_experience: 'ประสบการณ์',
+    profile_languages: 'ภาษา',
+    profile_education: 'การศึกษา',
+    profile_rate: 'ค่าจ้าง',
+    profile_about: 'เกี่ยวกับ',
+    profile_skills: 'ทักษะ',
+    profile_certificates: 'ใบรับรอง',
   },
 };
 
@@ -177,6 +202,7 @@ export default function EmployerDashboard() {
   const [msgInput, setMsgInput] = useState('');
   const [sending, setSending] = useState(false);
   const [errorBanner, setErrorBanner] = useState('');
+  const [viewingHelper, setViewingHelper] = useState(null); // helper obj shown in profile modal
 
   // ── Mount: auth check + initial loads ─────────────────────────────────
   useEffect(() => {
@@ -340,6 +366,29 @@ export default function EmployerDashboard() {
   function handleUpgrade() {
     // Stripe integration not built yet — placeholder.
     alert(t.access_free_text);
+  }
+
+  // Open the full helper profile modal from the conversation header.
+  // We look the helper up in the already-loaded `helpers` state (from the
+  // Browse tab) so there's no extra round-trip. Falls back to a lookup by
+  // ref if needed.
+  function handleViewHelperProfile(counterparty) {
+    if (!counterparty?.ref) return;
+    const helper = helpers.find(h => h.ref === counterparty.ref);
+    if (helper) {
+      setViewingHelper(helper);
+    } else {
+      // Helper not in current list (e.g. filtered out) — build a minimal
+      // object from what the conversation counterparty gave us.
+      setViewingHelper({
+        ref: counterparty.ref,
+        firstName: counterparty.firstName,
+        lastName: counterparty.lastName,
+        photo: counterparty.photo,
+        category: counterparty.category,
+        city: counterparty.city,
+      });
+    }
   }
 
   if (!authChecked) {
@@ -521,12 +570,22 @@ export default function EmployerDashboard() {
                   sending={sending}
                   onBack={() => { setSelectedConv(null); setMessages([]); }}
                   onUpgrade={handleUpgrade}
+                  onViewProfile={handleViewHelperProfile}
                   t={t}
                 />
               )}
             </>
           )}
         </main>
+
+        {/* Helper profile modal (opened from conversation header) */}
+        {viewingHelper && (
+          <HelperProfileModal
+            helper={viewingHelper}
+            onClose={() => setViewingHelper(null)}
+            t={t}
+          />
+        )}
       </div>
     </>
   );
