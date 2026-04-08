@@ -26,10 +26,42 @@ export default function ConversationDetail({
   t,
 }) {
   const messagesEndRef = useRef(null);
+  const scrollContainerRef = useRef(null);
+  const prevMessageCountRef = useRef(0);
 
+  // Reset when switching to a different conversation so the new view
+  // always auto-scrolls to bottom on open.
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    prevMessageCountRef.current = 0;
+  }, [conversation?.id]);
+
+  // Auto-scroll logic:
+  //  - Always scroll to bottom on initial load (first render with messages)
+  //  - On subsequent updates (e.g. polling), only scroll if the user is
+  //    already near the bottom OR it's their own new message. Otherwise
+  //    don't yank them out of scrolling up to read history.
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const count = messages.length;
+    const prev = prevMessageCountRef.current;
+    prevMessageCountRef.current = count;
+
+    if (count === 0) return;
+
+    const isInitial = prev === 0;
+    const lastMsg = messages[count - 1];
+    const isOwnNewMsg = count > prev && lastMsg?.sender_type === currentRole;
+    const distanceFromBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight;
+    const nearBottom = distanceFromBottom < 120;
+
+    if (isInitial || isOwnNewMsg || nearBottom) {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: isInitial ? 'auto' : 'smooth',
+      });
+    }
+  }, [messages, currentRole]);
 
   const cp = conversation.counterparty || {};
   const displayName =
@@ -77,7 +109,7 @@ export default function ConversationDetail({
       </div>
 
       {/* Messages */}
-      <div style={{
+      <div ref={scrollContainerRef} style={{
         flex: 1, overflowY: 'auto', padding: '16px',
         background: '#fafafa', display: 'flex', flexDirection: 'column',
       }}>

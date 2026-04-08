@@ -85,6 +85,8 @@ const T = {
     msg_send_locked: 'Upgrade to send messages and read full conversations.',
     err_start_locked: 'Upgrade your account to message helpers.',
     err_generic: 'Something went wrong. Please try again.',
+    err_translation_failed: 'Message sent, but automatic translation failed. The recipient will see the original text.',
+    err_too_long: 'Message is too long (max {n} characters).',
   },
   th: {
     page_title: 'แดชบอร์ดนายจ้าง – ThaiHelper',
@@ -131,6 +133,8 @@ const T = {
     msg_send_locked: 'อัปเกรดเพื่อส่งข้อความและอ่านบทสนทนาแบบเต็ม',
     err_start_locked: 'อัปเกรดบัญชีของคุณเพื่อส่งข้อความถึงผู้ช่วย',
     err_generic: 'เกิดข้อผิดพลาด กรุณาลองอีกครั้ง',
+    err_translation_failed: 'ส่งข้อความแล้ว แต่การแปลอัตโนมัติล้มเหลว ผู้รับจะเห็นข้อความต้นฉบับ',
+    err_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
   },
 };
 
@@ -207,8 +211,8 @@ export default function EmployerDashboard() {
     setHelpersLoading(false);
   }
 
-  async function loadConversations() {
-    setConvsLoading(true);
+  async function loadConversations({ silent = false } = {}) {
+    if (!silent) setConvsLoading(true);
     try {
       const data = await fetchConversations();
       setConversations(data.conversations || []);
@@ -216,8 +220,37 @@ export default function EmployerDashboard() {
     } catch (err) {
       console.error('Failed to load conversations:', err);
     }
-    setConvsLoading(false);
+    if (!silent) setConvsLoading(false);
   }
+
+  // ── Polling: keep conversation list fresh while Messages tab is open ──
+  // Refreshes every 15s so new unread messages appear without a hard reload.
+  // We skip polling while the user is typing in a conversation detail view
+  // to avoid clobbering the messages list mid-keystroke.
+  useEffect(() => {
+    if (!authChecked) return;
+    if (activeTab !== 'messages') return;
+    if (selectedConv) return; // conversation detail has its own poll below
+    const id = setInterval(() => loadConversations({ silent: true }), 15000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authChecked, activeTab, selectedConv]);
+
+  // Poll the open conversation's messages every 10s so replies land live
+  useEffect(() => {
+    if (!authChecked) return;
+    if (!selectedConv) return;
+    const id = setInterval(async () => {
+      try {
+        const res = await fetchMessages(selectedConv.id);
+        setMessages(res.messages || []);
+        if (res.accessStatus) setAccessStatus(res.accessStatus);
+      } catch {
+        /* ignore transient errors */
+      }
+    }, 10000);
+    return () => clearInterval(id);
+  }, [authChecked, selectedConv]);
 
   // ── Filtered helper list ──────────────────────────────────────────────
   const filteredHelpers = useMemo(() => helpers.filter(h => {
@@ -289,9 +322,14 @@ export default function EmployerDashboard() {
       const res = await sendMessage(selectedConv.id, msgInput.trim());
       setMessages(prev => [...prev, res.message]);
       setMsgInput('');
+      if (res.translationFailed) {
+        setErrorBanner(t.err_translation_failed);
+      }
     } catch (err) {
-      if (err.message === 'payment_required') {
+      if (err.code === 'payment_required') {
         setErrorBanner(t.err_start_locked);
+      } else if (err.code === 'message_too_long') {
+        setErrorBanner((t.err_too_long || 'Message is too long.').replace('{n}', err.max || 4000));
       } else {
         setErrorBanner(t.err_generic);
       }

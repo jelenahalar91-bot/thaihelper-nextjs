@@ -193,12 +193,17 @@ export default async function handler(req, res) {
       return res.status(200).json({ conversation_id: existing.id, existed: true });
     }
 
+    // Initialize last_message_at = now() so newly created conversations
+    // appear at the top of the list even before any messages are sent.
+    // Otherwise the column is NULL and Postgres sorts NULLs last, so the
+    // new chat would sink to the bottom of the employer's list.
     const { data: created, error: convErr } = await supabase
       .from('conversations')
       .insert({
         helper_ref,
         employer_id: employer.employer_ref,
         employer_name: employer.first_name,
+        last_message_at: new Date().toISOString(),
       })
       .select('id')
       .single();

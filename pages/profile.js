@@ -128,6 +128,9 @@ const T = {
     msg_show_original: 'Show original',
     msg_show_translated: 'Show translated',
     msg_unread: 'unread',
+    msg_translation_failed: 'Message sent, but auto-translation failed. Recipient sees the original text.',
+    msg_too_long: 'Message is too long (max {n} characters).',
+    msg_send_error: 'Failed to send message. Please try again.',
     // Settings
     settings_title: 'Language & Settings',
     settings_lang: 'Preferred Language',
@@ -245,6 +248,9 @@ const T = {
     msg_show_original: 'แสดงต้นฉบับ',
     msg_show_translated: 'แสดงคำแปล',
     msg_unread: 'ยังไม่ได้อ่าน',
+    msg_translation_failed: 'ส่งข้อความแล้ว แต่การแปลอัตโนมัติล้มเหลว ผู้รับจะเห็นข้อความต้นฉบับ',
+    msg_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
+    msg_send_error: 'ส่งข้อความไม่สำเร็จ กรุณาลองอีกครั้ง',
     // Settings
     settings_title: 'ภาษาและการตั้งค่า',
     settings_lang: 'ภาษาที่ต้องการ',
@@ -284,6 +290,7 @@ export default function Profile() {
   const [msgInput, setMsgInput] = useState('');
   const [sendingMsg, setSendingMsg] = useState(false);
   const [loadingMsgs, setLoadingMsgs] = useState(false);
+  const [msgToast, setMsgToast] = useState(''); // translation-failed / error banner
   // Settings
   const [prefLang, setPrefLang] = useState('en');
   const [settingsSaved, setSettingsSaved] = useState('');
@@ -512,12 +519,50 @@ export default function Profile() {
       const res = await sendMessage(selectedConv.id, msgInput.trim());
       setMessages(prev => [...prev, res.message]);
       setMsgInput('');
+      if (res.translationFailed) {
+        setMsgToast(t.msg_translation_failed || 'Message sent, but auto-translation failed.');
+        setTimeout(() => setMsgToast(''), 5000);
+      }
     } catch (err) {
-      alert(err.message);
+      if (err.code === 'message_too_long') {
+        setMsgToast(
+          (t.msg_too_long || 'Message is too long (max {n} characters).').replace('{n}', err.max || 4000)
+        );
+      } else {
+        setMsgToast(t.msg_send_error || 'Failed to send message.');
+      }
+      setTimeout(() => setMsgToast(''), 5000);
     } finally {
       setSendingMsg(false);
     }
   };
+
+  // ── Messaging polling ───────────────────────────────────────────────
+  // Refresh conversation list every 15s while on Messages tab (and no
+  // conversation is open) so new incoming messages appear live.
+  useEffect(() => {
+    if (activeTab !== 'messages') return;
+    if (selectedConv) return;
+    const id = setInterval(async () => {
+      try {
+        const data = await fetchConversations();
+        setConversations(data.conversations || []);
+      } catch { /* ignore */ }
+    }, 15000);
+    return () => clearInterval(id);
+  }, [activeTab, selectedConv]);
+
+  // Poll the open conversation's messages every 10s for live replies
+  useEffect(() => {
+    if (!selectedConv) return;
+    const id = setInterval(async () => {
+      try {
+        const res = await fetchMessages(selectedConv.id);
+        setMessages(res.messages || []);
+      } catch { /* ignore */ }
+    }, 10000);
+    return () => clearInterval(id);
+  }, [selectedConv]);
 
   // Settings handlers
   const handleLanguageChange = async (newLang) => {
@@ -1009,6 +1054,30 @@ export default function Profile() {
           {/* ─── MESSAGES TAB ───────────────────────────────────────────── */}
           {activeTab === 'messages' && (
             <>
+              {msgToast && (
+                <div style={{
+                  background: '#fff7ed',
+                  border: '1px solid #fed7aa',
+                  color: '#9a3412',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  marginBottom: '16px',
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '12px',
+                }}>
+                  <span>{msgToast}</span>
+                  <button
+                    onClick={() => setMsgToast('')}
+                    style={{
+                      background: 'none', border: 'none', color: '#9a3412',
+                      cursor: 'pointer', fontSize: '18px', padding: 0, lineHeight: 1,
+                    }}
+                  >×</button>
+                </div>
+              )}
               {!selectedConv ? (
                 <>
                   <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>{t.msg_title}</h1>

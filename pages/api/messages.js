@@ -20,6 +20,9 @@ import {
 } from '../../lib/access';
 
 const MESSAGES_PER_PAGE = 50;
+// Max characters per message. Generous enough for long Thai replies but
+// prevents abuse (dumping huge blobs into the DB, bloating translation cost).
+const MAX_MESSAGE_LENGTH = 4000;
 
 // Look up the current employer's live access state from the database.
 // We never trust the JWT for access state — it's 30 days old.
@@ -44,12 +47,15 @@ async function loadHelperRef(supabase, helperRef) {
 // Verify that the given session owns this conversation, and return
 // conversation metadata for routing / translation.
 async function loadConversation(supabase, conversationId, session) {
-  const { data } = await supabase
+  // Validate UUID format defensively — .maybeSingle() handles malformed IDs
+  // without throwing, and missing rows return data:null instead of an error.
+  if (!conversationId || typeof conversationId !== 'string') return null;
+  const { data, error } = await supabase
     .from('conversations')
     .select('id, helper_ref, employer_id, employer_name')
     .eq('id', conversationId)
-    .single();
-  if (!data) return null;
+    .maybeSingle();
+  if (error || !data) return null;
   if (session.role === 'helper' && data.helper_ref !== session.ref) return null;
   if (session.role === 'employer' && data.employer_id !== session.ref) return null;
   return data;
@@ -120,8 +126,15 @@ export default async function handler(req, res) {
     }
 
     const { conversation_id, content } = req.body;
-    if (!conversation_id || !content?.trim()) {
+    const trimmed = typeof content === 'string' ? content.trim() : '';
+    if (!conversation_id || !trimmed) {
       return res.status(400).json({ error: 'conversation_id and content required' });
+    }
+    if (trimmed.length > MAX_MESSAGE_LENGTH) {
+      return res.status(400).json({
+        error: 'message_too_long',
+        max: MAX_MESSAGE_LENGTH,
+      });
     }
 
     const conv = await loadConversation(supabase, conversation_id, session);
@@ -141,20 +154,26 @@ export default async function handler(req, res) {
       targetLanguage = recipient?.preferred_language || 'th';
     }
 
-    // Auto-translate if source != target
+    // Auto-translate if source != target. Track whether translation was
+    // ATTEMPTED but failed so the client can show a warning — we still send
+    // the original content so the message isn't lost.
     let sourceLanguage = null;
     let translatedContent = null;
+    let translationFailed = false;
     try {
-      sourceLanguage = await detectLanguage(content.trim());
+      sourceLanguage = await detectLanguage(trimmed);
       if (sourceLanguage && targetLanguage && sourceLanguage !== targetLanguage) {
-        const result = await translateText(content.trim(), targetLanguage, sourceLanguage);
-        if (result) {
+        const result = await translateText(trimmed, targetLanguage, sourceLanguage);
+        if (result && result.translatedText) {
           translatedContent = result.translatedText;
           sourceLanguage = result.detectedSourceLanguage || sourceLanguage;
+        } else {
+          translationFailed = true;
         }
       }
     } catch (err) {
       console.error('Translation error (non-critical):', err.message);
+      translationFailed = true;
     }
 
     // Insert message
@@ -164,7 +183,7 @@ export default async function handler(req, res) {
         conversation_id,
         sender_type: session.role,
         sender_ref: session.ref,
-        content_original: content.trim(),
+        content_original: trimmed,
         content_translated: translatedContent,
         source_language: sourceLanguage,
         target_language: targetLanguage,
@@ -184,7 +203,10 @@ export default async function handler(req, res) {
       .update({ last_message_at: new Date().toISOString() })
       .eq('id', conversation_id);
 
-    return res.status(201).json({ message });
+    return res.status(201).json({
+      message,
+      translationFailed, // client can show a warning toast
+    });
   }
 
   // ─── PUT — Mark incoming messages as read ─────────────────────────────
