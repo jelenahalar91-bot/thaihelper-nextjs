@@ -6,7 +6,6 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import Image from "next/image";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -171,15 +170,17 @@ export const CircularTestimonials = ({
           </AnimatePresence>
           <div className="image-container" ref={imageContainerRef}>
             {testimonials.map((testimonial, index) => (
-              <Image
+              // next/image's `fill` mode injects its own absolute positioning
+              // which conflicts with the 3D translateX/scale/rotateY transforms
+              // we apply here, so we keep this as a plain <img>.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 key={testimonial.src}
                 src={testimonial.src}
                 alt={testimonial.name}
-                fill
-                sizes="(max-width: 1023px) 75vw, 600px"
-                priority={index === 0}
                 className="testimonial-image"
                 data-index={index}
+                loading={index === 0 ? "eager" : "lazy"}
                 style={getImageStyle(index)}
               />
             ))}
