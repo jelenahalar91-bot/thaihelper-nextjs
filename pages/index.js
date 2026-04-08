@@ -24,11 +24,6 @@ const T = {
     preview_sub:'Your profile is publicly visible to families searching in your city. Only verified and registered employers can contact you directly.',
     preview_badge:'✓ Verified',preview_exp:'yrs experience',preview_btn:'Contact',
     preview_note:'Only paid & verified families can contact you.',
-    bento_accent:'Empowerment',bento_h:'Building Bridges in the Thai Community',
-    bento_p:"We don't just list jobs; we foster relationships based on mutual respect and fair employment practices.",
-    bento_quote:'"The most transparent way to find work."',
-    bento_24h:'Average response time from helpers',
-    bento_launch_label:'Coming Soon',bento_launch:'Launching April 2026',
     match_label:'Happy Matches',match_title:'Families & Helpers United',
     match_sub:'Real connections, real stories. See how ThaiHelper brings families and helpers together.',
     match_hired:'Hired as',match_quote_label:'What they say',
@@ -80,11 +75,6 @@ const T = {
     preview_sub:'โปรไฟล์ของคุณเปิดให้ครอบครัวในเมืองของคุณค้นหาได้ เฉพาะนายจ้างที่ลงทะเบียนและยืนยันตัวตนแล้วเท่านั้นที่สามารถติดต่อคุณได้',
     preview_badge:'✓ ยืนยันแล้ว',preview_exp:'ปีประสบการณ์',preview_btn:'ติดต่อ',
     preview_note:'เฉพาะครอบครัวที่ยืนยันตัวตนและชำระเงินแล้วเท่านั้นที่ติดต่อคุณได้',
-    bento_accent:'การเสริมสร้าง',bento_h:'สร้างสะพานเชื่อมในชุมชนไทย',
-    bento_p:'เราไม่ได้แค่ลงประกาศงาน เราส่งเสริมความสัมพันธ์บนพื้นฐานของความเคารพและการจ้างงานที่เป็นธรรม',
-    bento_quote:'"วิธีหางานที่โปร่งใสที่สุด"',
-    bento_24h:'เวลาตอบกลับเฉลี่ยจากผู้ช่วย',
-    bento_launch_label:'เร็วๆ นี้',bento_launch:'เปิดตัว เมษายน 2026',
     match_label:'การจับคู่ที่มีความสุข',match_title:'ครอบครัวและผู้ช่วยที่พบกัน',
     match_sub:'การเชื่อมต่อจริง เรื่องราวจริง',
     match_hired:'จ้างเป็น',match_quote_label:'พวกเขาพูดว่า',
@@ -135,11 +125,6 @@ const T = {
     preview_sub:'Ваш профиль виден всем семьям, ищущим помощников в вашем городе. Связаться с вами могут только зарегистрированные и проверенные работодатели.',
     preview_badge:'✓ Проверен',preview_exp:'лет опыта',preview_btn:'Связаться',
     preview_note:'Только оплатившие и проверенные семьи могут с вами связаться.',
-    bento_accent:'Развитие',bento_h:'Строим мосты в тайском сообществе',
-    bento_p:'Мы не просто размещаем вакансии — мы развиваем отношения на основе взаимного уважения и справедливого трудоустройства.',
-    bento_quote:'"Самый прозрачный способ найти работу."',
-    bento_24h:'Среднее время ответа от помощников',
-    bento_launch_label:'Скоро',bento_launch:'Запуск апрель 2026',
     how_label:'Как это работает',how_title:'3 шага к трудоустройству',
     how_sub:'Без агентств. Без очередей. Только ваш профиль и прямой контакт с работодателями.',
     step1_h:'Зарегистрируйтесь бесплатно',step1_p:'Создайте профиль за несколько минут. Добавьте опыт, навыки, доступность и фото.',
@@ -353,11 +338,6 @@ export default function Home() {
                   <>เป็นหนึ่งใน<span className="font-bold text-gold">ผู้ช่วยที่ผ่านการยืนยัน</span>กลุ่มแรก</>
                 )}
               </p>
-              <div className="mt-2.5 flex justify-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
-                <span className="w-1.5 h-1.5 rounded-full bg-gold/40"></span>
-                <span className="w-1.5 h-1.5 rounded-full bg-gold/40"></span>
-              </div>
             </div>
           </div>
 
@@ -424,32 +404,6 @@ export default function Home() {
               <p className="text-center text-sm text-on-surface-variant mt-8">🔒 {t.preview_note}</p>
             </div>
           </section>
-
-          {/* BENTO STATS */}
-          <section className="py-24 px-6 bg-surface">
-            <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:auto-rows-[280px]">
-                <div className="md:col-span-8 md:row-span-2 rounded-[2.5rem] bg-white overflow-hidden relative group min-h-[400px] md:min-h-0">
-                  <div className="absolute inset-0 w-full h-full bg-cover bg-center opacity-15 group-hover:scale-105 transition-transform duration-700" style={{backgroundImage:"url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&fit=crop')"}}></div>
-                  <div className="relative p-8 md:p-10 h-full flex flex-col justify-end">
-                    <span className="text-tertiary font-bold tracking-widest text-xs uppercase mb-3">{t.bento_accent}</span>
-                    <h3 className="text-2xl md:text-4xl font-extrabold font-headline mb-3 md:mb-4">{t.bento_h}</h3>
-                    <p className="text-on-surface-variant max-w-lg mb-4 md:mb-6 text-sm md:text-base">{t.bento_p}</p>
-                    <span className="editorial-accent text-lg md:text-2xl text-secondary">{t.bento_quote}</span>
-                  </div>
-                </div>
-                <div className="md:col-span-4 rounded-[2.5rem] bg-primary text-on-primary p-8 flex flex-col justify-center">
-                  <div className="text-5xl font-black font-headline mb-2">24h</div>
-                  <div className="text-lg font-bold opacity-80">{t.bento_24h}</div>
-                </div>
-                <div className="md:col-span-4 rounded-[2.5rem] bg-surface-variant p-8 flex flex-col justify-center">
-                  <div className="text-sm font-bold uppercase tracking-widest opacity-60 mb-1">{t.bento_launch_label}</div>
-                  <div className="text-2xl font-extrabold">{t.bento_launch}</div>
-                </div>
-              </div>
-            </div>
-          </section>
-
 
           {/* HOW IT WORKS */}
           <section className="py-24 px-6 bg-surface" id="how-it-works">
