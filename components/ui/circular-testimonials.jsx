@@ -6,6 +6,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
+import Image from "next/image";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -170,10 +171,13 @@ export const CircularTestimonials = ({
           </AnimatePresence>
           <div className="image-container" ref={imageContainerRef}>
             {testimonials.map((testimonial, index) => (
-              <img
+              <Image
                 key={testimonial.src}
                 src={testimonial.src}
                 alt={testimonial.name}
+                fill
+                sizes="(max-width: 1023px) 75vw, 600px"
+                priority={index === 0}
                 className="testimonial-image"
                 data-index={index}
                 style={getImageStyle(index)}

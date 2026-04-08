@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 /**
  * Shared helper card — used by:
@@ -25,12 +26,26 @@ export default function HelperCard({ helper, mode = 'browse', t }) {
       {/* Photo */}
       <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square">
         {helper.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={helper.photo}
-            alt={displayName}
-            className="w-full h-full object-cover"
-          />
+          // Local images (/images/...) get full next/image optimization;
+          // user-uploaded photos (data: URLs or unknown remote hosts) fall
+          // back to a plain <img> so they still render reliably.
+          helper.photo.startsWith('/') ? (
+            <Image
+              src={helper.photo}
+              alt={displayName}
+              fill
+              sizes="(max-width: 640px) 100vw, 224px"
+              className="object-cover"
+            />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={helper.photo}
+              alt={displayName}
+              loading="lazy"
+              className="w-full h-full object-cover"
+            />
+          )
         ) : (
           <div className="w-full h-full flex items-center justify-center text-5xl text-gray-300">
             👤
