@@ -508,7 +508,7 @@ export default function Home() {
               <ul className="space-y-3">
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#benefits">{t.footer_find}</a></li>
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#categories">{t.footer_hire}</a></li>
-                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#how">{t.footer_pricing}</a></li>
+                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/pricing">{t.footer_pricing}</Link></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/employers">{t.footer_employers}</Link></li>
               </ul>
             </div>
