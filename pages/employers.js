@@ -6,7 +6,11 @@ import { useLang } from './_app';
 import Link from 'next/link';
 import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
-import { ArrowLeft, ArrowRight, UserPlus, MessageCircle, PartyPopper } from 'lucide-react';
+import {
+  ArrowLeft, ArrowRight,
+  UserPlus, MessageCircle, PartyPopper,
+  Wallet, Ban, ShieldCheck, LayoutGrid, MapPin,
+} from 'lucide-react';
 
 // ─── HERO CAROUSEL (2 visible cards) ────────────────────────────────────────
 function HeroCarousel({ items }) {
@@ -71,7 +75,8 @@ const T = {
     page_title: 'Find Household Staff in Thailand – ThaiHelper',
     nav_home: 'Home',
     nav_helpers: 'For Helpers',
-    nav_cta: 'Register – Free',
+    nav_login: 'Login',
+    nav_cta: 'Register Free',
     // Hero
     hero_eyebrow: 'For Employers & Families',
     hero_h1: 'Find Trusted',
@@ -159,6 +164,7 @@ const T = {
     page_title: 'หาพนักงานดูแลบ้านในประเทศไทย – ThaiHelper',
     nav_home: 'หน้าแรก',
     nav_helpers: 'สำหรับผู้ช่วย',
+    nav_login: 'เข้าสู่ระบบ',
     nav_cta: 'ลงทะเบียนฟรี',
     hero_eyebrow: 'สำหรับนายจ้างและครอบครัว',
     hero_h1: 'หาผู้ช่วยที่ไว้ใจได้',
@@ -227,7 +233,8 @@ const T = {
     page_title: 'Найти домашний персонал в Таиланде – ThaiHelper',
     nav_home: 'Главная',
     nav_helpers: 'Для помощников',
-    nav_cta: 'Регистрация – Бесплатно',
+    nav_login: 'Войти',
+    nav_cta: 'Регистрация',
     // (CTA wording updated below)
     hero_eyebrow: 'Для работодателей и семей',
     hero_h1: 'Найдите проверенных помощников.',
@@ -297,37 +304,37 @@ const T = {
 const EMPLOYER_TRUST_SLIDES = [
   {
     id: 'no-fees',
-    title: '💰 Stop Paying Agencies',
+    title: 'Stop Paying Agencies',
     description: 'Tired of agencies taking 1–3 months salary? We were too. That\'s why ThaiHelper is free for families. Zero fees, zero commission — just direct hiring.',
     image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=600&fit=crop',
   },
   {
     id: 'no-facebook',
-    title: '🚫 No More Facebook Chaos',
+    title: 'No More Facebook Chaos',
     description: 'Scrolling through Facebook groups, hoping to find someone reliable? No profile, no reviews, no verification. ThaiHelper gives you real profiles with verified IDs and ratings.',
     image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&h=600&fit=crop',
   },
   {
     id: 'verified',
-    title: '✅ Know Who You\'re Hiring',
+    title: 'Know Who You\'re Hiring',
     description: 'Every helper on ThaiHelper verifies their ID. You see their experience, reviews from other families, and skills — before you even say hello. No more guessing.',
     image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop',
   },
   {
     id: 'direct',
-    title: '💬 Talk Directly, No Middleman',
+    title: 'Talk Directly, No Middleman',
     description: 'No agent sitting between you and your future nanny. Chat directly, discuss your needs, agree on salary and schedule — on your terms, not theirs.',
     image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
   },
   {
     id: 'nearby',
-    title: '📍 Helpers in Your City',
+    title: 'Helpers in Your City',
     description: 'Whether you\'re in Bangkok, Phuket, Chiang Mai, or Koh Samui — we show you helpers who actually live near you. No more "sorry, I\'m in another province."',
     image: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&h=600&fit=crop',
   },
   {
     id: 'all-staff',
-    title: '🏠 One Place for Everything',
+    title: 'One Place for Everything',
     description: 'Need a nanny AND a housekeeper? Maybe a driver too? Stop juggling multiple agencies and Facebook groups. Find all household staff in one place.',
     image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop',
   },
@@ -413,9 +420,7 @@ export default function Employers() {
             </span>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
-              {lang === 'en' ? 'Log In' : lang === 'ru' ? 'Войти' : 'เข้าสู่ระบบ'}
-            </Link>
+            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
             <LangSwitcher />
             <a className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="#register">{t.nav_cta}</a>
           </div>
@@ -521,13 +526,25 @@ export default function Employers() {
                 <p className="text-on-surface-variant max-w-2xl mx-auto">{t.why_sub}</p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[{h:t.why1_h,p:t.why1_p,i:'💰'},{h:t.why2_h,p:t.why2_p,i:'🚫'},{h:t.why3_h,p:t.why3_p,i:'✅'},{h:t.why4_h,p:t.why4_p,i:'📋'},{h:t.why5_h,p:t.why5_p,i:'💬'},{h:t.why6_h,p:t.why6_p,i:'📍'}].map((b,i) => (
-                  <div key={i} className="bg-surface-container-low rounded-2xl p-6 hover:bg-surface-container transition-colors">
-                    <span className="text-2xl mb-3 block">{b.i}</span>
-                    <h3 className="font-bold font-headline text-on-background mb-2">{b.h}</h3>
-                    <p className="text-sm text-on-surface-variant leading-relaxed">{b.p}</p>
-                  </div>
-                ))}
+                {[
+                  { h: t.why1_h, p: t.why1_p, Icon: Wallet,       color: 'text-[#F4A261]', bg: 'bg-[#F4A261]/10' },
+                  { h: t.why2_h, p: t.why2_p, Icon: Ban,           color: 'text-[#E76F51]', bg: 'bg-[#E76F51]/10' },
+                  { h: t.why3_h, p: t.why3_p, Icon: ShieldCheck,   color: 'text-[#006a62]', bg: 'bg-[#006a62]/10' },
+                  { h: t.why4_h, p: t.why4_p, Icon: LayoutGrid,    color: 'text-[#8B5CF6]', bg: 'bg-[#8B5CF6]/10' },
+                  { h: t.why5_h, p: t.why5_p, Icon: MessageCircle, color: 'text-[#0EA5E9]', bg: 'bg-[#0EA5E9]/10' },
+                  { h: t.why6_h, p: t.why6_p, Icon: MapPin,        color: 'text-[#001b3d]', bg: 'bg-[#001b3d]/10' },
+                ].map((b, i) => {
+                  const Icon = b.Icon;
+                  return (
+                    <div key={i} className="bg-surface-container-low rounded-2xl p-6 hover:bg-surface-container transition-colors">
+                      <div className={`w-12 h-12 rounded-xl ${b.bg} ${b.color} flex items-center justify-center mb-4`}>
+                        <Icon className="w-6 h-6" strokeWidth={2.25} />
+                      </div>
+                      <h3 className="font-bold font-headline text-on-background mb-2">{b.h}</h3>
+                      <p className="text-sm text-on-surface-variant leading-relaxed">{b.p}</p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </section>
