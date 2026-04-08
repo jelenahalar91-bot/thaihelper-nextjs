@@ -24,7 +24,7 @@ export default function ConversationList({ conversations, onSelect, t }) {
           {t.msg_no_conv}
         </h2>
         <p style={{
-          fontSize: '14px', color: '#666', maxWidth: '400px',
+          fontSize: '15px', color: '#666', maxWidth: '400px',
           margin: '0 auto', lineHeight: 1.6,
         }}>
           {t.msg_no_conv_text}
@@ -79,18 +79,18 @@ export default function ConversationList({ conversations, onSelect, t }) {
                 display: 'flex', justifyContent: 'space-between',
                 alignItems: 'center', marginBottom: '4px',
               }}>
-                <span style={{ fontSize: '14px', fontWeight: 700, color: '#1a1a1a' }}>
+                <span style={{ fontSize: '15px', fontWeight: 700, color: '#1a1a1a' }}>
                   {displayName}
                 </span>
                 {lastMsg && (
-                  <span style={{ fontSize: '11px', color: '#999' }}>
+                  <span style={{ fontSize: '12px', color: '#999' }}>
                     {formatTime(lastMsg.created_at)}
                   </span>
                 )}
               </div>
               {lastMsg && (
                 <p style={{
-                  fontSize: '13px', color: isLocked ? '#999' : '#666', margin: 0,
+                  fontSize: '14px', color: isLocked ? '#999' : '#666', margin: 0,
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   fontStyle: isLocked ? 'italic' : 'normal',
                 }}>
@@ -104,7 +104,7 @@ export default function ConversationList({ conversations, onSelect, t }) {
             {conv.unread_count > 0 && (
               <span style={{
                 background: '#006a62', color: 'white', borderRadius: '12px',
-                padding: '2px 8px', fontSize: '11px', fontWeight: 700, flexShrink: 0,
+                padding: '2px 8px', fontSize: '12px', fontWeight: 700, flexShrink: 0,
               }}>
                 {conv.unread_count}
               </span>

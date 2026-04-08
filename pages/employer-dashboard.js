@@ -366,7 +366,7 @@ export default function EmployerDashboard() {
               background: '#dcfce7', border: '1px solid #86efac',
               color: '#166534', padding: '12px 16px',
               borderRadius: '12px', marginBottom: '16px',
-              fontSize: '14px', fontWeight: 600,
+              fontSize: '15px', fontWeight: 600,
             }}>
               {(accessStatus.tier === 'promo' ? t.access_promo : t.access_paid)
                 .replace('{n}', accessStatus.daysRemaining)}
@@ -380,10 +380,10 @@ export default function EmployerDashboard() {
               gap: '12px', flexWrap: 'wrap',
             }}>
               <div style={{ flex: 1, minWidth: '200px' }}>
-                <div style={{ fontSize: '14px', fontWeight: 700, color: '#9a3412' }}>
+                <div style={{ fontSize: '15px', fontWeight: 700, color: '#9a3412' }}>
                   🔒 {t.access_free_title}
                 </div>
-                <div style={{ fontSize: '13px', color: '#9a3412', marginTop: '2px' }}>
+                <div style={{ fontSize: '14px', color: '#9a3412', marginTop: '2px' }}>
                   {t.access_free_text}
                 </div>
               </div>
@@ -391,7 +391,7 @@ export default function EmployerDashboard() {
                 onClick={handleUpgrade}
                 style={{
                   padding: '10px 20px', borderRadius: '10px', border: 'none',
-                  background: '#006a62', color: 'white', fontSize: '13px',
+                  background: '#006a62', color: 'white', fontSize: '14px',
                   fontWeight: 700, cursor: 'pointer',
                 }}
               >
@@ -406,7 +406,7 @@ export default function EmployerDashboard() {
               background: '#fee2e2', border: '1px solid #fecaca',
               color: '#991b1b', padding: '12px 16px',
               borderRadius: '10px', marginBottom: '16px',
-              fontSize: '13px',
+              fontSize: '14px',
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             }}>
               <span>{errorBanner}</span>
@@ -506,7 +506,7 @@ function BrowseTab({
           className="filter-select"
           style={{
             padding: '10px 14px', borderRadius: '10px',
-            border: '1px solid #e5e7eb', fontSize: '14px',
+            border: '1px solid #e5e7eb', fontSize: '15px',
             background: 'white', minWidth: '160px',
           }}
         >
@@ -519,7 +519,7 @@ function BrowseTab({
           onChange={e => setFilterCat(e.target.value)}
           style={{
             padding: '10px 14px', borderRadius: '10px',
-            border: '1px solid #e5e7eb', fontSize: '14px',
+            border: '1px solid #e5e7eb', fontSize: '15px',
             background: 'white', minWidth: '180px',
           }}
         >
@@ -536,7 +536,7 @@ function BrowseTab({
           placeholder={t.filter_area_ph}
           style={{
             padding: '10px 14px', borderRadius: '10px',
-            border: '1px solid #e5e7eb', fontSize: '14px',
+            border: '1px solid #e5e7eb', fontSize: '15px',
             flex: 1, minWidth: '160px',
           }}
         />
@@ -547,7 +547,7 @@ function BrowseTab({
             style={{
               padding: '10px 16px', borderRadius: '10px',
               border: '1px solid #e5e7eb', background: 'white',
-              fontSize: '13px', cursor: 'pointer', color: '#666',
+              fontSize: '14px', cursor: 'pointer', color: '#666',
             }}
           >
             {t.filter_reset}
@@ -556,7 +556,7 @@ function BrowseTab({
       </div>
 
       {/* Results count */}
-      <div style={{ marginBottom: '12px', fontSize: '13px', color: '#666' }}>
+      <div style={{ marginBottom: '12px', fontSize: '14px', color: '#666' }}>
         <strong>{totalCount}</strong> {t.results}
       </div>
 
@@ -574,7 +574,7 @@ function BrowseTab({
           <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>
             {t.no_helpers}
           </h3>
-          <p style={{ fontSize: '14px', color: '#666' }}>{t.no_helpers_sub}</p>
+          <p style={{ fontSize: '15px', color: '#666' }}>{t.no_helpers_sub}</p>
         </div>
       ) : (
         <div className="flex flex-col gap-4">

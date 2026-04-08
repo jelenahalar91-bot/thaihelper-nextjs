@@ -353,7 +353,7 @@ export default function EmployerProfile() {
                 <div className="text-sm text-gray-500 mt-1">
                   {profile.email}
                 </div>
-                <div className="mt-3 flex flex-wrap justify-center sm:justify-start gap-2 text-xs">
+                <div className="mt-3 flex flex-wrap justify-center sm:justify-start gap-2 text-sm">
                   <span className="px-2.5 py-1 rounded-md bg-[#e6f5f3] text-[#006a62] font-bold">
                     {t.ref_label}: {profile.employer_ref}
                   </span>
@@ -363,7 +363,7 @@ export default function EmployerProfile() {
                     </span>
                   )}
                 </div>
-                <div className="text-xs text-gray-400 mt-2">{t.photo_hint}</div>
+                <div className="text-sm text-gray-400 mt-2">{t.photo_hint}</div>
               </div>
             </div>
           </section>
@@ -436,7 +436,7 @@ export default function EmployerProfile() {
             {/* Looking for chips */}
             <div className="mb-5">
               <Label>{t.label_looking_for}</Label>
-              <div className="text-xs text-gray-500 mb-3">{t.looking_hint}</div>
+              <div className="text-sm text-gray-500 mb-3">{t.looking_hint}</div>
               <div className="flex flex-wrap gap-2">
                 {LOOKING_FOR_OPTIONS.map(opt => {
                   const active = form.looking_for.includes(opt.value);
@@ -560,7 +560,7 @@ function Section({ title, children }) {
 
 function Label({ children }) {
   return (
-    <label className="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">
+    <label className="block text-sm font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">
       {children}
     </label>
   );
@@ -571,7 +571,7 @@ function Field({ label, hint, children }) {
     <div>
       <Label>{label}</Label>
       {children}
-      {hint && <div className="text-xs text-gray-500 mt-1.5">{hint}</div>}
+      {hint && <div className="text-sm text-gray-500 mt-1.5">{hint}</div>}
     </div>
   );
 }

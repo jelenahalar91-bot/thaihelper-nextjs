@@ -32,7 +32,7 @@ export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
         }}>
           <p style={{
             margin: 0,
-            fontSize: '14px',
+            fontSize: '15px',
             lineHeight: 1.5,
             filter: 'blur(3px)',
             userSelect: 'none',
@@ -53,7 +53,7 @@ export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
               borderRadius: '999px',
               background: isOwn ? 'rgba(255,255,255,0.2)' : '#006a62',
               color: 'white',
-              fontSize: '12px',
+              fontSize: '13px',
               fontWeight: 600,
               cursor: 'pointer',
             }}
@@ -62,7 +62,7 @@ export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
           </button>
           <div style={{
             marginTop: '4px',
-            fontSize: '10px',
+            fontSize: '11px',
             color: isOwn ? 'rgba(255,255,255,0.6)' : '#bbb',
           }}>
             {formatTime(message.created_at)}
@@ -92,7 +92,7 @@ export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
         background: isOwn ? '#006a62' : '#f3f4f6',
         color: isOwn ? 'white' : '#333',
       }}>
-        <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
+        <p style={{ margin: 0, fontSize: '15px', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
           {displayText}
         </p>
 
@@ -108,14 +108,14 @@ export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
               onClick={() => setShowOriginal(!showOriginal)}
               style={{
                 background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                fontSize: '11px', color: isOwn ? 'rgba(255,255,255,0.7)' : '#999',
+                fontSize: '12px', color: isOwn ? 'rgba(255,255,255,0.7)' : '#999',
                 textDecoration: 'underline',
               }}
             >
               {showOriginal ? t.msg_show_translated : t.msg_show_original}
             </button>
           )}
-          <span style={{ fontSize: '10px', color: isOwn ? 'rgba(255,255,255,0.6)' : '#bbb' }}>
+          <span style={{ fontSize: '11px', color: isOwn ? 'rgba(255,255,255,0.6)' : '#bbb' }}>
             {formatTime(message.created_at)}
           </span>
         </div>

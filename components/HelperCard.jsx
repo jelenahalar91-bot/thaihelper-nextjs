@@ -83,7 +83,7 @@ export default function HelperCard({ helper, mode = 'browse', t, ctaSlot }) {
               {helper.categoryLabel}
             </div>
           )}
-          <div className="text-xs text-gray-500 mt-1">
+          <div className="text-sm text-gray-500 mt-1">
             📍 {helper.city}
             {helper.area ? ` · ${helper.area}` : ''}
           </div>
@@ -93,7 +93,7 @@ export default function HelperCard({ helper, mode = 'browse', t, ctaSlot }) {
           <p className="text-sm text-gray-600 leading-relaxed">{helper.bio}</p>
         )}
 
-        <div className="flex flex-wrap gap-1.5 text-xs">
+        <div className="flex flex-wrap gap-1.5 text-sm">
           {helper.experience && (
             <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
               ⏱ {helper.experience} {t.card_exp}
@@ -111,12 +111,12 @@ export default function HelperCard({ helper, mode = 'browse', t, ctaSlot }) {
           {ctaSlot ? (
             ctaSlot
           ) : mode === 'preview' ? (
-            <div className="text-xs text-gray-500 text-center py-2">
+            <div className="text-sm text-gray-500 text-center py-2">
               🔒 {t.card_preview_note}
             </div>
           ) : (
             <>
-              <div className="text-xs text-gray-500 text-center mb-2">
+              <div className="text-sm text-gray-500 text-center mb-2">
                 🔒 {t.card_signin}
               </div>
               <Link

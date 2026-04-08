@@ -52,7 +52,7 @@ export default function ConversationDetail({
       }}>
         <button onClick={onBack} style={{
           background: 'none', border: 'none', cursor: 'pointer',
-          fontSize: '14px', color: '#006a62', fontWeight: 600, padding: '4px 8px',
+          fontSize: '15px', color: '#006a62', fontWeight: 600, padding: '4px 8px',
         }}>
           ← {t.msg_back}
         </button>
@@ -92,7 +92,7 @@ export default function ConversationDetail({
         ) : messages.length === 0 ? (
           <div style={{
             textAlign: 'center', padding: '40px',
-            color: '#999', fontSize: '14px',
+            color: '#999', fontSize: '15px',
           }}>
             {t.msg_no_conv_text}
           </div>
@@ -130,7 +130,7 @@ export default function ConversationDetail({
             placeholder={t.msg_placeholder}
             style={{
               flex: 1, padding: '10px 14px', borderRadius: '10px',
-              border: '1px solid #e5e7eb', fontSize: '14px', fontFamily: 'inherit',
+              border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit',
             }}
           />
           <button
@@ -138,7 +138,7 @@ export default function ConversationDetail({
             disabled={sending || !msgInput.trim()}
             style={{
               padding: '10px 20px', borderRadius: '10px', border: 'none',
-              background: '#006a62', color: 'white', fontSize: '14px',
+              background: '#006a62', color: 'white', fontSize: '15px',
               fontWeight: 600, cursor: sending ? 'wait' : 'pointer',
               opacity: (sending || !msgInput.trim()) ? 0.5 : 1,
             }}
@@ -154,14 +154,14 @@ export default function ConversationDetail({
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           gap: '12px', flexWrap: 'wrap',
         }}>
-          <div style={{ fontSize: '13px', color: '#9a3412', flex: 1, minWidth: '200px' }}>
+          <div style={{ fontSize: '14px', color: '#9a3412', flex: 1, minWidth: '200px' }}>
             🔒 {t.msg_send_locked || 'Upgrade to send messages and read full conversations.'}
           </div>
           <button
             onClick={onUpgrade}
             style={{
               padding: '10px 18px', borderRadius: '10px', border: 'none',
-              background: '#006a62', color: 'white', fontSize: '13px',
+              background: '#006a62', color: 'white', fontSize: '14px',
               fontWeight: 700, cursor: 'pointer',
             }}
           >

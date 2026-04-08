@@ -533,11 +533,18 @@ export default function Profile() {
   };
 
   // Check profile completeness
+  // Counts core profile fields + at least one uploaded document + at least one
+  // reference. WhatsApp is no longer a separate contact channel (on-platform
+  // messaging only), and the free-text "certificates" field is replaced by
+  // actual document uploads.
   const getCompleteness = (p) => {
     if (!p) return 0;
-    const fields = ['firstName', 'lastName', 'age', 'city', 'category', 'bio', 'whatsapp', 'email', 'photo', 'education', 'certificates'];
-    const filled = fields.filter(f => p[f] && p[f].toString().trim()).length;
-    return Math.round((filled / fields.length) * 100);
+    const coreFields = ['firstName', 'lastName', 'age', 'city', 'category', 'bio', 'email', 'photo', 'education'];
+    const filledCore = coreFields.filter(f => p[f] && p[f].toString().trim()).length;
+    const hasDoc = documents.length > 0 ? 1 : 0;
+    const hasRef = references.length > 0 ? 1 : 0;
+    const total = coreFields.length + 2; // +1 doc, +1 ref
+    return Math.round(((filledCore + hasDoc + hasRef) / total) * 100);
   };
 
   // ─── AUTH ERROR ─────────────────────────────────────────────────────────────
@@ -633,7 +640,7 @@ export default function Profile() {
                   position: 'absolute', top: '-6px', right: isMobile ? '-8px' : '-12px',
                   minWidth: '18px', height: '18px', borderRadius: '9px',
                   background: '#dc2626', color: 'white',
-                  fontSize: '10px', fontWeight: 700,
+                  fontSize: '11px', fontWeight: 700,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   padding: '0 5px', border: '2px solid white',
                 }}>{totalUnread}</span>
@@ -682,7 +689,7 @@ export default function Profile() {
                     </div>
                     <div style={{ minWidth: 0, flex: 1 }}>
                       <div style={{ fontSize: '15px', fontWeight: 600, color: '#1a1a1a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.firstName} {p.lastName}</div>
-                      {p.email && <div style={{ fontSize: '12px', color: '#999', marginTop: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.email}</div>}
+                      {p.email && <div style={{ fontSize: '13px', color: '#999', marginTop: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.email}</div>}
                     </div>
                   </div>
 
@@ -694,7 +701,7 @@ export default function Profile() {
 
                     {/* Language quick switch */}
                     <div style={{ padding: '12px 22px 10px', borderTop: '1px solid #f3f4f6', marginTop: '6px' }}>
-                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '10px' }}>Language</div>
+                      <div style={{ fontSize: '12px', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '10px' }}>Language</div>
                       <div style={{ display: 'flex', gap: '6px' }}>
                         {[{ c: 'en', l: 'EN' }, { c: 'th', l: 'TH' }, { c: 'ru', l: 'RU' }].map(x => (
                           <button
@@ -705,7 +712,7 @@ export default function Profile() {
                               border: lang === x.c ? '2px solid #006a62' : '1px solid #e5e7eb',
                               background: lang === x.c ? '#e6f5f3' : 'white',
                               color: lang === x.c ? '#006a62' : '#666',
-                              fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+                              fontSize: '14px', fontWeight: 700, cursor: 'pointer',
                             }}
                           >{x.l}</button>
                         ))}
@@ -727,7 +734,7 @@ export default function Profile() {
 
           {/* Success message */}
           {savedMsg && (
-            <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '12px', padding: '12px 16px', marginBottom: '16px', color: '#059669', fontSize: '14px', textAlign: 'center', fontWeight: 600 }}>
+            <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '12px', padding: '12px 16px', marginBottom: '16px', color: '#059669', fontSize: '15px', textAlign: 'center', fontWeight: 600 }}>
               {savedMsg}
             </div>
           )}
@@ -751,7 +758,7 @@ export default function Profile() {
 
                 <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: isMobile ? '16px' : '28px', flexDirection: isMobile ? 'column' : 'row', textAlign: isMobile ? 'center' : 'left' }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 12px', borderRadius: '999px', background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: '12px' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 12px', borderRadius: '999px', background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: '12px' }}>
                       <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#7dffb0', boxShadow: '0 0 0 3px rgba(125,255,176,0.3)' }} />
                       {t.dash_status_active} · {p.helper_ref || p.ref || ''}
                     </div>
@@ -801,16 +808,16 @@ export default function Profile() {
               {/* Profile completeness */}
               <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '20px' : '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                  <h3 style={{ fontSize: '14px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{t.dash_tip_title}</h3>
-                  <span style={{ fontSize: '14px', fontWeight: 700, color: completeness === 100 ? '#059669' : '#f59e0b' }}>{completeness}%</span>
+                  <h3 style={{ fontSize: '15px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{t.dash_tip_title}</h3>
+                  <span style={{ fontSize: '15px', fontWeight: 700, color: completeness === 100 ? '#059669' : '#f59e0b' }}>{completeness}%</span>
                 </div>
                 <div style={{ height: '8px', background: '#f3f4f6', borderRadius: '4px', overflow: 'hidden', marginBottom: '12px' }}>
                   <div style={{ height: '100%', width: `${completeness}%`, background: completeness === 100 ? '#059669' : '#006a62', borderRadius: '4px', transition: 'width 0.5s' }} />
                 </div>
-                <p style={{ fontSize: '13px', color: '#666', margin: '0 0 16px', lineHeight: 1.5 }}>{t.dash_tip_text}</p>
+                <p style={{ fontSize: '14px', color: '#666', margin: '0 0 16px', lineHeight: 1.5 }}>{t.dash_tip_text}</p>
                 <button onClick={() => { setActiveTab('profile'); startEditing(); }} style={{
                   padding: '8px 20px', borderRadius: '8px', border: 'none',
-                  background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                  background: '#006a62', color: 'white', fontSize: '14px', fontWeight: 600, cursor: 'pointer',
                 }}>
                   {t.dash_tip_btn}
                 </button>
@@ -820,22 +827,22 @@ export default function Profile() {
               <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '20px' : '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
                 <h3 style={{ fontSize: '17px', fontWeight: 700, margin: '0 0 12px', color: '#1a1a1a' }}>{t.doc_title}</h3>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', width: '100%' }}>
-                  <select value={docType} onChange={e => setDocType(e.target.value)} style={{ flex: 1, minWidth: 0, padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '13px', background: 'white' }}>
+                  <select value={docType} onChange={e => setDocType(e.target.value)} style={{ flex: 1, minWidth: 0, padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px', background: 'white' }}>
                     <option value="certificate">{t.doc_type_certificate}</option>
                     <option value="resume">{t.doc_type_resume}</option>
                     <option value="id">{t.doc_type_id}</option>
                     <option value="reference">{t.doc_type_reference}</option>
                     <option value="other">{t.doc_type_other}</option>
                   </select>
-                  <label style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: uploadingDoc ? 'wait' : 'pointer', opacity: uploadingDoc ? 0.6 : 1, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                  <label style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '14px', fontWeight: 600, cursor: uploadingDoc ? 'wait' : 'pointer', opacity: uploadingDoc ? 0.6 : 1, whiteSpace: 'nowrap', flexShrink: 0 }}>
                     {uploadingDoc ? t.doc_uploading : t.doc_upload}
                     <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={handleDocUpload} disabled={uploadingDoc} style={{ display: 'none' }} />
                   </label>
                 </div>
-                <p style={{ fontSize: '11px', color: '#999', margin: '0 0 16px' }}>{t.doc_max_size}</p>
+                <p style={{ fontSize: '12px', color: '#999', margin: '0 0 16px' }}>{t.doc_max_size}</p>
 
                 {documents.length === 0 ? (
-                  <p style={{ fontSize: '14px', color: '#999', textAlign: 'center', padding: '24px 0' }}>{t.doc_empty}</p>
+                  <p style={{ fontSize: '15px', color: '#999', textAlign: 'center', padding: '24px 0' }}>{t.doc_empty}</p>
                 ) : (
                   <div style={{ display: 'grid', gap: '8px' }}>
                     {documents.map(doc => (
@@ -844,8 +851,8 @@ export default function Profile() {
                           {doc.mime_type?.includes('pdf') ? <IconFile size={22} /> : <IconImage size={22} />}
                         </span>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: '14px', fontWeight: 600, color: '#333', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{doc.file_name}</div>
-                          <div style={{ fontSize: '11px', color: '#999' }}>
+                          <div style={{ fontSize: '15px', fontWeight: 600, color: '#333', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{doc.file_name}</div>
+                          <div style={{ fontSize: '12px', color: '#999' }}>
                             <span style={{ padding: '1px 6px', borderRadius: '4px', background: '#e6f5f3', color: '#006a62', fontWeight: 600, marginRight: '8px' }}>
                               {t[`doc_type_${doc.file_type}`] || doc.file_type}
                             </span>
@@ -865,7 +872,7 @@ export default function Profile() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                   <h3 style={{ fontSize: '17px', fontWeight: 700, margin: 0, color: '#1a1a1a' }}>{t.ref_title}</h3>
                   {!showRefForm && (
-                    <button onClick={() => { resetRefForm(); setShowRefForm(true); }} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>+ {t.ref_add}</button>
+                    <button onClick={() => { resetRefForm(); setShowRefForm(true); }} style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '14px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}>+ {t.ref_add}</button>
                   )}
                 </div>
 
@@ -873,12 +880,12 @@ export default function Profile() {
                   <div style={{ background: '#f9fafb', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
                     <div style={{ display: 'grid', gap: '10px' }}>
                       <div>
-                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_name} *</label>
-                        <input type="text" value={refForm.reference_name} onChange={e => setRefForm(prev => ({ ...prev, reference_name: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px' }} />
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_name} *</label>
+                        <input type="text" value={refForm.reference_name} onChange={e => setRefForm(prev => ({ ...prev, reference_name: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px' }} />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_relationship}</label>
-                        <select value={refForm.relationship} onChange={e => setRefForm(prev => ({ ...prev, relationship: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px', background: 'white' }}>
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_relationship}</label>
+                        <select value={refForm.relationship} onChange={e => setRefForm(prev => ({ ...prev, relationship: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px', background: 'white' }}>
                           <option value="employer">{t.ref_rel_employer}</option>
                           <option value="colleague">{t.ref_rel_colleague}</option>
                           <option value="trainer">{t.ref_rel_trainer}</option>
@@ -886,42 +893,42 @@ export default function Profile() {
                         </select>
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_contact}</label>
-                        <input type="text" value={refForm.contact_info} onChange={e => setRefForm(prev => ({ ...prev, contact_info: e.target.value }))} placeholder="Email or phone" style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px' }} />
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_contact}</label>
+                        <input type="text" value={refForm.contact_info} onChange={e => setRefForm(prev => ({ ...prev, contact_info: e.target.value }))} placeholder="Email or phone" style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px' }} />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#888', marginBottom: '8px' }}>{t.ref_text}</label>
+                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '8px' }}>{t.ref_text}</label>
                         <div style={{ display: 'flex', gap: '4px', marginBottom: '8px' }}>
                           <button
                             type="button"
                             onClick={() => { setRefInputMode('text'); setRefFile(null); }}
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '6px', border: refInputMode === 'text' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'text' ? '#e6f5f3' : 'white', color: refInputMode === 'text' ? '#006a62' : '#666', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '6px', border: refInputMode === 'text' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'text' ? '#e6f5f3' : 'white', color: refInputMode === 'text' ? '#006a62' : '#666', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}
                           >
                             <IconType size={14} /> {lang === 'th' ? 'พิมพ์ข้อความ' : 'Type Text'}
                           </button>
                           <button
                             type="button"
                             onClick={() => { setRefInputMode('file'); setRefForm(prev => ({ ...prev, reference_text: '' })); }}
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '6px', border: refInputMode === 'file' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'file' ? '#e6f5f3' : 'white', color: refInputMode === 'file' ? '#006a62' : '#666', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}
+                            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '6px', border: refInputMode === 'file' ? '2px solid #006a62' : '1px solid #e5e7eb', background: refInputMode === 'file' ? '#e6f5f3' : 'white', color: refInputMode === 'file' ? '#006a62' : '#666', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}
                           >
                             <IconUpload size={14} /> {lang === 'th' ? 'อัปโหลด PDF' : 'Upload PDF'}
                           </button>
                         </div>
                         {refInputMode === 'text' ? (
-                          <textarea value={refForm.reference_text} onChange={e => setRefForm(prev => ({ ...prev, reference_text: e.target.value }))} rows={3} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px', resize: 'vertical', fontFamily: 'inherit' }} />
+                          <textarea value={refForm.reference_text} onChange={e => setRefForm(prev => ({ ...prev, reference_text: e.target.value }))} rows={3} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px', resize: 'vertical', fontFamily: 'inherit' }} />
                         ) : (
                           <div style={{ border: '2px dashed #e5e7eb', borderRadius: '8px', padding: '16px', textAlign: 'center' }}>
                             {refFile ? (
                               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#333' }}>
                                 <IconFile size={16} />
-                                <span style={{ fontSize: '14px' }}>{refFile.name}</span>
+                                <span style={{ fontSize: '15px' }}>{refFile.name}</span>
                                 <button type="button" onClick={() => setRefFile(null)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '16px', marginLeft: '4px' }}>✕</button>
                               </div>
                             ) : (
                               <label style={{ cursor: 'pointer', display: 'block' }}>
                                 <div style={{ color: '#006a62', marginBottom: '6px', display: 'flex', justifyContent: 'center' }}><IconFolderOpen /></div>
-                                <span style={{ fontSize: '14px', color: '#006a62', fontWeight: 600 }}>{lang === 'th' ? 'เลือกไฟล์' : 'Choose file'}</span>
-                                <p style={{ fontSize: '12px', color: '#999', marginTop: '4px' }}>PDF, JPG, PNG (max 10 MB)</p>
+                                <span style={{ fontSize: '15px', color: '#006a62', fontWeight: 600 }}>{lang === 'th' ? 'เลือกไฟล์' : 'Choose file'}</span>
+                                <p style={{ fontSize: '13px', color: '#999', marginTop: '4px' }}>PDF, JPG, PNG (max 10 MB)</p>
                                 <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" onChange={e => setRefFile(e.target.files[0] || null)} style={{ display: 'none' }} />
                               </label>
                             )}
@@ -930,29 +937,29 @@ export default function Profile() {
                       </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '12px' }}>
-                      <button onClick={resetRefForm} style={{ padding: '6px 16px', borderRadius: '8px', border: '1px solid #e5e7eb', background: 'white', color: '#666', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}>{t.ref_cancel}</button>
-                      <button onClick={handleRefSave} disabled={uploadingRef} style={{ padding: '6px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '12px', fontWeight: 600, cursor: uploadingRef ? 'wait' : 'pointer', opacity: uploadingRef ? 0.6 : 1 }}>{uploadingRef ? (lang === 'th' ? 'กำลังบันทึก...' : 'Saving...') : t.ref_save}</button>
+                      <button onClick={resetRefForm} style={{ padding: '6px 16px', borderRadius: '8px', border: '1px solid #e5e7eb', background: 'white', color: '#666', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>{t.ref_cancel}</button>
+                      <button onClick={handleRefSave} disabled={uploadingRef} style={{ padding: '6px 16px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '13px', fontWeight: 600, cursor: uploadingRef ? 'wait' : 'pointer', opacity: uploadingRef ? 0.6 : 1 }}>{uploadingRef ? (lang === 'th' ? 'กำลังบันทึก...' : 'Saving...') : t.ref_save}</button>
                     </div>
                   </div>
                 )}
 
                 {references.length === 0 && !showRefForm ? (
-                  <p style={{ fontSize: '14px', color: '#999', textAlign: 'center', padding: '24px 0' }}>{t.ref_empty}</p>
+                  <p style={{ fontSize: '15px', color: '#999', textAlign: 'center', padding: '24px 0' }}>{t.ref_empty}</p>
                 ) : (
                   <div style={{ display: 'grid', gap: '8px' }}>
                     {references.map(ref => (
                       <div key={ref.id} style={{ padding: '14px', background: '#f9fafb', borderRadius: '10px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                           <div>
-                            <div style={{ fontSize: '14px', fontWeight: 600, color: '#333' }}>{ref.reference_name}</div>
-                            <div style={{ fontSize: '12px', color: '#999', marginTop: '2px' }}>
+                            <div style={{ fontSize: '15px', fontWeight: 600, color: '#333' }}>{ref.reference_name}</div>
+                            <div style={{ fontSize: '13px', color: '#999', marginTop: '2px' }}>
                               <span style={{ padding: '1px 6px', borderRadius: '4px', background: '#eef2ff', color: '#6366f1', fontWeight: 600 }}>
                                 {t[`ref_rel_${ref.relationship}`] || ref.relationship}
                               </span>
                               {ref.contact_info && <span style={{ marginLeft: '8px' }}>{ref.contact_info}</span>}
                             </div>
                             {ref.reference_text && (
-                              <p style={{ fontSize: '13px', color: '#555', margin: '8px 0 0', lineHeight: 1.5, fontStyle: 'italic' }}>{ref.reference_text}</p>
+                              <p style={{ fontSize: '14px', color: '#555', margin: '8px 0 0', lineHeight: 1.5, fontStyle: 'italic' }}>{ref.reference_text}</p>
                             )}
                           </div>
                           <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }}>
@@ -981,15 +988,15 @@ export default function Profile() {
                   </h3>
                   <ul style={{ margin: '0 0 18px', padding: 0, listStyle: 'none', display: 'grid', gap: '10px' }}>
                     {[t.dash_promo_tip1, t.dash_promo_tip2, t.dash_promo_tip3].map((tip, i) => (
-                      <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', color: '#7c2d12' }}>
-                        <span style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#f97316', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0 }}>✓</span>
+                      <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '15px', color: '#7c2d12' }}>
+                        <span style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#f97316', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 800, flexShrink: 0 }}>✓</span>
                         {tip}
                       </li>
                     ))}
                   </ul>
                   <button onClick={() => { setActiveTab('profile'); startEditing(); }} style={{
                     padding: '10px 22px', borderRadius: '10px', border: 'none',
-                    background: '#f97316', color: 'white', fontSize: '14px', fontWeight: 700, cursor: 'pointer',
+                    background: '#f97316', color: 'white', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
                     boxShadow: '0 4px 12px rgba(249,115,22,0.3)',
                   }}>
                     {t.dash_promo_cta}
@@ -1041,7 +1048,7 @@ export default function Profile() {
                       {photoSrc ? <img src={photoSrc} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 700, color: '#006a62' }}>{(p.firstName || '').charAt(0).toUpperCase()}{(p.lastName || '').charAt(0).toUpperCase()}</span>}
                     </div>
                     {editing && (
-                      <label style={{ position: 'absolute', bottom: '-2px', right: '-2px', background: '#006a62', color: 'white', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '14px', border: '2px solid white' }}>
+                      <label style={{ position: 'absolute', bottom: '-2px', right: '-2px', background: '#006a62', color: 'white', borderRadius: '50%', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '15px', border: '2px solid white' }}>
                         <svg {...iconProps} width="14" height="14"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
                         <input type="file" accept="image/*" onChange={handlePhotoChange} style={{ display: 'none' }} />
                       </label>
@@ -1051,7 +1058,7 @@ export default function Profile() {
                     <h2 style={{ fontSize: isMobile ? '19px' : '22px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px', wordBreak: 'break-word' }}>{p.firstName} {p.lastName}</h2>
                     <p style={{ fontSize: isMobile ? '14px' : '15px', color: '#666', margin: '0 0 10px' }}>{p.category} &middot; {p.city}{p.area ? ` — ${p.area}` : ''}</p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '12px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#ecfdf5', color: '#059669' }}>{t.verified} ✓</span>
+                      <span style={{ fontSize: '13px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#ecfdf5', color: '#059669' }}>{t.verified} ✓</span>
                     </div>
                   </div>
                 </div>
@@ -1061,16 +1068,16 @@ export default function Profile() {
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '14px', gap: '8px' }}>
                 {editing ? (
                   <>
-                    <button onClick={cancelEditing} style={{ padding: '10px 22px', borderRadius: '8px', border: '1px solid #e5e7eb', background: 'white', color: '#666', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>{t.cancel_btn}</button>
-                    <button onClick={handleSave} disabled={saving} style={{ padding: '10px 22px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '14px', fontWeight: 600, cursor: 'pointer', opacity: saving ? 0.6 : 1 }}>{saving ? t.saving : t.save_btn}</button>
+                    <button onClick={cancelEditing} style={{ padding: '10px 22px', borderRadius: '8px', border: '1px solid #e5e7eb', background: 'white', color: '#666', fontSize: '15px', fontWeight: 600, cursor: 'pointer' }}>{t.cancel_btn}</button>
+                    <button onClick={handleSave} disabled={saving} style={{ padding: '10px 22px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '15px', fontWeight: 600, cursor: 'pointer', opacity: saving ? 0.6 : 1 }}>{saving ? t.saving : t.save_btn}</button>
                   </>
                 ) : (
-                  <button onClick={startEditing} style={{ padding: '10px 22px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>{t.edit_btn}</button>
+                  <button onClick={startEditing} style={{ padding: '10px 22px', borderRadius: '8px', border: 'none', background: '#006a62', color: 'white', fontSize: '15px', fontWeight: 600, cursor: 'pointer' }}>{t.edit_btn}</button>
                 )}
               </div>
 
               {saveError && (
-                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '12px 16px', marginBottom: '14px', color: '#dc2626', fontSize: '14px' }}>{saveError}</div>
+                <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '12px 16px', marginBottom: '14px', color: '#dc2626', fontSize: '15px' }}>{saveError}</div>
               )}
 
               {/* Profile Details */}
@@ -1108,9 +1115,9 @@ export default function Profile() {
                     <EditField label={t.label_education} value={editData.education} onChange={v => handleFieldChange('education', v)} placeholder="e.g. Bachelor's Degree..." />
                     <EditField label={t.label_certificates} value={editData.certificates} onChange={v => handleFieldChange('certificates', v)} placeholder="e.g. First Aid, Childcare..." />
                     <div>
-                      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t.label_bio}</label>
+                      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t.label_bio}</label>
                       <textarea value={editData.bio} onChange={e => handleFieldChange('bio', e.target.value)} maxLength={500} rows={5} style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', resize: 'vertical', fontFamily: 'inherit', lineHeight: 1.6 }} />
-                      <div style={{ fontSize: '12px', color: '#bbb', textAlign: 'right', marginTop: '4px' }}>{(editData.bio || '').length} / 500 {t.chars}</div>
+                      <div style={{ fontSize: '13px', color: '#bbb', textAlign: 'right', marginTop: '4px' }}>{(editData.bio || '').length} / 500 {t.chars}</div>
                     </div>
                   </div>
                 ) : (
@@ -1153,7 +1160,7 @@ export default function Profile() {
 
               <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '22px' : '28px', border: '1px solid #e5e7eb' }}>
                 <SectionTitle>{t.settings_lang}</SectionTitle>
-                <p style={{ fontSize: '14px', color: '#666', margin: '0 0 16px', lineHeight: 1.6 }}>{t.settings_lang_hint}</p>
+                <p style={{ fontSize: '15px', color: '#666', margin: '0 0 16px', lineHeight: 1.6 }}>{t.settings_lang_hint}</p>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   {[
                     { code: 'en', label: 'English' },
@@ -1175,7 +1182,7 @@ export default function Profile() {
                   ))}
                 </div>
                 {settingsSaved && (
-                  <p style={{ fontSize: '14px', color: '#059669', fontWeight: 600, marginTop: '14px' }}>{settingsSaved}</p>
+                  <p style={{ fontSize: '15px', color: '#059669', fontWeight: 600, marginTop: '14px' }}>{settingsSaved}</p>
                 )}
               </div>
             </>
@@ -1369,7 +1376,7 @@ function CompletenessRing({ percent }) {
       </svg>
       <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
         <div style={{ fontSize: '22px', fontWeight: 800, lineHeight: 1 }}>{percent}%</div>
-        <div style={{ fontSize: '9px', fontWeight: 700, opacity: 0.85, letterSpacing: '0.5px', textTransform: 'uppercase', marginTop: '2px' }}>complete</div>
+        <div style={{ fontSize: '10px', fontWeight: 700, opacity: 0.85, letterSpacing: '0.5px', textTransform: 'uppercase', marginTop: '2px' }}>complete</div>
       </div>
     </div>
   );
@@ -1398,7 +1405,7 @@ function MiniStat({ label, value, badge, icon, accent, bg, onClick, isMobile }) 
           {icon}
         </span>
         {badge && (
-          <span style={{ fontSize: '10px', fontWeight: 700, color: 'white', background: '#dc2626', padding: '3px 8px', borderRadius: '999px' }}>
+          <span style={{ fontSize: '11px', fontWeight: 700, color: 'white', background: '#dc2626', padding: '3px 8px', borderRadius: '999px' }}>
             {badge}
           </span>
         )}
@@ -1415,7 +1422,7 @@ function StatCard({ label, value, icon, color, bg }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
         <span style={{ width: '38px', height: '38px', borderRadius: '10px', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color }}>{icon}</span>
       </div>
-      <div style={{ fontSize: '12px', color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px', fontWeight: 600 }}>{label}</div>
+      <div style={{ fontSize: '13px', color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '6px', fontWeight: 600 }}>{label}</div>
       <div style={{ fontSize: '17px', fontWeight: 700, color }}>{value}</div>
     </div>
   );
@@ -1423,7 +1430,7 @@ function StatCard({ label, value, icon, color, bg }) {
 
 function SectionTitle({ children }) {
   return (
-    <h3 style={{ fontSize: '13px', fontWeight: 700, color: '#006a62', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px', marginBottom: '18px' }}>
+    <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#006a62', textTransform: 'uppercase', letterSpacing: '1px', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px', marginBottom: '18px' }}>
       {children}
     </h3>
   );
@@ -1433,7 +1440,7 @@ function ProfileField({ label, value, t, multiline, isMobile }) {
   const stack = multiline || isMobile;
   return (
     <div style={{ display: 'flex', flexDirection: stack ? 'column' : 'row', gap: stack ? '4px' : '0' }}>
-      <span style={{ fontSize: '12px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', minWidth: stack ? 'auto' : '140px', paddingTop: '2px' }}>{label}</span>
+      <span style={{ fontSize: '13px', fontWeight: 600, color: '#999', textTransform: 'uppercase', letterSpacing: '0.5px', minWidth: stack ? 'auto' : '140px', paddingTop: '2px' }}>{label}</span>
       <span style={{ fontSize: '15px', color: value ? '#1a1a1a' : '#ccc', lineHeight: 1.6, whiteSpace: multiline ? 'pre-wrap' : 'normal', wordBreak: 'break-word' }}>{value || t.not_set}</span>
     </div>
   );
@@ -1442,7 +1449,7 @@ function ProfileField({ label, value, t, multiline, isMobile }) {
 function EditField({ label, value, onChange, placeholder }) {
   return (
     <div>
-      <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
+      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
       <input type="text" value={value || ''} onChange={e => onChange(e.target.value)} placeholder={placeholder || ''} style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit' }} />
     </div>
   );

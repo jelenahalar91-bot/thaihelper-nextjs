@@ -100,7 +100,7 @@ export default function EmployerProfileMenu({ profile, lang = 'en', current }) {
                 {fullName || 'Employer'}
               </div>
               {profile?.email && (
-                <div className="text-xs text-gray-500 mt-0.5 truncate">
+                <div className="text-sm text-gray-500 mt-0.5 truncate">
                   {profile.email}
                 </div>
               )}
