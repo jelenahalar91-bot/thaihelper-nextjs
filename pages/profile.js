@@ -528,7 +528,7 @@ export default function Profile() {
   if (authError) {
     return (
       <>
-        <Head><title>{t.page_title}</title></Head>
+        <Head><title>{t.page_title}</title><meta name="robots" content="noindex, nofollow" /></Head>
         <div className="register-body">
           <nav className="register-nav"><Link href="/" className="brand">Thai<span>Helper</span></Link></nav>
           <div className="register-container" style={{ maxWidth: '480px' }}>
@@ -547,7 +547,7 @@ export default function Profile() {
   if (loading) {
     return (
       <>
-        <Head><title>{t.page_title}</title></Head>
+        <Head><title>{t.page_title}</title><meta name="robots" content="noindex, nofollow" /></Head>
         <div className="register-body">
           <nav className="register-nav"><Link href="/" className="brand">Thai<span>Helper</span></Link></nav>
           <div className="register-container" style={{ maxWidth: '600px' }}>
@@ -570,7 +570,7 @@ export default function Profile() {
   // ─── MAIN RENDER ────────────────────────────────────────────────────────────
   return (
     <>
-      <Head><title>{t.page_title}</title></Head>
+      <Head><title>{t.page_title}</title><meta name="robots" content="noindex, nofollow" /></Head>
       <style jsx>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
 
       <div style={{ minHeight: '100vh', background: '#f8f9fa' }}>

@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { useLang } from './_app';
 
@@ -340,10 +341,17 @@ export default function Pricing() {
 
   return (
     <>
-      <Head>
-        <title>{t.page_title}</title>
-        <meta name="description" content={t.meta_desc} />
-      </Head>
+      <SEOHead
+        title={t.page_title}
+        description={t.meta_desc}
+        path="/pricing"
+        lang={lang}
+        jsonLd={getBreadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'For Employers', path: '/employers' },
+          { name: 'Pricing', path: '/pricing' },
+        ])}
+      />
 
       <div className="min-h-screen bg-background text-on-background font-sans">
         {/* TEAL TOP BAR */}

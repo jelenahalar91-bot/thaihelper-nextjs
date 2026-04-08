@@ -1,8 +1,40 @@
+# ThaiHelper robots.txt
+# https://thaihelper.app
+
 User-agent: *
 Allow: /
+
+# Block private / authenticated areas
 Disallow: /api/
 Disallow: /login
+Disallow: /employer-login
 Disallow: /profile
+Disallow: /employer-profile
+Disallow: /employer-dashboard
 
-# Sitemaps
+# Block Next.js internals
+Disallow: /_next/
+Disallow: /404
+
+# Allow major crawlers explicitly (good practice)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block aggressive AI scrapers (optional — keep if you don't want training data scraping)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# Sitemap
 Sitemap: https://thaihelper.app/sitemap.xml

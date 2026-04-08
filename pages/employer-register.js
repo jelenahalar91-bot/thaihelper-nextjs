@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import { employerSignup } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
 import LangSwitcher from '@/components/LangSwitcher';
@@ -270,10 +271,17 @@ export default function EmployerRegisterPage() {
   // ─── FORM VIEW ───────────────────────────────────────────────────────
   return (
     <>
-      <Head>
-        <title>{t.page_title}</title>
-        <meta name="description" content="Create a free employer account on ThaiHelper to find nannies, housekeepers, chefs, drivers and more." />
-      </Head>
+      <SEOHead
+        title={t.page_title}
+        description="Create a free employer account on ThaiHelper to find nannies, housekeepers, chefs, drivers and more — directly, without agencies."
+        path="/employer-register"
+        lang={lang}
+        jsonLd={getBreadcrumbSchema([
+          { name: 'Home', path: '/' },
+          { name: 'For Employers', path: '/employers' },
+          { name: 'Register', path: '/employer-register' },
+        ])}
+      />
 
       <div className="register-body">
         <nav className="register-nav">

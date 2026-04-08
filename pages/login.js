@@ -135,6 +135,7 @@ export default function Login() {
       <Head>
         <title>{t.page_title}</title>
         <meta name="description" content="Log in to your ThaiHelper account." />
+        <meta name="robots" content="noindex, nofollow" />
       </Head>
 
       <div className="register-body">
