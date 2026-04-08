@@ -163,7 +163,7 @@ const T = {
 // both without adapters.
 const PROFILES = [
   {
-    photo:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=crop&crop=face',
+    photo:'/images/profiles/maria.jpg',
     name:'Maria S.', age:32, verified:true,
     category_en:'👶 Nanny & Babysitter', category_th:'👶 พี่เลี้ยงเด็ก', category_ru:'👶 Няня',
     city:'Phuket', area:'Rawai',
@@ -174,7 +174,7 @@ const PROFILES = [
     hasWhatsApp:true, hasEmail:true,
   },
   {
-    photo:'https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=400&h=400&fit=crop&crop=face',
+    photo:'/images/profiles/sunisa.jpg',
     name:'Sunisa K.', age:41, verified:true,
     category_en:'🏠 Housekeeper & Cleaner', category_th:'🏠 แม่บ้าน', category_ru:'🏠 Домработница',
     city:'Bangkok', area:'Sukhumvit',
@@ -185,7 +185,7 @@ const PROFILES = [
     hasWhatsApp:true, hasEmail:false,
   },
   {
-    photo:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face',
+    photo:'/images/profiles/ana.jpg',
     name:'Ana R.', age:29, verified:true,
     category_en:'👨‍🍳 Private Chef & Cook', category_th:'👨‍🍳 พ่อครัวส่วนตัว', category_ru:'👨‍🍳 Личный повар',
     city:'Phuket', area:'Kata',
@@ -194,39 +194,6 @@ const PROFILES = [
     bio_ru:'Личный повар, специализируется на тайской и западной кухне.',
     experience:3, languages:'English, Thai, Filipino',
     hasWhatsApp:true, hasEmail:true,
-  },
-  {
-    photo:'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&h=400&fit=crop&crop=face',
-    name:'Narin P.', age:27, verified:true,
-    category_en:'📚 Tutor & Teacher', category_th:'📚 ติวเตอร์', category_ru:'📚 Репетитор',
-    city:'Bangkok', area:'Thonglor',
-    bio_en:'Maths and physics tutor. 4 years tutoring international school students. Exam prep specialist.',
-    bio_th:'ติวเตอร์คณิตศาสตร์และฟิสิกส์ สอนนักเรียนโรงเรียนนานาชาติมา 4 ปี เชี่ยวชาญเตรียมสอบ',
-    bio_ru:'Репетитор по математике и физике. 4 года опыта.',
-    experience:4, languages:'Thai, English',
-    hasWhatsApp:true, hasEmail:true,
-  },
-  {
-    photo:'https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=400&h=400&fit=crop&crop=face',
-    name:'Dao W.', age:38, verified:true,
-    category_en:'🌿 Gardener & Pool Care', category_th:'🌿 คนสวน / ดูแลสระ', category_ru:'🌿 Садовник',
-    city:'Koh Samui', area:'Bophut',
-    bio_en:'Gardener and pool technician. 6 years caring for villa gardens and pools. Lawn, hedges, chemicals.',
-    bio_th:'คนสวนและช่างดูแลสระ 6 ปี ดูแลสวนและสระน้ำของวิลล่า',
-    bio_ru:'Садовник и обслуживание бассейнов. 6 лет ухода за виллами.',
-    experience:6, languages:'Thai',
-    hasWhatsApp:true, hasEmail:false,
-  },
-  {
-    photo:'https://images.unsplash.com/photo-1541823709867-1b206113eafd?w=400&h=400&fit=crop&crop=face',
-    name:'Malee T.', age:45, verified:true,
-    category_en:'🏥 Elder Care & Caregiver', category_th:'🏥 ดูแลผู้สูงอายุ', category_ru:'🏥 Уход за пожилыми',
-    city:'Chiang Mai', area:'Nimman',
-    bio_en:'Compassionate elder caregiver. 7 years with seniors. Personal care, medication reminders, companionship.',
-    bio_th:'ผู้ดูแลผู้สูงอายุที่อบอุ่น 7 ปี ดูแลสุขอนามัย เตือนทานยา และเป็นเพื่อน',
-    bio_ru:'Заботливый уход за пожилыми. 7 лет опыта.',
-    experience:7, languages:'Thai, English',
-    hasWhatsApp:false, hasEmail:true,
   },
 ];
 
