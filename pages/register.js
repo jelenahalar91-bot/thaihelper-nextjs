@@ -99,9 +99,9 @@ const T = {
     submit_error:    'Something went wrong. Please try again or contact hello@thaihelper.com',
     duplicate_email: 'An account with this email already exists. Please log in instead.',
     photo_size_err:  'Photo must be smaller than 5 MB.',
-    success_h2:      "You're on the list!",
-    success_p1:      'Thanks for registering on ThaiHelper. Your profile has been received.',
-    success_p2:      "We'll review it and get in touch as soon as the platform goes live in your city.",
+    success_h2:      'Welcome to ThaiHelper! 🎉',
+    success_p1:      'Your profile is live. Families can find and message you starting now.',
+    success_p2:      'Add a photo and a few more details on your profile page to get more replies.',
     success_share:   'Know other nannies or housekeepers? Share ThaiHelper with them:',
     success_login:   'Go to my profile →',
     trust_secure:    '🔒 Secure & private',
@@ -200,9 +200,9 @@ const T = {
     submit_error:    'เกิดข้อผิดพลาด กรุณาลองใหม่หรือติดต่อ hello@thaihelper.com',
     duplicate_email: 'อีเมลนี้มีบัญชีอยู่แล้ว กรุณาเข้าสู่ระบบแทน',
     photo_size_err:  'รูปภาพต้องมีขนาดไม่เกิน 5 MB',
-    success_h2:      'คุณอยู่ในรายชื่อแล้ว!',
-    success_p1:      'ขอบคุณที่ลงทะเบียนกับ ThaiHelper โปรไฟล์ของคุณได้รับแล้ว',
-    success_p2:      'เราจะตรวจสอบและติดต่อคุณทันทีที่แพลตฟอร์มเปิดตัวในเมืองของคุณ',
+    success_h2:      'ยินดีต้อนรับสู่ ThaiHelper! 🎉',
+    success_p1:      'โปรไฟล์ของคุณเปิดใช้งานแล้ว ครอบครัวสามารถค้นหาและส่งข้อความถึงคุณได้ตั้งแต่ตอนนี้',
+    success_p2:      'เพิ่มรูปและรายละเอียดในหน้าโปรไฟล์ของคุณเพื่อรับการตอบกลับมากขึ้น',
     success_share:   'รู้จักพี่เลี้ยงหรือแม่บ้านคนอื่นไหม? แชร์ ThaiHelper ให้พวกเขา:',
     success_login:   'ไปที่โปรไฟล์ของฉัน →',
     trust_secure:    '🔒 ปลอดภัยและเป็นส่วนตัว',
@@ -558,11 +558,12 @@ export default function Register() {
                 <p>{t.success_p1}</p>
                 <p>{t.success_p2}</p>
                 <div className="success-ref">Ref: {refNumber}</div>
-                <div style={{ textAlign: 'center', margin: '16px 0' }}>
+                <div style={{ textAlign: 'center', margin: '24px 0' }}>
                   <Link href="/profile" style={{
-                    display: 'inline-block', padding: '12px 28px', borderRadius: '10px',
-                    background: 'var(--primary)', color: 'white', fontWeight: 700,
-                    textDecoration: 'none', fontSize: '15px',
+                    display: 'inline-block', padding: '14px 32px', borderRadius: '10px',
+                    background: '#006a62', color: 'white', fontWeight: 700,
+                    textDecoration: 'none', fontSize: '16px',
+                    boxShadow: '0 4px 12px rgba(0, 106, 98, 0.25)',
                   }}>
                     {t.success_login}
                   </Link>
