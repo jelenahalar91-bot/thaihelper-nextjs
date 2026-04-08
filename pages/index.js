@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { CircularTestimonials } from '@/components/ui/circular-testimonials';
 import SEOHead, { getServiceSchema, getFAQSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
+import HelperCard from '@/components/HelperCard';
 import { useLang } from './_app';
 
 const T = {
@@ -157,13 +158,76 @@ const T = {
   }
 };
 
+// Sample profiles for the landing-page preview. Shape mirrors the live
+// helper data on /helpers so the shared <HelperCard> component can render
+// both without adapters.
 const PROFILES = [
-  { photo:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face', name:'Maria S.', verified:true, role_en:'👶 Nanny & Babysitter', role_th:'👶 พี่เลี้ยงเด็ก', city:'Phuket', exp:5, langs:'🇵🇭 🇬🇧', stars:4.9, reviews:12, rate:'300', skills_en:'Infant care · School run · Overnight', skills_th:'ดูแลทารก · รับส่งโรงเรียน · ดูแลกลางคืน' },
-  { photo:'https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face', name:'Sunisa K.', verified:true, role_en:'🏠 Housekeeper', role_th:'🏠 แม่บ้าน', city:'Bangkok', exp:8, langs:'🇹🇭 🇬🇧', stars:4.8, reviews:7, rate:'200', skills_en:'Cleaning · Laundry · Cooking', skills_th:'ทำความสะอาด · ซักรีด · ทำอาหาร' },
-  { photo:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face', name:'Ana R.', verified:true, role_en:'👨‍🍳 Private Chef', role_th:'👨‍🍳 แม่ครัวส่วนตัว', city:'Phuket', exp:3, langs:'🇵🇭 🇬🇧 🇹🇭', stars:5.0, reviews:4, rate:'450', skills_en:'Thai cuisine · Western · Baking', skills_th:'อาหารไทย · อาหารตะวันตก · ขนมอบ' },
-  { photo:'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=80&h=80&fit=crop&crop=face', name:'Narin P.', verified:true, role_en:'📚 Maths Tutor', role_th:'📚 ติวเตอร์คณิตศาสตร์', city:'Bangkok', exp:4, langs:'🇹🇭 🇬🇧', stars:5.0, reviews:6, rate:'400', skills_en:'Maths · Physics · Exam prep', skills_th:'คณิตศาสตร์ · ฟิสิกส์ · เตรียมสอบ' },
-  { photo:'https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=80&h=80&fit=crop&crop=face', name:'Dao W.', verified:true, role_en:'🌿 Gardener & Pool Care', role_th:'🌿 คนสวน / ดูแลสระ', city:'Koh Samui', exp:6, langs:'🇹🇭', stars:4.9, reviews:9, rate:'180', skills_en:'Garden care · Pool cleaning · Lawn', skills_th:'ดูแลสวน · ทำความสะอาดสระ · ตัดหญ้า' },
-  { photo:'https://images.unsplash.com/photo-1541823709867-1b206113eafd?w=80&h=80&fit=crop&crop=face', name:'Malee T.', verified:true, role_en:'🏥 Elder Care', role_th:'🏥 ดูแลผู้สูงอายุ', city:'Chiang Mai', exp:7, langs:'🇹🇭 🇬🇧', stars:4.8, reviews:5, rate:'250', skills_en:'Personal care · Medication · Companionship', skills_th:'ดูแลสุขอนามัย · เตือนทานยา · คอยเป็นเพื่อน' },
+  {
+    photo:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=crop&crop=face',
+    name:'Maria S.', age:32, verified:true,
+    category_en:'👶 Nanny & Babysitter', category_th:'👶 พี่เลี้ยงเด็ก', category_ru:'👶 Няня',
+    city:'Phuket', area:'Rawai',
+    bio_en:'Loving nanny with 5 years caring for infants and toddlers. Experienced with school runs and overnight care.',
+    bio_th:'พี่เลี้ยงใจดี ดูแลทารกและเด็กเล็กมา 5 ปี รับส่งโรงเรียนและดูแลกลางคืนได้',
+    bio_ru:'Заботливая няня с 5-летним опытом ухода за младенцами и малышами.',
+    experience:5, languages:'English, Filipino',
+    hasWhatsApp:true, hasEmail:true,
+  },
+  {
+    photo:'https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=400&h=400&fit=crop&crop=face',
+    name:'Sunisa K.', age:41, verified:true,
+    category_en:'🏠 Housekeeper & Cleaner', category_th:'🏠 แม่บ้าน', category_ru:'🏠 Домработница',
+    city:'Bangkok', area:'Sukhumvit',
+    bio_en:'Reliable housekeeper. 8 years with expat families. Cleaning, laundry, light cooking.',
+    bio_th:'แม่บ้านที่ไว้ใจได้ ทำงานกับครอบครัวต่างชาติ 8 ปี ทำความสะอาด ซักรีด ทำอาหารง่ายๆ',
+    bio_ru:'Надёжная домработница. 8 лет работы с экспатами.',
+    experience:8, languages:'Thai, English',
+    hasWhatsApp:true, hasEmail:false,
+  },
+  {
+    photo:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face',
+    name:'Ana R.', age:29, verified:true,
+    category_en:'👨‍🍳 Private Chef & Cook', category_th:'👨‍🍳 พ่อครัวส่วนตัว', category_ru:'👨‍🍳 Личный повар',
+    city:'Phuket', area:'Kata',
+    bio_en:'Private chef specialising in Thai and Western cuisine. Trained in pastry and weekly meal prep.',
+    bio_th:'พ่อครัวส่วนตัว ชำนาญอาหารไทยและตะวันตก ทำขนมอบและเตรียมอาหารรายสัปดาห์',
+    bio_ru:'Личный повар, специализируется на тайской и западной кухне.',
+    experience:3, languages:'English, Thai, Filipino',
+    hasWhatsApp:true, hasEmail:true,
+  },
+  {
+    photo:'https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&h=400&fit=crop&crop=face',
+    name:'Narin P.', age:27, verified:true,
+    category_en:'📚 Tutor & Teacher', category_th:'📚 ติวเตอร์', category_ru:'📚 Репетитор',
+    city:'Bangkok', area:'Thonglor',
+    bio_en:'Maths and physics tutor. 4 years tutoring international school students. Exam prep specialist.',
+    bio_th:'ติวเตอร์คณิตศาสตร์และฟิสิกส์ สอนนักเรียนโรงเรียนนานาชาติมา 4 ปี เชี่ยวชาญเตรียมสอบ',
+    bio_ru:'Репетитор по математике и физике. 4 года опыта.',
+    experience:4, languages:'Thai, English',
+    hasWhatsApp:true, hasEmail:true,
+  },
+  {
+    photo:'https://images.unsplash.com/photo-1551836022-4c4c79ecde51?w=400&h=400&fit=crop&crop=face',
+    name:'Dao W.', age:38, verified:true,
+    category_en:'🌿 Gardener & Pool Care', category_th:'🌿 คนสวน / ดูแลสระ', category_ru:'🌿 Садовник',
+    city:'Koh Samui', area:'Bophut',
+    bio_en:'Gardener and pool technician. 6 years caring for villa gardens and pools. Lawn, hedges, chemicals.',
+    bio_th:'คนสวนและช่างดูแลสระ 6 ปี ดูแลสวนและสระน้ำของวิลล่า',
+    bio_ru:'Садовник и обслуживание бассейнов. 6 лет ухода за виллами.',
+    experience:6, languages:'Thai',
+    hasWhatsApp:true, hasEmail:false,
+  },
+  {
+    photo:'https://images.unsplash.com/photo-1541823709867-1b206113eafd?w=400&h=400&fit=crop&crop=face',
+    name:'Malee T.', age:45, verified:true,
+    category_en:'🏥 Elder Care & Caregiver', category_th:'🏥 ดูแลผู้สูงอายุ', category_ru:'🏥 Уход за пожилыми',
+    city:'Chiang Mai', area:'Nimman',
+    bio_en:'Compassionate elder caregiver. 7 years with seniors. Personal care, medication reminders, companionship.',
+    bio_th:'ผู้ดูแลผู้สูงอายุที่อบอุ่น 7 ปี ดูแลสุขอนามัย เตือนทานยา และเป็นเพื่อน',
+    bio_ru:'Заботливый уход за пожилыми. 7 лет опыта.',
+    experience:7, languages:'Thai, English',
+    hasWhatsApp:false, hasEmail:true,
+  },
 ];
 
 const MATCHES = [
@@ -374,34 +438,33 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-background mb-4">{t.preview_title}</h2>
                 <p className="text-on-surface-variant max-w-2xl mx-auto">{t.preview_sub}</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="flex flex-col gap-4 max-w-4xl mx-auto">
                 {PROFILES.map((p, i) => (
-                  <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100" key={i}>
-                    <div className="flex items-start gap-4 mb-4">
-                      <Image src={p.photo} alt={p.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20" width={56} height={56} />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-on-background truncate">{p.name}</span>
-                          {p.verified && <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-teal-light text-primary text-[10px] font-bold whitespace-nowrap">{t.preview_badge}</span>}
-                        </div>
-                        <div className="text-sm text-on-surface-variant mt-0.5">{lang === 'th' ? p.role_th : p.role_en}</div>
-                        <div className="text-xs text-gray-500 mt-1">📍 {p.city} · {p.exp} {t.preview_exp} · {p.langs}</div>
-                      </div>
-                    </div>
-                    <div className="text-xs text-on-surface-variant bg-surface-container-low rounded-lg px-3 py-2 mb-4">{lang === 'th' ? p.skills_th : p.skills_en}</div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-amber-400 text-sm">★★★★★</span>
-                        <span className="text-sm font-bold text-on-background">{p.stars}</span>
-                        <span className="text-xs text-gray-400">({p.reviews})</span>
-                      </div>
-                      <span className="text-sm font-bold text-primary">{p.rate} THB/hr</span>
-                    </div>
-                    <button className="w-full mt-4 py-2.5 rounded-xl bg-surface-container-highest text-secondary font-semibold text-sm hover:bg-surface-container-high transition-colors cursor-not-allowed opacity-60" disabled>{t.preview_btn}</button>
-                  </div>
+                  <HelperCard
+                    key={i}
+                    mode="preview"
+                    helper={{
+                      photo: p.photo,
+                      name: p.name,
+                      age: p.age,
+                      verified: p.verified,
+                      categoryLabel: p[`category_${lang}`] || p.category_en,
+                      city: p.city,
+                      area: p.area,
+                      bio: p[`bio_${lang}`] || p.bio_en,
+                      experience: p.experience,
+                      languages: p.languages,
+                      hasWhatsApp: p.hasWhatsApp,
+                      hasEmail: p.hasEmail,
+                    }}
+                    t={{
+                      card_exp: t.preview_exp,
+                      card_verified: (t.preview_badge || '').replace(/^✓\s*/, ''),
+                      card_preview_note: t.preview_note,
+                    }}
+                  />
                 ))}
               </div>
-              <p className="text-center text-sm text-on-surface-variant mt-8">🔒 {t.preview_note}</p>
             </div>
           </section>
 
