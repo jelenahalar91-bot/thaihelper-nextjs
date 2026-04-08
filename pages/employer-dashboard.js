@@ -23,6 +23,7 @@ import { useRouter } from 'next/router';
 import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
+import HelperCard from '@/components/HelperCard';
 import { fetchEmployerProfile } from '@/lib/api/employer-auth-client';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import {
@@ -577,90 +578,27 @@ function BrowseTab({
         </div>
       ) : (
         <div className="flex flex-col gap-4">
-          {helpers.map(h => (
-            <HelperCard
-              key={h.ref}
-              helper={h}
-              t={t}
-              onMessage={() => onMessageHelper(h.ref)}
-              isStarting={startingConv === h.ref}
-            />
-          ))}
+          {helpers.map(h => {
+            const isStarting = startingConv === h.ref;
+            return (
+              <HelperCard
+                key={h.ref}
+                helper={{ ...h, categoryLabel: categoryWithEmoji(h.category) }}
+                t={{ card_exp: t.card_yrs, card_verified: 'Verified' }}
+                ctaSlot={
+                  <button
+                    onClick={() => onMessageHelper(h.ref)}
+                    disabled={isStarting}
+                    className="w-full px-5 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
+                  >
+                    💬 {isStarting ? t.card_messaging : t.card_message}
+                  </button>
+                }
+              />
+            );
+          })}
         </div>
       )}
     </>
-  );
-}
-
-function HelperCard({ helper, t, onMessage, isStarting }) {
-  const displayName = [helper.firstName, helper.lastName].filter(Boolean).join(' ');
-  return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
-      {/* Photo */}
-      <div className="bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square">
-        {helper.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={helper.photo}
-            alt={displayName}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-5xl text-gray-300">
-            👤
-          </div>
-        )}
-      </div>
-
-      {/* Body */}
-      <div className="p-5 sm:p-6 flex flex-col flex-1 min-w-0 gap-3">
-        <div>
-          <h3 className="text-xl font-bold text-gray-900 leading-tight">
-            {displayName}
-            {helper.age && (
-              <span className="text-gray-400 font-medium text-base ml-1">· {helper.age}</span>
-            )}
-          </h3>
-          <div className="text-sm text-gray-700 mt-1 font-medium">
-            {categoryWithEmoji(helper.category)}
-          </div>
-          {helper.city && (
-            <div className="text-xs text-gray-500 mt-1">
-              📍 {helper.city}{helper.area ? ` · ${helper.area}` : ''}
-            </div>
-          )}
-        </div>
-
-        {/* Bio */}
-        {helper.bio && (
-          <p className="text-sm text-gray-600 leading-relaxed">
-            {helper.bio}
-          </p>
-        )}
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 text-xs">
-          {helper.experience && (
-            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
-              ⏱ {helper.experience} {t.card_yrs}
-            </span>
-          )}
-          {helper.languages && (
-            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
-              🗣 {helper.languages}
-            </span>
-          )}
-        </div>
-
-        {/* Message button — full width on mobile, auto on desktop */}
-        <button
-          onClick={onMessage}
-          disabled={isStarting}
-          className="mt-2 sm:self-start px-5 py-2.5 rounded-xl bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
-        >
-          💬 {isStarting ? t.card_messaging : t.card_message}
-        </button>
-      </div>
-    </div>
   );
 }

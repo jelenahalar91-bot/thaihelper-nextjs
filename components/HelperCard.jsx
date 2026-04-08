@@ -3,8 +3,9 @@ import Image from 'next/image';
 
 /**
  * Shared helper card — used by:
- *   • the public landing (mode="preview", static marketing data)
- *   • the employer browse page /helpers (mode="browse", live API data)
+ *   • the public landing           (mode="preview",  static marketing data)
+ *   • /helpers public browse page  (mode="browse",   sign-in CTA)
+ *   • employer dashboard           (ctaSlot override, "Message" button)
  *
  * Keeping the layout in one place guarantees that what helpers see in the
  * landing preview matches what employers see when browsing.
@@ -17,11 +18,15 @@ import Image from 'next/image';
  * Expected `t` keys: card_exp, card_signin, card_signin_btn,
  *   card_preview_note, card_verified
  *
+ * `ctaSlot` (optional ReactNode): if provided, replaces the default
+ * CTA section entirely. Use this from authenticated contexts that
+ * need a custom action (e.g. employer dashboard "Message" button).
+ *
  * NOTE: WhatsApp/Email contact badges are intentionally NOT shown.
  * All communication happens on-platform; users decide what contact
  * data to share AFTER messaging through ThaiHelper.
  */
-export default function HelperCard({ helper, mode = 'browse', t }) {
+export default function HelperCard({ helper, mode = 'browse', t, ctaSlot }) {
   const displayName =
     helper.name || [helper.firstName, helper.lastName].filter(Boolean).join(' ');
 
@@ -103,7 +108,9 @@ export default function HelperCard({ helper, mode = 'browse', t }) {
 
         {/* CTA */}
         <div className="mt-auto pt-3 border-t border-gray-100">
-          {mode === 'preview' ? (
+          {ctaSlot ? (
+            ctaSlot
+          ) : mode === 'preview' ? (
             <div className="text-xs text-gray-500 text-center py-2">
               🔒 {t.card_preview_note}
             </div>
