@@ -43,6 +43,18 @@ const T = {
   en: {
     page_title: 'Employer Dashboard – ThaiHelper',
     greeting: 'Hi',
+    hi_morning: 'Good morning',
+    hi_afternoon: 'Good afternoon',
+    hi_evening: 'Good evening',
+    hero_subtitle_promo: 'You have full access — {n} days left to message helpers.',
+    hero_subtitle_paid: 'Full access active — {n} days remaining.',
+    hero_subtitle_free: 'Welcome! Browse helpers and start conversations.',
+    hero_status_promo: 'LAUNCH',
+    hero_status_paid: 'PAID',
+    hero_status_free: 'LAUNCH',
+    hero_unread: 'unread',
+    launch_banner_title: '🚀 Launch phase',
+    launch_banner_text: 'ThaiHelper is in its launch phase — every new employer gets 56 days of full access free from the date of registration. Enjoy messaging helpers at no cost.',
     logout: 'Log Out',
     tab_browse: 'Browse Helpers',
     tab_messages: 'Messages',
@@ -77,6 +89,18 @@ const T = {
   th: {
     page_title: 'แดชบอร์ดนายจ้าง – ThaiHelper',
     greeting: 'สวัสดี',
+    hi_morning: 'อรุณสวัสดิ์',
+    hi_afternoon: 'สวัสดีตอนบ่าย',
+    hi_evening: 'สวัสดีตอนเย็น',
+    hero_subtitle_promo: 'คุณมีสิทธิ์เข้าถึงเต็มรูปแบบ — เหลืออีก {n} วันในการส่งข้อความ',
+    hero_subtitle_paid: 'เปิดใช้งานเต็มรูปแบบ — เหลืออีก {n} วัน',
+    hero_subtitle_free: 'ยินดีต้อนรับ! ค้นหาผู้ช่วยและเริ่มการสนทนาได้เลย',
+    hero_status_promo: 'เปิดตัว',
+    hero_status_paid: 'ชำระเงินแล้ว',
+    hero_status_free: 'เปิดตัว',
+    hero_unread: 'ยังไม่ได้อ่าน',
+    launch_banner_title: '🚀 ช่วงเปิดตัว',
+    launch_banner_text: 'ThaiHelper อยู่ในช่วงเปิดตัว — นายจ้างใหม่ทุกคนจะได้รับสิทธิ์เข้าถึงเต็มรูปแบบฟรี 56 วัน นับจากวันที่ลงทะเบียน ส่งข้อความถึงผู้ช่วยได้โดยไม่มีค่าใช้จ่าย',
     logout: 'ออกจากระบบ',
     tab_browse: 'ค้นหาผู้ช่วย',
     tab_messages: 'ข้อความ',
@@ -352,53 +376,37 @@ export default function EmployerDashboard() {
         </header>
 
         <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 16px 64px' }}>
-          {/* ── Greeting ───────────────────────────────── */}
-          <h1 style={{
-            fontSize: '24px', fontWeight: 700, color: '#1a1a1a',
-            margin: '0 0 16px',
-          }}>
-            {t.greeting}, {profile?.first_name || 'there'} 👋
-          </h1>
+          {/* ── Hero card with greeting + status ──────── */}
+          <EmployerHero
+            t={t}
+            firstName={profile?.first_name}
+            employerRef={profile?.employer_ref}
+            accessStatus={accessStatus}
+            hasAccess={employerHasAccess}
+            unreadCount={totalUnread}
+            conversationCount={conversations.length}
+            onUpgrade={handleUpgrade}
+          />
 
-          {/* ── Access banner ──────────────────────────── */}
-          {accessStatus && employerHasAccess && (
-            <div style={{
-              background: '#dcfce7', border: '1px solid #86efac',
-              color: '#166534', padding: '12px 16px',
-              borderRadius: '12px', marginBottom: '16px',
-              fontSize: '15px', fontWeight: 600,
-            }}>
-              {(accessStatus.tier === 'promo' ? t.access_promo : t.access_paid)
-                .replace('{n}', accessStatus.daysRemaining)}
-            </div>
-          )}
-          {accessStatus && !employerHasAccess && (
-            <div style={{
-              background: '#fff7ed', border: '1px solid #fed7aa',
-              padding: '14px 16px', borderRadius: '12px', marginBottom: '16px',
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              gap: '12px', flexWrap: 'wrap',
-            }}>
-              <div style={{ flex: 1, minWidth: '200px' }}>
-                <div style={{ fontSize: '15px', fontWeight: 700, color: '#9a3412' }}>
-                  🔒 {t.access_free_title}
-                </div>
-                <div style={{ fontSize: '14px', color: '#9a3412', marginTop: '2px' }}>
-                  {t.access_free_text}
-                </div>
+          {/* ── Launch-phase info banner ──────────────── */}
+          <div style={{
+            display: 'flex', gap: '14px', alignItems: 'flex-start',
+            background: 'linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%)',
+            border: '1px solid #fde68a',
+            borderRadius: '14px',
+            padding: '16px 20px',
+            marginBottom: '20px',
+          }}>
+            <div style={{ fontSize: '24px', lineHeight: 1, flexShrink: 0 }}>🚀</div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: '15px', fontWeight: 800, color: '#92400e', marginBottom: '4px' }}>
+                {t.launch_banner_title}
               </div>
-              <button
-                onClick={handleUpgrade}
-                style={{
-                  padding: '10px 20px', borderRadius: '10px', border: 'none',
-                  background: '#006a62', color: 'white', fontSize: '14px',
-                  fontWeight: 700, cursor: 'pointer',
-                }}
-              >
-                {t.access_upgrade}
-              </button>
+              <div style={{ fontSize: '14px', color: '#78350f', lineHeight: 1.55 }}>
+                {t.launch_banner_text}
+              </div>
             </div>
-          )}
+          </div>
 
           {/* ── Error banner ───────────────────────────── */}
           {errorBanner && (
@@ -487,6 +495,92 @@ export default function EmployerDashboard() {
 }
 
 // ─── Sub-components ──────────────────────────────────────────────────────
+
+// Time-aware greeting (SSR-safe: defaults to morning, updates on client)
+function getGreeting(t) {
+  if (typeof window === 'undefined') return t.hi_morning;
+  const h = new Date().getHours();
+  if (h < 12) return t.hi_morning;
+  if (h < 18) return t.hi_afternoon;
+  return t.hi_evening;
+}
+
+function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unreadCount, conversationCount, onUpgrade }) {
+  const tier = accessStatus?.tier || 'free';
+  const days = accessStatus?.daysRemaining;
+
+  const statusLabel =
+    tier === 'promo' ? t.hero_status_promo :
+    tier === 'paid'  ? t.hero_status_paid  :
+                       t.hero_status_free;
+
+  const subtitle =
+    !accessStatus ? '' :
+    tier === 'promo' ? t.hero_subtitle_promo.replace('{n}', days) :
+    tier === 'paid'  ? t.hero_subtitle_paid.replace('{n}', days)  :
+                       t.hero_subtitle_free;
+
+  const dotColor = hasAccess ? '#7dffb0' : '#fbbf24';
+
+  return (
+    <div style={{
+      position: 'relative', overflow: 'hidden',
+      background: 'linear-gradient(135deg, #006a62 0%, #00897e 50%, #00b29c 100%)',
+      borderRadius: '20px',
+      padding: '32px 36px',
+      marginBottom: '20px',
+      color: 'white',
+      boxShadow: '0 12px 32px rgba(0, 106, 98, 0.25)',
+    }}>
+      {/* Decorative blobs */}
+      <div aria-hidden style={{ position: 'absolute', top: '-60px', right: '-60px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+      <div aria-hidden style={{ position: 'absolute', bottom: '-80px', left: '-40px', width: '180px', height: '180px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
+
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap' }}>
+        <div style={{ flex: 1, minWidth: '260px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 12px', borderRadius: '999px', background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: '12px' }}>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: dotColor, boxShadow: `0 0 0 3px ${dotColor}33` }} />
+            {statusLabel}{employerRef ? ` · ${employerRef}` : ''}
+          </div>
+          <h1 style={{ fontSize: '30px', fontWeight: 800, margin: '0 0 8px', lineHeight: 1.15, letterSpacing: '-0.5px' }}>
+            {getGreeting(t)}, {firstName || 'there'} 👋
+          </h1>
+          {subtitle && (
+            <p style={{ fontSize: '15px', margin: 0, opacity: 0.92, lineHeight: 1.5, maxWidth: '500px' }}>
+              {subtitle}
+            </p>
+          )}
+        </div>
+
+        {/* Right side mini-stats */}
+        <div style={{ display: 'flex', gap: '12px', flexShrink: 0 }}>
+          <HeroStat value={conversationCount || 0} label={t.tab_messages} />
+          {unreadCount > 0 && (
+            <HeroStat value={unreadCount} label={t.hero_unread} accent />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroStat({ value, label, accent }) {
+  return (
+    <div style={{
+      minWidth: '88px',
+      padding: '14px 16px',
+      borderRadius: '14px',
+      background: accent ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)',
+      backdropFilter: 'blur(8px)',
+      border: accent ? 'none' : '1px solid rgba(255,255,255,0.2)',
+      textAlign: 'center',
+      color: accent ? '#dc2626' : 'white',
+    }}>
+      <div style={{ fontSize: '24px', fontWeight: 800, lineHeight: 1 }}>{value}</div>
+      <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', marginTop: '4px', opacity: accent ? 0.9 : 0.85 }}>{label}</div>
+    </div>
+  );
+}
 
 function BrowseTab({
   t, loading, helpers, totalCount,

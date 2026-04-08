@@ -28,13 +28,13 @@ import {
 import { CITIES } from '@/lib/constants/cities';
 
 const LOOKING_FOR_OPTIONS = [
-  { value: 'nanny',       en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
-  { value: 'housekeeper', en: 'Housekeeper & Cleaner', th: 'แม่บ้าน / ทำความสะอาด' },
-  { value: 'chef',        en: 'Private Chef & Cook',   th: 'พ่อครัว / แม่ครัว' },
-  { value: 'driver',      en: 'Driver & Chauffeur',    th: 'คนขับรถ' },
-  { value: 'gardener',    en: 'Gardener & Pool Care',  th: 'ดูแลสวน / สระน้ำ' },
-  { value: 'elder_care',  en: 'Elder Care',            th: 'ดูแลผู้สูงอายุ' },
-  { value: 'tutor',       en: 'Tutor & Teacher',       th: 'ติวเตอร์' },
+  { value: 'nanny',       icon: '👶',  en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
+  { value: 'housekeeper', icon: '🏠',  en: 'Housekeeper & Cleaner', th: 'แม่บ้าน / ทำความสะอาด' },
+  { value: 'chef',        icon: '👨‍🍳', en: 'Private Chef & Cook',   th: 'พ่อครัว / แม่ครัว' },
+  { value: 'driver',      icon: '🚗',  en: 'Driver & Chauffeur',    th: 'คนขับรถ' },
+  { value: 'gardener',    icon: '🌿',  en: 'Gardener & Pool Care',  th: 'ดูแลสวน / สระน้ำ' },
+  { value: 'elder_care',  icon: '🏥',  en: 'Elder Care',            th: 'ดูแลผู้สูงอายุ' },
+  { value: 'tutor',       icon: '📚',  en: 'Tutor & Teacher',       th: 'ติวเตอร์' },
 ];
 
 const AGE_RANGES = ['any', '20-30', '30-40', '40-50', '50+'];
@@ -445,12 +445,13 @@ export default function EmployerProfile() {
                       key={opt.value}
                       type="button"
                       onClick={() => toggleLookingFor(opt.value)}
-                      className={`px-3 py-2 rounded-full text-sm font-semibold border transition-all ${
+                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
                         active
-                          ? 'bg-[#006a62] text-white border-[#006a62]'
-                          : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62]'
+                          ? 'bg-[#006a62] text-white border-[#006a62] shadow-sm'
+                          : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
                       }`}
                     >
+                      <span className="text-base leading-none">{opt.icon}</span>
                       {opt[lang] || opt.en}
                     </button>
                   );
@@ -463,21 +464,22 @@ export default function EmployerProfile() {
               <Label>{t.label_arrangement}</Label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
                 {[
-                  { v: '',         label: t.arr_unset },
-                  { v: 'live_in',  label: t.arr_live_in },
-                  { v: 'live_out', label: t.arr_live_out },
-                  { v: 'either',   label: t.arr_either },
+                  { v: '',         icon: '🤷', label: t.arr_unset },
+                  { v: 'live_in',  icon: '🛏️', label: t.arr_live_in },
+                  { v: 'live_out', icon: '🚶', label: t.arr_live_out },
+                  { v: 'either',   icon: '✨', label: t.arr_either },
                 ].map(opt => (
                   <button
                     key={opt.v}
                     type="button"
                     onClick={() => update('arrangement_preference', opt.v)}
-                    className={`px-3 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
+                    className={`inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
                       form.arrangement_preference === opt.v
-                        ? 'bg-[#006a62] text-white border-[#006a62]'
-                        : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62]'
+                        ? 'bg-[#006a62] text-white border-[#006a62] shadow-sm'
+                        : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
                     }`}
                   >
+                    <span className="text-base leading-none">{opt.icon}</span>
                     {opt.label}
                   </button>
                 ))}
