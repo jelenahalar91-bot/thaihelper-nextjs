@@ -28,13 +28,13 @@ import {
 import { CITIES } from '@/lib/constants/cities';
 
 const LOOKING_FOR_OPTIONS = [
-  { value: 'nanny',       icon: '👶',  en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
-  { value: 'housekeeper', icon: '🏠',  en: 'Housekeeper & Cleaner', th: 'แม่บ้าน / ทำความสะอาด' },
-  { value: 'chef',        icon: '👨‍🍳', en: 'Private Chef & Cook',   th: 'พ่อครัว / แม่ครัว' },
-  { value: 'driver',      icon: '🚗',  en: 'Driver & Chauffeur',    th: 'คนขับรถ' },
-  { value: 'gardener',    icon: '🌿',  en: 'Gardener & Pool Care',  th: 'ดูแลสวน / สระน้ำ' },
-  { value: 'elder_care',  icon: '🏥',  en: 'Elder Care',            th: 'ดูแลผู้สูงอายุ' },
-  { value: 'tutor',       icon: '📚',  en: 'Tutor & Teacher',       th: 'ติวเตอร์' },
+  { value: 'nanny',       iconKey: 'baby',   en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
+  { value: 'housekeeper', iconKey: 'home',   en: 'Housekeeper & Cleaner', th: 'แม่บ้าน / ทำความสะอาด' },
+  { value: 'chef',        iconKey: 'chef',   en: 'Private Chef & Cook',   th: 'พ่อครัว / แม่ครัว' },
+  { value: 'driver',      iconKey: 'car',    en: 'Driver & Chauffeur',    th: 'คนขับรถ' },
+  { value: 'gardener',    iconKey: 'leaf',   en: 'Gardener & Pool Care',  th: 'ดูแลสวน / สระน้ำ' },
+  { value: 'elder_care',  iconKey: 'heart',  en: 'Elder Care',            th: 'ดูแลผู้สูงอายุ' },
+  { value: 'tutor',       iconKey: 'book',   en: 'Tutor & Teacher',       th: 'ติวเตอร์' },
 ];
 
 const AGE_RANGES = ['any', '20-30', '30-40', '40-50', '50+'];
@@ -188,6 +188,31 @@ export default function EmployerProfile() {
     const id = setTimeout(() => setSavedMsg(''), 3000);
     return () => clearTimeout(id);
   }, [savedMsg]);
+
+  // Scroll to hash anchor (#settings) after the form is loaded.
+  // Menu items like "Settings" navigate with a hash, but Next.js doesn't
+  // scroll automatically when the anchor is behind a loading spinner.
+  // Scroll to hash after form loads, and also when the hash changes
+  // via in-page navigation (e.g. clicking "Settings" in the menu while
+  // already on this page).
+  useEffect(() => {
+    if (!form) return;
+    if (typeof window === 'undefined') return;
+
+    const scrollToHash = () => {
+      const hash = window.location.hash?.slice(1);
+      if (!hash) return;
+      const el = document.getElementById(hash);
+      if (!el) return;
+      requestAnimationFrame(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    };
+
+    scrollToHash();
+    window.addEventListener('hashchange', scrollToHash);
+    return () => window.removeEventListener('hashchange', scrollToHash);
+  }, [form]);
 
   function update(field, value) {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -451,7 +476,7 @@ export default function EmployerProfile() {
                           : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
                       }`}
                     >
-                      <span className="text-base leading-none">{opt.icon}</span>
+                      <LineIcon name={opt.iconKey} />
                       {opt[lang] || opt.en}
                     </button>
                   );
@@ -464,10 +489,10 @@ export default function EmployerProfile() {
               <Label>{t.label_arrangement}</Label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
                 {[
-                  { v: '',         icon: '🤷', label: t.arr_unset },
-                  { v: 'live_in',  icon: '🛏️', label: t.arr_live_in },
-                  { v: 'live_out', icon: '🚶', label: t.arr_live_out },
-                  { v: 'either',   icon: '✨', label: t.arr_either },
+                  { v: '',         iconKey: 'dots',    label: t.arr_unset },
+                  { v: 'live_in',  iconKey: 'bed',     label: t.arr_live_in },
+                  { v: 'live_out', iconKey: 'walk',    label: t.arr_live_out },
+                  { v: 'either',   iconKey: 'check',   label: t.arr_either },
                 ].map(opt => (
                   <button
                     key={opt.v}
@@ -479,7 +504,7 @@ export default function EmployerProfile() {
                         : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
                     }`}
                   >
-                    <span className="text-base leading-none">{opt.icon}</span>
+                    <LineIcon name={opt.iconKey} />
                     {opt.label}
                   </button>
                 ))}
@@ -515,7 +540,7 @@ export default function EmployerProfile() {
           </Section>
 
           {/* ── Settings ─────────────────────────────── */}
-          <Section title={t.section_settings}>
+          <Section id="settings" title={t.section_settings}>
             <Field label={t.label_lang} hint={t.lang_hint}>
               <select
                 value={form.preferred_language}
@@ -551,13 +576,116 @@ export default function EmployerProfile() {
 const inputClass =
   'w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#006a62]/30 focus:border-[#006a62] transition-colors';
 
-function Section({ title, children }) {
+function Section({ title, children, id }) {
   return (
-    <section className="bg-white rounded-2xl border border-gray-200 p-5 md:p-7 mb-4">
+    <section
+      id={id}
+      className="bg-white rounded-2xl border border-gray-200 p-5 md:p-7 mb-4 scroll-mt-24"
+    >
       <h2 className="text-base md:text-lg font-bold text-gray-900 mb-4">{title}</h2>
       {children}
     </section>
   );
+}
+
+// Clean stroke-SVG icons used in pills / pref selectors.
+// Kept inline so there's no new dependency and no emoji clutter.
+const LINE_ICON_PROPS = {
+  width: 16,
+  height: 16,
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 2,
+  strokeLinecap: 'round',
+  strokeLinejoin: 'round',
+};
+
+function LineIcon({ name }) {
+  switch (name) {
+    case 'baby':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <circle cx="12" cy="8" r="4" />
+          <path d="M9 10c.5 1 1.5 1.5 3 1.5S14.5 11 15 10" />
+          <path d="M5 21v-1a7 7 0 0 1 14 0v1" />
+        </svg>
+      );
+    case 'home':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z" />
+        </svg>
+      );
+    case 'chef':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <path d="M6 14a4 4 0 1 1 2.4-7.2A4 4 0 0 1 15.6 6.8 4 4 0 1 1 18 14" />
+          <path d="M6 14v5a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-5" />
+          <path d="M9 20v-6M15 20v-6" />
+        </svg>
+      );
+    case 'car':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <path d="M5 17h14M5 17v2M19 17v2" />
+          <path d="M6 17l1.5-5.5A2 2 0 0 1 9.5 10h5a2 2 0 0 1 2 1.5L18 17" />
+          <circle cx="8" cy="17" r="1.2" />
+          <circle cx="16" cy="17" r="1.2" />
+        </svg>
+      );
+    case 'leaf':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <path d="M11 20A7 7 0 0 1 4 13c0-5 4-9 16-9 0 8-3 16-9 16Z" />
+          <path d="M4 20c5-5 8-7 12-9" />
+        </svg>
+      );
+    case 'heart':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <path d="M20.8 6.6a5 5 0 0 0-8.8-2 5 5 0 0 0-8.8 2A5.4 5.4 0 0 0 4.6 12l7.4 8 7.4-8a5.4 5.4 0 0 0 1.4-5.4z" />
+        </svg>
+      );
+    case 'book':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z" />
+          <path d="M4 19a2 2 0 0 1 2-2h12" />
+        </svg>
+      );
+    case 'dots':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <circle cx="6" cy="12" r="1.4" />
+          <circle cx="12" cy="12" r="1.4" />
+          <circle cx="18" cy="12" r="1.4" />
+        </svg>
+      );
+    case 'bed':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <path d="M3 18V8M3 14h18v4M21 18v-4a3 3 0 0 0-3-3h-7v3" />
+          <circle cx="7" cy="12" r="1.5" />
+        </svg>
+      );
+    case 'walk':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <circle cx="13" cy="4" r="1.6" />
+          <path d="M9 21l2-6 2 2 2 5" />
+          <path d="M8 11l3-3 3 2 3 1" />
+        </svg>
+      );
+    case 'check':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <polyline points="5 12 10 17 19 7" />
+        </svg>
+      );
+    default:
+      return null;
+  }
 }
 
 function Label({ children }) {
