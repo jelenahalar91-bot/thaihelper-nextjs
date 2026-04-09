@@ -11,6 +11,8 @@ import { CATEGORY_NAMES, CAT_EMOJI } from '@/lib/constants/categories';
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
   en: {
+    nav_employers:  'For Employers',
+    nav_employers_q:'Looking to hire a helper?',
     nav_home:       'Home',
     nav_login:      'Login',
     nav_cta:        'Register Free',
@@ -34,6 +36,8 @@ const T = {
     footer_terms:   'Terms of Service',
   },
   th: {
+    nav_employers:  'สำหรับนายจ้าง',
+    nav_employers_q:'กำลังหาผู้ช่วย?',
     nav_home:       'หน้าแรก',
     nav_login:      'เข้าสู่ระบบ',
     nav_cta:        'ลงทะเบียนฟรี',
@@ -117,6 +121,16 @@ export default function Helpers() {
       />
 
       <div className={`min-h-screen bg-gray-50 ${lang === 'th' ? 'lang-th' : ''}`}>
+
+        {/* ── UTILITY TOP BAR — audience switch to employer landing ── */}
+        <div className="w-full bg-[#001b3d] text-white">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 md:py-2.5 flex justify-center md:justify-end items-center text-xs md:text-sm">
+            <Link href="/employers" className="font-medium hover:text-gold transition-colors flex items-center gap-1.5 whitespace-nowrap">
+              <span className="opacity-80 hidden sm:inline">{t.nav_employers_q}</span>
+              <span className="font-bold">{t.nav_employers} →</span>
+            </Link>
+          </div>
+        </div>
 
         {/* ── NAV ──────────────────────────────────────────────────────── */}
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
