@@ -9,7 +9,7 @@ const T = {
     meta_desc: 'The story behind ThaiHelper. We are a family of four who moved to Thailand and built the platform we wished existed when we were searching for a nanny, gardener and tutors.',
     nav_employers: 'For Employers',
     nav_helpers: 'For Helpers',
-    nav_login: 'Log In',
+    nav_login: 'Login',
     nav_cta: 'Register – Free',
 
     hero_eyebrow: 'About Us',

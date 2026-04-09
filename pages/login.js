@@ -20,7 +20,7 @@ const T = {
     ref_label: 'Reference Number',
     ref_ph: 'e.g. TH-A1B2C3 or EMP-A1B2C3',
     ref_hint: 'Your reference number was included in your registration email. Helpers start with TH-, employers with EMP-.',
-    submit: 'Log In',
+    submit: 'Login',
     submitting: 'Logging in...',
     error_invalid: "We couldn't find an account with this email and reference number. Please check and try again.",
     error_rate: 'Too many login attempts. Please wait a few minutes and try again.',

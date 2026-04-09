@@ -10,7 +10,7 @@ const T = {
     meta_desc: 'Simple, transparent pricing for employers. Browse helpers for free. Unlock unlimited messaging for as little as 166 THB/month.',
     nav_home: 'Home',
     nav_employers: 'For Employers',
-    nav_login: 'Log In',
+    nav_login: 'Login',
     nav_cta: 'Register – Free',
     hero_eyebrow: 'Pricing',
     hero_h1: 'Simple, transparent pricing',

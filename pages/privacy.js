@@ -7,7 +7,7 @@ const T = {
   en: {
     nav_employers: 'For Employers',
     nav_helpers:   'For Helpers',
-    nav_login:     'Log In',
+    nav_login:     'Login',
     nav_cta:       'Register – Free',
     title:         'Privacy Policy',
     updated:       'Last updated: March 2026',

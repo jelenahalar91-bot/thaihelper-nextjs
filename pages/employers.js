@@ -131,7 +131,7 @@ const T = {
     cta_card_b3: 'No agency fees — ever',
     cta_card_btn: 'Create Free Account',
     cta_card_login_q: 'Already have an account?',
-    cta_card_login: 'Log in',
+    cta_card_login: 'Login',
     // Launch banner
     launch_label: 'Launch Timeline',
     launch_title: 'We\'re launching in April 2026',

@@ -37,7 +37,7 @@ const T = {
     no_results_sub: 'Try adjusting your filters or check back soon — new helpers register every day.',
     card_exp:       'yrs experience',
     card_signin:    'Sign in as employer to message',
-    card_signin_btn:'Log in / Register',
+    card_signin_btn:'Login / Register',
     cta_title:      'Are you a helper looking for work?',
     cta_sub:        'Create your free profile and let families find you.',
     cta_btn:        'Register Now — Free →',

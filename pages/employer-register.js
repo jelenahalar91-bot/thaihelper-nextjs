@@ -69,7 +69,7 @@ const T = {
     error_invalid: 'Please fill in all required fields.',
     error_generic: 'Something went wrong. Please try again.',
     have_account: 'Already have an account?',
-    login_link: 'Log In',
+    login_link: 'Login',
     terms_notice: 'By creating an account you agree to our',
     terms_link: 'Terms of Service',
     privacy_link: 'Privacy Policy',
