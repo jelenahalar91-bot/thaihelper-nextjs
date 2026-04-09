@@ -77,6 +77,12 @@ const T = {
     filter_lang_label: 'Languages',
     filter_area_ph: 'Search by area...',
     filter_reset: 'Reset',
+    sort_label: 'Sort by',
+    sort_newest: 'Newest',
+    sort_experience: 'Most experience',
+    sort_alphabetical: 'A–Z',
+    sort_youngest: 'Youngest first',
+    sort_oldest: 'Oldest first',
     results: 'helpers found',
     loading: 'Loading...',
     no_helpers: 'No helpers found.',
@@ -146,6 +152,12 @@ const T = {
     filter_lang_label: 'ภาษา',
     filter_area_ph: 'ค้นหาตามย่าน...',
     filter_reset: 'รีเซ็ต',
+    sort_label: 'เรียงตาม',
+    sort_newest: 'ใหม่ล่าสุด',
+    sort_experience: 'ประสบการณ์มากที่สุด',
+    sort_alphabetical: 'ก–ฮ',
+    sort_youngest: 'อายุน้อยที่สุดก่อน',
+    sort_oldest: 'อายุมากที่สุดก่อน',
     results: 'ผู้ช่วยที่พบ',
     loading: 'กำลังโหลด...',
     no_helpers: 'ไม่พบผู้ช่วย',
@@ -211,6 +223,7 @@ export default function EmployerDashboard() {
   const [filterAgeRange, setFilterAgeRange] = useState(''); // '' | '18-25' | '25-35' | '35-45' | '45-55' | '55+'
   const [filterMinExp, setFilterMinExp] = useState(''); // '' | '1' | '3' | '5' | '10'
   const [filterLanguages, setFilterLanguages] = useState([]); // ['english', 'thai', ...]
+  const [sortBy, setSortBy] = useState('newest'); // 'newest' | 'experience' | 'alphabetical' | 'youngest' | 'oldest'
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [startingConv, setStartingConv] = useState(null); // helper_ref currently being opened
 
@@ -300,8 +313,9 @@ export default function EmployerDashboard() {
     return () => clearInterval(id);
   }, [authChecked, selectedConv]);
 
-  // ── Filtered helper list ──────────────────────────────────────────────
-  const filteredHelpers = useMemo(() => helpers.filter(h => {
+  // ── Filtered + sorted helper list ─────────────────────────────────────
+  const filteredHelpers = useMemo(() => {
+    const filtered = helpers.filter(h => {
     if (filterCity && h.city?.toLowerCase() !== filterCity.toLowerCase()) return false;
     if (filterCat && !h.category?.toLowerCase().includes(filterCat.toLowerCase())) return false;
     if (filterArea && !h.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
@@ -340,8 +354,41 @@ export default function EmployerDashboard() {
       }
     }
 
-    return true;
-  }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages]);
+      return true;
+    });
+
+    // Sort — operate on a copy so we don't mutate state
+    const parseExp = (h) => {
+      const m = (h.experience || '').match(/\d+/);
+      return m ? parseInt(m[0], 10) : 0;
+    };
+    const parseAge = (h) => {
+      const a = parseInt(h.age, 10);
+      return Number.isNaN(a) ? Infinity : a;
+    };
+    const parseDate = (h) => new Date(h.createdAt || 0).getTime();
+
+    const sorted = [...filtered];
+    switch (sortBy) {
+      case 'experience':
+        sorted.sort((a, b) => parseExp(b) - parseExp(a));
+        break;
+      case 'alphabetical':
+        sorted.sort((a, b) => (a.firstName || '').localeCompare(b.firstName || ''));
+        break;
+      case 'youngest':
+        sorted.sort((a, b) => parseAge(a) - parseAge(b));
+        break;
+      case 'oldest':
+        sorted.sort((a, b) => parseAge(b) - parseAge(a));
+        break;
+      case 'newest':
+      default:
+        sorted.sort((a, b) => parseDate(b) - parseDate(a));
+        break;
+    }
+    return sorted;
+  }, [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, sortBy]);
 
   function resetFilters() {
     setFilterCity('');
@@ -612,6 +659,8 @@ export default function EmployerDashboard() {
               setFilterMinExp={setFilterMinExp}
               filterLanguages={filterLanguages}
               toggleLanguage={toggleLanguage}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
               activeFilterCount={activeFilterCount}
               onResetFilters={resetFilters}
               onMessageHelper={handleMessageHelper}
@@ -790,6 +839,7 @@ function BrowseTab({
   filterAgeRange, setFilterAgeRange,
   filterMinExp, setFilterMinExp,
   filterLanguages, toggleLanguage,
+  sortBy, setSortBy,
   activeFilterCount, onResetFilters,
   onMessageHelper, startingConv,
   mobileFiltersOpen, setMobileFiltersOpen,
@@ -831,7 +881,7 @@ function BrowseTab({
 
       {/* Main results */}
       <div style={{ flex: 1, minWidth: 0 }}>
-        {/* Mobile filter button + results count */}
+        {/* Mobile filter button + results count + sort */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           gap: '12px', marginBottom: '14px', flexWrap: 'wrap',
@@ -840,6 +890,36 @@ function BrowseTab({
             <strong style={{ color: '#1a1a1a', fontSize: '15px' }}>{totalCount}</strong>{' '}
             {t.results}
           </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {/* Sort dropdown */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 6h18M7 12h10M11 18h2" />
+              </svg>
+              <select
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value)}
+                aria-label={t.sort_label || 'Sort by'}
+                style={{
+                  padding: '7px 10px 7px 10px',
+                  borderRadius: '8px',
+                  border: '1px solid #e5e7eb',
+                  background: 'white',
+                  fontSize: '13px',
+                  color: '#374151',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                <option value="newest">{t.sort_newest || 'Newest'}</option>
+                <option value="experience">{t.sort_experience || 'Most experience'}</option>
+                <option value="alphabetical">{t.sort_alphabetical || 'A–Z'}</option>
+                <option value="youngest">{t.sort_youngest || 'Youngest first'}</option>
+                <option value="oldest">{t.sort_oldest || 'Oldest first'}</option>
+              </select>
+            </div>
+
           <button
             className="browse-sidebar-mobile-btn"
             onClick={() => setMobileFiltersOpen(true)}
@@ -874,6 +954,7 @@ function BrowseTab({
               </span>
             )}
           </button>
+          </div>
         </div>
 
         {/* Grid */}
