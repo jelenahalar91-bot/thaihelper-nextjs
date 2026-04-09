@@ -155,65 +155,102 @@ export default async function handler(req, res) {
     });
   }
 
-  // ─── POST — Start a new conversation (employer only) ──────────────────
+  // ─── POST — Start a new conversation (employer or helper) ─────────────
   if (req.method === 'POST') {
-    if (!isEmployer) {
-      return res.status(403).json({ error: 'Only employers can start conversations' });
+    if (isEmployer) {
+      // ── Employer → Helper flow (existing) ──
+      if (!employerHasAccess) {
+        return res.status(402).json({
+          error: 'payment_required',
+          accessStatus: getAccessStatus(employer),
+        });
+      }
+
+      const { helper_ref } = req.body;
+      if (!helper_ref) {
+        return res.status(400).json({ error: 'helper_ref required' });
+      }
+
+      const { data: helper } = await supabase
+        .from('helper_profiles')
+        .select('helper_ref, first_name')
+        .eq('helper_ref', helper_ref)
+        .single();
+      if (!helper) return res.status(404).json({ error: 'Helper not found' });
+
+      const { data: existing } = await supabase
+        .from('conversations')
+        .select('id')
+        .eq('helper_ref', helper_ref)
+        .eq('employer_id', employer.employer_ref)
+        .maybeSingle();
+
+      if (existing) {
+        return res.status(200).json({ conversation_id: existing.id, existed: true });
+      }
+
+      const { data: created, error: convErr } = await supabase
+        .from('conversations')
+        .insert({
+          helper_ref,
+          employer_id: employer.employer_ref,
+          employer_name: employer.first_name,
+          last_message_at: new Date().toISOString(),
+        })
+        .select('id')
+        .single();
+
+      if (convErr) {
+        console.error('Conversation create error:', convErr);
+        return res.status(500).json({ error: 'Failed to create conversation' });
+      }
+
+      return res.status(201).json({ conversation_id: created.id, existed: false });
+    } else {
+      // ── Helper → Employer flow (new) ──
+      const { employer_ref } = req.body;
+      if (!employer_ref) {
+        return res.status(400).json({ error: 'employer_ref required' });
+      }
+
+      // Verify the employer account exists
+      const { data: emp } = await supabase
+        .from('employer_accounts')
+        .select('employer_ref, first_name')
+        .eq('employer_ref', employer_ref)
+        .single();
+      if (!emp) return res.status(404).json({ error: 'Employer not found' });
+
+      // Find or create (one conversation per helper/employer pair)
+      const { data: existing } = await supabase
+        .from('conversations')
+        .select('id')
+        .eq('helper_ref', session.ref)
+        .eq('employer_id', employer_ref)
+        .maybeSingle();
+
+      if (existing) {
+        return res.status(200).json({ conversation_id: existing.id, existed: true });
+      }
+
+      const { data: created, error: convErr } = await supabase
+        .from('conversations')
+        .insert({
+          helper_ref: session.ref,
+          employer_id: employer_ref,
+          employer_name: emp.first_name,
+          last_message_at: new Date().toISOString(),
+        })
+        .select('id')
+        .single();
+
+      if (convErr) {
+        console.error('Conversation create error:', convErr);
+        return res.status(500).json({ error: 'Failed to create conversation' });
+      }
+
+      return res.status(201).json({ conversation_id: created.id, existed: false });
     }
-
-    if (!employerHasAccess) {
-      return res.status(402).json({
-        error: 'payment_required',
-        accessStatus: getAccessStatus(employer),
-      });
-    }
-
-    const { helper_ref } = req.body;
-    if (!helper_ref) {
-      return res.status(400).json({ error: 'helper_ref required' });
-    }
-
-    // Verify the helper exists
-    const { data: helper } = await supabase
-      .from('helper_profiles')
-      .select('helper_ref, first_name')
-      .eq('helper_ref', helper_ref)
-      .single();
-    if (!helper) return res.status(404).json({ error: 'Helper not found' });
-
-    // Find or create (one conversation per employer/helper pair)
-    const { data: existing } = await supabase
-      .from('conversations')
-      .select('id')
-      .eq('helper_ref', helper_ref)
-      .eq('employer_id', employer.employer_ref)
-      .maybeSingle();
-
-    if (existing) {
-      return res.status(200).json({ conversation_id: existing.id, existed: true });
-    }
-
-    // Initialize last_message_at = now() so newly created conversations
-    // appear at the top of the list even before any messages are sent.
-    // Otherwise the column is NULL and Postgres sorts NULLs last, so the
-    // new chat would sink to the bottom of the employer's list.
-    const { data: created, error: convErr } = await supabase
-      .from('conversations')
-      .insert({
-        helper_ref,
-        employer_id: employer.employer_ref,
-        employer_name: employer.first_name,
-        last_message_at: new Date().toISOString(),
-      })
-      .select('id')
-      .single();
-
-    if (convErr) {
-      console.error('Conversation create error:', convErr);
-      return res.status(500).json({ error: 'Failed to create conversation' });
-    }
-
-    return res.status(201).json({ conversation_id: created.id, existed: false });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });

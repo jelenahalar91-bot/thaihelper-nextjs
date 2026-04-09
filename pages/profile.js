@@ -6,8 +6,10 @@ import { fetchProfile as fetchProfileApi, updateProfile as updateProfileApi } fr
 import { logout } from '@/lib/api/auth-client';
 import { fetchDocuments, uploadDocument, deleteDocument } from '@/lib/api/documents';
 import { fetchReferences, addReference, updateReference, deleteReference } from '@/lib/api/references';
-import { fetchConversations, fetchMessages, sendMessage, markAsRead } from '@/lib/api/messages';
+import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConversationAsHelper } from '@/lib/api/messages';
 import { fetchSettings, updateLanguagePreference } from '@/lib/api/settings';
+import { fetchEmployers } from '@/lib/api/employers';
+import { CITIES } from '@/lib/constants/cities';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 
@@ -138,6 +140,31 @@ const T = {
     settings_lang: 'Preferred Language',
     settings_lang_hint: 'Messages from families will be translated to your preferred language.',
     settings_saved: 'Settings saved!',
+    // Browse employers
+    tab_browse: 'Browse',
+    browse_title: 'Browse Employers',
+    browse_results: 'employers found',
+    browse_no_results: 'No employers found',
+    browse_no_results_sub: 'Check back soon — new employers register every day.',
+    browse_filter_title: 'Filters',
+    browse_filter_city: 'All Cities',
+    browse_filter_city_label: 'City',
+    browse_filter_looking_label: 'Looking For',
+    browse_filter_looking_all: 'All Types',
+    browse_filter_area_label: 'Area',
+    browse_filter_area_ph: 'Search by area...',
+    browse_filter_reset: 'Reset filters',
+    browse_filter_show: 'Filters',
+    browse_filter_show_results: 'Show {n} results',
+    browse_card_looking: 'Looking for',
+    browse_card_arrangement: 'Arrangement',
+    browse_card_age_pref: 'Preferred age',
+    browse_card_message: 'Send Message',
+    browse_card_messaging: 'Opening...',
+    browse_card_register: 'Register as Helper to Contact',
+    browse_live_in: 'Live-in',
+    browse_live_out: 'Live-out',
+    browse_either: 'Either',
   },
   th: {
     page_title: 'แดชบอร์ด – ThaiHelper',
@@ -260,6 +287,31 @@ const T = {
     settings_lang: 'ภาษาที่ต้องการ',
     settings_lang_hint: 'ข้อความจากครอบครัวจะถูกแปลเป็นภาษาที่คุณต้องการ',
     settings_saved: 'บันทึกการตั้งค่าแล้ว!',
+    // Browse employers
+    tab_browse: 'ค้นหา',
+    browse_title: 'ค้นหานายจ้าง',
+    browse_results: 'นายจ้างที่พบ',
+    browse_no_results: 'ไม่พบนายจ้าง',
+    browse_no_results_sub: 'กลับมาดูอีกครั้ง — มีนายจ้างใหม่ลงทะเบียนทุกวัน',
+    browse_filter_title: 'ตัวกรอง',
+    browse_filter_city: 'ทุกจังหวัด',
+    browse_filter_city_label: 'จังหวัด',
+    browse_filter_looking_label: 'กำลังหา',
+    browse_filter_looking_all: 'ทุกประเภท',
+    browse_filter_area_label: 'ย่าน',
+    browse_filter_area_ph: 'ค้นหาตามย่าน...',
+    browse_filter_reset: 'ล้างตัวกรอง',
+    browse_filter_show: 'ตัวกรอง',
+    browse_filter_show_results: 'แสดง {n} รายการ',
+    browse_card_looking: 'กำลังหา',
+    browse_card_arrangement: 'รูปแบบ',
+    browse_card_age_pref: 'อายุที่ต้องการ',
+    browse_card_message: 'ส่งข้อความ',
+    browse_card_messaging: 'กำลังเปิด...',
+    browse_card_register: 'ลงทะเบียนเป็นผู้ช่วยเพื่อติดต่อ',
+    browse_live_in: 'อยู่ประจำ',
+    browse_live_out: 'ไป-กลับ',
+    browse_either: 'ทั้งสองแบบ',
   },
 };
 
@@ -287,6 +339,14 @@ export default function Profile() {
   const [refInputMode, setRefInputMode] = useState('text'); // 'text' or 'file'
   const [refFile, setRefFile] = useState(null);
   const [uploadingRef, setUploadingRef] = useState(false);
+  // Browse employers
+  const [employers, setEmployers] = useState([]);
+  const [employersLoading, setEmployersLoading] = useState(true);
+  const [empFilterCity, setEmpFilterCity] = useState('');
+  const [empFilterLooking, setEmpFilterLooking] = useState('');
+  const [empFilterArea, setEmpFilterArea] = useState('');
+  const [empMobileFiltersOpen, setEmpMobileFiltersOpen] = useState(false);
+  const [startingEmpConv, setStartingEmpConv] = useState(null);
   // Messaging
   const [conversations, setConversations] = useState([]);
   const [selectedConv, setSelectedConv] = useState(null);
@@ -331,11 +391,12 @@ export default function Profile() {
 
   const loadSupabaseData = async () => {
     try {
-      const [docsRes, refsRes, convsRes, settingsRes] = await Promise.allSettled([
+      const [docsRes, refsRes, convsRes, settingsRes, empsRes] = await Promise.allSettled([
         fetchDocuments(),
         fetchReferences(),
         fetchConversations(),
         fetchSettings(),
+        fetchEmployers(),
       ]);
       if (docsRes.status === 'fulfilled') setDocuments(docsRes.value.documents || []);
       if (refsRes.status === 'fulfilled') setReferences(refsRes.value.references || []);
@@ -343,6 +404,10 @@ export default function Profile() {
       if (settingsRes.status === 'fulfilled' && settingsRes.value.preferred_language) {
         setPrefLang(settingsRes.value.preferred_language);
       }
+      if (empsRes.status === 'fulfilled') {
+        setEmployers(empsRes.value.employers || []);
+      }
+      setEmployersLoading(false);
     } catch (err) {
       console.error('Failed to load Supabase data:', err);
     }
@@ -639,6 +704,61 @@ export default function Profile() {
   const completeness = getCompleteness(p);
   const totalUnread = conversations.reduce((sum, c) => sum + (c.unread_count || 0), 0);
 
+  // ─── Browse employers: filtered list ────────────────────────────────────
+  const filteredEmployers = employers.filter(e => {
+    if (empFilterCity && e.city?.toLowerCase() !== empFilterCity.toLowerCase()) return false;
+    if (empFilterLooking && !e.lookingFor?.toLowerCase().includes(empFilterLooking.toLowerCase())) return false;
+    if (empFilterArea && !e.area?.toLowerCase().includes(empFilterArea.toLowerCase())) return false;
+    return true;
+  });
+
+  const empActiveFilterCount =
+    (empFilterCity ? 1 : 0) + (empFilterLooking ? 1 : 0) + (empFilterArea ? 1 : 0);
+
+  const resetEmpFilters = () => {
+    setEmpFilterCity('');
+    setEmpFilterLooking('');
+    setEmpFilterArea('');
+  };
+
+  const arrangementLabel = (val) => {
+    if (val === 'live_in') return t.browse_live_in;
+    if (val === 'live_out') return t.browse_live_out;
+    if (val === 'either') return t.browse_either;
+    return val || '';
+  };
+
+  // Unique "looking for" values for the filter dropdown
+  const lookingForOptions = [...new Set(
+    employers
+      .flatMap(e => (e.lookingFor || '').split(/,\s*/))
+      .filter(Boolean)
+      .map(s => s.trim())
+  )].sort();
+
+  async function handleMessageEmployer(employerRef) {
+    setStartingEmpConv(employerRef);
+    try {
+      const { conversation_id } = await startConversationAsHelper(employerRef);
+      // Refresh conversations then switch to messages tab
+      try {
+        const data = await fetchConversations();
+        setConversations(data.conversations || []);
+        const conv = (data.conversations || []).find(c => c.id === conversation_id);
+        if (conv) {
+          setActiveTab('messages');
+          openConversation(conv);
+        }
+      } catch {
+        setActiveTab('messages');
+      }
+    } catch (err) {
+      console.error('Failed to start conversation:', err);
+      setMsgToast(err.message || 'Failed to start conversation');
+    }
+    setStartingEmpConv(null);
+  }
+
   // ─── MAIN RENDER ────────────────────────────────────────────────────────────
   return (
     <>
@@ -670,6 +790,21 @@ export default function Profile() {
               <IconHelp />
               {!isMobile && t.nav_help}
             </a>
+
+            {/* Browse Employers */}
+            <button
+              onClick={() => { setActiveTab('browse'); if (editing) cancelEditing(); }}
+              aria-label={t.tab_browse}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: '16px', fontWeight: 500,
+                color: activeTab === 'browse' ? '#006a62' : '#374151',
+                display: 'flex', alignItems: 'center', gap: '8px', padding: 0,
+              }}
+            >
+              <IconSearch />
+              {!isMobile && t.tab_browse}
+            </button>
 
             {/* Messages */}
             <button
@@ -745,6 +880,7 @@ export default function Profile() {
                   {/* Menu items */}
                   <div style={{ padding: '8px 0' }}>
                     <MenuItem icon={<IconDashboard />} label={t.menu_dashboard} onClick={() => { setActiveTab('dashboard'); setMenuOpen(false); if (editing) cancelEditing(); }} />
+                    <MenuItem icon={<IconSearch />} label={t.browse_title} onClick={() => { setActiveTab('browse'); setMenuOpen(false); if (editing) cancelEditing(); }} />
                     <MenuItem icon={<IconUser />} label={t.menu_profile} onClick={() => { setActiveTab('profile'); setMenuOpen(false); }} />
                     <MenuItem icon={<IconSettings />} label={t.menu_settings} onClick={() => { setActiveTab('settings'); setMenuOpen(false); if (editing) cancelEditing(); }} />
 
@@ -1053,6 +1189,27 @@ export default function Profile() {
                 </div>
               )}
             </>
+          )}
+
+          {/* ─── BROWSE EMPLOYERS TAB ─────────────────────────────────── */}
+          {activeTab === 'browse' && (
+            <BrowseEmployersTab
+              t={t}
+              loading={employersLoading}
+              employers={filteredEmployers}
+              totalCount={filteredEmployers.length}
+              empFilterCity={empFilterCity} setEmpFilterCity={setEmpFilterCity}
+              empFilterLooking={empFilterLooking} setEmpFilterLooking={setEmpFilterLooking}
+              empFilterArea={empFilterArea} setEmpFilterArea={setEmpFilterArea}
+              empActiveFilterCount={empActiveFilterCount}
+              resetEmpFilters={resetEmpFilters}
+              lookingForOptions={lookingForOptions}
+              arrangementLabel={arrangementLabel}
+              onMessageEmployer={handleMessageEmployer}
+              startingEmpConv={startingEmpConv}
+              empMobileFiltersOpen={empMobileFiltersOpen}
+              setEmpMobileFiltersOpen={setEmpMobileFiltersOpen}
+            />
           )}
 
           {/* ─── MESSAGES TAB ───────────────────────────────────────────── */}
@@ -1524,6 +1681,398 @@ function EditField({ label, value, onChange, placeholder }) {
     <div>
       <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
       <input type="text" value={value || ''} onChange={e => onChange(e.target.value)} placeholder={placeholder || ''} style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit' }} />
+    </div>
+  );
+}
+
+function IconSearch() {
+  return (
+    <svg {...iconProps}>
+      <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
+
+// ─── Browse Employers Tab ──────────────────────────────────────────────────
+function BrowseEmployersTab({
+  t, loading, employers, totalCount,
+  empFilterCity, setEmpFilterCity,
+  empFilterLooking, setEmpFilterLooking,
+  empFilterArea, setEmpFilterArea,
+  empActiveFilterCount, resetEmpFilters,
+  lookingForOptions, arrangementLabel,
+  onMessageEmployer, startingEmpConv,
+  empMobileFiltersOpen, setEmpMobileFiltersOpen,
+}) {
+  const sidebar = (
+    <EmployerFilterSidebar
+      t={t}
+      empFilterCity={empFilterCity} setEmpFilterCity={setEmpFilterCity}
+      empFilterLooking={empFilterLooking} setEmpFilterLooking={setEmpFilterLooking}
+      empFilterArea={empFilterArea} setEmpFilterArea={setEmpFilterArea}
+      empActiveFilterCount={empActiveFilterCount}
+      resetEmpFilters={resetEmpFilters}
+      lookingForOptions={lookingForOptions}
+    />
+  );
+
+  return (
+    <>
+      <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '20px' }}>{t.browse_title}</h1>
+      <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+        {/* Desktop sidebar */}
+        <aside
+          className="emp-browse-sidebar-desktop"
+          style={{ width: '260px', flexShrink: 0, position: 'sticky', top: '80px' }}
+        >
+          {sidebar}
+        </aside>
+
+        {/* Main results */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            gap: '12px', marginBottom: '14px', flexWrap: 'wrap',
+          }}>
+            <div style={{ fontSize: '14px', color: '#666' }}>
+              <strong style={{ color: '#1a1a1a', fontSize: '15px' }}>{totalCount}</strong>{' '}
+              {t.browse_results}
+            </div>
+
+            <button
+              className="emp-browse-mobile-btn"
+              onClick={() => setEmpMobileFiltersOpen(true)}
+              style={{
+                display: 'none',
+                alignItems: 'center', gap: '8px',
+                padding: '9px 16px', borderRadius: '10px',
+                border: '1px solid #006a62', background: 'white',
+                color: '#006a62', fontSize: '14px', fontWeight: 700,
+                cursor: 'pointer',
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+              </svg>
+              {t.browse_filter_show}
+              {empActiveFilterCount > 0 && (
+                <span style={{
+                  background: '#006a62', color: 'white',
+                  borderRadius: '999px', padding: '1px 8px',
+                  fontSize: '12px', fontWeight: 800,
+                }}>
+                  {empActiveFilterCount}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#999' }}>Loading...</div>
+          ) : employers.length === 0 ? (
+            <div style={{
+              background: 'white', borderRadius: '16px',
+              padding: '48px 32px', border: '1px solid #e5e7eb',
+              textAlign: 'center',
+            }}>
+              <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>
+                {t.browse_no_results}
+              </h3>
+              <p style={{ fontSize: '15px', color: '#666' }}>{t.browse_no_results_sub}</p>
+              {empActiveFilterCount > 0 && (
+                <button
+                  onClick={resetEmpFilters}
+                  style={{
+                    marginTop: '16px', padding: '10px 20px', borderRadius: '10px',
+                    border: '1px solid #006a62', background: 'white',
+                    color: '#006a62', fontSize: '14px', fontWeight: 700, cursor: 'pointer',
+                  }}
+                >
+                  {t.browse_filter_reset}
+                </button>
+              )}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {employers.map((emp, i) => (
+                <EmployerCard
+                  key={emp.ref || `reg-${i}`}
+                  employer={emp}
+                  t={t}
+                  arrangementLabel={arrangementLabel}
+                  onMessage={emp.ref ? () => onMessageEmployer(emp.ref) : null}
+                  isStarting={startingEmpConv === emp.ref}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Mobile filter sheet */}
+        {empMobileFiltersOpen && (
+          <div
+            onClick={() => setEmpMobileFiltersOpen(false)}
+            style={{
+              position: 'fixed', inset: 0, zIndex: 900,
+              background: 'rgba(15,23,42,0.5)',
+              display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+            }}
+          >
+            <div
+              onClick={e => e.stopPropagation()}
+              style={{
+                background: 'white', width: '100%', maxWidth: '480px',
+                maxHeight: '85vh', borderRadius: '20px 20px 0 0',
+                padding: '20px', overflowY: 'auto',
+              }}
+            >
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                marginBottom: '16px',
+              }}>
+                <h3 style={{ fontSize: '17px', fontWeight: 800, margin: 0 }}>
+                  {t.browse_filter_title}
+                </h3>
+                <button
+                  onClick={() => setEmpMobileFiltersOpen(false)}
+                  style={{
+                    background: '#f3f4f6', border: 'none',
+                    width: '32px', height: '32px', borderRadius: '50%',
+                    cursor: 'pointer', fontSize: '16px', color: '#666',
+                  }}
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
+              </div>
+              {sidebar}
+              <button
+                onClick={() => setEmpMobileFiltersOpen(false)}
+                style={{
+                  width: '100%', marginTop: '16px',
+                  padding: '13px 20px', borderRadius: '12px', border: 'none',
+                  background: '#006a62', color: 'white',
+                  fontSize: '15px', fontWeight: 700, cursor: 'pointer',
+                }}
+              >
+                {(t.browse_filter_show_results || 'Show {n} results').replace('{n}', totalCount)}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <style jsx>{`
+        @media (max-width: 900px) {
+          :global(.emp-browse-sidebar-desktop) { display: none !important; }
+          :global(.emp-browse-mobile-btn) { display: inline-flex !important; }
+        }
+      `}</style>
+    </>
+  );
+}
+
+function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting }) {
+  const e = employer;
+  return (
+    <div style={{
+      background: 'white', borderRadius: '16px',
+      padding: '20px', border: '1px solid #e5e7eb',
+      transition: 'transform 0.15s, box-shadow 0.15s',
+    }}
+      onMouseEnter={ev => { ev.currentTarget.style.transform = 'translateY(-2px)'; ev.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.06)'; }}
+      onMouseLeave={ev => { ev.currentTarget.style.transform = 'none'; ev.currentTarget.style.boxShadow = 'none'; }}
+    >
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+        {/* Avatar */}
+        <div style={{
+          width: '52px', height: '52px', borderRadius: '50%',
+          background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0, border: '2px solid #006a62',
+        }}>
+          <span style={{ fontSize: '18px', fontWeight: 700, color: '#006a62' }}>
+            {(e.firstName || '?').charAt(0).toUpperCase()}
+          </span>
+        </div>
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {/* Name + city */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+            <span style={{ fontSize: '17px', fontWeight: 700, color: '#1a1a1a' }}>
+              {e.firstName} {e.lastName}
+            </span>
+            {e.city && (
+              <span style={{ fontSize: '13px', color: '#666', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {e.city}{e.area ? `, ${e.area}` : ''}
+              </span>
+            )}
+            {e.source === 'registration' && (
+              <span style={{ fontSize: '11px', fontWeight: 600, color: '#f59e0b', background: '#fef3c7', padding: '2px 8px', borderRadius: '999px' }}>
+                New
+              </span>
+            )}
+          </div>
+
+          {/* Looking for */}
+          {e.lookingFor && (
+            <div style={{ fontSize: '14px', color: '#374151', marginBottom: '6px' }}>
+              <span style={{ fontWeight: 600, color: '#666' }}>{t.browse_card_looking}:</span>{' '}
+              {e.lookingFor}
+            </div>
+          )}
+
+          {/* Arrangement + Age pref */}
+          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '8px' }}>
+            {e.arrangementPreference && (
+              <span style={{ fontSize: '13px', color: '#666' }}>
+                {t.browse_card_arrangement}: <strong>{arrangementLabel(e.arrangementPreference)}</strong>
+              </span>
+            )}
+            {e.preferredAgeRange && (
+              <span style={{ fontSize: '13px', color: '#666' }}>
+                {t.browse_card_age_pref}: <strong>{e.preferredAgeRange}</strong>
+              </span>
+            )}
+          </div>
+
+          {/* Job description snippet */}
+          {e.jobDescription && (
+            <p style={{
+              fontSize: '14px', color: '#555', lineHeight: 1.5,
+              margin: '0 0 10px',
+              overflow: 'hidden', display: '-webkit-box',
+              WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',
+            }}>
+              {e.jobDescription}
+            </p>
+          )}
+
+          {/* CTA */}
+          {onMessage && (
+            <button
+              onClick={onMessage}
+              disabled={isStarting}
+              style={{
+                padding: '10px 20px', borderRadius: '10px', border: 'none',
+                background: '#006a62', color: 'white',
+                fontSize: '14px', fontWeight: 700, cursor: 'pointer',
+                opacity: isStarting ? 0.6 : 1,
+              }}
+            >
+              {isStarting ? t.browse_card_messaging : `💬 ${t.browse_card_message}`}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EmployerFilterSidebar({
+  t,
+  empFilterCity, setEmpFilterCity,
+  empFilterLooking, setEmpFilterLooking,
+  empFilterArea, setEmpFilterArea,
+  empActiveFilterCount, resetEmpFilters,
+  lookingForOptions,
+}) {
+  const selectStyle = {
+    width: '100%', padding: '10px 12px', borderRadius: '10px',
+    border: '1px solid #e5e7eb', fontSize: '14px',
+    background: 'white', color: '#1a1a1a', cursor: 'pointer',
+  };
+  const inputStyle = {
+    width: '100%', padding: '10px 12px', borderRadius: '10px',
+    border: '1px solid #e5e7eb', fontSize: '14px',
+    background: 'white', color: '#1a1a1a', fontFamily: 'inherit',
+    boxSizing: 'border-box',
+  };
+
+  return (
+    <div style={{
+      background: 'white', borderRadius: '16px',
+      border: '1px solid #e5e7eb', padding: '18px 18px 8px',
+      boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+    }}>
+      {/* Header */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        marginBottom: '18px', paddingBottom: '14px',
+        borderBottom: '1px solid #f3f4f6',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#006a62" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+          </svg>
+          <h3 style={{ fontSize: '15px', fontWeight: 800, margin: 0, color: '#1a1a1a' }}>
+            {t.browse_filter_title}
+          </h3>
+          {empActiveFilterCount > 0 && (
+            <span style={{
+              background: '#006a62', color: 'white',
+              borderRadius: '999px', padding: '1px 8px',
+              fontSize: '11px', fontWeight: 800,
+            }}>
+              {empActiveFilterCount}
+            </span>
+          )}
+        </div>
+        {empActiveFilterCount > 0 && (
+          <button
+            onClick={resetEmpFilters}
+            style={{
+              background: 'none', border: 'none',
+              color: '#006a62', fontSize: '12px', fontWeight: 700,
+              cursor: 'pointer', padding: 0, textDecoration: 'underline',
+            }}
+          >
+            {t.browse_filter_reset}
+          </button>
+        )}
+      </div>
+
+      {/* City */}
+      <EmpFilterGroup label={t.browse_filter_city_label}>
+        <select value={empFilterCity} onChange={e => setEmpFilterCity(e.target.value)} style={selectStyle}>
+          <option value="">{t.browse_filter_city}</option>
+          {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+        </select>
+      </EmpFilterGroup>
+
+      {/* Looking for */}
+      <EmpFilterGroup label={t.browse_filter_looking_label}>
+        <select value={empFilterLooking} onChange={e => setEmpFilterLooking(e.target.value)} style={selectStyle}>
+          <option value="">{t.browse_filter_looking_all}</option>
+          {lookingForOptions.map(o => <option key={o} value={o}>{o}</option>)}
+        </select>
+      </EmpFilterGroup>
+
+      {/* Area */}
+      <EmpFilterGroup label={t.browse_filter_area_label}>
+        <input
+          type="text"
+          value={empFilterArea}
+          onChange={e => setEmpFilterArea(e.target.value)}
+          placeholder={t.browse_filter_area_ph}
+          style={inputStyle}
+        />
+      </EmpFilterGroup>
+    </div>
+  );
+}
+
+function EmpFilterGroup({ label, children }) {
+  return (
+    <div style={{ marginBottom: '16px' }}>
+      <div style={{
+        fontSize: '11px', fontWeight: 800, color: '#9ca3af',
+        textTransform: 'uppercase', letterSpacing: '0.5px',
+        marginBottom: '8px',
+      }}>
+        {label}
+      </div>
+      {children}
     </div>
   );
 }
