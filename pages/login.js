@@ -330,18 +330,33 @@ export default function Login() {
 
             {/* Register links */}
             <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--gray-100)' }}>
-              <p style={{ fontSize: '16px', color: 'var(--gray-500)', marginBottom: '8px' }}>
+              <p style={{ fontSize: '16px', color: 'var(--gray-500)', marginBottom: '14px' }}>
                 {t.no_account}
               </p>
-              <p style={{ fontSize: '15px' }}>
-                <Link href="/register" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <Link href="/register" style={{
+                  display: 'inline-block',
+                  padding: '12px 22px', borderRadius: '12px',
+                  background: '#e6f5f3', color: '#006a62',
+                  fontSize: '15px', fontWeight: 700,
+                  textDecoration: 'none',
+                  transition: 'background 0.15s, box-shadow 0.15s',
+                  border: '1px solid #006a62',
+                }}>
                   {t.register_helper}
                 </Link>
-                <span style={{ color: 'var(--gray-300)', margin: '0 10px' }}>·</span>
-                <Link href="/employer-register" style={{ color: '#001b3d', fontWeight: 600, textDecoration: 'none' }}>
+                <Link href="/employer-register" style={{
+                  display: 'inline-block',
+                  padding: '12px 22px', borderRadius: '12px',
+                  background: '#e8edf5', color: '#001b3d',
+                  fontSize: '15px', fontWeight: 700,
+                  textDecoration: 'none',
+                  transition: 'background 0.15s, box-shadow 0.15s',
+                  border: '1px solid #001b3d',
+                }}>
                   {t.register_employer}
                 </Link>
-              </p>
+              </div>
             </div>
           </div>
         </div>
