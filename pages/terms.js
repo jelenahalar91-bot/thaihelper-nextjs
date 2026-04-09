@@ -1,29 +1,32 @@
 import SEOHead from '@/components/SEOHead';
 import Link from 'next/link';
+import LangSwitcher from '@/components/LangSwitcher';
 import { useLang } from './_app';
 
 const T = {
   en: {
-    nav_home:    'Home',
-    nav_join:    'Join as Helper',
-    lang_toggle: 'ภาษาไทย',
-    title:       'Terms of Service',
-    updated:     'Last updated: March 2026',
-    back:        '← Back to Home',
+    nav_employers: 'For Employers',
+    nav_login:     'Log In',
+    nav_cta:       'Register – Free',
+    title:         'Terms of Service',
+    updated:       'Last updated: March 2026',
+    back:          '← Back to Home',
+    footer_about:  'About', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service', footer_contact: 'Contact',
   },
   th: {
-    nav_home:    'หน้าแรก',
-    nav_join:    'สมัครเป็นผู้ช่วย',
-    lang_toggle: 'English',
-    title:       'ข้อกำหนดการใช้บริการ',
-    updated:     'อัปเดตล่าสุด: มีนาคม 2569',
-    back:        '← กลับหน้าแรก',
+    nav_employers: 'สำหรับนายจ้าง',
+    nav_login:     'เข้าสู่ระบบ',
+    nav_cta:       'สมัคร – ฟรี',
+    title:         'ข้อกำหนดการใช้บริการ',
+    updated:       'อัปเดตล่าสุด: มีนาคม 2569',
+    back:          '← กลับหน้าแรก',
+    footer_about:  'เกี่ยวกับเรา', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ', footer_contact: 'ติดต่อ',
   },
 };
 
 export default function Terms() {
-  const { lang, setLang: changeLang } = useLang();
-  const t = T[lang];
+  const { lang } = useLang();
+  const t = T[lang] || T.en;
 
   return (
     <>
@@ -34,40 +37,61 @@ export default function Terms() {
         lang={lang}
       />
 
-      {/* ── NAV ── */}
-      <nav>
-        <div className="nav-inner">
-          <Link href="/" className="logo">Thai<span>Helper</span></Link>
-          <div className="nav-links">
-            <Link href="/">{t.nav_home}</Link>
-            <Link href="/register" className="btn-primary" style={{ padding: '8px 18px', fontSize: '14px' }}>{t.nav_join}</Link>
-            <button className="lang-btn" onClick={() => changeLang(l => l === 'en' ? 'th' : 'en')}>{t.lang_toggle}</button>
+      <div className="min-h-screen bg-background text-on-background font-sans">
+        {/* TEAL TOP BAR */}
+        <div className="fixed top-0 left-0 w-full h-1 bg-primary z-[60]"></div>
+
+        {/* NAV — mirrors landing page */}
+        <nav className="fixed top-1 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
+          <div className="flex items-center gap-3 shrink-0">
+            <Link href="/" className="text-xl md:text-2xl font-bold font-headline">
+              <span>Thai</span><span style={{ color: '#006a62' }}>Helper</span>
+            </Link>
           </div>
-        </div>
-      </nav>
+          <div className="hidden md:flex items-center gap-8">
+            <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/employers">
+              {t.nav_employers}
+            </Link>
+          </div>
+          <div className="flex items-center gap-2 md:gap-3">
+            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
+              {t.nav_login}
+            </Link>
+            <LangSwitcher />
+            <Link
+              className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150"
+              href="/employer-register"
+            >
+              {t.nav_cta}
+            </Link>
+          </div>
+        </nav>
 
-      {/* ── CONTENT ── */}
-      <main style={{ maxWidth: 760, margin: '0 auto', padding: '60px 24px 80px' }}>
-        <Link href="/" style={{ color: 'var(--teal)', textDecoration: 'none', fontSize: 14 }}>{t.back}</Link>
+        {/* ── CONTENT ── */}
+        <main className="pt-28 pb-20" style={{ maxWidth: 760, margin: '0 auto', padding: '120px 24px 80px' }}>
+          <Link href="/" style={{ color: 'var(--teal)', textDecoration: 'none', fontSize: 14 }}>{t.back}</Link>
 
-        <h1 style={{ marginTop: 24, marginBottom: 8, color: 'var(--navy)', fontSize: 32 }}>{t.title}</h1>
-        <p style={{ color: 'var(--gray-500)', fontSize: 14, marginBottom: 40 }}>{t.updated}</p>
+          <h1 style={{ marginTop: 24, marginBottom: 8, color: 'var(--navy)', fontSize: 32 }}>{t.title}</h1>
+          <p style={{ color: 'var(--gray-500)', fontSize: 14, marginBottom: 40 }}>{t.updated}</p>
 
-        {lang === 'en' ? <TermsEN /> : <TermsTH />}
-      </main>
+          {lang === 'en' ? <TermsEN /> : <TermsTH />}
+        </main>
 
-      {/* ── FOOTER ── */}
-      <footer>
-        <div>
-          <span>© 2026 ThaiHelper</span>
-          &nbsp;·&nbsp;
-          <Link href="/privacy">Privacy Policy</Link>
-          &nbsp;·&nbsp;
-          <Link href="/terms">Terms of Service</Link>
-          &nbsp;·&nbsp;
-          <a href="mailto:support@thaihelper.app">Contact</a>
-        </div>
-      </footer>
+        {/* ── FOOTER ── */}
+        <footer className="w-full py-8 px-8 bg-slate-50 border-t border-slate-100 text-center text-sm text-slate-500">
+          <div>
+            <span>© 2026 ThaiHelper</span>
+            &nbsp;·&nbsp;
+            <Link className="hover:text-teal-600" href="/about">{t.footer_about}</Link>
+            &nbsp;·&nbsp;
+            <Link className="hover:text-teal-600" href="/privacy">{t.footer_privacy}</Link>
+            &nbsp;·&nbsp;
+            <Link className="hover:text-teal-600" href="/terms">{t.footer_terms}</Link>
+            &nbsp;·&nbsp;
+            <a className="hover:text-teal-600" href="mailto:support@thaihelper.app">{t.footer_contact}</a>
+          </div>
+        </footer>
+      </div>
     </>
   );
 }
