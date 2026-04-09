@@ -70,7 +70,7 @@ export default function EmployerProfileModal({ employer, onClose, t }) {
         <div style={{
           position: 'relative',
           background: 'linear-gradient(135deg, #001b3d 0%, #003366 50%, #004d99 100%)',
-          padding: '28px 24px 64px',
+          padding: '28px 24px 32px',
           color: 'white',
         }}>
           <button
@@ -78,6 +78,7 @@ export default function EmployerProfileModal({ employer, onClose, t }) {
             aria-label="Close"
             style={{
               position: 'absolute', top: '14px', right: '14px',
+              zIndex: 10,
               width: '34px', height: '34px', borderRadius: '50%',
               background: 'rgba(255,255,255,0.2)',
               backdropFilter: 'blur(8px)',
@@ -128,8 +129,7 @@ export default function EmployerProfileModal({ employer, onClose, t }) {
         {/* Content */}
         <div style={{
           flex: 1, overflowY: 'auto',
-          padding: '0 24px 24px',
-          marginTop: '-40px',
+          padding: '24px',
         }}>
           <div style={{
             background: 'white',
