@@ -37,7 +37,7 @@ import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { CITIES } from '@/lib/constants/cities';
-import { CATEGORY_NAMES, CAT_EMOJI } from '@/lib/constants/categories';
+import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────
 const T = {
@@ -193,13 +193,50 @@ const T = {
   },
 };
 
-// Helper for category display with emoji
+// Helper category normalization + display.
+//
+// Helpers store `category` as a slug ("nanny", "elder_care", …) coming from
+// the registration form, while the filter dropdown shows friendly display
+// names ("Nanny & Babysitter"). We map both sides to a canonical slug so
+// a filter selection actually matches the stored value.
+//
+// `categoryToSlug` accepts either a slug or a display name (with or without
+// emoji) and returns the canonical slug, or null if unknown.
+function categoryToSlug(cat) {
+  if (!cat) return null;
+  const raw = String(cat).trim().toLowerCase();
+  if (!raw) return null;
+  // Direct slug hit
+  const bySlug = CATEGORIES.find(c => c.value.toLowerCase() === raw);
+  if (bySlug) return bySlug.value;
+  // Display-name hit (strip emoji + punctuation)
+  const stripped = raw.replace(/[^a-z&\s]/g, '').trim();
+  const byName = CATEGORIES.find(c => {
+    const en = c.en.toLowerCase().replace(/[^a-z&\s]/g, '').trim();
+    return en === stripped || en.startsWith(stripped) || stripped.startsWith(en);
+  });
+  if (byName) return byName.value;
+  // First-word fallback (e.g. legacy "Nanny" → "nanny")
+  const firstWord = stripped.split(/[\s&/,]+/)[0];
+  const byFirst = CATEGORIES.find(c =>
+    c.value.startsWith(firstWord) || c.en.toLowerCase().includes(firstWord)
+  );
+  return byFirst ? byFirst.value : null;
+}
+
+// Helper for category display with emoji — accepts slug OR display name
 function categoryWithEmoji(cat) {
   if (!cat) return '';
+  const slug = categoryToSlug(cat);
+  if (slug) {
+    const def = CATEGORIES.find(c => c.value === slug);
+    if (def) return def.en; // already contains the emoji
+  }
+  // Fallback — best-effort prefix
   const found = Object.entries(CAT_EMOJI).find(([k]) =>
-    cat.toLowerCase().includes(k.toLowerCase().split(' ')[0])
+    String(cat).toLowerCase().includes(k.toLowerCase().split(' ')[0])
   );
-  return found ? `${found[1]} ${cat}` : cat;
+  return found ? `${found[1]} ${cat}` : String(cat);
 }
 
 export default function EmployerDashboard() {
@@ -317,7 +354,13 @@ export default function EmployerDashboard() {
   const filteredHelpers = useMemo(() => {
     const filtered = helpers.filter(h => {
     if (filterCity && h.city?.toLowerCase() !== filterCity.toLowerCase()) return false;
-    if (filterCat && !h.category?.toLowerCase().includes(filterCat.toLowerCase())) return false;
+    // Category — normalize both sides to slug so the filter works regardless
+    // of whether the helper's stored `category` is a slug ("nanny") or a
+    // display name ("Nanny & Babysitter"). filterCat is always a slug.
+    if (filterCat) {
+      const helperSlug = categoryToSlug(h.category);
+      if (helperSlug !== filterCat) return false;
+    }
     if (filterArea && !h.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
 
     // Age range — parse helper age as number, ranges are inclusive/exclusive
@@ -1131,8 +1174,8 @@ function FilterSidebar({
           style={filterSelectStyle}
         >
           <option value="">{t.filter_cat}</option>
-          {CATEGORY_NAMES.map(c => (
-            <option key={c} value={c}>{categoryWithEmoji(c)}</option>
+          {CATEGORIES.filter(c => c.value !== 'multiple').map(c => (
+            <option key={c.value} value={c.value}>{c.en}</option>
           ))}
         </select>
       </FilterGroup>
