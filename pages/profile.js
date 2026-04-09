@@ -12,6 +12,7 @@ import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES } from '@/lib/constants/cities';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
+import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
 
 const T = {
   en: {
@@ -165,6 +166,9 @@ const T = {
     browse_live_in: 'Live-in',
     browse_live_out: 'Live-out',
     browse_either: 'Either',
+    emp_profile_title: 'Employer',
+    emp_profile_description: 'Job Description',
+    profile_location: 'Location',
   },
   th: {
     page_title: 'แดชบอร์ด – ThaiHelper',
@@ -312,6 +316,9 @@ const T = {
     browse_live_in: 'อยู่ประจำ',
     browse_live_out: 'ไป-กลับ',
     browse_either: 'ทั้งสองแบบ',
+    emp_profile_title: 'นายจ้าง',
+    emp_profile_description: 'รายละเอียดงาน',
+    profile_location: 'สถานที่',
   },
 };
 
@@ -355,6 +362,7 @@ export default function Profile() {
   const [sendingMsg, setSendingMsg] = useState(false);
   const [loadingMsgs, setLoadingMsgs] = useState(false);
   const [msgToast, setMsgToast] = useState(''); // translation-failed / error banner
+  const [viewingEmployer, setViewingEmployer] = useState(null); // employer profile modal
   // Settings
   const [prefLang, setPrefLang] = useState('en');
   const [settingsSaved, setSettingsSaved] = useState('');
@@ -1256,6 +1264,16 @@ export default function Profile() {
                   onSend={handleSendMessage}
                   sending={sendingMsg}
                   onBack={() => { setSelectedConv(null); setMessages([]); }}
+                  onViewProfile={(cp) => {
+                    // Look up full employer data from loaded employers list
+                    const full = employers.find(e => e.ref === cp.ref);
+                    setViewingEmployer(full || {
+                      ref: cp.ref,
+                      firstName: cp.firstName,
+                      lastName: cp.lastName,
+                      city: cp.city,
+                    });
+                  }}
                   t={t}
                 />
               )}
@@ -1420,6 +1438,15 @@ export default function Profile() {
 
         </div>
       </div>
+
+      {/* Employer profile modal — triggered from conversation header */}
+      {viewingEmployer && (
+        <EmployerProfileModal
+          employer={viewingEmployer}
+          onClose={() => setViewingEmployer(null)}
+          t={t}
+        />
+      )}
     </>
   );
 }

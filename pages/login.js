@@ -30,6 +30,14 @@ const T = {
     register_employer: 'Register as an Employer',
     forgot_ref: 'Forgot your reference number?',
     forgot_hint: 'Check your registration confirmation email or contact us at support@thaihelper.app',
+    forgot_email_label: 'Your Email Address',
+    forgot_email_ph: 'Enter the email you registered with',
+    forgot_submit: 'Send Reference Number',
+    forgot_submitting: 'Sending...',
+    forgot_sent: 'If an account exists with this email, we have sent the reference number. Please check your inbox.',
+    forgot_not_found: 'No account found with this email address.',
+    forgot_error: 'Something went wrong. Please try again.',
+    forgot_back: 'Back to login',
   },
   th: {
     page_title: 'เข้าสู่ระบบ – ThaiHelper',
@@ -50,6 +58,14 @@ const T = {
     register_employer: 'ลงทะเบียนเป็นนายจ้าง',
     forgot_ref: 'ลืมหมายเลขอ้างอิง?',
     forgot_hint: 'ตรวจสอบอีเมลยืนยันการลงทะเบียนหรือติดต่อเราที่ support@thaihelper.app',
+    forgot_email_label: 'อีเมลของคุณ',
+    forgot_email_ph: 'ใส่อีเมลที่คุณใช้ลงทะเบียน',
+    forgot_submit: 'ส่งหมายเลขอ้างอิง',
+    forgot_submitting: 'กำลังส่ง...',
+    forgot_sent: 'หากมีบัญชีที่ใช้อีเมลนี้ เราได้ส่งหมายเลขอ้างอิงแล้ว กรุณาตรวจสอบกล่องจดหมาย',
+    forgot_not_found: 'ไม่พบบัญชีที่ใช้อีเมลนี้',
+    forgot_error: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
+    forgot_back: 'กลับไปหน้าเข้าสู่ระบบ',
   },
 };
 
@@ -66,6 +82,11 @@ export default function Login() {
   const [ref, setRef] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  // "Forgot ref" flow
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotSubmitting, setForgotSubmitting] = useState(false);
+  const [forgotResult, setForgotResult] = useState(''); // 'sent' | 'not_found' | 'error'
 
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
@@ -202,10 +223,110 @@ export default function Login() {
             </form>
 
             {/* Forgot ref */}
-            <details style={{ marginTop: '20px', fontSize: '15px', color: 'var(--gray-500)' }}>
-              <summary style={{ cursor: 'pointer', color: 'var(--primary)' }}>{t.forgot_ref}</summary>
-              <p style={{ marginTop: '8px', lineHeight: 1.5 }}>{t.forgot_hint}</p>
-            </details>
+            {!showForgot ? (
+              <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                <button
+                  type="button"
+                  onClick={() => { setShowForgot(true); setForgotResult(''); }}
+                  style={{
+                    background: 'none', border: 'none',
+                    color: 'var(--primary)', fontSize: '15px',
+                    cursor: 'pointer', textDecoration: 'underline',
+                  }}
+                >
+                  {t.forgot_ref}
+                </button>
+              </div>
+            ) : (
+              <div style={{
+                marginTop: '20px', padding: '20px',
+                background: '#f8faf9', borderRadius: '12px',
+                border: '1px solid #e5e7eb',
+              }}>
+                <p style={{ fontSize: '14px', color: 'var(--gray-500)', marginBottom: '12px', lineHeight: 1.5 }}>
+                  {t.forgot_hint}
+                </p>
+
+                {forgotResult === 'sent' ? (
+                  <div style={{
+                    background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '10px',
+                    padding: '14px', color: '#059669', fontSize: '14px', marginBottom: '12px',
+                  }}>
+                    {t.forgot_sent}
+                  </div>
+                ) : forgotResult === 'not_found' ? (
+                  <div style={{
+                    background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px',
+                    padding: '14px', color: '#dc2626', fontSize: '14px', marginBottom: '12px',
+                  }}>
+                    {t.forgot_not_found}
+                  </div>
+                ) : forgotResult === 'error' ? (
+                  <div style={{
+                    background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px',
+                    padding: '14px', color: '#dc2626', fontSize: '14px', marginBottom: '12px',
+                  }}>
+                    {t.forgot_error}
+                  </div>
+                ) : null}
+
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  if (!forgotEmail.trim()) return;
+                  setForgotSubmitting(true);
+                  setForgotResult('');
+                  try {
+                    const res = await fetch('/api/forgot-ref', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email: forgotEmail.trim() }),
+                    });
+                    if (res.ok) {
+                      setForgotResult('sent');
+                    } else if (res.status === 404) {
+                      setForgotResult('not_found');
+                    } else {
+                      setForgotResult('error');
+                    }
+                  } catch {
+                    setForgotResult('error');
+                  }
+                  setForgotSubmitting(false);
+                }}>
+                  <div className="field" style={{ marginBottom: '12px' }}>
+                    <label>{t.forgot_email_label}</label>
+                    <input
+                      type="email"
+                      value={forgotEmail}
+                      onChange={e => setForgotEmail(e.target.value)}
+                      placeholder={t.forgot_email_ph}
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn-next"
+                    disabled={forgotSubmitting}
+                    style={{ width: '100%' }}
+                  >
+                    {forgotSubmitting ? t.forgot_submitting : t.forgot_submit}
+                  </button>
+                </form>
+
+                <button
+                  type="button"
+                  onClick={() => { setShowForgot(false); setForgotResult(''); }}
+                  style={{
+                    display: 'block', margin: '12px auto 0',
+                    background: 'none', border: 'none',
+                    color: 'var(--gray-400)', fontSize: '14px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  &larr; {t.forgot_back}
+                </button>
+              </div>
+            )}
 
             {/* Register links */}
             <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--gray-100)' }}>
