@@ -547,7 +547,7 @@ export default function Home() {
               <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
               <ul className="space-y-3">
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
-                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_about}</a></li>
+                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/about">{t.footer_about}</Link></li>
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_faq}</a></li>
               </ul>
             </div>
