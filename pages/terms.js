@@ -6,6 +6,7 @@ import { useLang } from './_app';
 const T = {
   en: {
     nav_employers: 'For Employers',
+    nav_helpers:   'For Helpers',
     nav_login:     'Log In',
     nav_cta:       'Register – Free',
     title:         'Terms of Service',
@@ -15,6 +16,7 @@ const T = {
   },
   th: {
     nav_employers: 'สำหรับนายจ้าง',
+    nav_helpers:   'สำหรับผู้ช่วย',
     nav_login:     'เข้าสู่ระบบ',
     nav_cta:       'สมัคร – ฟรี',
     title:         'ข้อกำหนดการใช้บริการ',
@@ -51,6 +53,9 @@ export default function Terms() {
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/employers">
               {t.nav_employers}
+            </Link>
+            <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/helpers">
+              {t.nav_helpers}
             </Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">

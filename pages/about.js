@@ -8,6 +8,7 @@ const T = {
     page_title: 'About Us – ThaiHelper',
     meta_desc: 'The story behind ThaiHelper. We are a family of four who moved to Thailand and built the platform we wished existed when we were searching for a nanny, gardener and tutors.',
     nav_employers: 'For Employers',
+    nav_helpers: 'For Helpers',
     nav_login: 'Log In',
     nav_cta: 'Register – Free',
 
@@ -53,6 +54,7 @@ const T = {
     page_title: 'เกี่ยวกับเรา – ThaiHelper',
     meta_desc: 'เรื่องราวเบื้องหลัง ThaiHelper เราคือครอบครัวสี่คนที่ย้ายมาประเทศไทยและสร้างแพลตฟอร์มที่เราหวังว่าจะมีตอนที่เรากำลังหาพี่เลี้ยง คนสวน และครูสอนพิเศษ',
     nav_employers: 'สำหรับนายจ้าง',
+    nav_helpers: 'สำหรับผู้ช่วย',
     nav_login: 'เข้าสู่ระบบ',
     nav_cta: 'สมัคร – ฟรี',
 
@@ -97,6 +99,7 @@ const T = {
     page_title: 'О нас – ThaiHelper',
     meta_desc: 'История ThaiHelper. Мы — семья из четырёх человек, переехавшая в Таиланд. Мы создали платформу, которой нам не хватало, когда мы искали няню, садовника и преподавателей для детей.',
     nav_employers: 'Для работодателей',
+    nav_helpers: 'Для помощников',
     nav_login: 'Войти',
     nav_cta: 'Регистрация – бесплатно',
 
@@ -169,6 +172,9 @@ export default function About() {
           <div className="hidden md:flex items-center gap-8">
             <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/employers">
               {t.nav_employers}
+            </Link>
+            <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/helpers">
+              {t.nav_helpers}
             </Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
