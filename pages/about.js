@@ -159,31 +159,32 @@ export default function About() {
       />
 
       <div className="min-h-screen bg-background text-on-background font-sans">
-        {/* TEAL TOP BAR */}
-        <div className="fixed top-0 left-0 w-full h-1 bg-primary z-[60]"></div>
+        {/* UTILITY TOP BAR — audience switch */}
+        <div className="fixed top-0 left-0 w-full bg-[#001b3d] text-white z-[60]">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 md:py-2.5 flex justify-center md:justify-end items-center gap-5 md:gap-7 text-xs md:text-sm">
+            <Link href="/employers" className="font-semibold hover:text-gold transition-colors whitespace-nowrap">
+              {t.nav_employers} →
+            </Link>
+            <Link href="/helpers" className="font-semibold hover:text-gold transition-colors whitespace-nowrap">
+              {t.nav_helpers} →
+            </Link>
+          </div>
+        </div>
 
         {/* NAV — mirrors landing page */}
-        <nav className="fixed top-1 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
+        <nav className="fixed top-9 md:top-11 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
           <div className="flex items-center gap-3 shrink-0">
             <Link href="/" className="text-xl md:text-2xl font-bold font-headline">
               <span>Thai</span><span style={{ color: '#006a62' }}>Helper</span>
             </Link>
           </div>
-          <div className="flex items-center gap-1.5 md:gap-3">
-            <Link className="px-2.5 md:px-4 py-1.5 md:py-2 rounded-full border border-primary/40 text-[11px] md:text-sm font-semibold text-primary hover:bg-primary/10 transition-colors whitespace-nowrap" href="/employers">
-              {t.nav_employers}
-            </Link>
-            <Link className="px-2.5 md:px-4 py-1.5 md:py-2 rounded-full border border-primary/40 text-[11px] md:text-sm font-semibold text-primary hover:bg-primary/10 transition-colors whitespace-nowrap" href="/helpers">
-              {t.nav_helpers}
-            </Link>
-          </div>
-          <div className="flex items-center gap-1.5 md:gap-3">
-            <Link className="hidden md:inline-block text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
+          <div className="flex items-center gap-2 md:gap-3">
+            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
               {t.nav_login}
             </Link>
             <LangSwitcher />
             <Link
-              className="px-3 md:px-6 py-1.5 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-[11px] md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap"
+              className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150"
               href="/employer-register"
             >
               {t.nav_cta}
@@ -191,7 +192,7 @@ export default function About() {
           </div>
         </nav>
 
-        <main className="pt-20">
+        <main className="pt-24 md:pt-28">
           {/* HERO */}
           <section className="px-6 pt-10 pb-8 md:pt-16 md:pb-12">
             <div className="max-w-3xl mx-auto text-center">
