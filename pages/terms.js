@@ -65,7 +65,7 @@ export default function Terms() {
           &nbsp;·&nbsp;
           <Link href="/terms">Terms of Service</Link>
           &nbsp;·&nbsp;
-          <a href="mailto:jelenahalar91@gmail.com">Contact</a>
+          <a href="mailto:support@thaihelper.app">Contact</a>
         </div>
       </footer>
     </>
@@ -77,7 +77,7 @@ function TermsEN() {
     <div className="legal-content">
       <h2>1. About ThaiHelper</h2>
       <p>
-        ThaiHelper is an online directory and matching platform that helps families in Thailand find household service providers, and helps service providers find work opportunities. ThaiHelper is operated by Jelena Halar, Phuket, Thailand (<a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a>).
+        ThaiHelper is an online directory and matching platform that helps families in Thailand find household service providers, and helps service providers find work opportunities. ThaiHelper is operated by Jelena Halar, Phuket, Thailand (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>).
       </p>
       <p>
         By using ThaiHelper — whether as a service provider registering a profile, or as a family browsing the platform — you agree to these Terms of Service.
@@ -127,7 +127,7 @@ function TermsEN() {
 
       <h2>7. Profile Removal</h2>
       <p>
-        ThaiHelper reserves the right to remove any profile or listing at any time, without prior notice, if we believe it violates these Terms or is otherwise inappropriate. Service providers may also request removal of their own profile at any time by contacting us at <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a>.
+        ThaiHelper reserves the right to remove any profile or listing at any time, without prior notice, if we believe it violates these Terms or is otherwise inappropriate. Service providers may also request removal of their own profile at any time by contacting us at <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>.
       </p>
 
       <h2>8. Disclaimer of Warranties</h2>
@@ -153,7 +153,7 @@ function TermsEN() {
       <h2>12. Contact</h2>
       <p>
         Questions about these Terms? Contact us at:<br />
-        <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a>
+        <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>
       </p>
     </div>
   );
@@ -209,7 +209,7 @@ function TermsTH() {
       <h2>7. ติดต่อเรา</h2>
       <p>
         มีคำถามเกี่ยวกับข้อกำหนดเหล่านี้? ติดต่อเราที่:<br />
-        <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a>
+        <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>
       </p>
     </div>
   );

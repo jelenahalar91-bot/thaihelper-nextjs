@@ -254,7 +254,7 @@ export default function Helpers() {
         {/* ── FOOTER ───────────────────────────────────────────────────── */}
         <footer className="bg-gray-100 border-t border-gray-200 py-8">
           <div className="max-w-7xl mx-auto px-4 md:px-6 text-center text-sm text-gray-600">
-            <p>© 2026 ThaiHelper · <a className="hover:text-[#006a62]" href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a></p>
+            <p>© 2026 ThaiHelper · <a className="hover:text-[#006a62]" href="mailto:support@thaihelper.app">support@thaihelper.app</a></p>
             <p className="mt-2">
               <Link className="hover:text-[#006a62]" href="/privacy">{t.footer_privacy}</Link>
               {' · '}

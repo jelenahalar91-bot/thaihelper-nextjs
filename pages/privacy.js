@@ -65,7 +65,7 @@ export default function Privacy() {
           &nbsp;·&nbsp;
           <Link href="/terms">Terms of Service</Link>
           &nbsp;·&nbsp;
-          <a href="mailto:jelenahalar91@gmail.com">Contact</a>
+          <a href="mailto:support@thaihelper.app">Contact</a>
         </div>
       </footer>
     </>
@@ -79,7 +79,7 @@ function PrivacyEN() {
       <p>
         ThaiHelper is a platform that connects household service providers (helpers, nannies, housekeepers, chefs, drivers, gardeners, elder care workers) with families in Thailand. ThaiHelper is operated by Jelena Halar, based in Phuket, Thailand.
       </p>
-      <p>Contact: <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a></p>
+      <p>Contact: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a></p>
 
       <h2>2. What Data We Collect</h2>
       <p>When you register as a service provider, we collect the following information:</p>
@@ -123,7 +123,7 @@ function PrivacyEN() {
 
       <h2>6. How Long We Keep Your Data</h2>
       <p>
-        We retain your data for as long as you wish to be listed on ThaiHelper. You can request deletion of your data at any time by emailing us at <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a>. We will delete your entry within 14 days.
+        We retain your data for as long as you wish to be listed on ThaiHelper. You can request deletion of your data at any time by emailing us at <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>. We will delete your entry within 14 days.
       </p>
 
       <h2>7. Your Rights</h2>
@@ -135,7 +135,7 @@ function PrivacyEN() {
         <li><strong>Withdrawal of consent</strong> — withdraw your consent to processing at any time</li>
         <li><strong>Complaint</strong> — lodge a complaint with a data protection authority</li>
       </ul>
-      <p>To exercise any of these rights, contact us at <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a>.</p>
+      <p>To exercise any of these rights, contact us at <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>.</p>
 
       <h2>8. Cookies</h2>
       <p>
@@ -155,7 +155,7 @@ function PrivacyEN() {
       <h2>11. Contact</h2>
       <p>
         If you have any questions about this Privacy Policy, please contact us at:<br />
-        <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a>
+        <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>
       </p>
     </div>
   );
@@ -168,7 +168,7 @@ function PrivacyTH() {
       <p>
         ThaiHelper เป็นแพลตฟอร์มที่เชื่อมต่อผู้ให้บริการในบ้าน (ผู้ช่วย, พี่เลี้ยง, แม่บ้าน, พ่อครัว/แม่ครัว, คนขับรถ, ช่างสวน, ผู้ดูแลผู้สูงอายุ) กับครอบครัวในประเทศไทย ThaiHelper ดำเนินการโดย Jelena Halar ซึ่งตั้งอยู่ในภูเก็ต ประเทศไทย
       </p>
-      <p>ติดต่อ: <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a></p>
+      <p>ติดต่อ: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a></p>
 
       <h2>2. ข้อมูลที่เราเก็บรวบรวม</h2>
       <p>เมื่อคุณลงทะเบียนเป็นผู้ให้บริการ เราจะเก็บข้อมูลดังต่อไปนี้:</p>
@@ -207,12 +207,12 @@ function PrivacyTH() {
         <li><strong>ลบ</strong> — ขอให้เราลบข้อมูลของคุณ</li>
         <li><strong>ถอนความยินยอม</strong> — ถอนความยินยอมในการประมวลผลได้ทุกเมื่อ</li>
       </ul>
-      <p>ติดต่อเราที่ <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a></p>
+      <p>ติดต่อเราที่ <a href="mailto:support@thaihelper.app">support@thaihelper.app</a></p>
 
       <h2>6. การติดต่อ</h2>
       <p>
         หากคุณมีคำถามเกี่ยวกับนโยบายความเป็นส่วนตัวนี้ โปรดติดต่อเรา:<br />
-        <a href="mailto:jelenahalar91@gmail.com">jelenahalar91@gmail.com</a>
+        <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>
       </p>
     </div>
   );
