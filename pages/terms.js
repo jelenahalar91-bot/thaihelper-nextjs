@@ -50,21 +50,21 @@ export default function Terms() {
               <span>Thai</span><span style={{ color: '#006a62' }}>Helper</span>
             </Link>
           </div>
-          <div className="hidden md:flex items-center gap-8">
-            <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/employers">
+          <div className="flex items-center gap-1.5 md:gap-3">
+            <Link className="px-2.5 md:px-4 py-1.5 md:py-2 rounded-full border border-primary/40 text-[11px] md:text-sm font-semibold text-primary hover:bg-primary/10 transition-colors whitespace-nowrap" href="/employers">
               {t.nav_employers}
             </Link>
-            <Link className="text-sm font-semibold tracking-wide text-[#001b3d] hover:text-[#002d5f] transition-colors" href="/helpers">
+            <Link className="px-2.5 md:px-4 py-1.5 md:py-2 rounded-full border border-primary/40 text-[11px] md:text-sm font-semibold text-primary hover:bg-primary/10 transition-colors whitespace-nowrap" href="/helpers">
               {t.nav_helpers}
             </Link>
           </div>
-          <div className="flex items-center gap-2 md:gap-3">
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
+          <div className="flex items-center gap-1.5 md:gap-3">
+            <Link className="hidden md:inline-block text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
               {t.nav_login}
             </Link>
             <LangSwitcher />
             <Link
-              className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150"
+              className="px-3 md:px-6 py-1.5 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-[11px] md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap"
               href="/employer-register"
             >
               {t.nav_cta}
