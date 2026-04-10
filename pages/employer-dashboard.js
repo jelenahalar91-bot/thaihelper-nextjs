@@ -117,6 +117,8 @@ const T = {
     profile_certificates: 'Certificates',
     profile_recommendations: 'Recommendations',
     profile_no_recommendations: 'No recommendations yet.',
+    profile_no_certificates: 'No certificates uploaded yet.',
+    profile_cert_privacy: 'Personal details hidden for privacy',
   },
   th: {
     page_title: 'แดชบอร์ดนายจ้าง – ThaiHelper',
@@ -194,6 +196,8 @@ const T = {
     profile_certificates: 'ใบรับรอง',
     profile_recommendations: 'คำแนะนำ',
     profile_no_recommendations: 'ยังไม่มีคำแนะนำ',
+    profile_no_certificates: 'ยังไม่มีใบรับรอง',
+    profile_cert_privacy: 'ข้อมูลส่วนตัวถูกซ่อนเพื่อความเป็นส่วนตัว',
   },
 };
 

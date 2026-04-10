@@ -83,6 +83,8 @@ const REL_LABELS = {
 export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) {
   const [references, setReferences] = useState([]);
   const [refsLoading, setRefsLoading] = useState(true);
+  const [certDocs, setCertDocs] = useState([]);
+  const [certsLoading, setCertsLoading] = useState(true);
 
   // Close on Escape
   useEffect(() => {
@@ -113,6 +115,25 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
         console.error('Failed to load references:', err);
       }
       if (!cancelled) setRefsLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, [helper?.ref]);
+
+  // Fetch certificate documents when modal opens
+  useEffect(() => {
+    if (!helper?.ref) { setCertsLoading(false); return; }
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/helper-documents?ref=${helper.ref}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (!cancelled) setCertDocs(data.documents || []);
+        }
+      } catch (err) {
+        console.error('Failed to load certificate documents:', err);
+      }
+      if (!cancelled) setCertsLoading(false);
     })();
     return () => { cancelled = true; };
   }, [helper?.ref]);
@@ -312,15 +333,34 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
           )}
 
           {/* Certificates */}
-          {helper.certificates && (
-            <Section title={t?.profile_certificates || 'Certificates'}>
+          <Section title={t?.profile_certificates || 'Certificates'}>
+            {/* Text description (from free-text field) */}
+            {helper.certificates && (
               <p style={{
-                fontSize: '14px', lineHeight: 1.6, color: '#374151', margin: 0,
+                fontSize: '14px', lineHeight: 1.6, color: '#374151',
+                margin: certDocs.length > 0 ? '0 0 14px' : 0,
               }}>
                 {helper.certificates}
               </p>
-            </Section>
-          )}
+            )}
+
+            {/* Uploaded certificate images with privacy overlay */}
+            {certsLoading ? (
+              <p style={{ fontSize: '13px', color: '#9ca3af', margin: 0 }}>
+                Loading...
+              </p>
+            ) : certDocs.length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {certDocs.map((doc) => (
+                  <CertificatePreview key={doc.id} doc={doc} t={t} />
+                ))}
+              </div>
+            ) : !helper.certificates ? (
+              <p style={{ fontSize: '13px', color: '#9ca3af', margin: 0, fontStyle: 'italic' }}>
+                {t?.profile_no_certificates || 'No certificates uploaded yet.'}
+              </p>
+            ) : null}
+          </Section>
 
           {/* Recommendations / References */}
           <Section title={t?.profile_recommendations || 'Recommendations'}>
@@ -382,6 +422,103 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
           to { transform: translateY(0); opacity: 1; }
         }
       `}</style>
+    </div>
+  );
+}
+
+function CertificatePreview({ doc, t }) {
+  if (!doc.isImage || !doc.url) {
+    // PDF or missing URL — show as file badge
+    return (
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '10px',
+        padding: '10px 14px',
+        background: '#f9fafb', borderRadius: '10px',
+        border: '1px solid #e5e7eb',
+      }}>
+        <span style={{ fontSize: '20px' }}>📄</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontSize: '13px', fontWeight: 600, color: '#374151',
+            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          }}>
+            {doc.fileName}
+          </div>
+          <div style={{ fontSize: '11px', color: '#9ca3af' }}>PDF document</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Image certificate — show with privacy overlay on bottom portion
+  return (
+    <div style={{
+      position: 'relative',
+      borderRadius: '12px',
+      overflow: 'hidden',
+      border: '1px solid #e5e7eb',
+    }}>
+      {/* Certificate image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={doc.url}
+        alt={doc.fileName}
+        loading="lazy"
+        style={{
+          width: '100%',
+          display: 'block',
+          borderRadius: '12px',
+        }}
+      />
+
+      {/* Privacy blur overlay on bottom 40% — covers address, full name, etc. */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0, left: 0, right: 0,
+        height: '40%',
+        background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 20%, rgba(255,255,255,0.92) 100%)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        padding: '12px',
+      }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '6px',
+          background: 'rgba(0, 106, 98, 0.9)',
+          color: 'white',
+          padding: '6px 14px',
+          borderRadius: '20px',
+          fontSize: '11px',
+          fontWeight: 600,
+          letterSpacing: '0.2px',
+        }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          {t?.profile_cert_privacy || 'Personal details hidden for privacy'}
+        </div>
+      </div>
+
+      {/* File name label */}
+      <div style={{
+        position: 'absolute',
+        top: '8px', left: '8px',
+        background: 'rgba(0,0,0,0.6)',
+        color: 'white',
+        padding: '3px 10px',
+        borderRadius: '8px',
+        fontSize: '11px',
+        fontWeight: 500,
+        maxWidth: '80%',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }}>
+        {doc.fileName}
+      </div>
     </div>
   );
 }
