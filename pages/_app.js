@@ -5,6 +5,7 @@ import Script from 'next/script';
 import '../styles/globals.css';
 import { getOrganizationSchema, getWebSiteSchema } from '@/components/SEOHead';
 import { GA_ID, pageview } from '@/lib/analytics';
+import CookieConsent, { useCookieConsent } from '@/components/CookieConsent';
 
 // Language context so all pages share the same lang state
 const LangContext = createContext({ lang: 'en', setLang: () => {} });
@@ -16,6 +17,8 @@ export function useLang() {
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   const [lang, setLangState] = useState('en');
+  const cookieConsent = useCookieConsent();
+  const gaAllowed = GA_ID && cookieConsent === 'accepted';
 
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
@@ -35,16 +38,16 @@ export default function App({ Component, pageProps }) {
 
   // Track page views on route change
   useEffect(() => {
-    if (!GA_ID) return;
+    if (!gaAllowed) return;
     const handleRouteChange = (url) => pageview(url);
     router.events.on('routeChangeComplete', handleRouteChange);
     return () => router.events.off('routeChangeComplete', handleRouteChange);
-  }, [router.events]);
+  }, [router.events, gaAllowed]);
 
   return (
     <LangContext.Provider value={{ lang, setLang }}>
-      {/* Google Analytics 4 — only loads if NEXT_PUBLIC_GA_ID is set */}
-      {GA_ID && (
+      {/* Google Analytics 4 — only loads after cookie consent */}
+      {gaAllowed && (
         <>
           <Script
             strategy="afterInteractive"
@@ -83,6 +86,8 @@ export default function App({ Component, pageProps }) {
         />
       </Head>
       <Component {...pageProps} />
+      {/* Cookie consent banner — shown once, remembers choice */}
+      <CookieConsent lang={lang} />
     </LangContext.Provider>
   );
 }

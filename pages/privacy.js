@@ -10,7 +10,7 @@ const T = {
     nav_login:     'Login',
     nav_cta:       'Register – Free',
     title:         'Privacy Policy',
-    updated:       'Last updated: March 2026',
+    updated:       'Last updated: April 2026',
     back:          '← Back to Home',
     footer_about:  'About', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service', footer_contact: 'Contact',
   },
@@ -20,7 +20,7 @@ const T = {
     nav_login:     'เข้าสู่ระบบ',
     nav_cta:       'สมัคร – ฟรี',
     title:         'นโยบายความเป็นส่วนตัว',
-    updated:       'อัปเดตล่าสุด: มีนาคม 2569',
+    updated:       'อัปเดตล่าสุด: เมษายน 2569',
     back:          '← กลับหน้าแรก',
     footer_about:  'เกี่ยวกับเรา', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ', footer_contact: 'ติดต่อ',
   },
@@ -167,9 +167,15 @@ function PrivacyEN() {
       </ul>
       <p>To exercise any of these rights, contact us at <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>.</p>
 
-      <h2>8. Cookies</h2>
+      <h2>8. Cookies & Analytics</h2>
       <p>
-        ThaiHelper does not currently use tracking cookies or analytics tools. We use browser local storage only to remember your language preference (English or Thai). No personal data is stored in cookies.
+        ThaiHelper uses Google Analytics 4 to understand how visitors use the platform (e.g. page views, traffic sources). Google Analytics sets cookies to distinguish users and sessions. These cookies do not contain personal information.
+      </p>
+      <p>
+        When you first visit ThaiHelper, a cookie consent banner will ask for your permission. Analytics cookies are only set if you click "Accept." You can decline, and the site will work normally without tracking.
+      </p>
+      <p>
+        We also use browser local storage to remember your language preference (English or Thai). No personal data is stored in local storage.
       </p>
 
       <h2>9. Children's Privacy</h2>
