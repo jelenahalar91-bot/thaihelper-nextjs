@@ -19,7 +19,7 @@ const T = {
     hero_float:'Free Forever – No Hidden Fees',
     hero_step1:'Sign up free — it takes 3 minutes',
     hero_step2:'Families find your profile and contact you',
-    hero_step3:'Chat, agree on terms, and start working',
+    hero_step3:'Chat, agree on terms and start working',
     trust_label:'Trusted By Families At',
     feat_title:'Why Choose Direct Hiring?',feat_sub:'No agency. No waiting. We connect you with families — simple and fast.',
     feat1_h:'100% Direct',feat1_p:'Talk to families yourself. Agree on your own schedule and salary. No one in between.',
