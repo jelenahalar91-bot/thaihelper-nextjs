@@ -552,7 +552,7 @@ export default function Home() {
               <ul className="space-y-3">
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/about">{t.footer_about}</Link></li>
-                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_faq}</a></li>
+                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/faq">{t.footer_faq}</Link></li>
               </ul>
             </div>
             <div>
