@@ -339,7 +339,7 @@ function EmptyConversation({ displayName, t }) {
       <p style={{
         fontSize: '14px', color: '#666', lineHeight: 1.55, margin: 0,
       }}>
-        {t.msg_empty_hint || 'Send your first message to get the conversation started. Messages are auto-translated, so you can write in your own language.'}
+        {t.msg_empty_hint || 'Send your first message to get the conversation started.'}
       </p>
     </div>
   );

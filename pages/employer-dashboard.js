@@ -101,11 +101,11 @@ const T = {
     msg_send_locked: 'Upgrade to send messages and read full conversations.',
     err_start_locked: 'Upgrade your account to message helpers.',
     err_generic: 'Something went wrong. Please try again.',
-    err_translation_failed: 'Message sent, but automatic translation failed. The recipient will see the original text.',
+    err_translation_failed: '',
     err_too_long: 'Message is too long (max {n} characters).',
     // Conversation empty state
     msg_empty_title: 'Say hi to {name} 👋',
-    msg_empty_hint: 'Send your first message to get the conversation started. Messages are auto-translated, so you can write in your own language.',
+    msg_empty_hint: 'Send your first message to get the conversation started.',
     // Helper profile modal
     profile_location: 'Location',
     profile_experience: 'Experience',
@@ -176,11 +176,11 @@ const T = {
     msg_send_locked: 'อัปเกรดเพื่อส่งข้อความและอ่านบทสนทนาแบบเต็ม',
     err_start_locked: 'อัปเกรดบัญชีของคุณเพื่อส่งข้อความถึงผู้ช่วย',
     err_generic: 'เกิดข้อผิดพลาด กรุณาลองอีกครั้ง',
-    err_translation_failed: 'ส่งข้อความแล้ว แต่การแปลอัตโนมัติล้มเหลว ผู้รับจะเห็นข้อความต้นฉบับ',
+    err_translation_failed: '',
     err_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
     // Conversation empty state
     msg_empty_title: 'ทักทาย {name} กันเถอะ 👋',
-    msg_empty_hint: 'ส่งข้อความแรกเพื่อเริ่มการสนทนา ข้อความจะถูกแปลอัตโนมัติ คุณจึงสามารถเขียนเป็นภาษาของคุณเองได้',
+    msg_empty_hint: 'ส่งข้อความแรกเพื่อเริ่มการสนทนา',
     // Helper profile modal
     profile_location: 'ที่ตั้ง',
     profile_experience: 'ประสบการณ์',
@@ -508,9 +508,6 @@ export default function EmployerDashboard() {
       const res = await sendMessage(selectedConv.id, msgInput.trim());
       setMessages(prev => [...prev, res.message]);
       setMsgInput('');
-      if (res.translationFailed) {
-        setErrorBanner(t.err_translation_failed);
-      }
     } catch (err) {
       if (err.code === 'payment_required') {
         setErrorBanner(t.err_start_locked);

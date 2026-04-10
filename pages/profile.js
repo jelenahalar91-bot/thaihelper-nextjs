@@ -7,7 +7,7 @@ import { logout } from '@/lib/api/auth-client';
 import { fetchDocuments, uploadDocument, deleteDocument } from '@/lib/api/documents';
 import { fetchReferences, addReference, updateReference, deleteReference } from '@/lib/api/references';
 import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConversationAsHelper } from '@/lib/api/messages';
-import { fetchSettings, updateLanguagePreference } from '@/lib/api/settings';
+import { fetchSettings } from '@/lib/api/settings';
 import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES } from '@/lib/constants/cities';
 import ConversationList from '@/components/messaging/ConversationList';
@@ -131,16 +131,11 @@ const T = {
     msg_show_original: 'Show original',
     msg_show_translated: 'Show translated',
     msg_unread: 'unread',
-    msg_translation_failed: 'Message sent, but auto-translation failed. Recipient sees the original text.',
+    msg_translation_failed: '',
     msg_too_long: 'Message is too long (max {n} characters).',
     msg_send_error: 'Failed to send message. Please try again.',
     msg_empty_title: 'Say hi to {name} 👋',
-    msg_empty_hint: 'Send your first reply to get the conversation started. Messages are auto-translated into your preferred language.',
-    // Settings
-    settings_title: 'Language & Settings',
-    settings_lang: 'Preferred Language',
-    settings_lang_hint: 'Messages from families will be translated to your preferred language.',
-    settings_saved: 'Settings saved!',
+    msg_empty_hint: 'Send your first reply to get the conversation started.',
     // Browse employers
     tab_browse: 'Browse',
     browse_title: 'Browse Employers',
@@ -281,16 +276,11 @@ const T = {
     msg_show_original: 'แสดงต้นฉบับ',
     msg_show_translated: 'แสดงคำแปล',
     msg_unread: 'ยังไม่ได้อ่าน',
-    msg_translation_failed: 'ส่งข้อความแล้ว แต่การแปลอัตโนมัติล้มเหลว ผู้รับจะเห็นข้อความต้นฉบับ',
+    msg_translation_failed: '',
     msg_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
     msg_send_error: 'ส่งข้อความไม่สำเร็จ กรุณาลองอีกครั้ง',
     msg_empty_title: 'ทักทาย {name} กันเถอะ 👋',
-    msg_empty_hint: 'ส่งข้อความตอบกลับแรกเพื่อเริ่มการสนทนา ข้อความจะถูกแปลเป็นภาษาที่คุณต้องการโดยอัตโนมัติ',
-    // Settings
-    settings_title: 'ภาษาและการตั้งค่า',
-    settings_lang: 'ภาษาที่ต้องการ',
-    settings_lang_hint: 'ข้อความจากครอบครัวจะถูกแปลเป็นภาษาที่คุณต้องการ',
-    settings_saved: 'บันทึกการตั้งค่าแล้ว!',
+    msg_empty_hint: 'ส่งข้อความตอบกลับแรกเพื่อเริ่มการสนทนา',
     // Browse employers
     tab_browse: 'ค้นหา',
     browse_title: 'ค้นหานายจ้าง',
@@ -363,9 +353,7 @@ export default function Profile() {
   const [loadingMsgs, setLoadingMsgs] = useState(false);
   const [msgToast, setMsgToast] = useState(''); // translation-failed / error banner
   const [viewingEmployer, setViewingEmployer] = useState(null); // employer profile modal
-  // Settings
-  const [prefLang, setPrefLang] = useState('en');
-  const [settingsSaved, setSettingsSaved] = useState('');
+  // Settings (reserved for future use)
   // Menu dropdown
   const [menuOpen, setMenuOpen] = useState(false);
   // Responsive breakpoint
@@ -409,9 +397,7 @@ export default function Profile() {
       if (docsRes.status === 'fulfilled') setDocuments(docsRes.value.documents || []);
       if (refsRes.status === 'fulfilled') setReferences(refsRes.value.references || []);
       if (convsRes.status === 'fulfilled') setConversations(convsRes.value.conversations || []);
-      if (settingsRes.status === 'fulfilled' && settingsRes.value.preferred_language) {
-        setPrefLang(settingsRes.value.preferred_language);
-      }
+      // settingsRes reserved for future use
       if (empsRes.status === 'fulfilled') {
         setEmployers(empsRes.value.employers || []);
       }
@@ -596,10 +582,6 @@ export default function Profile() {
       const res = await sendMessage(selectedConv.id, msgInput.trim());
       setMessages(prev => [...prev, res.message]);
       setMsgInput('');
-      if (res.translationFailed) {
-        setMsgToast(t.msg_translation_failed || 'Message sent, but auto-translation failed.');
-        setTimeout(() => setMsgToast(''), 5000);
-      }
     } catch (err) {
       if (err.code === 'message_too_long') {
         setMsgToast(
@@ -641,18 +623,6 @@ export default function Profile() {
     return () => clearInterval(id);
   }, [selectedConv]);
 
-  // Settings handlers
-  const handleLanguageChange = async (newLang) => {
-    setPrefLang(newLang);
-    changeLang(newLang);
-    try {
-      await updateLanguagePreference(newLang);
-      setSettingsSaved(t.settings_saved);
-      setTimeout(() => setSettingsSaved(''), 3000);
-    } catch (err) {
-      console.error('Failed to save language preference:', err);
-    }
-  };
 
   // Check profile completeness
   // Counts core profile fields + at least one uploaded document + at least one
@@ -890,7 +860,7 @@ export default function Profile() {
                     <MenuItem icon={<IconDashboard />} label={t.menu_dashboard} onClick={() => { setActiveTab('dashboard'); setMenuOpen(false); if (editing) cancelEditing(); }} />
                     <MenuItem icon={<IconSearch />} label={t.browse_title} onClick={() => { setActiveTab('browse'); setMenuOpen(false); if (editing) cancelEditing(); }} />
                     <MenuItem icon={<IconUser />} label={t.menu_profile} onClick={() => { setActiveTab('profile'); setMenuOpen(false); }} />
-                    <MenuItem icon={<IconSettings />} label={t.menu_settings} onClick={() => { setActiveTab('settings'); setMenuOpen(false); if (editing) cancelEditing(); }} />
+
 
                     {/* Language quick switch */}
                     <div style={{ padding: '12px 22px 10px', borderTop: '1px solid #f3f4f6', marginTop: '6px' }}>
@@ -1399,42 +1369,6 @@ export default function Profile() {
             </>
           )}
 
-          {/* ─── SETTINGS TAB ───────────────────────────────────────────── */}
-          {activeTab === 'settings' && (
-            <>
-              <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>
-                {t.settings_title}
-              </h1>
-
-              <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '22px' : '28px', border: '1px solid #e5e7eb' }}>
-                <SectionTitle>{t.settings_lang}</SectionTitle>
-                <p style={{ fontSize: '15px', color: '#666', margin: '0 0 16px', lineHeight: 1.6 }}>{t.settings_lang_hint}</p>
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  {[
-                    { code: 'en', label: 'English' },
-                    { code: 'th', label: 'ภาษาไทย' },
-                    { code: 'ru', label: 'Русский' },
-                  ].map(l => (
-                    <button
-                      key={l.code}
-                      onClick={() => handleLanguageChange(l.code)}
-                      style={{
-                        padding: '12px 24px', borderRadius: '10px', fontSize: '15px', fontWeight: 600, cursor: 'pointer',
-                        border: prefLang === l.code ? '2px solid #006a62' : '1px solid #e5e7eb',
-                        background: prefLang === l.code ? '#e6f5f3' : 'white',
-                        color: prefLang === l.code ? '#006a62' : '#666',
-                      }}
-                    >
-                      {l.label}
-                    </button>
-                  ))}
-                </div>
-                {settingsSaved && (
-                  <p style={{ fontSize: '15px', color: '#059669', fontWeight: 600, marginTop: '14px' }}>{settingsSaved}</p>
-                )}
-              </div>
-            </>
-          )}
 
         </div>
       </div>

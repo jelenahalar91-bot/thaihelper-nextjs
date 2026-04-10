@@ -60,9 +60,6 @@ const T = {
     job_label: 'Tell us about the job (optional)',
     job_ph: 'e.g. Looking for a nanny for our 2-year-old, 3 days a week. Must speak basic English.',
     job_hint: 'Phone numbers and emails will be automatically hidden for privacy.',
-    section_language: 'Your language',
-    lang_label: 'Preferred language for messages',
-    lang_hint: 'Messages from helpers will be auto-translated into this language.',
     submit: 'Create Free Account',
     submitting: 'Creating account...',
     error_duplicate: 'An account with this email already exists. Try logging in instead.',
@@ -119,9 +116,6 @@ const T = {
     job_label: 'บอกเราเกี่ยวกับงาน (ไม่จำเป็น)',
     job_ph: 'เช่น ต้องการพี่เลี้ยงเด็กอายุ 2 ขวบ 3 วันต่อสัปดาห์',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนโดยอัตโนมัติเพื่อความเป็นส่วนตัว',
-    section_language: 'ภาษาของคุณ',
-    lang_label: 'ภาษาที่ต้องการสำหรับข้อความ',
-    lang_hint: 'ข้อความจากผู้ช่วยจะถูกแปลเป็นภาษานี้อัตโนมัติ',
     submit: 'สร้างบัญชีฟรี',
     submitting: 'กำลังสร้างบัญชี...',
     error_duplicate: 'มีบัญชีที่ใช้อีเมลนี้อยู่แล้ว ลองเข้าสู่ระบบแทน',
@@ -154,7 +148,6 @@ export default function EmployerRegisterPage() {
   const [arrangementPreference, setArrangementPreference] = useState('');
   const [preferredAgeRange, setPreferredAgeRange] = useState('');
   const [jobDescription, setJobDescription] = useState('');
-  const [preferredLanguage, setPreferredLanguage] = useState('en');
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -163,7 +156,6 @@ export default function EmployerRegisterPage() {
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
     setLangState(saved);
-    setPreferredLanguage(saved);
   }, []);
 
   const changeLang = (l) => {
@@ -201,7 +193,6 @@ export default function EmployerRegisterPage() {
         arrangementPreference: arrangementPreference || null,
         preferredAgeRange: preferredAgeRange || null,
         jobDescription: jobDescription.trim(),
-        preferredLanguage,
       });
 
       if (!result.success) {
@@ -463,20 +454,6 @@ export default function EmployerRegisterPage() {
                   style={{ resize: 'vertical' }}
                 />
                 <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.job_hint}</p>
-              </div>
-
-              {/* Section: Language */}
-              <SectionTitle>{t.section_language}</SectionTitle>
-              <div className="field">
-                <label>{t.lang_label}</label>
-                <select value={preferredLanguage} onChange={e => setPreferredLanguage(e.target.value)}>
-                  <option value="en">English</option>
-                  <option value="th">ภาษาไทย (Thai)</option>
-                  <option value="ru">Русский (Russian)</option>
-                  <option value="de">Deutsch (German)</option>
-                  <option value="fr">Français (French)</option>
-                </select>
-                <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.lang_hint}</p>
               </div>
 
               <button

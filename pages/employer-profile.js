@@ -74,8 +74,6 @@ const T = {
     looking_hint: 'Select all categories you\'re open to',
     label_job_desc: 'About the job (optional)',
     job_hint: 'Phone numbers and emails will be hidden automatically.',
-    label_lang: 'Preferred language for messages',
-    lang_hint: 'Messages from helpers will be auto-translated into this language.',
     save: 'Save changes',
     saving: 'Saving...',
     logout: 'Log out',
@@ -116,8 +114,6 @@ const T = {
     looking_hint: 'เลือกทุกประเภทที่คุณสนใจ',
     label_job_desc: 'เกี่ยวกับงาน (ถ้ามี)',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนอัตโนมัติ',
-    label_lang: 'ภาษาที่ต้องการสำหรับข้อความ',
-    lang_hint: 'ข้อความจากผู้ช่วยจะถูกแปลเป็นภาษานี้โดยอัตโนมัติ',
     save: 'บันทึก',
     saving: 'กำลังบันทึก...',
     logout: 'ออกจากระบบ',
@@ -539,21 +535,6 @@ export default function EmployerProfile() {
             </Field>
           </Section>
 
-          {/* ── Settings ─────────────────────────────── */}
-          <Section id="settings" title={t.section_settings}>
-            <Field label={t.label_lang} hint={t.lang_hint}>
-              <select
-                value={form.preferred_language}
-                onChange={e => update('preferred_language', e.target.value)}
-                className={inputClass}
-              >
-                <option value="en">English</option>
-                <option value="th">ไทย</option>
-                <option value="ru">Русский</option>
-                <option value="de">Deutsch</option>
-              </select>
-            </Field>
-          </Section>
 
           {/* Save button */}
           <div className="mt-2 mb-12 flex justify-end">
