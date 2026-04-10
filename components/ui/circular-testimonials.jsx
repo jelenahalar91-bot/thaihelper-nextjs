@@ -12,7 +12,6 @@ const ArrowLeft = ({ size = 18, color = "#fff" }) => (
 const ArrowRight = ({ size = 18, color = "#fff" }) => (
   <svg width={size} height={size} viewBox="0 0 448 512" fill={color}><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h306.8L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
 );
-import { motion, AnimatePresence } from "framer-motion";
 
 function calculateGap(width) {
   const minWidth = 1024;
@@ -146,33 +145,18 @@ export const CircularTestimonials = ({
     };
   }
 
-  const quoteVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 },
-  };
-
   return (
     <div className="testimonial-container">
       <div className="testimonial-grid">
         {/* Images with overlay label */}
         <div className="image-wrapper">
           {/* Title above image */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              className="image-overlay-label"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-              <span className="overlay-name">{activeTestimonial.name}</span>
-              {activeTestimonial.designation && (
-                <span className="overlay-designation">{activeTestimonial.designation}</span>
-              )}
-            </motion.div>
-          </AnimatePresence>
+          <div key={activeIndex} className="image-overlay-label overlay-fade">
+            <span className="overlay-name">{activeTestimonial.name}</span>
+            {activeTestimonial.designation && (
+              <span className="overlay-designation">{activeTestimonial.designation}</span>
+            )}
+          </div>
           <div className="image-container" ref={imageContainerRef}>
             {testimonials.map((testimonial, index) => (
               // next/image's `fill` mode injects its own absolute positioning
@@ -268,6 +252,13 @@ export const CircularTestimonials = ({
           display: block;
           margin-top: 0.15rem;
           letter-spacing: 0.03em;
+        }
+        .overlay-fade {
+          animation: overlayFadeIn 0.3s ease-in-out;
+        }
+        @keyframes overlayFadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
         .testimonial-content {
           padding: 0.5rem 0 0;

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { CircularTestimonials } from '@/components/ui/circular-testimonials';
+import dynamic from 'next/dynamic';
+const CircularTestimonials = dynamic(() => import('@/components/ui/circular-testimonials').then(m => m.CircularTestimonials), { ssr: false });
 import SEOHead, { getServiceSchema, getFAQSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
