@@ -58,7 +58,7 @@ export default function VerifyPage() {
 
       <div className="min-h-screen bg-background text-on-background font-sans flex flex-col items-center justify-center px-6">
         <div className="text-center max-w-md">
-          <p className="text-6xl mb-6">{isSuccess ? '\u2705' : '\u26A0\uFE0F'}</p>
+          <p className="text-3xl mb-4">{isSuccess ? '\u2705' : '\u26A0\uFE0F'}</p>
           <h1 className="text-2xl md:text-3xl font-bold font-headline text-on-background mb-3">
             {heading}
           </h1>
