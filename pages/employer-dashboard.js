@@ -474,21 +474,20 @@ export default function EmployerDashboard() {
     setErrorBanner('');
     setStartingConv(helperRef);
     try {
-      const { conversation_id, existed } = await startConversation(helperRef);
+      const { conversation_id } = await startConversation(helperRef);
 
-      if (existed) {
-        // Conversation already exists — find it in the list or fetch fresh
-        const data = await fetchConversations();
-        setConversations(data.conversations || []);
-        if (data.accessStatus) setAccessStatus(data.accessStatus);
-        const conv = (data.conversations || []).find(c => c.id === conversation_id);
-        if (conv) {
-          setActiveTab('messages');
-          await openConversation(conv);
-        }
+      // Try to find this conversation in the (filtered) list
+      const data = await fetchConversations();
+      setConversations(data.conversations || []);
+      if (data.accessStatus) setAccessStatus(data.accessStatus);
+      const conv = (data.conversations || []).find(c => c.id === conversation_id);
+
+      if (conv) {
+        // Conversation has messages — open it normally
+        setActiveTab('messages');
+        await openConversation(conv);
       } else {
-        // Brand new conversation — build a minimal conv object directly
-        // (it won't appear in fetchConversations yet since it has no messages)
+        // Conversation is empty (new or never used) — open directly
         const helper = helpers.find(h => h.ref === helperRef);
         const newConv = {
           id: conversation_id,
