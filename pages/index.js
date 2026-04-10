@@ -493,10 +493,17 @@ export default function Home() {
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2 block">{t.cat_label}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-background mb-4">{t.cat_title}</h2>
               <p className="text-on-surface-variant max-w-2xl mx-auto mb-12">{t.cat_sub}</p>
-              <div className="flex flex-wrap justify-center gap-3">
-                {[t.cat1,t.cat2,t.cat3,t.cat4,t.cat5,t.cat6,t.cat7].map((c,i) => (
-                  <span key={i} className="px-6 py-3 rounded-full bg-surface-container-highest text-on-background font-semibold text-sm hover:bg-primary hover:text-on-primary transition-colors cursor-default">{c}</span>
-                ))}
+              <div className="flex flex-col items-center gap-3">
+                <div className="flex flex-wrap justify-center gap-3">
+                  {[t.cat1,t.cat2,t.cat3,t.cat4].map((c,i) => (
+                    <span key={i} className="px-6 py-3 rounded-full bg-surface-container-highest text-on-background font-semibold text-sm hover:bg-primary hover:text-on-primary transition-colors cursor-default">{c}</span>
+                  ))}
+                </div>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {[t.cat5,t.cat6,t.cat7].map((c,i) => (
+                    <span key={i+4} className="px-6 py-3 rounded-full bg-surface-container-highest text-on-background font-semibold text-sm hover:bg-primary hover:text-on-primary transition-colors cursor-default">{c}</span>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
