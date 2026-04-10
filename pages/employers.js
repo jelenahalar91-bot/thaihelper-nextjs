@@ -82,7 +82,7 @@ const T = {
     hero_h1: 'Find Trusted',
     hero_h1b: 'Helpers.',
     hero_shimmer: 'No agencies, no fees.',
-    hero_p: 'Browse verified nannies, housekeepers, chefs, drivers, and more in your city. Create a free account and start messaging helpers today.',
+    hero_p: 'Browse verified nannies, housekeepers, chefs, drivers and more in your city. Create a free account and start messaging helpers today.',
     hero_cta: 'Create Free Account',
     hero_badge: 'Free for the first 8 weeks',
     // How it works
@@ -92,13 +92,13 @@ const T = {
     how1_h: 'Create Your Account',
     how1_p: 'Register for free in 30 seconds. Tell us your city and what type of help you need.',
     how2_h: 'Browse Profiles',
-    how2_p: 'Browse verified helper profiles, ratings, and experience — for free.',
+    how2_p: 'Browse verified helper profiles, ratings and experience — for free.',
     how3_h: 'Message Directly',
     how3_p: 'Chat with helpers right on the platform. Free for the first 8 weeks — no credit card required.',
     // Why
     why_label: 'Why ThaiHelper',
     why_title: 'A better way to find help',
-    why_sub: 'We built ThaiHelper because hiring through agencies is expensive, slow, and opaque.',
+    why_sub: 'We built ThaiHelper because hiring through agencies is expensive, slow and opaque.',
     why1_h: '100% Free for Employers',
     why1_p: 'No sign-up fees, no monthly subscriptions. Browse profiles at no cost — only pay for premium contact features later.',
     why2_h: 'No Agency Commissions',
@@ -108,9 +108,9 @@ const T = {
     why4_h: 'All Categories in One Place',
     why4_p: 'Nannies, housekeepers, chefs, drivers, gardeners, elder care, tutors — find everyone you need.',
     why5_h: 'Direct Communication',
-    why5_p: 'Chat directly with helpers. Negotiate your own terms, schedules, and salary — no interference.',
+    why5_p: 'Chat directly with helpers. Negotiate your own terms, schedules and salary — no interference.',
     why6_h: 'City-Based Matching',
-    why6_p: 'We show you helpers in your area. Bangkok, Phuket, Chiang Mai, Pattaya, Koh Samui, and more.',
+    why6_p: 'We show you helpers in your area. Bangkok, Phuket, Chiang Mai, Pattaya, Koh Samui and more.',
     // Preview
     preview_label: 'Profile Preview',
     preview_title: 'This is how helper profiles will look',
@@ -317,7 +317,7 @@ const EMPLOYER_TRUST_SLIDES = [
   {
     id: 'verified',
     title: 'Know Who You\'re Hiring',
-    description: 'Every helper on ThaiHelper verifies their ID. You see their experience, reviews from other families, and skills — before you even say hello. No more guessing.',
+    description: 'Every helper on ThaiHelper verifies their ID. You see their experience, reviews from other families and skills — before you even say hello. No more guessing.',
     image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop',
   },
   {

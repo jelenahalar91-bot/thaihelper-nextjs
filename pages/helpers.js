@@ -18,7 +18,7 @@ const T = {
     nav_cta:        'Register Free',
     hero_badge:     '🇹🇭 Find Help in Thailand',
     hero_h1:        'Browse Trusted Helpers',
-    hero_sub:       'Find nannies, housekeepers, chefs, drivers, and more — directly, without agencies.',
+    hero_sub:       'Find nannies, housekeepers, chefs, drivers and more — directly, without agencies.',
     filter_title:   'Filters',
     filter_show_filters: 'Filters',
     filter_show_results: 'Show {n} results',

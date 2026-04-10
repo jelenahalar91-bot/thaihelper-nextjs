@@ -16,7 +16,7 @@ const T = {
     nav_cta:        'Register Free',
     hero_badge:     '🇹🇭 Find Employers in Thailand',
     hero_h1:        'Browse Employer Listings',
-    hero_sub:       'See who is looking for household help — nannies, housekeepers, chefs, drivers, and more.',
+    hero_sub:       'See who is looking for household help — nannies, housekeepers, chefs, drivers and more.',
     filter_title:   'Filters',
     filter_show:    'Filters',
     filter_show_results: 'Show {n} results',
@@ -139,7 +139,7 @@ export default function EmployersBrowse() {
     <>
       <SEOHead
         title="Browse Employers – Find Families Looking for Help"
-        description="Browse employer listings in Thailand. See who is looking for nannies, housekeepers, chefs, drivers, gardeners, and more."
+        description="Browse employer listings in Thailand. See who is looking for nannies, housekeepers, chefs, drivers, gardeners and more."
         path="/employers-browse"
         lang={lang}
         jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Browse Employers', path: '/employers-browse' }])}
