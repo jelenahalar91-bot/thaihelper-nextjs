@@ -258,7 +258,9 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
 
         {/* Scrollable content */}
         <div style={{
-          flex: 1, overflowY: 'auto',
+          flex: '1 1 0',
+          minHeight: 0,
+          overflowY: 'auto',
           padding: '0 24px 28px',
           marginTop: '-20px',
           WebkitOverflowScrolling: 'touch',
