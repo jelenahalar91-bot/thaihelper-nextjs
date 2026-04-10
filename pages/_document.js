@@ -14,14 +14,10 @@ export default function Document() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
-        {/* Google Fonts — loaded as <link> to avoid render-blocking @import */}
+        {/* Google Fonts — single request, reduced weights, display=swap */}
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap"
-        />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Manrope:wght@400;600;700&family=Sarabun:wght@400;600;700&display=swap"
         />
 
         {/* DNS prefetch for external resources */}
