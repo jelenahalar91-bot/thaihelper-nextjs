@@ -6,15 +6,84 @@
  * a `helper` object already loaded from /api/helpers (employer-dashboard
  * has the full list in state, so no extra fetch needed).
  *
+ * All raw database values (skills, rate, category, experience, languages)
+ * are mapped to human-readable labels using the shared constants.
+ *
  * Props:
  *   helper: full helper object from /api/helpers (public shape, no contacts)
  *   onClose: () => void
  *   t: translations from the parent page (employer-dashboard)
+ *   lang: current language ('en' | 'th')
  */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import {
+  CATEGORIES,
+  SKILLS_BY_CATEGORY,
+  RATES,
+  LANGUAGES,
+} from '../../lib/constants/categories';
 
-export default function HelperProfileModal({ helper, onClose, t }) {
+// ─── Label helpers ──────────────────────────────────────────────────────────
+
+function getCategoryLabel(slug, lang = 'en') {
+  if (!slug) return '';
+  const cat = CATEGORIES.find(c => c.value === slug);
+  return cat ? (cat[lang] || cat.en) : slug;
+}
+
+function getSkillLabels(skillsStr, category, lang = 'en') {
+  if (!skillsStr) return [];
+  const slugs = skillsStr.split(',').map(s => s.trim()).filter(Boolean);
+  const pool = SKILLS_BY_CATEGORY[category] || [];
+  // Also check all categories in case skills don't match the current category
+  const allSkills = Object.values(SKILLS_BY_CATEGORY).flat();
+
+  return slugs.map(slug => {
+    const match = pool.find(s => s.value === slug) || allSkills.find(s => s.value === slug);
+    return match ? (match[lang] || match.en) : slug;
+  });
+}
+
+function getRateLabel(rateVal, lang = 'en') {
+  if (!rateVal) return '';
+  const rate = RATES.find(r => r.value === rateVal);
+  return rate ? (rate[lang] || rate.en) : rateVal;
+}
+
+function getLanguageLabels(langStr) {
+  if (!langStr) return '';
+  const slugs = langStr.split(',').map(s => s.trim()).filter(Boolean);
+  return slugs.map(slug => {
+    const match = LANGUAGES.find(l => l.value === slug);
+    return match ? match.label : slug;
+  }).join(', ');
+}
+
+const EXP_MAP = {
+  en: { '0': 'Less than 1 year', '1': '1–2 years', '3': '3–5 years', '6': '6–10 years', '10': '10+ years' },
+  th: { '0': 'น้อยกว่า 1 ปี', '1': '1–2 ปี', '3': '3–5 ปี', '6': '6–10 ปี', '10': '10+ ปี' },
+};
+
+function getExperienceLabel(exp, lang = 'en') {
+  if (!exp) return '';
+  const map = EXP_MAP[lang] || EXP_MAP.en;
+  return map[String(exp)] || `${exp} years`;
+}
+
+const REL_LABELS = {
+  employer: '👔 Former Employer',
+  colleague: '🤝 Colleague',
+  trainer: '🎓 Trainer',
+  other: '📋 Reference',
+};
+
+// ─── Component ──────────────────────────────────────────────────────────────
+
+export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) {
+  const [references, setReferences] = useState([]);
+  const [refsLoading, setRefsLoading] = useState(true);
+
   // Close on Escape
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -29,11 +98,35 @@ export default function HelperProfileModal({ helper, onClose, t }) {
     return () => { document.body.style.overflow = prev; };
   }, []);
 
+  // Fetch references when modal opens
+  useEffect(() => {
+    if (!helper?.ref) { setRefsLoading(false); return; }
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/helper-references?ref=${helper.ref}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (!cancelled) setReferences(data.references || []);
+        }
+      } catch (err) {
+        console.error('Failed to load references:', err);
+      }
+      if (!cancelled) setRefsLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, [helper?.ref]);
+
   if (!helper) return null;
 
   const displayName =
     [helper.firstName, helper.lastName].filter(Boolean).join(' ') || 'Helper';
   const initial = (helper.firstName || '?')[0].toUpperCase();
+  const categoryLabel = getCategoryLabel(helper.category, lang);
+  const rateLabel = getRateLabel(helper.rate, lang);
+  const expLabel = getExperienceLabel(helper.experience, lang);
+  const langLabels = getLanguageLabels(helper.languages);
+  const skillLabels = getSkillLabels(helper.skills, helper.category, lang);
 
   return (
     <div
@@ -67,6 +160,7 @@ export default function HelperProfileModal({ helper, onClose, t }) {
           background: 'linear-gradient(135deg, #006a62 0%, #00897e 50%, #00b29c 100%)',
           padding: '28px 24px 64px',
           color: 'white',
+          flexShrink: 0,
         }}>
           <button
             onClick={onClose}
@@ -131,21 +225,22 @@ export default function HelperProfileModal({ helper, onClose, t }) {
                 <span style={{ fontWeight: 500, opacity: 0.85 }}> · {helper.age}</span>
               )}
             </h2>
-            {helper.category && (
+            {categoryLabel && (
               <div style={{
                 fontSize: '14px', opacity: 0.95, fontWeight: 500,
               }}>
-                {helper.category}
+                {categoryLabel}
               </div>
             )}
           </div>
         </div>
 
-        {/* Content */}
+        {/* Scrollable content */}
         <div style={{
           flex: 1, overflowY: 'auto',
-          padding: '0 24px 24px',
+          padding: '0 24px 28px',
           marginTop: '-40px',
+          WebkitOverflowScrolling: 'touch',
         }}>
           {/* Info pill card */}
           <div style={{
@@ -160,14 +255,14 @@ export default function HelperProfileModal({ helper, onClose, t }) {
               {helper.city}
               {helper.area ? ` · ${helper.area}` : ''}
             </InfoRow>
-            {helper.experience && (
+            {expLabel && (
               <InfoRow icon="⏱" label={t?.profile_experience || 'Experience'}>
-                {helper.experience} {t?.card_yrs || 'years'}
+                {expLabel}
               </InfoRow>
             )}
-            {helper.languages && (
+            {langLabels && (
               <InfoRow icon="🗣" label={t?.profile_languages || 'Languages'}>
-                {helper.languages}
+                {langLabels}
               </InfoRow>
             )}
             {helper.education && (
@@ -175,9 +270,9 @@ export default function HelperProfileModal({ helper, onClose, t }) {
                 {helper.education}
               </InfoRow>
             )}
-            {helper.rate && (
+            {rateLabel && (
               <InfoRow icon="💰" label={t?.profile_rate || 'Rate'} last>
-                {helper.rate}
+                {rateLabel}
               </InfoRow>
             )}
           </div>
@@ -194,14 +289,25 @@ export default function HelperProfileModal({ helper, onClose, t }) {
             </Section>
           )}
 
-          {/* Skills */}
-          {helper.skills && (
+          {/* Skills — mapped to readable labels with emoji */}
+          {skillLabels.length > 0 && (
             <Section title={t?.profile_skills || 'Skills'}>
-              <p style={{
-                fontSize: '14px', lineHeight: 1.6, color: '#374151', margin: 0,
-              }}>
-                {helper.skills}
-              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {skillLabels.map((label, i) => (
+                  <span key={i} style={{
+                    display: 'inline-block',
+                    padding: '6px 12px',
+                    borderRadius: '20px',
+                    background: '#f0fdf4',
+                    border: '1px solid #bbf7d0',
+                    fontSize: '13px',
+                    color: '#166534',
+                    fontWeight: 500,
+                  }}>
+                    {label}
+                  </span>
+                ))}
+              </div>
             </Section>
           )}
 
@@ -215,6 +321,53 @@ export default function HelperProfileModal({ helper, onClose, t }) {
               </p>
             </Section>
           )}
+
+          {/* Recommendations / References */}
+          <Section title={t?.profile_recommendations || 'Recommendations'}>
+            {refsLoading ? (
+              <p style={{ fontSize: '13px', color: '#9ca3af', margin: 0 }}>
+                Loading...
+              </p>
+            ) : references.length === 0 ? (
+              <p style={{ fontSize: '13px', color: '#9ca3af', margin: 0, fontStyle: 'italic' }}>
+                {t?.profile_no_recommendations || 'No recommendations yet.'}
+              </p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {references.map((ref) => (
+                  <div key={ref.id} style={{
+                    padding: '12px 14px',
+                    background: '#faf5ff',
+                    borderRadius: '12px',
+                    border: '1px solid #e9d5ff',
+                  }}>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', gap: '8px',
+                      marginBottom: ref.reference_text ? '6px' : 0,
+                    }}>
+                      <span style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>
+                        {ref.reference_name}
+                      </span>
+                      <span style={{
+                        fontSize: '11px', color: '#7c3aed', fontWeight: 500,
+                        background: '#ede9fe', padding: '2px 8px', borderRadius: '10px',
+                      }}>
+                        {REL_LABELS[ref.relationship] || ref.relationship}
+                      </span>
+                    </div>
+                    {ref.reference_text && (
+                      <p style={{
+                        fontSize: '13px', color: '#555', margin: 0,
+                        lineHeight: 1.5, fontStyle: 'italic',
+                      }}>
+                        &ldquo;{ref.reference_text}&rdquo;
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </Section>
         </div>
       </div>
 

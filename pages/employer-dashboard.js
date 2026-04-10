@@ -115,6 +115,8 @@ const T = {
     profile_about: 'About',
     profile_skills: 'Skills',
     profile_certificates: 'Certificates',
+    profile_recommendations: 'Recommendations',
+    profile_no_recommendations: 'No recommendations yet.',
   },
   th: {
     page_title: 'แดชบอร์ดนายจ้าง – ThaiHelper',
@@ -190,6 +192,8 @@ const T = {
     profile_about: 'เกี่ยวกับ',
     profile_skills: 'ทักษะ',
     profile_certificates: 'ใบรับรอง',
+    profile_recommendations: 'คำแนะนำ',
+    profile_no_recommendations: 'ยังไม่มีคำแนะนำ',
   },
 };
 
@@ -752,6 +756,7 @@ export default function EmployerDashboard() {
             helper={viewingHelper}
             onClose={() => setViewingHelper(null)}
             t={t}
+            lang={lang}
           />
         )}
       </div>
