@@ -419,7 +419,7 @@ export default function Employers() {
           <div className="flex items-center gap-2 md:gap-3">
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
             <LangSwitcher />
-            <a className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="/employer-register">{t.nav_cta}</a>
+            <Link className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="/employer-register">{t.nav_cta}</Link>
           </div>
         </nav>
 
@@ -447,7 +447,7 @@ export default function Employers() {
                   {t.hero_p}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 items-start">
-                  <a className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all text-center" href="/employer-register">{t.hero_cta}</a>
+                  <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all text-center" href="/employer-register">{t.hero_cta}</Link>
                   <span className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gold/10 text-gold font-bold text-sm">
                     <span className="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
                     {t.hero_badge}

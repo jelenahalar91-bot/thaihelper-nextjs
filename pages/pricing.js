@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Link from 'next/link';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';

@@ -120,7 +120,7 @@ export default function HelperCard({ helper, mode = 'browse', t, ctaSlot }) {
                 🔒 {t.card_signin}
               </div>
               <Link
-                href="/employer-login"
+                href="/login"
                 className="block w-full text-center px-4 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
               >
                 {t.card_signin_btn}
