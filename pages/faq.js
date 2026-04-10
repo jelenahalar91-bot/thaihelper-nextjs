@@ -1,7 +1,25 @@
-import SEOHead from '@/components/SEOHead';
+import SEOHead, { getFAQSchema, getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
 import LangSwitcher from '@/components/LangSwitcher';
 import { useLang } from './_app';
+
+/* ── Structured FAQ data for JSON-LD schema ───────── */
+const ALL_FAQS = [
+  { question: 'What is ThaiHelper?', answer: 'ThaiHelper is a free platform that connects household service providers (nannies, housekeepers, chefs, drivers, gardeners, caregivers, tutors) with families in Thailand. No agency fees, no middlemen.' },
+  { question: 'Who is behind ThaiHelper?', answer: 'ThaiHelper was built by a family of four who moved to Thailand and experienced firsthand how difficult it is to find trusted household help.' },
+  { question: 'Is ThaiHelper available in my city?', answer: 'ThaiHelper is available across Thailand including Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, Hua Hin, and many more cities.' },
+  { question: 'Is ThaiHelper free for helpers?', answer: 'Yes, 100% free. Helpers never pay to create a profile, receive messages, or get hired.' },
+  { question: 'How do I register as a helper?', answer: 'Click Register Free, fill in your details — name, city, service category, skills, experience, and a short bio. You will receive a reference number by email to log in.' },
+  { question: 'What information is visible on my profile?', answer: 'Your name, city, service category, skills, experience, languages, rate, bio, and profile photo are publicly visible. Your email and phone number are never shown publicly.' },
+  { question: 'How do families contact me?', answer: 'Families send you messages directly through the ThaiHelper platform. You will see their messages when you log in to your dashboard.' },
+  { question: 'Can I edit or delete my profile?', answer: 'Yes. Log in to your dashboard to edit your profile at any time. To delete your profile entirely, contact support@thaihelper.app and we will remove it within 14 days.' },
+  { question: 'How much does ThaiHelper cost for employers?', answer: 'New employers get 8 weeks of free access when they register. After the free period, you can purchase an access plan to continue messaging helpers.' },
+  { question: 'How do I find a helper?', answer: 'Browse the helper directory and use filters (city, category, experience, languages) to narrow down your search. Click on a profile to see the full details, then send a message directly.' },
+  { question: 'Does ThaiHelper do background checks?', answer: 'No. ThaiHelper is a platform, not an agency. We recommend conducting your own interviews, reference checks, and any applicable legal employment steps before hiring.' },
+  { question: 'Can I post a job listing?', answer: 'Currently, employers browse and contact helpers directly. A dedicated job board feature is planned for the future.' },
+  { question: 'How do I log in?', answer: 'Use the email address you registered with and your reference number (e.g. TH-A1B2C3 for helpers, EMP-A1B2C3 for employers). Use the Forgot reference number link if needed.' },
+  { question: 'Is my data safe?', answer: 'Yes. ThaiHelper follows strict data privacy practices. Personal contact details are only shared through the messaging system, not publicly displayed.' },
+];
 
 const T = {
   en: {
@@ -31,10 +49,17 @@ export default function FAQ() {
   return (
     <>
       <SEOHead
-        title="FAQ"
-        description="Frequently asked questions about ThaiHelper — for helpers and employers."
+        title="FAQ – Frequently Asked Questions"
+        description="Find answers to common questions about ThaiHelper — how it works, pricing for employers, helper registration, verification, safety, and more."
         path="/faq"
         lang={lang}
+        jsonLd={[
+          getFAQSchema(ALL_FAQS),
+          getBreadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'FAQ', path: '/faq' },
+          ]),
+        ]}
       />
 
       <div className="min-h-screen bg-background text-on-background font-sans">
