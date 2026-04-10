@@ -51,7 +51,7 @@ export default function CookieConsent({ lang = 'en' }) {
   if (!visible) return null;
 
   return (
-    <div style={{
+    <div role="region" aria-label="Cookie consent" style={{
       position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 9999,
       background: 'white', borderTop: '1px solid #e5e7eb',
       boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',
@@ -64,7 +64,7 @@ export default function CookieConsent({ lang = 'en' }) {
         flexWrap: 'wrap', justifyContent: 'center',
       }}>
         <p style={{ fontSize: '14px', color: '#444', margin: 0, flex: '1 1 300px', lineHeight: 1.5 }}>
-          🍪 {t.text}{' '}
+          <span aria-hidden="true">🍪</span> {t.text}{' '}
           <Link href="/privacy" style={{ color: '#006a62', textDecoration: 'underline' }}>
             {t.privacy}
           </Link>
