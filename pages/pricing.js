@@ -44,6 +44,7 @@ const T = {
     tier_12m_desc: 'The cheapest per-month rate. Best for households hiring more than once a year.',
     tier_12m_cta: 'Get 12 Months',
     thb: 'THB',
+    coming_soon: 'Coming Soon',
     // Feature lists
     free_feat1: 'Browse all verified helper profiles',
     free_feat2: 'See ratings, reviews and experience',
@@ -112,6 +113,7 @@ const T = {
     tier_12m_desc: 'ราคาต่อเดือนถูกที่สุด เหมาะสำหรับครอบครัวที่จ้างมากกว่า 1 ครั้งต่อปี',
     tier_12m_cta: 'ซื้อ 12 เดือน',
     thb: 'บาท',
+    coming_soon: 'เร็วๆ นี้',
     free_feat1: 'ค้นหาโปรไฟล์ผู้ช่วยที่ยืนยันทั้งหมด',
     free_feat2: 'ดูคะแนน รีวิว และประสบการณ์',
     free_feat3: 'ดูตัวอย่างข้อความ (3 คำแรกเท่านั้น)',
@@ -176,6 +178,7 @@ const T = {
     tier_12m_desc: 'Самая низкая цена за месяц. Для семей, которые нанимают более одного раза в год.',
     tier_12m_cta: 'Купить 12 месяцев',
     thb: 'THB',
+    coming_soon: 'Скоро',
     free_feat1: 'Просмотр всех проверенных профилей',
     free_feat2: 'Рейтинги, отзывы и опыт',
     free_feat3: 'Предпросмотр сообщений (только первые 3 слова)',
@@ -274,16 +277,24 @@ function PricingCard({ t, tier, highlight }) {
         ))}
       </ul>
 
-      <Link
-        href={tier.href}
-        className={
-          highlight
-            ? 'block text-center px-4 py-2.5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white font-bold text-sm hover:shadow-lg transition-all'
-            : 'block text-center px-4 py-2.5 rounded-xl bg-surface-container-highest text-on-background font-bold text-sm hover:bg-surface-container-high transition-colors'
-        }
-      >
-        {tier.cta}
-      </Link>
+      {tier.disabled ? (
+        <span
+          className="block text-center px-4 py-2.5 rounded-xl bg-slate-100 text-slate-400 font-bold text-sm cursor-not-allowed"
+        >
+          {tier.cta}
+        </span>
+      ) : (
+        <Link
+          href={tier.href}
+          className={
+            highlight
+              ? 'block text-center px-4 py-2.5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white font-bold text-sm hover:shadow-lg transition-all'
+              : 'block text-center px-4 py-2.5 rounded-xl bg-surface-container-highest text-on-background font-bold text-sm hover:bg-surface-container-high transition-colors'
+          }
+        >
+          {tier.cta}
+        </Link>
+      )}
     </div>
   );
 }
@@ -314,20 +325,20 @@ export default function Pricing() {
     },
     {
       name: t.tier_1m_name, price: t.tier_1m_price, per: t.tier_1m_per,
-      desc: t.tier_1m_desc, cta: t.tier_1m_cta, href: '/employer-register',
+      desc: t.tier_1m_desc, cta: t.coming_soon, href: null, disabled: true,
       features: paidFeatures,
     },
     {
       name: t.tier_3m_name, price: t.tier_3m_price, per: t.tier_3m_per_equiv, save: t.tier_3m_save,
       badge: t.tier_3m_badge,
-      desc: t.tier_3m_desc, cta: t.tier_3m_cta, href: '/employer-register',
+      desc: t.tier_3m_desc, cta: t.coming_soon, href: null, disabled: true,
       features: paidFeatures,
       timelineLabel: t.tier_3m_timeline_label,
       timelineBody: t.tier_3m_timeline_body,
     },
     {
       name: t.tier_12m_name, price: t.tier_12m_price, per: t.tier_12m_per_equiv, save: t.tier_12m_save,
-      desc: t.tier_12m_desc, cta: t.tier_12m_cta, href: '/employer-register',
+      desc: t.tier_12m_desc, cta: t.coming_soon, href: null, disabled: true,
       features: paidFeatures,
     },
   ];
@@ -471,7 +482,7 @@ export default function Pricing() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
             <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_product}</h4>
+              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_product}</h4>
               <ul className="space-y-3">
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/#benefits">{t.footer_find}</Link></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/#categories">{t.footer_hire}</Link></li>
@@ -480,7 +491,7 @@ export default function Pricing() {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
+              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
               <ul className="space-y-3">
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/about">{t.footer_about}</Link></li>
@@ -488,7 +499,7 @@ export default function Pricing() {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_legal}</h4>
+              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_legal}</h4>
               <ul className="space-y-3">
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/privacy">{t.footer_privacy}</Link></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/terms">{t.footer_terms}</Link></li>

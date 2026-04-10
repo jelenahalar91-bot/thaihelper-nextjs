@@ -419,7 +419,7 @@ export default function Employers() {
           <div className="flex items-center gap-2 md:gap-3">
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
             <LangSwitcher />
-            <a className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="#register">{t.nav_cta}</a>
+            <a className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="/employer-register">{t.nav_cta}</a>
           </div>
         </nav>
 
@@ -447,7 +447,7 @@ export default function Employers() {
                   {t.hero_p}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 items-start">
-                  <a className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all text-center" href="#register">{t.hero_cta}</a>
+                  <a className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all text-center" href="/employer-register">{t.hero_cta}</a>
                   <span className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gold/10 text-gold font-bold text-sm">
                     <span className="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
                     {t.hero_badge}
@@ -655,14 +655,11 @@ export default function Employers() {
               <a className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="mailto:support@thaihelper.app">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               </a>
-              <a className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="mailto:support@thaihelper.app">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              </a>
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
             <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_product}</h4>
+              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_product}</h4>
               <ul className="space-y-3">
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/">{t.footer_fp1}</Link></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/employers">{t.footer_fp2}</Link></li>
@@ -670,14 +667,14 @@ export default function Employers() {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
+              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
               <ul className="space-y-3">
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/about">{t.footer_fc1}</Link></li>
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_fc2}</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_legal}</h4>
+              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_legal}</h4>
               <ul className="space-y-3">
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/privacy">{t.footer_fl1}</Link></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/terms">{t.footer_fl2}</Link></li>
