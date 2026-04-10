@@ -539,7 +539,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
             <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_product}</h4>
+              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_product}</h4>
               <ul className="space-y-3">
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#benefits">{t.footer_find}</a></li>
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="#categories">{t.footer_hire}</a></li>
@@ -548,7 +548,7 @@ export default function Home() {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
+              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
               <ul className="space-y-3">
                 <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/about">{t.footer_about}</Link></li>
@@ -556,7 +556,7 @@ export default function Home() {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-teal-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_legal}</h4>
+              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_legal}</h4>
               <ul className="space-y-3">
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/privacy">{t.footer_privacy}</Link></li>
                 <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/terms">{t.footer_terms}</Link></li>
