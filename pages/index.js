@@ -17,31 +17,34 @@ const T = {
     hero_cta1:'Create My Free Profile',hero_cta2:'See How It Works',
     hero_helpers:'Be among the first verified helpers on the platform',
     hero_float:'Free Forever – No Hidden Fees',
+    hero_step1:'Sign up free — it takes 3 minutes',
+    hero_step2:'Families find your profile and contact you',
+    hero_step3:'Chat, agree on terms, and start working',
     trust_label:'Trusted By Families At',
-    feat_title:'Why Choose Direct Hiring?',feat_sub:'Skip the high commissions and lengthy agency processes. We provide the tools for a seamless, transparent connection.',
-    feat1_h:'100% Direct',feat1_p:'Chat directly with candidates. Negotiate your own terms, schedules, and salary without any interference.',
-    feat2_h:'Verified Profiles',feat2_p:'We verify IDs and background checks so you can focus on finding the right cultural fit for your home.',
-    feat3_h:'No Hidden Fees',feat3_p:"We believe in transparent pricing. No placement fees, no monthly cuts from the helper's salary.",
+    feat_title:'Why Choose Direct Hiring?',feat_sub:'No agency. No waiting. We connect you with families — simple and fast.',
+    feat1_h:'100% Direct',feat1_p:'Talk to families yourself. Agree on your own schedule and salary. No one in between.',
+    feat2_h:'Verified Profiles',feat2_p:'We check IDs so families can trust you — and you can trust them.',
+    feat3_h:'No Hidden Fees',feat3_p:"Your profile is free. No sign-up fees. No one takes money from your salary.",
     preview_label:'Your Profile',preview_title:'This Is How Families See You',
-    preview_sub:'Your profile is publicly visible to families searching in your city. Only verified and registered employers can contact you directly.',
+    preview_sub:'Families in your city can see your profile. Only verified employers can contact you.',
     preview_badge:'✓ Verified',preview_exp:'yrs experience',preview_btn:'Contact',
     preview_note:'Only paid & verified families can contact you.',
     match_label:'Happy Matches',match_title:'Families & Helpers United',
     match_sub:'Real connections, real stories. See how ThaiHelper brings families and helpers together.',
     match_hired:'Hired as',match_quote_label:'What they say',
     how_label:'How It Works',how_title:'3 steps to get hired',
-    how_sub:'No agency needed. No waiting rooms. Just your profile and direct contact with employers.',
-    step1_h:'Sign Up Free',step1_p:'Create your profile in minutes. Add your experience, skills, availability, and a photo.',
-    step2_h:'Get Discovered',step2_p:'Families searching for household staff in your city will find your profile and reach out directly.',
-    step3_h:'Start Working',step3_p:'Chat directly, agree on terms, and start your job — no middleman, no commission cut.',
+    how_sub:'No agency. No waiting. Just 3 easy steps.',
+    step1_h:'Sign Up Free',step1_p:'Create your profile in 3 minutes. Add your experience, skills, and a photo.',
+    step2_h:'Get Found',step2_p:'Families in your city find your profile and send you a message.',
+    step3_h:'Start Working',step3_p:'Talk to the family, agree on the job, and start — no one takes a cut from your pay.',
     ben_label:'Why ThaiHelper',ben_title:'Built for household professionals',
-    ben_sub:'We created ThaiHelper because the current system is broken. Agencies take too much. Facebook is chaos. You deserve better.',
-    ben1_h:'Completely Free for You',ben1_p:'Listing your profile on ThaiHelper is free — forever. Employers pay for access, not you.',
-    ben2_h:'Reach Serious Employers',ben2_p:'Only verified, paying families can contact you. No time-wasters, no spam.',
+    ben_sub:'Agencies take too much money. Facebook groups are messy. You deserve something better.',
+    ben1_h:'Free for You — Always',ben1_p:'Your profile on ThaiHelper is free — forever. Employers pay, not you.',
+    ben2_h:'Serious Employers Only',ben2_p:'Only real, verified families can contact you. No spam, no time-wasting.',
     ben3_h:'Thai & International Families',ben3_p:'Work with Thai families and expats from Europe, the US, Russia, and beyond.',
-    ben4_h:'Build Your Reputation',ben4_p:'Collect verified reviews after each job. A strong profile means better opportunities.',
+    ben4_h:'Build Your Reputation',ben4_p:'Get reviews after each job. Good reviews help you get more work.',
     ben5_h:'Work Where You Live',ben5_p:'Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui — find jobs in your city.',
-    ben6_h:"You're in Control",ben6_p:'Set your own rates, availability, and preferences. Accept only the jobs you want.',
+    ben6_h:"You're in Control",ben6_p:'Set your own price and schedule. Only take the jobs you want.',
     cat_label:'Service Categories',cat_title:'Who can register?',
     cat_sub:'Household staff, tutors, teachers, and more — all welcome.',
     cat1:'Nanny & Babysitter',cat2:'Housekeeper & Cleaner',cat3:'Private Chef & Cook',
@@ -52,7 +55,7 @@ const T = {
     vid2_title:'วิธีสมัครงาน (How to Register)',vid2_sub:'Step-by-step guide for providers',vid2_badge:'🇵🇭 Filipino · 🇹🇭 Thai',
     vid3_title:'Provider Stories',vid3_sub:'Coming soon — hear from our community',vid3_badge:'🎬 Coming Soon',
     cta_title:'Ready to start your career in Thailand?',
-    cta_sub:'Create your free profile and get discovered by families looking for trusted helpers like you.',
+    cta_sub:'Create your free profile and let families find you.',
     cta_btn1:'Register Now – Free',cta_btn2:'Learn More',
     footer_desc:'The free platform for domestic helpers to create their profile and get discovered by families in Thailand.',
     footer_product:'Product',footer_company:'Company',footer_legal:'Legal',
@@ -68,11 +71,14 @@ const T = {
     hero_cta1:'สร้างโปรไฟล์ฟรี',hero_cta2:'ดูวิธีการใช้งาน',
     hero_helpers:'เป็นหนึ่งในผู้ช่วยที่ผ่านการยืนยันกลุ่มแรกบนแพลตฟอร์ม',
     hero_float:'ฟรีตลอดไป – ไม่มีค่าธรรมเนียมซ่อนเร้น',
+    hero_step1:'สมัครฟรี — ใช้เวลาแค่ 3 นาที',
+    hero_step2:'ครอบครัวจะเห็นโปรไฟล์และติดต่อคุณ',
+    hero_step3:'คุยกัน ตกลงเงื่อนไข แล้วเริ่มงานได้เลย',
     trust_label:'ได้รับความไว้วางใจจากครอบครัวที่',
-    feat_title:'ทำไมต้องจ้างตรง?',feat_sub:'ข้ามค่าคอมมิชชั่นสูงและกระบวนการเอเจนซี่ที่ยาวนาน',
-    feat1_h:'ตรง 100%',feat1_p:'คุยกับผู้สมัครโดยตรง เจรจาเงื่อนไข ตารางเวลา และเงินเดือนของคุณเอง',
-    feat2_h:'โปรไฟล์ที่ผ่านการยืนยัน',feat2_p:'เราตรวจสอบบัตรประชาชนและประวัติเพื่อให้คุณมุ่งเน้นที่การหาคนที่เหมาะสม',
-    feat3_h:'ไม่มีค่าธรรมเนียมซ่อนเร้น',feat3_p:'เราเชื่อในราคาที่โปร่งใส ไม่มีค่าจัดหางาน ไม่หักเงินเดือนรายเดือน',
+    feat_title:'ทำไมต้องจ้างตรง?',feat_sub:'ไม่ต้องผ่านเอเจนซี่ ไม่ต้องรอ เราเชื่อมคุณกับครอบครัว — ง่ายและเร็ว',
+    feat1_h:'ตรง 100%',feat1_p:'คุยกับครอบครัวด้วยตัวเอง ตกลงตารางเวลาและเงินเดือน ไม่มีคนกลาง',
+    feat2_h:'โปรไฟล์ที่ผ่านการยืนยัน',feat2_p:'เราตรวจสอบบัตรประชาชน ครอบครัววางใจคุณได้ — คุณก็วางใจครอบครัวได้',
+    feat3_h:'ไม่มีค่าธรรมเนียมซ่อนเร้น',feat3_p:'โปรไฟล์ของคุณฟรี ไม่มีค่าสมัคร ไม่มีใครหักเงินจากเงินเดือนคุณ',
     preview_label:'โปรไฟล์ของคุณ',preview_title:'ครอบครัวจะเห็นคุณแบบนี้',
     preview_sub:'โปรไฟล์ของคุณเปิดให้ครอบครัวในเมืองของคุณค้นหาได้ เฉพาะนายจ้างที่ลงทะเบียนและยืนยันตัวตนแล้วเท่านั้นที่สามารถติดต่อคุณได้',
     preview_badge:'✓ ยืนยันแล้ว',preview_exp:'ปีประสบการณ์',preview_btn:'ติดต่อ',
@@ -118,11 +124,14 @@ const T = {
     hero_cta1:'Создать бесплатный профиль',hero_cta2:'Как это работает',
     hero_helpers:'Будьте среди первых проверенных помощников на платформе',
     hero_float:'Бесплатно навсегда – Без скрытых платежей',
+    hero_step1:'Зарегистрируйтесь бесплатно — это займёт 3 минуты',
+    hero_step2:'Семьи найдут ваш профиль и свяжутся с вами',
+    hero_step3:'Общайтесь, договоритесь и начните работать',
     trust_label:'Нам доверяют семьи',
-    feat_title:'Почему прямой найм?',feat_sub:'Пропустите высокие комиссии и долгие процессы агентств. Мы предоставляем инструменты для прозрачного соединения.',
-    feat1_h:'100% Напрямую',feat1_p:'Общайтесь с кандидатами напрямую. Договаривайтесь об условиях, графике и зарплате без посредников.',
-    feat2_h:'Проверенные профили',feat2_p:'Мы проверяем документы и биографию, чтобы вы могли сосредоточиться на поиске подходящего человека.',
-    feat3_h:'Без скрытых комиссий',feat3_p:'Мы за прозрачные цены. Никаких комиссий за подбор, никаких ежемесячных удержаний из зарплаты.',
+    feat_title:'Почему прямой найм?',feat_sub:'Без агентств. Без ожидания. Мы соединяем вас с семьями — просто и быстро.',
+    feat1_h:'100% Напрямую',feat1_p:'Общайтесь с семьями сами. Договаривайтесь о графике и зарплате. Никаких посредников.',
+    feat2_h:'Проверенные профили',feat2_p:'Мы проверяем документы — семьи доверяют вам, а вы доверяете им.',
+    feat3_h:'Без скрытых комиссий',feat3_p:'Ваш профиль бесплатный. Никаких регистрационных сборов. Никто не забирает деньги из вашей зарплаты.',
     preview_label:'Ваш профиль',preview_title:'Так семьи видят вас',
     preview_sub:'Ваш профиль виден всем семьям, ищущим помощников в вашем городе. Связаться с вами могут только зарегистрированные и проверенные работодатели.',
     preview_badge:'✓ Проверен',preview_exp:'лет опыта',preview_btn:'Связаться',
@@ -317,11 +326,21 @@ export default function Home() {
                 <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.5rem,3vw,2.2rem)'}}>
                   {lang === 'en' ? 'No fees, no agencies.' : lang === 'ru' ? 'Без комиссий, без агентств.' : 'ไม่มีค่าธรรมเนียม ไม่มีเอเจนซี่'}
                 </p>
-                {/* Subtext */}
-                <p className="text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
-                  <strong className="text-primary">{lang === 'en' ? 'Work directly with expats and families.' : lang === 'ru' ? 'Работайте напрямую с семьями и экспатами.' : 'ทำงานตรงกับครอบครัวและชาวต่างชาติ'}</strong>
-                  {' '}<span className="text-on-surface-variant">{lang === 'en' ? 'No agency fees. No commission. Post your profile in 3 minutes — verified families find and contact you directly.' : lang === 'ru' ? 'Без агентских сборов. Без комиссий. Создайте профиль за 3 минуты — проверенные семьи найдут вас сами.' : 'ไม่มีค่าเอเจนซี่ ไม่มีค่าคอมมิชชั่น ลงโปรไฟล์ใน 3 นาที — ครอบครัวที่ยืนยันแล้วติดต่อคุณโดยตรง'}</span>
-                </p>
+                {/* 3 Steps — clear and simple */}
+                <ul className="max-w-xl mb-10 space-y-3">
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary text-on-primary font-bold text-sm flex items-center justify-center mt-0.5">1</span>
+                    <span className="text-lg text-on-surface-variant">{t.hero_step1}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary text-on-primary font-bold text-sm flex items-center justify-center mt-0.5">2</span>
+                    <span className="text-lg text-on-surface-variant">{t.hero_step2}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary text-on-primary font-bold text-sm flex items-center justify-center mt-0.5">3</span>
+                    <span className="text-lg text-on-surface-variant">{t.hero_step3}</span>
+                  </li>
+                </ul>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link className="px-8 py-4 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform text-center" href="/register">{t.hero_cta1}</Link>
                   <a className="px-8 py-4 rounded-xl bg-surface-container-highest text-secondary font-bold text-lg hover:bg-surface-container-high transition-colors text-center" href="#how-it-works">{t.hero_cta2}</a>
