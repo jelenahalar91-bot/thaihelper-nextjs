@@ -149,8 +149,11 @@ export default async function handler(req, res) {
       })
     );
 
+    // Filter out empty conversations (no messages sent/received yet)
+    const withMessages = enriched.filter(c => c.last_message !== null);
+
     return res.status(200).json({
-      conversations: enriched,
+      conversations: withMessages,
       accessStatus: isEmployer ? getAccessStatus(employer) : null,
     });
   }
@@ -251,6 +254,51 @@ export default async function handler(req, res) {
 
       return res.status(201).json({ conversation_id: created.id, existed: false });
     }
+  }
+
+  // ─── DELETE — Remove a conversation and all its messages ────────────
+  if (req.method === 'DELETE') {
+    const { conversation_id } = req.query;
+    if (!conversation_id) {
+      return res.status(400).json({ error: 'conversation_id required' });
+    }
+
+    // Verify the user owns this conversation
+    const filterColumn = isEmployer ? 'employer_id' : 'helper_ref';
+    const { data: conv } = await supabase
+      .from('conversations')
+      .select('id')
+      .eq('id', conversation_id)
+      .eq(filterColumn, session.ref)
+      .maybeSingle();
+
+    if (!conv) {
+      return res.status(404).json({ error: 'Conversation not found' });
+    }
+
+    // Delete all messages first (FK constraint)
+    const { error: msgErr } = await supabase
+      .from('messages')
+      .delete()
+      .eq('conversation_id', conversation_id);
+
+    if (msgErr) {
+      console.error('Messages delete error:', msgErr);
+      return res.status(500).json({ error: 'Failed to delete messages' });
+    }
+
+    // Delete the conversation
+    const { error: convErr } = await supabase
+      .from('conversations')
+      .delete()
+      .eq('id', conversation_id);
+
+    if (convErr) {
+      console.error('Conversation delete error:', convErr);
+      return res.status(500).json({ error: 'Failed to delete conversation' });
+    }
+
+    return res.status(200).json({ success: true });
   }
 
   return res.status(405).json({ error: 'Method not allowed' });

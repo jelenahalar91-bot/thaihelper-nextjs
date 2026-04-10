@@ -188,6 +188,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
             aria-label="Close"
             style={{
               position: 'absolute', top: '14px', right: '14px',
+              zIndex: 10,
               width: '34px', height: '34px', borderRadius: '50%',
               background: 'rgba(255,255,255,0.2)',
               backdropFilter: 'blur(8px)',
@@ -205,16 +206,18 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
             </svg>
           </button>
 
-          {/* Decorative blobs */}
+          {/* Decorative blobs — pointerEvents:none so they don't block the X */}
           <div aria-hidden style={{
             position: 'absolute', top: '-40px', right: '-40px',
             width: '140px', height: '140px', borderRadius: '50%',
             background: 'rgba(255,255,255,0.08)',
+            pointerEvents: 'none',
           }} />
           <div aria-hidden style={{
             position: 'absolute', bottom: '-20px', left: '-30px',
             width: '100px', height: '100px', borderRadius: '50%',
             background: 'rgba(255,255,255,0.06)',
+            pointerEvents: 'none',
           }} />
 
           <div style={{ position: 'relative', textAlign: 'center' }}>

@@ -32,6 +32,7 @@ import {
   sendMessage,
   startConversation,
   markAsRead,
+  deleteConversation,
 } from '@/lib/api/messages';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
@@ -119,6 +120,10 @@ const T = {
     profile_no_recommendations: 'No recommendations yet.',
     profile_no_certificates: 'No certificates uploaded yet.',
     profile_cert_privacy: 'Personal details hidden for privacy',
+    msg_delete: 'Delete conversation',
+    msg_delete_confirm: 'Delete?',
+    msg_delete_yes: 'Yes',
+    msg_delete_no: 'No',
   },
   th: {
     page_title: 'แดชบอร์ดนายจ้าง – ThaiHelper',
@@ -198,6 +203,10 @@ const T = {
     profile_no_recommendations: 'ยังไม่มีคำแนะนำ',
     profile_no_certificates: 'ยังไม่มีใบรับรอง',
     profile_cert_privacy: 'ข้อมูลส่วนตัวถูกซ่อนเพื่อความเป็นส่วนตัว',
+    msg_delete: 'ลบบทสนทนา',
+    msg_delete_confirm: 'ลบ?',
+    msg_delete_yes: 'ใช่',
+    msg_delete_no: 'ไม่',
   },
 };
 
@@ -533,6 +542,17 @@ export default function EmployerDashboard() {
     alert(t.access_free_text);
   }
 
+  // Delete a conversation and remove it from local state
+  async function handleDeleteConversation(conversationId) {
+    await deleteConversation(conversationId);
+    setConversations(prev => prev.filter(c => c.id !== conversationId));
+    // If the deleted conversation was currently open, close it
+    if (selectedConv?.id === conversationId) {
+      setSelectedConv(null);
+      setMessages([]);
+    }
+  }
+
   // Open the full helper profile modal from the conversation header.
   // We look the helper up in the already-loaded `helpers` state (from the
   // Browse tab) so there's no extra round-trip. Falls back to a lookup by
@@ -730,6 +750,7 @@ export default function EmployerDashboard() {
                   <ConversationList
                     conversations={conversations}
                     onSelect={openConversation}
+                    onDelete={handleDeleteConversation}
                     t={t}
                   />
                 )

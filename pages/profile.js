@@ -6,7 +6,7 @@ import { fetchProfile as fetchProfileApi, updateProfile as updateProfileApi } fr
 import { logout } from '@/lib/api/auth-client';
 import { fetchDocuments, uploadDocument, deleteDocument } from '@/lib/api/documents';
 import { fetchReferences, addReference, updateReference, deleteReference } from '@/lib/api/references';
-import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConversationAsHelper } from '@/lib/api/messages';
+import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConversationAsHelper, deleteConversation } from '@/lib/api/messages';
 import { fetchSettings } from '@/lib/api/settings';
 import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES } from '@/lib/constants/cities';
@@ -136,6 +136,10 @@ const T = {
     msg_send_error: 'Failed to send message. Please try again.',
     msg_empty_title: 'Say hi to {name} 👋',
     msg_empty_hint: 'Send your first reply to get the conversation started.',
+    msg_delete: 'Delete conversation',
+    msg_delete_confirm: 'Delete?',
+    msg_delete_yes: 'Yes',
+    msg_delete_no: 'No',
     // Browse employers
     tab_browse: 'Browse',
     browse_title: 'Browse Employers',
@@ -281,6 +285,10 @@ const T = {
     msg_send_error: 'ส่งข้อความไม่สำเร็จ กรุณาลองอีกครั้ง',
     msg_empty_title: 'ทักทาย {name} กันเถอะ 👋',
     msg_empty_hint: 'ส่งข้อความตอบกลับแรกเพื่อเริ่มการสนทนา',
+    msg_delete: 'ลบบทสนทนา',
+    msg_delete_confirm: 'ลบ?',
+    msg_delete_yes: 'ใช่',
+    msg_delete_no: 'ไม่',
     // Browse employers
     tab_browse: 'ค้นหา',
     browse_title: 'ค้นหานายจ้าง',
@@ -554,6 +562,16 @@ export default function Profile() {
       setReferences(prev => prev.filter(r => r.id !== id));
     } catch (err) {
       alert(err.message);
+    }
+  };
+
+  // Delete conversation handler
+  const handleDeleteConversation = async (conversationId) => {
+    await deleteConversation(conversationId);
+    setConversations(prev => prev.filter(c => c.id !== conversationId));
+    if (selectedConv?.id === conversationId) {
+      setSelectedConv(null);
+      setMessages([]);
     }
   };
 
@@ -1220,7 +1238,7 @@ export default function Profile() {
               {!selectedConv ? (
                 <>
                   <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>{t.msg_title}</h1>
-                  <ConversationList conversations={conversations} onSelect={openConversation} t={t} />
+                  <ConversationList conversations={conversations} onSelect={openConversation} onDelete={handleDeleteConversation} t={t} />
                 </>
               ) : (
                 <ConversationDetail
