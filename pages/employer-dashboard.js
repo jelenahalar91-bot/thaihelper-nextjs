@@ -474,15 +474,41 @@ export default function EmployerDashboard() {
     setErrorBanner('');
     setStartingConv(helperRef);
     try {
-      const { conversation_id } = await startConversation(helperRef);
-      // Refresh conversations so the new one appears in the list, then open it
-      const data = await fetchConversations();
-      setConversations(data.conversations || []);
-      if (data.accessStatus) setAccessStatus(data.accessStatus);
-      const conv = (data.conversations || []).find(c => c.id === conversation_id);
-      if (conv) {
+      const { conversation_id, existed } = await startConversation(helperRef);
+
+      if (existed) {
+        // Conversation already exists — find it in the list or fetch fresh
+        const data = await fetchConversations();
+        setConversations(data.conversations || []);
+        if (data.accessStatus) setAccessStatus(data.accessStatus);
+        const conv = (data.conversations || []).find(c => c.id === conversation_id);
+        if (conv) {
+          setActiveTab('messages');
+          await openConversation(conv);
+        }
+      } else {
+        // Brand new conversation — build a minimal conv object directly
+        // (it won't appear in fetchConversations yet since it has no messages)
+        const helper = helpers.find(h => h.ref === helperRef);
+        const newConv = {
+          id: conversation_id,
+          created_at: new Date().toISOString(),
+          last_message_at: new Date().toISOString(),
+          unread_count: 0,
+          last_message: null,
+          counterparty: helper ? {
+            ref: helper.ref,
+            firstName: helper.firstName,
+            lastName: helper.lastName,
+            photo: helper.photo,
+            category: helper.category,
+            city: helper.city,
+          } : { ref: helperRef, firstName: 'Helper', lastName: '', photo: null },
+        };
         setActiveTab('messages');
-        await openConversation(conv);
+        setSelectedConv(newConv);
+        setMessages([]);
+        setMessagesLoading(false);
       }
     } catch (err) {
       if (err.code === 'payment_required') {
@@ -525,6 +551,13 @@ export default function EmployerDashboard() {
       const res = await sendMessage(selectedConv.id, msgInput.trim());
       setMessages(prev => [...prev, res.message]);
       setMsgInput('');
+
+      // If the conversation isn't in the sidebar yet (first message),
+      // refresh the list so it appears
+      const inList = conversations.some(c => c.id === selectedConv.id);
+      if (!inList) {
+        loadConversations({ silent: true });
+      }
     } catch (err) {
       if (err.code === 'payment_required') {
         setErrorBanner(t.err_start_locked);
