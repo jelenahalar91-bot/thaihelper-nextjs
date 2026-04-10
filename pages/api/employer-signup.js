@@ -3,6 +3,7 @@
 // so the client can show it immediately. Sends a confirmation email with the
 // ref so the employer can log in later.
 
+import crypto from 'crypto';
 import { getServiceSupabase } from '../../lib/supabase';
 import { createToken, setSessionCookie } from '../../lib/auth';
 import {
@@ -71,6 +72,7 @@ export default async function handler(req, res) {
 
   const supabase = getServiceSupabase();
   const ref = generateRef();
+  const verificationToken = crypto.randomBytes(32).toString('hex');
   const promo = getPromoAccess();
 
   try {
@@ -92,6 +94,8 @@ export default async function handler(req, res) {
         access_until: promo.access_until,
         access_tier: promo.access_tier,
         source: 'thaihelper.app/employer-register',
+        email_verified: false,
+        verification_token: verificationToken,
       })
       .select('employer_ref, first_name, email, city, access_until, access_tier')
       .single();
@@ -124,6 +128,7 @@ export default async function handler(req, res) {
             email: inserted.email,
             ref: inserted.employer_ref,
             city: inserted.city,
+            verificationToken,
           }),
           sendAdminNotification({
             type: 'employer',

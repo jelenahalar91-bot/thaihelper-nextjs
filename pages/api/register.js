@@ -3,6 +3,7 @@
 // email, and signs the new helper in immediately so the client can upload a
 // profile photo and land on /profile without a manual login step.
 
+import crypto from 'crypto';
 import { getServiceSupabase } from '../../lib/supabase';
 import { createToken, setSessionCookie } from '../../lib/auth';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
@@ -38,6 +39,7 @@ export default async function handler(req, res) {
 
   const supabase = getServiceSupabase();
   const ref = generateRef();
+  const verificationToken = crypto.randomBytes(32).toString('hex');
   const cleanEmail = email.trim().toLowerCase();
   const cleanFirstName = first_name.trim();
   const sanitizedBio = bio ? sanitizeFreeText(bio.trim()) : null;
@@ -63,6 +65,8 @@ export default async function handler(req, res) {
         certificates: certificates?.trim() || null,
         bio: sanitizedBio,
         source: 'thaihelper.app/register',
+        email_verified: false,
+        verification_token: verificationToken,
       });
 
     if (insertError) {
@@ -103,6 +107,7 @@ export default async function handler(req, res) {
             ref,
             category,
             city,
+            verificationToken,
           }),
           sendAdminNotification({
             type: 'helper',

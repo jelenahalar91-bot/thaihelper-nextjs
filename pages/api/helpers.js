@@ -47,6 +47,7 @@ export default async function handler(req, res) {
         'education, certificates, bio, photo_url, created_at, status'
       )
       .or('status.eq.active,status.is.null')
+      .eq('email_verified', true)
       .order('created_at', { ascending: false });
 
     if (error) {
