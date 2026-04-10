@@ -179,9 +179,8 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
         <div style={{
           position: 'relative',
           background: 'linear-gradient(135deg, #006a62 0%, #00897e 50%, #00b29c 100%)',
-          padding: '28px 24px 44px',
+          padding: '28px 24px 24px',
           color: 'white',
-          flexShrink: 0,
         }}>
           <button
             onClick={onClose}
@@ -261,8 +260,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
 
         {/* Content */}
         <div style={{
-          padding: '0 24px 28px',
-          marginTop: '-20px',
+          padding: '16px 24px 28px',
         }}>
           {/* Info pill card */}
           <div style={{
