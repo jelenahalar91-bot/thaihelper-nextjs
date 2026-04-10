@@ -169,10 +169,10 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
           width: '100%',
           maxWidth: '520px',
           maxHeight: '90vh',
-          overflow: 'hidden',
-          display: 'flex', flexDirection: 'column',
+          overflowY: 'auto',
           boxShadow: '0 24px 64px rgba(0,0,0,0.25)',
           animation: 'slideUp 0.25s ease-out',
+          WebkitOverflowScrolling: 'touch',
         }}
       >
         {/* Gradient hero with photo + close button */}
@@ -259,14 +259,10 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
           </div>
         </div>
 
-        {/* Scrollable content */}
+        {/* Content */}
         <div style={{
-          flex: '1 1 0',
-          minHeight: 0,
-          overflowY: 'auto',
           padding: '0 24px 28px',
           marginTop: '-20px',
-          WebkitOverflowScrolling: 'touch',
         }}>
           {/* Info pill card */}
           <div style={{
