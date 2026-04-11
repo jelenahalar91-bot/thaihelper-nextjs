@@ -73,6 +73,7 @@ const T = {
     success_h1: 'Welcome to ThaiHelper!',
     success_p: 'Your account is ready. Your reference number is:',
     success_hint: 'Save this — you\'ll need it to log in. We\'ve also sent it to your email.',
+    success_verify: '✉️ Please check your email and click the verification link to activate your account.',
     success_cta: 'Browse Helpers →',
   },
   th: {
@@ -129,6 +130,7 @@ const T = {
     success_h1: 'ยินดีต้อนรับสู่ ThaiHelper!',
     success_p: 'บัญชีของคุณพร้อมใช้งานแล้ว หมายเลขอ้างอิงของคุณคือ:',
     success_hint: 'บันทึกไว้ — คุณจะต้องใช้เพื่อเข้าสู่ระบบ เราได้ส่งไปที่อีเมลของคุณด้วย',
+    success_verify: '✉️ กรุณาตรวจสอบอีเมลของคุณและคลิกลิงก์ยืนยันเพื่อเปิดใช้งานบัญชี',
     success_cta: 'เรียกดูผู้ช่วย →',
   },
 };
@@ -246,9 +248,17 @@ export default function EmployerRegisterPage() {
               }}>
                 {successRef}
               </div>
-              <p style={{ fontSize: '14px', color: 'var(--gray-400)', marginBottom: '28px' }}>
+              <p style={{ fontSize: '14px', color: 'var(--gray-400)', marginBottom: '16px' }}>
                 {t.success_hint}
               </p>
+              <div style={{
+                background: '#fef3c7', border: '1px solid #f59e0b',
+                borderRadius: '10px', padding: '12px 16px',
+                marginBottom: '28px', fontSize: '14px', color: '#92400e',
+                lineHeight: 1.5, textAlign: 'left',
+              }}>
+                {t.success_verify}
+              </div>
               <Link href="/helpers" className="btn-next" style={{ display: 'inline-block', textDecoration: 'none' }}>
                 {t.success_cta}
               </Link>

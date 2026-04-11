@@ -63,6 +63,9 @@ const T = {
     ],
     // Profile
     verified: 'Verified',
+    not_verified: 'Not verified',
+    verify_banner: 'Please check your email and click the verification link to activate your profile.',
+    verify_resend: 'Resend email',
     ref_label: 'Ref',
     edit_btn: 'Edit Profile',
     save_btn: 'Save Changes',
@@ -212,6 +215,9 @@ const T = {
       'การแจ้งเตือนแบบพุช',
     ],
     verified: 'ยืนยันแล้ว',
+    not_verified: 'ยังไม่ยืนยัน',
+    verify_banner: 'กรุณาตรวจสอบอีเมลของคุณและคลิกลิงก์ยืนยันเพื่อเปิดใช้งานโปรไฟล์',
+    verify_resend: 'ส่งอีเมลอีกครั้ง',
     ref_label: 'อ้างอิง',
     edit_btn: 'แก้ไขโปรไฟล์',
     save_btn: 'บันทึกการเปลี่ยนแปลง',
@@ -1276,6 +1282,22 @@ export default function Profile() {
                 {t.tab_profile}
               </h1>
 
+              {/* Email verification warning */}
+              {p && !p.emailVerified && (
+                <div style={{
+                  background: '#fef3c7', border: '1px solid #f59e0b',
+                  borderRadius: '12px', padding: '14px 18px',
+                  marginBottom: '16px',
+                  display: 'flex', alignItems: 'center', gap: '12px',
+                  flexWrap: 'wrap',
+                }}>
+                  <span style={{ fontSize: '22px' }}>✉️</span>
+                  <p style={{ flex: 1, margin: 0, fontSize: '14px', color: '#92400e', lineHeight: 1.5 }}>
+                    {t.verify_banner}
+                  </p>
+                </div>
+              )}
+
               {/* Profile Header */}
               <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '22px' : '28px', border: '1px solid #e5e7eb', marginBottom: '16px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '14px' : '20px' }}>
@@ -1294,7 +1316,11 @@ export default function Profile() {
                     <h2 style={{ fontSize: isMobile ? '19px' : '22px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px', wordBreak: 'break-word' }}>{p.firstName} {p.lastName}</h2>
                     <p style={{ fontSize: isMobile ? '14px' : '15px', color: '#666', margin: '0 0 10px' }}>{p.category} &middot; {p.city}{p.area ? ` — ${p.area}` : ''}</p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '13px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#ecfdf5', color: '#059669' }}>{t.verified} ✓</span>
+                      {p.emailVerified ? (
+                        <span style={{ fontSize: '13px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#ecfdf5', color: '#059669' }}>{t.verified} ✓</span>
+                      ) : (
+                        <span style={{ fontSize: '13px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#fef3c7', color: '#92400e' }}>⚠ {t.not_verified}</span>
+                      )}
                     </div>
                   </div>
                 </div>

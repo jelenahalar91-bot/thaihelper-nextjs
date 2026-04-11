@@ -33,7 +33,7 @@ export default async function handler(req, res) {
         'employer_ref, first_name, last_name, email, phone, city, area, ' +
         'looking_for, arrangement_preference, preferred_age_range, ' +
         'job_description, preferred_language, photo_url, ' +
-        'access_until, access_tier, created_at, last_login_at'
+        'access_until, access_tier, email_verified, created_at, last_login_at'
       )
       .eq('employer_ref', ref)
       .single();

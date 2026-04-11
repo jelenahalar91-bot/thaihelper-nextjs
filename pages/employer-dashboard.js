@@ -124,6 +124,7 @@ const T = {
     msg_delete_confirm: 'Delete?',
     msg_delete_yes: 'Yes',
     msg_delete_no: 'No',
+    verify_banner: 'Please check your email and click the verification link to activate your account.',
   },
   th: {
     page_title: 'แดชบอร์ดนายจ้าง – ThaiHelper',
@@ -207,6 +208,7 @@ const T = {
     msg_delete_confirm: 'ลบ?',
     msg_delete_yes: 'ใช่',
     msg_delete_no: 'ไม่',
+    verify_banner: 'กรุณาตรวจสอบอีเมลของคุณและคลิกลิงก์ยืนยันเพื่อเปิดใช้งานบัญชี',
   },
 };
 
@@ -691,6 +693,21 @@ export default function EmployerDashboard() {
             conversationCount={conversations.length}
             onUpgrade={handleUpgrade}
           />
+
+          {/* ── Email verification warning ──────────────── */}
+          {profile && profile.email_verified === false && (
+            <div style={{
+              display: 'flex', gap: '12px', alignItems: 'center',
+              background: '#fef3c7', border: '1px solid #f59e0b',
+              borderRadius: '12px', padding: '14px 18px',
+              marginBottom: '16px', flexWrap: 'wrap',
+            }}>
+              <span style={{ fontSize: '22px' }}>✉️</span>
+              <p style={{ flex: 1, margin: 0, fontSize: '14px', color: '#92400e', lineHeight: 1.5 }}>
+                {t.verify_banner || 'Please check your email and click the verification link to activate your account.'}
+              </p>
+            </div>
+          )}
 
           {/* ── Launch-phase info banner ──────────────── */}
           <div style={{

@@ -36,6 +36,7 @@ function toFrontend(row) {
     source: row.source || '',
     timestamp: row.created_at || '',
     status: row.status || 'active',
+    emailVerified: row.email_verified === true,
   };
 }
 
