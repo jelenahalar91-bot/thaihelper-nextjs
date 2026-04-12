@@ -650,43 +650,47 @@ export default function Employers() {
         </main>
 
         {/* FOOTER */}
-        <footer className="w-full py-12 px-8 flex flex-col md:flex-row justify-between items-start gap-8 bg-slate-50 border-t border-slate-100">
-          <div className="max-w-xs">
-            <div className="text-xl font-bold text-on-background mb-4 font-headline">Thai<span style={{color:"#006a62"}}>Helper</span></div>
-            <p className="text-slate-500 text-sm leading-relaxed mb-6">{t.footer_desc}</p>
-            <div className="flex gap-4">
-              <a aria-label="Email support" className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="mailto:support@thaihelper.app">
-                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              </a>
+        <footer className="w-full bg-slate-50 border-t border-slate-100">
+          <div className="max-w-7xl mx-auto py-12 px-8">
+            <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+              <div className="max-w-xs shrink-0">
+                <div className="text-xl font-bold text-on-background mb-4 font-headline">Thai<span style={{color:"#006a62"}}>Helper</span></div>
+                <p className="text-slate-500 text-sm leading-relaxed mb-6">{t.footer_desc}</p>
+                <div className="flex gap-4">
+                  <a aria-label="Email support" className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="mailto:support@thaihelper.app">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  </a>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
+                <div>
+                  <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_product}</h4>
+                  <ul className="space-y-3">
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/">{t.footer_fp1}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_fp2}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#how-it-works">{t.footer_fp3}</Link></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_company}</h4>
+                  <ul className="space-y-3">
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/about">{t.footer_fc1}</Link></li>
+                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="mailto:support@thaihelper.app">{t.footer_fc2}</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_legal}</h4>
+                  <ul className="space-y-3">
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/privacy">{t.footer_fl1}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/terms">{t.footer_fl2}</Link></li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
-            <div>
-              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_product}</h4>
-              <ul className="space-y-3">
-                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/">{t.footer_fp1}</Link></li>
-                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/employers">{t.footer_fp2}</Link></li>
-                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/#how-it-works">{t.footer_fp3}</Link></li>
-              </ul>
+            <div className="mt-10 pt-6 border-t border-slate-200 text-center">
+              <p className="text-slate-400 text-xs leading-relaxed max-w-3xl mx-auto mb-3">{t.footer_disclaimer}</p>
+              <p className="text-slate-500 text-xs">{t.footer_copy}</p>
             </div>
-            <div>
-              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_company}</h4>
-              <ul className="space-y-3">
-                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/about">{t.footer_fc1}</Link></li>
-                <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">{t.footer_fc2}</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline">{t.footer_legal}</h4>
-              <ul className="space-y-3">
-                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/privacy">{t.footer_fl1}</Link></li>
-                <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/terms">{t.footer_fl2}</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="w-full mt-8 border-t pt-8">
-            <p className="text-slate-400 text-xs leading-relaxed mb-3">{t.footer_disclaimer}</p>
-            <p className="text-slate-500 text-xs">{t.footer_copy}</p>
           </div>
         </footer>
 
