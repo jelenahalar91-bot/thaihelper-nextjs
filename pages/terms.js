@@ -153,7 +153,18 @@ function TermsEN() {
         By using ThaiHelper — whether as a service provider registering a profile, or as a family browsing the platform — you agree to these Terms of Service.
       </p>
 
-      <h2>2. Nature of Service — Platform, Not an Agency</h2>
+      <h2>2. Who ThaiHelper Is For</h2>
+      <p>
+        ThaiHelper is designed for <strong>expats, tourists, digital nomads, and individuals on temporary visas</strong> in Thailand (including but not limited to DTV, tourist, ED, O, and retirement visas) who are looking for household help during their stay.
+      </p>
+      <p>
+        ThaiHelper is <strong>not intended for Thai nationals or permanent residents of Thailand</strong> seeking to hire domestic staff. Thai nationals hiring domestic workers are subject to specific provisions under Thai labor law, and should consult local labor authorities or licensed recruitment agencies for such arrangements.
+      </p>
+      <p>
+        By registering as a family or employer on ThaiHelper, you confirm that you are a foreign national residing in Thailand on a valid visa or visiting as a tourist.
+      </p>
+
+      <h2>3. Nature of Service — Platform, Not an Agency</h2>
       <p>
         ThaiHelper.app provides an information and advertising service that allows users to post profiles and communicate. We are a venue, not an employer, agent, or recruiter. We are not a recruitment agency and do not engage in placement services as defined under Thai law.
       </p>
@@ -161,7 +172,7 @@ function TermsEN() {
         Any agreement between a "Helper" (service provider) and a "Family" (employer) is a private contract to which ThaiHelper.app is not a party. ThaiHelper does not employ, supervise, or control any service providers listed on the platform and accepts no liability arising from any such agreement.
       </p>
 
-      <h2>3. For Service Providers (Helpers)</h2>
+      <h2>4. For Service Providers (Helpers)</h2>
       <p>By registering on ThaiHelper, you confirm that:</p>
       <ul>
         <li>You are at least 18 years of age.</li>
@@ -262,7 +273,18 @@ function TermsTH() {
         การใช้ ThaiHelper ไม่ว่าจะในฐานะผู้ให้บริการที่ลงทะเบียนโปรไฟล์ หรือครอบครัวที่ค้นหาผู้ช่วย ถือว่าคุณยอมรับข้อกำหนดการใช้บริการเหล่านี้
       </p>
 
-      <h2>2. ลักษณะของบริการ — แพลตฟอร์ม ไม่ใช่ตัวแทนจัดหางาน</h2>
+      <h2>2. ThaiHelper มีไว้สำหรับใคร</h2>
+      <p>
+        ThaiHelper ออกแบบมาสำหรับ <strong>ชาวต่างชาติ นักท่องเที่ยว ดิจิทัลโนแมด และบุคคลที่ถือวีซ่าชั่วคราว</strong> ในประเทศไทย (รวมถึงแต่ไม่จำกัดเพียง วีซ่า DTV วีซ่าท่องเที่ยว วีซ่า ED วีซ่า O และวีซ่าเกษียณ) ที่ต้องการผู้ช่วยในบ้านระหว่างพำนักในประเทศไทย
+      </p>
+      <p>
+        ThaiHelper <strong>ไม่ได้มีไว้สำหรับคนไทยหรือผู้มีถิ่นพำนักถาวรในประเทศไทย</strong> ที่ต้องการจ้างพนักงานในบ้าน คนไทยที่จ้างพนักงานในบ้านอยู่ภายใต้บทบัญญัติเฉพาะตามกฎหมายแรงงานไทย และควรปรึกษาหน่วยงานแรงงานในพื้นที่หรือบริษัทจัดหางานที่ได้รับอนุญาต
+      </p>
+      <p>
+        เมื่อลงทะเบียนเป็นครอบครัวหรือนายจ้างบน ThaiHelper คุณยืนยันว่าคุณเป็นชาวต่างชาติที่พำนักในประเทศไทยด้วยวีซ่าที่ถูกต้องหรือมาเยี่ยมเยือนในฐานะนักท่องเที่ยว
+      </p>
+
+      <h2>3. ลักษณะของบริการ — แพลตฟอร์ม ไม่ใช่ตัวแทนจัดหางาน</h2>
       <p>
         ThaiHelper.app ให้บริการข้อมูลและโฆษณาที่อนุญาตให้ผู้ใช้โพสต์โปรไฟล์และสื่อสารกัน เราเป็นสถานที่ (venue) ไม่ใช่นายจ้าง ตัวแทน หรือผู้สรรหา เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางานตามที่กฎหมายไทยกำหนด
       </p>
@@ -270,7 +292,7 @@ function TermsTH() {
         ข้อตกลงใดๆ ระหว่าง "ผู้ช่วย" (ผู้ให้บริการ) และ "ครอบครัว" (นายจ้าง) เป็นสัญญาส่วนตัวที่ ThaiHelper.app ไม่ใช่คู่สัญญา ThaiHelper ไม่ได้จ้าง ดูแล หรือควบคุมผู้ให้บริการที่แสดงอยู่บนแพลตฟอร์ม และไม่รับผิดชอบใดๆ ที่เกิดจากข้อตกลงดังกล่าว
       </p>
 
-      <h2>3. สำหรับผู้ให้บริการ (ผู้ช่วย)</h2>
+      <h2>4. สำหรับผู้ให้บริการ (ผู้ช่วย)</h2>
       <p>เมื่อลงทะเบียนบน ThaiHelper คุณยืนยันว่า:</p>
       <ul>
         <li>คุณมีอายุอย่างน้อย 18 ปี</li>
@@ -281,7 +303,7 @@ function TermsTH() {
         <li>คุณเป็นผู้รับผิดชอบแต่เพียงผู้เดียวในการปฏิบัติตามกฎหมายตรวจคนเข้าเมืองและกฎหมายแรงงานไทย</li>
       </ul>
 
-      <h2>4. สำหรับครอบครัว (นายจ้าง)</h2>
+      <h2>5. สำหรับครอบครัว (นายจ้าง)</h2>
       <p>เมื่อใช้ ThaiHelper เพื่อค้นหาผู้ให้บริการ คุณรับทราบว่า:</p>
       <ul>
         <li>ThaiHelper ไม่ได้ตรวจสอบประวัติ ยืนยันตัวตนหรือคุณสมบัติ หรือรับรองความเหมาะสมหรือสิทธิ์ตามกฎหมายของผู้ให้บริการ</li>
@@ -291,7 +313,7 @@ function TermsTH() {
         <li>แนะนำอย่างยิ่งให้ปรึกษากรมการจัดหางานหรือผู้เชี่ยวชาญทางกฎหมายก่อนทำข้อตกลงการจ้างงาน</li>
       </ul>
 
-      <h2>5. โครงสร้างค่าบริการและการเข้าถึงแพลตฟอร์ม</h2>
+      <h2>6. โครงสร้างค่าบริการและการเข้าถึงแพลตฟอร์ม</h2>
       <p>
         ThaiHelper ให้บริการฟรีสำหรับผู้ให้บริการ (ผู้ช่วย) ในการสร้างโปรไฟล์และแสดงรายชื่อบนแพลตฟอร์ม
       </p>
@@ -302,7 +324,7 @@ function TermsTH() {
         การชำระค่าธรรมเนียมการเข้าถึงแพลตฟอร์มไม่ได้รับประกันการจ้างงานที่สำเร็จ ความพร้อมของผู้สมัคร หรือสิทธิ์ตามกฎหมายของผู้ให้บริการในการทำงานในตำแหน่งใดตำแหน่งหนึ่ง ไม่มีการคืนเงินสำหรับการค้นหาที่ไม่สำเร็จ
       </p>
 
-      <h2>6. ใบอนุญาตทำงานและวีซ่า</h2>
+      <h2>7. ใบอนุญาตทำงานและวีซ่า</h2>
       <p>
         ผู้ใช้รับทราบว่าการทำงานในประเทศไทยอยู่ภายใต้กฎระเบียบที่เข้มงวดตามพระราชบัญญัติคุ้มครองแรงงาน พระราชบัญญัติการทำงานของคนต่างด้าว และกฎหมายตรวจคนเข้าเมือง ThaiHelper.app ไม่รับประกันว่าผู้สมัครรายใดได้รับอนุญาตให้ทำงานในตำแหน่งใดตำแหน่งหนึ่งตามกฎหมาย หรือนายจ้างรายใดปฏิบัติตามกฎระเบียบแรงงานที่เกี่ยวข้อง
       </p>
@@ -310,7 +332,7 @@ function TermsTH() {
         การปฏิบัติตามกฎระเบียบทั้งหมดเกี่ยวกับใบอนุญาตทำงาน วีซ่า และการจ้างงานตามกฎหมายไทยเป็น <strong>ความรับผิดชอบของนายจ้างและผู้สมัครแต่เพียงผู้เดียว</strong> ThaiHelper ไม่ให้คำปรึกษาทางกฎหมายเกี่ยวกับใบอนุญาตทำงาน วีซ่า หรือกฎหมายแรงงาน
       </p>
 
-      <h2>7. การใช้งานที่ห้าม</h2>
+      <h2>8. การใช้งานที่ห้าม</h2>
       <p>คุณไม่สามารถใช้ ThaiHelper เพื่อ:</p>
       <ul>
         <li>โพสต์ข้อมูลเท็จ ทำให้เข้าใจผิด หรือฉ้อโกง</li>
@@ -320,17 +342,17 @@ function TermsTH() {
         <li>ใช้แพลตฟอร์มเพื่อวัตถุประสงค์เชิงพาณิชย์อื่นนอกเหนือจากการหาหรือเสนอบริการในบ้าน</li>
       </ul>
 
-      <h2>8. การลบโปรไฟล์</h2>
+      <h2>9. การลบโปรไฟล์</h2>
       <p>
         ThaiHelper ขอสงวนสิทธิ์ในการลบโปรไฟล์หรือรายชื่อใดๆ ได้ตลอดเวลาโดยไม่ต้องแจ้งล่วงหน้า หากเราเชื่อว่ามีการละเมิดข้อกำหนดเหล่านี้ ผู้ให้บริการสามารถขอลบโปรไฟล์ของตนได้ตลอดเวลาโดยติดต่อ <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>
       </p>
 
-      <h2>9. ข้อจำกัดการรับประกัน</h2>
+      <h2>10. ข้อจำกัดการรับประกัน</h2>
       <p>
         ThaiHelper ให้บริการ "ตามที่เป็น" โดยไม่มีการรับประกันใดๆ ทั้งโดยชัดแจ้งหรือโดยนัย เราไม่รับประกันความพร้อม ความถูกต้อง หรือความสมบูรณ์ของแพลตฟอร์มหรือโปรไฟล์ที่แสดงอยู่ เราไม่รับประกันว่าคุณจะหางานหรือหาผู้ช่วยที่เหมาะสมผ่านแพลตฟอร์ม
       </p>
 
-      <h2>10. ข้อจำกัดความรับผิด</h2>
+      <h2>11. ข้อจำกัดความรับผิด</h2>
       <p>
         ในขอบเขตสูงสุดที่กฎหมายอนุญาต ThaiHelper.app และผู้ดำเนินการจะไม่รับผิดชอบต่อข้อพิพาท ปัญหาทางกฎหมาย หรือความเสียหายใดๆ ที่เกิดจากการเชื่อมต่อผ่านแพลตฟอร์ม รวมถึงแต่ไม่จำกัดเพียง:
       </p>
@@ -341,17 +363,17 @@ function TermsTH() {
         <li>ความเสียหายทางอ้อม โดยบังเอิญ พิเศษ หรือเป็นผลสืบเนื่องที่เกิดจากหรือเกี่ยวข้องกับการใช้แพลตฟอร์มนี้</li>
       </ul>
 
-      <h2>11. กฎหมายที่ใช้บังคับ</h2>
+      <h2>12. กฎหมายที่ใช้บังคับ</h2>
       <p>
         ข้อกำหนดเหล่านี้อยู่ภายใต้กฎหมายแห่งราชอาณาจักรไทย ข้อพิพาทใดๆ อยู่ภายใต้เขตอำนาจศาลของจังหวัดภูเก็ต ประเทศไทย
       </p>
 
-      <h2>12. การเปลี่ยนแปลงข้อกำหนด</h2>
+      <h2>13. การเปลี่ยนแปลงข้อกำหนด</h2>
       <p>
         เราอาจปรับปรุงข้อกำหนดเหล่านี้เป็นครั้งคราว การใช้แพลตฟอร์มต่อหลังจากการเปลี่ยนแปลงถือว่ายอมรับข้อกำหนดใหม่ เราจะแจ้งผู้ใช้ที่ลงทะเบียนเกี่ยวกับการเปลี่ยนแปลงสำคัญผ่าน WhatsApp หรืออีเมล
       </p>
 
-      <h2>13. ติดต่อเรา</h2>
+      <h2>14. ติดต่อเรา</h2>
       <p>
         มีคำถามเกี่ยวกับข้อกำหนดเหล่านี้? ติดต่อเราที่:<br />
         <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>

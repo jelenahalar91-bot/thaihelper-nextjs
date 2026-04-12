@@ -19,7 +19,7 @@ const T = {
     story_title: 'Our story',
     story_p1: 'In December 2024 our family of four packed up our life and moved to Thailand. New country, new language, new everything — and like most expat families with kids, one of the first things we needed was a nanny.',
     story_p2: 'We searched for weeks. Facebook groups felt chaotic — endless posts, dozens of replies, no way to tell who was serious. Half the messages disappeared into the "message requests" folder we never thought to check. We sent enquiries to several agencies, waited days for an answer, and at the end of it all still had no one in our region.',
-    story_p3: 'When applications did come in, they often had no real information — no background, no photo, no idea whether the person had ever cared for children. We had no way to do a proper background check, no transparent pricing, and no idea where the agency fees actually went. It rarely felt like the helpers themselves were getting that money.',
+    story_p3: 'When applications did come in, they often had no real information — no background, no photo, no idea whether the person had ever cared for children. We wanted transparent pricing, detailed profiles, and a more direct way to connect with the people who might become part of our daily life.',
     story_p4: 'It wasn\'t just a nanny. We were also looking for a gardener for our pool and garden, and tutors for our kids. Every single search was the same chaos all over again. We kept thinking: in other countries we\'ve lived in, there were proper platforms for exactly this. Why not here?',
     story_p5: 'So we built one.',
 
@@ -66,7 +66,7 @@ const T = {
     story_title: 'เรื่องราวของเรา',
     story_p1: 'ในเดือนธันวาคม 2024 ครอบครัวสี่คนของเราย้ายมาอยู่ประเทศไทย ประเทศใหม่ ภาษาใหม่ ทุกอย่างใหม่ และเหมือนครอบครัวต่างชาติที่มีลูกส่วนใหญ่ สิ่งแรกๆ ที่เราต้องการคือพี่เลี้ยงเด็ก',
     story_p2: 'เราหาอยู่หลายสัปดาห์ กลุ่ม Facebook นั้นวุ่นวายมาก โพสต์ไม่จบสิ้น คำตอบนับสิบ และไม่มีวิธีบอกได้ว่าใครจริงจัง ข้อความครึ่งหนึ่งหายไปในโฟลเดอร์ "คำขอข้อความ" ที่เราไม่เคยคิดจะเปิดดู เราติดต่อเอเจนซี่หลายแห่ง รอหลายวันกว่าจะได้คำตอบ และสุดท้ายก็ยังไม่มีใครในพื้นที่ของเรา',
-    story_p3: 'เมื่อมีใบสมัครเข้ามา ก็มักจะไม่มีข้อมูลจริง ไม่มีประวัติ ไม่มีรูปถ่าย ไม่รู้เลยว่าคนคนนั้นเคยดูแลเด็กมาก่อนหรือไม่ เราไม่มีทางตรวจสอบประวัติอย่างเหมาะสม ไม่มีราคาที่โปร่งใส และไม่รู้ว่าค่าธรรมเนียมเอเจนซี่ไปอยู่ที่ไหน ดูเหมือนเงินนั้นจะไม่ถึงมือผู้ช่วยจริงๆ',
+    story_p3: 'เมื่อมีใบสมัครเข้ามา ก็มักจะไม่มีข้อมูลจริง ไม่มีประวัติ ไม่มีรูปถ่าย ไม่รู้เลยว่าคนคนนั้นเคยดูแลเด็กมาก่อนหรือไม่ เราต้องการราคาที่โปร่งใส โปรไฟล์ที่มีรายละเอียด และวิธีเชื่อมต่อโดยตรงกับคนที่อาจเข้ามาเป็นส่วนหนึ่งของชีวิตประจำวัน',
     story_p4: 'ไม่ใช่แค่พี่เลี้ยง เรายังต้องการคนสวนสำหรับสระน้ำและสวน และครูสอนพิเศษให้ลูกๆ ทุกการค้นหาคือความวุ่นวายเดิมๆ ซ้ำแล้วซ้ำเล่า เราคิดอยู่ตลอดว่า ในประเทศอื่นๆ ที่เราเคยอยู่ มีแพลตฟอร์มที่เหมาะสมสำหรับเรื่องนี้โดยเฉพาะ ทำไมที่นี่ไม่มี?',
     story_p5: 'เราเลยสร้างมันขึ้นมาเอง',
 
@@ -112,7 +112,7 @@ const T = {
     story_title: 'Наша история',
     story_p1: 'В декабре 2024 года наша семья из четырёх человек собрала вещи и переехала в Таиланд. Новая страна, новый язык, всё новое — и, как большинство семей экспатов с детьми, одной из первых вещей, которые нам понадобились, была няня.',
     story_p2: 'Мы искали неделями. Группы в Facebook ощущались как хаос — бесконечные посты, десятки откликов, никакого способа понять, кто настроен серьёзно. Половина сообщений уходила в папку «запросы сообщений», которую мы даже не думали проверять. Мы писали в несколько агентств, ждали ответа днями — и в итоге так и не нашли никого в нашем районе.',
-    story_p3: 'Когда отклики всё же приходили, в них почти не было реальной информации — никакой биографии, ни фото, никакого понимания, работал ли человек когда-либо с детьми. Не было способа провести нормальную проверку, не было прозрачных цен, и было непонятно, куда вообще уходят комиссии агентств. И уж точно казалось, что до самих помощников эти деньги почти не доходят.',
+    story_p3: 'Когда отклики всё же приходили, в них почти не было реальной информации — никакой биографии, ни фото, никакого понимания, работал ли человек когда-либо с детьми. Нам хотелось прозрачных цен, подробных профилей и более прямого способа связаться с людьми, которые могут стать частью нашей повседневной жизни.',
     story_p4: 'И речь была не только о няне. Мы также искали садовника для нашего бассейна и сада, и преподавателей для детей. Каждый поиск превращался в тот же самый хаос. Мы постоянно думали: в других странах, где мы жили, существовали нормальные платформы именно для этого. Почему здесь нет?',
     story_p5: 'И мы её сделали.',
 
