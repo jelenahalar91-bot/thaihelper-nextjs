@@ -16,7 +16,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is a community connection platform and job board. We are not a recruitment agency and do not engage in placement services. We do not vet candidates, verify identities, or provide legal advice regarding work permits or visas. Compliance with the Thai Labor Act and immigration laws is the sole responsibility of the employer and the candidate.',
+    footer_disclaimer: 'ThaiHelper.app is a community connection platform, operated from Germany. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
   th: {
     nav_employers: 'สำหรับครอบครัว',
@@ -30,7 +30,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ',
-    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชนและกระดานงาน เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน เราไม่ได้คัดกรองผู้สมัคร ยืนยันตัวตน หรือให้คำปรึกษาทางกฎหมายเกี่ยวกับใบอนุญาตทำงานหรือวีซ่า การปฏิบัติตามพระราชบัญญัติคุ้มครองแรงงานและกฎหมายตรวจคนเข้าเมืองเป็นความรับผิดชอบของนายจ้างและผู้สมัครแต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน ดำเนินการจากประเทศเยอรมนี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
 };
 
@@ -147,7 +147,7 @@ function TermsEN() {
     <div className="legal-content">
       <h2>1. About ThaiHelper</h2>
       <p>
-        ThaiHelper.app is a community connection platform and online job board that helps families and expats in Thailand discover household service providers, and helps service providers find work opportunities. ThaiHelper is operated by Jelena Halar, Phuket, Thailand (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>).
+        ThaiHelper.app is a community connection platform and online bulletin board that helps families and expats in Thailand discover household service providers, and helps service providers find work opportunities. ThaiHelper is operated by Jelena Halar, registered in Germany (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>). The platform is currently provided free of charge.
       </p>
       <p>
         By using ThaiHelper — whether as a service provider registering a profile, or as a family browsing the platform — you agree to these Terms of Service.
@@ -195,13 +195,13 @@ function TermsEN() {
 
       <h2>5. Fee Structure &amp; Platform Access</h2>
       <p>
-        ThaiHelper is free for service providers (Helpers) to create a profile and be listed on the platform.
+        <strong>ThaiHelper is currently 100% free to use for all users.</strong> No fees are charged to service providers (Helpers) or families (Employers) at this time.
       </p>
       <p>
-        For families (Employers), ThaiHelper may charge a <strong>Platform Access Fee</strong> which grants the ability to use messaging tools and view full contact details. This fee is strictly for the use of the software, database access, and communication tools only. It is <strong>not</strong> a "Success Fee," "Placement Fee," or "Recruitment Fee."
+        Any future introduction of fees will be announced in advance and governed by updated terms. Should fees be introduced, they will take the form of a <strong>Platform Access Fee</strong> for the use of software, database access, and communication tools only. Such a fee would <strong>not</strong> constitute a "Success Fee," "Placement Fee," or "Recruitment Fee."
       </p>
       <p>
-        Payment of the Platform Access Fee does not guarantee a successful hire, the availability of any candidate, or the legal eligibility of any service provider to work in a specific role. No refunds are issued for unsuccessful searches.
+        A Platform Access Fee, if introduced, would not guarantee a successful hire, the availability of any candidate, or the legal eligibility of any service provider to work in a specific role.
       </p>
 
       <h2>6. Work Permits &amp; Visas</h2>
@@ -267,7 +267,7 @@ function TermsTH() {
     <div className="legal-content">
       <h2>1. เกี่ยวกับ ThaiHelper</h2>
       <p>
-        ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชนและกระดานงานออนไลน์ที่ช่วยให้ครอบครัวและชาวต่างชาติในประเทศไทยค้นหาผู้ให้บริการในบ้าน และช่วยให้ผู้ให้บริการค้นหาโอกาสในการทำงาน ThaiHelper ดำเนินการโดย Jelena Halar ภูเก็ต ประเทศไทย (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>)
+        ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชนและกระดานประกาศออนไลน์ที่ช่วยให้ครอบครัวและชาวต่างชาติในประเทศไทยค้นหาผู้ให้บริการในบ้าน และช่วยให้ผู้ให้บริการค้นหาโอกาสในการทำงาน ThaiHelper ดำเนินการโดย Jelena Halar จดทะเบียนในประเทศเยอรมนี (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>) แพลตฟอร์มให้บริการฟรีในปัจจุบัน
       </p>
       <p>
         การใช้ ThaiHelper ไม่ว่าจะในฐานะผู้ให้บริการที่ลงทะเบียนโปรไฟล์ หรือครอบครัวที่ค้นหาผู้ช่วย ถือว่าคุณยอมรับข้อกำหนดการใช้บริการเหล่านี้
@@ -315,13 +315,13 @@ function TermsTH() {
 
       <h2>6. โครงสร้างค่าบริการและการเข้าถึงแพลตฟอร์ม</h2>
       <p>
-        ThaiHelper ให้บริการฟรีสำหรับผู้ให้บริการ (ผู้ช่วย) ในการสร้างโปรไฟล์และแสดงรายชื่อบนแพลตฟอร์ม
+        <strong>ThaiHelper ให้บริการฟรี 100% สำหรับผู้ใช้ทุกคนในปัจจุบัน</strong> ไม่มีการเรียกเก็บค่าธรรมเนียมจากผู้ให้บริการ (ผู้ช่วย) หรือครอบครัว (นายจ้าง) ในขณะนี้
       </p>
       <p>
-        สำหรับครอบครัว (นายจ้าง) ThaiHelper อาจเรียกเก็บ <strong>ค่าธรรมเนียมการเข้าถึงแพลตฟอร์ม</strong> ซึ่งให้สิทธิ์ใช้เครื่องมือส่งข้อความและดูข้อมูลติดต่อเต็มรูปแบบ ค่าธรรมเนียมนี้เป็นค่าใช้จ่ายสำหรับการใช้ซอฟต์แวร์ การเข้าถึงฐานข้อมูล และเครื่องมือสื่อสารเท่านั้น <strong>ไม่ใช่</strong> "ค่าธรรมเนียมความสำเร็จ" "ค่าจัดหางาน" หรือ "ค่าสรรหาบุคลากร"
+        การเรียกเก็บค่าธรรมเนียมในอนาคตจะได้รับการแจ้งล่วงหน้าและอยู่ภายใต้ข้อกำหนดที่ปรับปรุงใหม่ หากมีการเรียกเก็บค่าธรรมเนียม จะอยู่ในรูปแบบ <strong>ค่าธรรมเนียมการเข้าถึงแพลตฟอร์ม</strong> สำหรับการใช้ซอฟต์แวร์ การเข้าถึงฐานข้อมูล และเครื่องมือสื่อสารเท่านั้น <strong>ไม่ใช่</strong> "ค่าธรรมเนียมความสำเร็จ" "ค่าจัดหางาน" หรือ "ค่าสรรหาบุคลากร"
       </p>
       <p>
-        การชำระค่าธรรมเนียมการเข้าถึงแพลตฟอร์มไม่ได้รับประกันการจ้างงานที่สำเร็จ ความพร้อมของผู้สมัคร หรือสิทธิ์ตามกฎหมายของผู้ให้บริการในการทำงานในตำแหน่งใดตำแหน่งหนึ่ง ไม่มีการคืนเงินสำหรับการค้นหาที่ไม่สำเร็จ
+        ค่าธรรมเนียมการเข้าถึงแพลตฟอร์ม หากมีการเรียกเก็บ จะไม่รับประกันการจ้างงานที่สำเร็จ ความพร้อมของผู้สมัคร หรือสิทธิ์ตามกฎหมายของผู้ให้บริการในการทำงานในตำแหน่งใดตำแหน่งหนึ่ง
       </p>
 
       <h2>7. ใบอนุญาตทำงานและวีซ่า</h2>
