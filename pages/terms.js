@@ -16,7 +16,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is a community connection platform, operated from Germany. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is a community connection platform. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
   th: {
     nav_employers: 'สำหรับครอบครัว',
@@ -30,7 +30,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ',
-    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน ดำเนินการจากประเทศเยอรมนี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
 };
 
@@ -147,7 +147,7 @@ function TermsEN() {
     <div className="legal-content">
       <h2>1. About ThaiHelper</h2>
       <p>
-        ThaiHelper.app is a community connection platform and online bulletin board that helps families and expats in Thailand discover household service providers, and helps service providers find work opportunities. ThaiHelper is operated by Jelena Halar, registered in Germany (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>). The platform is currently provided free of charge.
+        ThaiHelper.app is a community connection platform and online bulletin board that helps families and expats in Thailand discover household service providers, and helps service providers find work opportunities. ThaiHelper is operated by Jelena Hermann (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>). The platform is currently provided free of charge.
       </p>
       <p>
         By using ThaiHelper — whether as a service provider registering a profile, or as a family browsing the platform — you agree to these Terms of Service.
@@ -267,7 +267,7 @@ function TermsTH() {
     <div className="legal-content">
       <h2>1. เกี่ยวกับ ThaiHelper</h2>
       <p>
-        ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชนและกระดานประกาศออนไลน์ที่ช่วยให้ครอบครัวและชาวต่างชาติในประเทศไทยค้นหาผู้ให้บริการในบ้าน และช่วยให้ผู้ให้บริการค้นหาโอกาสในการทำงาน ThaiHelper ดำเนินการโดย Jelena Halar จดทะเบียนในประเทศเยอรมนี (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>) แพลตฟอร์มให้บริการฟรีในปัจจุบัน
+        ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชนและกระดานประกาศออนไลน์ที่ช่วยให้ครอบครัวและชาวต่างชาติในประเทศไทยค้นหาผู้ให้บริการในบ้าน และช่วยให้ผู้ให้บริการค้นหาโอกาสในการทำงาน ThaiHelper ดำเนินการโดย Jelena Hermann (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>) แพลตฟอร์มให้บริการฟรีในปัจจุบัน
       </p>
       <p>
         การใช้ ThaiHelper ไม่ว่าจะในฐานะผู้ให้บริการที่ลงทะเบียนโปรไฟล์ หรือครอบครัวที่ค้นหาผู้ช่วย ถือว่าคุณยอมรับข้อกำหนดการใช้บริการเหล่านี้

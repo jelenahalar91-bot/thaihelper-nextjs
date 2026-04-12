@@ -16,7 +16,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is a community connection platform, operated from Germany. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is a community connection platform. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
   th: {
     nav_employers: 'สำหรับครอบครัว',
@@ -30,7 +30,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ',
-    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน ดำเนินการจากประเทศเยอรมนี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
 };
 
@@ -147,7 +147,7 @@ function PrivacyEN() {
     <div className="legal-content">
       <h2>1. Who We Are</h2>
       <p>
-        ThaiHelper is a platform that connects household service providers (helpers, nannies, housekeepers, chefs, drivers, gardeners, elder care workers) with families in Thailand. ThaiHelper is operated by Jelena Halar, based in Phuket, Thailand.
+        ThaiHelper is a platform that connects household service providers (helpers, nannies, housekeepers, chefs, drivers, gardeners, elder care workers) with families in Thailand. ThaiHelper is operated by Jelena Hermann.
       </p>
       <p>Contact: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a></p>
 
@@ -242,7 +242,7 @@ function PrivacyTH() {
     <div className="legal-content">
       <h2>1. เราคือใคร</h2>
       <p>
-        ThaiHelper เป็นแพลตฟอร์มที่เชื่อมต่อผู้ให้บริการในบ้าน (ผู้ช่วย, พี่เลี้ยง, แม่บ้าน, พ่อครัว/แม่ครัว, คนขับรถ, ช่างสวน, ผู้ดูแลผู้สูงอายุ) กับครอบครัวในประเทศไทย ThaiHelper ดำเนินการโดย Jelena Halar ซึ่งตั้งอยู่ในภูเก็ต ประเทศไทย
+        ThaiHelper เป็นแพลตฟอร์มที่เชื่อมต่อผู้ให้บริการในบ้าน (ผู้ช่วย, พี่เลี้ยง, แม่บ้าน, พ่อครัว/แม่ครัว, คนขับรถ, ช่างสวน, ผู้ดูแลผู้สูงอายุ) กับครอบครัวในประเทศไทย ThaiHelper ดำเนินการโดย Jelena Hermann
       </p>
       <p>ติดต่อ: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a></p>
 

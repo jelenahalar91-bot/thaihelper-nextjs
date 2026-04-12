@@ -73,7 +73,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is a community connection platform, operated from Germany. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is a community connection platform. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
   th: {
     page_title: 'ราคา – ThaiHelper',
@@ -139,7 +139,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'สิทธิประโยชน์', footer_hire: 'ประเภท', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับ', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'เงื่อนไขการใช้งาน',
-    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน ดำเนินการจากประเทศเยอรมนี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
   ru: {
     page_title: 'Цены – ThaiHelper',
@@ -205,7 +205,7 @@ const T = {
     footer_product: 'Продукт', footer_find: 'Преимущества', footer_hire: 'Категории', footer_pricing: 'Цены', footer_employers: 'Для семей',
     footer_company: 'Компания', footer_contact: 'Контакты', footer_about: 'О нас', footer_faq: 'FAQ',
     footer_legal: 'Правовая информация', footer_privacy: 'Политика конфиденциальности', footer_terms: 'Условия использования',
-    footer_disclaimer: 'ThaiHelper.app — платформа для связи, зарегистрированная в Германии. Мы не являемся кадровым агентством и не занимаемся трудоустройством. Платформа в настоящее время полностью бесплатна. Все договорённости являются частными соглашениями между пользователями. Соблюдение трудового и иммиграционного законодательства Таиланда является исключительной ответственностью пользователей.',
+    footer_disclaimer: 'ThaiHelper.app — платформа для связи. Мы не являемся кадровым агентством и не занимаемся трудоустройством. Платформа в настоящее время полностью бесплатна. Все договорённости являются частными соглашениями между пользователями. Соблюдение трудового и иммиграционного законодательства Таиланда является исключительной ответственностью пользователей.',
   },
 };
 
