@@ -12,7 +12,10 @@ const T = {
     title:         'Terms of Service',
     updated:       'Last updated: March 2026',
     back:          '← Back to Home',
-    footer_about:  'About', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service', footer_contact: 'Contact',
+    footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
+    footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
+    footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
+    footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
     footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
   th: {
@@ -23,7 +26,10 @@ const T = {
     title:         'ข้อกำหนดการใช้บริการ',
     updated:       'อัปเดตล่าสุด: มีนาคม 2569',
     back:          '← กลับหน้าแรก',
-    footer_about:  'เกี่ยวกับเรา', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ', footer_contact: 'ติดต่อ',
+    footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
+    footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
+    footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
+    footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ',
     footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
   },
 };
@@ -85,20 +91,51 @@ export default function Terms() {
           {lang === 'en' ? <TermsEN /> : <TermsTH />}
         </main>
 
-        {/* ── FOOTER ── */}
-        <footer className="w-full py-8 px-8 bg-slate-50 border-t border-slate-100 text-center text-sm text-slate-500">
-          <div>
-            <span>© 2026 ThaiHelper</span>
-            &nbsp;·&nbsp;
-            <Link className="hover:text-teal-600" href="/about">{t.footer_about}</Link>
-            &nbsp;·&nbsp;
-            <Link className="hover:text-teal-600" href="/privacy">{t.footer_privacy}</Link>
-            &nbsp;·&nbsp;
-            <Link className="hover:text-teal-600" href="/terms">{t.footer_terms}</Link>
-            &nbsp;·&nbsp;
-            <a className="hover:text-teal-600" href="mailto:support@thaihelper.app">{t.footer_contact}</a>
+        {/* FOOTER */}
+        <footer className="w-full bg-slate-50 border-t border-slate-100">
+          <div className="max-w-7xl mx-auto py-12 px-8">
+            <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+              <div className="max-w-xs shrink-0">
+                <div className="text-xl font-bold text-on-background mb-4 font-headline">Thai<span style={{color:"#006a62"}}>Helper</span></div>
+                <p className="text-slate-500 text-sm leading-relaxed mb-6">{t.footer_desc}</p>
+                <div className="flex gap-4">
+                  <a aria-label="Email support" className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="mailto:support@thaihelper.app">
+                    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  </a>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
+                <div>
+                  <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_product}</h4>
+                  <ul className="space-y-3">
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#benefits">{t.footer_find}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#categories">{t.footer_hire}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/pricing">{t.footer_pricing}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_employers}</Link></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_company}</h4>
+                  <ul className="space-y-3">
+                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/about">{t.footer_about}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/faq">{t.footer_faq}</Link></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_legal}</h4>
+                  <ul className="space-y-3">
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/privacy">{t.footer_privacy}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/terms">{t.footer_terms}</Link></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="mt-10 pt-6 border-t border-slate-200 text-center">
+              <p className="text-slate-400 text-xs leading-relaxed max-w-3xl mx-auto mb-3">{t.footer_disclaimer}</p>
+              <p className="text-slate-500 text-xs">© 2026 ThaiHelper. All rights reserved.</p>
+            </div>
           </div>
-          <p className="mt-3 text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed">{t.footer_disclaimer}</p>
         </footer>
       </div>
     </>
