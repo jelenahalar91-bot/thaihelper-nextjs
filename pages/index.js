@@ -10,7 +10,7 @@ import { useLang } from './_app';
 
 const T = {
   en: {
-    nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Employers',nav_login:'Login',nav_cta:'Register Free',
+    nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Families',nav_login:'Login',nav_cta:'Register Free',
     hero_badge:'Premium Marketplace',
     hero_h1:'Find Work Directly.',hero_h1_em:'No Middleman Needed.',
     hero_p:"Connect directly with Thailand's best nannies, chefs, drivers and domestic helpers. No middleman, no hidden fees, just pure Thai hospitality at its finest.",
@@ -60,12 +60,12 @@ const T = {
     footer_desc:'A free platform connecting independent service providers with families in Thailand.',
     footer_disclaimer:'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
     footer_product:'Product',footer_company:'Company',footer_legal:'Legal',
-    footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',footer_employers:'For Employers',
+    footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',footer_employers:'For Families',
     footer_contact:'Contact Us',footer_about:'About Us',footer_faq:'FAQ',
     footer_privacy:'Privacy Policy',footer_terms:'Terms of Service',
   },
   th: {
-    nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_employers:'สำหรับนายจ้าง',nav_login:'เข้าสู่ระบบ',nav_cta:'ลงทะเบียนฟรี',
+    nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_employers:'สำหรับครอบครัว',nav_login:'เข้าสู่ระบบ',nav_cta:'ลงทะเบียนฟรี',
     hero_badge:'แพลตฟอร์มพรีเมียม',
     hero_h1:'หางานโดยตรง',hero_h1_em:'ไม่ต้องผ่านคนกลาง',
     hero_p:'เชื่อมต่อโดยตรงกับพี่เลี้ยง พ่อครัว คนขับรถ และผู้ช่วยงานบ้านที่ดีที่สุดในประเทศไทย ไม่มีคนกลาง ไม่มีค่าธรรมเนียมซ่อนเร้น',
@@ -114,12 +114,12 @@ const T = {
     footer_desc:'แพลตฟอร์มฟรีที่เชื่อมต่อผู้ให้บริการอิสระกับครอบครัวในประเทศไทย',
     footer_disclaimer:'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานด้วยตนเอง',
     footer_product:'ผลิตภัณฑ์',footer_company:'บริษัท',footer_legal:'กฎหมาย',
-    footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',footer_employers:'สำหรับนายจ้าง',
+    footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',footer_employers:'สำหรับครอบครัว',
     footer_contact:'ติดต่อเรา',footer_about:'เกี่ยวกับเรา',footer_faq:'คำถามที่พบบ่อย',
     footer_privacy:'นโยบายความเป็นส่วนตัว',footer_terms:'ข้อกำหนดการใช้งาน',
   },
   ru: {
-    nav_find:'Преимущества',nav_hire:'Категории',nav_how:'Как это работает',nav_employers:'Для работодателей',nav_login:'Войти',nav_cta:'Регистрация',
+    nav_find:'Преимущества',nav_hire:'Категории',nav_how:'Как это работает',nav_employers:'Для семей',nav_login:'Войти',nav_cta:'Регистрация',
     hero_badge:'Премиум платформа',
     hero_h1:'Найдите работу напрямую.',hero_h1_em:'Без посредников.',
     hero_p:'Свяжитесь напрямую с лучшими нянями, поварами, водителями и домашними помощниками в Таиланде. Без посредников, без скрытых комиссий.',
@@ -165,7 +165,7 @@ const T = {
     footer_desc:'Бесплатная платформа, соединяющая независимых специалистов с семьями в Таиланде.',
     footer_disclaimer:'ThaiHelper — это только платформа. Мы не нанимаем сотрудников, не оформляем визы и не проверяем разрешения на работу. Пользователи несут ответственность за свои юридические и трудовые договорённости.',
     footer_product:'Продукт',footer_company:'Компания',footer_legal:'Правовая информация',
-    footer_find:'Преимущества',footer_hire:'Категории',footer_pricing:'Цены',footer_employers:'Для работодателей',
+    footer_find:'Преимущества',footer_hire:'Категории',footer_pricing:'Цены',footer_employers:'Для семей',
     footer_contact:'Связаться',footer_about:'О нас',footer_faq:'Частые вопросы',
     footer_privacy:'Политика конфиденциальности',footer_terms:'Условия использования',
   }

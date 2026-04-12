@@ -78,7 +78,7 @@ const T = {
     nav_login: 'Login',
     nav_cta: 'Register Free',
     // Hero
-    hero_eyebrow: 'For Employers & Families',
+    hero_eyebrow: 'For Families & Households',
     hero_h1: 'Find Trusted',
     hero_h1b: 'Helpers.',
     hero_shimmer: 'No middlemen, no fees.',
@@ -99,7 +99,7 @@ const T = {
     why_label: 'Why ThaiHelper',
     why_title: 'A better way to find help',
     why_sub: 'We built ThaiHelper because finding trusted help should be simple, transparent and affordable.',
-    why1_h: '100% Free for Employers',
+    why1_h: '100% Free to Start',
     why1_p: 'No sign-up fees, no monthly subscriptions. Browse profiles at no cost — only pay for premium contact features later.',
     why2_h: 'No Middleman Fees',
     why2_p: 'Connect directly with helpers. We charge a small platform fee — no commissions on salaries.',
@@ -122,9 +122,9 @@ const T = {
     // CTA Card
     form_label: 'Register Now',
     form_title: 'Start Hiring Today',
-    form_sub: 'Create your free employer account and message helpers directly.',
+    form_sub: 'Create your free account and message helpers directly.',
     promo_badge: 'Free for the first 8 weeks — no credit card',
-    cta_card_h: 'Create Your Employer Account',
+    cta_card_h: 'Create Your Free Account',
     cta_card_sub: 'Free account with full messaging access for your first 8 weeks. Find the perfect helper for your family.',
     cta_card_b1: 'Browse verified helper profiles in your city',
     cta_card_b2: 'Message helpers directly with built-in translation',
@@ -135,7 +135,7 @@ const T = {
     // Launch banner
     launch_label: 'Launch Timeline',
     launch_title: 'We\'re launching in April 2026',
-    launch_p: 'ThaiHelper is brand new. We\'re building the largest network of verified household staff in Thailand. Be among the first employers to join.',
+    launch_p: 'ThaiHelper is brand new. We\'re building the largest network of verified household staff in Thailand. Be among the first families to join.',
     launch_stat1_n: '7',
     launch_stat1_l: 'Staff Categories',
     launch_stat2_n: '6+',
@@ -151,7 +151,7 @@ const T = {
     footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
     footer_product: 'Product',
     footer_fp1: 'For Helpers',
-    footer_fp2: 'For Employers',
+    footer_fp2: 'For Families',
     footer_fp3: 'How It Works',
     footer_company: 'Company',
     footer_fc1: 'About Us',
@@ -167,7 +167,7 @@ const T = {
     nav_helpers: 'สำหรับผู้ช่วย',
     nav_login: 'เข้าสู่ระบบ',
     nav_cta: 'ลงทะเบียนฟรี',
-    hero_eyebrow: 'สำหรับนายจ้างและครอบครัว',
+    hero_eyebrow: 'สำหรับครอบครัวและครัวเรือน',
     hero_h1: 'หาผู้ช่วยที่ไว้ใจได้',
     hero_h1b: 'โดยตรง',
     hero_shimmer: 'ไม่มีคนกลาง ไม่มีค่าธรรมเนียม',
@@ -186,7 +186,7 @@ const T = {
     why_label: 'ทำไม ThaiHelper',
     why_title: 'วิธีที่ดีกว่าในการหาผู้ช่วย',
     why_sub: 'เราสร้าง ThaiHelper เพราะการหาผู้ช่วยที่ไว้ใจได้ควรง่าย โปร่งใส และราคาไม่แพง',
-    why1_h: 'ฟรี 100% สำหรับนายจ้าง',
+    why1_h: 'ฟรี 100% เมื่อเริ่มต้น',
     why1_p: 'ไม่มีค่าสมัคร ไม่มีค่าสมาชิกรายเดือน ดูโปรไฟล์ฟรี',
     why2_h: 'ไม่มีค่าคนกลาง',
     why2_p: 'ติดต่อผู้ช่วยโดยตรง เราคิดค่าธรรมเนียมแพลตฟอร์มเล็กน้อย ไม่หักค่าคอมมิชชั่นจากเงินเดือน',
@@ -207,9 +207,9 @@ const T = {
     preview_note: 'นี่คือโปรไฟล์ตัวอย่าง โปรไฟล์จริงจะพร้อมใช้งานหลังเปิดตัวในเดือนเมษายน 2026',
     form_label: 'ลงทะเบียนเลย',
     form_title: 'เริ่มจ้างวันนี้',
-    form_sub: 'สร้างบัญชีนายจ้างฟรีและส่งข้อความหาผู้ช่วยโดยตรง',
+    form_sub: 'สร้างบัญชีฟรีและส่งข้อความหาผู้ช่วยโดยตรง',
     promo_badge: 'ฟรี 8 สัปดาห์แรก — ไม่ต้องใช้บัตรเครดิต',
-    cta_card_h: 'สร้างบัญชีนายจ้างของคุณ',
+    cta_card_h: 'สร้างบัญชีฟรีของคุณ',
     cta_card_sub: 'บัญชีฟรีพร้อมสิทธิ์ส่งข้อความเต็มรูปแบบใน 8 สัปดาห์แรก หาผู้ช่วยที่ใช่สำหรับครอบครัวของคุณ',
     cta_card_b1: 'ดูโปรไฟล์ผู้ช่วยที่ผ่านการยืนยันในเมืองของคุณ',
     cta_card_b2: 'ส่งข้อความหาผู้ช่วยพร้อมการแปลอัตโนมัติ',
@@ -226,7 +226,7 @@ const T = {
     cta_btn: 'แชร์กับผู้ช่วย',
     footer_desc: 'ThaiHelper เชื่อมต่อครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานดูแลบ้านที่ไว้ใจได้ เชื่อมต่อโดยตรง ไม่มีคนกลาง',
     footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
-    footer_product: 'ผลิตภัณฑ์', footer_fp1: 'สำหรับผู้ช่วย', footer_fp2: 'สำหรับนายจ้าง', footer_fp3: 'วิธีการใช้งาน',
+    footer_product: 'ผลิตภัณฑ์', footer_fp1: 'สำหรับผู้ช่วย', footer_fp2: 'สำหรับครอบครัว', footer_fp3: 'วิธีการใช้งาน',
     footer_company: 'บริษัท', footer_fc1: 'เกี่ยวกับเรา', footer_fc2: 'ติดต่อ',
     footer_legal: 'กฎหมาย', footer_fl1: 'นโยบายความเป็นส่วนตัว', footer_fl2: 'ข้อกำหนดการใช้บริการ',
     footer_copy: '© 2026 ThaiHelper สงวนลิขสิทธิ์',
@@ -238,7 +238,7 @@ const T = {
     nav_login: 'Войти',
     nav_cta: 'Регистрация',
     // (CTA wording updated below)
-    hero_eyebrow: 'Для работодателей и семей',
+    hero_eyebrow: 'Для семей и домохозяйств',
     hero_h1: 'Найдите проверенных помощников.',
     hero_h1b: 'Напрямую.',
     hero_shimmer: 'Без посредников, без комиссий.',
@@ -257,7 +257,7 @@ const T = {
     why_label: 'Почему ThaiHelper',
     why_title: 'Лучший способ найти помощника',
     why_sub: 'Мы создали ThaiHelper, потому что поиск надёжных помощников должен быть простым, прозрачным и доступным.',
-    why1_h: '100% бесплатно для работодателей',
+    why1_h: '100% бесплатно для начала',
     why1_p: 'Без регистрационных сборов, без подписок. Просматривайте профили бесплатно.',
     why2_h: 'Без посреднических комиссий',
     why2_p: 'Связывайтесь с помощниками напрямую. Мы берём небольшую плату за платформу — без комиссий с зарплаты.',
@@ -278,9 +278,9 @@ const T = {
     preview_note: 'Это примеры профилей. Настоящие профили помощников будут доступны после запуска в апреле 2026.',
     form_label: 'Регистрация',
     form_title: 'Начните нанимать сегодня',
-    form_sub: 'Создайте бесплатный аккаунт работодателя и пишите помощникам напрямую.',
+    form_sub: 'Создайте бесплатный аккаунт и пишите помощникам напрямую.',
     promo_badge: 'Бесплатно первые 8 недель — без карты',
-    cta_card_h: 'Создайте аккаунт работодателя',
+    cta_card_h: 'Создайте бесплатный аккаунт',
     cta_card_sub: 'Бесплатный аккаунт с полным доступом к сообщениям первые 8 недель. Найдите идеального помощника для вашей семьи.',
     cta_card_b1: 'Просматривайте проверенные профили в вашем городе',
     cta_card_b2: 'Пишите помощникам напрямую со встроенным переводом',
@@ -297,7 +297,7 @@ const T = {
     cta_btn: 'Поделиться с помощниками',
     footer_desc: 'ThaiHelper связывает семьи и экспатов в Таиланде с проверенным домашним персоналом. Прямые контакты, без посредников.',
     footer_disclaimer: 'ThaiHelper — это только платформа. Мы не нанимаем персонал, не оформляем визы и не проверяем разрешения на работу. Пользователи несут ответственность за свои юридические и трудовые договорённости.',
-    footer_product: 'Продукт', footer_fp1: 'Для помощников', footer_fp2: 'Для работодателей', footer_fp3: 'Как это работает',
+    footer_product: 'Продукт', footer_fp1: 'Для помощников', footer_fp2: 'Для семей', footer_fp3: 'Как это работает',
     footer_company: 'Компания', footer_fc1: 'О нас', footer_fc2: 'Контакты',
     footer_legal: 'Правовая информация', footer_fl1: 'Политика конфиденциальности', footer_fl2: 'Условия использования',
     footer_copy: '© 2026 ThaiHelper. Все права защищены.',
@@ -386,11 +386,11 @@ export default function Employers() {
   return (
     <>
       <SEOHead
-        title="For Employers – Hire Trusted Household Staff"
+        title="For Families – Find Trusted Household Staff"
         description="Find and hire verified nannies, housekeepers, chefs, drivers and more in Thailand. Direct communication with candidates, no middleman fees."
         path="/employers"
         lang={lang}
-        jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'For Employers', path: '/employers' }])}
+        jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'For Families', path: '/employers' }])}
       />
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
@@ -416,7 +416,7 @@ export default function Employers() {
               <span className="text-xl md:text-2xl font-bold font-headline"><span>Thai</span><span style={{color:"#006a62"}}>Helper</span></span>
             </Link>
             <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-[#001b3d] text-white text-[10px] font-bold tracking-wide uppercase">
-              {lang === 'en' ? 'For Employers' : lang === 'ru' ? 'Работодатели' : 'นายจ้าง'}
+              {lang === 'en' ? 'For Families' : lang === 'ru' ? 'Для семей' : 'สำหรับครอบครัว'}
             </span>
           </div>
           <div className="flex items-center gap-2 md:gap-3">

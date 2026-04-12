@@ -11,7 +11,7 @@ import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
   en: {
-    nav_employers:  'For Employers',
+    nav_employers:  'For Families',
     nav_employers_q:'Looking to hire a helper?',
     nav_home:       'Home',
     nav_login:      'Login',
@@ -46,7 +46,7 @@ const T = {
     footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
   th: {
-    nav_employers:  'สำหรับนายจ้าง',
+    nav_employers:  'สำหรับครอบครัว',
     nav_employers_q:'กำลังหาผู้ช่วย?',
     nav_home:       'หน้าแรก',
     nav_login:      'เข้าสู่ระบบ',

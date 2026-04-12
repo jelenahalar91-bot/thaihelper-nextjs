@@ -5,7 +5,7 @@ import { useLang } from './_app';
 
 const T = {
   en: {
-    nav_employers: 'For Employers',
+    nav_employers: 'For Families',
     nav_helpers:   'For Helpers',
     nav_login:     'Login',
     nav_cta:       'Register – Free',
@@ -16,7 +16,7 @@ const T = {
     footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
   th: {
-    nav_employers: 'สำหรับนายจ้าง',
+    nav_employers: 'สำหรับครอบครัว',
     nav_helpers:   'สำหรับผู้ช่วย',
     nav_login:     'เข้าสู่ระบบ',
     nav_cta:       'สมัคร – ฟรี',

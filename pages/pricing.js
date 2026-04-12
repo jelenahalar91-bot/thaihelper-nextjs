@@ -6,15 +6,15 @@ import { useLang } from './_app';
 const T = {
   en: {
     page_title: 'Pricing – ThaiHelper',
-    meta_desc: 'Simple, transparent pricing for employers. Browse helpers for free. Unlock unlimited messaging for as little as 166 THB/month.',
+    meta_desc: 'Simple, transparent pricing for families. Browse helpers for free. Unlock unlimited messaging for as little as 166 THB/month.',
     nav_home: 'Home',
-    nav_employers: 'For Employers',
+    nav_employers: 'For Families',
     nav_login: 'Login',
     nav_cta: 'Register – Free',
     hero_eyebrow: 'Pricing',
     hero_h1: 'Simple, transparent pricing',
     hero_sub: 'Free to browse. Pay only when you are ready to contact helpers directly. No middleman fees, no commissions — ever.',
-    promo_badge: '🎉 New employers get the first 8 weeks free — no credit card required.',
+    promo_badge: '🎉 New accounts get the first 8 weeks free — no credit card required.',
     promo_launch_note: 'Launch offer — available only while we\'re growing our network.',
     // Cards
     tier_free_name: 'Free',
@@ -62,15 +62,15 @@ const T = {
     faq_a2: 'Yes. Each plan is a one-time payment for the period you choose. Nothing auto-renews — if you stop needing a helper, you simply stop paying.',
     faq_q3: 'What happens after my plan ends?',
     faq_a3: 'Your account stays free forever. You keep access to all helper profiles and your message history, but you\'ll need to renew a plan to send new full-text messages.',
-    faq_q4: 'Why charge employers but not helpers?',
-    faq_a4: 'Helpers have traditionally lost significant amounts of salary to placement fees. We keep ThaiHelper free for helpers so they keep every baht they earn. Employers pay a small, transparent platform fee instead.',
+    faq_q4: 'Why charge families but not helpers?',
+    faq_a4: 'Helpers have traditionally lost significant amounts of salary to placement fees. We keep ThaiHelper free for helpers so they keep every baht they earn. Families pay a small, transparent platform fee instead.',
     // Final CTA
     cta_h2: 'Still have questions?',
     cta_p: 'Email us at support@thaihelper.app — we usually reply within a few hours.',
-    cta_btn: 'Register as Employer',
+    cta_btn: 'Register Now',
     // Footer
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
-    footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Employers',
+    footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
     footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
@@ -79,7 +79,7 @@ const T = {
     page_title: 'ราคา – ThaiHelper',
     meta_desc: 'ราคาโปร่งใสสำหรับนายจ้าง ค้นหาผู้ช่วยฟรี ปลดล็อกการส่งข้อความเริ่มต้นเพียง 166 บาท/เดือน',
     nav_home: 'หน้าหลัก',
-    nav_employers: 'สำหรับนายจ้าง',
+    nav_employers: 'สำหรับครอบครัว',
     nav_login: 'เข้าสู่ระบบ',
     nav_cta: 'ลงทะเบียน – ฟรี',
     hero_eyebrow: 'ราคา',
@@ -136,7 +136,7 @@ const T = {
     cta_p: 'ส่งอีเมลหาเราที่ support@thaihelper.app — เรามักตอบกลับภายในไม่กี่ชั่วโมง',
     cta_btn: 'ลงทะเบียนเป็นนายจ้าง',
     footer_desc: 'ThaiHelper เชื่อมต่อครอบครัวและชาวต่างชาติในประเทศไทยกับผู้ช่วยภายในบ้านที่เชื่อถือได้',
-    footer_product: 'ผลิตภัณฑ์', footer_find: 'สิทธิประโยชน์', footer_hire: 'ประเภท', footer_pricing: 'ราคา', footer_employers: 'สำหรับนายจ้าง',
+    footer_product: 'ผลิตภัณฑ์', footer_find: 'สิทธิประโยชน์', footer_hire: 'ประเภท', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับ', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'เงื่อนไขการใช้งาน',
     footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
@@ -145,7 +145,7 @@ const T = {
     page_title: 'Цены – ThaiHelper',
     meta_desc: 'Простые и прозрачные цены для работодателей. Просмотр помощников бесплатно. Неограниченные сообщения от 166 THB/месяц.',
     nav_home: 'Главная',
-    nav_employers: 'Работодателям',
+    nav_employers: 'Для семей',
     nav_login: 'Войти',
     nav_cta: 'Регистрация – бесплатно',
     hero_eyebrow: 'Цены',
@@ -202,7 +202,7 @@ const T = {
     cta_p: 'Напишите нам на support@thaihelper.app — обычно отвечаем за несколько часов.',
     cta_btn: 'Регистрация работодателя',
     footer_desc: 'ThaiHelper соединяет семьи и экспатов в Таиланде с надёжным домашним персоналом.',
-    footer_product: 'Продукт', footer_find: 'Преимущества', footer_hire: 'Категории', footer_pricing: 'Цены', footer_employers: 'Работодателям',
+    footer_product: 'Продукт', footer_find: 'Преимущества', footer_hire: 'Категории', footer_pricing: 'Цены', footer_employers: 'Для семей',
     footer_company: 'Компания', footer_contact: 'Контакты', footer_about: 'О нас', footer_faq: 'FAQ',
     footer_legal: 'Правовая информация', footer_privacy: 'Политика конфиденциальности', footer_terms: 'Условия использования',
     footer_disclaimer: 'ThaiHelper — это только платформа. Мы не нанимаем персонал, не оформляем визы и не проверяем разрешения на работу. Пользователи несут ответственность за свои юридические и трудовые договорённости.',
@@ -361,7 +361,7 @@ export default function Pricing() {
         lang={lang}
         jsonLd={getBreadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'For Employers', path: '/employers' },
+          { name: 'For Families', path: '/employers' },
           { name: 'Pricing', path: '/pricing' },
         ])}
       />

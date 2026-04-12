@@ -10,7 +10,7 @@ const T = {
     sub404:      "The page you are looking for doesn't exist or has been moved.",
     subOther:    'Something unexpected happened. Please try again.',
     btn_helpers: 'For Helpers',
-    btn_emp:     'For Employers',
+    btn_emp:     'For Families',
     btn_back:    'Back to Home',
   },
   th: {

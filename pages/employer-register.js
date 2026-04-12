@@ -279,7 +279,7 @@ export default function EmployerRegisterPage() {
         lang={lang}
         jsonLd={getBreadcrumbSchema([
           { name: 'Home', path: '/' },
-          { name: 'For Employers', path: '/employers' },
+          { name: 'For Families', path: '/employers' },
           { name: 'Register', path: '/employer-register' },
         ])}
       />

@@ -7,7 +7,7 @@ const T = {
   en: {
     page_title: 'About Us – ThaiHelper',
     meta_desc: 'The story behind ThaiHelper. We are a family of four who moved to Thailand and built the platform we wished existed when we were searching for a nanny, gardener and tutors.',
-    nav_employers: 'For Employers',
+    nav_employers: 'For Families',
     nav_helpers: 'For Helpers',
     nav_login: 'Login',
     nav_cta: 'Register – Free',
@@ -45,7 +45,7 @@ const T = {
 
     // Footer
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
-    footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Employers',
+    footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
     footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
@@ -54,7 +54,7 @@ const T = {
   th: {
     page_title: 'เกี่ยวกับเรา – ThaiHelper',
     meta_desc: 'เรื่องราวเบื้องหลัง ThaiHelper เราคือครอบครัวสี่คนที่ย้ายมาประเทศไทยและสร้างแพลตฟอร์มที่เราหวังว่าจะมีตอนที่เรากำลังหาพี่เลี้ยง คนสวน และครูสอนพิเศษ',
-    nav_employers: 'สำหรับนายจ้าง',
+    nav_employers: 'สำหรับครอบครัว',
     nav_helpers: 'สำหรับผู้ช่วย',
     nav_login: 'เข้าสู่ระบบ',
     nav_cta: 'สมัคร – ฟรี',
@@ -91,7 +91,7 @@ const T = {
     cta_btn_helper: 'ฉันเป็นผู้ช่วย',
 
     footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
-    footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับนายจ้าง',
+    footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการให้บริการ',
     footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
@@ -100,7 +100,7 @@ const T = {
   ru: {
     page_title: 'О нас – ThaiHelper',
     meta_desc: 'История ThaiHelper. Мы — семья из четырёх человек, переехавшая в Таиланд. Мы создали платформу, которой нам не хватало, когда мы искали няню, садовника и преподавателей для детей.',
-    nav_employers: 'Для работодателей',
+    nav_employers: 'Для семей',
     nav_helpers: 'Для помощников',
     nav_login: 'Войти',
     nav_cta: 'Регистрация – бесплатно',
@@ -137,7 +137,7 @@ const T = {
     cta_btn_helper: 'Я помощник',
 
     footer_desc: 'ThaiHelper соединяет семьи и экспатов в Таиланде с надёжным домашним персоналом.',
-    footer_product: 'Продукт', footer_find: 'Преимущества', footer_hire: 'Категории', footer_pricing: 'Цены', footer_employers: 'Для работодателей',
+    footer_product: 'Продукт', footer_find: 'Преимущества', footer_hire: 'Категории', footer_pricing: 'Цены', footer_employers: 'Для семей',
     footer_company: 'Компания', footer_contact: 'Контакты', footer_about: 'О нас', footer_faq: 'Вопросы',
     footer_legal: 'Правовое', footer_privacy: 'Политика конфиденциальности', footer_terms: 'Условия использования',
   },

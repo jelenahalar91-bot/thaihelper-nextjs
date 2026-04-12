@@ -23,7 +23,7 @@ const ALL_FAQS = [
 
 const T = {
   en: {
-    nav_employers: 'For Employers',
+    nav_employers: 'For Families',
     nav_helpers:   'For Helpers',
     nav_login:     'Login',
     nav_cta:       'Register – Free',
@@ -33,7 +33,7 @@ const T = {
     footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
   th: {
-    nav_employers: 'สำหรับนายจ้าง',
+    nav_employers: 'สำหรับครอบครัว',
     nav_helpers:   'สำหรับผู้ช่วย',
     nav_login:     'เข้าสู่ระบบ',
     nav_cta:       'สมัคร – ฟรี',
@@ -176,9 +176,9 @@ function FAQEN() {
         Yes. Log in to your dashboard to edit your profile at any time. To delete your profile entirely, contact us at <a href="mailto:support@thaihelper.app" style={{ color: '#006a62' }}>support@thaihelper.app</a> and we will remove it within 14 days.
       </p>
 
-      <h2>For Employers / Families</h2>
+      <h2>For Families & Households</h2>
 
-      <h3>How much does ThaiHelper cost for employers?</h3>
+      <h3>How much does ThaiHelper cost for families?</h3>
       <p>
         New employers get <strong>8 weeks of free access</strong> when they register. After the free period, you can purchase an access plan to continue messaging helpers. Check our <Link href="/pricing" style={{ color: '#006a62' }}>pricing page</Link> for details.
       </p>
@@ -267,9 +267,9 @@ function FAQTH() {
         ได้ เข้าสู่ระบบแดชบอร์ดเพื่อแก้ไขโปรไฟล์ได้ตลอดเวลา หากต้องการลบโปรไฟล์ทั้งหมด ติดต่อเราที่ <a href="mailto:support@thaihelper.app" style={{ color: '#006a62' }}>support@thaihelper.app</a> เราจะลบภายใน 14 วัน
       </p>
 
-      <h2>สำหรับนายจ้าง / ครอบครัว</h2>
+      <h2>สำหรับครอบครัวและครัวเรือน</h2>
 
-      <h3>ThaiHelper ราคาเท่าไหร่สำหรับนายจ้าง?</h3>
+      <h3>ThaiHelper ราคาเท่าไหร่?</h3>
       <p>
         นายจ้างใหม่จะได้รับ <strong>สิทธิ์เข้าถึงฟรี 8 สัปดาห์</strong> เมื่อลงทะเบียน หลังจากช่วงฟรี คุณสามารถซื้อแผนเพื่อใช้งานต่อ ดูรายละเอียดที่ <Link href="/pricing" style={{ color: '#006a62' }}>หน้าราคา</Link>
       </p>
