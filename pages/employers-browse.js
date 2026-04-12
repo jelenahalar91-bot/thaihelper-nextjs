@@ -42,6 +42,7 @@ const T = {
     cta_btn:        'Register Now — Free',
     footer_privacy: 'Privacy Policy',
     footer_terms:   'Terms of Service',
+    footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
   th: {
     nav_helpers:    'สำหรับผู้ช่วย',
@@ -77,6 +78,7 @@ const T = {
     cta_btn:        'ลงทะเบียนฟรี',
     footer_privacy: 'นโยบายความเป็นส่วนตัว',
     footer_terms:   'ข้อกำหนดการใช้งาน',
+    footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
   },
 };
 
@@ -378,6 +380,7 @@ export default function EmployersBrowse() {
               {' \u00b7 '}
               <Link className="hover:text-[#006a62]" href="/terms">{t.footer_terms}</Link>
             </p>
+            <p className="mt-3 text-xs text-gray-400 max-w-2xl mx-auto leading-relaxed">{t.footer_disclaimer}</p>
           </div>
         </footer>
       </div>

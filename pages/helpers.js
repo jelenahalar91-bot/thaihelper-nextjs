@@ -18,7 +18,7 @@ const T = {
     nav_cta:        'Register Free',
     hero_badge:     '🇹🇭 Find Help in Thailand',
     hero_h1:        'Browse Trusted Helpers',
-    hero_sub:       'Find nannies, housekeepers, chefs, drivers and more — directly, without agencies.',
+    hero_sub:       'Find nannies, housekeepers, chefs, drivers and more — directly, no middleman.',
     filter_title:   'Filters',
     filter_show_filters: 'Filters',
     filter_show_results: 'Show {n} results',
@@ -43,6 +43,7 @@ const T = {
     cta_btn:        'Register Now — Free →',
     footer_privacy: 'Privacy Policy',
     footer_terms:   'Terms of Service',
+    footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
   th: {
     nav_employers:  'สำหรับนายจ้าง',
@@ -52,7 +53,7 @@ const T = {
     nav_cta:        'ลงทะเบียนฟรี',
     hero_badge:     '🇹🇭 หาผู้ช่วยในประเทศไทย',
     hero_h1:        'ค้นหาผู้ช่วยที่ไว้ใจได้',
-    hero_sub:       'หาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ — โดยตรง ไม่ผ่านเอเจนซี่',
+    hero_sub:       'หาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ — โดยตรง ไม่มีคนกลาง',
     filter_title:   'ตัวกรอง',
     filter_show_filters: 'ตัวกรอง',
     filter_show_results: 'แสดง {n} รายการ',
@@ -77,6 +78,7 @@ const T = {
     cta_btn:        'ลงทะเบียนฟรี →',
     footer_privacy: 'นโยบายความเป็นส่วนตัว',
     footer_terms:   'ข้อกำหนดการใช้งาน',
+    footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
   },
 };
 
@@ -482,6 +484,7 @@ export default function Helpers() {
               {' · '}
               <Link className="hover:text-[#006a62]" href="/terms">{t.footer_terms}</Link>
             </p>
+            <p className="mt-3 text-xs text-gray-400 max-w-2xl mx-auto leading-relaxed">{t.footer_disclaimer}</p>
           </div>
         </footer>
       </div>

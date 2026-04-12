@@ -12,7 +12,7 @@ const T = {
   en: {
     nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Employers',nav_login:'Login',nav_cta:'Register Free',
     hero_badge:'Premium Marketplace',
-    hero_h1:'Stop Paying Agencies.',hero_h1_em:'Get Hired Directly.',
+    hero_h1:'Find Work Directly.',hero_h1_em:'No Middleman Needed.',
     hero_p:"Connect directly with Thailand's best nannies, chefs, drivers and domestic helpers. No middleman, no hidden fees, just pure Thai hospitality at its finest.",
     hero_cta1:'Create My Free Profile',hero_cta2:'See How It Works',
     hero_helpers:'Be among the first verified helpers on the platform',
@@ -21,7 +21,7 @@ const T = {
     hero_step2:'Families find your profile and contact you',
     hero_step3:'Chat, agree on terms and start working',
     trust_label:'Trusted By Families At',
-    feat_title:'Why Choose Direct Hiring?',feat_sub:'No agency. No waiting. We connect you with families — simple and fast.',
+    feat_title:'Why Choose Direct Connections?',feat_sub:'No middleman. No waiting. We connect you with families — simple and fast.',
     feat1_h:'100% Direct',feat1_p:'Talk to families yourself. Agree on your own schedule and salary. No one in between.',
     feat2_h:'Verified Profiles',feat2_p:'We check IDs so families can trust you — and you can trust them.',
     feat3_h:'No Hidden Fees',feat3_p:"Your profile is free. No sign-up fees. No one takes money from your salary.",
@@ -33,12 +33,12 @@ const T = {
     match_sub:'Real connections, real stories. See how ThaiHelper brings families and helpers together.',
     match_hired:'Hired as',match_quote_label:'What they say',
     how_label:'How It Works',how_title:'3 steps to get hired',
-    how_sub:'No agency. No waiting. Just 3 easy steps.',
+    how_sub:'No middleman. No waiting. Just 3 easy steps.',
     step1_h:'Sign Up Free',step1_p:'Create your profile in 3 minutes. Add your experience, skills and a photo.',
     step2_h:'Get Found',step2_p:'Families in your city find your profile and send you a message.',
     step3_h:'Start Working',step3_p:'Talk to the family, agree on the job and start — no one takes a cut from your pay.',
     ben_label:'Why ThaiHelper',ben_title:'Built for household professionals',
-    ben_sub:'Agencies take too much money. Facebook groups are messy. You deserve something better.',
+    ben_sub:'Traditional options are expensive and unclear. Facebook groups are messy. You deserve something better.',
     ben1_h:'Free for You — Always',ben1_p:'Your profile on ThaiHelper is free — forever. Employers pay, not you.',
     ben2_h:'Serious Employers Only',ben2_p:'Only real, verified families can contact you. No spam, no time-wasting.',
     ben3_h:'Thai & International Families',ben3_p:'Work with Thai families and expats from Europe, the US, Russia and beyond.',
@@ -57,7 +57,8 @@ const T = {
     cta_title:'Ready to start your career in Thailand?',
     cta_sub:'Create your free profile and let families find you.',
     cta_btn1:'Register Now – Free',cta_btn2:'Learn More',
-    footer_desc:'The free platform for domestic helpers to create their profile and get discovered by families in Thailand.',
+    footer_desc:'A free platform connecting independent service providers with families in Thailand.',
+    footer_disclaimer:'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
     footer_product:'Product',footer_company:'Company',footer_legal:'Legal',
     footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',footer_employers:'For Employers',
     footer_contact:'Contact Us',footer_about:'About Us',footer_faq:'FAQ',
@@ -66,7 +67,7 @@ const T = {
   th: {
     nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_employers:'สำหรับนายจ้าง',nav_login:'เข้าสู่ระบบ',nav_cta:'ลงทะเบียนฟรี',
     hero_badge:'แพลตฟอร์มพรีเมียม',
-    hero_h1:'หยุดจ่ายค่าเอเจนซี่',hero_h1_em:'หางานโดยตรง',
+    hero_h1:'หางานโดยตรง',hero_h1_em:'ไม่ต้องผ่านคนกลาง',
     hero_p:'เชื่อมต่อโดยตรงกับพี่เลี้ยง พ่อครัว คนขับรถ และผู้ช่วยงานบ้านที่ดีที่สุดในประเทศไทย ไม่มีคนกลาง ไม่มีค่าธรรมเนียมซ่อนเร้น',
     hero_cta1:'สร้างโปรไฟล์ฟรี',hero_cta2:'ดูวิธีการใช้งาน',
     hero_helpers:'เป็นหนึ่งในผู้ช่วยที่ผ่านการยืนยันกลุ่มแรกบนแพลตฟอร์ม',
@@ -75,7 +76,7 @@ const T = {
     hero_step2:'ครอบครัวจะเห็นโปรไฟล์และติดต่อคุณ',
     hero_step3:'คุยกัน ตกลงเงื่อนไข แล้วเริ่มงานได้เลย',
     trust_label:'ได้รับความไว้วางใจจากครอบครัวที่',
-    feat_title:'ทำไมต้องจ้างตรง?',feat_sub:'ไม่ต้องผ่านเอเจนซี่ ไม่ต้องรอ เราเชื่อมคุณกับครอบครัว — ง่ายและเร็ว',
+    feat_title:'ทำไมต้องเชื่อมต่อโดยตรง?',feat_sub:'ไม่ต้องผ่านคนกลาง ไม่ต้องรอ เราเชื่อมคุณกับครอบครัว — ง่ายและเร็ว',
     feat1_h:'ตรง 100%',feat1_p:'คุยกับครอบครัวด้วยตัวเอง ตกลงตารางเวลาและเงินเดือน ไม่มีคนกลาง',
     feat2_h:'โปรไฟล์ที่ผ่านการยืนยัน',feat2_p:'เราตรวจสอบบัตรประชาชน ครอบครัววางใจคุณได้ — คุณก็วางใจครอบครัวได้',
     feat3_h:'ไม่มีค่าธรรมเนียมซ่อนเร้น',feat3_p:'โปรไฟล์ของคุณฟรี ไม่มีค่าสมัคร ไม่มีใครหักเงินจากเงินเดือนคุณ',
@@ -87,12 +88,12 @@ const T = {
     match_sub:'การเชื่อมต่อจริง เรื่องราวจริง',
     match_hired:'จ้างเป็น',match_quote_label:'พวกเขาพูดว่า',
     how_label:'วิธีการทำงาน',how_title:'3 ขั้นตอนในการหางาน',
-    how_sub:'ไม่ต้องผ่านเอเจนซี่ ไม่ต้องรอนาน',
+    how_sub:'ไม่ต้องผ่านคนกลาง ไม่ต้องรอนาน',
     step1_h:'สมัครฟรี',step1_p:'สร้างโปรไฟล์ในไม่กี่นาที ใส่ประสบการณ์ ทักษะ ตารางเวลา และรูปภาพ',
     step2_h:'ถูกค้นพบ',step2_p:'ครอบครัวที่กำลังหาผู้ช่วยงานบ้านในเมืองของคุณจะพบโปรไฟล์และติดต่อโดยตรง',
     step3_h:'เริ่มทำงาน',step3_p:'คุยกันโดยตรง ตกลงเงื่อนไข แล้วเริ่มงานได้เลย',
     ben_label:'ทำไมต้อง ThaiHelper',ben_title:'สร้างมาเพื่อผู้ให้บริการในบ้านโดยเฉพาะ',
-    ben_sub:'เราสร้าง ThaiHelper เพราะระบบเดิมมีปัญหา เอเจนซี่คิดค่าใช้จ่ายสูงเกินไป',
+    ben_sub:'วิธีดั้งเดิมแพงและไม่ชัดเจน กลุ่ม Facebook ก็วุ่นวาย คุณสมควรได้สิ่งที่ดีกว่า',
     ben1_h:'ฟรีสำหรับคุณตลอดไป',ben1_p:'ลงโปรไฟล์ใน ThaiHelper ฟรีตลอดไป นายจ้างเป็นคนจ่าย ไม่ใช่คุณ',
     ben2_h:'เข้าถึงนายจ้างที่จริงจัง',ben2_p:'เฉพาะครอบครัวที่ยืนยันตัวตนและชำระเงินแล้วเท่านั้นที่ติดต่อคุณได้',
     ben3_h:'ครอบครัวไทยและต่างชาติ',ben3_p:'ทำงานกับครอบครัวไทยและชาวต่างชาติจากยุโรป อเมริกา รัสเซีย',
@@ -110,7 +111,8 @@ const T = {
     cta_title:'พร้อมเริ่มอาชีพในประเทศไทยแล้วหรือยัง?',
     cta_sub:'สร้างโปรไฟล์ฟรีและให้ครอบครัวที่กำลังมองหาผู้ช่วยที่ไว้วางใจได้ค้นพบคุณ',
     cta_btn1:'สมัครเลย – ฟรี',cta_btn2:'เรียนรู้เพิ่มเติม',
-    footer_desc:'แพลตฟอร์มฟรีสำหรับผู้ช่วยในบ้านที่จะสร้างโปรไฟล์และถูกค้นพบโดยครอบครัวในประเทศไทย',
+    footer_desc:'แพลตฟอร์มฟรีที่เชื่อมต่อผู้ให้บริการอิสระกับครอบครัวในประเทศไทย',
+    footer_disclaimer:'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานด้วยตนเอง',
     footer_product:'ผลิตภัณฑ์',footer_company:'บริษัท',footer_legal:'กฎหมาย',
     footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',footer_employers:'สำหรับนายจ้าง',
     footer_contact:'ติดต่อเรา',footer_about:'เกี่ยวกับเรา',footer_faq:'คำถามที่พบบ่อย',
@@ -119,7 +121,7 @@ const T = {
   ru: {
     nav_find:'Преимущества',nav_hire:'Категории',nav_how:'Как это работает',nav_employers:'Для работодателей',nav_login:'Войти',nav_cta:'Регистрация',
     hero_badge:'Премиум платформа',
-    hero_h1:'Хватит платить агентствам.',hero_h1_em:'Устройтесь напрямую.',
+    hero_h1:'Найдите работу напрямую.',hero_h1_em:'Без посредников.',
     hero_p:'Свяжитесь напрямую с лучшими нянями, поварами, водителями и домашними помощниками в Таиланде. Без посредников, без скрытых комиссий.',
     hero_cta1:'Создать бесплатный профиль',hero_cta2:'Как это работает',
     hero_helpers:'Будьте среди первых проверенных помощников на платформе',
@@ -128,7 +130,7 @@ const T = {
     hero_step2:'Семьи найдут ваш профиль и свяжутся с вами',
     hero_step3:'Общайтесь, договоритесь и начните работать',
     trust_label:'Нам доверяют семьи',
-    feat_title:'Почему прямой найм?',feat_sub:'Без агентств. Без ожидания. Мы соединяем вас с семьями — просто и быстро.',
+    feat_title:'Почему прямые связи?',feat_sub:'Без посредников. Без ожидания. Мы соединяем вас с семьями — просто и быстро.',
     feat1_h:'100% Напрямую',feat1_p:'Общайтесь с семьями сами. Договаривайтесь о графике и зарплате. Никаких посредников.',
     feat2_h:'Проверенные профили',feat2_p:'Мы проверяем документы — семьи доверяют вам, а вы доверяете им.',
     feat3_h:'Без скрытых комиссий',feat3_p:'Ваш профиль бесплатный. Никаких регистрационных сборов. Никто не забирает деньги из вашей зарплаты.',
@@ -137,12 +139,12 @@ const T = {
     preview_badge:'✓ Проверен',preview_exp:'лет опыта',preview_btn:'Связаться',
     preview_note:'Только оплатившие и проверенные семьи могут с вами связаться.',
     how_label:'Как это работает',how_title:'3 шага к трудоустройству',
-    how_sub:'Без агентств. Без очередей. Только ваш профиль и прямой контакт с работодателями.',
+    how_sub:'Без посредников. Без очередей. Только 3 простых шага.',
     step1_h:'Зарегистрируйтесь бесплатно',step1_p:'Создайте профиль за несколько минут. Добавьте опыт, навыки, доступность и фото.',
     step2_h:'Вас найдут',step2_p:'Семьи, ищущие домашний персонал в вашем городе, найдут ваш профиль и свяжутся напрямую.',
     step3_h:'Начните работать',step3_p:'Общайтесь напрямую, договоритесь об условиях и приступайте к работе — без посредников.',
     ben_label:'Почему ThaiHelper',ben_title:'Создано для домашних специалистов',
-    ben_sub:'Мы создали ThaiHelper, потому что текущая система не работает. Агентства берут слишком много. Facebook — хаос. Вы заслуживаете лучшего.',
+    ben_sub:'Традиционные способы дорогие и непрозрачные. Группы Facebook — хаос. Вы заслуживаете лучшего.',
     ben1_h:'Полностью бесплатно для вас',ben1_p:'Размещение профиля на ThaiHelper бесплатно навсегда. Работодатели платят за доступ, не вы.',
     ben2_h:'Серьёзные работодатели',ben2_p:'Только проверенные, оплатившие семьи могут с вами связаться. Без спама.',
     ben3_h:'Тайские и международные семьи',ben3_p:'Работайте с тайскими семьями и экспатами из Европы, США, России и других стран.',
@@ -160,7 +162,8 @@ const T = {
     cta_title:'Готовы начать карьеру в Таиланде?',
     cta_sub:'Создайте бесплатный профиль и будьте найдены семьями, которые ищут надёжных помощников.',
     cta_btn1:'Регистрация – Бесплатно',cta_btn2:'Узнать больше',
-    footer_desc:'Бесплатная платформа для домашних помощников — создайте профиль и будьте найдены семьями в Таиланде.',
+    footer_desc:'Бесплатная платформа, соединяющая независимых специалистов с семьями в Таиланде.',
+    footer_disclaimer:'ThaiHelper — это только платформа. Мы не нанимаем сотрудников, не оформляем визы и не проверяем разрешения на работу. Пользователи несут ответственность за свои юридические и трудовые договорённости.',
     footer_product:'Продукт',footer_company:'Компания',footer_legal:'Правовая информация',
     footer_find:'Преимущества',footer_hire:'Категории',footer_pricing:'Цены',footer_employers:'Для работодателей',
     footer_contact:'Связаться',footer_about:'О нас',footer_faq:'Частые вопросы',
@@ -206,7 +209,7 @@ const PROFILES = [
 
 const MATCHES = [
   { family:'The Johnson Family', family_photo:'https://images.unsplash.com/photo-1609220136736-443140cffec6?w=80&h=80&fit=crop&crop=face', helper:'Maria S.', helper_photo:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face', role_en:'Full-time Nanny', role_th:'พี่เลี้ยงเด็กเต็มเวลา', city:'Phuket', quote_en:'Maria has been incredible with our kids. Found her in 2 days!', quote_th:'Maria ดูแลลูกๆ ได้อย่างยอดเยี่ยม พบเธอใน 2 วัน!' },
-  { family:'The Weber Family', family_photo:'https://images.unsplash.com/photo-1600486913747-55e5470d6f40?w=80&h=80&fit=crop&crop=face', helper:'Sunisa K.', helper_photo:'https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face', role_en:'Housekeeper', role_th:'แม่บ้าน', city:'Bangkok', quote_en:'No agency fees, direct communication. Exactly what we needed.', quote_th:'ไม่มีค่าเอเจนซี่ สื่อสารโดยตรง ตรงตามที่เราต้องการ' },
+  { family:'The Weber Family', family_photo:'https://images.unsplash.com/photo-1600486913747-55e5470d6f40?w=80&h=80&fit=crop&crop=face', helper:'Sunisa K.', helper_photo:'https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face', role_en:'Housekeeper', role_th:'แม่บ้าน', city:'Bangkok', quote_en:'No fees, direct communication. Exactly what we needed.', quote_th:'ไม่มีค่าธรรมเนียม สื่อสารโดยตรง ตรงตามที่เราต้องการ' },
   { family:'The Petrov Family', family_photo:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face', helper:'Ana R.', helper_photo:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face', role_en:'Private Chef', role_th:'พ่อครัวส่วนตัว', city:'Phuket', quote_en:'Ana cooks amazing Thai and Western food. Our family loves her!', quote_th:'Ana ทำอาหารไทยและตะวันตกได้อย่างยอดเยี่ยม ครอบครัวเรารักเธอ!' },
 ];
 
@@ -262,7 +265,7 @@ export default function Home() {
   // FAQ data for structured data
   const homeFaqs = [
     { question: 'Is ThaiHelper really free for helpers?', answer: 'Yes, creating a profile on ThaiHelper is 100% free for helpers — forever. Only employers pay for verified access to contact helpers directly.' },
-    { question: 'How does ThaiHelper work?', answer: 'Sign up for free, create your profile with experience, skills and a photo, then get discovered by families searching for household staff in your city. Chat directly and agree on terms — no agency involved.' },
+    { question: 'How does ThaiHelper work?', answer: 'Sign up for free, create your profile with experience, skills and a photo, then get discovered by families searching for household staff in your city. Chat directly and agree on terms — no middleman involved.' },
     { question: 'What types of helpers can register?', answer: 'Nannies, babysitters, housekeepers, private chefs, drivers, gardeners, pool care specialists, elder caregivers, tutors and teachers are all welcome to register.' },
     { question: 'Which cities does ThaiHelper cover?', answer: 'ThaiHelper covers all major cities in Thailand including Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui and more.' },
     { question: 'Are helpers verified?', answer: 'Yes, ThaiHelper verifies IDs and can conduct background checks so families can hire with confidence.' },
@@ -272,7 +275,7 @@ export default function Home() {
     <>
       <SEOHead
         title="ThaiHelper – Find Trusted Household Staff in Thailand"
-        description="ThaiHelper connects families and expats in Thailand with trusted nannies, housekeepers, cooks, drivers and more. No agency fees."
+        description="ThaiHelper connects families and expats in Thailand with trusted nannies, housekeepers, cooks, drivers and more. Direct connections, no middleman fees."
         path="/"
         lang={lang}
         jsonLd={[getServiceSchema(), getFAQSchema(homeFaqs)]}
@@ -324,7 +327,7 @@ export default function Home() {
                 </h1>
                 {/* "No fees" line with gold shimmer */}
                 <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.5rem,3vw,2.2rem)'}}>
-                  {lang === 'en' ? 'No fees, no agencies.' : lang === 'ru' ? 'Без комиссий, без агентств.' : 'ไม่มีค่าธรรมเนียม ไม่มีเอเจนซี่'}
+                  {lang === 'en' ? 'No fees, no middlemen.' : lang === 'ru' ? 'Без комиссий, без посредников.' : 'ไม่มีค่าธรรมเนียม ไม่มีคนกลาง'}
                 </p>
                 {/* 3 Steps — clear and simple */}
                 <ul className="max-w-xl mb-10 space-y-3">
@@ -583,7 +586,8 @@ export default function Home() {
               </ul>
             </div>
           </div>
-          <div className="w-full md:w-auto mt-8 md:mt-0 border-t md:border-t-0 pt-8 md:pt-0">
+          <div className="w-full mt-8 border-t pt-8">
+            <p className="text-slate-400 text-xs leading-relaxed mb-3">{t.footer_disclaimer}</p>
             <p className="text-slate-500 text-xs">© 2026 ThaiHelper. All rights reserved.</p>
           </div>
         </footer>

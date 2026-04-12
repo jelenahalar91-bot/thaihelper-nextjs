@@ -81,7 +81,7 @@ const T = {
     hero_eyebrow: 'For Employers & Families',
     hero_h1: 'Find Trusted',
     hero_h1b: 'Helpers.',
-    hero_shimmer: 'No agencies, no fees.',
+    hero_shimmer: 'No middlemen, no fees.',
     hero_p: 'Browse verified nannies, housekeepers, chefs, drivers and more in your city. Create a free account and start messaging helpers today.',
     hero_cta: 'Create Free Account',
     hero_badge: 'Free for the first 8 weeks',
@@ -98,11 +98,11 @@ const T = {
     // Why
     why_label: 'Why ThaiHelper',
     why_title: 'A better way to find help',
-    why_sub: 'We built ThaiHelper because hiring through agencies is expensive, slow and opaque.',
+    why_sub: 'We built ThaiHelper because finding trusted help should be simple, transparent and affordable.',
     why1_h: '100% Free for Employers',
     why1_p: 'No sign-up fees, no monthly subscriptions. Browse profiles at no cost — only pay for premium contact features later.',
-    why2_h: 'No Agency Commissions',
-    why2_p: 'Traditional agencies charge 1–3 months salary. We charge a small one-time fee. You save thousands.',
+    why2_h: 'No Middleman Fees',
+    why2_p: 'Connect directly with helpers. We charge a small platform fee — no commissions on salaries.',
     why3_h: 'Verified & Background-Checked',
     why3_p: 'Every helper verifies their ID. Background checks and references are available on all profiles.',
     why4_h: 'All Categories in One Place',
@@ -128,7 +128,7 @@ const T = {
     cta_card_sub: 'Free account with full messaging access for your first 8 weeks. Find the perfect helper for your family.',
     cta_card_b1: 'Browse verified helper profiles in your city',
     cta_card_b2: 'Message helpers directly with built-in translation',
-    cta_card_b3: 'No agency fees — ever',
+    cta_card_b3: 'No middleman fees — ever',
     cta_card_btn: 'Create Free Account',
     cta_card_login_q: 'Already have an account?',
     cta_card_login: 'Login',
@@ -147,7 +147,8 @@ const T = {
     cta_sub: 'Tell your nanny, housekeeper, or driver about ThaiHelper. They can register for free and get discovered by families like yours.',
     cta_btn: 'Share with Helpers',
     // Footer
-    footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff. No agency fees, no middlemen.',
+    footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff. Direct connections, no middlemen.',
+    footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
     footer_product: 'Product',
     footer_fp1: 'For Helpers',
     footer_fp2: 'For Employers',
@@ -169,7 +170,7 @@ const T = {
     hero_eyebrow: 'สำหรับนายจ้างและครอบครัว',
     hero_h1: 'หาผู้ช่วยที่ไว้ใจได้',
     hero_h1b: 'โดยตรง',
-    hero_shimmer: 'ไม่มีเอเจนซี่ ไม่มีค่าธรรมเนียม',
+    hero_shimmer: 'ไม่มีคนกลาง ไม่มีค่าธรรมเนียม',
     hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ สร้างบัญชีฟรีและเริ่มส่งข้อความหาผู้ช่วยได้วันนี้',
     hero_cta: 'สร้างบัญชีฟรี',
     hero_badge: 'ฟรี 8 สัปดาห์แรก',
@@ -184,11 +185,11 @@ const T = {
     how3_p: 'แชทกับผู้ช่วยบนแพลตฟอร์มได้เลย ฟรี 8 สัปดาห์แรก ไม่ต้องใช้บัตรเครดิต',
     why_label: 'ทำไม ThaiHelper',
     why_title: 'วิธีที่ดีกว่าในการหาผู้ช่วย',
-    why_sub: 'เราสร้าง ThaiHelper เพราะการจ้างผ่านเอเจนซี่นั้นแพง ช้า และไม่โปร่งใส',
+    why_sub: 'เราสร้าง ThaiHelper เพราะการหาผู้ช่วยที่ไว้ใจได้ควรง่าย โปร่งใส และราคาไม่แพง',
     why1_h: 'ฟรี 100% สำหรับนายจ้าง',
     why1_p: 'ไม่มีค่าสมัคร ไม่มีค่าสมาชิกรายเดือน ดูโปรไฟล์ฟรี',
-    why2_h: 'ไม่มีค่าคอมมิชชั่นเอเจนซี่',
-    why2_p: 'เอเจนซี่แบบเดิมคิดค่าธรรมเนียม 1-3 เดือน เราคิดค่าธรรมเนียมครั้งเดียวเล็กน้อย',
+    why2_h: 'ไม่มีค่าคนกลาง',
+    why2_p: 'ติดต่อผู้ช่วยโดยตรง เราคิดค่าธรรมเนียมแพลตฟอร์มเล็กน้อย ไม่หักค่าคอมมิชชั่นจากเงินเดือน',
     why3_h: 'ตรวจสอบประวัติแล้ว',
     why3_p: 'ผู้ช่วยทุกคนยืนยันตัวตน มีการตรวจสอบประวัติและข้อมูลอ้างอิง',
     why4_h: 'ทุกหมวดหมู่ในที่เดียว',
@@ -212,7 +213,7 @@ const T = {
     cta_card_sub: 'บัญชีฟรีพร้อมสิทธิ์ส่งข้อความเต็มรูปแบบใน 8 สัปดาห์แรก หาผู้ช่วยที่ใช่สำหรับครอบครัวของคุณ',
     cta_card_b1: 'ดูโปรไฟล์ผู้ช่วยที่ผ่านการยืนยันในเมืองของคุณ',
     cta_card_b2: 'ส่งข้อความหาผู้ช่วยพร้อมการแปลอัตโนมัติ',
-    cta_card_b3: 'ไม่มีค่าธรรมเนียมเอเจนซี่ — ตลอดไป',
+    cta_card_b3: 'ไม่มีค่าคนกลาง — ตลอดไป',
     cta_card_btn: 'สร้างบัญชีฟรี',
     cta_card_login_q: 'มีบัญชีอยู่แล้ว?',
     cta_card_login: 'เข้าสู่ระบบ',
@@ -223,7 +224,8 @@ const T = {
     cta_title: 'รู้จักผู้ช่วยดีๆ ไหม?',
     cta_sub: 'บอกพี่เลี้ยง แม่บ้าน หรือคนขับของคุณเกี่ยวกับ ThaiHelper พวกเขาสามารถลงทะเบียนฟรี',
     cta_btn: 'แชร์กับผู้ช่วย',
-    footer_desc: 'ThaiHelper เชื่อมต่อครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานดูแลบ้านที่ไว้ใจได้',
+    footer_desc: 'ThaiHelper เชื่อมต่อครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานดูแลบ้านที่ไว้ใจได้ เชื่อมต่อโดยตรง ไม่มีคนกลาง',
+    footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
     footer_product: 'ผลิตภัณฑ์', footer_fp1: 'สำหรับผู้ช่วย', footer_fp2: 'สำหรับนายจ้าง', footer_fp3: 'วิธีการใช้งาน',
     footer_company: 'บริษัท', footer_fc1: 'เกี่ยวกับเรา', footer_fc2: 'ติดต่อ',
     footer_legal: 'กฎหมาย', footer_fl1: 'นโยบายความเป็นส่วนตัว', footer_fl2: 'ข้อกำหนดการใช้บริการ',
@@ -239,7 +241,7 @@ const T = {
     hero_eyebrow: 'Для работодателей и семей',
     hero_h1: 'Найдите проверенных помощников.',
     hero_h1b: 'Напрямую.',
-    hero_shimmer: 'Без агентств, без комиссий.',
+    hero_shimmer: 'Без посредников, без комиссий.',
     hero_p: 'Просматривайте проверенных нянь, домработниц, поваров, водителей. Создайте бесплатный аккаунт и пишите помощникам напрямую уже сегодня.',
     hero_cta: 'Создать бесплатный аккаунт',
     hero_badge: 'Бесплатно первые 8 недель',
@@ -254,11 +256,11 @@ const T = {
     how3_p: 'Общайтесь с помощниками прямо на платформе. Бесплатно первые 8 недель — без карты.',
     why_label: 'Почему ThaiHelper',
     why_title: 'Лучший способ найти помощника',
-    why_sub: 'Мы создали ThaiHelper, потому что агентства берут слишком много.',
+    why_sub: 'Мы создали ThaiHelper, потому что поиск надёжных помощников должен быть простым, прозрачным и доступным.',
     why1_h: '100% бесплатно для работодателей',
     why1_p: 'Без регистрационных сборов, без подписок. Просматривайте профили бесплатно.',
-    why2_h: 'Без комиссий агентств',
-    why2_p: 'Агентства берут 1–3 месячных зарплаты. Мы берём небольшую разовую плату.',
+    why2_h: 'Без посреднических комиссий',
+    why2_p: 'Связывайтесь с помощниками напрямую. Мы берём небольшую плату за платформу — без комиссий с зарплаты.',
     why3_h: 'Проверенные профили',
     why3_p: 'Каждый помощник подтверждает личность. Проверка документов и рекомендаций.',
     why4_h: 'Все категории в одном месте',
@@ -282,7 +284,7 @@ const T = {
     cta_card_sub: 'Бесплатный аккаунт с полным доступом к сообщениям первые 8 недель. Найдите идеального помощника для вашей семьи.',
     cta_card_b1: 'Просматривайте проверенные профили в вашем городе',
     cta_card_b2: 'Пишите помощникам напрямую со встроенным переводом',
-    cta_card_b3: 'Без комиссий агентств — никогда',
+    cta_card_b3: 'Без посреднических комиссий — никогда',
     cta_card_btn: 'Создать бесплатный аккаунт',
     cta_card_login_q: 'Уже есть аккаунт?',
     cta_card_login: 'Войти',
@@ -293,7 +295,8 @@ const T = {
     cta_title: 'Знаете хорошего помощника?',
     cta_sub: 'Расскажите вашей няне, домработнице или водителю о ThaiHelper. Регистрация бесплатная.',
     cta_btn: 'Поделиться с помощниками',
-    footer_desc: 'ThaiHelper связывает семьи и экспатов в Таиланде с проверенным домашним персоналом.',
+    footer_desc: 'ThaiHelper связывает семьи и экспатов в Таиланде с проверенным домашним персоналом. Прямые контакты, без посредников.',
+    footer_disclaimer: 'ThaiHelper — это только платформа. Мы не нанимаем персонал, не оформляем визы и не проверяем разрешения на работу. Пользователи несут ответственность за свои юридические и трудовые договорённости.',
     footer_product: 'Продукт', footer_fp1: 'Для помощников', footer_fp2: 'Для работодателей', footer_fp3: 'Как это работает',
     footer_company: 'Компания', footer_fc1: 'О нас', footer_fc2: 'Контакты',
     footer_legal: 'Правовая информация', footer_fl1: 'Политика конфиденциальности', footer_fl2: 'Условия использования',
@@ -304,8 +307,8 @@ const T = {
 const EMPLOYER_TRUST_SLIDES = [
   {
     id: 'no-fees',
-    title: 'Stop Paying Agencies',
-    description: 'Tired of agencies taking 1–3 months salary? We were too. That\'s why ThaiHelper is free for families. Zero fees, zero commission — just direct hiring.',
+    title: 'Hire Directly, Save Money',
+    description: 'Traditional hiring options can be expensive and unclear. ThaiHelper is free for families. Zero fees, zero commission — just direct hiring.',
     image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=600&fit=crop',
   },
   {
@@ -323,7 +326,7 @@ const EMPLOYER_TRUST_SLIDES = [
   {
     id: 'direct',
     title: 'Talk Directly, No Middleman',
-    description: 'No agent sitting between you and your future nanny. Chat directly, discuss your needs, agree on salary and schedule — on your terms, not theirs.',
+    description: 'No middleman between you and your future nanny. Chat directly, discuss your needs, agree on salary and schedule — on your terms.',
     image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
   },
   {
@@ -335,7 +338,7 @@ const EMPLOYER_TRUST_SLIDES = [
   {
     id: 'all-staff',
     title: 'One Place for Everything',
-    description: 'Need a nanny AND a housekeeper? Maybe a driver too? Stop juggling multiple agencies and Facebook groups. Find all household staff in one place.',
+    description: 'Need a nanny AND a housekeeper? Maybe a driver too? Stop searching across multiple places. Find all household staff in one place.',
     image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop',
   },
 ];
@@ -384,7 +387,7 @@ export default function Employers() {
     <>
       <SEOHead
         title="For Employers – Hire Trusted Household Staff"
-        description="Find and hire verified nannies, housekeepers, chefs, drivers and more in Thailand. No agency fees, direct communication with candidates."
+        description="Find and hire verified nannies, housekeepers, chefs, drivers and more in Thailand. Direct communication with candidates, no middleman fees."
         path="/employers"
         lang={lang}
         jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'For Employers', path: '/employers' }])}
@@ -681,7 +684,8 @@ export default function Employers() {
               </ul>
             </div>
           </div>
-          <div className="w-full md:w-auto mt-8 md:mt-0 border-t md:border-t-0 pt-8 md:pt-0">
+          <div className="w-full mt-8 border-t pt-8">
+            <p className="text-slate-400 text-xs leading-relaxed mb-3">{t.footer_disclaimer}</p>
             <p className="text-slate-500 text-xs">{t.footer_copy}</p>
           </div>
         </footer>

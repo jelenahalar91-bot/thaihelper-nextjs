@@ -13,6 +13,7 @@ const T = {
     updated:       'Last updated: March 2026',
     back:          '← Back to Home',
     footer_about:  'About', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service', footer_contact: 'Contact',
+    footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
   th: {
     nav_employers: 'สำหรับนายจ้าง',
@@ -23,6 +24,7 @@ const T = {
     updated:       'อัปเดตล่าสุด: มีนาคม 2569',
     back:          '← กลับหน้าแรก',
     footer_about:  'เกี่ยวกับเรา', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ', footer_contact: 'ติดต่อ',
+    footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
   },
 };
 
@@ -96,6 +98,7 @@ export default function Terms() {
             &nbsp;·&nbsp;
             <a className="hover:text-teal-600" href="mailto:support@thaihelper.app">{t.footer_contact}</a>
           </div>
+          <p className="mt-3 text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed">{t.footer_disclaimer}</p>
         </footer>
       </div>
     </>

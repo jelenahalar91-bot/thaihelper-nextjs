@@ -274,7 +274,7 @@ export default function EmployerRegisterPage() {
     <>
       <SEOHead
         title={t.page_title}
-        description="Create a free employer account on ThaiHelper to find nannies, housekeepers, chefs, drivers and more — directly, without agencies."
+        description="Create a free employer account on ThaiHelper to find nannies, housekeepers, chefs, drivers and more — directly, no middleman."
         path="/employer-register"
         lang={lang}
         jsonLd={getBreadcrumbSchema([

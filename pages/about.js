@@ -25,7 +25,7 @@ const T = {
 
     values_title: 'What we wanted to fix',
     val1_h: 'Direct contact',
-    val1_p: 'No middleman, no agency standing between you and the person you might welcome into your home. You message helpers directly, ask the questions that matter to you, and decide for yourselves.',
+    val1_p: 'No middleman standing between you and the person you might welcome into your home. You message helpers directly, ask the questions that matter to you, and decide for yourselves.',
     val2_h: 'Transparent, one-time pricing',
     val2_p: 'Employers pay one simple fee for full access during the period they choose. No hidden charges, no auto-renewing subscriptions, no surprise commissions skimmed off helpers\' wages.',
     val3_h: 'Free for helpers, always',
@@ -48,6 +48,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Employers',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
+    footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
 
   th: {
@@ -71,7 +72,7 @@ const T = {
 
     values_title: 'สิ่งที่เราต้องการแก้ไข',
     val1_h: 'ติดต่อโดยตรง',
-    val1_p: 'ไม่มีคนกลาง ไม่มีเอเจนซี่คั่นกลางระหว่างคุณกับคนที่คุณอาจรับเข้ามาในบ้าน คุณส่งข้อความหาผู้ช่วยโดยตรง ถามคำถามที่สำคัญสำหรับคุณ และตัดสินใจด้วยตัวเอง',
+    val1_p: 'ไม่มีคนกลางระหว่างคุณกับคนที่คุณอาจรับเข้ามาในบ้าน คุณส่งข้อความหาผู้ช่วยโดยตรง ถามคำถามที่สำคัญสำหรับคุณ และตัดสินใจด้วยตัวเอง',
     val2_h: 'ราคาโปร่งใส จ่ายครั้งเดียว',
     val2_p: 'นายจ้างจ่ายค่าธรรมเนียมเดียวง่ายๆ สำหรับการเข้าถึงเต็มรูปแบบในช่วงเวลาที่เลือก ไม่มีค่าใช้จ่ายแอบแฝง ไม่มีการต่ออายุอัตโนมัติ ไม่มีค่าคอมมิชชั่นที่หักจากค่าจ้างผู้ช่วย',
     val3_h: 'ฟรีสำหรับผู้ช่วยตลอดไป',
@@ -93,6 +94,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับนายจ้าง',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการให้บริการ',
+    footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
   },
 
   ru: {
@@ -116,7 +118,7 @@ const T = {
 
     values_title: 'Что мы хотели исправить',
     val1_h: 'Прямой контакт',
-    val1_p: 'Никаких посредников, никаких агентств между вами и человеком, которого вы, возможно, впустите к себе домой. Вы пишете помощникам напрямую, задаёте важные именно для вас вопросы и решаете сами.',
+    val1_p: 'Никаких посредников между вами и человеком, которого вы, возможно, впустите к себе домой. Вы пишете помощникам напрямую, задаёте важные именно для вас вопросы и решаете сами.',
     val2_h: 'Прозрачная цена, один платёж',
     val2_p: 'Работодатели платят один простой взнос за полный доступ на выбранный период. Никаких скрытых платежей, никаких автопродлений, никаких «незаметных» комиссий, удерживаемых с зарплаты помощников.',
     val3_h: 'Бесплатно для помощников, всегда',
@@ -319,7 +321,8 @@ export default function About() {
               </ul>
             </div>
           </div>
-          <div className="w-full md:w-auto mt-8 md:mt-0 border-t md:border-t-0 pt-8 md:pt-0">
+          <div className="w-full mt-8 border-t pt-8">
+            <p className="text-slate-400 text-xs leading-relaxed mb-3">{t.footer_disclaimer}</p>
             <p className="text-slate-500 text-xs">© 2026 ThaiHelper. All rights reserved.</p>
           </div>
         </footer>

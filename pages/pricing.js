@@ -13,7 +13,7 @@ const T = {
     nav_cta: 'Register – Free',
     hero_eyebrow: 'Pricing',
     hero_h1: 'Simple, transparent pricing',
-    hero_sub: 'Free to browse. Pay only when you are ready to contact helpers directly. No agency fees, no commissions — ever.',
+    hero_sub: 'Free to browse. Pay only when you are ready to contact helpers directly. No middleman fees, no commissions — ever.',
     promo_badge: '🎉 New employers get the first 8 weeks free — no credit card required.',
     promo_launch_note: 'Launch offer — available only while we\'re growing our network.',
     // Cards
@@ -63,7 +63,7 @@ const T = {
     faq_q3: 'What happens after my plan ends?',
     faq_a3: 'Your account stays free forever. You keep access to all helper profiles and your message history, but you\'ll need to renew a plan to send new full-text messages.',
     faq_q4: 'Why charge employers but not helpers?',
-    faq_a4: 'Helpers have traditionally lost 1–3 months of salary to agency fees. We keep ThaiHelper free for helpers so they keep every baht they earn. Employers pay a small, transparent fee instead.',
+    faq_a4: 'Helpers have traditionally lost significant amounts of salary to placement fees. We keep ThaiHelper free for helpers so they keep every baht they earn. Employers pay a small, transparent platform fee instead.',
     // Final CTA
     cta_h2: 'Still have questions?',
     cta_p: 'Email us at support@thaihelper.app — we usually reply within a few hours.',
@@ -73,6 +73,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Employers',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
+    footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
   th: {
     page_title: 'ราคา – ThaiHelper',
@@ -83,7 +84,7 @@ const T = {
     nav_cta: 'ลงทะเบียน – ฟรี',
     hero_eyebrow: 'ราคา',
     hero_h1: 'ราคาเรียบง่าย โปร่งใส',
-    hero_sub: 'ค้นหาฟรี จ่ายเฉพาะเมื่อคุณพร้อมติดต่อผู้ช่วยโดยตรง ไม่มีค่าธรรมเนียมตัวแทน ไม่มีค่าคอมมิชชั่น',
+    hero_sub: 'ค้นหาฟรี จ่ายเฉพาะเมื่อคุณพร้อมติดต่อผู้ช่วยโดยตรง ไม่มีค่าคนกลาง ไม่มีค่าคอมมิชชั่น',
     promo_badge: '🎉 นายจ้างใหม่ได้ใช้งานเต็มรูปแบบฟรี 8 สัปดาห์ — ไม่ต้องใช้บัตรเครดิต',
     promo_launch_note: 'ข้อเสนอช่วงเปิดตัว — มีให้เฉพาะช่วงที่เรากำลังขยายเครือข่ายเท่านั้น',
     tier_free_name: 'ฟรี',
@@ -130,7 +131,7 @@ const T = {
     faq_q3: 'เกิดอะไรขึ้นหลังจากแผนของฉันหมดอายุ?',
     faq_a3: 'บัญชีของคุณยังคงฟรีตลอดไป คุณยังคงเข้าถึงโปรไฟล์ผู้ช่วยและประวัติข้อความของคุณ แต่ต้องต่ออายุเพื่อส่งข้อความเต็มรูปแบบใหม่',
     faq_q4: 'ทำไมถึงเก็บค่าบริการจากนายจ้างแต่ไม่เก็บจากผู้ช่วย?',
-    faq_a4: 'ผู้ช่วยเคยสูญเสียเงินเดือน 1-3 เดือนให้กับค่าธรรมเนียมตัวแทน เราให้บริการฟรีสำหรับผู้ช่วยเพื่อให้พวกเขาเก็บเงินทุกบาทที่หามาได้',
+    faq_a4: 'ผู้ช่วยมักสูญเสียรายได้จำนวนมากจากค่าธรรมเนียมการจัดหางาน เราให้บริการฟรีสำหรับผู้ช่วยเพื่อให้พวกเขาเก็บเงินทุกบาทที่หามาได้',
     cta_h2: 'ยังมีคำถามอยู่?',
     cta_p: 'ส่งอีเมลหาเราที่ support@thaihelper.app — เรามักตอบกลับภายในไม่กี่ชั่วโมง',
     cta_btn: 'ลงทะเบียนเป็นนายจ้าง',
@@ -138,6 +139,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'สิทธิประโยชน์', footer_hire: 'ประเภท', footer_pricing: 'ราคา', footer_employers: 'สำหรับนายจ้าง',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับ', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'เงื่อนไขการใช้งาน',
+    footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
   },
   ru: {
     page_title: 'Цены – ThaiHelper',
@@ -148,7 +150,7 @@ const T = {
     nav_cta: 'Регистрация – бесплатно',
     hero_eyebrow: 'Цены',
     hero_h1: 'Просто и прозрачно',
-    hero_sub: 'Поиск бесплатный. Платите, только когда готовы связаться с помощником напрямую. Никаких агентских сборов и комиссий.',
+    hero_sub: 'Поиск бесплатный. Платите, только когда готовы связаться с помощником напрямую. Без посреднических сборов и комиссий.',
     promo_badge: '🎉 Новые работодатели получают первые 8 недель бесплатно — карта не нужна.',
     promo_launch_note: 'Акция при запуске — доступна только пока мы расширяем нашу сеть.',
     tier_free_name: 'Бесплатно',
@@ -195,7 +197,7 @@ const T = {
     faq_q3: 'Что происходит после окончания плана?',
     faq_a3: 'Ваш аккаунт остаётся бесплатным навсегда. Доступ к профилям и истории переписки сохраняется, но для отправки новых полных сообщений нужно продлить план.',
     faq_q4: 'Почему платят работодатели, а не помощники?',
-    faq_a4: 'Помощники традиционно теряли 1–3 месячные зарплаты на агентских сборах. Мы оставляем ThaiHelper бесплатным для помощников — они получают каждый бат, который зарабатывают.',
+    faq_a4: 'Помощники традиционно теряли значительную часть зарплаты на сборах за трудоустройство. Мы оставляем ThaiHelper бесплатным для помощников — они получают каждый бат, который зарабатывают.',
     cta_h2: 'Остались вопросы?',
     cta_p: 'Напишите нам на support@thaihelper.app — обычно отвечаем за несколько часов.',
     cta_btn: 'Регистрация работодателя',
@@ -203,6 +205,7 @@ const T = {
     footer_product: 'Продукт', footer_find: 'Преимущества', footer_hire: 'Категории', footer_pricing: 'Цены', footer_employers: 'Работодателям',
     footer_company: 'Компания', footer_contact: 'Контакты', footer_about: 'О нас', footer_faq: 'FAQ',
     footer_legal: 'Правовая информация', footer_privacy: 'Политика конфиденциальности', footer_terms: 'Условия использования',
+    footer_disclaimer: 'ThaiHelper — это только платформа. Мы не нанимаем персонал, не оформляем визы и не проверяем разрешения на работу. Пользователи несут ответственность за свои юридические и трудовые договорённости.',
   },
 };
 
@@ -505,7 +508,8 @@ export default function Pricing() {
               </ul>
             </div>
           </div>
-          <div className="w-full md:w-auto mt-8 md:mt-0 border-t md:border-t-0 pt-8 md:pt-0">
+          <div className="w-full mt-8 border-t pt-8">
+            <p className="text-slate-400 text-xs leading-relaxed mb-3">{t.footer_disclaimer}</p>
             <p className="text-slate-500 text-xs">© 2026 ThaiHelper. All rights reserved.</p>
           </div>
         </footer>

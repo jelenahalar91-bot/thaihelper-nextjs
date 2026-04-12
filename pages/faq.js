@@ -5,7 +5,7 @@ import { useLang } from './_app';
 
 /* ── Structured FAQ data for JSON-LD schema ───────── */
 const ALL_FAQS = [
-  { question: 'What is ThaiHelper?', answer: 'ThaiHelper is a free platform that connects household service providers (nannies, housekeepers, chefs, drivers, gardeners, caregivers, tutors) with families in Thailand. No agency fees, no middlemen.' },
+  { question: 'What is ThaiHelper?', answer: 'ThaiHelper is a free platform that connects household service providers (nannies, housekeepers, chefs, drivers, gardeners, caregivers, tutors) with families in Thailand. Direct connections, no middlemen.' },
   { question: 'Who is behind ThaiHelper?', answer: 'ThaiHelper was built by a family of four who moved to Thailand and experienced firsthand how difficult it is to find trusted household help.' },
   { question: 'Is ThaiHelper available in my city?', answer: 'ThaiHelper is available across Thailand including Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, Hua Hin and many more cities.' },
   { question: 'Is ThaiHelper free for helpers?', answer: 'Yes, 100% free. Helpers never pay to create a profile, receive messages, or get hired.' },
@@ -15,7 +15,7 @@ const ALL_FAQS = [
   { question: 'Can I edit or delete my profile?', answer: 'Yes. Log in to your dashboard to edit your profile at any time. To delete your profile entirely, contact support@thaihelper.app and we will remove it within 14 days.' },
   { question: 'How much does ThaiHelper cost for employers?', answer: 'New employers get 8 weeks of free access when they register. After the free period, you can purchase an access plan to continue messaging helpers.' },
   { question: 'How do I find a helper?', answer: 'Browse the helper directory and use filters (city, category, experience, languages) to narrow down your search. Click on a profile to see the full details, then send a message directly.' },
-  { question: 'Does ThaiHelper do background checks?', answer: 'No. ThaiHelper is a platform, not an agency. We recommend conducting your own interviews, reference checks and any applicable legal employment steps before hiring.' },
+  { question: 'Does ThaiHelper do background checks?', answer: 'No. ThaiHelper is a platform that connects helpers with families. We do not verify credentials or conduct background checks. We recommend conducting your own interviews, reference checks and any applicable legal employment steps before hiring.' },
   { question: 'Can I post a job listing?', answer: 'Currently, employers browse and contact helpers directly. A dedicated job board feature is planned for the future.' },
   { question: 'How do I log in?', answer: 'Use the email address you registered with and your reference number (e.g. TH-A1B2C3 for helpers, EMP-A1B2C3 for employers). Use the Forgot reference number link if needed.' },
   { question: 'Is my data safe?', answer: 'Yes. ThaiHelper follows strict data privacy practices. Personal contact details are only shared through the messaging system, not publicly displayed.' },
@@ -30,6 +30,7 @@ const T = {
     title:         'Frequently Asked Questions',
     back:          '← Back to Home',
     footer_about:  'About', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service', footer_contact: 'Contact', footer_faq: 'FAQ',
+    footer_disclaimer: 'ThaiHelper is a platform only. We do not employ anyone, arrange visas or verify work permits. Users are responsible for their own legal and employment arrangements.',
   },
   th: {
     nav_employers: 'สำหรับนายจ้าง',
@@ -39,6 +40,7 @@ const T = {
     title:         'คำถามที่พบบ่อย',
     back:          '← กลับหน้าแรก',
     footer_about:  'เกี่ยวกับเรา', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ', footer_contact: 'ติดต่อ', footer_faq: 'คำถามที่พบบ่อย',
+    footer_disclaimer: 'ThaiHelper เป็นแพลตฟอร์มเท่านั้น เราไม่ได้จ้างงานใคร ไม่จัดการวีซ่า หรือตรวจสอบใบอนุญาตทำงาน ผู้ใช้มีหน้าที่รับผิดชอบเรื่องกฎหมายและการจ้างงานของตนเอง',
   },
 };
 
@@ -120,6 +122,7 @@ export default function FAQ() {
             &nbsp;·&nbsp;
             <a className="hover:text-teal-600" href="mailto:support@thaihelper.app">{t.footer_contact}</a>
           </div>
+          <p className="mt-3 text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed">{t.footer_disclaimer}</p>
         </footer>
       </div>
     </>
@@ -133,7 +136,7 @@ function FAQEN() {
 
       <h3>What is ThaiHelper?</h3>
       <p>
-        ThaiHelper is a free platform that connects household service providers (nannies, housekeepers, chefs, drivers, gardeners, caregivers, tutors) with families in Thailand. We are not an agency — we simply make it easy for both sides to find each other and communicate directly.
+        ThaiHelper is a free platform that connects household service providers (nannies, housekeepers, chefs, drivers, gardeners, caregivers, tutors) with families in Thailand. We simply make it easy for both sides to find each other and communicate directly.
       </p>
 
       <h3>Who is behind ThaiHelper?</h3>
@@ -187,7 +190,7 @@ function FAQEN() {
 
       <h3>Does ThaiHelper do background checks?</h3>
       <p>
-        No. ThaiHelper is a platform, not an agency. We do not verify credentials or conduct background checks. We recommend conducting your own interviews, reference checks and any applicable legal employment steps before hiring.
+        ThaiHelper is a platform that connects helpers with families. We do not verify credentials or conduct background checks. We recommend conducting your own interviews, reference checks and any applicable legal employment steps before hiring.
       </p>
 
       <h3>Can I post a job listing?</h3>
@@ -224,7 +227,7 @@ function FAQTH() {
 
       <h3>ThaiHelper คืออะไร?</h3>
       <p>
-        ThaiHelper เป็นแพลตฟอร์มฟรีที่เชื่อมต่อผู้ให้บริการในบ้าน (พี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ คนสวน ผู้ดูแลผู้สูงอายุ ติวเตอร์) กับครอบครัวในประเทศไทย เราไม่ใช่เอเจนซี่ เราเพียงแค่ทำให้ทั้งสองฝ่ายค้นพบกันและสื่อสารกันได้โดยตรง
+        ThaiHelper เป็นแพลตฟอร์มฟรีที่เชื่อมต่อผู้ให้บริการในบ้าน (พี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ คนสวน ผู้ดูแลผู้สูงอายุ ติวเตอร์) กับครอบครัวในประเทศไทย เราเพียงแค่ทำให้ทั้งสองฝ่ายค้นพบกันและสื่อสารกันได้โดยตรง
       </p>
 
       <h3>ใครอยู่เบื้องหลัง ThaiHelper?</h3>
@@ -278,7 +281,7 @@ function FAQTH() {
 
       <h3>ThaiHelper ตรวจสอบประวัติไหม?</h3>
       <p>
-        ไม่ ThaiHelper เป็นแพลตฟอร์ม ไม่ใช่เอเจนซี่ เราไม่ได้ยืนยันข้อมูลรับรองหรือตรวจสอบประวัติ เราแนะนำให้ทำการสัมภาษณ์ ตรวจสอบข้อมูลอ้างอิง และดำเนินการตามกฎหมายแรงงานก่อนจ้าง
+        ThaiHelper เป็นแพลตฟอร์มที่เชื่อมต่อผู้ช่วยกับครอบครัว เราไม่ได้ยืนยันข้อมูลรับรองหรือตรวจสอบประวัติ เราแนะนำให้ทำการสัมภาษณ์ ตรวจสอบข้อมูลอ้างอิง และดำเนินการตามกฎหมายแรงงานก่อนจ้าง
       </p>
 
       <h2>บัญชีและความปลอดภัย</h2>
