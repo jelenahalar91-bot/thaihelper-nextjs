@@ -16,7 +16,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is a community connection platform operated by Jelena Hermann (Planet Bamboo GmbH), registered in Germany. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
   th: {
     nav_employers: 'สำหรับครอบครัว',
@@ -30,7 +30,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ',
-    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน ดำเนินการโดย Jelena Hermann (Planet Bamboo GmbH) จดทะเบียนในประเทศเยอรมนี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
 };
 
@@ -147,7 +147,10 @@ function TermsEN() {
     <div className="legal-content">
       <h2>1. About ThaiHelper</h2>
       <p>
-        ThaiHelper.app is a community connection platform and digital bulletin board that helps families and expats in Thailand discover household service providers, and helps service providers find work opportunities. ThaiHelper is operated by Jelena Hermann, Planet Bamboo GmbH, Ginsterweg 7, 70794 Filderstadt, Germany (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>). The platform is operated from Germany under German business registration and is currently provided free of charge.
+        ThaiHelper.app is a community connection platform and passive digital bulletin board that helps families in Thailand discover household service providers, and helps service providers find work opportunities. ThaiHelper does not provide recruitment or placement services.
+      </p>
+      <p>
+        <strong>Operator:</strong> Planet Bamboo GmbH, Ginsterweg 7, 70794 Filderstadt, Germany. Registered at Amtsgericht Stuttgart, HRB 770197. Managing Director: Jelena Hermann. Contact: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>.
       </p>
       <p>
         By using ThaiHelper — whether as a service provider registering a profile, or as a family browsing the platform — you agree to these Terms of Service.
@@ -155,13 +158,10 @@ function TermsEN() {
 
       <h2>2. Who ThaiHelper Is For</h2>
       <p>
-        ThaiHelper is designed for <strong>expats, tourists, digital nomads, and individuals on temporary visas</strong> in Thailand (including but not limited to DTV, tourist, ED, O, and retirement visas) who are looking for household help during their stay.
+        ThaiHelper welcomes <strong>all families in Thailand</strong> — including international expats, tourists, digital nomads, and local Thai families — who are looking for household help. The platform also serves helpers and service providers seeking work opportunities.
       </p>
       <p>
-        ThaiHelper is <strong>not intended for Thai nationals or permanent residents of Thailand</strong> seeking to hire domestic staff. Thai nationals hiring domestic workers are subject to specific provisions under Thai labor law, and should consult local labor authorities or licensed recruitment agencies for such arrangements.
-      </p>
-      <p>
-        By registering as a family or employer on ThaiHelper, you confirm that you are a foreign national residing in Thailand on a valid visa or visiting as a tourist.
+        By registering on ThaiHelper, you confirm that you are at least 18 years of age and that you will use the platform in compliance with all applicable laws.
       </p>
 
       <h2>3. Nature of Service — Digital Bulletin Board, Not an Agency</h2>
@@ -267,7 +267,10 @@ function TermsTH() {
     <div className="legal-content">
       <h2>1. เกี่ยวกับ ThaiHelper</h2>
       <p>
-        ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชนและกระดานประกาศดิจิทัลที่ช่วยให้ครอบครัวและชาวต่างชาติในประเทศไทยค้นหาผู้ให้บริการในบ้าน และช่วยให้ผู้ให้บริการค้นหาโอกาสในการทำงาน ThaiHelper ดำเนินการโดย Jelena Hermann, Planet Bamboo GmbH, Ginsterweg 7, 70794 Filderstadt ประเทศเยอรมนี (<a href="mailto:support@thaihelper.app">support@thaihelper.app</a>) แพลตฟอร์มดำเนินการจากประเทศเยอรมนีภายใต้การจดทะเบียนธุรกิจเยอรมัน และให้บริการฟรีในปัจจุบัน
+        ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชนและกระดานประกาศดิจิทัลแบบพาสซีฟที่ช่วยให้ครอบครัวในประเทศไทยค้นหาผู้ให้บริการในบ้าน และช่วยให้ผู้ให้บริการค้นหาโอกาสในการทำงาน ThaiHelper ไม่ได้ให้บริการสรรหาหรือจัดหางาน
+      </p>
+      <p>
+        <strong>ผู้ดำเนินการ:</strong> Planet Bamboo GmbH, Ginsterweg 7, 70794 Filderstadt ประเทศเยอรมนี จดทะเบียนที่ Amtsgericht Stuttgart, HRB 770197 กรรมการผู้จัดการ: Jelena Hermann ติดต่อ: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>
       </p>
       <p>
         การใช้ ThaiHelper ไม่ว่าจะในฐานะผู้ให้บริการที่ลงทะเบียนโปรไฟล์ หรือครอบครัวที่ค้นหาผู้ช่วย ถือว่าคุณยอมรับข้อกำหนดการใช้บริการเหล่านี้
@@ -275,13 +278,10 @@ function TermsTH() {
 
       <h2>2. ThaiHelper มีไว้สำหรับใคร</h2>
       <p>
-        ThaiHelper ออกแบบมาสำหรับ <strong>ชาวต่างชาติ นักท่องเที่ยว ดิจิทัลโนแมด และบุคคลที่ถือวีซ่าชั่วคราว</strong> ในประเทศไทย (รวมถึงแต่ไม่จำกัดเพียง วีซ่า DTV วีซ่าท่องเที่ยว วีซ่า ED วีซ่า O และวีซ่าเกษียณ) ที่ต้องการผู้ช่วยในบ้านระหว่างพำนักในประเทศไทย
+        ThaiHelper ยินดีต้อนรับ <strong>ครอบครัวทุกคนในประเทศไทย</strong> รวมถึงชาวต่างชาติ นักท่องเที่ยว ดิจิทัลโนแมด และครอบครัวชาวไทย ที่ต้องการผู้ช่วยในบ้าน แพลตฟอร์มยังให้บริการผู้ช่วยและผู้ให้บริการที่กำลังหาโอกาสในการทำงาน
       </p>
       <p>
-        ThaiHelper <strong>ไม่ได้มีไว้สำหรับคนไทยหรือผู้มีถิ่นพำนักถาวรในประเทศไทย</strong> ที่ต้องการจ้างพนักงานในบ้าน คนไทยที่จ้างพนักงานในบ้านอยู่ภายใต้บทบัญญัติเฉพาะตามกฎหมายแรงงานไทย และควรปรึกษาหน่วยงานแรงงานในพื้นที่หรือบริษัทจัดหางานที่ได้รับอนุญาต
-      </p>
-      <p>
-        เมื่อลงทะเบียนเป็นครอบครัวหรือนายจ้างบน ThaiHelper คุณยืนยันว่าคุณเป็นชาวต่างชาติที่พำนักในประเทศไทยด้วยวีซ่าที่ถูกต้องหรือมาเยี่ยมเยือนในฐานะนักท่องเที่ยว
+        เมื่อลงทะเบียนบน ThaiHelper คุณยืนยันว่าคุณมีอายุอย่างน้อย 18 ปี และจะใช้แพลตฟอร์มตามกฎหมายที่เกี่ยวข้องทั้งหมด
       </p>
 
       <h2>3. ลักษณะของบริการ — กระดานประกาศดิจิทัล ไม่ใช่ตัวแทนจัดหางาน</h2>

@@ -29,7 +29,7 @@ const T = {
     val2_h: 'Transparent, one-time pricing',
     val2_p: 'Employers pay one simple fee for full access during the period they choose. No hidden charges, no auto-renewing subscriptions, no surprise commissions skimmed off helpers\' wages.',
     val3_h: 'Free for helpers, always',
-    val3_p: 'Helpers never pay to list their profile or to receive messages. Every baht they earn from a job stays with them. We refuse to build a platform on the backs of the people doing the work.',
+    val3_p: 'Helpers never pay to list their profile or to receive messages. Every dollar they earn from a job stays with them. We refuse to build a platform on the backs of the people doing the work.',
     val4_h: 'Real profiles, real information',
     val4_p: 'Photos, experience, languages, references, certifications — the things you actually need to make a decision. No more guessing from a one-line Facebook comment.',
 
@@ -48,7 +48,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is a community connection platform operated by Jelena Hermann (Planet Bamboo GmbH), registered in Germany. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
 
   th: {
@@ -76,7 +76,7 @@ const T = {
     val2_h: 'ราคาโปร่งใส จ่ายครั้งเดียว',
     val2_p: 'นายจ้างจ่ายค่าธรรมเนียมเดียวง่ายๆ สำหรับการเข้าถึงเต็มรูปแบบในช่วงเวลาที่เลือก ไม่มีค่าใช้จ่ายแอบแฝง ไม่มีการต่ออายุอัตโนมัติ ไม่มีค่าคอมมิชชั่นที่หักจากค่าจ้างผู้ช่วย',
     val3_h: 'ฟรีสำหรับผู้ช่วยตลอดไป',
-    val3_p: 'ผู้ช่วยไม่ต้องจ่ายเงินเพื่อลงโปรไฟล์หรือรับข้อความ ทุกบาทที่พวกเขาได้รับจากการทำงานเป็นของพวกเขา เราจะไม่สร้างแพลตฟอร์มบนหลังของคนที่ทำงานจริง',
+    val3_p: 'ผู้ช่วยไม่ต้องจ่ายเงินเพื่อลงโปรไฟล์หรือรับข้อความ รายได้ทั้งหมดที่พวกเขาได้รับจากการทำงานเป็นของพวกเขา เราจะไม่สร้างแพลตฟอร์มบนหลังของคนที่ทำงานจริง',
     val4_h: 'โปรไฟล์จริง ข้อมูลจริง',
     val4_p: 'รูปภาพ ประสบการณ์ ภาษา ใบอ้างอิง ใบรับรอง สิ่งที่คุณต้องการเพื่อตัดสินใจ ไม่ต้องเดาจากความคิดเห็นบรรทัดเดียวบน Facebook อีกต่อไป',
 
@@ -94,7 +94,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการให้บริการ',
-    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน ดำเนินการโดย Jelena Hermann (Planet Bamboo GmbH) จดทะเบียนในประเทศเยอรมนี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
 
   ru: {
@@ -122,7 +122,7 @@ const T = {
     val2_h: 'Прозрачная цена, один платёж',
     val2_p: 'Работодатели платят один простой взнос за полный доступ на выбранный период. Никаких скрытых платежей, никаких автопродлений, никаких «незаметных» комиссий, удерживаемых с зарплаты помощников.',
     val3_h: 'Бесплатно для помощников, всегда',
-    val3_p: 'Помощники никогда не платят за создание профиля или получение сообщений. Каждый бат, который они зарабатывают на работе, остаётся у них. Мы отказываемся строить платформу на спинах тех, кто делает работу.',
+    val3_p: 'Помощники никогда не платят за создание профиля или получение сообщений. Весь заработок от работы остаётся у них. Мы отказываемся строить платформу на спинах тех, кто делает работу.',
     val4_h: 'Реальные профили, реальная информация',
     val4_p: 'Фото, опыт, языки, рекомендации, сертификаты — всё, что вам действительно нужно для решения. Больше никаких догадок по одной строке в комментарии Facebook.',
 

@@ -13,7 +13,7 @@ const ALL_FAQS = [
   { question: 'What information is visible on my profile?', answer: 'Your name, city, service category, skills, experience, languages, rate, bio and profile photo are publicly visible. Your email and phone number are never shown publicly.' },
   { question: 'How do families contact me?', answer: 'Families send you messages directly through the ThaiHelper platform. You will see their messages when you log in to your dashboard.' },
   { question: 'Can I edit or delete my profile?', answer: 'Yes. Log in to your dashboard to edit your profile at any time. To delete your profile entirely, contact support@thaihelper.app and we will remove it within 14 days.' },
-  { question: 'How much does ThaiHelper cost for employers?', answer: 'New employers get 8 weeks of free access when they register. After the free period, you can purchase an access plan to continue messaging helpers.' },
+  { question: 'How much does ThaiHelper cost for families?', answer: 'New families get the first 2 months of free access when they register. After the free period, you can purchase an access plan to continue messaging helpers.' },
   { question: 'How do I find a helper?', answer: 'Browse the helper directory and use filters (city, category, experience, languages) to narrow down your search. Click on a profile to see the full details, then send a message directly.' },
   { question: 'Does ThaiHelper do background checks?', answer: 'No. ThaiHelper is a platform that connects helpers with families. We do not verify credentials or conduct background checks. We recommend conducting your own interviews, reference checks and any applicable legal employment steps before hiring.' },
   { question: 'Can I post a job listing?', answer: 'Currently, employers browse and contact helpers directly. A dedicated job board feature is planned for the future.' },
@@ -33,7 +33,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is a community connection platform operated by Jelena Hermann (Planet Bamboo GmbH), registered in Germany. We are not a recruitment agency and do not provide placement services. The platform is currently 100% free to use. All arrangements are private agreements between users. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
   th: {
     nav_employers: 'สำหรับครอบครัว',
@@ -46,7 +46,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ',
-    footer_disclaimer: 'ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชน ดำเนินการโดย Jelena Hermann (Planet Bamboo GmbH) จดทะเบียนในประเทศเยอรมนี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรี 100% ในปัจจุบัน ข้อตกลงทั้งหมดเป็นข้อตกลงส่วนตัวระหว่างผู้ใช้ การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
 };
 
@@ -188,7 +188,7 @@ function FAQEN() {
 
       <h3>Is ThaiHelper free for helpers?</h3>
       <p>
-        Yes, 100% free. Helpers never pay to create a profile, receive messages, or get hired. We believe helpers should keep every baht they earn.
+        Yes, 100% free. Helpers never pay to create a profile, receive messages, or get hired. We believe helpers should keep every dollar they earn.
       </p>
 
       <h3>How do I register as a helper?</h3>
@@ -215,7 +215,7 @@ function FAQEN() {
 
       <h3>How much does ThaiHelper cost for families?</h3>
       <p>
-        New employers get <strong>8 weeks of free access</strong> when they register. After the free period, you can purchase an access plan to continue messaging helpers. Check our <Link href="/pricing" style={{ color: '#006a62' }}>pricing page</Link> for details.
+        New families get <strong>the first 2 months of free access</strong> when they register. After the free period, you can purchase an access plan to continue messaging helpers. Check our <Link href="/pricing" style={{ color: '#006a62' }}>pricing page</Link> for details.
       </p>
 
       <h3>How do I find a helper?</h3>
@@ -279,7 +279,7 @@ function FAQTH() {
 
       <h3>ThaiHelper ฟรีสำหรับผู้ช่วยไหม?</h3>
       <p>
-        ใช่ ฟรี 100% ผู้ช่วยไม่ต้องจ่ายเงินเพื่อสร้างโปรไฟล์ รับข้อความ หรือได้งาน เราเชื่อว่าผู้ช่วยควรเก็บทุกบาทที่พวกเขาหาได้
+        ใช่ ฟรี 100% ผู้ช่วยไม่ต้องจ่ายเงินเพื่อสร้างโปรไฟล์ รับข้อความ หรือได้งาน เราเชื่อว่าผู้ช่วยควรเก็บรายได้ทั้งหมดที่พวกเขาหามาได้
       </p>
 
       <h3>ฉันลงทะเบียนเป็นผู้ช่วยได้อย่างไร?</h3>
@@ -306,7 +306,7 @@ function FAQTH() {
 
       <h3>ThaiHelper ราคาเท่าไหร่?</h3>
       <p>
-        นายจ้างใหม่จะได้รับ <strong>สิทธิ์เข้าถึงฟรี 8 สัปดาห์</strong> เมื่อลงทะเบียน หลังจากช่วงฟรี คุณสามารถซื้อแผนเพื่อใช้งานต่อ ดูรายละเอียดที่ <Link href="/pricing" style={{ color: '#006a62' }}>หน้าราคา</Link>
+        ครอบครัวใหม่จะได้รับ <strong>สิทธิ์ใช้งานฟรี 2 เดือนแรก</strong> เมื่อลงทะเบียน หลังจากช่วงฟรี คุณสามารถซื้อแผนเพื่อใช้งานต่อ ดูรายละเอียดที่ <Link href="/pricing" style={{ color: '#006a62' }}>หน้าราคา</Link>
       </p>
 
       <h3>ฉันหาผู้ช่วยได้อย่างไร?</h3>
