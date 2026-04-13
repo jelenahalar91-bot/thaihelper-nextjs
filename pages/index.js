@@ -348,7 +348,7 @@ export default function Home() {
                   <Link className="px-8 py-4 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform text-center" href="/register">{t.hero_cta1}</Link>
                   <a className="px-8 py-4 rounded-xl bg-surface-container-highest text-secondary font-bold text-lg hover:bg-surface-container-high transition-colors text-center" href="#how-it-works">{t.hero_cta2}</a>
                 </div>
-                <Link className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-container transition-colors underline underline-offset-4" href="/employers-browse">{t.hero_browse}</Link>
+                <Link className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all" href="/employers-browse">{t.hero_browse}</Link>
               </div>
               <div className="relative">
                 <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>

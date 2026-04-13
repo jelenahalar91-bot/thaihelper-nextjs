@@ -459,7 +459,7 @@ export default function Employers() {
                     {t.hero_badge}
                   </span>
                 </div>
-                <Link className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-container transition-colors underline underline-offset-4" href="/helpers">{t.hero_browse}</Link>
+                <Link className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all" href="/helpers">{t.hero_browse}</Link>
               </div>
               {/* Right: mini carousel showing 2 cards */}
               <div className="relative">
