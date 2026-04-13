@@ -84,6 +84,7 @@ const T = {
     hero_shimmer: 'No middlemen, no fees.',
     hero_p: 'Browse verified nannies, housekeepers, chefs, drivers and more in your city. Create a free account and start messaging helpers today.',
     hero_cta: 'Create Free Account',
+    hero_browse: '👀 Browse Helper Profiles — No account needed',
     hero_badge: '100% free for the first 2 months',
     // How it works
     how_label: 'How It Works',
@@ -173,6 +174,7 @@ const T = {
     hero_shimmer: 'ไม่มีคนกลาง ไม่มีค่าธรรมเนียม',
     hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ สร้างบัญชีฟรีและเริ่มส่งข้อความหาผู้ช่วยได้วันนี้',
     hero_cta: 'สร้างบัญชีฟรี',
+    hero_browse: '👀 ดูโปรไฟล์ผู้ช่วย — ไม่ต้องสมัคร',
     hero_badge: 'ฟรี 100% สำหรับ 2 เดือนแรก',
     how_label: 'วิธีการใช้งาน',
     how_title: '3 ขั้นตอนง่ายๆ',
@@ -244,6 +246,7 @@ const T = {
     hero_shimmer: 'Без посредников, без комиссий.',
     hero_p: 'Просматривайте проверенных нянь, домработниц, поваров, водителей. Создайте бесплатный аккаунт и пишите помощникам напрямую уже сегодня.',
     hero_cta: 'Создать бесплатный аккаунт',
+    hero_browse: '👀 Смотреть профили помощников — без регистрации',
     hero_badge: '100% бесплатно первые 2 месяца',
     how_label: 'Как это работает',
     how_title: '3 простых шага',
@@ -456,6 +459,7 @@ export default function Employers() {
                     {t.hero_badge}
                   </span>
                 </div>
+                <Link className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-container transition-colors underline underline-offset-4" href="/helpers">{t.hero_browse}</Link>
               </div>
               {/* Right: mini carousel showing 2 cards */}
               <div className="relative">

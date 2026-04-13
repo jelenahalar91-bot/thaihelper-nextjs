@@ -14,7 +14,7 @@ const T = {
     hero_badge:'Premium Marketplace',
     hero_h1:'Find Work Directly.',hero_h1_em:'No Middleman Needed.',
     hero_p:"Connect directly with Thailand's best nannies, chefs, drivers and domestic helpers. No middleman, no hidden fees, just pure Thai hospitality at its finest.",
-    hero_cta1:'Create My Free Profile',hero_cta2:'See How It Works',
+    hero_cta1:'Create My Free Profile',hero_cta2:'See How It Works',hero_browse:'👀 Browse Job Listings — See who is hiring',
     hero_helpers:'Be among the first verified helpers on the platform',
     hero_float:'Free Forever – No Hidden Fees',
     hero_step1:'Sign up free — it takes 3 minutes',
@@ -69,7 +69,7 @@ const T = {
     hero_badge:'แพลตฟอร์มพรีเมียม',
     hero_h1:'หางานโดยตรง',hero_h1_em:'ไม่ต้องผ่านคนกลาง',
     hero_p:'เชื่อมต่อโดยตรงกับพี่เลี้ยง พ่อครัว คนขับรถ และผู้ช่วยงานบ้านที่ดีที่สุดในประเทศไทย ไม่มีคนกลาง ไม่มีค่าธรรมเนียมซ่อนเร้น',
-    hero_cta1:'สร้างโปรไฟล์ฟรี',hero_cta2:'ดูวิธีการใช้งาน',
+    hero_cta1:'สร้างโปรไฟล์ฟรี',hero_cta2:'ดูวิธีการใช้งาน',hero_browse:'👀 ดูประกาศรับสมัครงาน — ดูว่าใครกำลังจ้าง',
     hero_helpers:'เป็นหนึ่งในผู้ช่วยที่ผ่านการยืนยันกลุ่มแรกบนแพลตฟอร์ม',
     hero_float:'ฟรีตลอดไป – ไม่มีค่าธรรมเนียมซ่อนเร้น',
     hero_step1:'สมัครฟรี — ใช้เวลาแค่ 3 นาที',
@@ -123,7 +123,7 @@ const T = {
     hero_badge:'Премиум платформа',
     hero_h1:'Найдите работу напрямую.',hero_h1_em:'Без посредников.',
     hero_p:'Свяжитесь напрямую с лучшими нянями, поварами, водителями и домашними помощниками в Таиланде. Без посредников, без скрытых комиссий.',
-    hero_cta1:'Создать бесплатный профиль',hero_cta2:'Как это работает',
+    hero_cta1:'Создать бесплатный профиль',hero_cta2:'Как это работает',hero_browse:'👀 Смотреть вакансии — кто ищет помощника',
     hero_helpers:'Будьте среди первых проверенных помощников на платформе',
     hero_float:'Бесплатно навсегда – Без скрытых платежей',
     hero_step1:'Зарегистрируйтесь бесплатно — это займёт 3 минуты',
@@ -348,6 +348,7 @@ export default function Home() {
                   <Link className="px-8 py-4 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform text-center" href="/register">{t.hero_cta1}</Link>
                   <a className="px-8 py-4 rounded-xl bg-surface-container-highest text-secondary font-bold text-lg hover:bg-surface-container-high transition-colors text-center" href="#how-it-works">{t.hero_cta2}</a>
                 </div>
+                <Link className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-container transition-colors underline underline-offset-4" href="/employers-browse">{t.hero_browse}</Link>
               </div>
               <div className="relative">
                 <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
