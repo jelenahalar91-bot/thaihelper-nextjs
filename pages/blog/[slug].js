@@ -105,11 +105,13 @@ export default function BlogPost({ post }) {
                 ? 'bg-emerald-50 text-emerald-700'
                 : 'bg-blue-50 text-blue-700'
             }`}>
-              {post.category === 'helpers' ? 'For Helpers' : 'For Families'}
+              {post.category === 'helpers'
+                ? (lang === 'th' ? 'สำหรับผู้ช่วย' : 'For Helpers')
+                : (lang === 'th' ? 'สำหรับครอบครัว' : 'For Families')}
             </span>
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-tight font-headline mb-5">
-              {post.title}
+              {(lang === 'th' && post.title_th) || post.title}
             </h1>
 
             {/* Meta info */}
@@ -126,7 +128,7 @@ export default function BlogPost({ post }) {
               </span>
               <span className="flex items-center gap-1.5">
                 <Clock className="w-4 h-4" />
-                {post.readTime} min read
+                {post.readTime} {lang === 'th' ? 'นาที' : 'min read'}
               </span>
             </div>
           </div>
@@ -144,7 +146,7 @@ export default function BlogPost({ post }) {
               prose-table:text-sm prose-th:bg-gray-50 prose-th:p-3 prose-td:p-3
               prose-table:border prose-th:border prose-td:border prose-table:border-gray-200
               prose-img:rounded-xl"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: (lang === 'th' && post.content_th) || post.content }}
           />
 
           {/* Salary Calculator (only on calculator post) */}
@@ -158,18 +160,26 @@ export default function BlogPost({ post }) {
           <div className="mt-14 p-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-200 text-center">
             {post.category === 'helpers' ? (
               <>
-                <h3 className="text-xl font-bold text-gray-900 mb-2 font-headline">Ready to find your next job?</h3>
-                <p className="text-gray-500 mb-6">Create your free profile on ThaiHelper and get discovered by families across Thailand.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 font-headline">
+                  {lang === 'th' ? 'พร้อมหางานถัดไปไหม?' : 'Ready to find your next job?'}
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  {lang === 'th' ? 'สร้างโปรไฟล์ฟรีบน ThaiHelper แล้วให้ครอบครัวทั่วไทยค้นพบคุณ' : 'Create your free profile on ThaiHelper and get discovered by families across Thailand.'}
+                </p>
                 <Link href="/register" className="inline-block bg-primary text-white font-bold px-8 py-3.5 rounded-full hover:shadow-lg hover:scale-105 transition-all">
-                  Create Free Profile
+                  {lang === 'th' ? 'สร้างโปรไฟล์ฟรี' : 'Create Free Profile'}
                 </Link>
               </>
             ) : (
               <>
-                <h3 className="text-xl font-bold text-gray-900 mb-2 font-headline">Looking for household help?</h3>
-                <p className="text-gray-500 mb-6">Browse verified helpers in your city. Free to get started.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 font-headline">
+                  {lang === 'th' ? 'กำลังหาผู้ช่วยในบ้านอยู่ไหม?' : 'Looking for household help?'}
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  {lang === 'th' ? 'เรียกดูผู้ช่วยที่ผ่านการยืนยันในเมืองของคุณ เริ่มต้นฟรี' : 'Browse verified helpers in your city. Free to get started.'}
+                </p>
                 <Link href="/helpers" className="inline-block bg-primary text-white font-bold px-8 py-3.5 rounded-full hover:shadow-lg hover:scale-105 transition-all">
-                  Browse Helpers
+                  {lang === 'th' ? 'เรียกดูผู้ช่วย' : 'Browse Helpers'}
                 </Link>
               </>
             )}
@@ -179,7 +189,7 @@ export default function BlogPost({ post }) {
           <div className="mt-10 mb-16">
             <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-primary transition-colors">
               <ArrowLeft className="w-4 h-4" />
-              Back to all articles
+              {lang === 'th' ? 'กลับไปบทความทั้งหมด' : 'Back to all articles'}
             </Link>
           </div>
         </article>
@@ -189,8 +199,12 @@ export default function BlogPost({ post }) {
           <section className="bg-gray-50 border-t border-gray-100 py-16">
             <div className="max-w-7xl mx-auto px-4">
               <div className="text-center mb-10">
-                <p className="text-xs font-medium text-primary uppercase tracking-widest mb-2">Keep Reading</p>
-                <h2 className="text-2xl font-bold text-gray-900 font-headline">Related Articles</h2>
+                <p className="text-xs font-medium text-primary uppercase tracking-widest mb-2">
+                  {lang === 'th' ? 'อ่านต่อ' : 'Keep Reading'}
+                </p>
+                <h2 className="text-2xl font-bold text-gray-900 font-headline">
+                  {lang === 'th' ? 'บทความที่เกี่ยวข้อง' : 'Related Articles'}
+                </h2>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                 {related.map((r) => (

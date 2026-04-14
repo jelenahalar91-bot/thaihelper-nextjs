@@ -7,9 +7,9 @@ import { blogPosts } from '@/content/blog/posts';
 import { useLang } from '../_app';
 
 const FILTERS = [
-  { key: 'all', label: 'All Articles' },
-  { key: 'families', label: 'For Families' },
-  { key: 'helpers', label: 'For Helpers' },
+  { key: 'all', label: 'All Articles', label_th: 'บทความทั้งหมด' },
+  { key: 'families', label: 'For Families', label_th: 'สำหรับครอบครัว' },
+  { key: 'helpers', label: 'For Helpers', label_th: 'สำหรับผู้ช่วย' },
 ];
 
 export default function BlogIndex() {
@@ -66,10 +66,12 @@ export default function BlogIndex() {
               ThaiHelper Blog
             </p>
             <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl text-gray-900 tracking-tight font-headline mb-4">
-              Guides & Tips for Thailand
+              {lang === 'th' ? 'คู่มือและเคล็ดลับสำหรับประเทศไทย' : 'Guides & Tips for Thailand'}
             </h1>
             <p className="text-gray-500 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              Practical hiring guides for families and career advice for helpers. Everything you need to know about household help in Thailand.
+              {lang === 'th'
+                ? 'คู่มือการจ้างงานสำหรับครอบครัว และคำแนะนำอาชีพสำหรับผู้ช่วย ทุกสิ่งที่คุณต้องรู้เกี่ยวกับผู้ช่วยในครัวเรือนในไทย'
+                : 'Practical hiring guides for families and career advice for helpers. Everything you need to know about household help in Thailand.'}
             </p>
 
             {/* Filter Tabs */}
@@ -84,7 +86,7 @@ export default function BlogIndex() {
                       : 'bg-white text-gray-600 border border-gray-200 hover:border-primary/30 hover:text-primary'
                   }`}
                 >
-                  {f.label}
+                  {lang === 'th' ? f.label_th : f.label}
                 </button>
               ))}
             </div>
@@ -99,29 +101,35 @@ export default function BlogIndex() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <p className="text-center text-gray-400 py-16 text-lg">No articles in this category yet.</p>
+            <p className="text-center text-gray-400 py-16 text-lg">
+              {lang === 'th' ? 'ยังไม่มีบทความในหมวดหมู่นี้' : 'No articles in this category yet.'}
+            </p>
           )}
         </main>
 
         {/* ── CTA SECTION ── */}
         <section className="bg-gradient-to-br from-primary to-primary-container py-16 sm:py-20">
           <div className="max-w-3xl mx-auto text-center px-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 font-headline">Ready to Get Started?</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 font-headline">
+              {lang === 'th' ? 'พร้อมเริ่มต้นหรือยัง?' : 'Ready to Get Started?'}
+            </h2>
             <p className="text-white/80 text-lg mb-8">
-              Whether you're a family looking for help or a helper looking for work — ThaiHelper connects you directly.
+              {lang === 'th'
+                ? 'ไม่ว่าคุณจะเป็นครอบครัวที่กำลังหาผู้ช่วย หรือผู้ช่วยที่กำลังหางาน — ThaiHelper เชื่อมต่อคุณโดยตรง'
+                : "Whether you're a family looking for help or a helper looking for work — ThaiHelper connects you directly."}
             </p>
             <div className="flex justify-center gap-4 flex-wrap">
               <Link
                 href="/employer-register"
                 className="bg-white text-primary font-bold px-8 py-3.5 rounded-full hover:shadow-xl hover:scale-105 transition-all text-sm"
               >
-                I'm Looking for Help
+                {lang === 'th' ? 'ฉันกำลังหาผู้ช่วย' : "I'm Looking for Help"}
               </Link>
               <Link
                 href="/register"
                 className="border-2 border-white text-white font-bold px-8 py-3.5 rounded-full hover:bg-white/10 transition-all text-sm"
               >
-                I'm a Helper
+                {lang === 'th' ? 'ฉันเป็นผู้ช่วย' : "I'm a Helper"}
               </Link>
             </div>
           </div>
