@@ -10,6 +10,7 @@ import {
   sendEmployerAccountConfirmation,
   sendAdminNotification,
 } from '../../lib/send-confirmation-email';
+import { verifyTurnstile } from '../../lib/turnstile';
 
 function generateRef() {
   return 'EMP-' + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -50,7 +51,14 @@ export default async function handler(req, res) {
     preferredAgeRange,
     jobDescription,
     preferredLanguage,
+    turnstileToken,
   } = req.body;
+
+  // Verify Turnstile CAPTCHA
+  const captcha = await verifyTurnstile(turnstileToken);
+  if (!captcha.success) {
+    return res.status(403).json({ error: captcha.error });
+  }
 
   // Whitelist the arrangement preference — must match the CHECK constraint
   const ARRANGEMENT_VALUES = ['live_in', 'live_out', 'either'];

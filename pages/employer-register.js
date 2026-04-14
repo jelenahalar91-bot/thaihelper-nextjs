@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
+import Turnstile from '@/components/Turnstile';
 import { employerSignup } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
 import LangSwitcher from '@/components/LangSwitcher';
@@ -154,6 +155,8 @@ export default function EmployerRegisterPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [successRef, setSuccessRef] = useState(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const handleTurnstileToken = useCallback((token) => setTurnstileToken(token), []);
 
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
@@ -195,6 +198,7 @@ export default function EmployerRegisterPage() {
         arrangementPreference: arrangementPreference || null,
         preferredAgeRange: preferredAgeRange || null,
         jobDescription: jobDescription.trim(),
+        turnstileToken,
       });
 
       if (!result.success) {
@@ -465,6 +469,9 @@ export default function EmployerRegisterPage() {
                 />
                 <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.job_hint}</p>
               </div>
+
+              {/* Cloudflare Turnstile CAPTCHA */}
+              <Turnstile onToken={handleTurnstileToken} />
 
               <button
                 type="submit"

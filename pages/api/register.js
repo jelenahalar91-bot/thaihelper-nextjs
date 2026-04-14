@@ -7,6 +7,7 @@ import crypto from 'crypto';
 import { getServiceSupabase } from '../../lib/supabase';
 import { createToken, setSessionCookie } from '../../lib/auth';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
+import { verifyTurnstile } from '../../lib/turnstile';
 
 function generateRef() {
   return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -30,7 +31,14 @@ export default async function handler(req, res) {
     first_name, last_name, age, category, skills,
     city, area, experience, languages, rate,
     education, certificates, bio, email,
+    turnstileToken,
   } = req.body;
+
+  // Verify Turnstile CAPTCHA
+  const captcha = await verifyTurnstile(turnstileToken);
+  if (!captcha.success) {
+    return res.status(403).json({ error: captcha.error });
+  }
 
   // Validate required fields
   if (!first_name?.trim() || !last_name?.trim() || !email?.trim() || !city || !category) {

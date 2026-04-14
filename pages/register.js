@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
+import Turnstile from '@/components/Turnstile';
 import { useLang } from './_app';
 import Link from 'next/link';
 import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/helpers';
@@ -373,6 +374,8 @@ export default function Register() {
   const [photoPreview,setPhotoPreview]= useState('');
   const [photoText,   setPhotoText]   = useState('');
 
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const handleTurnstileToken = useCallback((token) => setTurnstileToken(token), []);
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
 
@@ -465,6 +468,7 @@ export default function Register() {
       certificates: certificates.trim(),
       bio:        bio.trim(),
       email:      email.trim(),
+      turnstileToken,
     };
 
     try {
@@ -837,6 +841,9 @@ export default function Register() {
                   </label>
                   {errors.terms && <div className="field-error" style={{ display: 'block' }}>{errors.terms}</div>}
                 </div>
+
+                {/* Cloudflare Turnstile CAPTCHA */}
+                <Turnstile onToken={handleTurnstileToken} />
 
                 {submitError && (
                   <div style={{
