@@ -56,7 +56,7 @@ export default function BlogPost({ post }) {
             </Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-primary hover:text-primary-container transition-colors" href="/blog">
+            <Link className="text-xs md:text-sm font-semibold text-primary hover:text-primary-container transition-colors" href="/blog">
               Blog
             </Link>
             <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-primary hover:text-primary-container transition-colors" href="/">
