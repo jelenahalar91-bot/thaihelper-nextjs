@@ -185,8 +185,20 @@ export default function BlogPost({ post }) {
             )}
           </div>
 
+          {/* ── DISCLAIMER ── */}
+          <div className="mt-10 p-5 rounded-xl bg-gray-50 border border-gray-200">
+            <p className="text-xs text-gray-400 leading-relaxed">
+              <strong className="text-gray-500">
+                {lang === 'th' ? 'ข้อจำกัดความรับผิดชอบ:' : 'Disclaimer:'}
+              </strong>{' '}
+              {lang === 'th'
+                ? 'บทความนี้จัดทำขึ้นเพื่อให้ข้อมูลทั่วไปเท่านั้น ไม่ถือเป็นคำแนะนำทางกฎหมาย ภาษี หรือทางการเงิน ThaiHelper ไม่ใช่สำนักงานกฎหมายและไม่ได้ให้บริการทางกฎหมาย กฎหมายแรงงานไทย อัตราค่าจ้างขั้นต่ำ และข้อกำหนดด้านประกันสังคมอาจมีการเปลี่ยนแปลง กรุณาตรวจสอบข้อมูลล่าสุดกับกระทรวงแรงงาน (mol.go.th) หรือปรึกษาทนายความที่มีคุณสมบัติก่อนตัดสินใจ'
+                : 'This article is provided for general informational purposes only and does not constitute legal, tax, or financial advice. ThaiHelper is not a law firm and does not provide legal services. Thai labor laws, minimum wage rates, and social security requirements are subject to change. Please verify all information with the Thai Ministry of Labour (mol.go.th) or consult a qualified lawyer before making any decisions.'}
+            </p>
+          </div>
+
           {/* Back to Blog */}
-          <div className="mt-10 mb-16">
+          <div className="mt-6 mb-16">
             <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-primary transition-colors">
               <ArrowLeft className="w-4 h-4" />
               {lang === 'th' ? 'กลับไปบทความทั้งหมด' : 'Back to all articles'}
