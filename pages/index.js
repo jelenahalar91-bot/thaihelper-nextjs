@@ -10,7 +10,7 @@ import { useLang } from './_app';
 
 const T = {
   en: {
-    nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Families',nav_login:'Login',nav_cta:'Register Free',
+    nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Families',nav_blog:'Blog',nav_login:'Login',nav_cta:'Register Free',
     hero_badge:'Premium Marketplace',
     hero_h1:'Find Work Directly.',hero_h1_em:'No Middleman Needed.',
     hero_p:"Connect directly with Thailand's best nannies, chefs, drivers and domestic helpers. No middleman, no hidden fees, just pure Thai hospitality at its finest.",
@@ -65,7 +65,7 @@ const T = {
     footer_privacy:'Privacy Policy',footer_terms:'Terms of Service',
   },
   th: {
-    nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_employers:'สำหรับครอบครัว',nav_login:'เข้าสู่ระบบ',nav_cta:'ลงทะเบียนฟรี',
+    nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_employers:'สำหรับครอบครัว',nav_blog:'บล็อก',nav_login:'เข้าสู่ระบบ',nav_cta:'ลงทะเบียนฟรี',
     hero_badge:'แพลตฟอร์มพรีเมียม',
     hero_h1:'หางานโดยตรง',hero_h1_em:'ไม่ต้องผ่านคนกลาง',
     hero_p:'เชื่อมต่อโดยตรงกับพี่เลี้ยง พ่อครัว คนขับรถ และผู้ช่วยงานบ้านที่ดีที่สุดในประเทศไทย ไม่มีคนกลาง ไม่มีค่าธรรมเนียมซ่อนเร้น',
@@ -119,7 +119,7 @@ const T = {
     footer_privacy:'นโยบายความเป็นส่วนตัว',footer_terms:'ข้อกำหนดการใช้งาน',
   },
   ru: {
-    nav_find:'Преимущества',nav_hire:'Категории',nav_how:'Как это работает',nav_employers:'Для семей',nav_login:'Войти',nav_cta:'Регистрация',
+    nav_find:'Преимущества',nav_hire:'Категории',nav_how:'Как это работает',nav_employers:'Для семей',nav_blog:'Блог',nav_login:'Войти',nav_cta:'Регистрация',
     hero_badge:'Премиум платформа',
     hero_h1:'Найдите работу напрямую.',hero_h1_em:'Без посредников.',
     hero_p:'Свяжитесь напрямую с лучшими нянями, поварами, водителями и домашними помощниками в Таиланде. Без посредников, без скрытых комиссий.',
@@ -304,6 +304,7 @@ export default function Home() {
             </span>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
+            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/blog">{t.nav_blog}</Link>
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
             <LangSwitcher />
             <Link className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150" href="/register">{t.nav_cta}</Link>
@@ -571,6 +572,7 @@ export default function Home() {
                     <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="#categories">{t.footer_hire}</a></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/pricing">{t.footer_pricing}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_employers}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/blog">{t.nav_blog}</Link></li>
                   </ul>
                 </div>
                 <div>

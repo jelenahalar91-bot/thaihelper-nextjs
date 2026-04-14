@@ -174,6 +174,35 @@ export function getFAQSchema(faqs) {
 }
 
 /**
+ * BlogPosting schema for blog articles
+ */
+export function getBlogPostingSchema({ title, description, slug, date, readTime }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description,
+    url: `${SITE_URL}/blog/${slug}`,
+    datePublished: date,
+    dateModified: date,
+    author: {
+      '@type': 'Organization',
+      name: 'ThaiHelper',
+      url: SITE_URL,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'ThaiHelper',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.svg` },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${slug}` },
+    wordCount: readTime * 200,
+    timeRequired: `PT${readTime}M`,
+  };
+}
+
+/**
  * BreadcrumbList schema
  */
 export function getBreadcrumbSchema(items) {
