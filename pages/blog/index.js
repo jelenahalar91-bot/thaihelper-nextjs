@@ -43,10 +43,10 @@ export default function BlogIndex() {
             </Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/helpers">
+            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-primary hover:text-primary-container transition-colors" href="/helpers">
               Browse Helpers
             </Link>
-            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/employers">
+            <Link className="hidden sm:inline text-xs md:text-sm font-semibold px-3 py-1.5 rounded-full border border-secondary/20 text-secondary hover:bg-secondary hover:text-white transition-all" href="/employers">
               For Families
             </Link>
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">

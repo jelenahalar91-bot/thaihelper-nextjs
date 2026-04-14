@@ -55,10 +55,10 @@ export default function BlogPost({ post }) {
             </Link>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/blog">
+            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-primary hover:text-primary-container transition-colors" href="/blog">
               Blog
             </Link>
-            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/helpers">
+            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-primary hover:text-primary-container transition-colors" href="/helpers">
               Browse Helpers
             </Link>
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
