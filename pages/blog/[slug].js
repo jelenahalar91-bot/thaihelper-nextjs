@@ -4,6 +4,7 @@ import { ArrowLeft, Clock, Calendar, User } from 'lucide-react';
 import SEOHead, { getBlogPostingSchema, getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import BlogCard from '@/components/BlogCard';
+import SalaryCalculator from '@/components/SalaryCalculator';
 import { blogPosts, getPostBySlug, getAllSlugs } from '@/content/blog/posts';
 import { useLang } from '../_app';
 
@@ -145,6 +146,13 @@ export default function BlogPost({ post }) {
               prose-img:rounded-xl"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
+
+          {/* Salary Calculator (only on calculator post) */}
+          {post.slug === 'thailand-helper-salary-calculator' && (
+            <div className="px-2 sm:px-4">
+              <SalaryCalculator />
+            </div>
+          )}
 
           {/* ── CTA BOX ── */}
           <div className="mt-14 p-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-200 text-center">

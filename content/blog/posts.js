@@ -42,13 +42,16 @@ export const blogPosts = [
       <p>Bangkok and Phuket tend to be on the higher end. Chiang Mai and Isaan are more affordable.</p>
 
       <h2>Legal Requirements</h2>
-      <p>If you hire a Thai national, there are no work permit issues. However, you should:</p>
+      <p>Domestic workers in Thailand are covered under <strong>Ministerial Regulation No. 14 (B.E. 2555)</strong>, which extends key labor protections to household employees. If you hire a Thai national, there are no work permit issues. Here's what the law requires:</p>
       <ul>
-        <li>Register them for social security if they work full-time (employer contributes 5%)</li>
-        <li>Agree on rest days — Thai labor law requires at least 1 rest day per week</li>
-        <li>Provide at least 6 days of paid annual leave after 1 year</li>
-        <li>Pay at least the provincial minimum wage</li>
+        <li><strong>Social Security:</strong> If your helper works full-time, you must register them under the Social Security Act (Section 33). Both employer and employee contribute 5% of salary each — covering medical care, maternity, disability, and pension.</li>
+        <li><strong>Rest days:</strong> At least 1 rest day per week (Ministerial Regulation No. 14). Most helpers take Sunday off.</li>
+        <li><strong>Annual leave:</strong> At least 6 days of paid annual leave after 1 year of continuous employment.</li>
+        <li><strong>Public holidays:</strong> Helpers are entitled to at least 13 paid public holidays per year. If they work on a holiday, overtime pay applies.</li>
+        <li><strong>Minimum wage:</strong> Pay at least the provincial minimum wage — currently 370 THB/day in Bangkok/Phuket, 330-370 THB/day in other provinces (2026 rates, adjusted annually by the Wage Committee).</li>
+        <li><strong>Hiring foreign helpers:</strong> If you hire a helper from Myanmar, Laos, or Cambodia, they need a valid work permit (MOU or border pass system). Read our <a href="/blog/work-permits-foreign-helpers-thailand">complete guide to work permits</a>.</li>
       </ul>
+      <p><em>Note: Thai labor law is updated periodically. Always check the latest rates at the <a href="https://www.mol.go.th" target="_blank" rel="noopener">Ministry of Labour website</a>.</em></p>
 
       <h2>Tips for a Successful Hire</h2>
       <ol>
@@ -369,38 +372,41 @@ export const blogPosts = [
     image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80',
     keywords: 'domestic helper rights Thailand, maid labor law Thailand, household worker rights, minimum wage helper Thailand',
     content: `
-      <p>Working as a household helper in Thailand can be a great job — but it's important to <strong>know your rights</strong>. Thai labor law protects domestic workers, even though enforcement can be inconsistent. Here's what you're entitled to.</p>
+      <p>Working as a household helper in Thailand can be a great job — but it's important to <strong>know your rights</strong>. Since 2012, <strong>Ministerial Regulation No. 14 (B.E. 2555)</strong> extended key labor protections specifically to domestic workers. Here's what you're legally entitled to.</p>
 
       <h2>Minimum Wage</h2>
-      <p>Thailand's minimum wage varies by province (updated 2026):</p>
+      <p>Thailand's minimum wage is set by the National Wage Committee and adjusted periodically. Current rates (2026):</p>
       <ul>
         <li><strong>Bangkok:</strong> 370 THB/day</li>
         <li><strong>Chiang Mai:</strong> 350 THB/day</li>
         <li><strong>Phuket:</strong> 370 THB/day</li>
         <li><strong>Other provinces:</strong> 330-370 THB/day</li>
       </ul>
-      <p>For full-time live-out helpers, this means a monthly minimum of around 10,000-11,000 THB (based on 30 working days). Many experienced helpers earn significantly more.</p>
+      <p>For full-time live-out helpers working 26 days/month, this means a minimum of approximately <strong>9,100-9,600 THB/month</strong>. Many experienced helpers earn significantly more — especially those with English skills or specialized experience.</p>
+      <p><em>Tip: Check the latest rates at the <a href="https://www.mol.go.th" target="_blank" rel="noopener">Ministry of Labour website</a>. Rates are typically reviewed every 1-2 years.</em></p>
 
-      <h2>Rest Days</h2>
-      <p>By law, you are entitled to:</p>
+      <h2>Rest Days & Leave</h2>
+      <p>Under Ministerial Regulation No. 14, you are entitled to:</p>
       <ul>
         <li><strong>At least 1 rest day per week</strong> — This must be agreed in advance. Most helpers take Sunday off.</li>
-        <li><strong>At least 13 public holidays per year</strong> — If you work on a public holiday, you should receive overtime pay.</li>
+        <li><strong>At least 13 traditional holidays per year</strong> — If you work on a public holiday, you should receive overtime pay (1.5x your daily rate).</li>
         <li><strong>Sick leave:</strong> Up to 30 days per year (with pay). A doctor's note may be required after 3 consecutive days.</li>
+        <li><strong>Annual leave:</strong> At least 6 days of paid annual leave after 1 full year with the same employer.</li>
+        <li><strong>Maternity leave:</strong> 98 days (45 days paid by employer, remainder covered by Social Security if enrolled).</li>
       </ul>
 
-      <h2>Annual Leave</h2>
-      <p>After working for the same employer for <strong>1 full year</strong>, you are entitled to at least <strong>6 days of paid annual leave</strong>. Many employers offer more — don't be afraid to ask.</p>
-
-      <h2>Social Security</h2>
-      <p>If you work full-time for one employer, they are legally required to register you for social security. This gives you:</p>
+      <h2>Social Security (Section 33)</h2>
+      <p>If you work full-time for one employer, they are legally required to register you under the <strong>Social Security Act, Section 33</strong>. This gives you:</p>
       <ul>
-        <li>Medical care coverage</li>
-        <li>Disability benefits</li>
-        <li>Maternity leave benefits</li>
-        <li>Pension contributions</li>
+        <li>Medical care coverage at a designated hospital</li>
+        <li>Disability and death benefits</li>
+        <li>Maternity leave benefits (50% of salary for 90 days)</li>
+        <li>Child allowance (800 THB/month per child, up to 3 children)</li>
+        <li>Old-age pension contributions</li>
+        <li>Unemployment benefits</li>
       </ul>
-      <p>Both you and your employer contribute 5% of your salary each. If your employer isn't contributing, they are breaking the law.</p>
+      <p>Both you and your employer contribute <strong>5% of your salary each</strong> (capped at a salary of 15,000 THB/month, so max 750 THB each). If your employer isn't contributing, they are breaking the law.</p>
+      <p><em>Important: You can check your Social Security status online at <a href="https://www.sso.go.th" target="_blank" rel="noopener">sso.go.th</a> or call the SSO hotline at 1506.</em></p>
 
       <h2>What Your Employer Cannot Do</h2>
       <ul>
@@ -571,6 +577,287 @@ export const blogPosts = [
 
       <h2>Start Building Your Reputation Today</h2>
       <p><a href="/register">Create your free ThaiHelper profile</a> and start your journey. Your next great family is already searching for someone exactly like you.</p>
+    `,
+  },
+
+  // ─── NEW: VISA & WORK PERMITS ──────────────────────────────────────────
+
+  {
+    slug: 'work-permits-foreign-helpers-thailand',
+    title: 'Work Permits for Foreign Helpers in Thailand: Complete Guide',
+    description:
+      'Everything families need to know about hiring foreign domestic helpers from Myanmar, Laos, or Cambodia in Thailand — MOU process, border passes, costs, and legal requirements.',
+    category: 'families',
+    date: '2026-04-14',
+    readTime: 10,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80',
+    keywords: 'work permit helper Thailand, hire Myanmar helper Thailand, MOU worker Thailand, foreign domestic helper permit, hire Cambodian helper Thailand',
+    content: `
+      <p>Many families in Thailand — both Thai and expat — hire helpers from <strong>Myanmar, Laos, or Cambodia</strong>. These workers often bring years of experience and strong work ethics. But hiring foreign helpers legally requires navigating Thailand's work permit system. This guide breaks it down.</p>
+
+      <h2>Why Families Hire Foreign Helpers</h2>
+      <p>Foreign domestic workers, particularly from Myanmar, make up a significant portion of Thailand's household workforce. Reasons include:</p>
+      <ul>
+        <li>Availability — Thai nationals increasingly prefer factory or service jobs over domestic work</li>
+        <li>Affordability — Foreign helpers often accept lower starting salaries</li>
+        <li>Reliability — Many foreign helpers are highly motivated and committed to long-term positions</li>
+      </ul>
+      <p>However, hiring a foreign helper <strong>without proper documentation is illegal</strong> and carries serious penalties for both employer and worker.</p>
+
+      <h2>The Two Legal Pathways</h2>
+
+      <h3>1. MOU (Memorandum of Understanding) System</h3>
+      <p>The MOU system is the official, government-to-government process for bringing workers from Myanmar, Laos, and Cambodia into Thailand legally.</p>
+      <p><strong>How it works:</strong></p>
+      <ol>
+        <li>You (or a licensed recruitment agency) submit a demand letter to the <strong>Department of Employment</strong></li>
+        <li>The demand letter is forwarded to the worker's home country</li>
+        <li>The worker is recruited, undergoes medical checks, and receives a passport</li>
+        <li>A 2-year work permit is issued (renewable for another 2 years)</li>
+        <li>The worker enters Thailand legally with a Non-Immigrant LA visa</li>
+      </ol>
+      <p><strong>Costs:</strong> Approximately 15,000-25,000 THB total (including medical check, visa, work permit, and agency fees if applicable).</p>
+      <p><strong>Timeline:</strong> 2-4 months from application to arrival.</p>
+
+      <h3>2. Border Pass / Pink Card System</h3>
+      <p>For workers already in Thailand, the government periodically opens <strong>registration windows</strong> allowing undocumented workers to register for temporary work permits (often called "pink cards").</p>
+      <p><strong>Requirements:</strong></p>
+      <ul>
+        <li>Worker must be from Myanmar, Laos, or Cambodia</li>
+        <li>Employer must register the worker at the local Employment Office</li>
+        <li>Medical examination required</li>
+        <li>Work permit is typically valid for 1-2 years</li>
+      </ul>
+      <p><em>Important: Registration windows open irregularly. Check the <a href="https://www.doe.go.th" target="_blank" rel="noopener">Department of Employment website</a> for current announcements.</em></p>
+
+      <h2>Employer Obligations</h2>
+      <p>As the employer of a foreign helper, you are legally responsible for:</p>
+      <ul>
+        <li><strong>Work permit costs</strong> — The employer typically pays for the work permit and visa fees</li>
+        <li><strong>Social Security registration</strong> — Foreign workers with valid permits must be enrolled in Social Security (Section 33)</li>
+        <li><strong>90-day reporting</strong> — The worker must report their address to Immigration every 90 days (you can help them do this online via the <a href="https://tm47.immigration.go.th" target="_blank" rel="noopener">Immigration website</a>)</li>
+        <li><strong>Notification of address</strong> — You must notify your local immigration office within 24 hours of the worker moving into your residence (TM.30 form)</li>
+        <li><strong>Minimum wage</strong> — Foreign workers are entitled to the same minimum wage as Thai nationals</li>
+        <li><strong>No passport confiscation</strong> — Holding a worker's passport is illegal under Thai law</li>
+      </ul>
+
+      <h2>Penalties for Non-Compliance</h2>
+      <ul>
+        <li><strong>Employing a worker without a permit:</strong> Fine of 10,000-100,000 THB per worker</li>
+        <li><strong>Worker without a permit:</strong> Fine and/or deportation</li>
+        <li><strong>Repeat offenders:</strong> Criminal prosecution and imprisonment possible</li>
+      </ul>
+
+      <h2>Practical Tips</h2>
+      <ol>
+        <li><strong>Use a licensed agency</strong> — For MOU workers, a licensed recruitment agency handles the paperwork. Verify their license at the Department of Employment.</li>
+        <li><strong>Keep copies of all documents</strong> — Work permit, passport copy, visa, medical certificates. You'll need these for renewals and inspections.</li>
+        <li><strong>Set calendar reminders for renewals</strong> — Work permits and visas expire. Late renewal means starting over.</li>
+        <li><strong>Learn basic phrases in their language</strong> — Even a few words in Myanmar/Khmer/Lao goes a long way in building trust.</li>
+        <li><strong>Treat them fairly</strong> — Foreign helpers are far from home. Fair pay, rest days, and respectful treatment aren't just legal requirements — they're the right thing to do.</li>
+      </ol>
+
+      <h2>Frequently Asked Questions</h2>
+      <p><strong>Can I hire a helper from the Philippines or Indonesia?</strong><br/>There is no MOU for domestic workers from these countries. Filipino and Indonesian nationals would need a different visa category, which is complex and uncommon for domestic work.</p>
+      <p><strong>What if my helper's work permit expires?</strong><br/>They must stop working immediately. Apply for renewal at least 30 days before expiry. If it lapses, the worker may need to leave the country and re-enter under a new MOU.</p>
+      <p><strong>Can my helper change employers?</strong><br/>Yes, but the new employer must apply for a transfer at the Employment Office. The worker cannot work during the transfer period.</p>
+
+      <h2>Need Help Finding a Helper?</h2>
+      <p>On <a href="/helpers">ThaiHelper</a>, you can find both Thai and legally documented foreign helpers with verified profiles. <a href="/employer-register">Create your free account</a> to start browsing.</p>
+    `,
+  },
+
+  // ─── NEW: SALARY CALCULATOR ──────────────────────────────────────────
+
+  {
+    slug: 'thailand-helper-salary-calculator',
+    title: 'Thailand Helper Salary Calculator — What Should You Pay?',
+    description:
+      'Use our interactive salary calculator to estimate fair pay for nannies, housekeepers, cooks, and drivers in Thailand. Based on city, experience, and job type.',
+    category: 'families',
+    date: '2026-04-14',
+    readTime: 4,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80',
+    keywords: 'helper salary calculator Thailand, how much pay nanny Thailand, maid salary Bangkok, domestic helper wage calculator',
+    content: `
+      <p>One of the most common questions from families: <strong>"How much should I pay?"</strong> Use our interactive salary calculator below to get a fair estimate based on your city, the type of help you need, and the experience level you're looking for.</p>
+
+      <div id="salary-calculator"></div>
+
+      <h2>How We Calculate These Estimates</h2>
+      <p>Our salary ranges are based on:</p>
+      <ul>
+        <li><strong>Provincial minimum wage</strong> — Set by the National Wage Committee (updated annually)</li>
+        <li><strong>Market data</strong> — Real salary data from ThaiHelper profiles and job listings</li>
+        <li><strong>Experience premiums</strong> — More experienced helpers command higher pay</li>
+        <li><strong>Language premiums</strong> — English-speaking helpers typically earn 20-40% more</li>
+        <li><strong>City cost-of-living</strong> — Bangkok and Phuket are higher than Chiang Mai or Isan</li>
+      </ul>
+
+      <h2>Beyond the Monthly Salary</h2>
+      <p>Remember to budget for these additional costs:</p>
+      <ul>
+        <li><strong>Social Security:</strong> 5% employer contribution (capped at 750 THB/month)</li>
+        <li><strong>Annual bonus:</strong> 13th month salary is customary (not legally required)</li>
+        <li><strong>Transportation:</strong> If your helper commutes, consider a transport allowance</li>
+        <li><strong>Meals:</strong> Providing lunch during work hours is common practice</li>
+        <li><strong>Severance pay:</strong> Required by law if you terminate without cause (30-300 days' pay depending on length of service)</li>
+      </ul>
+
+      <h2>Download: Employment Agreement Template</h2>
+      <p>We've prepared a <strong>free bilingual employment agreement</strong> (Thai + English) that you can use as a starting point. It covers salary, schedule, duties, rest days, and termination terms.</p>
+      <p><a href="/blog/employment-contract-template-thailand">Download the free template here</a></p>
+
+      <h2>Find Helpers at the Right Price</h2>
+      <p>On <a href="/helpers">ThaiHelper</a>, every helper sets their own expected rate. Browse profiles, compare rates and experience, and find the right fit for your budget. <a href="/employer-register">Get started for free</a>.</p>
+    `,
+  },
+
+  // ─── NEW: EMPLOYMENT CONTRACT TEMPLATE ─────────────────────────────────
+
+  {
+    slug: 'employment-contract-template-thailand',
+    title: 'Free Employment Contract Template for Household Helpers in Thailand',
+    description:
+      'Download our free bilingual (Thai & English) employment contract template for hiring a maid, nanny, cook, or driver in Thailand. Covers salary, duties, leave, and termination.',
+    category: 'families',
+    date: '2026-04-14',
+    readTime: 6,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=800&q=80',
+    keywords: 'employment contract helper Thailand, maid contract template, nanny agreement Thailand, domestic worker contract Thai English',
+    content: `
+      <p>A clear written agreement protects both you and your helper. While verbal agreements are common in Thailand, putting everything in writing prevents misunderstandings and shows professionalism. Here's what to include — and a free template you can customize.</p>
+
+      <h2>Why You Need a Written Agreement</h2>
+      <ul>
+        <li><strong>Clarity</strong> — Both parties know exactly what's expected</li>
+        <li><strong>Legal protection</strong> — In case of disputes, a written contract is your evidence</li>
+        <li><strong>Professionalism</strong> — Good helpers prefer employers who are organized</li>
+        <li><strong>Cultural sensitivity</strong> — A bilingual contract ensures your helper understands every term</li>
+      </ul>
+
+      <h2>What to Include in the Contract</h2>
+
+      <h3>1. Basic Information</h3>
+      <ul>
+        <li>Full names of employer and helper</li>
+        <li>ID card or passport numbers</li>
+        <li>Work address</li>
+        <li>Start date and contract duration (or "indefinite")</li>
+      </ul>
+
+      <h3>2. Job Description & Duties</h3>
+      <p>Be specific. Instead of "household duties," list exactly what you expect:</p>
+      <ul>
+        <li>Cleaning (which rooms, how often)</li>
+        <li>Laundry and ironing</li>
+        <li>Cooking (which meals, dietary requirements)</li>
+        <li>Childcare (ages, school pickup, activities)</li>
+        <li>Grocery shopping</li>
+        <li>Any duties explicitly <strong>not</strong> included</li>
+      </ul>
+
+      <h3>3. Working Hours & Schedule</h3>
+      <ul>
+        <li>Working days (e.g., Monday to Saturday)</li>
+        <li>Working hours (e.g., 8:00 - 17:00)</li>
+        <li>Rest day (e.g., Sunday)</li>
+        <li>Overtime policy and rate</li>
+      </ul>
+
+      <h3>4. Compensation</h3>
+      <ul>
+        <li>Monthly salary (in THB)</li>
+        <li>Payment date (e.g., last day of each month)</li>
+        <li>Payment method (bank transfer or cash)</li>
+        <li>Overtime rate (typically 1.5x hourly rate)</li>
+        <li>Annual bonus policy (if applicable)</li>
+        <li>Transportation or meal allowance (if applicable)</li>
+      </ul>
+
+      <h3>5. Leave & Holidays</h3>
+      <ul>
+        <li>Annual leave: minimum 6 days after 1 year (state your policy)</li>
+        <li>Sick leave: up to 30 days/year with pay</li>
+        <li>Public holidays: list the 13+ holidays observed</li>
+        <li>Personal/emergency leave policy</li>
+      </ul>
+
+      <h3>6. Social Security</h3>
+      <p>State that the employer will register the helper for Social Security and contribute the required 5%.</p>
+
+      <h3>7. Termination</h3>
+      <ul>
+        <li>Notice period (typically 30 days or 1 pay cycle)</li>
+        <li>Grounds for immediate termination (theft, violence, serious misconduct)</li>
+        <li>Severance pay obligations per Thai labor law:
+          <ul>
+            <li>120 days - 1 year: 30 days' pay</li>
+            <li>1-3 years: 90 days' pay</li>
+            <li>3-6 years: 180 days' pay</li>
+            <li>6-10 years: 240 days' pay</li>
+            <li>10+ years: 300 days' pay</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h3>8. House Rules</h3>
+      <p>Optional but recommended:</p>
+      <ul>
+        <li>Phone usage during work hours</li>
+        <li>Visitors policy</li>
+        <li>Use of household items</li>
+        <li>Confidentiality expectations</li>
+      </ul>
+
+      <h2>Sample Contract Template</h2>
+      <p>Below is a simplified template you can copy and customize. We recommend having it translated into Thai by a professional translator or bilingual friend.</p>
+
+      <div style="background: #f8faf9; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 24px 0; font-size: 14px; line-height: 1.8;">
+        <p style="text-align: center; font-weight: bold; font-size: 16px; margin-bottom: 16px;">EMPLOYMENT AGREEMENT<br/>สัญญาจ้างงาน</p>
+
+        <p>This agreement is made on <strong>[date]</strong> between:</p>
+        <p><strong>Employer:</strong> [Full name], ID/Passport: [number], Address: [full address]</p>
+        <p><strong>Employee:</strong> [Full name], ID/Passport: [number], Address: [full address]</p>
+
+        <p><strong>1. Position & Start Date</strong><br/>
+        The Employee is hired as a <strong>[Nanny / Housekeeper / Cook / Driver]</strong> starting on <strong>[date]</strong>. This contract is for an indefinite period.</p>
+
+        <p><strong>2. Duties</strong><br/>
+        [List specific duties here]</p>
+
+        <p><strong>3. Working Hours</strong><br/>
+        Working days: [Monday - Saturday]<br/>
+        Working hours: [8:00 - 17:00] with [1 hour] lunch break<br/>
+        Rest day: [Sunday]</p>
+
+        <p><strong>4. Salary</strong><br/>
+        Monthly salary: <strong>[amount] THB</strong>, paid on [date] of each month via [bank transfer / cash].<br/>
+        Overtime rate: 1.5x hourly rate for work beyond regular hours.</p>
+
+        <p><strong>5. Leave</strong><br/>
+        Annual leave: [6-12] days per year after 1 year of employment<br/>
+        Sick leave: Up to 30 days per year with pay<br/>
+        Public holidays: 13 holidays per year as per Thai law</p>
+
+        <p><strong>6. Social Security</strong><br/>
+        The Employer will register the Employee for Social Security and contribute 5% of salary as required by law.</p>
+
+        <p><strong>7. Termination</strong><br/>
+        Either party may terminate with 30 days written notice. Severance pay per Thai labor law applies.</p>
+
+        <p><strong>8. Signatures</strong></p>
+        <p>Employer: _________________________ Date: _________</p>
+        <p>Employee: _________________________ Date: _________</p>
+      </div>
+
+      <p><em>Disclaimer: This template is provided for informational purposes only and does not constitute legal advice. For complex employment situations (especially involving foreign workers), consult a Thai labor lawyer.</em></p>
+
+      <h2>Need Help Finding Your Next Helper?</h2>
+      <p>On <a href="/helpers">ThaiHelper</a>, you can browse verified helper profiles for free. Once you find the right match, use this template to formalize the arrangement. <a href="/employer-register">Get started here</a>.</p>
     `,
   },
 ];
