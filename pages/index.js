@@ -520,15 +520,37 @@ export default function Home() {
               <p className="text-on-surface-variant max-w-2xl mx-auto mb-12">{t.cat_sub}</p>
               <div className="flex flex-col items-center gap-3">
                 <div className="flex flex-wrap justify-center gap-3">
-                  {[t.cat1,t.cat2,t.cat3,t.cat4].map((c,i) => (
-                    <span key={i} className="px-6 py-3 rounded-full bg-surface-container-highest text-on-background font-semibold text-sm hover:bg-primary hover:text-on-primary transition-colors cursor-default">{c}</span>
+                  {[
+                    { label: t.cat1, href: '/hire/nanny' },
+                    { label: t.cat2, href: '/hire/housekeeper' },
+                    { label: t.cat3, href: '/hire/chef' },
+                    { label: t.cat4, href: '/hire/driver' },
+                  ].map((c, i) => (
+                    <Link key={i} href={c.href} className="px-6 py-3 rounded-full bg-surface-container-highest text-on-background font-semibold text-sm hover:bg-primary hover:text-on-primary transition-colors">{c.label}</Link>
                   ))}
                 </div>
                 <div className="flex flex-wrap justify-center gap-3">
-                  {[t.cat5,t.cat6,t.cat7].map((c,i) => (
-                    <span key={i+4} className="px-6 py-3 rounded-full bg-surface-container-highest text-on-background font-semibold text-sm hover:bg-primary hover:text-on-primary transition-colors cursor-default">{c}</span>
+                  {[
+                    { label: t.cat5, href: '/hire/gardener' },
+                    { label: t.cat6, href: '/hire/caregiver' },
+                    { label: t.cat7, href: '/hire/tutor' },
+                  ].map((c, i) => (
+                    <Link key={i + 4} href={c.href} className="px-6 py-3 rounded-full bg-surface-container-highest text-on-background font-semibold text-sm hover:bg-primary hover:text-on-primary transition-colors">{c.label}</Link>
                   ))}
                 </div>
+              </div>
+              {/* City links for SEO internal linking */}
+              <div className="mt-8 flex flex-wrap justify-center gap-2">
+                {[
+                  { label: 'Bangkok', href: '/hire/bangkok' },
+                  { label: 'Phuket', href: '/hire/phuket' },
+                  { label: 'Chiang Mai', href: '/hire/chiang-mai' },
+                  { label: 'Pattaya', href: '/hire/pattaya' },
+                  { label: 'Koh Samui', href: '/hire/koh-samui' },
+                  { label: 'Hua Hin', href: '/hire/hua-hin' },
+                ].map((c, i) => (
+                  <Link key={i} href={c.href} className="px-4 py-2 rounded-full border border-slate-200 text-on-surface-variant text-xs font-medium hover:border-primary hover:text-primary transition-colors">{c.label}</Link>
+                ))}
               </div>
             </div>
           </section>
@@ -592,7 +614,29 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="mt-10 pt-6 border-t border-slate-200 text-center">
+            {/* SEO footer links — popular searches */}
+            <div className="mt-8 pt-6 border-t border-slate-200">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 text-center">
+                {lang === 'en' ? 'Popular Searches' : lang === 'ru' ? 'Популярные запросы' : 'ค้นหายอดนิยม'}
+              </h4>
+              <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
+                {[
+                  { label: 'Nanny Bangkok', href: '/hire/nanny-bangkok' },
+                  { label: 'Housekeeper Phuket', href: '/hire/housekeeper-phuket' },
+                  { label: 'Driver Bangkok', href: '/hire/driver-bangkok' },
+                  { label: 'Chef Koh Samui', href: '/hire/chef-koh-samui' },
+                  { label: 'Caregiver Chiang Mai', href: '/hire/caregiver-chiang-mai' },
+                  { label: 'Tutor Bangkok', href: '/hire/tutor-bangkok' },
+                  { label: 'Nanny Phuket', href: '/hire/nanny-phuket' },
+                  { label: 'Housekeeper Bangkok', href: '/hire/housekeeper-bangkok' },
+                  { label: 'Gardener Hua Hin', href: '/hire/gardener-hua-hin' },
+                  { label: 'Driver Pattaya', href: '/hire/driver-pattaya' },
+                ].map((link, i) => (
+                  <Link key={i} href={link.href} className="text-xs text-slate-400 hover:text-primary transition-colors">{link.label}</Link>
+                ))}
+              </div>
+            </div>
+            <div className="mt-6 pt-6 border-t border-slate-200 text-center">
               <p className="text-slate-400 text-xs leading-relaxed max-w-3xl mx-auto mb-3">{t.footer_disclaimer}</p>
               <p className="text-slate-500 text-xs">© 2026 ThaiHelper. All rights reserved.</p>
             </div>

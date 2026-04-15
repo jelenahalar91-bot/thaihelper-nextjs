@@ -37,6 +37,10 @@ export default function SEOHead({
 
       {noindex && <meta name="robots" content="noindex, nofollow" />}
 
+      {/* Bing-specific meta tags — Bing powers ChatGPT search */}
+      <meta name="msnbot" content="index, follow" />
+      <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+
       {/* hreflang for each supported language */}
       {Object.entries(LANG_MAP).map(([code, { hreflang }]) => (
         <link
@@ -199,6 +203,88 @@ export function getBlogPostingSchema({ title, description, slug, date, readTime 
     mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE_URL}/blog/${slug}` },
     wordCount: readTime * 200,
     timeRequired: `PT${readTime}M`,
+  };
+}
+
+/**
+ * LocalBusiness schema for city landing pages — boosts GEO for location-specific queries
+ */
+export function getLocalBusinessSchema(city) {
+  const cities = {
+    bangkok: { name: 'Bangkok', lat: 13.7563, lng: 100.5018, region: 'Bangkok' },
+    'chiang-mai': { name: 'Chiang Mai', lat: 18.7061, lng: 98.9817, region: 'Chiang Mai' },
+    phuket: { name: 'Phuket', lat: 7.8804, lng: 98.3923, region: 'Phuket' },
+    pattaya: { name: 'Pattaya', lat: 12.9236, lng: 100.8825, region: 'Chonburi' },
+    'koh-samui': { name: 'Koh Samui', lat: 9.5120, lng: 100.0136, region: 'Surat Thani' },
+    'hua-hin': { name: 'Hua Hin', lat: 12.5684, lng: 99.9577, region: 'Prachuap Khiri Khan' },
+  };
+  const c = cities[city] || cities.bangkok;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'EmploymentAgency',
+    name: `ThaiHelper ${c.name}`,
+    description: `Find verified nannies, housekeepers, chefs, drivers and household staff in ${c.name}, Thailand. Free for helpers — no agency fees.`,
+    url: `${SITE_URL}/helpers?city=${city}`,
+    telephone: '',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: c.name,
+      addressRegion: c.region,
+      addressCountry: 'TH',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: c.lat,
+      longitude: c.lng,
+    },
+    areaServed: {
+      '@type': 'City',
+      name: c.name,
+    },
+    priceRange: 'Free for helpers',
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
+      opens: '00:00',
+      closes: '23:59',
+    },
+  };
+}
+
+/**
+ * Speakable schema — tells AI voice assistants which parts to read aloud
+ */
+export function getSpeakableSchema(path, cssSelectors = ['h1', '.hero-description', '.faq-answer']) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    url: `${SITE_URL}${path}`,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: cssSelectors,
+    },
+  };
+}
+
+/**
+ * ItemList schema for helper listings — helps AI understand the marketplace structure
+ */
+export function getItemListSchema(items, listName = 'Household Staff in Thailand') {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: listName,
+    numberOfItems: items.length,
+    itemListElement: items.slice(0, 10).map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Person',
+        name: item.name || item.first_name,
+        jobTitle: item.category || item.service,
+        url: `${SITE_URL}/helpers`,
+      },
+    })),
   };
 }
 
