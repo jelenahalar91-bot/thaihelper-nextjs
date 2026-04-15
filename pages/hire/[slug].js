@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
+import SEOHead, { getBreadcrumbSchema, getLocalBusinessSchema, getSpeakableSchema } from '@/components/SEOHead';
 import { useLang } from '@/pages/_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { getAllHirePages, getHirePageBySlug } from '@/lib/seo/hire-pages';
@@ -183,7 +183,13 @@ export default function HirePage({ page, matchingHelpers = [] }) {
         description={description}
         path={`/hire/${page.slug}`}
         lang={lang}
-        jsonLd={[faqSchema, serviceSchema, getBreadcrumbSchema(breadcrumbs)]}
+        jsonLd={[
+          faqSchema,
+          serviceSchema,
+          getBreadcrumbSchema(breadcrumbs),
+          getSpeakableSchema(`/hire/${page.slug}`),
+          ...(page.city ? [getLocalBusinessSchema(page.city)] : []),
+        ]}
       />
 
       <div className="bg-surface text-on-background font-body min-h-screen">

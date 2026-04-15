@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
+import SEOHead, { getBreadcrumbSchema, getServiceSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
 import { useLang } from './_app';
@@ -393,7 +393,11 @@ export default function Employers() {
         description="Find and hire verified nannies, housekeepers, chefs, drivers and more in Thailand. Direct communication with candidates, no middleman fees."
         path="/employers"
         lang={lang}
-        jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'For Families', path: '/employers' }])}
+        jsonLd={[
+          getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'For Families', path: '/employers' }]),
+          getServiceSchema(),
+          getSpeakableSchema('/employers'),
+        ]}
       />
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>

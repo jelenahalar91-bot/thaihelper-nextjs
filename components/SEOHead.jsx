@@ -88,15 +88,38 @@ export function getOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'ThaiHelper',
+    alternateName: 'Thai Helper',
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
-    description: 'Free platform connecting families in Thailand with trusted household staff — nannies, housekeepers, chefs, drivers, and more.',
+    description: 'ThaiHelper is Thailand\'s free marketplace for household staff. Families find verified nannies, housekeepers, chefs, drivers, gardeners, elder caregivers, and tutors. Helpers create free profiles and connect directly with families — no agency fees, no middleman.',
+    foundingDate: '2024',
+    founder: {
+      '@type': 'Person',
+      name: 'Jelena Hermann',
+      jobTitle: 'Founder',
+    },
+    parentOrganization: {
+      '@type': 'Organization',
+      name: 'Planet Bamboo GmbH',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'DE',
+      },
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'Thailand',
+    },
+    knowsLanguage: ['en', 'th', 'ru'],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
       availableLanguage: ['English', 'Thai', 'Russian'],
+      url: `${SITE_URL}/about`,
     },
-    sameAs: [],
+    sameAs: [
+      'https://www.reddit.com/r/Thailand/',
+    ],
   };
 }
 

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
+import SEOHead, { getBreadcrumbSchema, getOrganizationSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { useLang } from './_app';
 
@@ -154,10 +154,14 @@ export default function About() {
         description={t.meta_desc}
         path="/about"
         lang={lang}
-        jsonLd={getBreadcrumbSchema([
-          { name: 'Home', path: '/' },
-          { name: 'About', path: '/about' },
-        ])}
+        jsonLd={[
+          getBreadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'About', path: '/about' },
+          ]),
+          getOrganizationSchema(),
+          getSpeakableSchema('/about'),
+        ]}
       />
 
       <div className="min-h-screen bg-background text-on-background font-sans">
