@@ -48,6 +48,12 @@ const URLS = [
   '/blog/thailand-helper-salary-calculator',
   '/blog/work-permits-foreign-helpers-thailand',
   '/blog/employment-contract-template-thailand',
+  '/blog/best-ways-to-find-household-help-thailand-compared',
+  '/blog/how-to-create-helper-profile-that-gets-hired',
+  '/blog/how-to-negotiate-salary-as-helper-thailand',
+  '/blog/build-your-reputation-as-helper-thailand',
+  '/blog/nanny-skills-that-families-look-for',
+  '/blog/questions-to-ask-when-hiring-helper-thailand',
 ];
 
 async function ping() {
