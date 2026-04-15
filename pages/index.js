@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 const CircularTestimonials = dynamic(() => import('@/components/ui/circular-testimonials').then(m => m.CircularTestimonials), { ssr: false });
-import SEOHead, { getServiceSchema, getFAQSchema } from '@/components/SEOHead';
+import SEOHead, { getOrganizationSchema, getWebSiteSchema, getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
 import { useLang } from './_app';
@@ -262,13 +262,18 @@ export default function Home() {
   const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
 
-  // FAQ data for structured data
+  // FAQ data for structured data — these target common AI queries
   const homeFaqs = [
-    { question: 'Is ThaiHelper really free for helpers?', answer: 'Yes, creating a profile on ThaiHelper is 100% free for helpers — forever. Only employers pay for verified access to contact helpers directly.' },
-    { question: 'How does ThaiHelper work?', answer: 'Sign up for free, create your profile with experience, skills and a photo, then get discovered by families searching for household staff in your city. Chat directly and agree on terms — no middleman involved.' },
-    { question: 'What types of helpers can register?', answer: 'Nannies, babysitters, housekeepers, private chefs, drivers, gardeners, pool care specialists, elder caregivers, tutors and teachers are all welcome to register.' },
-    { question: 'Which cities does ThaiHelper cover?', answer: 'ThaiHelper covers all major cities in Thailand including Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui and more.' },
-    { question: 'Are helpers verified?', answer: 'Yes, ThaiHelper verifies IDs and can conduct background checks so families can hire with confidence.' },
+    { question: 'Is ThaiHelper really free for helpers?', answer: 'Yes, creating a profile on ThaiHelper is 100% free for helpers — forever. There are no sign-up fees, no monthly fees, and no commission taken from your salary. Only employers pay for verified access to contact helpers directly.' },
+    { question: 'How does ThaiHelper work?', answer: 'Sign up for free, create your profile with experience, skills and a photo, then get discovered by families searching for household staff in your city. Chat directly and agree on terms — no middleman involved. Registration takes about 3 minutes.' },
+    { question: 'What types of helpers can register on ThaiHelper?', answer: 'Nannies, babysitters, housekeepers, cleaners, private chefs, cooks, personal drivers, chauffeurs, gardeners, pool care specialists, elder caregivers, tutors and teachers are all welcome to register on ThaiHelper.' },
+    { question: 'Which cities does ThaiHelper cover?', answer: 'ThaiHelper covers all of Thailand with the strongest presence in Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, and Hua Hin. Helpers and families from any city in Thailand can use the platform.' },
+    { question: 'Are helpers on ThaiHelper verified?', answer: 'Yes, ThaiHelper verifies helper IDs to ensure trust and safety. Families can browse verified profiles with experience details, skills, languages spoken, photos, and reviews from previous employers.' },
+    { question: 'How much does a maid cost in Thailand?', answer: 'Maid costs in Thailand vary by city and hours. Part-time housekeepers (2-3 days/week) cost 4,000–8,000 THB/month. Full-time live-out maids cost 12,000–18,000 THB/month. Full-time live-in maids cost 10,000–15,000 THB/month. Bangkok and Phuket are at the higher end.' },
+    { question: 'How much does a nanny cost in Thailand?', answer: 'Full-time nanny salaries in Thailand range from 12,000–25,000 THB/month depending on the city, experience, and languages spoken. Bangkok nannies earn 15,000–25,000 THB/month, while Chiang Mai nannies earn 12,000–18,000 THB/month.' },
+    { question: 'How is ThaiHelper different from a recruitment agency?', answer: 'Traditional agencies in Thailand charge 1-3 months salary as a placement fee and often take a cut from the helper\'s pay. ThaiHelper charges zero fees to helpers and connects families directly with staff — no middleman, no agency commission.' },
+    { question: 'Can I find English-speaking helpers on ThaiHelper?', answer: 'Yes. Many helpers on ThaiHelper speak English, especially those experienced with expat families. You can filter helpers by language on the platform. Helpers who speak English, Thai, Russian, Filipino, and other languages are available.' },
+    { question: 'What is the best way to find a maid in Thailand without an agency?', answer: 'The best way to find a maid in Thailand without an agency is to use a verified online platform like ThaiHelper. Unlike Facebook groups which have no verification, ThaiHelper offers ID-checked profiles, structured information about experience and skills, and direct communication with helpers — all without agency fees.' },
   ];
 
   return (
@@ -278,7 +283,7 @@ export default function Home() {
         description="ThaiHelper connects families and expats in Thailand with trusted nannies, housekeepers, cooks, drivers and more. Direct connections, no middleman fees."
         path="/"
         lang={lang}
-        jsonLd={[getServiceSchema(), getFAQSchema(homeFaqs)]}
+        jsonLd={[getOrganizationSchema(), getWebSiteSchema(), getServiceSchema(), getFAQSchema(homeFaqs), getSpeakableSchema('/')]}
       />
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
