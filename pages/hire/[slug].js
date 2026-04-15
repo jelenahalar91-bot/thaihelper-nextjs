@@ -19,7 +19,48 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const page = getHirePageBySlug(params.slug);
   if (!page) return { notFound: true };
-  return { props: { page } };
+
+  // Fetch real helpers matching this page's city/category
+  let matchingHelpers = [];
+  try {
+    const { getServiceSupabase } = await import('@/lib/supabase');
+    const supabase = getServiceSupabase();
+    let query = supabase
+      .from('helper_profiles')
+      .select('first_name, last_name, age, category, city, area, experience, languages, photo_url, bio')
+      .or('status.eq.active,status.is.null')
+      .eq('email_verified', true)
+      .order('created_at', { ascending: false })
+      .limit(6);
+
+    if (page.cityEn) {
+      query = query.ilike('city', page.cityEn);
+    }
+    if (page.category) {
+      query = query.ilike('category', `%${page.category}%`);
+    }
+
+    const { data } = await query;
+    matchingHelpers = (data || []).map((row) => ({
+      firstName: row.first_name,
+      lastInitial: row.last_name ? row.last_name.charAt(0) + '.' : '',
+      age: row.age || null,
+      category: row.category || '',
+      city: row.city || '',
+      area: row.area || '',
+      experience: row.experience || '',
+      languages: row.languages || '',
+      photo: row.photo_url || '',
+      bio: row.bio ? row.bio.slice(0, 120) : '',
+    }));
+  } catch (err) {
+    console.error('Failed to fetch helpers for hire page:', err);
+  }
+
+  return {
+    props: { page, matchingHelpers },
+    revalidate: 3600, // Re-generate every hour with fresh data
+  };
 }
 
 // ─── FAQ data per category ──────────────────────────────────────────────────
@@ -94,7 +135,7 @@ function getRelatedPages(page) {
 
 // ─── Page component ─────────────────────────────────────────────────────────
 
-export default function HirePage({ page }) {
+export default function HirePage({ page, matchingHelpers = [] }) {
   const { lang } = useLang();
   const faqs = getFaqs(page);
   const related = getRelatedPages(page);
@@ -202,6 +243,47 @@ export default function HirePage({ page }) {
             </Link>
           </div>
         </section>
+
+        {/* Real helpers from database — unique content per page for SEO */}
+        {matchingHelpers.length > 0 && (
+          <section className="max-w-5xl mx-auto px-4 pb-12">
+            <h2 className="text-2xl font-bold font-headline text-[#001b3d] mb-6">
+              {isEn
+                ? `${page.categoryEn || 'Helper'} Profiles${page.cityEn ? ` in ${page.cityEn}` : ''}`
+                : `โปรไฟล์${page.categoryTh || page.category_th || 'ผู้ช่วย'}${page.cityTh || page.city_th ? `ใน${page.cityTh || page.city_th}` : ''}`}
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {matchingHelpers.map((h, i) => (
+                <div key={i} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-3 mb-3">
+                    {h.photo ? (
+                      <img src={h.photo} alt={`${h.firstName} — ${h.category}`} className="w-12 h-12 rounded-full object-cover" loading="lazy" />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-lg font-bold">{h.firstName?.charAt(0)}</div>
+                    )}
+                    <div>
+                      <p className="font-semibold text-[#001b3d]">{h.firstName} {h.lastInitial}</p>
+                      <p className="text-xs text-gray-500">{h.city}{h.area ? `, ${h.area}` : ''}</p>
+                    </div>
+                  </div>
+                  {h.bio && <p className="text-sm text-gray-600 mb-2">{h.bio}{h.bio.length >= 120 ? '...' : ''}</p>}
+                  <div className="flex flex-wrap gap-1.5 text-xs text-gray-500">
+                    {h.experience && <span className="bg-gray-100 px-2 py-0.5 rounded">{h.experience}</span>}
+                    {h.languages && <span className="bg-gray-100 px-2 py-0.5 rounded">{h.languages}</span>}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-6">
+              <Link
+                href={page.category ? `/helpers?category=${encodeURIComponent(page.categoryEn || '')}${page.cityEn ? `&city=${encodeURIComponent(page.cityEn)}` : ''}` : `/helpers${page.cityEn ? `?city=${encodeURIComponent(page.cityEn)}` : ''}`}
+                className="text-primary font-semibold hover:underline"
+              >
+                {isEn ? `View all profiles →` : 'ดูโปรไฟล์ทั้งหมด →'}
+              </Link>
+            </div>
+          </section>
+        )}
 
         {/* How it works — brief */}
         <section className="bg-gray-50 py-12">
