@@ -26,6 +26,9 @@ export default function Document() {
         {/* Theme color */}
         <meta name="theme-color" content="#006a62" />
 
+        {/* Bing Webmaster Tools verification */}
+        <meta name="msvalidate.01" content="F12409946E0AC671E03AAAD5C5CA679C" />
+
         {/* Geo meta tags for local SEO */}
         <meta name="geo.region" content="TH" />
         <meta name="geo.placename" content="Thailand" />
