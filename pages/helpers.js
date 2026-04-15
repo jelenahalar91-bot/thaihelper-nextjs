@@ -143,10 +143,60 @@ const EXP_OPTIONS = [
   { value: '10', label: '10+' },
 ];
 
-export default function Helpers() {
+// ─── Server-side data fetch — fixes Soft 404 for Googlebot ──────────────────
+export async function getServerSideProps() {
+  try {
+    const { getServiceSupabase } = await import('@/lib/supabase');
+    const supabase = getServiceSupabase();
+    const { data, error } = await supabase
+      .from('helper_profiles')
+      .select(
+        'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
+        'age, category, skills, city, area, experience, languages, rate, ' +
+        'education, certificates, bio, photo_url, created_at, status'
+      )
+      .or('status.eq.active,status.is.null')
+      .eq('email_verified', true)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    const helpers = (data || []).map((row) => ({
+      ref: row.helper_ref,
+      firstName: row.first_name,
+      lastName: row.last_name ? row.last_name.charAt(0) + '.' : '',
+      age: row.age || null,
+      category: row.category || '',
+      skills: row.skills || '',
+      city: row.city || '',
+      area: row.area || '',
+      experience: row.experience || '',
+      languages: row.languages || '',
+      rate: row.rate || '',
+      education: row.education || '',
+      certificates: row.certificates || '',
+      bio: row.bio || '',
+      photo: row.photo_url || '',
+      createdAt: row.created_at || null,
+      hasWhatsApp: !!row.whatsapp,
+      hasEmail: !!row.email,
+    }));
+
+    return {
+      props: {
+        initialHelpers: helpers,
+      },
+    };
+  } catch (err) {
+    console.error('SSR helpers fetch failed:', err);
+    return { props: { initialHelpers: [] } };
+  }
+}
+
+export default function Helpers({ initialHelpers = [] }) {
   const { lang, setLang: changeLang } = useLang();
-  const [helpers, setHelpers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [helpers, setHelpers] = useState(initialHelpers);
+  const [loading, setLoading] = useState(false);
 
   // Filters
   const [filterCity, setFilterCity] = useState('');
@@ -157,7 +207,9 @@ export default function Helpers() {
   const [filterLanguages, setFilterLanguages] = useState([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
+  // Only fetch client-side if SSR didn't provide data (fallback)
   useEffect(() => {
+    if (initialHelpers.length > 0) return;
     (async () => {
       setLoading(true);
       try {
@@ -169,7 +221,7 @@ export default function Helpers() {
       }
       setLoading(false);
     })();
-  }, []);
+  }, [initialHelpers]);
 
   const t = T[lang] || T.en;
 
