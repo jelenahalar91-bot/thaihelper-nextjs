@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Clock, Calendar, User } from 'lucide-react';
-import SEOHead, { getBlogPostingSchema, getBreadcrumbSchema } from '@/components/SEOHead';
+import SEOHead, { getBlogPostingSchema, getBreadcrumbSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import BlogCard from '@/components/BlogCard';
 import SalaryCalculator from '@/components/SalaryCalculator';
@@ -44,6 +44,7 @@ export default function BlogPost({ post }) {
         jsonLd={[
           getBlogPostingSchema(post),
           getBreadcrumbSchema(breadcrumbs),
+          getSpeakableSchema(`/blog/${post.slug}`, ['h1', 'h2', '.prose p:first-of-type']),
         ]}
       />
 

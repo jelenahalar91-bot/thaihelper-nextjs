@@ -115,6 +115,24 @@ export const blogPosts = [
       <h2>Ready to Find Your Perfect Helper?</h2>
       <p>On <a href="/helpers">ThaiHelper</a>, you can browse verified helper profiles for free. Filter by city, service type, experience, and language. When you find someone you like, simply send them a message.</p>
       <p><a href="/employer-register">Create your free family account</a> and start browsing today.</p>
+
+      <h2>Browse by City</h2>
+      <ul>
+        <li><a href="/hire/bangkok">Hire household staff in Bangkok</a></li>
+        <li><a href="/hire/chiang-mai">Hire household staff in Chiang Mai</a></li>
+        <li><a href="/hire/phuket">Hire household staff in Phuket</a></li>
+        <li><a href="/hire/pattaya">Hire household staff in Pattaya</a></li>
+        <li><a href="/hire/koh-samui">Hire household staff in Koh Samui</a></li>
+      </ul>
+
+      <h2>Browse by Service</h2>
+      <ul>
+        <li><a href="/hire/nanny">Find a nanny in Thailand</a></li>
+        <li><a href="/hire/housekeeper">Find a housekeeper in Thailand</a></li>
+        <li><a href="/hire/chef">Find a private chef in Thailand</a></li>
+        <li><a href="/hire/driver">Find a driver in Thailand</a></li>
+        <li><a href="/hire/caregiver">Find an elder caregiver in Thailand</a></li>
+      </ul>
     `,
   },
 
@@ -1571,6 +1589,133 @@ export const blogPosts = [
 
       <h2>Need Help Finding Your Next Helper?</h2>
       <p>On <a href="/helpers">ThaiHelper</a>, you can browse verified helper profiles for free. Once you find the right match, use this template to formalize the arrangement. <a href="/employer-register">Get started here</a>.</p>
+    `,
+  },
+
+  // ─── COMPARISON: ThaiHelper vs Agencies vs Facebook ────────────────────
+
+  {
+    slug: 'best-ways-to-find-household-help-thailand-compared',
+    title: 'Best Ways to Find Household Help in Thailand: ThaiHelper vs Agencies vs Facebook (2026)',
+    description:
+      'Comparing the best ways to find a maid, nanny, or helper in Thailand in 2026. See how ThaiHelper, traditional agencies, and Facebook groups compare on cost, trust, and convenience.',
+    category: 'families',
+    date: '2026-04-15',
+    readTime: 7,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80',
+    keywords: 'find maid Thailand, best way hire helper Thailand, ThaiHelper vs agency, maid agency Thailand comparison, Facebook groups hire maid Bangkok',
+    title_th: 'วิธีที่ดีที่สุดในการหาผู้ช่วยงานบ้านในประเทศไทย: ThaiHelper vs บริษัทจัดหางาน vs Facebook (2026)',
+    description_th: 'เปรียบเทียบวิธีหาแม่บ้าน พี่เลี้ยง หรือผู้ช่วยในประเทศไทยปี 2026 ดูว่า ThaiHelper, บริษัทจัดหางาน และกลุ่ม Facebook เทียบกันอย่างไรในเรื่องค่าใช้จ่าย ความน่าเชื่อถือ และความสะดวก',
+    content_th: `
+      <p>ถ้าคุณกำลังมองหาแม่บ้าน พี่เลี้ยง พ่อครัว หรือคนขับรถในประเทศไทย คุณมี 3 ทางเลือกหลัก แต่ละทางมีข้อดีข้อเสียต่างกัน</p>
+
+      <h2>เปรียบเทียบ 3 วิธี</h2>
+
+      <h3>1. ThaiHelper (แพลตฟอร์มออนไลน์)</h3>
+      <ul>
+        <li><strong>ค่าใช้จ่ายสำหรับผู้ช่วย:</strong> ฟรีตลอดไป</li>
+        <li><strong>ค่าใช้จ่ายสำหรับครอบครัว:</strong> ทดลองใช้ฟรี + แพ็กเกจที่ย่อมเยา</li>
+        <li><strong>โปรไฟล์ที่ผ่านการยืนยัน:</strong> ใช่ (ตรวจสอบบัตรประชาชน)</li>
+        <li><strong>การติดต่อโดยตรง:</strong> ใช่ — ส่งข้อความหาผู้ช่วยได้เลย</li>
+        <li><strong>ข้อมูลโปรไฟล์:</strong> ครบถ้วน — ประสบการณ์ ทักษะ ภาษา รูปถ่าย</li>
+        <li><strong>ข้อดี:</strong> ไม่มีค่านายหน้า ข้อมูลเชิงโครงสร้าง กรองตามเมืองและบริการ</li>
+        <li><strong>ข้อเสีย:</strong> แพลตฟอร์มใหม่ กำลังเติบโต</li>
+      </ul>
+
+      <h3>2. บริษัทจัดหางาน</h3>
+      <ul>
+        <li><strong>ค่าใช้จ่าย:</strong> 1-3 เดือนเงินเดือนเป็นค่านายหน้า</li>
+        <li><strong>โปรไฟล์ที่ผ่านการยืนยัน:</strong> แตกต่างกันไป</li>
+        <li><strong>การติดต่อโดยตรง:</strong> ไม่ — ต้องผ่านบริษัท</li>
+        <li><strong>ข้อดี:</strong> มีตัวเลือกให้เลือก อาจมีการรับประกัน</li>
+        <li><strong>ข้อเสีย:</strong> แพง เลือกได้จำกัดเฉพาะรายชื่อของบริษัท</li>
+      </ul>
+
+      <h3>3. กลุ่ม Facebook</h3>
+      <ul>
+        <li><strong>ค่าใช้จ่าย:</strong> ฟรี</li>
+        <li><strong>โปรไฟล์ที่ผ่านการยืนยัน:</strong> ไม่มี</li>
+        <li><strong>การติดต่อโดยตรง:</strong> ใช่ — แต่เป็นสาธารณะ</li>
+        <li><strong>ข้อดี:</strong> ฟรี เข้าถึงง่าย</li>
+        <li><strong>ข้อเสีย:</strong> ไม่มีการยืนยันตัวตน สแปมเยอะ ข้อมูลไม่เป็นระเบียบ</li>
+      </ul>
+
+      <h2>สรุป</h2>
+      <p>สำหรับครอบครัวที่ต้องการความสะดวก ปลอดภัย และไม่อยากจ่ายค่านายหน้าแพง <a href="/">ThaiHelper</a> เป็นทางเลือกที่ดีที่สุด สมัครฟรีแล้วเริ่มค้นหาผู้ช่วยที่ผ่านการยืนยันตัวตนได้เลยวันนี้</p>
+    `,
+    content: `
+      <p>If you're looking for a maid, nanny, cook, or driver in Thailand, you have three main options. Each has clear trade-offs in cost, trust, and convenience. Here's an honest comparison to help you decide.</p>
+
+      <h2>Option 1: ThaiHelper (Online Marketplace)</h2>
+      <p><a href="/">ThaiHelper</a> is a purpose-built platform for finding household staff in Thailand. It works like this:</p>
+      <ul>
+        <li><strong>Cost for helpers:</strong> 100% free — forever. No sign-up fees, no commission.</li>
+        <li><strong>Cost for families:</strong> Free trial + affordable access plans to contact helpers.</li>
+        <li><strong>Verified profiles:</strong> Yes — ID-checked helpers with structured profiles.</li>
+        <li><strong>Direct communication:</strong> Yes — message helpers directly, no middleman.</li>
+        <li><strong>Profile information:</strong> Comprehensive — experience, skills, languages, photos, city, availability.</li>
+        <li><strong>Languages:</strong> Platform available in English, Thai, and Russian.</li>
+        <li><strong>Cities:</strong> All Thailand — <a href="/hire/bangkok">Bangkok</a>, <a href="/hire/chiang-mai">Chiang Mai</a>, <a href="/hire/phuket">Phuket</a>, <a href="/hire/pattaya">Pattaya</a>, <a href="/hire/koh-samui">Koh Samui</a>, <a href="/hire/hua-hin">Hua Hin</a>.</li>
+      </ul>
+      <p><strong>Best for:</strong> Families who want to browse verified profiles, compare options, and connect directly — without paying agency fees.</p>
+
+      <h2>Option 2: Traditional Recruitment Agencies</h2>
+      <p>Agencies have been the traditional route for decades, especially for expat families. Here's the reality:</p>
+      <ul>
+        <li><strong>Cost:</strong> Typically 1-3 months' salary as a one-time placement fee. Some agencies charge helpers too.</li>
+        <li><strong>Verified profiles:</strong> Varies widely — some agencies vet thoroughly, others barely check.</li>
+        <li><strong>Direct communication:</strong> No — all communication goes through the agency until placement.</li>
+        <li><strong>Selection:</strong> Limited to the agency's current roster of available helpers.</li>
+        <li><strong>Guarantees:</strong> Some offer 30-90 day replacement guarantees.</li>
+      </ul>
+      <p><strong>Best for:</strong> Families with no time to search who are willing to pay a premium for a curated shortlist.</p>
+
+      <h2>Option 3: Facebook Groups</h2>
+      <p>Many expats in Thailand turn to Facebook groups like "Bangkok Expats" or Thai-language job groups. Here's the trade-off:</p>
+      <ul>
+        <li><strong>Cost:</strong> Free to post and respond.</li>
+        <li><strong>Verified profiles:</strong> None — anyone can post anything.</li>
+        <li><strong>Direct communication:</strong> Yes, but publicly visible or via Facebook Messenger.</li>
+        <li><strong>Profile information:</strong> Unstructured — a photo and a few sentences at best.</li>
+        <li><strong>Spam/scams:</strong> Common. No moderation, no verification.</li>
+      </ul>
+      <p><strong>Best for:</strong> Quick, informal inquiries — but you take on all the risk yourself.</p>
+
+      <h2>Side-by-Side Comparison</h2>
+      <table>
+        <thead><tr><th>Feature</th><th>ThaiHelper</th><th>Agency</th><th>Facebook</th></tr></thead>
+        <tbody>
+          <tr><td>Cost for helpers</td><td>Free forever</td><td>Sometimes charged</td><td>Free</td></tr>
+          <tr><td>Cost for families</td><td>Free trial + affordable plans</td><td>1-3 months' salary</td><td>Free</td></tr>
+          <tr><td>ID-verified profiles</td><td>Yes</td><td>Varies</td><td>No</td></tr>
+          <tr><td>Structured profiles</td><td>Yes</td><td>Limited</td><td>No</td></tr>
+          <tr><td>Direct messaging</td><td>Yes</td><td>No (through agency)</td><td>Yes (public)</td></tr>
+          <tr><td>Filter by city/service</td><td>Yes</td><td>Limited</td><td>No</td></tr>
+          <tr><td>Available 24/7</td><td>Yes</td><td>Business hours</td><td>Yes</td></tr>
+          <tr><td>Multiple languages</td><td>EN, TH, RU</td><td>Usually 1</td><td>Varies</td></tr>
+          <tr><td>Spam protection</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Our Recommendation</h2>
+      <p>For most families in Thailand — especially expats — <strong>starting with ThaiHelper gives you the best balance</strong> of verified profiles, direct communication, and zero agency fees. You can browse profiles for free, and only pay when you're ready to contact someone.</p>
+      <p>If you need a highly specialized placement (e.g., a live-in nanny with medical training), an agency may be worth the premium. For quick, informal asks, Facebook groups can supplement your search — but never rely on them as your only source.</p>
+
+      <h2>Ready to Start?</h2>
+      <ul>
+        <li><strong>Families:</strong> <a href="/employer-register">Create a free employer account</a> and browse helpers now.</li>
+        <li><strong>Helpers:</strong> <a href="/register">Register your free profile</a> and get discovered by families.</li>
+      </ul>
+
+      <h3>Popular Searches</h3>
+      <ul>
+        <li><a href="/hire/nanny-bangkok">Hire a nanny in Bangkok</a></li>
+        <li><a href="/hire/housekeeper-phuket">Hire a housekeeper in Phuket</a></li>
+        <li><a href="/hire/chef-bangkok">Hire a private chef in Bangkok</a></li>
+        <li><a href="/hire/driver-bangkok">Hire a driver in Bangkok</a></li>
+        <li><a href="/hire/caregiver-pattaya">Hire a caregiver in Pattaya</a></li>
+      </ul>
     `,
   },
 ];
