@@ -63,12 +63,18 @@ export default function SEOHead({
       <meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
 
       {/* JSON-LD Structured Data */}
-      {jsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      )}
+      {(() => {
+        // Filter out null/undefined entries from arrays so we don't emit invalid JSON-LD.
+        const payload = Array.isArray(jsonLd) ? jsonLd.filter(Boolean) : jsonLd;
+        const hasPayload = Array.isArray(payload) ? payload.length > 0 : Boolean(payload);
+        if (!hasPayload) return null;
+        return (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(payload) }}
+          />
+        );
+      })()}
     </Head>
   );
 }
@@ -283,21 +289,33 @@ export function getSpeakableSchema(path, cssSelectors = ['h1', '.hero-descriptio
 }
 
 /**
- * ItemList schema for helper listings — helps AI understand the marketplace structure
+ * ItemList schema for helper listings — helps AI understand the marketplace structure.
+ *
+ * Filters out entries that don't have a resolvable name/first_name so we never
+ * emit a ListItem whose `item.name` is undefined (Google Search Console flags that).
  */
 export function getItemListSchema(items, listName = 'Household Staff in Thailand') {
+  const validItems = (items || []).filter((item) => {
+    const name = item?.name || item?.first_name;
+    return typeof name === 'string' && name.trim().length > 0;
+  });
+
+  if (validItems.length === 0) {
+    return null;
+  }
+
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: listName,
-    numberOfItems: items.length,
-    itemListElement: items.slice(0, 10).map((item, i) => ({
+    numberOfItems: validItems.length,
+    itemListElement: validItems.slice(0, 10).map((item, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       item: {
         '@type': 'Person',
-        name: item.name || item.first_name,
-        jobTitle: item.category || item.service,
+        name: (item.name || item.first_name).trim(),
+        jobTitle: item.category || item.service || 'Household Helper',
         url: `${SITE_URL}/helpers`,
       },
     })),
@@ -306,19 +324,40 @@ export function getItemListSchema(items, listName = 'Household Staff in Thailand
 
 /**
  * BreadcrumbList schema
- * Per Google's guidelines, the last breadcrumb (current page) should NOT
- * have an `item` URL — otherwise Google flags it as an invalid self-reference.
+ *
+ * Google requirements (2026):
+ * - Every ListItem MUST have either `name` OR `item.name`
+ * - The last breadcrumb (current page) should NOT have an `item` URL
+ *   (otherwise flagged as invalid self-reference)
+ *
+ * Defensive: filter out items missing a valid `name` so we never emit
+ * a ListItem without a name — that's the Google Search Console error
+ * "Entweder 'name' oder 'item.name' müssen angegeben werden".
  */
 export function getBreadcrumbSchema(items) {
+  const validItems = (items || []).filter(
+    (item) =>
+      item &&
+      typeof item.name === 'string' &&
+      item.name.trim().length > 0 &&
+      typeof item.path === 'string' &&
+      item.path.length > 0,
+  );
+
+  if (validItems.length === 0) {
+    // Avoid emitting an empty BreadcrumbList — just return a minimal valid object.
+    return null;
+  }
+
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => {
-      const isLast = index === items.length - 1;
+    itemListElement: validItems.map((item, index) => {
+      const isLast = index === validItems.length - 1;
       const entry = {
         '@type': 'ListItem',
         position: index + 1,
-        name: item.name,
+        name: item.name.trim(),
       };
       if (!isLast) {
         entry.item = `${SITE_URL}${item.path}`;
