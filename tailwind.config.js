@@ -44,8 +44,9 @@ module.exports = {
         'teal-light':          '#E8F7F5',
       },
       fontFamily: {
-        headline: ['"Plus Jakarta Sans"', 'sans-serif'],
-        body:     ['"Manrope"', 'sans-serif'],
+        headline: ['var(--font-headline)', '"Plus Jakarta Sans"', 'sans-serif'],
+        body:     ['var(--font-body)', '"Manrope"', 'sans-serif'],
+        thai:     ['var(--font-thai)', '"Sarabun"', 'sans-serif'],
       },
     },
   },

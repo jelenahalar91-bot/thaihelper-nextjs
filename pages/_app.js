@@ -2,10 +2,32 @@ import { useEffect, useState, createContext, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Script from 'next/script';
+import { Plus_Jakarta_Sans, Manrope, Sarabun } from 'next/font/google';
 import '../styles/globals.css';
 import { getOrganizationSchema, getWebSiteSchema } from '@/components/SEOHead';
 import { GA_ID, pageview } from '@/lib/analytics';
 import CookieConsent, { useCookieConsent } from '@/components/CookieConsent';
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-headline',
+});
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  display: 'swap',
+  variable: '--font-body',
+});
+
+const sarabun = Sarabun({
+  subsets: ['thai', 'latin'],
+  weight: ['400', '600', '700'],
+  display: 'swap',
+  variable: '--font-thai',
+});
 
 // Language context so all pages share the same lang state
 const LangContext = createContext({ lang: 'en', setLang: () => {} });
@@ -85,9 +107,11 @@ export default function App({ Component, pageProps }) {
           }}
         />
       </Head>
-      <Component {...pageProps} />
-      {/* Cookie consent banner — shown once, remembers choice */}
-      <CookieConsent lang={lang} />
+      <div className={`${plusJakarta.variable} ${manrope.variable} ${sarabun.variable}`}>
+        <Component {...pageProps} />
+        {/* Cookie consent banner — shown once, remembers choice */}
+        <CookieConsent lang={lang} />
+      </div>
     </LangContext.Provider>
   );
 }

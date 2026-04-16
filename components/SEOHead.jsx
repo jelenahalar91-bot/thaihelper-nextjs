@@ -41,16 +41,9 @@ export default function SEOHead({
       <meta name="msnbot" content="index, follow" />
       <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large" />
 
-      {/* hreflang for each supported language */}
-      {Object.entries(LANG_MAP).map(([code, { hreflang }]) => (
-        <link
-          key={code}
-          rel="alternate"
-          hrefLang={hreflang}
-          href={canonicalUrl}
-        />
-      ))}
-      <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
+      {/* hreflang omitted — language is client-side (localStorage), not URL-based.
+         All languages share the same URL so hreflang would be misleading to crawlers.
+         Re-add when locale-based routing (/th/, /ru/) is implemented. */}
 
       {/* Open Graph */}
       <meta property="og:title" content={fullTitle} />
@@ -118,7 +111,7 @@ export function getOrganizationSchema() {
       url: `${SITE_URL}/about`,
     },
     sameAs: [
-      'https://www.reddit.com/r/Thailand/',
+      'https://line.me/R/ti/p/@097ymfte',
     ],
   };
 }

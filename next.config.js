@@ -16,16 +16,6 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
 
-  // Rewrites: serve dynamic sitemap at /sitemap.xml
-  async rewrites() {
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap',
-      },
-    ];
-  },
-
   // Security & caching headers
   async headers() {
     return [

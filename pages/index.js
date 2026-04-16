@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 const CircularTestimonials = dynamic(() => import('@/components/ui/circular-testimonials').then(m => m.CircularTestimonials), { ssr: false });
-import SEOHead, { getOrganizationSchema, getWebSiteSchema, getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
+import SEOHead, { getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
 import { useLang } from './_app';
@@ -283,7 +283,7 @@ export default function Home() {
         description="ThaiHelper connects families and expats in Thailand with trusted nannies, housekeepers, cooks, drivers and more. Direct connections, no middleman fees."
         path="/"
         lang={lang}
-        jsonLd={[getOrganizationSchema(), getWebSiteSchema(), getServiceSchema(), getFAQSchema(homeFaqs), getSpeakableSchema('/')]}
+        jsonLd={[getServiceSchema(), getFAQSchema(homeFaqs), getSpeakableSchema('/')]}
       />
 
       <div className={`bg-surface text-on-background font-body ${lang === 'th' ? 'lang-th' : ''}`}>
@@ -377,6 +377,14 @@ export default function Home() {
                       quote: '16px',
                     }}
                   />
+                  {/* SSR fallback — visible to crawlers when JS carousel hasn't loaded */}
+                  <noscript>
+                    <ul>
+                      {JOB_CATEGORIES.map((cat) => (
+                        <li key={cat.name}><strong>{cat.name}</strong> — {cat.designation}: {cat.quote}</li>
+                      ))}
+                    </ul>
+                  </noscript>
                 </div>
               </div>
             </div>

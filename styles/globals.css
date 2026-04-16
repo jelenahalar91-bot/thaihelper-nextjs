@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Fonts loaded via _document.js <link> tags to avoid render-blocking */
+/* Fonts loaded via next/font in _app.js — self-hosted, no render-blocking requests */
 
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Manrope', sans-serif;
+  font-family: var(--font-body), 'Manrope', sans-serif;
 }
 
 /* Hero gold shimmer effect */
@@ -36,7 +36,7 @@ body {
 }
 
 body.lang-th {
-  font-family: 'Sarabun', sans-serif;
+  font-family: var(--font-thai), 'Sarabun', sans-serif;
 }
 
 .material-symbols-outlined {

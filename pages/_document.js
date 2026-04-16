@@ -10,15 +10,7 @@ export default function Document() {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
 
-        {/* Preconnect for Google Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
-        {/* Google Fonts — single request, reduced weights, display=swap */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Manrope:wght@400;600;700&family=Sarabun:wght@400;600;700&display=swap"
-        />
+        {/* Fonts loaded via next/font in _app.js — self-hosted, no external requests */}
 
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
@@ -28,6 +20,8 @@ export default function Document() {
 
         {/* Bing Webmaster Tools verification */}
         <meta name="msvalidate.01" content="F12409946E0AC671E03AAAD5C5CA679C" />
+
+        {/* Google Search Console verified via HTML file (public/google*.html) */}
 
         {/* Geo meta tags for local SEO */}
         <meta name="geo.region" content="TH" />
