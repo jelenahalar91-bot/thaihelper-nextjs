@@ -395,10 +395,10 @@ export default function Home() {
             <div className="max-w-md mx-auto text-center">
               <div className="flex justify-center mb-3">
                 <div className="flex -space-x-2.5">
-                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face" alt="Helper profile" width={36} height={36} />
-                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face" alt="Helper profile" width={36} height={36} />
-                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face" alt="Helper profile" width={36} height={36} />
-                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=80&h=80&fit=crop&crop=face" alt="Helper profile" width={36} height={36} />
+                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face" alt="Verified nanny in Thailand — Maria S." width={36} height={36} />
+                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face" alt="Verified housekeeper in Thailand — Sunisa K." width={36} height={36} />
+                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face" alt="Verified private chef in Thailand — Ana R." width={36} height={36} />
+                  <Image className="w-9 h-9 rounded-full border-2 border-white object-cover shadow-sm" src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=80&h=80&fit=crop&crop=face" alt="Verified household helper in Thailand" width={36} height={36} />
                 </div>
               </div>
               <p className="text-sm font-medium text-on-surface-variant tracking-wide">
