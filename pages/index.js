@@ -61,7 +61,7 @@ const T = {
     footer_disclaimer:'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
     footer_product:'Product',footer_company:'Company',footer_legal:'Legal',
     footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',footer_employers:'For Families',
-    footer_contact:'Contact Us',footer_about:'About Us',footer_faq:'FAQ',
+    footer_contact:'Contact Us',footer_line:'LINE',footer_about:'About Us',footer_faq:'FAQ',
     footer_privacy:'Privacy Policy',footer_terms:'Terms of Service',
   },
   th: {
@@ -115,7 +115,7 @@ const T = {
     footer_disclaimer:'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
     footer_product:'ผลิตภัณฑ์',footer_company:'บริษัท',footer_legal:'กฎหมาย',
     footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',footer_employers:'สำหรับครอบครัว',
-    footer_contact:'ติดต่อเรา',footer_about:'เกี่ยวกับเรา',footer_faq:'คำถามที่พบบ่อย',
+    footer_contact:'ติดต่อเรา',footer_line:'LINE',footer_about:'เกี่ยวกับเรา',footer_faq:'คำถามที่พบบ่อย',
     footer_privacy:'นโยบายความเป็นส่วนตัว',footer_terms:'ข้อกำหนดการใช้งาน',
   },
   ru: {
@@ -166,7 +166,7 @@ const T = {
     footer_disclaimer:'ThaiHelper.app управляется Planet Bamboo GmbH (Германия). Мы не являемся кадровым агентством и не занимаемся трудоустройством. Платформа в настоящее время бесплатна. Все транзакции обрабатываются через LemonSqueezy. Соблюдение трудового и иммиграционного законодательства Таиланда является исключительной ответственностью пользователей.',
     footer_product:'Продукт',footer_company:'Компания',footer_legal:'Правовая информация',
     footer_find:'Преимущества',footer_hire:'Категории',footer_pricing:'Цены',footer_employers:'Для семей',
-    footer_contact:'Связаться',footer_about:'О нас',footer_faq:'Частые вопросы',
+    footer_contact:'Связаться',footer_line:'LINE',footer_about:'О нас',footer_faq:'Частые вопросы',
     footer_privacy:'Политика конфиденциальности',footer_terms:'Условия использования',
   }
 };
@@ -609,6 +609,7 @@ export default function Home() {
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_company}</h4>
                   <ul className="space-y-3">
                     <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
+                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="https://line.me/R/ti/p/@097ymfte" target="_blank" rel="noopener noreferrer">{t.footer_line}</a></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/about">{t.footer_about}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/faq">{t.footer_faq}</Link></li>
                   </ul>

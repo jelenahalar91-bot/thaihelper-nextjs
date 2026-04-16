@@ -75,6 +75,7 @@ const T = {
     page_title: 'Find Household Staff in Thailand – ThaiHelper',
     nav_home: 'Home',
     nav_helpers: 'For Helpers',
+    nav_blog: 'Blog',
     nav_login: 'Login',
     nav_cta: 'Register Free',
     // Hero
@@ -156,7 +157,7 @@ const T = {
     footer_fp3: 'How It Works',
     footer_company: 'Company',
     footer_fc1: 'About Us',
-    footer_fc2: 'Contact',
+    footer_fc2: 'Contact', footer_line: 'LINE',
     footer_legal: 'Legal',
     footer_fl1: 'Privacy Policy',
     footer_fl2: 'Terms of Service',
@@ -166,6 +167,7 @@ const T = {
     page_title: 'หาพนักงานดูแลบ้านในประเทศไทย – ThaiHelper',
     nav_home: 'หน้าแรก',
     nav_helpers: 'สำหรับผู้ช่วย',
+    nav_blog: 'บล็อก',
     nav_login: 'เข้าสู่ระบบ',
     nav_cta: 'ลงทะเบียนฟรี',
     hero_eyebrow: 'สำหรับครอบครัวและครัวเรือน',
@@ -229,7 +231,7 @@ const T = {
     footer_desc: 'ThaiHelper เชื่อมต่อครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานดูแลบ้านที่ไว้ใจได้ เชื่อมต่อโดยตรง ไม่มีคนกลาง',
     footer_disclaimer: 'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
     footer_product: 'ผลิตภัณฑ์', footer_fp1: 'สำหรับผู้ช่วย', footer_fp2: 'สำหรับครอบครัว', footer_fp3: 'วิธีการใช้งาน',
-    footer_company: 'บริษัท', footer_fc1: 'เกี่ยวกับเรา', footer_fc2: 'ติดต่อ',
+    footer_company: 'บริษัท', footer_fc1: 'เกี่ยวกับเรา', footer_fc2: 'ติดต่อ', footer_line: 'LINE',
     footer_legal: 'กฎหมาย', footer_fl1: 'นโยบายความเป็นส่วนตัว', footer_fl2: 'ข้อกำหนดการใช้บริการ',
     footer_copy: '© 2026 ThaiHelper สงวนลิขสิทธิ์',
   },
@@ -237,6 +239,7 @@ const T = {
     page_title: 'Найти домашний персонал в Таиланде – ThaiHelper',
     nav_home: 'Главная',
     nav_helpers: 'Для помощников',
+    nav_blog: 'Блог',
     nav_login: 'Войти',
     nav_cta: 'Регистрация',
     // (CTA wording updated below)
@@ -301,7 +304,7 @@ const T = {
     footer_desc: 'ThaiHelper связывает семьи и экспатов в Таиланде с проверенным домашним персоналом. Прямые контакты, без посредников.',
     footer_disclaimer: 'ThaiHelper.app управляется Planet Bamboo GmbH (Германия). Мы не являемся кадровым агентством и не занимаемся трудоустройством. Платформа в настоящее время бесплатна. Все транзакции обрабатываются через LemonSqueezy. Соблюдение трудового и иммиграционного законодательства Таиланда является исключительной ответственностью пользователей.',
     footer_product: 'Продукт', footer_fp1: 'Для помощников', footer_fp2: 'Для семей', footer_fp3: 'Как это работает',
-    footer_company: 'Компания', footer_fc1: 'О нас', footer_fc2: 'Контакты',
+    footer_company: 'Компания', footer_fc1: 'О нас', footer_fc2: 'Контакты', footer_line: 'LINE',
     footer_legal: 'Правовая информация', footer_fl1: 'Политика конфиденциальности', footer_fl2: 'Условия использования',
     footer_copy: '© 2026 ThaiHelper. Все права защищены.',
   },
@@ -427,6 +430,7 @@ export default function Employers() {
             </span>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
+            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/blog">{t.nav_blog}</Link>
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
             <LangSwitcher />
             <Link className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="/employer-register">{t.nav_cta}</Link>
@@ -685,6 +689,7 @@ export default function Employers() {
                   <ul className="space-y-3">
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/about">{t.footer_fc1}</Link></li>
                     <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="mailto:support@thaihelper.app">{t.footer_fc2}</a></li>
+                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="https://line.me/R/ti/p/@097ymfte" target="_blank" rel="noopener noreferrer">{t.footer_line}</a></li>
                   </ul>
                 </div>
                 <div>
