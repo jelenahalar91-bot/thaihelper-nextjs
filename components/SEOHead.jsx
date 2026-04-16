@@ -306,16 +306,24 @@ export function getItemListSchema(items, listName = 'Household Staff in Thailand
 
 /**
  * BreadcrumbList schema
+ * Per Google's guidelines, the last breadcrumb (current page) should NOT
+ * have an `item` URL — otherwise Google flags it as an invalid self-reference.
  */
 export function getBreadcrumbSchema(items) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.name,
-      item: `${SITE_URL}${item.path}`,
-    })),
+    itemListElement: items.map((item, index) => {
+      const isLast = index === items.length - 1;
+      const entry = {
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+      };
+      if (!isLast) {
+        entry.item = `${SITE_URL}${item.path}`;
+      }
+      return entry;
+    }),
   };
 }
