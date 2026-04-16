@@ -2603,7 +2603,7 @@ export const blogPosts = [
     date: '2026-04-16',
     readTime: 7,
     author: 'ThaiHelper Team',
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80',
     keywords: 'tutor Bangkok, private tutor Thailand, English tutor Bangkok, maths tutor Thailand, exam prep Bangkok',
     title_th: 'วิธีหาติวเตอร์ที่มีคุณภาพในกรุงเทพฯ สำหรับลูกของคุณ',
     description_th: 'คู่มือสำหรับการหาติวเตอร์ส่วนตัวที่เหมาะสมในกรุงเทพฯ — ทั้งคณิต ภาษาอังกฤษ ภาษาไทย ดนตรี หรือเตรียมสอบ เรียนรู้อัตราค่าจ้าง คุณสมบัติ และสิ่งที่ควรคาดหวัง',
