@@ -15,6 +15,7 @@ const EDITABLE_FIELDS = [
   'preferred_age_range',
   'job_description',
   'preferred_language',
+  'notify_on_message',
 ];
 
 const ARRANGEMENT_VALUES = ['live_in', 'live_out', 'either'];
@@ -32,7 +33,7 @@ export default async function handler(req, res) {
       .select(
         'employer_ref, first_name, last_name, email, phone, city, area, ' +
         'looking_for, arrangement_preference, preferred_age_range, ' +
-        'job_description, preferred_language, photo_url, ' +
+        'job_description, preferred_language, photo_url, notify_on_message, ' +
         'access_until, access_tier, email_verified, created_at, last_login_at'
       )
       .eq('employer_ref', ref)

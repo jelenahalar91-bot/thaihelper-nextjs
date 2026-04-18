@@ -19,6 +19,7 @@ import {
   getAccessStatus,
 } from '../../lib/access';
 import { sendNewMessageNotification } from '../../lib/send-confirmation-email';
+import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../lib/unsubscribe';
 
 const MESSAGES_PER_PAGE = 50;
 // Max characters per message. Generous enough for long Thai replies but
@@ -204,43 +205,59 @@ export default async function handler(req, res) {
       .update({ last_message_at: new Date().toISOString() })
       .eq('id', conversation_id);
 
-    // Send email notification to recipient (non-blocking — don't fail the request)
+    // Send email notification to recipient (non-blocking — don't fail the request).
+    // We gate on the recipient's `notify_on_message` flag so opted-out users
+    // don't get any more notifications, and we include a signed one-click
+    // unsubscribe URL in every email + RFC 8058 List-Unsubscribe headers.
     try {
       if (process.env.RESEND_API_KEY) {
         let recipientEmail = null;
         let recipientName = null;
+        let recipientRole = null;
+        let recipientRef = null;
+        let notifyOptedIn = true;
 
         if (session.role === 'helper') {
           // Sender is helper → recipient is employer
           const { data: emp } = await supabase
             .from('employer_accounts')
-            .select('first_name, email')
+            .select('first_name, email, notify_on_message, employer_ref')
             .eq('employer_ref', conv.employer_id)
             .single();
           if (emp) {
             recipientEmail = emp.email;
             recipientName = emp.first_name;
+            recipientRole = 'employer';
+            recipientRef = emp.employer_ref;
+            // Treat NULL as opted-in (default is true); only false opts out.
+            notifyOptedIn = emp.notify_on_message !== false;
           }
         } else {
           // Sender is employer → recipient is helper
           const { data: hlp } = await supabase
             .from('helper_profiles')
-            .select('first_name, email')
+            .select('first_name, email, notify_on_message, helper_ref')
             .eq('helper_ref', conv.helper_ref)
             .single();
           if (hlp) {
             recipientEmail = hlp.email;
             recipientName = hlp.first_name;
+            recipientRole = 'helper';
+            recipientRef = hlp.helper_ref;
+            notifyOptedIn = hlp.notify_on_message !== false;
           }
         }
 
-        if (recipientEmail) {
+        if (recipientEmail && notifyOptedIn && recipientRef) {
+          const token = await createUnsubscribeToken(recipientRole, recipientRef);
+          const unsubscribeUrl = buildUnsubscribeUrl(token);
           await sendNewMessageNotification({
             recipientName,
             recipientEmail,
             senderName: session.firstName || 'Someone',
             senderRole: session.role,
             messagePreview: trimmed,
+            unsubscribeUrl,
           });
         }
       }

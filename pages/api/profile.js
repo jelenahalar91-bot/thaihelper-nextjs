@@ -37,6 +37,9 @@ function toFrontend(row) {
     timestamp: row.created_at || '',
     status: row.status || 'active',
     emailVerified: row.email_verified === true,
+    // Treat NULL as opted-in (the default) so the toggle shows on in the UI
+    // until the user explicitly opts out.
+    notifyOnMessage: row.notify_on_message !== false,
   };
 }
 
@@ -58,6 +61,7 @@ const fieldMap = {
   whatsapp: 'whatsapp',
   hasWhatsApp: 'has_whatsapp',
   photo: 'photo_url',
+  notifyOnMessage: 'notify_on_message',
 };
 
 export default async function handler(req, res) {

@@ -27,6 +27,11 @@ const T = {
     nav_help: 'Help',
     menu_profile: 'Profile',
     menu_settings: 'Settings',
+    notify_title: 'Email notifications',
+    notify_label: 'Email me when I receive a new message',
+    notify_hint: 'We\'ll email you when an employer writes to you. Unsubscribe any time from the link in every email.',
+    notify_saving: 'Saving…',
+    notify_saved: 'Saved',
     menu_dashboard: 'Dashboard',
     // Dashboard
     dash_hi_morning: 'Good morning',
@@ -183,6 +188,11 @@ const T = {
     nav_help: 'ช่วยเหลือ',
     menu_profile: 'โปรไฟล์',
     menu_settings: 'ตั้งค่า',
+    notify_title: 'การแจ้งเตือนทางอีเมล',
+    notify_label: 'ส่งอีเมลหาฉันเมื่อได้รับข้อความใหม่',
+    notify_hint: 'เราจะส่งอีเมลเมื่อมีนายจ้างส่งข้อความถึงคุณ ยกเลิกได้ทุกเมื่อจากลิงก์ในทุกอีเมล',
+    notify_saving: 'กำลังบันทึก…',
+    notify_saved: 'บันทึกแล้ว',
     menu_dashboard: 'แดชบอร์ด',
     dash_hi_morning: 'อรุณสวัสดิ์',
     dash_hi_afternoon: 'สวัสดีตอนบ่าย',
@@ -486,6 +496,30 @@ export default function Profile() {
       setSavedMsg(t.saved_msg); setTimeout(() => setSavedMsg(''), 4000);
     } catch { setSaveError(t.error_save); }
     finally { setSaving(false); }
+  };
+
+  // ─── Email notification toggle ────────────────────────────────────────
+  // Separate from the main edit flow because it's a simple one-tap switch
+  // that should save immediately without asking the user to click "Save".
+  const [notifySaving, setNotifySaving] = useState(false);
+  const [notifySaved, setNotifySaved] = useState(false);
+  const handleToggleNotify = async (nextValue) => {
+    if (notifySaving) return;
+    setNotifySaving(true);
+    setNotifySaved(false);
+    // Optimistic update on the local profile
+    setProfile(prev => prev ? { ...prev, notifyOnMessage: nextValue } : prev);
+    try {
+      await updateProfileApi({ notifyOnMessage: nextValue });
+      setNotifySaved(true);
+      setTimeout(() => setNotifySaved(false), 2000);
+    } catch (err) {
+      console.error('Notify toggle failed:', err);
+      // Roll back
+      setProfile(prev => prev ? { ...prev, notifyOnMessage: !nextValue } : prev);
+    } finally {
+      setNotifySaving(false);
+    }
   };
 
   // Document handlers
@@ -1235,6 +1269,44 @@ export default function Profile() {
                   </button>
                 </div>
               )}
+
+              {/* ─── EMAIL NOTIFICATIONS SECTION ────────────────────── */}
+              <div style={{
+                background: 'white', borderRadius: '16px',
+                padding: isMobile ? '20px' : '24px', marginTop: '16px',
+                border: '1px solid #e5e7eb',
+              }}>
+                <h3 style={{ fontSize: '17px', fontWeight: 700, margin: '0 0 14px', color: '#1a1a1a' }}>
+                  {t.notify_title}
+                </h3>
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={profile?.notifyOnMessage !== false}
+                    onChange={e => handleToggleNotify(e.target.checked)}
+                    disabled={notifySaving}
+                    style={{ marginTop: '3px', width: '20px', height: '20px', accentColor: '#006a62', cursor: notifySaving ? 'wait' : 'pointer' }}
+                  />
+                  <span style={{ flex: 1 }}>
+                    <span style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>
+                      {t.notify_label}
+                    </span>
+                    <span style={{ display: 'block', fontSize: '12px', color: '#6b7280', marginTop: '4px', lineHeight: 1.5 }}>
+                      {t.notify_hint}
+                    </span>
+                    {notifySaving && (
+                      <span style={{ display: 'inline-block', fontSize: '11px', color: '#9ca3af', marginTop: '6px' }}>
+                        {t.notify_saving}
+                      </span>
+                    )}
+                    {notifySaved && !notifySaving && (
+                      <span style={{ display: 'inline-block', fontSize: '11px', color: '#059669', marginTop: '6px', fontWeight: 600 }}>
+                        ✓ {t.notify_saved}
+                      </span>
+                    )}
+                  </span>
+                </label>
+              </div>
             </>
           )}
 

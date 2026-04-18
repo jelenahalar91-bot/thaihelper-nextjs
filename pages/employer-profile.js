@@ -56,6 +56,9 @@ const T = {
     section_preferences: 'What you\'re looking for',
     section_job: 'Job description',
     section_settings: 'Settings',
+    section_notifications: 'Email notifications',
+    notify_label: 'Email me when I receive a new message',
+    notify_hint: 'We\'ll send a short email with the sender\'s name and a preview. You can unsubscribe from every email with one click.',
     label_first: 'First name',
     label_last: 'Last name',
     label_email: 'Email',
@@ -96,6 +99,9 @@ const T = {
     section_preferences: 'สิ่งที่คุณกำลังมองหา',
     section_job: 'รายละเอียดงาน',
     section_settings: 'การตั้งค่า',
+    section_notifications: 'การแจ้งเตือนทางอีเมล',
+    notify_label: 'ส่งอีเมลหาฉันเมื่อได้รับข้อความใหม่',
+    notify_hint: 'เราจะส่งอีเมลสั้นๆ พร้อมชื่อผู้ส่งและตัวอย่างข้อความ คุณสามารถยกเลิกการสมัครได้ด้วยคลิกเดียวในทุกอีเมล',
     label_first: 'ชื่อ',
     label_last: 'นามสกุล',
     label_email: 'อีเมล',
@@ -171,6 +177,7 @@ export default function EmployerProfile() {
         looking_for: lookingForToArray(p.looking_for),
         job_description: p.job_description || '',
         preferred_language: p.preferred_language || 'en',
+        notify_on_message: p.notify_on_message !== false,
       });
       setAuthChecked(true);
     })();
@@ -533,6 +540,26 @@ export default function EmployerProfile() {
                 className={`${inputClass} resize-y font-sans`}
               />
             </Field>
+          </Section>
+
+          {/* ── Email notifications ──────────────────── */}
+          <Section id="notifications" title={t.section_notifications}>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.notify_on_message !== false}
+                onChange={e => update('notify_on_message', e.target.checked)}
+                className="mt-1 w-5 h-5 accent-[#006a62] cursor-pointer"
+              />
+              <span>
+                <span className="block text-sm font-semibold text-gray-900">
+                  {t.notify_label}
+                </span>
+                <span className="block text-xs text-gray-500 mt-1 leading-relaxed">
+                  {t.notify_hint}
+                </span>
+              </span>
+            </label>
           </Section>
 
 

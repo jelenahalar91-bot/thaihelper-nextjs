@@ -65,6 +65,13 @@ CREATE TABLE messages (
 CREATE INDEX idx_messages_conversation ON messages(conversation_id, created_at);
 CREATE INDEX idx_messages_unread ON messages(conversation_id, is_read) WHERE NOT is_read;
 
+-- Email notification preferences for new messages.
+-- Default: opted IN (so users don't miss the first messages after signup).
+-- Users can opt out via the one-click unsubscribe link in every email or
+-- via the toggle in their profile settings.
+ALTER TABLE IF EXISTS helper_profiles   ADD COLUMN IF NOT EXISTS notify_on_message BOOLEAN DEFAULT true;
+ALTER TABLE IF EXISTS employer_accounts ADD COLUMN IF NOT EXISTS notify_on_message BOOLEAN DEFAULT true;
+
 -- Helper Favorites (employer saves a helper to their favorites list)
 CREATE TABLE IF NOT EXISTS helper_favorites (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
