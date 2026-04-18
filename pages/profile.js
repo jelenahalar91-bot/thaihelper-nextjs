@@ -137,6 +137,7 @@ const T = {
     msg_translation_failed: '',
     msg_too_long: 'Message is too long (max {n} characters).',
     msg_send_error: 'Failed to send message. Please try again.',
+    msg_delete_error: 'Could not delete the conversation. Please try again.',
     msg_empty_title: 'Say hi to {name} 👋',
     msg_empty_hint: 'Send your first reply to get the conversation started.',
     msg_delete: 'Delete conversation',
@@ -289,6 +290,7 @@ const T = {
     msg_translation_failed: '',
     msg_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
     msg_send_error: 'ส่งข้อความไม่สำเร็จ กรุณาลองอีกครั้ง',
+    msg_delete_error: 'ไม่สามารถลบการสนทนาได้ กรุณาลองอีกครั้ง',
     msg_empty_title: 'ทักทาย {name} กันเถอะ 👋',
     msg_empty_hint: 'ส่งข้อความตอบกลับแรกเพื่อเริ่มการสนทนา',
     msg_delete: 'ลบบทสนทนา',
@@ -571,13 +573,21 @@ export default function Profile() {
     }
   };
 
-  // Delete conversation handler
+  // Delete conversation handler — only mutate local state after the API
+  // call succeeds, so a failed request doesn't make a still-existing
+  // conversation "disappear" from the UI only to reappear on reload.
   const handleDeleteConversation = async (conversationId) => {
-    await deleteConversation(conversationId);
-    setConversations(prev => prev.filter(c => c.id !== conversationId));
-    if (selectedConv?.id === conversationId) {
-      setSelectedConv(null);
-      setMessages([]);
+    try {
+      await deleteConversation(conversationId);
+      setConversations(prev => prev.filter(c => c.id !== conversationId));
+      if (selectedConv?.id === conversationId) {
+        setSelectedConv(null);
+        setMessages([]);
+      }
+    } catch (err) {
+      console.error('Delete conversation failed:', err);
+      setMsgToast(t.msg_delete_error || 'Could not delete the conversation. Please try again.');
+      setTimeout(() => setMsgToast(''), 5000);
     }
   };
 

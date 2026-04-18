@@ -107,6 +107,7 @@ const T = {
     msg_send_locked: 'Upgrade to send messages and read full conversations.',
     err_start_locked: 'Upgrade your account to message helpers.',
     err_generic: 'Something went wrong. Please try again.',
+    msg_delete_error: 'Could not delete the conversation. Please try again.',
     err_translation_failed: '',
     err_too_long: 'Message is too long (max {n} characters).',
     // Conversation empty state
@@ -196,6 +197,7 @@ const T = {
     msg_send_locked: 'อัปเกรดเพื่อส่งข้อความและอ่านบทสนทนาแบบเต็ม',
     err_start_locked: 'อัปเกรดบัญชีของคุณเพื่อส่งข้อความถึงผู้ช่วย',
     err_generic: 'เกิดข้อผิดพลาด กรุณาลองอีกครั้ง',
+    msg_delete_error: 'ไม่สามารถลบการสนทนาได้ กรุณาลองอีกครั้ง',
     err_translation_failed: '',
     err_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
     // Conversation empty state
@@ -630,14 +632,22 @@ export default function EmployerDashboard() {
     alert(t.access_free_text);
   }
 
-  // Delete a conversation and remove it from local state
+  // Delete a conversation and remove it from local state — only mutate
+  // local state after the API call succeeds, so a failed request doesn't
+  // make a still-existing conversation "disappear" only to reappear on
+  // reload (would look like a ghost bug to the user).
   async function handleDeleteConversation(conversationId) {
-    await deleteConversation(conversationId);
-    setConversations(prev => prev.filter(c => c.id !== conversationId));
-    // If the deleted conversation was currently open, close it
-    if (selectedConv?.id === conversationId) {
-      setSelectedConv(null);
-      setMessages([]);
+    try {
+      await deleteConversation(conversationId);
+      setConversations(prev => prev.filter(c => c.id !== conversationId));
+      // If the deleted conversation was currently open, close it
+      if (selectedConv?.id === conversationId) {
+        setSelectedConv(null);
+        setMessages([]);
+      }
+    } catch (err) {
+      console.error('Delete conversation failed:', err);
+      setErrorBanner(t.msg_delete_error || t.err_generic);
     }
   }
 
