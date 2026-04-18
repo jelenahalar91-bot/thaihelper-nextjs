@@ -60,6 +60,11 @@ const T = {
     logout: 'Log Out',
     tab_browse: 'Browse Helpers',
     tab_messages: 'Messages',
+    tab_favorites: 'Favorites',
+    fav_add: 'Save to favorites',
+    fav_remove: 'Remove from favorites',
+    fav_empty_title: 'No favorites yet',
+    fav_empty_sub: 'Tap the heart on any helper card to save them here.',
     access_promo: '🎉 You have full access — {n} days remaining',
     access_paid: '✓ Full access — {n} days remaining',
     access_free_title: 'Free account',
@@ -144,6 +149,11 @@ const T = {
     logout: 'ออกจากระบบ',
     tab_browse: 'ค้นหาผู้ช่วย',
     tab_messages: 'ข้อความ',
+    tab_favorites: 'รายการโปรด',
+    fav_add: 'บันทึกในรายการโปรด',
+    fav_remove: 'ลบออกจากรายการโปรด',
+    fav_empty_title: 'ยังไม่มีรายการโปรด',
+    fav_empty_sub: 'แตะหัวใจบนการ์ดผู้ช่วยเพื่อบันทึกไว้ที่นี่',
     access_promo: '🎉 คุณมีสิทธิ์เข้าถึงเต็มรูปแบบ — เหลืออีก {n} วัน',
     access_paid: '✓ เข้าถึงเต็มรูปแบบ — เหลืออีก {n} วัน',
     access_free_title: 'บัญชีฟรี',
@@ -295,6 +305,9 @@ export default function EmployerDashboard() {
   const [errorBanner, setErrorBanner] = useState('');
   const [viewingHelper, setViewingHelper] = useState(null); // helper obj shown in profile modal
 
+  // ── Favorites state ───────────────────────────────────────────────────
+  const [favorites, setFavorites] = useState(new Set());
+
   // ── Mount: auth check + initial loads ─────────────────────────────────
   useEffect(() => {
     let cancelled = false;
@@ -311,10 +324,51 @@ export default function EmployerDashboard() {
       // ready as soon as the user clicks any tab.
       loadHelpers();
       loadConversations();
+      loadFavorites();
     })();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  async function loadFavorites() {
+    try {
+      const r = await fetch('/api/favorites');
+      if (!r.ok) return;
+      const data = await r.json();
+      setFavorites(new Set(data.favorites || []));
+    } catch (err) {
+      console.error('Failed to load favorites:', err);
+    }
+  }
+
+  async function toggleFavorite(helperRef, nextValue) {
+    // Optimistic update
+    setFavorites(prev => {
+      const next = new Set(prev);
+      if (nextValue) next.add(helperRef); else next.delete(helperRef);
+      return next;
+    });
+    try {
+      if (nextValue) {
+        await fetch('/api/favorites', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ helper_ref: helperRef }),
+        });
+      } else {
+        await fetch(`/api/favorites?helper_ref=${encodeURIComponent(helperRef)}`, {
+          method: 'DELETE',
+        });
+      }
+    } catch (err) {
+      console.error('Favorite toggle failed:', err);
+      setFavorites(prev => {
+        const next = new Set(prev);
+        if (nextValue) next.delete(helperRef); else next.add(helperRef);
+        return next;
+      });
+    }
+  }
 
   async function loadHelpers() {
     setHelpersLoading(true);
@@ -647,6 +701,27 @@ export default function EmployerDashboard() {
             </button>
 
             <div className="flex items-center gap-2 md:gap-3">
+              {/* Favorites icon with count badge */}
+              <button
+                onClick={() => { setActiveTab('favorites'); setSelectedConv(null); }}
+                className={`relative p-2.5 rounded-lg transition-colors ${
+                  activeTab === 'favorites'
+                    ? 'bg-[#006a62] text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+                title={t.tab_favorites}
+                aria-label={t.tab_favorites}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill={activeTab === 'favorites' ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+                {favorites.size > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#e11d48] text-white text-[10px] font-bold flex items-center justify-center">
+                    {favorites.size > 9 ? '9+' : favorites.size}
+                  </span>
+                )}
+              </button>
+
               {/* Messages icon with unread badge */}
               <button
                 onClick={() => { setActiveTab('messages'); setSelectedConv(null); }}
@@ -754,7 +829,9 @@ export default function EmployerDashboard() {
             fontSize: '18px', fontWeight: 700, color: '#1a1a1a',
             margin: '20px 0 16px',
           }}>
-            {activeTab === 'browse' ? t.tab_browse : t.tab_messages}
+            {activeTab === 'browse' ? t.tab_browse
+              : activeTab === 'favorites' ? t.tab_favorites
+              : t.tab_messages}
           </h2>
 
           {/* ── Browse view ────────────────────────────── */}
@@ -784,6 +861,21 @@ export default function EmployerDashboard() {
               startingConv={startingConv}
               mobileFiltersOpen={mobileFiltersOpen}
               setMobileFiltersOpen={setMobileFiltersOpen}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+            />
+          )}
+
+          {/* ── Favorites view ─────────────────────────── */}
+          {activeTab === 'favorites' && (
+            <FavoritesTab
+              t={t}
+              helpers={helpers.filter(h => favorites.has(h.ref))}
+              loading={helpersLoading}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+              onMessageHelper={handleMessageHelper}
+              startingConv={startingConv}
             />
           )}
 
@@ -962,6 +1054,7 @@ function BrowseTab({
   activeFilterCount, onResetFilters,
   onMessageHelper, startingConv,
   mobileFiltersOpen, setMobileFiltersOpen,
+  favorites, onToggleFavorite,
 }) {
   const sidebar = (
     <FilterSidebar
@@ -1100,7 +1193,9 @@ function BrowseTab({
                 <HelperCard
                   key={h.ref}
                   helper={{ ...h, categoryLabel: categoryWithEmoji(h.category) }}
-                  t={{ card_exp: t.card_yrs, card_verified: 'Verified' }}
+                  t={{ card_exp: t.card_yrs, card_verified: 'Verified', fav_add: t.fav_add, fav_remove: t.fav_remove }}
+                  isFavorite={favorites?.has(h.ref)}
+                  onToggleFavorite={onToggleFavorite}
                   ctaSlot={
                     <button
                       onClick={() => onMessageHelper(h.ref)}
@@ -1392,3 +1487,56 @@ const filterInputStyle = {
 const chipRowStyle = {
   display: 'flex', flexWrap: 'wrap', gap: '6px',
 };
+
+// ─── FavoritesTab ────────────────────────────────────────────────────────
+// Shows only the helpers the employer has favorited. Same card layout and
+// "Message" CTA as BrowseTab, plus the heart is always filled here.
+function FavoritesTab({ t, helpers, loading, favorites, onToggleFavorite, onMessageHelper, startingConv }) {
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
+        {t.loading}
+      </div>
+    );
+  }
+  if (helpers.length === 0) {
+    return (
+      <div style={{
+        background: 'white', borderRadius: '16px',
+        padding: '48px 32px', border: '1px solid #e5e7eb',
+        textAlign: 'center',
+      }}>
+        <div style={{ fontSize: '44px', marginBottom: '12px', color: '#e11d48' }}>♡</div>
+        <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>
+          {t.fav_empty_title}
+        </h3>
+        <p style={{ fontSize: '15px', color: '#666' }}>{t.fav_empty_sub}</p>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-col gap-4">
+      {helpers.map(h => {
+        const isStarting = startingConv === h.ref;
+        return (
+          <HelperCard
+            key={h.ref}
+            helper={{ ...h, categoryLabel: categoryWithEmoji(h.category) }}
+            t={{ card_exp: t.card_yrs, card_verified: 'Verified', fav_add: t.fav_add, fav_remove: t.fav_remove }}
+            isFavorite={favorites?.has(h.ref)}
+            onToggleFavorite={onToggleFavorite}
+            ctaSlot={
+              <button
+                onClick={() => onMessageHelper(h.ref)}
+                disabled={isStarting}
+                className="w-full px-5 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
+              >
+                💬 {isStarting ? t.card_messaging : t.card_message}
+              </button>
+            }
+          />
+        );
+      })}
+    </div>
+  );
+}

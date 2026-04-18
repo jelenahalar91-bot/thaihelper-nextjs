@@ -39,6 +39,9 @@ const T = {
     card_exp:       'yrs experience',
     card_signin:    'Sign in to message',
     card_signin_btn:'Login / Register',
+    fav_add:        'Save to favorites',
+    fav_remove:     'Remove from favorites',
+    fav_login:      'Login as employer to save favorites',
     cta_title:      'Are you a helper looking for work?',
     cta_sub:        'Create your free profile and let families find you.',
     cta_btn:        'Register Now — Free →',
@@ -77,6 +80,9 @@ const T = {
     card_exp:       'ปีประสบการณ์',
     card_signin:    'เข้าสู่ระบบเพื่อส่งข้อความ',
     card_signin_btn:'เข้าสู่ระบบ / ลงทะเบียน',
+    fav_add:        'บันทึกในรายการโปรด',
+    fav_remove:     'ลบออกจากรายการโปรด',
+    fav_login:      'เข้าสู่ระบบในฐานะนายจ้างเพื่อบันทึกรายการโปรด',
     cta_title:      'คุณเป็นผู้ช่วยที่กำลังหางานอยู่หรือเปล่า?',
     cta_sub:        'สร้างโปรไฟล์ฟรีเพื่อให้ครอบครัวค้นหาคุณ',
     cta_btn:        'ลงทะเบียนฟรี →',
@@ -224,6 +230,71 @@ export default function Helpers({ initialHelpers = [] }) {
       setLoading(false);
     })();
   }, [initialHelpers]);
+
+  // ─── Favorites (employer-only) ────────────────────────────────────────
+  // `favorites` is a Set of helper_ref strings. `isEmployer` is null while
+  // unknown, false when the /api/favorites call returns 401 (not logged in
+  // as employer), and true when favorites were successfully loaded.
+  const [favorites, setFavorites] = useState(new Set());
+  const [isEmployer, setIsEmployer] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const r = await fetch('/api/favorites');
+        if (cancelled) return;
+        if (r.status === 401) {
+          setIsEmployer(false);
+          return;
+        }
+        const data = await r.json();
+        if (cancelled) return;
+        setIsEmployer(true);
+        setFavorites(new Set(data.favorites || []));
+      } catch {
+        if (!cancelled) setIsEmployer(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const toggleFavorite = async (helperRef, nextValue) => {
+    if (!isEmployer) {
+      // Not logged in as employer — redirect to employer login with intent
+      if (typeof window !== 'undefined') {
+        window.location.href = '/employer-login?next=/helpers';
+      }
+      return;
+    }
+    // Optimistic update
+    setFavorites(prev => {
+      const next = new Set(prev);
+      if (nextValue) next.add(helperRef); else next.delete(helperRef);
+      return next;
+    });
+    try {
+      if (nextValue) {
+        await fetch('/api/favorites', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ helper_ref: helperRef }),
+        });
+      } else {
+        await fetch(`/api/favorites?helper_ref=${encodeURIComponent(helperRef)}`, {
+          method: 'DELETE',
+        });
+      }
+    } catch (err) {
+      console.error('Favorite toggle failed:', err);
+      // Roll back on error
+      setFavorites(prev => {
+        const next = new Set(prev);
+        if (nextValue) next.delete(helperRef); else next.add(helperRef);
+        return next;
+      });
+    }
+  };
 
   const t = T[lang] || T.en;
 
@@ -440,6 +511,9 @@ export default function Helpers({ initialHelpers = [] }) {
                       key={h.ref}
                       helper={{ ...h, categoryLabel: categoryWithEmoji(h.category) }}
                       t={t}
+                      isFavorite={favorites.has(h.ref)}
+                      onToggleFavorite={toggleFavorite}
+                      favoriteHint={isEmployer === false ? t.fav_login : undefined}
                     />
                   ))}
                 </div>

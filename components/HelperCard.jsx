@@ -26,14 +26,42 @@ import Image from 'next/image';
  * All communication happens on-platform; users decide what contact
  * data to share AFTER messaging through ThaiHelper.
  */
-export default function HelperCard({ helper, mode = 'browse', t, ctaSlot }) {
+export default function HelperCard({
+  helper,
+  mode = 'browse',
+  t,
+  ctaSlot,
+  isFavorite = false,
+  onToggleFavorite,
+  favoriteHint,
+}) {
   const displayName =
     helper.name || [helper.firstName, helper.lastName].filter(Boolean).join(' ');
+
+  const showFavBtn = typeof onToggleFavorite === 'function' && helper.ref;
+  const hintText = favoriteHint ||
+    (isFavorite ? (t?.fav_remove || 'Remove from favorites') : (t?.fav_add || 'Save to favorites'));
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
       {/* Photo */}
       <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square">
+        {showFavBtn && (
+          <button
+            type="button"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggleFavorite(helper.ref, !isFavorite); }}
+            aria-label={hintText}
+            title={hintText}
+            className="absolute top-2 right-2 z-10 w-10 h-10 rounded-full bg-white/95 shadow-sm hover:bg-white hover:scale-110 active:scale-95 transition-all flex items-center justify-center"
+          >
+            <span
+              aria-hidden="true"
+              style={{ fontSize: '20px', lineHeight: 1, color: isFavorite ? '#e11d48' : '#9ca3af' }}
+            >
+              {isFavorite ? '♥' : '♡'}
+            </span>
+          </button>
+        )}
         {helper.photo ? (
           // Local images (/images/...) get full next/image optimization;
           // user-uploaded photos (data: URLs or unknown remote hosts) fall

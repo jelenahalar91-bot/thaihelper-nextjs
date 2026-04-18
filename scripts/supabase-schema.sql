@@ -65,12 +65,24 @@ CREATE TABLE messages (
 CREATE INDEX idx_messages_conversation ON messages(conversation_id, created_at);
 CREATE INDEX idx_messages_unread ON messages(conversation_id, is_read) WHERE NOT is_read;
 
+-- Helper Favorites (employer saves a helper to their favorites list)
+CREATE TABLE IF NOT EXISTS helper_favorites (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  employer_ref TEXT NOT NULL,
+  helper_ref TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE(employer_ref, helper_ref)
+);
+CREATE INDEX IF NOT EXISTS idx_favorites_employer ON helper_favorites(employer_ref);
+CREATE INDEX IF NOT EXISTS idx_favorites_helper ON helper_favorites(helper_ref);
+
 -- Enable RLS on all tables
 ALTER TABLE user_preferences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE helper_references ENABLE ROW LEVEL SECURITY;
 ALTER TABLE conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE helper_favorites ENABLE ROW LEVEL SECURITY;
 
 -- Since we use custom JWT auth (not Supabase Auth), all access goes
 -- through API routes with the service role key. No RLS policies needed
