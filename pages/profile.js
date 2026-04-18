@@ -606,6 +606,16 @@ export default function Profile() {
       const res = await sendMessage(selectedConv.id, msgInput.trim());
       setMessages(prev => [...prev, res.message]);
       setMsgInput('');
+
+      // If this was the first message, the conversation won't be in the
+      // sidebar yet (empty convs are filtered out). Refresh the list.
+      const inList = conversations.some(c => c.id === selectedConv.id);
+      if (!inList) {
+        try {
+          const data = await fetchConversations();
+          setConversations(data.conversations || []);
+        } catch { /* non-critical */ }
+      }
     } catch (err) {
       if (err.code === 'message_too_long') {
         setMsgToast(
@@ -742,17 +752,42 @@ export default function Profile() {
     setStartingEmpConv(employerRef);
     try {
       const { conversation_id } = await startConversationAsHelper(employerRef);
-      // Refresh conversations then switch to messages tab
+
+      // Try to find this conversation in the (filtered) list
+      let conv = null;
       try {
         const data = await fetchConversations();
         setConversations(data.conversations || []);
-        const conv = (data.conversations || []).find(c => c.id === conversation_id);
-        if (conv) {
-          setActiveTab('messages');
-          openConversation(conv);
-        }
-      } catch {
-        setActiveTab('messages');
+        conv = (data.conversations || []).find(c => c.id === conversation_id);
+      } catch { /* ignore — we'll fall through to the synthetic conv below */ }
+
+      setActiveTab('messages');
+
+      if (conv) {
+        // Conversation already has messages — open it normally
+        openConversation(conv);
+      } else {
+        // Empty/new conversation: the GET /api/conversations filter hides
+        // conversations with zero messages, so we synthesize a conv object
+        // so the composer opens and the helper can send their first message.
+        const emp = employers.find(e => e.ref === employerRef);
+        const syntheticConv = {
+          id: conversation_id,
+          created_at: new Date().toISOString(),
+          last_message_at: new Date().toISOString(),
+          unread_count: 0,
+          last_message: null,
+          counterparty: emp ? {
+            ref: emp.ref,
+            firstName: emp.firstName,
+            lastName: emp.lastName || '',
+            photo: emp.photo || null,
+            city: emp.city,
+          } : { ref: employerRef, firstName: 'Employer', lastName: '', photo: null },
+        };
+        setSelectedConv(syntheticConv);
+        setMessages([]);
+        setLoadingMsgs(false);
       }
     } catch (err) {
       console.error('Failed to start conversation:', err);
