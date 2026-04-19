@@ -13,7 +13,7 @@ const ALL_FAQS = [
   { question: 'What information is visible on my profile?', answer: 'Your name, city, service category, skills, experience, languages, rate, bio and profile photo are publicly visible. Your email and phone number are never shown publicly.' },
   { question: 'How do families contact me?', answer: 'Families send you messages directly through the ThaiHelper platform. You will see their messages when you log in to your dashboard.' },
   { question: 'Can I edit or delete my profile?', answer: 'Yes. Log in to your dashboard to edit your profile at any time. To delete your profile entirely, contact support@thaihelper.app and we will remove it within 14 days.' },
-  { question: 'How much does ThaiHelper cost for families?', answer: 'New families get the first 2 months of free access when they register. After the free period, you can purchase an access plan to continue messaging helpers.' },
+  { question: 'How much does ThaiHelper cost for families?', answer: 'ThaiHelper is currently 100% free for everyone — including messaging helpers — while we are in launch phase. In the future we will introduce a one-time access fee for messaging, but for now everything on the platform is free to use.' },
   { question: 'How do I find a helper?', answer: 'Browse the helper directory and use filters (city, category, experience, languages) to narrow down your search. Click on a profile to see the full details, then send a message directly.' },
   { question: 'Does ThaiHelper do background checks?', answer: 'No. ThaiHelper is a platform that connects helpers with families. We do not verify credentials or conduct background checks. We recommend conducting your own interviews, reference checks and any applicable legal employment steps before hiring.' },
   { question: 'Can I post a job listing?', answer: 'Currently, employers browse and contact helpers directly. A dedicated job board feature is planned for the future.' },
@@ -238,7 +238,7 @@ function FAQEN() {
 
       <h3>How much does ThaiHelper cost for families?</h3>
       <p>
-        New families get <strong>the first 2 months of free access</strong> when they register. After the free period, you can purchase an access plan to continue messaging helpers. Check our <Link href="/pricing" style={{ color: '#006a62' }}>pricing page</Link> for details.
+        ThaiHelper is currently <strong>100% free for everyone</strong> — including messaging helpers — while we are in launch phase. In the future we will introduce a one-time access fee for messaging, but for now everything on the platform is free to use. Check our <Link href="/pricing" style={{ color: '#006a62' }}>pricing page</Link> for details.
       </p>
 
       <h3>How do I find a helper?</h3>
@@ -329,7 +329,7 @@ function FAQTH() {
 
       <h3>ThaiHelper ราคาเท่าไหร่?</h3>
       <p>
-        ครอบครัวใหม่จะได้รับ <strong>สิทธิ์ใช้งานฟรี 2 เดือนแรก</strong> เมื่อลงทะเบียน หลังจากช่วงฟรี คุณสามารถซื้อแผนเพื่อใช้งานต่อ ดูรายละเอียดที่ <Link href="/pricing" style={{ color: '#006a62' }}>หน้าราคา</Link>
+        ThaiHelper ใช้งาน <strong>ฟรี 100% สำหรับทุกคน</strong> — รวมถึงการส่งข้อความหาผู้ช่วย — ในช่วงเปิดตัว ในอนาคตเราจะเก็บค่าธรรมเนียมแบบจ่ายครั้งเดียวสำหรับการส่งข้อความ แต่ตอนนี้ทุกอย่างฟรี ดูรายละเอียดที่ <Link href="/pricing" style={{ color: '#006a62' }}>หน้าราคา</Link>
       </p>
 
       <h3>ฉันหาผู้ช่วยได้อย่างไร?</h3>

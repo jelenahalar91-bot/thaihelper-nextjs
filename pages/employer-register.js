@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Turnstile from '@/components/Turnstile';
-import { employerSignup } from '@/lib/api/employer-auth-client';
+import { employerSignup, uploadEmployerPhoto } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
 import LangSwitcher from '@/components/LangSwitcher';
 
@@ -24,8 +24,8 @@ const T = {
     page_title: 'Register as an Employer – ThaiHelper',
     h1: 'Find your perfect helper',
     sub: 'Create a free account to browse helpers and message them directly.',
-    promo_badge: '🎉 100% free for the first 2 months',
-    promo_text: 'Sign up now and get full messaging access for 2 months — no credit card required.',
+    promo_badge: '🎉 100% free during launch',
+    promo_text: 'Sign up now and get full messaging access — 100% free during our launch phase, no credit card required.',
     section_preferences: 'Your preferences',
     arrangement_label: 'Arrangement',
     arrangement_hint: 'Do you need someone to live with you or come daily?',
@@ -61,6 +61,10 @@ const T = {
     job_label: 'Tell us about the job (optional)',
     job_ph: 'e.g. Looking for a nanny for our 2-year-old, 3 days a week. Must speak basic English.',
     job_hint: 'Phone numbers and emails will be automatically hidden for privacy.',
+    photo_label: 'Profile Photo (optional)',
+    photo_hint: 'Helpers are more likely to respond when they can see who they\'re working for.',
+    photo_selected: 'Photo selected!',
+    photo_size_err: 'Photo must be smaller than 5 MB.',
     submit: 'Create Free Account',
     submitting: 'Creating account...',
     error_duplicate: 'An account with this email already exists. Try logging in instead.',
@@ -81,8 +85,8 @@ const T = {
     page_title: 'ลงทะเบียนนายจ้าง – ThaiHelper',
     h1: 'ค้นหาผู้ช่วยที่เหมาะกับคุณ',
     sub: 'สร้างบัญชีฟรีเพื่อเรียกดูผู้ช่วยและส่งข้อความโดยตรง',
-    promo_badge: '🎉 ฟรี 100% สำหรับ 2 เดือนแรก',
-    promo_text: 'ลงทะเบียนตอนนี้และรับสิทธิ์ส่งข้อความฟรี 2 เดือน — ไม่ต้องใช้บัตรเครดิต',
+    promo_badge: '🎉 ฟรี 100% ในช่วงเปิดตัว',
+    promo_text: 'ลงทะเบียนตอนนี้และรับสิทธิ์ส่งข้อความเต็มรูปแบบ — ฟรี 100% ในช่วงเปิดตัว ไม่ต้องใช้บัตรเครดิต',
     section_preferences: 'ความต้องการของคุณ',
     arrangement_label: 'รูปแบบการทำงาน',
     arrangement_hint: 'คุณต้องการคนที่อยู่ประจำหรือไป-กลับ?',
@@ -118,6 +122,10 @@ const T = {
     job_label: 'บอกเราเกี่ยวกับงาน (ไม่จำเป็น)',
     job_ph: 'เช่น ต้องการพี่เลี้ยงเด็กอายุ 2 ขวบ 3 วันต่อสัปดาห์',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนโดยอัตโนมัติเพื่อความเป็นส่วนตัว',
+    photo_label: 'รูปโปรไฟล์ (ไม่จำเป็น)',
+    photo_hint: 'ผู้ช่วยมีแนวโน้มตอบกลับมากขึ้นเมื่อเห็นว่าจะทำงานให้ใคร',
+    photo_selected: 'เลือกรูปแล้ว!',
+    photo_size_err: 'รูปต้องมีขนาดไม่เกิน 5 MB',
     submit: 'สร้างบัญชีฟรี',
     submitting: 'กำลังสร้างบัญชี...',
     error_duplicate: 'มีบัญชีที่ใช้อีเมลนี้อยู่แล้ว ลองเข้าสู่ระบบแทน',
@@ -151,6 +159,8 @@ export default function EmployerRegisterPage() {
   const [arrangementPreference, setArrangementPreference] = useState('');
   const [preferredAgeRange, setPreferredAgeRange] = useState('');
   const [jobDescription, setJobDescription] = useState('');
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState('');
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -174,6 +184,20 @@ export default function EmployerRegisterPage() {
     setLookingFor(prev =>
       prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
     );
+  };
+
+  const handlePhoto = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert(t.photo_size_err);
+      e.target.value = '';
+      return;
+    }
+    setPhotoFile(file);
+    const reader = new FileReader();
+    reader.onload = (ev) => setPhotoPreview(ev.target.result);
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (e) => {
@@ -208,6 +232,15 @@ export default function EmployerRegisterPage() {
         };
         setError(errorMap[result.error] || t.error_generic);
         return;
+      }
+
+      // Upload photo (non-fatal — account is created regardless)
+      if (photoFile) {
+        try {
+          await uploadEmployerPhoto(photoFile);
+        } catch (photoErr) {
+          console.warn('Employer photo upload failed (non-fatal):', photoErr);
+        }
       }
 
       setSuccessRef(result.ref);
@@ -354,6 +387,53 @@ export default function EmployerRegisterPage() {
                 <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder={t.phone_ph} />
               </div>
 
+              {/* Photo upload */}
+              <div className="field">
+                <label>{t.photo_label}</label>
+                <label
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '16px',
+                    padding: '16px',
+                    borderRadius: '12px',
+                    border: `1.5px dashed ${photoPreview ? '#006a62' : 'var(--gray-200, #e5e7eb)'}`,
+                    background: photoPreview ? '#f0faf9' : 'var(--gray-50, #f9fafb)',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  {photoPreview ? (
+                    <img
+                      src={photoPreview}
+                      alt="Preview"
+                      style={{ width: 56, height: 56, borderRadius: '50%', objectFit: 'cover', border: '2px solid #006a62' }}
+                    />
+                  ) : (
+                    <div style={{
+                      width: 56, height: 56, borderRadius: '50%', background: 'var(--gray-100, #f3f4f6)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0,
+                    }}>
+                      📷
+                    </div>
+                  )}
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 600, color: photoPreview ? '#006a62' : 'var(--gray-600)' }}>
+                      {photoPreview ? t.photo_selected : t.photo_label}
+                    </div>
+                    <div style={{ fontSize: '12px', color: 'var(--gray-400)', lineHeight: 1.4, marginTop: '2px' }}>
+                      {t.photo_hint}
+                    </div>
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={handlePhoto}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+              </div>
+
               {/* Section: Location */}
               <SectionTitle>{t.section_location}</SectionTitle>
 
@@ -412,7 +492,7 @@ export default function EmployerRegisterPage() {
                 <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '-4px', marginBottom: '10px' }}>
                   {t.arrangement_hint}
                 </p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px' }}>
                   {[
                     { value: 'live_in',  label: t.arr_live_in,  desc: t.arr_live_in_desc },
                     { value: 'live_out', label: t.arr_live_out, desc: t.arr_live_out_desc },
