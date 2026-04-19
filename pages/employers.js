@@ -96,7 +96,7 @@ const T = {
     how2_h: 'Browse Profiles',
     how2_p: 'Browse verified helper profiles, ratings and experience — for free.',
     how3_h: 'Message Directly',
-    how3_p: 'Chat with helpers right on the platform. 100% free during launch — no credit card required.',
+    how3_p: 'Chat with helpers right on the platform with built-in translation. No middlemen, no commissions.',
     // Why
     why_label: 'Why ThaiHelper',
     why_title: 'A better way to find help',
@@ -127,7 +127,7 @@ const T = {
     form_sub: 'Create your free account and message helpers directly.',
     promo_badge: '100% free during launch — no credit card',
     cta_card_h: 'Create Your Free Account',
-    cta_card_sub: 'Free account with full messaging access — 100% free during launch. Find the perfect helper for your family.',
+    cta_card_sub: 'Free account with full messaging access. Find the perfect helper for your family.',
     cta_card_b1: 'Browse verified helper profiles in your city',
     cta_card_b2: 'Message helpers directly with built-in translation',
     cta_card_b3: 'No middleman fees — ever',
@@ -186,7 +186,7 @@ const T = {
     how2_h: 'ดูโปรไฟล์',
     how2_p: 'ดูโปรไฟล์ผู้ช่วยที่ผ่านการยืนยัน เรตติ้ง และประสบการณ์ได้ฟรี',
     how3_h: 'ส่งข้อความโดยตรง',
-    how3_p: 'แชทกับผู้ช่วยบนแพลตฟอร์มได้เลย ฟรี 100% ในช่วงเปิดตัว ไม่ต้องใช้บัตรเครดิต',
+    how3_p: 'แชทกับผู้ช่วยบนแพลตฟอร์มได้เลย พร้อมการแปลอัตโนมัติ ไม่มีคนกลาง ไม่มีค่าคอมมิชชั่น',
     why_label: 'ทำไม ThaiHelper',
     why_title: 'วิธีที่ดีกว่าในการหาผู้ช่วย',
     why_sub: 'เราสร้าง ThaiHelper เพราะการหาผู้ช่วยที่ไว้ใจได้ควรง่าย โปร่งใส และราคาไม่แพง',
@@ -214,7 +214,7 @@ const T = {
     form_sub: 'สร้างบัญชีฟรีและส่งข้อความหาผู้ช่วยโดยตรง',
     promo_badge: 'ฟรี 100% ในช่วงเปิดตัว — ไม่ต้องใช้บัตรเครดิต',
     cta_card_h: 'สร้างบัญชีฟรีของคุณ',
-    cta_card_sub: 'บัญชีฟรีพร้อมสิทธิ์ส่งข้อความเต็มรูปแบบ — ฟรี 100% ในช่วงเปิดตัว หาผู้ช่วยที่ใช่สำหรับครอบครัวของคุณ',
+    cta_card_sub: 'บัญชีฟรีพร้อมสิทธิ์ส่งข้อความเต็มรูปแบบ หาผู้ช่วยที่ใช่สำหรับครอบครัวของคุณ',
     cta_card_b1: 'ดูโปรไฟล์ผู้ช่วยที่ผ่านการยืนยันในเมืองของคุณ',
     cta_card_b2: 'ส่งข้อความหาผู้ช่วยพร้อมการแปลอัตโนมัติ',
     cta_card_b3: 'ไม่มีค่าคนกลาง — ตลอดไป',
@@ -259,7 +259,7 @@ const T = {
     how2_h: 'Просмотр профилей',
     how2_p: 'Просматривайте проверенные профили, рейтинги и опыт — бесплатно.',
     how3_h: 'Пишите напрямую',
-    how3_p: 'Общайтесь с помощниками прямо на платформе. 100% бесплатно в период запуска — без карты.',
+    how3_p: 'Общайтесь с помощниками прямо на платформе со встроенным переводом. Без посредников и комиссий.',
     why_label: 'Почему ThaiHelper',
     why_title: 'Лучший способ найти помощника',
     why_sub: 'Мы создали ThaiHelper, потому что поиск надёжных помощников должен быть простым, прозрачным и доступным.',
@@ -287,7 +287,7 @@ const T = {
     form_sub: 'Создайте бесплатный аккаунт и пишите помощникам напрямую.',
     promo_badge: '100% бесплатно в период запуска — без карты',
     cta_card_h: 'Создайте бесплатный аккаунт',
-    cta_card_sub: 'Бесплатный аккаунт с полным доступом к сообщениям — 100% бесплатно в период запуска. Найдите идеального помощника для вашей семьи.',
+    cta_card_sub: 'Бесплатный аккаунт с полным доступом к сообщениям. Найдите идеального помощника для вашей семьи.',
     cta_card_b1: 'Просматривайте проверенные профили в вашем городе',
     cta_card_b2: 'Пишите помощникам напрямую со встроенным переводом',
     cta_card_b3: 'Без посреднических комиссий — никогда',
@@ -462,10 +462,6 @@ export default function Employers() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 items-start">
                   <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all text-center" href="/employer-register">{t.hero_cta}</Link>
-                  <span className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gold/10 text-gold font-bold text-sm">
-                    <span className="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
-                    {t.hero_badge}
-                  </span>
                 </div>
                 <Link className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all" href="/helpers">{t.hero_browse}</Link>
               </div>
@@ -609,11 +605,6 @@ export default function Employers() {
               </div>
 
               <div className="bg-white rounded-[2rem] p-10 md:p-14 shadow-xl text-center">
-                {/* Promo badge */}
-                <div className="inline-block px-4 py-2 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-sm font-semibold mb-6">
-                  🎉 {t.promo_badge}
-                </div>
-
                 <h3 className="text-2xl md:text-3xl font-extrabold font-headline text-on-background mb-3">
                   {t.cta_card_h}
                 </h3>

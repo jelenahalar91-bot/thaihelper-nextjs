@@ -412,14 +412,6 @@ export default function Pricing() {
               <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
                 {t.hero_sub}
               </p>
-
-              {/* Promo banner */}
-              <div className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/15 border border-gold/30 text-xs md:text-sm font-semibold text-amber-800">
-                {t.promo_badge}
-              </div>
-              <p className="mt-2 text-[11px] md:text-xs text-amber-700/80 italic">
-                {t.promo_launch_note}
-              </p>
             </div>
           </section>
 

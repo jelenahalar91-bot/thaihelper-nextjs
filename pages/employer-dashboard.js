@@ -794,26 +794,6 @@ export default function EmployerDashboard() {
             </div>
           )}
 
-          {/* ── Launch-phase info banner ──────────────── */}
-          <div style={{
-            display: 'flex', gap: '14px', alignItems: 'flex-start',
-            background: 'linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%)',
-            border: '1px solid #fde68a',
-            borderRadius: '14px',
-            padding: '16px 20px',
-            marginBottom: '20px',
-          }}>
-            <div style={{ fontSize: '24px', lineHeight: 1, flexShrink: 0 }}>🚀</div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: '15px', fontWeight: 800, color: '#92400e', marginBottom: '4px' }}>
-                {t.launch_banner_title}
-              </div>
-              <div style={{ fontSize: '14px', color: '#78350f', lineHeight: 1.55 }}>
-                {t.launch_banner_text}
-              </div>
-            </div>
-          </div>
-
           {/* ── Error banner ───────────────────────────── */}
           {errorBanner && (
             <div style={{

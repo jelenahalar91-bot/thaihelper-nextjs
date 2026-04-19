@@ -337,21 +337,6 @@ export default function EmployerRegisterPage() {
             </p>
 
             {/* Promo Banner */}
-            <div style={{
-              background: 'linear-gradient(135deg, #fff8e1 0%, #fff3c4 100%)',
-              border: '1px solid #f5d78e',
-              borderRadius: '12px',
-              padding: '16px 20px',
-              marginBottom: '32px',
-            }}>
-              <div style={{ fontSize: '15px', fontWeight: 700, color: '#8a6d00', marginBottom: '4px' }}>
-                {t.promo_badge}
-              </div>
-              <div style={{ fontSize: '14px', color: '#8a6d00', lineHeight: 1.5 }}>
-                {t.promo_text}
-              </div>
-            </div>
-
             {error && (
               <div style={{
                 background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px',
