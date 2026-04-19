@@ -66,6 +66,13 @@ export default function App({ Component, pageProps }) {
     return () => router.events.off('routeChangeComplete', handleRouteChange);
   }, [router.events, gaAllowed]);
 
+  // Register Service Worker — production only, required for PWA installability + TWA
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') return;
+    if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }, []);
+
   return (
     <LangContext.Provider value={{ lang, setLang }}>
       {/* Google Analytics 4 — only loads after cookie consent */}
@@ -96,6 +103,15 @@ export default function App({ Component, pageProps }) {
       <Head>
         {/* Viewport — critical for mobile rendering */}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        {/* PWA — installable + Android TWA */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#006a62" />
+        <meta name="application-name" content="ThaiHelper" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="ThaiHelper" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         {/* Global JSON-LD: Organization + WebSite */}
         <script
           type="application/ld+json"
