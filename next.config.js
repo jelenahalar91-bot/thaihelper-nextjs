@@ -52,6 +52,19 @@ const nextConfig = {
     ];
   },
 
+  // Redirects
+  async redirects() {
+    return [
+      {
+        // Old confirmation emails linked to /inbox, but messaging lives in /profile (tab "Messages").
+        // Keeps old email links working and removes the GSC 404.
+        source: '/inbox',
+        destination: '/profile',
+        permanent: true,
+      },
+    ];
+  },
+
   // Compress output
   compress: true,
 
