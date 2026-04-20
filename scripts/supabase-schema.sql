@@ -65,6 +65,14 @@ CREATE TABLE messages (
 CREATE INDEX idx_messages_conversation ON messages(conversation_id, created_at);
 CREATE INDEX idx_messages_unread ON messages(conversation_id, is_read) WHERE NOT is_read;
 
+-- 24-hour reminder bookkeeping for unread messages.
+-- The hourly cron at /api/cron/message-reminders sets reminder_sent_at after
+-- it sends one reminder so we never spam the same message twice.
+ALTER TABLE IF EXISTS messages ADD COLUMN IF NOT EXISTS reminder_sent_at TIMESTAMPTZ;
+CREATE INDEX IF NOT EXISTS idx_messages_reminder_pending
+  ON messages(created_at)
+  WHERE is_read = false AND reminder_sent_at IS NULL;
+
 -- Email notification preferences for new messages.
 -- Default: opted IN (so users don't miss the first messages after signup).
 -- Users can opt out via the one-click unsubscribe link in every email or
