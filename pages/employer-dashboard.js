@@ -991,12 +991,19 @@ function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unre
           )}
         </div>
 
-        {/* Right side mini-stats */}
+        {/* Right side mini-stat — shows unread incoming messages only.
+            Using total conversations here was misleading: an employer who
+            had just sent a first outreach saw "1 MESSAGES" and thought a
+            helper had replied. The tile now only increments when the
+            counterparty writes in, matching standard inbox semantics. */}
         <div style={{ display: 'flex', gap: '12px', flexShrink: 0 }}>
-          <HeroStat value={conversationCount || 0} label={t.tab_messages} onClick={onOpenMessages} compact={isMobile} />
-          {unreadCount > 0 && (
-            <HeroStat value={unreadCount} label={t.hero_unread} accent onClick={onOpenMessages} compact={isMobile} />
-          )}
+          <HeroStat
+            value={unreadCount || 0}
+            label={t.hero_unread}
+            accent={unreadCount > 0}
+            onClick={onOpenMessages}
+            compact={isMobile}
+          />
         </div>
       </div>
     </div>
