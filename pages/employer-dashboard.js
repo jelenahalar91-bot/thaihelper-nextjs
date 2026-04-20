@@ -279,6 +279,15 @@ export default function EmployerDashboard() {
   const [profile, setProfile] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
 
+  // ── Responsive breakpoint ─────────────────────────────────────────────
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
   // ── Tab state ─────────────────────────────────────────────────────────
   const [activeTab, setActiveTab] = useState('browse');
 
@@ -778,6 +787,7 @@ export default function EmployerDashboard() {
             conversationCount={conversations.length}
             onUpgrade={handleUpgrade}
             onOpenMessages={() => { setActiveTab('messages'); setSelectedConv(null); }}
+            isMobile={isMobile}
           />
 
           {/* ── Email verification warning ──────────────── */}
@@ -932,7 +942,7 @@ function getGreeting(t) {
   return t.hi_evening;
 }
 
-function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unreadCount, conversationCount, onUpgrade, onOpenMessages }) {
+function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unreadCount, conversationCount, onUpgrade, onOpenMessages, isMobile }) {
   const tier = accessStatus?.tier || 'free';
   const days = accessStatus?.daysRemaining;
 
@@ -954,7 +964,7 @@ function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unre
       position: 'relative', overflow: 'hidden',
       background: 'linear-gradient(135deg, #006a62 0%, #00897e 50%, #00b29c 100%)',
       borderRadius: '20px',
-      padding: '32px 36px',
+      padding: isMobile ? '22px 22px 24px' : '32px 36px',
       marginBottom: '20px',
       color: 'white',
       boxShadow: '0 12px 32px rgba(0, 106, 98, 0.25)',
@@ -963,17 +973,17 @@ function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unre
       <div aria-hidden style={{ position: 'absolute', top: '-60px', right: '-60px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
       <div aria-hidden style={{ position: 'absolute', bottom: '-80px', left: '-40px', width: '180px', height: '180px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
 
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap' }}>
-        <div style={{ flex: 1, minWidth: '260px' }}>
+      <div style={{ position: 'relative', display: 'flex', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', gap: isMobile ? '16px' : '24px', flexWrap: 'wrap' }}>
+        <div style={{ flex: 1, minWidth: isMobile ? 0 : '260px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '5px 12px', borderRadius: '999px', background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: '12px' }}>
             <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: dotColor, boxShadow: `0 0 0 3px ${dotColor}33` }} />
             {statusLabel}{employerRef ? ` · ${employerRef}` : ''}
           </div>
-          <h1 style={{ fontSize: '30px', fontWeight: 800, margin: '0 0 8px', lineHeight: 1.15, letterSpacing: '-0.5px' }}>
+          <h1 style={{ fontSize: isMobile ? '24px' : '30px', fontWeight: 800, margin: '0 0 8px', lineHeight: 1.15, letterSpacing: '-0.5px' }}>
             {getGreeting(t)}, {firstName || 'there'} 👋
           </h1>
           {subtitle && (
-            <p style={{ fontSize: '15px', margin: 0, opacity: 0.92, lineHeight: 1.5, maxWidth: '500px' }}>
+            <p style={{ fontSize: isMobile ? '14px' : '15px', margin: 0, opacity: 0.92, lineHeight: 1.5, maxWidth: '500px' }}>
               {subtitle}
             </p>
           )}
@@ -981,9 +991,9 @@ function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unre
 
         {/* Right side mini-stats */}
         <div style={{ display: 'flex', gap: '12px', flexShrink: 0 }}>
-          <HeroStat value={conversationCount || 0} label={t.tab_messages} onClick={onOpenMessages} />
+          <HeroStat value={conversationCount || 0} label={t.tab_messages} onClick={onOpenMessages} compact={isMobile} />
           {unreadCount > 0 && (
-            <HeroStat value={unreadCount} label={t.hero_unread} accent onClick={onOpenMessages} />
+            <HeroStat value={unreadCount} label={t.hero_unread} accent onClick={onOpenMessages} compact={isMobile} />
           )}
         </div>
       </div>
@@ -991,7 +1001,7 @@ function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unre
   );
 }
 
-function HeroStat({ value, label, accent, onClick }) {
+function HeroStat({ value, label, accent, onClick, compact }) {
   const clickable = typeof onClick === 'function';
   const Tag = clickable ? 'button' : 'div';
   return (
@@ -999,8 +1009,8 @@ function HeroStat({ value, label, accent, onClick }) {
       onClick={clickable ? onClick : undefined}
       aria-label={clickable ? `${label} — open messages` : undefined}
       style={{
-        minWidth: '88px',
-        padding: '14px 16px',
+        minWidth: compact ? '72px' : '88px',
+        padding: compact ? '10px 12px' : '14px 16px',
         borderRadius: '14px',
         background: accent ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)',
         backdropFilter: 'blur(8px)',
@@ -1020,8 +1030,8 @@ function HeroStat({ value, label, accent, onClick }) {
         e.currentTarget.style.background = accent ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)';
       } : undefined}
     >
-      <div style={{ fontSize: '24px', fontWeight: 800, lineHeight: 1 }}>{value}</div>
-      <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', marginTop: '4px', opacity: accent ? 0.9 : 0.85 }}>{label}</div>
+      <div style={{ fontSize: compact ? '20px' : '24px', fontWeight: 800, lineHeight: 1 }}>{value}</div>
+      <div style={{ fontSize: compact ? '10px' : '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', marginTop: '4px', opacity: accent ? 0.9 : 0.85 }}>{label}</div>
     </Tag>
   );
 }
