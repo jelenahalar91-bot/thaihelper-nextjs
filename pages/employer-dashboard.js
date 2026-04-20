@@ -777,6 +777,7 @@ export default function EmployerDashboard() {
             unreadCount={totalUnread}
             conversationCount={conversations.length}
             onUpgrade={handleUpgrade}
+            onOpenMessages={() => { setActiveTab('messages'); setSelectedConv(null); }}
           />
 
           {/* ── Email verification warning ──────────────── */}
@@ -931,7 +932,7 @@ function getGreeting(t) {
   return t.hi_evening;
 }
 
-function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unreadCount, conversationCount, onUpgrade }) {
+function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unreadCount, conversationCount, onUpgrade, onOpenMessages }) {
   const tier = accessStatus?.tier || 'free';
   const days = accessStatus?.daysRemaining;
 
@@ -980,9 +981,9 @@ function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unre
 
         {/* Right side mini-stats */}
         <div style={{ display: 'flex', gap: '12px', flexShrink: 0 }}>
-          <HeroStat value={conversationCount || 0} label={t.tab_messages} />
+          <HeroStat value={conversationCount || 0} label={t.tab_messages} onClick={onOpenMessages} />
           {unreadCount > 0 && (
-            <HeroStat value={unreadCount} label={t.hero_unread} accent />
+            <HeroStat value={unreadCount} label={t.hero_unread} accent onClick={onOpenMessages} />
           )}
         </div>
       </div>
@@ -990,21 +991,38 @@ function EmployerHero({ t, firstName, employerRef, accessStatus, hasAccess, unre
   );
 }
 
-function HeroStat({ value, label, accent }) {
+function HeroStat({ value, label, accent, onClick }) {
+  const clickable = typeof onClick === 'function';
+  const Tag = clickable ? 'button' : 'div';
   return (
-    <div style={{
-      minWidth: '88px',
-      padding: '14px 16px',
-      borderRadius: '14px',
-      background: accent ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)',
-      backdropFilter: 'blur(8px)',
-      border: accent ? 'none' : '1px solid rgba(255,255,255,0.2)',
-      textAlign: 'center',
-      color: accent ? '#dc2626' : 'white',
-    }}>
+    <Tag
+      onClick={clickable ? onClick : undefined}
+      aria-label={clickable ? `${label} — open messages` : undefined}
+      style={{
+        minWidth: '88px',
+        padding: '14px 16px',
+        borderRadius: '14px',
+        background: accent ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)',
+        backdropFilter: 'blur(8px)',
+        border: accent ? 'none' : '1px solid rgba(255,255,255,0.2)',
+        textAlign: 'center',
+        color: accent ? '#dc2626' : 'white',
+        cursor: clickable ? 'pointer' : 'default',
+        transition: 'transform 0.15s, background 0.15s',
+        font: 'inherit',
+      }}
+      onMouseEnter={clickable ? (e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.background = accent ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.25)';
+      } : undefined}
+      onMouseLeave={clickable ? (e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.background = accent ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)';
+      } : undefined}
+    >
       <div style={{ fontSize: '24px', fontWeight: 800, lineHeight: 1 }}>{value}</div>
       <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase', marginTop: '4px', opacity: accent ? 0.9 : 0.85 }}>{label}</div>
-    </div>
+    </Tag>
   );
 }
 
