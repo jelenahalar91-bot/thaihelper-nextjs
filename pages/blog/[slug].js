@@ -11,13 +11,21 @@ import { useLang } from '../_app';
 export async function getStaticPaths() {
   return {
     paths: getAllSlugs().map((slug) => ({ params: { slug } })),
-    fallback: false,
+    // 'blocking' lets us redirect unknown slugs in getStaticProps instead of
+    // returning a hard 404. Fixes GSC reporting /blog/[slug] (the literal
+    // Next.js route template, picked up by AI crawlers from __NEXT_DATA__)
+    // and also catches any typo'd blog URLs.
+    fallback: 'blocking',
   };
 }
 
 export async function getStaticProps({ params }) {
   const post = getPostBySlug(params.slug);
-  if (!post) return { notFound: true };
+  if (!post) {
+    return {
+      redirect: { destination: '/blog', permanent: true },
+    };
+  }
   return { props: { post } };
 }
 
