@@ -864,6 +864,7 @@ export default function EmployerDashboard() {
               setMobileFiltersOpen={setMobileFiltersOpen}
               favorites={favorites}
               onToggleFavorite={toggleFavorite}
+              onViewProfile={setViewingHelper}
             />
           )}
 
@@ -877,6 +878,7 @@ export default function EmployerDashboard() {
               onToggleFavorite={toggleFavorite}
               onMessageHelper={handleMessageHelper}
               startingConv={startingConv}
+              onViewProfile={setViewingHelper}
             />
           )}
 
@@ -1073,6 +1075,7 @@ function BrowseTab({
   onMessageHelper, startingConv,
   mobileFiltersOpen, setMobileFiltersOpen,
   favorites, onToggleFavorite,
+  onViewProfile,
 }) {
   const sidebar = (
     <FilterSidebar
@@ -1214,9 +1217,10 @@ function BrowseTab({
                   t={{ card_exp: t.card_yrs, card_verified: 'Verified', fav_add: t.fav_add, fav_remove: t.fav_remove }}
                   isFavorite={favorites?.has(h.ref)}
                   onToggleFavorite={onToggleFavorite}
+                  onViewProfile={onViewProfile}
                   ctaSlot={
                     <button
-                      onClick={() => onMessageHelper(h.ref)}
+                      onClick={(e) => { e.stopPropagation(); onMessageHelper(h.ref); }}
                       disabled={isStarting}
                       className="w-full px-5 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
                     >
@@ -1509,7 +1513,7 @@ const chipRowStyle = {
 // ─── FavoritesTab ────────────────────────────────────────────────────────
 // Shows only the helpers the employer has favorited. Same card layout and
 // "Message" CTA as BrowseTab, plus the heart is always filled here.
-function FavoritesTab({ t, helpers, loading, favorites, onToggleFavorite, onMessageHelper, startingConv }) {
+function FavoritesTab({ t, helpers, loading, favorites, onToggleFavorite, onMessageHelper, startingConv, onViewProfile }) {
   if (loading) {
     return (
       <div style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
@@ -1543,9 +1547,10 @@ function FavoritesTab({ t, helpers, loading, favorites, onToggleFavorite, onMess
             t={{ card_exp: t.card_yrs, card_verified: 'Verified', fav_add: t.fav_add, fav_remove: t.fav_remove }}
             isFavorite={favorites?.has(h.ref)}
             onToggleFavorite={onToggleFavorite}
+            onViewProfile={onViewProfile}
             ctaSlot={
               <button
-                onClick={() => onMessageHelper(h.ref)}
+                onClick={(e) => { e.stopPropagation(); onMessageHelper(h.ref); }}
                 disabled={isStarting}
                 className="w-full px-5 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
               >

@@ -34,6 +34,7 @@ export default function HelperCard({
   isFavorite = false,
   onToggleFavorite,
   favoriteHint,
+  onViewProfile,
 }) {
   const displayName =
     helper.name || [helper.firstName, helper.lastName].filter(Boolean).join(' ');
@@ -42,8 +43,34 @@ export default function HelperCard({
   const hintText = favoriteHint ||
     (isFavorite ? (t?.fav_remove || 'Remove from favorites') : (t?.fav_add || 'Save to favorites'));
 
+  const clickable = typeof onViewProfile === 'function' && helper.ref;
+  // Open the profile modal on card click. The heart button and the CTA
+  // button both stopPropagation so clicking them doesn't ALSO open the
+  // modal. We also guard against clicks on interactive elements inside
+  // ctaSlot (buttons, links) which might not stopPropagation themselves.
+  const handleCardClick = (e) => {
+    if (!clickable) return;
+    const target = e.target;
+    if (target.closest && target.closest('button, a, input, textarea, select, label')) return;
+    onViewProfile(helper);
+  };
+  const handleCardKeyDown = (e) => {
+    if (!clickable) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      if (e.target.closest && e.target.closest('button, a, input')) return;
+      e.preventDefault();
+      onViewProfile(helper);
+    }
+  };
+
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
+    <div
+      onClick={handleCardClick}
+      onKeyDown={handleCardKeyDown}
+      role={clickable ? 'button' : undefined}
+      tabIndex={clickable ? 0 : undefined}
+      aria-label={clickable ? `${t?.card_view_profile || 'View profile'}: ${displayName}` : undefined}
+      className={`bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row ${clickable ? 'cursor-pointer hover:border-[#006a62]/40 focus:outline-none focus:ring-2 focus:ring-[#006a62]/40' : ''}`}>
       {/* Photo */}
       <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square">
         {showFavBtn && (
