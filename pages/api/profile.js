@@ -4,6 +4,27 @@
 import { getSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 
+// Strip phone numbers and email addresses from free-text fields. Mirrors the
+// sanitizer used on registration (pages/api/register.js) so helpers can't
+// bypass the mask by editing their profile after signup and dropping contact
+// info into the bio — the whole point of on-platform messaging is that
+// families contact helpers THROUGH ThaiHelper, not around it.
+function sanitizeFreeText(text) {
+  if (!text || typeof text !== 'string') return text;
+  return text
+    .replace(/(\+?\d[\d\s\-().]{7,}\d)/g, '[contact hidden]')
+    .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '[contact hidden]');
+}
+
+// Columns whose contents are shown publicly on /helpers and must be scrubbed.
+const SANITIZED_FIELDS = new Set([
+  'bio',
+  'skills',
+  'education',
+  'certificates',
+  'experience',
+]);
+
 export const config = {
   api: {
     bodyParser: {
@@ -106,6 +127,11 @@ export default async function handler(req, res) {
           // Special handling for hasWhatsApp boolean
           if (frontKey === 'hasWhatsApp') {
             updates[dbKey] = value === 'Yes' || value === true;
+          } else if (SANITIZED_FIELDS.has(dbKey) && typeof value === 'string') {
+            // Strip phone/email from publicly-visible free-text fields so
+            // helpers can't route families around on-platform messaging by
+            // editing their profile after signup.
+            updates[dbKey] = sanitizeFreeText(value);
           } else {
             updates[dbKey] = value;
           }
