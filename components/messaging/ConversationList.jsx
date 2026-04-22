@@ -36,7 +36,7 @@ export default function ConversationList({ conversations, onSelect, onDelete, t 
   }
 
   return (
-    <div style={{ display: 'grid', gap: '8px' }}>
+    <div style={{ display: 'grid', gap: '8px', gridTemplateColumns: 'minmax(0, 1fr)' }}>
       {conversations.map(conv => (
         <ConversationCard
           key={conv.id}
@@ -116,13 +116,18 @@ function ConversationCard({ conv, onSelect, onDelete, t }) {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
             display: 'flex', justifyContent: 'space-between',
-            alignItems: 'center', marginBottom: '4px',
+            alignItems: 'center', gap: '8px', marginBottom: '4px',
+            minWidth: 0,
           }}>
-            <span style={{ fontSize: '15px', fontWeight: 700, color: '#1a1a1a' }}>
+            <span style={{
+              fontSize: '15px', fontWeight: 700, color: '#1a1a1a',
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+              minWidth: 0,
+            }}>
               {displayName}
             </span>
             {lastMsg && (
-              <span style={{ fontSize: '12px', color: '#999' }}>
+              <span style={{ fontSize: '12px', color: '#999', flexShrink: 0 }}>
                 {formatTime(lastMsg.created_at)}
               </span>
             )}
@@ -130,7 +135,9 @@ function ConversationCard({ conv, onSelect, onDelete, t }) {
           {lastMsg && (
             <p style={{
               fontSize: '14px', color: isLocked ? '#999' : '#666', margin: 0,
-              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+              overflow: 'hidden', textOverflow: 'ellipsis',
+              display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+              overflowWrap: 'anywhere', lineHeight: 1.35,
               fontStyle: isLocked ? 'italic' : 'normal',
             }}>
               {isLocked && '🔒 '}
