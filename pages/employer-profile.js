@@ -21,6 +21,7 @@ import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
 import PushNotificationToggle from '@/components/PushNotificationToggle';
+import PushNotificationBanner from '@/components/PushNotificationBanner';
 import {
   fetchEmployerProfile,
   updateEmployerProfile,
@@ -343,6 +344,10 @@ export default function EmployerProfile() {
               <button onClick={() => setErrorMsg('')} className="text-red-700 text-lg leading-none">×</button>
             </div>
           )}
+
+          {/* Push notifications opt-in — top of the page, self-hides once
+              the user has decided (granted / denied / "Later"). */}
+          <PushNotificationBanner lang={lang} />
 
           {/* ── Header card with photo ───────────────── */}
           <section className="bg-white rounded-2xl border border-gray-200 p-5 md:p-7 mb-4">

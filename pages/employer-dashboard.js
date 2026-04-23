@@ -23,6 +23,7 @@ import { useRouter } from 'next/router';
 import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
+import PushNotificationBanner from '@/components/PushNotificationBanner';
 import HelperCard from '@/components/HelperCard';
 import { fetchEmployerProfile } from '@/lib/api/employer-auth-client';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
@@ -776,6 +777,10 @@ export default function EmployerDashboard() {
         </header>
 
         <main style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 16px 64px' }}>
+          {/* Push notifications opt-in — shown at the very top whenever the
+              user hasn't decided yet. Self-hides after grant or "Later". */}
+          <PushNotificationBanner lang={lang} />
+
           {/* ── Hero card with greeting + status ──────── */}
           <EmployerHero
             t={t}

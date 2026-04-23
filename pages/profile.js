@@ -14,6 +14,7 @@ import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
 import PushNotificationToggle from '@/components/PushNotificationToggle';
+import PushNotificationBanner from '@/components/PushNotificationBanner';
 
 const T = {
   en: {
@@ -1005,6 +1006,10 @@ export default function Profile() {
               {savedMsg}
             </div>
           )}
+
+          {/* Push notifications opt-in — shown at the very top whenever the
+              user hasn't decided yet. Self-hides after grant or "Later". */}
+          <PushNotificationBanner lang={lang} />
 
           {/* ─── DASHBOARD TAB ──────────────────────────────────────────── */}
           {activeTab === 'dashboard' && (
