@@ -273,20 +273,23 @@ export default async function handler(req, res) {
     try {
       let recipientRole = null;
       let recipientRef = null;
+      let recipientLang = 'en';
       let notifyOptedIn = true;
 
       if (session.role === 'helper') {
         const { data: emp } = await supabase
           .from('employer_accounts')
-          .select('employer_ref, notify_on_message')
+          .select('employer_ref, notify_on_message, preferred_language')
           .eq('employer_ref', conv.employer_id)
           .single();
         if (emp) {
           recipientRole = 'employer';
           recipientRef = emp.employer_ref;
+          recipientLang = emp.preferred_language || 'en';
           notifyOptedIn = emp.notify_on_message !== false;
         }
       } else {
+        // Helper preferred_language lives in user_preferences, not helper_profiles
         const { data: hlp } = await supabase
           .from('helper_profiles')
           .select('helper_ref, notify_on_message')
@@ -296,22 +299,29 @@ export default async function handler(req, res) {
           recipientRole = 'helper';
           recipientRef = hlp.helper_ref;
           notifyOptedIn = hlp.notify_on_message !== false;
+          const { data: prefs } = await supabase
+            .from('user_preferences')
+            .select('preferred_language')
+            .eq('helper_ref', hlp.helper_ref)
+            .single();
+          recipientLang = prefs?.preferred_language || 'th';
         }
       }
 
-      console.log('[push-debug] recipient:', { recipientRole, recipientRef, notifyOptedIn });
       if (recipientRef && notifyOptedIn) {
         const senderName = session.firstName || 'Someone';
         const preview = trimmed.length > 120 ? `${trimmed.slice(0, 117)}…` : trimmed;
-        const result = await sendPushToUser(recipientRole, recipientRef, {
-          title: `New message from ${senderName}`,
+        const titleByLang = {
+          en: `New message from ${senderName}`,
+          th: `ข้อความใหม่จาก ${senderName}`,
+          ru: `Новое сообщение от ${senderName}`,
+        };
+        await sendPushToUser(recipientRole, recipientRef, {
+          title: titleByLang[recipientLang] || titleByLang.en,
           body: preview,
           url: `/profile?tab=messages&conversation=${conversation_id}`,
           conversationId: conversation_id,
         });
-        console.log('[push-debug] sendPushToUser result:', result);
-      } else {
-        console.log('[push-debug] skipped — no recipient or opted out');
       }
     } catch (pushErr) {
       console.error('Push notification failed (non-critical):', pushErr.message);
