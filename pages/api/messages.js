@@ -299,16 +299,19 @@ export default async function handler(req, res) {
         }
       }
 
+      console.log('[push-debug] recipient:', { recipientRole, recipientRef, notifyOptedIn });
       if (recipientRef && notifyOptedIn) {
         const senderName = session.firstName || 'Someone';
-        // Keep body short — Android truncates long notification bodies anyway
         const preview = trimmed.length > 120 ? `${trimmed.slice(0, 117)}…` : trimmed;
-        await sendPushToUser(recipientRole, recipientRef, {
+        const result = await sendPushToUser(recipientRole, recipientRef, {
           title: `New message from ${senderName}`,
           body: preview,
           url: `/profile?tab=messages&conversation=${conversation_id}`,
           conversationId: conversation_id,
         });
+        console.log('[push-debug] sendPushToUser result:', result);
+      } else {
+        console.log('[push-debug] skipped — no recipient or opted out');
       }
     } catch (pushErr) {
       console.error('Push notification failed (non-critical):', pushErr.message);
