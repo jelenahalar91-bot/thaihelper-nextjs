@@ -314,7 +314,6 @@ export default async function handler(req, res) {
         const titleByLang = {
           en: `New message from ${senderName}`,
           th: `ข้อความใหม่จาก ${senderName}`,
-          ru: `Новое сообщение от ${senderName}`,
         };
         await sendPushToUser(recipientRole, recipientRef, {
           title: titleByLang[recipientLang] || titleByLang.en,

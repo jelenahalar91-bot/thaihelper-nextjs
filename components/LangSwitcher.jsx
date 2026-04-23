@@ -4,7 +4,6 @@ import { useLang } from '../pages/_app';
 const LANGS = {
   en: { flag: '🇬🇧', label: 'EN' },
   th: { flag: '🇹🇭', label: 'TH' },
-  ru: { flag: '🇷🇺', label: 'RU' },
 };
 
 export default function LangSwitcher({ className = '', value, onChange, languages }) {

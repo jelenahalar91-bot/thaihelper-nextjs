@@ -29,7 +29,7 @@ export default async function handler(req, res) {
   // UPDATE settings
   if (req.method === 'PUT') {
     const { preferred_language } = req.body;
-    const validLangs = ['en', 'th', 'ru'];
+    const validLangs = ['en', 'th'];
 
     if (!validLangs.includes(preferred_language)) {
       return res.status(400).json({ error: 'Invalid language' });

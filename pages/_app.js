@@ -50,12 +50,12 @@ export default function App({ Component, pageProps }) {
   const setLang = (l) => {
     setLangState(l);
     localStorage.setItem('th_lang', l);
-    document.documentElement.lang = l === 'th' ? 'th' : l === 'ru' ? 'ru' : 'en';
+    document.documentElement.lang = l === 'th' ? 'th' : 'en';
   };
 
   // Set initial lang on html element
   useEffect(() => {
-    document.documentElement.lang = lang === 'th' ? 'th' : lang === 'ru' ? 'ru' : 'en';
+    document.documentElement.lang = lang === 'th' ? 'th' : 'en';
   }, [lang]);
 
   // Track page views on route change

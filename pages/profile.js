@@ -971,7 +971,7 @@ export default function Profile() {
                     <div style={{ padding: '12px 22px 10px', borderTop: '1px solid #f3f4f6', marginTop: '6px' }}>
                       <div style={{ fontSize: '12px', fontWeight: 700, color: '#999', textTransform: 'uppercase', letterSpacing: '0.6px', marginBottom: '10px' }}>Language</div>
                       <div style={{ display: 'flex', gap: '6px' }}>
-                        {[{ c: 'en', l: 'EN' }, { c: 'th', l: 'TH' }, { c: 'ru', l: 'RU' }].map(x => (
+                        {[{ c: 'en', l: 'EN' }, { c: 'th', l: 'TH' }].map(x => (
                           <button
                             key={x.c}
                             onClick={() => changeLang(x.c)}

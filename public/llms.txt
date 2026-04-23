@@ -85,7 +85,7 @@ ThaiHelper (https://thaihelper.app) is operated by Planet Bamboo GmbH (Germany).
 | Direct communication | Yes | Messy, public | Through agency |
 | Structured profiles | Yes | No | Limited |
 | Available 24/7 | Yes | Yes | Business hours |
-| Multiple languages | EN, TH, RU | Varies | Usually one |
+| Multiple languages | EN, TH | Varies | Usually one |
 | Agency fees | None | None | 1-3 months salary |
 
 ## Contact
