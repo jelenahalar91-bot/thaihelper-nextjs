@@ -32,23 +32,34 @@ export default async function handler(req, res) {
     // Upsert on endpoint — if the same device re-subscribes (e.g. after
     // permission reset) we replace the row instead of creating a duplicate.
     // Endpoint is UNIQUE in the schema.
+    const payload = {
+      user_role: session.role,
+      user_ref: session.ref,
+      endpoint,
+      p256dh,
+      auth_secret: authSecret,
+      user_agent: userAgent,
+    };
     const { error } = await supabase
       .from('push_subscriptions')
-      .upsert(
-        {
-          user_role: session.role,
-          user_ref: session.ref,
-          endpoint,
-          p256dh,
-          auth_secret: authSecret,
-          user_agent: userAgent,
-        },
-        { onConflict: 'endpoint' },
-      );
+      .upsert(payload, { onConflict: 'endpoint' });
 
     if (error) {
-      console.error('[push/subscribe] Upsert failed:', error.message);
-      return res.status(500).json({ error: 'Failed to save subscription' });
+      console.error('[push/subscribe] Upsert failed:', error);
+      // Surface the real supabase error to the client while we're
+      // debugging. This is authenticated-only, so leakage risk is low.
+      return res.status(500).json({
+        error: 'Failed to save subscription',
+        debug: {
+          message: error.message,
+          details: error.details || null,
+          hint: error.hint || null,
+          code: error.code || null,
+          session_role: session.role,
+          session_ref_type: typeof session.ref,
+          session_ref_sample: typeof session.ref === 'string' ? session.ref.slice(0, 8) + '...' : null,
+        },
+      });
     }
 
     return res.status(200).json({ ok: true });
