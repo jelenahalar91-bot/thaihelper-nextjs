@@ -1369,6 +1369,19 @@ export default function Profile() {
               )}
               {!selectedConv ? (
                 <>
+                  {/* Back-to-dashboard link — otherwise there's no obvious way
+                      out of the messages list once you're in. The header logo
+                      is clickable too but that's not discoverable for users. */}
+                  <button
+                    onClick={() => { setActiveTab('dashboard'); if (editing) cancelEditing(); }}
+                    style={{
+                      background: 'none', border: 'none', padding: 0, marginBottom: '12px',
+                      color: '#006a62', fontSize: '14px', fontWeight: 600, cursor: 'pointer',
+                      display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    }}
+                  >
+                    <span aria-hidden="true">←</span> {t.menu_dashboard}
+                  </button>
                   <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#1a1a1a', marginBottom: '24px' }}>{t.msg_title}</h1>
                   <ConversationList conversations={conversations} onSelect={openConversation} onDelete={handleDeleteConversation} t={t} />
                 </>
