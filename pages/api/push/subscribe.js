@@ -46,20 +46,7 @@ export default async function handler(req, res) {
 
     if (error) {
       console.error('[push/subscribe] Upsert failed:', error);
-      // Surface the real supabase error to the client while we're
-      // debugging. This is authenticated-only, so leakage risk is low.
-      return res.status(500).json({
-        error: 'Failed to save subscription',
-        debug: {
-          message: error.message,
-          details: error.details || null,
-          hint: error.hint || null,
-          code: error.code || null,
-          session_role: session.role,
-          session_ref_type: typeof session.ref,
-          session_ref_sample: typeof session.ref === 'string' ? session.ref.slice(0, 8) + '...' : null,
-        },
-      });
+      return res.status(500).json({ error: 'Failed to save subscription' });
     }
 
     return res.status(200).json({ ok: true });
