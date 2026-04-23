@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
+import PushNotificationToggle from '@/components/PushNotificationToggle';
 import {
   fetchEmployerProfile,
   updateEmployerProfile,
@@ -560,6 +561,11 @@ export default function EmployerProfile() {
                 </span>
               </span>
             </label>
+
+            {/* Push notifications (separate from email, per-device opt-in) */}
+            <div className="mt-4">
+              <PushNotificationToggle lang={lang} />
+            </div>
           </Section>
 
 

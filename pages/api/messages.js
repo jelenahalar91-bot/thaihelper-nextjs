@@ -20,6 +20,7 @@ import {
 } from '../../lib/access';
 import { sendNewMessageNotification } from '../../lib/send-confirmation-email';
 import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../lib/unsubscribe';
+import { sendPushToUser } from '../../lib/web-push';
 
 const MESSAGES_PER_PAGE = 50;
 // Max characters per message. Generous enough for long Thai replies but
@@ -263,6 +264,54 @@ export default async function handler(req, res) {
       }
     } catch (notifyErr) {
       console.error('Message notification email failed (non-critical):', notifyErr.message);
+    }
+
+    // Send web push notification to recipient's subscribed devices
+    // (non-blocking — same reasoning as email above).
+    // We reuse the same opt-out: if the recipient has notify_on_message=false
+    // they don't want ANY new-message notification (email OR push).
+    try {
+      let recipientRole = null;
+      let recipientRef = null;
+      let notifyOptedIn = true;
+
+      if (session.role === 'helper') {
+        const { data: emp } = await supabase
+          .from('employer_accounts')
+          .select('employer_ref, notify_on_message')
+          .eq('employer_ref', conv.employer_id)
+          .single();
+        if (emp) {
+          recipientRole = 'employer';
+          recipientRef = emp.employer_ref;
+          notifyOptedIn = emp.notify_on_message !== false;
+        }
+      } else {
+        const { data: hlp } = await supabase
+          .from('helper_profiles')
+          .select('helper_ref, notify_on_message')
+          .eq('helper_ref', conv.helper_ref)
+          .single();
+        if (hlp) {
+          recipientRole = 'helper';
+          recipientRef = hlp.helper_ref;
+          notifyOptedIn = hlp.notify_on_message !== false;
+        }
+      }
+
+      if (recipientRef && notifyOptedIn) {
+        const senderName = session.firstName || 'Someone';
+        // Keep body short — Android truncates long notification bodies anyway
+        const preview = trimmed.length > 120 ? `${trimmed.slice(0, 117)}…` : trimmed;
+        await sendPushToUser(recipientRole, recipientRef, {
+          title: `New message from ${senderName}`,
+          body: preview,
+          url: `/profile?tab=messages&conversation=${conversation_id}`,
+          conversationId: conversation_id,
+        });
+      }
+    } catch (pushErr) {
+      console.error('Push notification failed (non-critical):', pushErr.message);
     }
 
     return res.status(201).json({

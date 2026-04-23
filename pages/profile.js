@@ -13,6 +13,7 @@ import { CITIES } from '@/lib/constants/cities';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
+import PushNotificationToggle from '@/components/PushNotificationToggle';
 
 const T = {
   en: {
@@ -1307,6 +1308,9 @@ export default function Profile() {
                   </span>
                 </label>
               </div>
+
+              {/* ─── PUSH NOTIFICATIONS SECTION ─────────────────────── */}
+              <PushNotificationToggle lang={lang} />
             </>
           )}
 
