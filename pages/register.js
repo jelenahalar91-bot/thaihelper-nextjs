@@ -5,6 +5,7 @@ import Turnstile from '@/components/Turnstile';
 import { useLang } from './_app';
 import Link from 'next/link';
 import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/helpers';
+import { CITY_OPTIONS } from '@/lib/constants/cities';
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
@@ -47,6 +48,10 @@ const T = {
     area_label:      'Neighborhood / Area',
     area_ph:         'e.g. Rawai, Sukhumvit, Nimman...',
     area_hint:       'Optional — helps families nearby find you faster.',
+    area_other_label:'City or Province',
+    area_other_ph:   'e.g. Nakhon Pathom, Chumphon...',
+    area_other_hint: 'Please type the name of your city or province.',
+    area_other_error:'Please type your city or province.',
     btn_next1:       'Next: Your Experience →',
     step2_title:     'Your experience',
     step2_sub:       'Help families understand your background and skills.',
@@ -144,6 +149,10 @@ const T = {
     city_label:      'ที่อยู่ปัจจุบัน',
     city_ph:         '— คุณอยู่ที่ไหน? —',
     city_other:      '📍 ที่อื่นในไทย',
+    area_other_label:'เมืองหรือจังหวัด',
+    area_other_ph:   'เช่น นครปฐม, ชุมพร...',
+    area_other_hint: 'กรุณาพิมพ์ชื่อเมืองหรือจังหวัดของคุณ',
+    area_other_error:'กรุณาพิมพ์ชื่อเมืองหรือจังหวัดของคุณ',
     city_error:      'กรุณาเลือกเมืองของคุณ',
     area_label:      'ย่าน / พื้นที่',
     area_ph:         'เช่น ราไวย์, สุขุมวิท, นิมมาน...',
@@ -427,6 +436,7 @@ export default function Register() {
       if (!firstname.trim())     errs.firstname = t.fname_error;
       if (!lastname.trim())      errs.lastname  = t.lname_error;
       if (!city)                 errs.city      = t.city_error;
+      if (city === 'other' && !area.trim()) errs.area = t.area_other_error;
     }
     if (stepNum === 2) {
       if (!experience)           errs.experience = t.exp_error;
@@ -654,24 +664,31 @@ export default function Register() {
                 {/* City */}
                 <div className={`field ${errors.city ? 'has-error' : ''}`}>
                   <label>{t.city_label} <span className="req">*</span></label>
-                  <select value={city} onChange={e => { setCity(e.target.value); setErrors(ev => ({...ev, city:''})); }}>
+                  <select value={city} onChange={e => { setCity(e.target.value); setErrors(ev => ({...ev, city:'', area:''})); }}>
                     <option value="">{t.city_ph}</option>
-                    <option value="phuket">📍 Phuket</option>
-                    <option value="bangkok">📍 Bangkok</option>
-                    <option value="chiang_mai">📍 Chiang Mai</option>
-                    <option value="pattaya">📍 Pattaya</option>
-                    <option value="koh_samui">📍 Koh Samui</option>
-                    <option value="hua_hin">📍 Hua Hin</option>
+                    {CITY_OPTIONS.map(c => (
+                      <option key={c.slug} value={c.slug}>📍 {c.name}</option>
+                    ))}
                     <option value="other">{t.city_other}</option>
                   </select>
                   <div className="field-error">{errors.city}</div>
                 </div>
 
-                {/* Area / Neighborhood */}
-                <div className="field">
-                  <label>{t.area_label}</label>
-                  <input type="text" value={area} placeholder={t.area_ph} maxLength={60} onChange={e => setArea(e.target.value)} />
-                  <div className="field-hint">{t.area_hint}</div>
+                {/* Area / Neighborhood (required as free-text City when "other") */}
+                <div className={`field ${errors.area ? 'has-error' : ''}`}>
+                  <label>
+                    {city === 'other' ? t.area_other_label : t.area_label}
+                    {city === 'other' && <span className="req"> *</span>}
+                  </label>
+                  <input
+                    type="text"
+                    value={area}
+                    placeholder={city === 'other' ? t.area_other_ph : t.area_ph}
+                    maxLength={60}
+                    onChange={e => { setArea(e.target.value); setErrors(ev => ({...ev, area:''})); }}
+                  />
+                  <div className="field-hint">{city === 'other' ? t.area_other_hint : t.area_hint}</div>
+                  <div className="field-error">{errors.area}</div>
                 </div>
 
                 <div className="btn-row" style={{ justifyContent: 'flex-end' }}>

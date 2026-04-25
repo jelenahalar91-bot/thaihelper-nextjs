@@ -8,6 +8,7 @@ import { getServiceSupabase } from '../../lib/supabase';
 import { createToken, setSessionCookie } from '../../lib/auth';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
 import { verifyTurnstile } from '../../lib/turnstile';
+import { romanizeThaiName } from '../../lib/translate';
 
 function generateRef() {
   return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -49,8 +50,15 @@ export default async function handler(req, res) {
   const ref = generateRef();
   const verificationToken = crypto.randomBytes(32).toString('hex');
   const cleanEmail = email.trim().toLowerCase();
-  const cleanFirstName = first_name.trim();
   const sanitizedBio = bio ? sanitizeFreeText(bio.trim()) : null;
+
+  // If the helper typed their name in Thai script, store a romanized version
+  // alongside the original so English-reading employers can read it. Falls
+  // back to the raw input if the Translate API is unavailable.
+  const [cleanFirstName, cleanLastName] = await Promise.all([
+    romanizeThaiName(first_name),
+    romanizeThaiName(last_name),
+  ]);
 
   try {
     // Insert into helper_profiles
@@ -59,7 +67,7 @@ export default async function handler(req, res) {
       .insert({
         helper_ref: ref,
         first_name: cleanFirstName,
-        last_name: last_name.trim(),
+        last_name: cleanLastName,
         email: cleanEmail,
         age: age || null,
         category,
@@ -120,7 +128,7 @@ export default async function handler(req, res) {
           sendAdminNotification({
             type: 'helper',
             firstName: cleanFirstName,
-            lastName: last_name.trim(),
+            lastName: cleanLastName,
             email: cleanEmail,
             city,
             category,
