@@ -24,6 +24,7 @@ function toPublicCard(row) {
     education: row.education || '',
     certificates: row.certificates || '',
     bio: row.bio || '',
+    bioEn: row.bio_en || '',
     photo: row.photo_url || '',
     createdAt: row.created_at || null,
     // Signal to the UI whether contact info exists (without revealing it)
@@ -44,7 +45,7 @@ export default async function handler(req, res) {
       .select(
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
         'age, category, skills, city, area, experience, languages, rate, ' +
-        'education, certificates, bio, photo_url, created_at, status'
+        'education, certificates, bio, bio_en, photo_url, created_at, status'
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)

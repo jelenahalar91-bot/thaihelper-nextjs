@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       .from('helper_profiles')
       .select(
         'helper_ref, first_name, last_name, age, category, skills, city, area, ' +
-        'experience, languages, rate, bio, photo_url, email_verified, status'
+        'experience, languages, rate, bio, bio_en, photo_url, email_verified, status'
       )
       .in('helper_ref', refs)
       .or('status.eq.active,status.is.null')
@@ -68,6 +68,7 @@ export default async function handler(req, res) {
           languages: h.languages || '',
           rate: h.rate || '',
           bio: h.bio || '',
+          bioEn: h.bio_en || '',
           photo: h.photo_url || '',
         };
       })

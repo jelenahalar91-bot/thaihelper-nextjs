@@ -3,6 +3,7 @@
 
 import { getSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
+import { translateThaiText } from '../../lib/translate';
 
 // Strip phone numbers and email addresses from free-text fields. Mirrors the
 // sanitizer used on registration (pages/api/register.js) so helpers can't
@@ -51,6 +52,7 @@ function toFrontend(row) {
     education: row.education || '',
     certificates: row.certificates || '',
     bio: row.bio || '',
+    bioEn: row.bio_en || '',
     whatsapp: row.whatsapp || '',
     hasWhatsApp: row.has_whatsapp ? 'Yes' : 'No',
     photo: row.photo_url || '',
@@ -140,6 +142,12 @@ export default async function handler(req, res) {
 
       if (Object.keys(updates).length === 0) {
         return res.status(400).json({ error: 'No valid fields to update' });
+      }
+
+      // If bio changed, re-translate. Pass null when the new bio has no Thai
+      // script so we don't leave a stale English translation lying around.
+      if ('bio' in updates) {
+        updates.bio_en = await translateThaiText(updates.bio);
       }
 
       const { error } = await supabase

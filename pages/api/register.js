@@ -8,7 +8,7 @@ import { getServiceSupabase } from '../../lib/supabase';
 import { createToken, setSessionCookie } from '../../lib/auth';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
 import { verifyTurnstile } from '../../lib/turnstile';
-import { romanizeThaiName } from '../../lib/translate';
+import { romanizeThaiName, translateThaiText } from '../../lib/translate';
 
 function generateRef() {
   return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -53,11 +53,14 @@ export default async function handler(req, res) {
   const sanitizedBio = bio ? sanitizeFreeText(bio.trim()) : null;
 
   // If the helper typed their name in Thai script, store a romanized version
-  // alongside the original so English-reading employers can read it. Falls
-  // back to the raw input if the Translate API is unavailable.
-  const [cleanFirstName, cleanLastName] = await Promise.all([
+  // alongside the original so English-reading employers can read it. Same
+  // for the bio: store an English translation in `bio_en` so we can render
+  // the right version based on the viewer's language. Falls back to raw
+  // input if the Translate API is unavailable.
+  const [cleanFirstName, cleanLastName, bioEn] = await Promise.all([
     romanizeThaiName(first_name),
     romanizeThaiName(last_name),
+    translateThaiText(sanitizedBio),
   ]);
 
   try {
@@ -80,6 +83,7 @@ export default async function handler(req, res) {
         education: education?.trim() || null,
         certificates: certificates?.trim() || null,
         bio: sanitizedBio,
+        bio_en: bioEn,
         source: 'thaihelper.app/register',
         email_verified: false,
         verification_token: verificationToken,

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLang } from '../pages/_app';
 
 /**
  * Shared helper card — used by:
@@ -36,8 +37,14 @@ export default function HelperCard({
   favoriteHint,
   onViewProfile,
 }) {
+  const { lang } = useLang();
   const displayName =
     helper.name || [helper.firstName, helper.lastName].filter(Boolean).join(' ');
+
+  // Show the English translation when the viewer's UI is English and we have
+  // one stored. Thai viewers (and the helper themselves) always see the
+  // original they wrote.
+  const displayBio = lang === 'th' ? helper.bio : (helper.bioEn || helper.bio);
 
   const showFavBtn = typeof onToggleFavorite === 'function' && helper.ref;
   const hintText = favoriteHint ||
@@ -144,8 +151,8 @@ export default function HelperCard({
           </div>
         </div>
 
-        {helper.bio && (
-          <p className="text-sm text-gray-600 leading-relaxed">{helper.bio}</p>
+        {displayBio && (
+          <p className="text-sm text-gray-600 leading-relaxed">{displayBio}</p>
         )}
 
         <div className="flex flex-wrap gap-1.5 text-sm">

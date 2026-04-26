@@ -297,17 +297,21 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
             )}
           </div>
 
-          {/* About / bio */}
-          {helper.bio && (
-            <Section title={t?.profile_about || 'About'}>
-              <p style={{
-                fontSize: '14px', lineHeight: 1.65, color: '#374151', margin: 0,
-                whiteSpace: 'pre-wrap',
-              }}>
-                {helper.bio}
-              </p>
-            </Section>
-          )}
+          {/* About / bio — show English translation to English viewers when available */}
+          {(() => {
+            const displayBio = lang === 'th' ? helper.bio : (helper.bioEn || helper.bio);
+            if (!displayBio) return null;
+            return (
+              <Section title={t?.profile_about || 'About'}>
+                <p style={{
+                  fontSize: '14px', lineHeight: 1.65, color: '#374151', margin: 0,
+                  whiteSpace: 'pre-wrap',
+                }}>
+                  {displayBio}
+                </p>
+              </Section>
+            );
+          })()}
 
           {/* Skills — mapped to readable labels with emoji */}
           {skillLabels.length > 0 && (
