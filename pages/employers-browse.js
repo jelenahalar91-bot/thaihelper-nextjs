@@ -35,6 +35,8 @@ const T = {
     card_arrangement: 'Arrangement',
     card_age_pref:  'Preferred age',
     card_cta:       'Register as Helper to Apply',
+    card_signin:    'Sign in to apply',
+    card_employer_badge: 'Family',
     live_in:        'Live-in',
     live_out:       'Live-out',
     either:         'Either',
@@ -74,6 +76,8 @@ const T = {
     card_arrangement: 'รูปแบบ',
     card_age_pref:  'อายุที่ต้องการ',
     card_cta:       'ลงทะเบียนเป็นผู้ช่วยเพื่อสมัคร',
+    card_signin:    'เข้าสู่ระบบเพื่อสมัคร',
+    card_employer_badge: 'ครอบครัว',
     live_in:        'อยู่ประจำ',
     live_out:       'ไป-กลับ',
     either:         'ทั้งสองแบบ',
@@ -283,7 +287,7 @@ export default function EmployersBrowse() {
                   )}
                 </div>
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div className="flex flex-col gap-4">
                   {filtered.map((emp, i) => (
                     <PublicEmployerCard
                       key={emp.ref || `reg-${i}`}
@@ -435,83 +439,72 @@ export default function EmployersBrowse() {
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
+// Mirrors HelperCard layout (components/HelperCard.jsx) so /helpers and
+// /employers-browse feel like two views of the same product. Employers
+// don't have photos, so the photo slot becomes a coloured initial tile
+// at the same dimensions.
 function PublicEmployerCard({ employer, t, arrangementLabel }) {
   const e = employer;
+  const initial = (e.firstName || '?').charAt(0).toUpperCase();
+  const displayName = [e.firstName, e.lastName].filter(Boolean).join(' ');
+
   return (
-    <div style={{
-      background: 'white', borderRadius: '16px',
-      padding: '20px', border: '1px solid #e5e7eb',
-      transition: 'transform 0.15s, box-shadow 0.15s',
-    }}
-      onMouseEnter={ev => { ev.currentTarget.style.transform = 'translateY(-2px)'; ev.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.06)'; }}
-      onMouseLeave={ev => { ev.currentTarget.style.transform = 'none'; ev.currentTarget.style.boxShadow = 'none'; }}
-    >
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
-        <div style={{
-          width: '52px', height: '52px', borderRadius: '50%',
-          background: '#e6f5f3', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0, border: '2px solid #006a62',
-        }}>
-          <span style={{ fontSize: '18px', fontWeight: 700, color: '#006a62' }}>
-            {(e.firstName || '?').charAt(0).toUpperCase()}
-          </span>
-        </div>
+    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
+      {/* Photo slot — coloured initial tile, same size as helper photo */}
+      <div className="relative bg-[#e6f5f3] flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square flex items-center justify-center">
+        <span className="text-6xl font-bold text-[#006a62]">{initial}</span>
+        <span className="absolute top-2 left-2 inline-flex items-center px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
+          🏠 {t.card_employer_badge || 'Family'}
+        </span>
+      </div>
 
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
-            <span style={{ fontSize: '17px', fontWeight: 700, color: '#1a1a1a' }}>
-              {e.firstName} {e.lastName}
-            </span>
-            {e.city && (
-              <span style={{ fontSize: '13px', color: '#666', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                {e.city}{e.area ? `, ${e.area}` : ''}
-              </span>
-            )}
-          </div>
-
+      {/* Body */}
+      <div className="p-5 sm:p-6 flex flex-col flex-1 min-w-0 gap-3">
+        <div>
+          <h3 className="text-xl font-bold text-gray-900 leading-tight">
+            {displayName}
+          </h3>
           {e.lookingFor && (
-            <div style={{ fontSize: '14px', color: '#374151', marginBottom: '6px' }}>
-              <span style={{ fontWeight: 600, color: '#666' }}>{t.card_looking}:</span>{' '}
-              {e.lookingFor}
+            <div className="text-sm text-gray-700 mt-1 font-medium">
+              {t.card_looking}: {e.lookingFor}
             </div>
           )}
-
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '8px' }}>
-            {e.arrangementPreference && (
-              <span style={{ fontSize: '13px', color: '#666' }}>
-                {t.card_arrangement}: <strong>{arrangementLabel(e.arrangementPreference)}</strong>
-              </span>
-            )}
-            {e.preferredAgeRange && (
-              <span style={{ fontSize: '13px', color: '#666' }}>
-                {t.card_age_pref}: <strong>{e.preferredAgeRange}</strong>
-              </span>
-            )}
-          </div>
-
-          {e.jobDescription && (
-            <p style={{
-              fontSize: '14px', color: '#555', lineHeight: 1.5,
-              margin: '0 0 10px',
-              overflow: 'hidden', display: '-webkit-box',
-              WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',
-            }}>
-              {e.jobDescription}
-            </p>
+          {e.city && (
+            <div className="text-sm text-gray-500 mt-1">
+              📍 {e.city}{e.area ? ` · ${e.area}` : ''}
+            </div>
           )}
+        </div>
 
+        {e.jobDescription && (
+          <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+            {e.jobDescription}
+          </p>
+        )}
+
+        <div className="flex flex-wrap gap-1.5 text-sm">
+          {e.arrangementPreference && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              🏡 {arrangementLabel(e.arrangementPreference)}
+            </span>
+          )}
+          {e.preferredAgeRange && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              🎂 {e.preferredAgeRange}
+            </span>
+          )}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-auto pt-3 border-t border-gray-100">
+          <div className="text-sm text-gray-500 text-center mb-2">
+            🔒 {t.card_signin || 'Sign in to apply'}
+          </div>
           <Link
             href="/register"
-            style={{
-              display: 'inline-block',
-              padding: '10px 20px', borderRadius: '10px',
-              background: '#006a62', color: 'white',
-              fontSize: '14px', fontWeight: 700,
-              textDecoration: 'none',
-            }}
+            className="block w-full text-center px-4 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
           >
-            {t.card_cta} &rarr;
+            {t.card_cta}
           </Link>
         </div>
       </div>
