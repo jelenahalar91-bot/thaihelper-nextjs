@@ -38,7 +38,6 @@ const T = {
     card_age_pref:  'Preferred age',
     card_cta:       'Register as Helper to Apply',
     card_signin:    'Sign in to apply',
-    card_employer_badge: 'Family',
     card_tasks:     'Tasks',
     live_in:        'Live-in',
     live_out:       'Live-out',
@@ -80,7 +79,6 @@ const T = {
     card_age_pref:  'อายุที่ต้องการ',
     card_cta:       'ลงทะเบียนเป็นผู้ช่วยเพื่อสมัคร',
     card_signin:    'เข้าสู่ระบบเพื่อสมัคร',
-    card_employer_badge: 'ครอบครัว',
     card_tasks:     'งาน',
     live_in:        'อยู่ประจำ',
     live_out:       'ไป-กลับ',
@@ -475,9 +473,6 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
         ) : (
           <span className="text-6xl font-bold text-[#006a62]">{initial}</span>
         )}
-        <span className="absolute top-2 left-2 inline-flex items-center px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
-          🏠 {t.card_employer_badge || 'Family'}
-        </span>
       </div>
 
       {/* Body */}
