@@ -6,6 +6,7 @@ import { Plus_Jakarta_Sans, Manrope, Sarabun } from 'next/font/google';
 import '../styles/globals.css';
 import { getOrganizationSchema, getWebSiteSchema } from '@/components/SEOHead';
 import { GA_ID, pageview } from '@/lib/analytics';
+import { captureAttribution } from '@/lib/utm';
 import CookieConsent, { useCookieConsent } from '@/components/CookieConsent';
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -45,6 +46,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
     setLangState(saved);
+    captureAttribution();
   }, []);
 
   const setLang = (l) => {

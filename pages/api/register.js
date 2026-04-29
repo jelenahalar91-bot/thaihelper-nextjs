@@ -9,6 +9,7 @@ import { createToken, setSessionCookie } from '../../lib/auth';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
 import { verifyTurnstile } from '../../lib/turnstile';
 import { romanizeThaiName, translateForeignText } from '../../lib/translate';
+import { formatAttributionString } from '../../lib/utm';
 
 function generateRef() {
   return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -32,7 +33,7 @@ export default async function handler(req, res) {
     first_name, last_name, date_of_birth, category, skills,
     city, area, additional_cities, experience, languages, rate,
     education, certificates, bio, email,
-    turnstileToken,
+    turnstileToken, attribution,
   } = req.body;
 
   // Verify Turnstile CAPTCHA
@@ -86,7 +87,7 @@ export default async function handler(req, res) {
         certificates: certificates?.trim() || null,
         bio: sanitizedBio,
         bio_en: bioEn,
-        source: 'thaihelper.app/register',
+        source: formatAttributionString(attribution),
         email_verified: false,
         verification_token: verificationToken,
       });

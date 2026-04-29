@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/helpers';
 import { CITY_OPTIONS, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
 import { computeAge, validateDob } from '@/lib/age';
+import { event as gaEvent, EVENTS } from '@/lib/analytics';
 import {
   SKILLS_BY_CATEGORY,
   RATES,
@@ -455,6 +456,7 @@ export default function Register() {
 
       setRefNumber(result.ref);
       setSuccess(true);
+      gaEvent({ ...EVENTS.REGISTER_COMPLETE, label: 'helper' });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error('Submit error:', err);

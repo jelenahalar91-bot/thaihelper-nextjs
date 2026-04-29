@@ -11,6 +11,7 @@ import {
   sendAdminNotification,
 } from '../../lib/send-confirmation-email';
 import { verifyTurnstile } from '../../lib/turnstile';
+import { formatAttributionString } from '../../lib/utm';
 
 function generateRef() {
   return 'EMP-' + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -57,6 +58,7 @@ export default async function handler(req, res) {
     jobDescription,
     preferredLanguage,
     turnstileToken,
+    attribution,
   } = req.body;
 
   // Verify Turnstile CAPTCHA
@@ -111,7 +113,7 @@ export default async function handler(req, res) {
         preferred_language: preferredLanguage || 'en',
         access_until: promo.access_until,
         access_tier: promo.access_tier,
-        source: 'thaihelper.app/employer-register',
+        source: formatAttributionString(attribution),
         email_verified: false,
         verification_token: verificationToken,
       })
