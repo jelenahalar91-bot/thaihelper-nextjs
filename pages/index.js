@@ -29,6 +29,7 @@ const T = {
     preview_sub:'Families in your city can see your profile. Only registered families with a verified email account can message you.',
     preview_badge:'✓ Active',preview_exp:'yrs experience',preview_btn:'Contact',
     preview_note:'Only registered families can contact you.',
+    preview_signin:'Sign in to message',preview_signin_btn:'Login / Register',
     match_label:'Happy Matches',match_title:'Families & Helpers United',
     match_sub:'Real connections, real stories. See how ThaiHelper brings families and helpers together.',
     match_hired:'Hired as',match_quote_label:'What they say',
@@ -84,6 +85,7 @@ const T = {
     preview_sub:'โปรไฟล์ของคุณเปิดให้ครอบครัวในเมืองของคุณค้นหาได้ เฉพาะครอบครัวที่ลงทะเบียนและยืนยันอีเมลแล้วเท่านั้นที่สามารถส่งข้อความหาคุณได้',
     preview_badge:'✓ ใช้งานอยู่',preview_exp:'ปีประสบการณ์',preview_btn:'ติดต่อ',
     preview_note:'เฉพาะครอบครัวที่ลงทะเบียนแล้วเท่านั้นที่ติดต่อคุณได้',
+    preview_signin:'เข้าสู่ระบบเพื่อส่งข้อความ',preview_signin_btn:'เข้าสู่ระบบ / ลงทะเบียน',
     match_label:'การจับคู่ที่มีความสุข',match_title:'ครอบครัวและผู้ช่วยที่พบกัน',
     match_sub:'การเชื่อมต่อจริง เรื่องราวจริง',
     match_hired:'จ้างเป็น',match_quote_label:'พวกเขาพูดว่า',
@@ -396,7 +398,7 @@ export default function Home() {
                 {PROFILES.map((p, i) => (
                   <HelperCard
                     key={i}
-                    mode="preview"
+                    mode="browse"
                     helper={{
                       photo: p.photo,
                       name: p.name,
@@ -412,7 +414,8 @@ export default function Home() {
                     t={{
                       card_exp: t.preview_exp,
                       card_verified: (t.preview_badge || '').replace(/^✓\s*/, ''),
-                      card_preview_note: t.preview_note,
+                      card_signin: t.preview_signin,
+                      card_signin_btn: t.preview_signin_btn,
                     }}
                   />
                 ))}
