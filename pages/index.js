@@ -510,6 +510,10 @@ export default function Home() {
                   { label: 'Pattaya', href: '/hire/pattaya' },
                   { label: 'Koh Samui', href: '/hire/koh-samui' },
                   { label: 'Hua Hin', href: '/hire/hua-hin' },
+                  { label: 'Krabi', href: '/hire/krabi' },
+                  { label: 'Ao Nang', href: '/hire/ao-nang' },
+                  { label: 'Koh Phangan', href: '/hire/koh-phangan' },
+                  { label: 'Chonburi', href: '/hire/chonburi' },
                 ].map((c, i) => (
                   <Link key={i} href={c.href} className="px-4 py-2 rounded-full border border-slate-200 text-on-surface-variant text-xs font-medium hover:border-primary hover:text-primary transition-colors">{c.label}</Link>
                 ))}
@@ -597,6 +601,14 @@ export default function Home() {
                   { label: 'Housekeeper Bangkok', href: '/hire/housekeeper-bangkok' },
                   { label: 'Gardener Hua Hin', href: '/hire/gardener-hua-hin' },
                   { label: 'Driver Pattaya', href: '/hire/driver-pattaya' },
+                  { label: 'Housekeeper Krabi', href: '/hire/housekeeper-krabi' },
+                  { label: 'Chef Ao Nang', href: '/hire/chef-ao-nang' },
+                  { label: 'Nanny Koh Phangan', href: '/hire/nanny-koh-phangan' },
+                  { label: 'Nanny Chonburi', href: '/hire/nanny-chonburi' },
+                  { label: 'Caregiver Chiang Rai', href: '/hire/caregiver-chiang-rai' },
+                  { label: 'Housekeeper Pai', href: '/hire/housekeeper-pai' },
+                  { label: 'Caregiver Udon Thani', href: '/hire/caregiver-udon-thani' },
+                  { label: 'Tutor Khon Kaen', href: '/hire/tutor-khon-kaen' },
                 ].map((link, i) => (
                   <Link key={i} href={link.href} className="text-xs text-slate-400 hover:text-primary transition-colors">{link.label}</Link>
                 ))}
