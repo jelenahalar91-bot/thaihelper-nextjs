@@ -27,7 +27,7 @@ export async function getStaticProps({ params }) {
     const supabase = getServiceSupabase();
     let query = supabase
       .from('helper_profiles')
-      .select('first_name, last_name, age, category, city, area, experience, languages, photo_url, bio')
+      .select('first_name, last_name, age, date_of_birth, category, city, area, experience, languages, photo_url, bio, bio_en')
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)
       .order('created_at', { ascending: false })
@@ -41,10 +41,11 @@ export async function getStaticProps({ params }) {
     }
 
     const { data } = await query;
+    const { getDisplayAge } = await import('@/lib/age');
     matchingHelpers = (data || []).map((row) => ({
       firstName: row.first_name,
       lastInitial: row.last_name ? row.last_name.charAt(0) + '.' : '',
-      age: row.age || null,
+      age: getDisplayAge(row) || null,
       category: row.category || '',
       city: row.city || '',
       area: row.area || '',
@@ -52,6 +53,7 @@ export async function getStaticProps({ params }) {
       languages: row.languages || '',
       photo: row.photo_url || '',
       bio: row.bio ? row.bio.slice(0, 120) : '',
+      bioEn: row.bio_en ? row.bio_en.slice(0, 120) : '',
     }));
   } catch (err) {
     console.error('Failed to fetch helpers for hire page:', err);
@@ -77,7 +79,7 @@ function getFaqs(page) {
     },
     {
       question: `How do I find a trusted ${catLower} in ${city}?`,
-      answer: `On ThaiHelper, all ${catLower}s are ID-verified. Browse profiles, check reviews, and contact them directly — no agency middleman, no hidden fees.`,
+      answer: `On ThaiHelper, every ${catLower} verifies their email before their profile goes live. Browse profiles, contact them directly, and conduct your own interview and reference checks — no agency middleman, no hidden fees.`,
     },
     {
       question: `Is ThaiHelper free for ${catLower}s?`,
@@ -272,7 +274,10 @@ export default function HirePage({ page, matchingHelpers = [] }) {
                       <p className="text-xs text-gray-500">{h.city}{h.area ? `, ${h.area}` : ''}</p>
                     </div>
                   </div>
-                  {h.bio && <p className="text-sm text-gray-600 mb-2">{h.bio}{h.bio.length >= 120 ? '...' : ''}</p>}
+                  {(() => {
+                    const bio = lang === 'th' ? h.bio : (h.bioEn || h.bio);
+                    return bio && <p className="text-sm text-gray-600 mb-2">{bio}{bio.length >= 120 ? '...' : ''}</p>;
+                  })()}
                   <div className="flex flex-wrap gap-1.5 text-xs text-gray-500">
                     {h.experience && <span className="bg-gray-100 px-2 py-0.5 rounded">{h.experience}</span>}
                     {h.languages && <span className="bg-gray-100 px-2 py-0.5 rounded">{h.languages}</span>}
@@ -299,9 +304,9 @@ export default function HirePage({ page, matchingHelpers = [] }) {
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { icon: '1', h: isEn ? 'Browse Profiles' : 'ดูโปรไฟล์', p: isEn ? 'Search verified helpers by city, category, and experience. All profiles are ID-checked.' : 'ค้นหาผู้ช่วยที่ผ่านการยืนยันตามเมือง ประเภท และประสบการณ์' },
+                { icon: '1', h: isEn ? 'Browse Profiles' : 'ดูโปรไฟล์', p: isEn ? 'Search helpers by city, category, and experience. Every profile uses an email-verified account.' : 'ค้นหาผู้ช่วยตามเมือง ประเภท และประสบการณ์ ทุกโปรไฟล์ใช้บัญชีที่ยืนยันอีเมลแล้ว' },
                 { icon: '2', h: isEn ? 'Connect Directly' : 'ติดต่อโดยตรง', p: isEn ? 'Contact helpers directly. No middleman, no agency fees. Agree on terms together.' : 'ติดต่อโดยตรง ไม่ผ่านเอเจนซี่ ตกลงเงื่อนไขร่วมกัน' },
-                { icon: '3', h: isEn ? 'Hire with Confidence' : 'จ้างอย่างมั่นใจ', p: isEn ? 'Verified profiles and reviews help you make the right choice.' : 'โปรไฟล์ที่ยืนยันและรีวิวช่วยให้คุณเลือกได้อย่างมั่นใจ' },
+                { icon: '3', h: isEn ? 'Hire with Confidence' : 'จ้างอย่างมั่นใจ', p: isEn ? 'Structured profiles and direct messaging help you compare candidates and make the right choice.' : 'โปรไฟล์ที่มีโครงสร้างและการส่งข้อความโดยตรงช่วยให้คุณเปรียบเทียบและเลือกได้อย่างมั่นใจ' },
               ].map((step) => (
                 <div key={step.icon} className="bg-white rounded-xl p-6 shadow-sm text-center">
                   <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4">{step.icon}</div>

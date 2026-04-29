@@ -19,7 +19,7 @@ Registration is **100% free for helpers**. No sign-up fee, no monthly fee, no co
 ### Families / Employers
 ThaiHelper serves families living in Thailand who need household help:
 - **Expat families** from Europe, USA, UK, Australia, Russia, and other countries
-- **Thai families** looking for verified, reliable household staff
+- **Thai families** looking for reliable household staff
 - **Digital nomads** who need part-time or short-term help
 - **Retirees** who need companionship, driving, or home care
 - **Business owners** who need personal staff
@@ -117,7 +117,7 @@ A: Yes, it is 100% free for helpers. Employers pay a subscription to access help
 A: No. ThaiHelper is a marketplace platform. We do not employ, place, or guarantee workers. Families and helpers connect directly and make their own arrangements.
 
 **Q: How is ThaiHelper different from Facebook groups?**
-A: ThaiHelper offers verified profiles with structured information (experience, skills, languages, photos, reviews). Facebook groups have no verification, no profiles, and are full of spam.
+A: ThaiHelper offers email-verified profiles with structured information (experience, skills, languages, photos) and direct in-platform messaging. Facebook groups have no email verification, no structured profiles, and are full of spam.
 
 **Q: How is ThaiHelper different from traditional agencies?**
 A: Agencies charge 1-3 months' salary as a placement fee and often take a cut from the helper's pay. ThaiHelper has zero fees for helpers and connects families directly with staff.
@@ -129,15 +129,15 @@ A: Yes. Many helpers on ThaiHelper speak English, especially those who have work
 A: All of Thailand. The strongest presence is in Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, and Hua Hin.
 
 **Q: How do I know if a helper is trustworthy?**
-A: ThaiHelper verifies helper IDs. Profiles include work history, skills, references, and (soon) reviews from previous employers.
+A: ThaiHelper is a directory platform, not an agency. Every helper verifies their email before their profile goes live, but ThaiHelper does NOT perform ID checks or background checks. Profiles include work history, skills, languages, and photos. Conduct your own interview, ask for references, and confirm legal employment requirements before hiring — just like hiring through word of mouth.
 
 **Q: Can I hire a helper for a short-term job?**
 A: Yes. Many helpers are available for one-time, weekly, or short-term arrangements. You can filter by availability on the platform.
 
 ## Platform Features
 
-- **Verified profiles** — ID-checked helpers and employers
-- **Multilingual** — Available in English, Thai, and Russian
+- **Email-verified accounts** — every helper and family confirms their email before using the platform; ThaiHelper does NOT perform ID checks or background checks
+- **Multilingual** — Interface available in English and Thai
 - **City-based search** — Find helpers in your specific city or area
 - **Category filtering** — Search by nanny, housekeeper, chef, driver, etc.
 - **Experience filtering** — Find helpers with the right level of experience

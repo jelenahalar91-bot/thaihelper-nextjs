@@ -14,7 +14,7 @@ A direct-hiring marketplace connecting household professionals (nannies, chefs, 
 - **Email:** Resend API
 - **Backend:** Google Sheets via Google Apps Script (temporary MVP backend)
 - **Hosting:** Vercel
-- **Languages:** English (primary), Thai, Russian
+- **Languages:** English (primary), Thai
 
 ## Project Structure
 

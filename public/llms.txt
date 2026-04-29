@@ -1,19 +1,19 @@
 # ThaiHelper
 
-> ThaiHelper is a free online marketplace connecting families in Thailand with trusted, verified household staff — nannies, housekeepers, private chefs, drivers, gardeners, elder caregivers, and tutors. Helpers create free profiles; families pay for verified access to contact them directly. No middleman, no agency fees.
+> ThaiHelper is a free online marketplace connecting families in Thailand with household staff — nannies, housekeepers, private chefs, drivers, gardeners, elder caregivers, and tutors. Helpers create free profiles with email-verified accounts; families pay for direct messaging access. ThaiHelper is a directory platform, not an agency — families conduct their own interviews and reference checks. No middleman, no agency fees.
 
 ## About
 
-ThaiHelper (https://thaihelper.app) is operated by Planet Bamboo GmbH (Germany). The platform serves both Thai and international families (expats) living in Thailand who need household help, as well as domestic workers seeking employment. Available in English, Thai, and Russian.
+ThaiHelper (https://thaihelper.app) is operated by Planet Bamboo GmbH (Germany). The platform serves both Thai and international families (expats) living in Thailand who need household help, as well as domestic workers seeking employment. The user interface is available in English and Thai.
 
 ## Key Facts
 
 - **Free for helpers** — creating a profile costs nothing, forever
 - **Direct connections** — no middleman or agency between helper and family
-- **Verified profiles** — ID-checked helpers and employers
+- **Email-verified accounts** — every helper and family confirms their email before using the platform; ThaiHelper does NOT perform ID checks or background checks
 - **Cities served**: Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, Hua Hin, and all of Thailand
 - **Service categories**: Nanny & Babysitter, Housekeeper & Cleaner, Private Chef & Cook, Driver & Chauffeur, Gardener & Pool Care, Elder Care & Caregiver, Tutor & Teacher
-- **Languages**: English, Thai, Russian
+- **Interface languages**: English, Thai
 
 ## How It Works
 
@@ -81,7 +81,7 @@ ThaiHelper (https://thaihelper.app) is operated by Planet Bamboo GmbH (Germany).
 | Feature | ThaiHelper | Facebook Groups | Traditional Agencies |
 |---------|-----------|-----------------|---------------------|
 | Cost for helpers | Free forever | Free | Often charge helpers |
-| Verified profiles | Yes (ID-checked) | No | Varies |
+| Profile verification | Email-verified accounts | None | ID + background checks (varies) |
 | Direct communication | Yes | Messy, public | Through agency |
 | Structured profiles | Yes | No | Limited |
 | Available 24/7 | Yes | Yes | Business hours |

@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import SEOHead, { getBreadcrumbSchema, getServiceSchema, getSpeakableSchema } from '@/components/SEOHead';
+import SEOHead, { getBreadcrumbSchema, getServiceSchema, getSpeakableSchema, getFAQSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
+import HelperProfileModal from '@/components/messaging/HelperProfileModal';
+import { CATEGORIES } from '@/lib/constants/categories';
 import { useLang } from './_app';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -70,6 +72,65 @@ function HeroCarousel({ items }) {
   );
 }
 
+// ─── EMPLOYER FAQ — content + schema source of truth ─────────────────────────
+// 6 questions chosen for high-frequency AI-search prompts (ChatGPT, Perplexity,
+// Claude, Gemini): pricing, agency comparison, verification, finding helpers,
+// salary ranges, and legality. Visible content + JSON-LD must stay in sync.
+const EMPLOYER_FAQS = {
+  en: [
+    {
+      question: 'How much does it cost to find a helper on ThaiHelper?',
+      answer: 'ThaiHelper is currently 100% free for everyone — including messaging helpers — during our launch phase. After launch, families pay a one-time access fee starting at $9 for 1 month of unlimited messaging. Helpers always pay nothing.',
+    },
+    {
+      question: 'How is ThaiHelper different from a traditional agency?',
+      answer: 'Traditional agencies charge 1–3 months\' salary as a placement fee plus ongoing commissions. ThaiHelper charges a small one-time platform fee (free during launch) and connects you directly with helpers — no commissions, no middleman. You agree on salary directly with the helper.',
+    },
+    {
+      question: 'Does ThaiHelper verify helpers?',
+      answer: 'ThaiHelper is a directory platform, not an agency. We verify each helper\'s email address but do not perform ID checks or background checks. Please conduct your own interview, ask for references, and confirm legal employment requirements (e.g. work permit, Social Security registration) before hiring.',
+    },
+    {
+      question: 'How do I find a nanny or maid in my city?',
+      answer: 'Browse the helper directory at thaihelper.app/helpers and filter by city (Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, Hua Hin and more), service type, experience and languages. Click any profile to see full details and message the helper directly.',
+    },
+    {
+      question: 'How much does a nanny or maid cost in Thailand?',
+      answer: 'In 2026, a full-time live-out housekeeper in Thailand costs 12,000–18,000 THB/month. A full-time nanny in Bangkok costs 15,000–25,000 THB/month, and 12,000–18,000 THB/month in Chiang Mai. A private chef costs 18,000–35,000 THB/month and a personal driver 15,000–25,000 THB/month.',
+    },
+    {
+      question: 'Is it legal to hire household staff in Thailand?',
+      answer: 'Yes. Hiring domestic workers is legal and common in Thailand. Employers must pay at least minimum wage (370 THB/day in Bangkok), provide one rest day per week, six annual leave days, and 13 paid holidays. For full-time roles, employers must register helpers with Social Security. Foreigners can legally hire Thai nationals without a separate work permit for the helper.',
+    },
+  ],
+  th: [
+    {
+      question: 'การหาผู้ช่วยบน ThaiHelper มีค่าใช้จ่ายเท่าไหร่?',
+      answer: 'ขณะนี้ ThaiHelper ฟรี 100% สำหรับทุกคน — รวมถึงการส่งข้อความหาผู้ช่วย — ในช่วงเปิดตัว หลังเปิดตัว ครอบครัวจะจ่ายค่าธรรมเนียมแบบครั้งเดียวเริ่มต้นที่ $9 สำหรับ 1 เดือนของการส่งข้อความไม่จำกัด ผู้ช่วยไม่ต้องจ่ายเงินเสมอ',
+    },
+    {
+      question: 'ThaiHelper แตกต่างจากเอเจนซี่ทั่วไปอย่างไร?',
+      answer: 'เอเจนซี่ทั่วไปคิดค่านายหน้า 1–3 เดือนของเงินเดือน บวกค่าคอมมิชชั่นต่อเนื่อง ThaiHelper คิดค่าธรรมเนียมแพลตฟอร์มเล็กน้อยแบบครั้งเดียว (ฟรีในช่วงเปิดตัว) และเชื่อมต่อคุณกับผู้ช่วยโดยตรง — ไม่มีค่าคอมมิชชั่น ไม่มีคนกลาง คุณตกลงเรื่องเงินเดือนกับผู้ช่วยโดยตรง',
+    },
+    {
+      question: 'ThaiHelper ตรวจสอบผู้ช่วยอย่างไร?',
+      answer: 'ThaiHelper เป็นแพลตฟอร์มไดเรกทอรี ไม่ใช่บริษัทจัดหางาน เรายืนยันที่อยู่อีเมลของผู้ช่วยทุกคน แต่ไม่ได้ตรวจสอบบัตรประชาชนหรือประวัติอาชญากรรม กรุณาสัมภาษณ์ ขอข้อมูลอ้างอิง และยืนยันข้อกำหนดทางกฎหมาย (เช่น ใบอนุญาตทำงาน การลงทะเบียนประกันสังคม) ก่อนจ้าง',
+    },
+    {
+      question: 'ฉันหาพี่เลี้ยงหรือแม่บ้านในเมืองของฉันได้อย่างไร?',
+      answer: 'เรียกดูรายชื่อผู้ช่วยที่ thaihelper.app/helpers และกรองตามเมือง (กรุงเทพ เชียงใหม่ ภูเก็ต พัทยา เกาะสมุย หัวหิน และอีกมากมาย) ประเภทบริการ ประสบการณ์ และภาษา คลิกที่โปรไฟล์เพื่อดูรายละเอียดและส่งข้อความถึงผู้ช่วยได้โดยตรง',
+    },
+    {
+      question: 'พี่เลี้ยงหรือแม่บ้านในประเทศไทยราคาเท่าไหร่?',
+      answer: 'ในปี 2026 แม่บ้านเต็มเวลาแบบไม่อยู่ประจำในประเทศไทยราคา 12,000–18,000 บาท/เดือน พี่เลี้ยงเต็มเวลาในกรุงเทพ 15,000–25,000 บาท/เดือน และ 12,000–18,000 บาท/เดือนในเชียงใหม่ พ่อครัวส่วนตัว 18,000–35,000 บาท/เดือน และคนขับรถส่วนตัว 15,000–25,000 บาท/เดือน',
+    },
+    {
+      question: 'การจ้างพนักงานในบ้านในประเทศไทยถูกกฎหมายหรือไม่?',
+      answer: 'ใช่ การจ้างคนงานในบ้านในประเทศไทยถูกกฎหมายและเป็นเรื่องปกติ นายจ้างต้องจ่ายค่าจ้างขั้นต่ำ (370 บาท/วันในกรุงเทพ) ให้วันหยุด 1 วันต่อสัปดาห์ ลาประจำปี 6 วัน และวันหยุดที่ได้รับเงิน 13 วัน สำหรับงานเต็มเวลานายจ้างต้องลงทะเบียนผู้ช่วยกับประกันสังคม ชาวต่างชาติสามารถจ้างคนไทยได้โดยไม่ต้องมีใบอนุญาตทำงานสำหรับผู้ช่วย',
+    },
+  ],
+};
+
 const T = {
   en: {
     page_title: 'Find Household Staff in Thailand – ThaiHelper',
@@ -94,7 +155,7 @@ const T = {
     how1_h: 'Create Your Account',
     how1_p: 'Register for free in 30 seconds. Tell us your city and what type of help you need.',
     how2_h: 'Browse Profiles',
-    how2_p: 'Browse verified helper profiles, ratings and experience — for free.',
+    how2_p: 'Browse email-verified helper profiles with full experience, skills and languages — for free.',
     how3_h: 'Message Directly',
     how3_p: 'Chat with helpers right on the platform with built-in translation. No middlemen, no commissions.',
     // Why
@@ -105,8 +166,8 @@ const T = {
     why1_p: 'No sign-up fees, no monthly subscriptions. Browse profiles at no cost — only pay for premium contact features later.',
     why2_h: 'No Middleman Fees',
     why2_p: 'Connect directly with helpers. We charge a small platform fee — no commissions on salaries.',
-    why3_h: 'Verified & Background-Checked',
-    why3_p: 'Every helper verifies their ID. Background checks and references are available on all profiles.',
+    why3_h: 'Email-Verified Profiles',
+    why3_p: 'Every helper confirms their email before their profile goes live. ThaiHelper is a directory platform — interview helpers and check references yourself, just like hiring through word of mouth.',
     why4_h: 'All Categories in One Place',
     why4_p: 'Nannies, housekeepers, chefs, drivers, gardeners, elder care, tutors — find everyone you need.',
     why5_h: 'Direct Communication',
@@ -114,9 +175,33 @@ const T = {
     why6_h: 'City-Based Matching',
     why6_p: 'We show you helpers in your area. Bangkok, Phuket, Chiang Mai, Pattaya, Koh Samui and more.',
     // Preview
-    preview_label: 'Profile Preview',
-    preview_title: 'This is how helper profiles will look',
-    preview_sub: 'Example profiles showing how you\'ll browse and compare helpers on ThaiHelper after launch.',
+    pricing_label: 'Pricing',
+    pricing_title: 'Simple, transparent pricing',
+    pricing_sub: 'One-time payments — no subscription, nothing auto-renews. Pay only when you\'re ready to message helpers directly.',
+    pricing_promo: 'Currently 100% free during launch — no credit card required.',
+    pricing_no_subscription: 'No subscription · No auto-renewal · Cancel anytime by simply not renewing',
+    pricing_tier1_name: '1 Month',
+    pricing_tier1_price: '$9',
+    pricing_tier1_desc: 'For a one-off hire',
+    pricing_tier3_name: '3 Months',
+    pricing_tier3_price: '$19',
+    pricing_tier3_desc: 'Most popular — time to interview & trial',
+    pricing_tier3_save: 'Save 30%',
+    pricing_tier3_badge: '⭐ Best Value',
+    pricing_tier12_name: '12 Months',
+    pricing_tier12_price: '$49',
+    pricing_tier12_desc: 'For households hiring more than once',
+    pricing_tier12_save: 'Save 55%',
+    pricing_feat_browse: 'Browse all helper profiles',
+    pricing_feat_message: 'Unlimited direct messaging',
+    pricing_feat_contact: 'Unlock WhatsApp & phone',
+    pricing_feat_favs: 'Save favourite helpers',
+    pricing_compare: 'Compare with traditional agencies: 5,000–25,000 THB placement fee + 1 month salary commission',
+    pricing_full_link: 'See full pricing & FAQ →',
+    preview_label: 'Featured Helpers',
+    preview_title: 'Real helpers ready to start',
+    preview_sub: 'Hand-picked recently registered helpers across Bangkok, Phuket and beyond. Click any profile to see their full details.',
+    preview_view_all: 'See all helpers →',
     preview_badge: 'Example',
     preview_exp: 'yrs experience',
     preview_locked: 'Contact at Launch',
@@ -144,6 +229,11 @@ const T = {
     launch_stat2_l: 'Cities Covered',
     launch_stat3_n: '$0',
     launch_stat3_l: 'Registration Fee',
+    // FAQ
+    faq_label: 'FAQ',
+    faq_title: 'Common questions from families',
+    faq_sub: 'Quick answers about pricing, verification, and how to hire household staff in Thailand.',
+    faq_more: 'See all FAQs →',
     // CTA
     cta_title: 'Know a great helper?',
     cta_sub: 'Tell your nanny, housekeeper, or driver about ThaiHelper. They can register for free and get discovered by families like yours.',
@@ -194,17 +284,42 @@ const T = {
     why1_p: 'ไม่มีค่าสมัคร ไม่มีค่าสมาชิกรายเดือน ดูโปรไฟล์ฟรี',
     why2_h: 'ไม่มีค่าคนกลาง',
     why2_p: 'ติดต่อผู้ช่วยโดยตรง เราคิดค่าธรรมเนียมแพลตฟอร์มเล็กน้อย ไม่หักค่าคอมมิชชั่นจากเงินเดือน',
-    why3_h: 'ตรวจสอบประวัติแล้ว',
-    why3_p: 'ผู้ช่วยทุกคนยืนยันตัวตน มีการตรวจสอบประวัติและข้อมูลอ้างอิง',
+    why3_h: 'โปรไฟล์ที่ยืนยันอีเมล',
+    why3_p: 'ผู้ช่วยทุกคนยืนยันอีเมลก่อนโปรไฟล์จะเปิดให้ดู ThaiHelper เป็นแพลตฟอร์มไดเรกทอรี — กรุณาสัมภาษณ์และตรวจสอบข้อมูลอ้างอิงด้วยตัวเอง เหมือนการจ้างผ่านการบอกต่อ',
     why4_h: 'ทุกหมวดหมู่ในที่เดียว',
     why4_p: 'พี่เลี้ยง แม่บ้าน พ่อครัว คนขับ คนสวน ดูแลผู้สูงอายุ ติวเตอร์ — หาทุกอย่างที่ต้องการ',
     why5_h: 'สื่อสารโดยตรง',
     why5_p: 'แชทกับผู้ช่วยโดยตรง เจรจาเงื่อนไข ตารางเวลา และเงินเดือนด้วยตัวเอง',
     why6_h: 'จับคู่ตามเมือง',
     why6_p: 'เราแสดงผู้ช่วยในพื้นที่ของคุณ กรุงเทพ ภูเก็ต เชียงใหม่ พัทยา เกาะสมุย และอื่นๆ',
-    preview_label: 'ตัวอย่างโปรไฟล์',
-    preview_title: 'โปรไฟล์ผู้ช่วยจะมีหน้าตาแบบนี้',
-    preview_sub: 'ตัวอย่างโปรไฟล์แสดงวิธีที่คุณจะค้นหาและเปรียบเทียบผู้ช่วยบน ThaiHelper หลังเปิดตัว',
+    pricing_label: 'ราคา',
+    pricing_title: 'ราคาเรียบง่ายและโปร่งใส',
+    pricing_sub: 'จ่ายครั้งเดียว — ไม่ใช่ระบบสมาชิก ไม่มีการต่ออายุอัตโนมัติ จ่ายเมื่อคุณพร้อมจะส่งข้อความถึงผู้ช่วยโดยตรงเท่านั้น',
+    pricing_promo: 'ขณะนี้ฟรี 100% ในช่วงเปิดตัว — ไม่ต้องใช้บัตรเครดิต',
+    pricing_no_subscription: 'ไม่ใช่ระบบสมาชิก · ไม่มีการต่ออายุอัตโนมัติ · ยกเลิกได้โดยไม่ต้องต่ออายุ',
+    pricing_tier1_name: '1 เดือน',
+    pricing_tier1_price: '$9',
+    pricing_tier1_desc: 'สำหรับการจ้างครั้งเดียว',
+    pricing_tier3_name: '3 เดือน',
+    pricing_tier3_price: '$19',
+    pricing_tier3_desc: 'ยอดนิยม — เวลาสัมภาษณ์และทดลองงาน',
+    pricing_tier3_save: 'ประหยัด 30%',
+    pricing_tier3_badge: '⭐ คุ้มที่สุด',
+    pricing_tier12_name: '12 เดือน',
+    pricing_tier12_price: '$49',
+    pricing_tier12_desc: 'สำหรับครัวเรือนที่จ้างหลายครั้งต่อปี',
+    pricing_tier12_save: 'ประหยัด 55%',
+    pricing_feat_browse: 'ดูโปรไฟล์ผู้ช่วยทั้งหมด',
+    pricing_feat_message: 'ส่งข้อความได้ไม่จำกัด',
+    pricing_feat_contact: 'ปลดล็อก WhatsApp และเบอร์โทร',
+    pricing_feat_favs: 'บันทึกผู้ช่วยที่ชอบ',
+    pricing_compare: 'เปรียบเทียบกับเอเจนซี่ทั่วไป: ค่านายหน้า 5,000–25,000 บาท + ค่าคอมมิชชั่น 1 เดือน',
+    pricing_full_link: 'ดูราคาเต็มและคำถามที่พบบ่อย →',
+    preview_label: 'ผู้ช่วยแนะนำ',
+    preview_view_all: 'ดูผู้ช่วยทั้งหมด →',
+    preview_label_old: 'ตัวอย่างโปรไฟล์',
+    preview_title: 'ผู้ช่วยจริงพร้อมเริ่มงาน',
+    preview_sub: 'ผู้ช่วยที่ลงทะเบียนล่าสุดในกรุงเทพ ภูเก็ต และเมืองอื่นๆ คลิกเพื่อดูรายละเอียดเพิ่มเติม',
     preview_badge: 'ตัวอย่าง',
     preview_exp: 'ปี ประสบการณ์',
     preview_locked: 'ติดต่อเมื่อเปิดตัว',
@@ -225,6 +340,10 @@ const T = {
     launch_title: 'เราเปิดตัวเมษายน 2026',
     launch_p: 'ThaiHelper เป็นแพลตฟอร์มใหม่ เรากำลังสร้างเครือข่ายพนักงานดูแลบ้านที่ผ่านการยืนยันที่ใหญ่ที่สุดในประเทศไทย',
     launch_stat1_n: '7', launch_stat1_l: 'หมวดหมู่', launch_stat2_n: '6+', launch_stat2_l: 'เมืองที่ครอบคลุม', launch_stat3_n: '$0', launch_stat3_l: 'ค่าลงทะเบียน',
+    faq_label: 'คำถามที่พบบ่อย',
+    faq_title: 'คำถามที่ครอบครัวมักถาม',
+    faq_sub: 'คำตอบสั้นๆ เกี่ยวกับราคา การยืนยันตัวตน และวิธีจ้างพนักงานในบ้านในประเทศไทย',
+    faq_more: 'ดูคำถามทั้งหมด →',
     cta_title: 'รู้จักผู้ช่วยดีๆ ไหม?',
     cta_sub: 'บอกพี่เลี้ยง แม่บ้าน หรือคนขับของคุณเกี่ยวกับ ThaiHelper พวกเขาสามารถลงทะเบียนฟรี',
     cta_btn: 'แชร์กับผู้ช่วย',
@@ -247,13 +366,13 @@ const EMPLOYER_TRUST_SLIDES = [
   {
     id: 'no-facebook',
     title: 'No More Facebook Chaos',
-    description: 'Scrolling through Facebook groups, hoping to find someone reliable? No profile, no reviews, no verification. ThaiHelper gives you real profiles with verified IDs and ratings.',
+    description: 'Scrolling through Facebook groups, hoping to find someone reliable? Unstructured posts, fake leads, and spam. ThaiHelper gives you real, structured profiles with email-verified accounts.',
     image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&h=600&fit=crop',
   },
   {
-    id: 'verified',
-    title: 'Know Who You\'re Hiring',
-    description: 'Every helper on ThaiHelper verifies their ID. You see their experience, reviews from other families and skills — before you even say hello. No more guessing.',
+    id: 'structured-profiles',
+    title: 'Know Who You\'re Talking To',
+    description: 'Every helper on ThaiHelper has an email-verified profile with experience, skills, languages and photos — so you can shortlist before you even say hello.',
     image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop',
   },
   {
@@ -309,9 +428,95 @@ const PROFILES = [
   },
 ];
 
-export default function Employers() {
+// Fetch up to 6 "showcase-ready" helpers server-side: verified, with photo
+// and a non-empty bio, ordered newest first. We render these in the
+// Featured Helpers carousel so the employer landing shows real, live
+// people instead of stock images. If the fetch fails, we just render an
+// empty array — the section is hidden by the JSX guard below.
+export async function getServerSideProps() {
+  try {
+    const { getServiceSupabase } = await import('@/lib/supabase');
+    const { getDisplayAge } = await import('@/lib/age');
+    const supabase = getServiceSupabase();
+    // Pull a wider candidate pool, then score + curate down to the best 6.
+    // We don't want "newest 6" because newest can be incomplete profiles —
+    // we want the best foot forward on the employer landing.
+    const { data } = await supabase
+      .from('helper_profiles')
+      .select(
+        'helper_ref, first_name, last_name, age, date_of_birth, category, ' +
+        'skills, city, area, experience, languages, rate, ' +
+        'bio, bio_en, photo_url, created_at'
+      )
+      .or('status.eq.active,status.is.null')
+      .eq('email_verified', true)
+      .not('photo_url', 'is', null)
+      .not('bio', 'is', null)
+      .neq('category', 'multiple') // legacy bucket — refined helpers only
+      .limit(40);
+
+    const thaiOrForeignRe = /[\u0400-\u04FF\u0600-\u06FF\u0900-\u097F\u0980-\u09FF\u0B80-\u0BFF\u0E00-\u0E7F\u0E80-\u0EFF\u1000-\u109F\u1780-\u17FF\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\uAC00-\uD7AF]/;
+
+    const score = (row) => {
+      let s = 0;
+      if (row.bio && row.bio.length > 80) s += 3;
+      if (row.bio_en && row.bio_en.length > 40) s += 2; // we have an English version
+      // bio is already English (no foreign script, no need for bio_en)
+      if (row.bio && !thaiOrForeignRe.test(row.bio)) s += 2;
+      if (row.skills && row.skills.split(',').length >= 2) s += 2;
+      if (row.languages) s += 1;
+      if (row.rate) s += 1;
+      if (row.area) s += 1;
+      if (row.city && row.city !== 'other') s += 1;
+      if (row.category && !row.category.includes('multiple')) s += 1;
+      // Recency tie-breaker — newer profiles edged ahead when score ties.
+      s += (new Date(row.created_at).getTime() / 1e13);
+      return s;
+    };
+
+    const featuredHelpers = (data || [])
+      .map(row => ({ row, s: score(row) }))
+      .sort((a, b) => b.s - a.s)
+      .slice(0, 6)
+      .map(({ row }) => ({
+        ref: row.helper_ref,
+        firstName: row.first_name,
+        lastName: row.last_name ? row.last_name.charAt(0) + '.' : '',
+        age: getDisplayAge(row) || null,
+        category: row.category || '',
+        skills: row.skills || '',
+        city: row.city || '',
+        area: row.area || '',
+        experience: row.experience || '',
+        languages: row.languages || '',
+        rate: row.rate || '',
+        bio: row.bio || '',
+        bioEn: row.bio_en || '',
+        photo: row.photo_url || '',
+      }));
+
+    return { props: { featuredHelpers } };
+  } catch (err) {
+    console.error('Failed to fetch featured helpers:', err);
+    return { props: { featuredHelpers: [] } };
+  }
+}
+
+function getCategoryLabel(slugCsv, lang) {
+  if (!slugCsv) return '';
+  return String(slugCsv)
+    .split(/[,]+/).map(s => s.trim()).filter(Boolean)
+    .map(slug => {
+      const cat = CATEGORIES.find(c => c.value === slug);
+      return cat ? (cat[lang] || cat.en) : slug;
+    })
+    .join(' · ');
+}
+
+export default function Employers({ featuredHelpers = [] }) {
   const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
+  const [viewingHelper, setViewingHelper] = useState(null);
 
   return (
     <>
@@ -324,6 +529,7 @@ export default function Employers() {
           getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'For Families', path: '/employers' }]),
           getServiceSchema(),
           getSpeakableSchema('/employers'),
+          getFAQSchema(EMPLOYER_FAQS.en),
         ]}
       />
 
@@ -481,43 +687,126 @@ export default function Employers() {
             </div>
           </section>
 
-          {/* PROFILE PREVIEW — uses the shared <HelperCard> so the
-              employer landing matches the helper landing and /helpers. */}
-          <section className="py-16 md:py-24 px-6 bg-surface-container-low">
+          {/* PRICING — three one-time-payment tiers. Promo banner on top,
+              "no subscription" hammered in the subline + footnote so the
+              page reads as transparent rather than a trial trap. */}
+          <section className="py-16 md:py-24 px-6">
             <div className="max-w-7xl mx-auto">
               <div className="text-center mb-12">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2 block">{t.preview_label}</span>
-                <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-background mb-4">{t.preview_title}</h2>
-                <p className="text-on-surface-variant max-w-2xl mx-auto">{t.preview_sub}</p>
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2 block">{t.pricing_label}</span>
+                <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-background mb-4">{t.pricing_title}</h2>
+                <p className="text-on-surface-variant max-w-2xl mx-auto mb-4">{t.pricing_sub}</p>
+                <div className="inline-block bg-[#006a62]/10 text-[#006a62] text-sm font-bold px-4 py-2 rounded-full">
+                  🎉 {t.pricing_promo}
+                </div>
               </div>
-              <div className="flex flex-col gap-4 max-w-4xl mx-auto">
-                {PROFILES.map((p, i) => (
-                  <HelperCard
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                {[
+                  { name: t.pricing_tier1_name,  price: t.pricing_tier1_price,  desc: t.pricing_tier1_desc, badge: null,             save: null },
+                  { name: t.pricing_tier3_name,  price: t.pricing_tier3_price,  desc: t.pricing_tier3_desc, badge: t.pricing_tier3_badge, save: t.pricing_tier3_save, highlight: true },
+                  { name: t.pricing_tier12_name, price: t.pricing_tier12_price, desc: t.pricing_tier12_desc, badge: null,            save: t.pricing_tier12_save },
+                ].map((tier, i) => (
+                  <div
                     key={i}
-                    mode="preview"
-                    helper={{
-                      photo: p.photo,
-                      name: p.name,
-                      age: p.age,
-                      verified: p.verified,
-                      categoryLabel: p[`category_${lang}`] || p.category_en,
-                      city: p.city,
-                      area: p.area,
-                      bio: p[`bio_${lang}`] || p.bio_en,
-                      experience: p.experience,
-                      languages: p.languages,
-                    }}
-                    t={{
-                      card_exp: t.preview_exp,
-                      card_verified: (t.preview_badge || '').replace(/^✓\s*/, ''),
-                      card_preview_note: t.preview_locked,
-                    }}
-                  />
+                    className={`rounded-2xl p-6 border-2 ${tier.highlight ? 'border-[#006a62] bg-white shadow-lg scale-[1.02]' : 'border-gray-200 bg-white'}`}
+                  >
+                    {tier.badge && (
+                      <div className="inline-block bg-[#006a62] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">{tier.badge}</div>
+                    )}
+                    <h3 className="text-lg font-bold text-on-background">{tier.name}</h3>
+                    <div className="flex items-baseline gap-2 my-3">
+                      <span className="text-4xl font-extrabold text-on-background">{tier.price}</span>
+                      {tier.save && <span className="text-sm font-bold text-[#F4A261]">{tier.save}</span>}
+                    </div>
+                    <p className="text-sm text-on-surface-variant mb-5">{tier.desc}</p>
+                    <ul className="space-y-2 text-sm text-on-surface-variant">
+                      <li>✓ {t.pricing_feat_browse}</li>
+                      <li>✓ {t.pricing_feat_message}</li>
+                      <li>✓ {t.pricing_feat_contact}</li>
+                      <li>✓ {t.pricing_feat_favs}</li>
+                    </ul>
+                  </div>
                 ))}
               </div>
-              <p className="text-center text-sm text-on-surface-variant mt-8">🔒 {t.preview_note}</p>
+
+              <div className="text-center mt-8 space-y-3">
+                <p className="text-sm font-semibold text-[#006a62]">
+                  ✓ {t.pricing_no_subscription}
+                </p>
+                <p className="text-xs text-on-surface-variant max-w-2xl mx-auto">
+                  {t.pricing_compare}
+                </p>
+                <Link href="/pricing" className="inline-block text-sm font-semibold text-[#006a62] hover:underline">
+                  {t.pricing_full_link}
+                </Link>
+              </div>
             </div>
           </section>
+
+          {/* FEATURED HELPERS — real, recently registered helpers fetched
+              server-side. Each card opens the full HelperProfileModal so
+              employers can read bio + skills before signing up. We keep
+              the static PROFILES fallback for the very first launch days
+              when there might not be enough verified+photo helpers yet. */}
+          {(featuredHelpers.length > 0 ? featuredHelpers : null) && featuredHelpers.length > 0 && (
+            <section className="py-16 md:py-24 px-6 bg-surface-container-low">
+              <div className="max-w-7xl mx-auto">
+                <div className="text-center mb-12">
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2 block">{t.preview_label}</span>
+                  <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-background mb-4">{t.preview_title}</h2>
+                  <p className="text-on-surface-variant max-w-2xl mx-auto">{t.preview_sub}</p>
+                </div>
+                {/* Vertical stack of full-width cards — same shape as the
+                    /helpers browse, so visitors get a consistent feel
+                    when they jump from the landing to the full list. */}
+                <div className="flex flex-col gap-4 max-w-4xl mx-auto">
+                  {featuredHelpers.slice(0, 4).map((h) => (
+                    <HelperCard
+                      key={h.ref}
+                      helper={{
+                        ...h,
+                        verified: true,
+                        categoryLabel: getCategoryLabel(h.category, lang),
+                      }}
+                      t={{
+                        card_exp: t.preview_exp || 'yrs experience',
+                        card_verified: 'Verified',
+                        card_signin: 'Sign in to message',
+                        card_signin_btn: 'Login / Register',
+                      }}
+                      onViewProfile={setViewingHelper}
+                    />
+                  ))}
+                </div>
+                <div className="text-center mt-8">
+                  <Link href="/helpers" className="inline-block text-sm font-semibold text-[#006a62] hover:underline">
+                    {t.preview_view_all}
+                  </Link>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {/* Helper detail modal — opens when a featured card is clicked.
+              Footer CTA pushes anonymous visitors to register before they
+              can message. */}
+          {viewingHelper && (
+            <HelperProfileModal
+              helper={viewingHelper}
+              onClose={() => setViewingHelper(null)}
+              t={{ profile_about: 'About', profile_skills: 'Skills' }}
+              lang={lang}
+              footerCta={
+                <Link
+                  href="/employer-signup"
+                  className="block w-full text-center px-4 py-3 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
+                >
+                  🔒 Register to message {viewingHelper.firstName}
+                </Link>
+              }
+            />
+          )}
 
           {/* CALL TO ACTION — links to dedicated registration page */}
           <section id="register" className="py-16 md:py-24 px-6">
@@ -558,6 +847,44 @@ export default function Employers() {
                     {t.cta_card_login}
                   </Link>
                 </p>
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ — visible content paired with FAQPage JSON-LD for AI search citation */}
+          <section className="py-16 md:py-24 px-6 bg-surface-variant/30">
+            <div className="max-w-3xl mx-auto">
+              <div className="text-center mb-12">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-3 block">{t.faq_label}</span>
+                <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-background mb-4">{t.faq_title}</h2>
+                <p className="text-on-surface-variant text-base md:text-lg">{t.faq_sub}</p>
+              </div>
+
+              <div className="space-y-4">
+                {(EMPLOYER_FAQS[lang] || EMPLOYER_FAQS.en).map((faq, i) => (
+                  <details
+                    key={i}
+                    className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-primary/30 transition-colors"
+                  >
+                    <summary className="flex items-center justify-between gap-4 p-5 md:p-6 cursor-pointer list-none">
+                      <h3 className="font-bold text-on-background text-base md:text-lg leading-snug">{faq.question}</h3>
+                      <span className="shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-open:bg-primary group-open:text-white transition-all">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-open:rotate-180 transition-transform">
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div className="px-5 md:px-6 pb-5 md:pb-6 -mt-1 text-on-surface-variant text-sm md:text-base leading-relaxed">
+                      {faq.answer}
+                    </div>
+                  </details>
+                ))}
+              </div>
+
+              <div className="text-center mt-10">
+                <Link href="/faq" className="text-primary font-semibold hover:underline">
+                  {t.faq_more}
+                </Link>
               </div>
             </div>
           </section>

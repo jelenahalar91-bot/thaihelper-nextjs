@@ -109,11 +109,11 @@ export function getOrganizationSchema() {
       '@type': 'Country',
       name: 'Thailand',
     },
-    knowsLanguage: ['en', 'th', 'ru'],
+    knowsLanguage: ['en', 'th'],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
-      availableLanguage: ['English', 'Thai', 'Russian'],
+      availableLanguage: ['English', 'Thai'],
       url: `${SITE_URL}/about`,
     },
     sameAs: [

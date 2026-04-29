@@ -31,7 +31,7 @@ export const blogPosts = [
       <ul>
         <li><strong>บอกต่อปากต่อปาก</strong> — ถามเพื่อนบ้าน เพื่อนร่วมงาน หรือนิติบุคคลคอนโดของคุณ นี่คือวิธีที่ครอบครัวไทยหลายครอบครัวใช้ แต่ตัวเลือกจะมีจำกัด</li>
         <li><strong>กลุ่ม Facebook</strong> — กลุ่มชาวต่างชาติใน Bangkok, Phuket และ Chiang Mai มีโพสต์ตลอดเวลา ข้อเสียคือ ไม่มีการตรวจสอบ ไม่มีโปรไฟล์ และมีสแปมเยอะ</li>
-        <li><strong>แพลตฟอร์มออนไลน์อย่าง ThaiHelper</strong> — เลือกดูโปรไฟล์ที่ผ่านการยืนยันตัวตน พร้อมข้อมูลประสบการณ์ ทักษะ ภาษา รีวิว และรูปถ่าย ติดต่อผู้ช่วยได้โดยตรง ไม่มีค่านายหน้า</li>
+        <li><strong>แพลตฟอร์มออนไลน์อย่าง ThaiHelper</strong> — เลือกดูโปรไฟล์ที่ยืนยันอีเมล พร้อมข้อมูลประสบการณ์ ทักษะ ภาษา และรูปถ่าย ติดต่อผู้ช่วยได้โดยตรง ไม่มีค่านายหน้า</li>
       </ul>
 
       <h2>จ้างแม่บ้านในประเทศไทยราคาเท่าไหร่?</h2>
@@ -79,7 +79,7 @@ export const blogPosts = [
       <ul>
         <li><strong>Word of mouth</strong> — Ask neighbors, colleagues, or your condo management. This is how many Thai families hire, but it limits your options.</li>
         <li><strong>Facebook groups</strong> — Expat groups in Bangkok, Phuket, and Chiang Mai have constant posts. The downside: no verification, no profiles, and lots of spam.</li>
-        <li><strong>Online platforms like ThaiHelper</strong> — Browse verified profiles with experience, skills, languages, reviews and photos. Contact helpers directly — no middleman fees.</li>
+        <li><strong>Online platforms like ThaiHelper</strong> — Browse email-verified profiles with experience, skills, languages and photos. Contact helpers directly — no middleman fees.</li>
       </ul>
 
       <h2>How Much Does a Maid Cost in Thailand?</h2>
@@ -273,16 +273,14 @@ export const blogPosts = [
         <li>ไม่มีการตรวจสอบ — ใครก็โพสต์ได้</li>
         <li>ไม่มีโปรไฟล์ที่เป็นระบบ</li>
         <li>ได้การตอบรับมากเกินไปหรือไม่มีเลย</li>
-        <li>ไม่มีรีวิวหรือคะแนน</li>
         <li>เปรียบเทียบผู้สมัครได้ยาก</li>
       </ul>
 
       <h2>แนวทางแพลตฟอร์ม: รวมข้อดีทั้งสองฝ่าย</h2>
       <p>แพลตฟอร์มออนไลน์อย่าง <strong>ThaiHelper</strong> ผสมผสานความปลอดภัยของเอเจนซี่เข้ากับความคุ้มค่าของการจ้างตรง:</p>
       <ul>
-        <li><strong>โปรไฟล์ผ่านการยืนยัน</strong> — ผู้ช่วยที่ตรวจสอบบัตรประชาชนแล้ว พร้อมรายละเอียดประสบการณ์ ทักษะ และรูปถ่าย</li>
+        <li><strong>โปรไฟล์ที่ยืนยันอีเมล</strong> — ผู้ช่วยทุกคนยืนยันที่อยู่อีเมลก่อนโปรไฟล์จะเปิดให้ดู พร้อมรายละเอียดประสบการณ์ ทักษะ และรูปถ่าย</li>
         <li><strong>ไม่มีค่าจัดหา</strong> — เลือกดูฟรี ติดต่อได้โดยตรง</li>
-        <li><strong>รีวิวและคะแนน</strong> — ดูความคิดเห็นจากครอบครัวอื่นๆ</li>
         <li><strong>ผู้สมัครจำนวนมาก</strong> — เปรียบเทียบผู้สมัครหลายสิบคนในเมืองของคุณ</li>
         <li><strong>สื่อสารโดยตรง</strong> — พูดคุยกับผู้ช่วยด้วยตัวเอง ตกลงเงื่อนไขโดยไม่ต้องผ่านคนกลาง</li>
       </ul>
@@ -328,16 +326,14 @@ export const blogPosts = [
         <li>No verification — anyone can post</li>
         <li>No structured profiles</li>
         <li>Overwhelming number of responses or none at all</li>
-        <li>No reviews or ratings</li>
         <li>Hard to compare candidates</li>
       </ul>
 
       <h2>The Platform Approach: Best of Both Worlds</h2>
       <p>Online platforms like <strong>ThaiHelper</strong> combine the safety of agencies with the affordability of direct hiring:</p>
       <ul>
-        <li><strong>Verified profiles</strong> — ID-checked helpers with detailed experience, skills, and photos</li>
+        <li><strong>Email-verified profiles</strong> — every helper confirms their email before going live, with detailed experience, skills, and photos</li>
         <li><strong>No placement fee</strong> — Browse for free, contact directly</li>
-        <li><strong>Reviews and ratings</strong> — See what other families say</li>
         <li><strong>Large pool</strong> — Compare dozens of candidates in your city</li>
         <li><strong>Direct communication</strong> — Talk to the helper yourself, agree on terms without a middleman</li>
       </ul>
@@ -735,7 +731,7 @@ export const blogPosts = [
       </ol>
 
       <h2>Protect Yourself</h2>
-      <p>The best protection is working with verified, serious employers. On <a href="/">ThaiHelper</a>, only registered and verified families can contact you. <a href="/register">Create your free profile</a> and work with families who respect your rights.</p>
+      <p>The best protection is choosing your employer carefully. On <a href="/">ThaiHelper</a>, only registered families with email-verified accounts can contact you, so messages don\'t come from random strangers. <a href="/register">Create your free profile</a> and pick the families you want to work with.</p>
     `,
     content_th: `
       <p>การทำงานเป็นผู้ช่วยในครัวเรือนในประเทศไทยเป็นงานที่ดี — แต่สิ่งสำคัญคือต้อง<strong>รู้สิทธิของคุณ</strong> ตั้งแต่ปี 2555 <strong>กฎกระทรวงฉบับที่ 14 (พ.ศ. 2555)</strong> ได้ขยายความคุ้มครองแรงงานที่สำคัญไปยังแรงงานในบ้านโดยเฉพาะ นี่คือสิทธิที่คุณได้รับตามกฎหมาย</p>
@@ -911,7 +907,7 @@ export const blogPosts = [
         <li><strong>Private cook:</strong> 15,000 – 22,000 THB/month</li>
         <li><strong>Driver:</strong> 15,000 – 20,000 THB/month</li>
       </ul>
-      <p>Bangkok and Phuket pay more. English-speaking helpers earn 20-40% above average. Experience and verified reviews also increase your value.</p>
+      <p>Bangkok and Phuket pay more. English-speaking helpers earn 20-40% above average. Experience and strong references from previous families also increase your value.</p>
 
       <h2>When to Negotiate</h2>
       <ul>
@@ -938,7 +934,7 @@ export const blogPosts = [
       </ul>
 
       <h2>Your Profile = Your Leverage</h2>
-      <p>Families pay more for helpers with strong profiles, good reviews, and verified experience. The better your <a href="/register">ThaiHelper profile</a>, the more bargaining power you have. Invest time in your profile — it pays off literally.</p>
+      <p>Families pay more for helpers with detailed profiles, strong references from previous employers, and clear evidence of experience. The better your <a href="/register">ThaiHelper profile</a> (photo, full work history, skills, languages), the more bargaining power you have. Invest time in your profile — it pays off literally.</p>
     `,
     content_th: `
       <p>ผู้ช่วยหลายคนในไทยรับข้อเสนอแรกโดยไม่เจรจา แต่การรู้<strong>วิธีพูดเรื่องเงิน</strong>อาจหมายถึงเงินเดือนที่มากขึ้นหลายพันบาทต่อเดือน — และความสัมพันธ์ในการทำงานที่ดีขึ้น</p>
@@ -951,7 +947,7 @@ export const blogPosts = [
         <li><strong>พ่อครัว/แม่ครัวส่วนตัว:</strong> 15,000 – 22,000 บาท/เดือน</li>
         <li><strong>คนขับรถ:</strong> 15,000 – 20,000 บาท/เดือน</li>
       </ul>
-      <p>กรุงเทพฯ และภูเก็ตจ่ายมากกว่า ผู้ช่วยที่พูดภาษาอังกฤษได้รับเงินเดือนสูงกว่าค่าเฉลี่ย 20-40% ประสบการณ์และรีวิวที่ยืนยันแล้วก็เพิ่มมูลค่าของคุณด้วย</p>
+      <p>กรุงเทพฯ และภูเก็ตจ่ายมากกว่า ผู้ช่วยที่พูดภาษาอังกฤษได้รับเงินเดือนสูงกว่าค่าเฉลี่ย 20-40% ประสบการณ์และคำแนะนำจากครอบครัวก่อนหน้าก็เพิ่มมูลค่าของคุณด้วย</p>
 
       <h2>เมื่อไหร่ควรเจรจา</h2>
       <ul>
@@ -987,21 +983,21 @@ export const blogPosts = [
     title: 'How to Build Your Reputation and Get More Jobs in Thailand',
     title_th: 'วิธีสร้างชื่อเสียงและรับงานมากขึ้นในประเทศไทย',
     description:
-      'Grow your career as a domestic helper in Thailand. Learn how to earn great reviews, build trust with families, and get more job offers through your reputation.',
+      'Grow your career as a domestic helper in Thailand. Learn how to build trust with families, earn strong references, and get more job offers through your reputation.',
     description_th:
-      'เติบโตในอาชีพผู้ช่วยในครัวเรือนในไทย เรียนรู้วิธีได้รีวิวดี สร้างความไว้วางใจกับครอบครัว และรับข้อเสนองานมากขึ้นผ่านชื่อเสียง',
+      'เติบโตในอาชีพผู้ช่วยในครัวเรือนในไทย เรียนรู้วิธีสร้างความไว้วางใจกับครอบครัว ได้รับการแนะนำที่ดี และรับข้อเสนองานมากขึ้นผ่านชื่อเสียง',
     category: 'helpers',
     date: '2026-03-20',
     readTime: 6,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80',
-    keywords: 'build reputation helper Thailand, get more jobs helper, domestic worker career, helper reviews Thailand, grow career household staff',
-    keywords_th: 'สร้างชื่อเสียงผู้ช่วย, รับงานมากขึ้น, อาชีพแม่บ้าน, รีวิวผู้ช่วยไทย, เติบโตในอาชีพ',
+    keywords: 'build reputation helper Thailand, get more jobs helper, domestic worker career, helper references Thailand, grow career household staff',
+    keywords_th: 'สร้างชื่อเสียงผู้ช่วย, รับงานมากขึ้น, อาชีพแม่บ้าน, การแนะนำผู้ช่วยไทย, เติบโตในอาชีพ',
     content: `
-      <p>In Thailand's household help market, <strong>reputation is everything</strong>. Families talk to each other. Reviews spread. A strong reputation means more offers, better pay, and the ability to choose the families you want to work for.</p>
+      <p>In Thailand's household help market, <strong>reputation is everything</strong>. Families talk to each other. Recommendations spread. A strong reputation means more offers, better pay, and the ability to choose the families you want to work for.</p>
 
       <h2>Why Reputation Matters More Than Ever</h2>
-      <p>In the old days, helpers relied on word of mouth within a small neighborhood. Today, platforms like ThaiHelper let families see your <strong>reviews, ratings, and verified experience</strong> before they even contact you. Your online reputation works for you 24/7.</p>
+      <p>Helpers have always relied on word of mouth — a happy family becomes your best advertisement, telling friends and neighbors. Today, platforms like ThaiHelper let you build a <strong>structured profile with your experience, skills and photos</strong>, so the next family can find you before they ever start asking around. Your online presence works for you 24/7.</p>
 
       <h2>7 Ways to Build a Great Reputation</h2>
 
@@ -1009,13 +1005,13 @@ export const blogPosts = [
       <p>Nothing destroys trust faster than being late or not showing up. If you say you'll be there at 8am, be there at 7:55. If you're sick, communicate early. Reliability is the foundation.</p>
 
       <h3>2. Go Above and Beyond (Sometimes)</h3>
-      <p>You don't need to overwork yourself, but small extras make a big impression: folding the laundry a little neater, surprising the kids with their favorite snack, or noticing that the plants need water. These moments get remembered — and mentioned in reviews.</p>
+      <p>You don't need to overwork yourself, but small extras make a big impression: folding the laundry a little neater, surprising the kids with their favorite snack, or noticing that the plants need water. These moments get remembered — and mentioned when families recommend you to their friends.</p>
 
       <h3>3. Communicate Proactively</h3>
       <p>Don't wait for families to ask. Tell them about the child's day, if you noticed anything unusual, or if supplies are running low. Families appreciate helpers who communicate without being prompted.</p>
 
-      <h3>4. Ask for Reviews</h3>
-      <p>After a job ends well (or even during a long-term position), politely ask: <em>"Would you mind leaving a review on my ThaiHelper profile? It helps me find more work."</em> Most families are happy to help — they just need the nudge.</p>
+      <h3>4. Ask Families to Recommend You</h3>
+      <p>After a job ends well (or during a long-term position), politely ask: <em>"If you know any family looking for help, would you mind passing along my name?"</em> Most families are happy to help — they just need the nudge. In Thailand, word of mouth between expats and Thai families travels fast.</p>
 
       <h3>5. Keep Learning</h3>
       <p>Take a free first aid course online. Watch cooking tutorials. Practice your English. Every new skill makes you more valuable and shows families you're invested in your career.</p>
@@ -1027,16 +1023,16 @@ export const blogPosts = [
       <p>Things go wrong sometimes — you break a glass, the child gets a scrape, you misunderstand an instruction. How you handle mistakes matters more than the mistake itself. Be honest, apologize, and fix it. Families respect integrity.</p>
 
       <h2>The Compound Effect</h2>
-      <p>Every positive review, every family that recommends you, every skill you add — it all compounds. After 6-12 months of building your reputation, you'll find that families come to <em>you</em> instead of the other way around.</p>
+      <p>Every family that recommends you, every skill you add, every reliable shift — it all compounds. After 6-12 months of building your reputation, you'll find that families come to <em>you</em> instead of the other way around.</p>
 
       <h2>Start Building Your Reputation Today</h2>
       <p><a href="/register">Create your free ThaiHelper profile</a> and start your journey. Your next great family is already searching for someone exactly like you.</p>
     `,
     content_th: `
-      <p>ในตลาดผู้ช่วยในครัวเรือนของไทย <strong>ชื่อเสียงคือทุกอย่าง</strong> ครอบครัวพูดคุยกัน รีวิวแพร่กระจาย ชื่อเสียงที่ดีหมายถึงข้อเสนอมากขึ้น ค่าจ้างดีขึ้น และสามารถเลือกครอบครัวที่อยากทำงานด้วยได้</p>
+      <p>ในตลาดผู้ช่วยในครัวเรือนของไทย <strong>ชื่อเสียงคือทุกอย่าง</strong> ครอบครัวพูดคุยกัน คำแนะนำแพร่กระจาย ชื่อเสียงที่ดีหมายถึงข้อเสนอมากขึ้น ค่าจ้างดีขึ้น และสามารถเลือกครอบครัวที่อยากทำงานด้วยได้</p>
 
       <h2>ทำไมชื่อเสียงถึงสำคัญมากกว่าเดิม</h2>
-      <p>สมัยก่อน ผู้ช่วยอาศัยการบอกปากต่อปากในละแวกบ้านเล็กๆ ปัจจุบัน แพลตฟอร์มอย่าง ThaiHelper ให้ครอบครัวเห็น<strong>รีวิว คะแนน และประสบการณ์ที่ยืนยันแล้ว</strong>ก่อนที่จะติดต่อคุณด้วยซ้ำ ชื่อเสียงออนไลน์ทำงานให้คุณตลอด 24 ชั่วโมง</p>
+      <p>ผู้ช่วยอาศัยการบอกปากต่อปากมาตลอด — ครอบครัวที่พอใจคือโฆษณาที่ดีที่สุดของคุณ บอกต่อเพื่อนและเพื่อนบ้าน ปัจจุบันแพลตฟอร์มอย่าง ThaiHelper ให้คุณสร้าง<strong>โปรไฟล์ที่มีโครงสร้างพร้อมประสบการณ์ ทักษะ และรูปถ่าย</strong> ครอบครัวถัดไปจึงค้นพบคุณได้ก่อนที่จะเริ่มถามใคร โปรไฟล์ออนไลน์ของคุณทำงานให้ตลอด 24 ชั่วโมง</p>
 
       <h2>7 วิธีสร้างชื่อเสียงที่ดี</h2>
 
@@ -1044,13 +1040,13 @@ export const blogPosts = [
       <p>ไม่มีอะไรทำลายความไว้วางใจเร็วเท่ากับมาสายหรือไม่มา ถ้าบอกว่าจะมา 8 โมง ให้มาตอน 7:55 ถ้าป่วย ให้แจ้งแต่เช้า ความน่าเชื่อถือคือรากฐาน</p>
 
       <h3>2. ทำเกินความคาดหมาย (บางครั้ง)</h3>
-      <p>คุณไม่จำเป็นต้องทำงานหนักเกิน แต่สิ่งเล็กๆ น้อยๆ สร้างความประทับใจ: พับผ้าเรียบร้อยกว่าปกติ เซอร์ไพรส์เด็กๆ ด้วยขนมที่ชอบ หรือสังเกตว่าต้นไม้ต้องรดน้ำ สิ่งเหล่านี้ถูกจดจำ — และถูกพูดถึงในรีวิว</p>
+      <p>คุณไม่จำเป็นต้องทำงานหนักเกิน แต่สิ่งเล็กๆ น้อยๆ สร้างความประทับใจ: พับผ้าเรียบร้อยกว่าปกติ เซอร์ไพรส์เด็กๆ ด้วยขนมที่ชอบ หรือสังเกตว่าต้นไม้ต้องรดน้ำ สิ่งเหล่านี้ถูกจดจำ — และถูกพูดถึงเมื่อครอบครัวแนะนำคุณให้เพื่อน</p>
 
       <h3>3. สื่อสารเชิงรุก</h3>
       <p>อย่ารอให้ครอบครัวถาม บอกพวกเขาเรื่องวันของลูก ถ้าสังเกตเห็นสิ่งผิดปกติ หรือถ้าของใช้ใกล้หมด ครอบครัวชื่นชมผู้ช่วยที่สื่อสารโดยไม่ต้องถูกถาม</p>
 
-      <h3>4. ขอรีวิว</h3>
-      <p>หลังจากงานจบด้วยดี (หรือแม้ระหว่างทำงานระยะยาว) ขอสุภาพๆ ว่า: <em>"รบกวนช่วยเขียนรีวิวในโปรไฟล์ ThaiHelper ของฉันได้ไหมคะ? มันช่วยให้ฉันหางานได้มากขึ้น"</em> ครอบครัวส่วนใหญ่ยินดีช่วย — แค่ต้องบอก</p>
+      <h3>4. ขอให้ครอบครัวแนะนำคุณ</h3>
+      <p>หลังจากงานจบด้วยดี (หรือระหว่างทำงานระยะยาว) ขอสุภาพๆ ว่า: <em>"ถ้ารู้จักครอบครัวที่กำลังหาผู้ช่วย รบกวนแนะนำชื่อฉันได้ไหมคะ?"</em> ครอบครัวส่วนใหญ่ยินดีช่วย — แค่ต้องบอก ในประเทศไทย การบอกต่อระหว่างชาวต่างชาติและครอบครัวไทยแพร่กระจายเร็ว</p>
 
       <h3>5. เรียนรู้อยู่เสมอ</h3>
       <p>เรียนปฐมพยาบาลออนไลน์ฟรี ดูวิดีโอสอนทำอาหาร ฝึกภาษาอังกฤษ ทุกทักษะใหม่ทำให้คุณมีคุณค่ามากขึ้น และแสดงให้ครอบครัวเห็นว่าคุณจริงจังกับอาชีพ</p>
@@ -1062,7 +1058,7 @@ export const blogPosts = [
       <p>บางทีสิ่งผิดพลาดเกิดขึ้น — แก้วแตก เด็กมีรอยขีดข่วน เข้าใจคำสั่งผิด วิธีจัดการข้อผิดพลาดสำคัญกว่าข้อผิดพลาดนั้นเอง ซื่อสัตย์ ขอโทษ และแก้ไข ครอบครัวเคารพความซื่อสัตย์</p>
 
       <h2>ผลสะสม</h2>
-      <p>ทุกรีวิวดี ทุกครอบครัวที่แนะนำคุณ ทุกทักษะที่เพิ่ม — ทั้งหมดสะสมกัน หลังจาก 6-12 เดือนของการสร้างชื่อเสียง คุณจะพบว่าครอบครัวมาหา<em>คุณ</em>แทนที่จะเป็นทางตรงกันข้าม</p>
+      <p>ทุกครอบครัวที่แนะนำคุณ ทุกทักษะที่เพิ่ม ทุกกะที่น่าเชื่อถือ — ทั้งหมดสะสมกัน หลังจาก 6-12 เดือนของการสร้างชื่อเสียง คุณจะพบว่าครอบครัวมาหา<em>คุณ</em>แทนที่จะเป็นทางตรงกันข้าม</p>
 
       <h2>เริ่มสร้างชื่อเสียงของคุณวันนี้</h2>
       <p><a href="/register">สร้างโปรไฟล์ ThaiHelper ฟรี</a> และเริ่มต้นเส้นทางของคุณ ครอบครัวที่ดีถัดไปกำลังค้นหาคนที่เหมือนคุณอยู่แล้ว</p>
@@ -1616,7 +1612,7 @@ export const blogPosts = [
       <ul>
         <li><strong>ค่าใช้จ่ายสำหรับผู้ช่วย:</strong> ฟรีตลอดไป</li>
         <li><strong>ค่าใช้จ่ายสำหรับครอบครัว:</strong> ทดลองใช้ฟรี + แพ็กเกจที่ย่อมเยา</li>
-        <li><strong>โปรไฟล์ที่ผ่านการยืนยัน:</strong> ใช่ (ตรวจสอบบัตรประชาชน)</li>
+        <li><strong>การยืนยันโปรไฟล์:</strong> ยืนยันอีเมล (ไม่มีการตรวจสอบบัตรประชาชนหรือประวัติ)</li>
         <li><strong>การติดต่อโดยตรง:</strong> ใช่ — ส่งข้อความหาผู้ช่วยได้เลย</li>
         <li><strong>ข้อมูลโปรไฟล์:</strong> ครบถ้วน — ประสบการณ์ ทักษะ ภาษา รูปถ่าย</li>
         <li><strong>ข้อดี:</strong> ไม่มีค่านายหน้า ข้อมูลเชิงโครงสร้าง กรองตามเมืองและบริการ</li>
@@ -1652,10 +1648,10 @@ export const blogPosts = [
       <ul>
         <li><strong>Cost for helpers:</strong> 100% free — forever. No sign-up fees, no commission.</li>
         <li><strong>Cost for families:</strong> Free trial + affordable access plans to contact helpers.</li>
-        <li><strong>Verified profiles:</strong> Yes — ID-checked helpers with structured profiles.</li>
+        <li><strong>Profile verification:</strong> Email verification only — ThaiHelper does NOT perform ID checks or background checks. You interview and reference-check helpers yourself.</li>
         <li><strong>Direct communication:</strong> Yes — message helpers directly, no middleman.</li>
         <li><strong>Profile information:</strong> Comprehensive — experience, skills, languages, photos, city, availability.</li>
-        <li><strong>Languages:</strong> Platform available in English, Thai, and Russian.</li>
+        <li><strong>Languages:</strong> Interface available in English and Thai.</li>
         <li><strong>Cities:</strong> All Thailand — <a href="/hire/bangkok">Bangkok</a>, <a href="/hire/chiang-mai">Chiang Mai</a>, <a href="/hire/phuket">Phuket</a>, <a href="/hire/pattaya">Pattaya</a>, <a href="/hire/koh-samui">Koh Samui</a>, <a href="/hire/hua-hin">Hua Hin</a>.</li>
       </ul>
       <p><strong>Best for:</strong> Families who want to browse verified profiles, compare options, and connect directly — without paying agency fees.</p>
@@ -1760,7 +1756,7 @@ export const blogPosts = [
       <ol>
         <li><strong>ตั้งราคาเป็นรายชั่วโมง</strong> ไม่ใช่รายเดือน — ทำให้คำนวณง่ายและโปร่งใส</li>
         <li><strong>กำหนดขั้นต่ำ</strong> (เช่น 3 ชั่วโมงต่อครั้ง) — เพื่อให้คุ้มค่าการเดินทาง</li>
-        <li><strong>เก็บรีวิว</strong> จากทุกครอบครัวที่คุณทำงานให้ — เพิ่มโอกาสได้งานใหม่</li>
+        <li><strong>เก็บข้อมูลอ้างอิง</strong> จากทุกครอบครัวที่คุณทำงานให้ (ชื่อผู้ติดต่อและการอนุญาตให้แนะนำ) — สร้างความไว้วางใจกับครอบครัวใหม่ได้เร็วกว่าสิ่งใด</li>
         <li><strong>ระบุพื้นที่ที่รับงาน</strong> ให้ชัดเจน — ประหยัดเวลาเดินทาง</li>
       </ol>
 
@@ -1803,7 +1799,7 @@ export const blogPosts = [
       <ol>
         <li><strong>Charge hourly, not monthly</strong> — Keeps things clear and transparent.</li>
         <li><strong>Set a minimum</strong> (e.g., 3 hours per visit) — Makes travel time worthwhile.</li>
-        <li><strong>Collect reviews</strong> from every family you work with — Reviews build trust faster than anything else.</li>
+        <li><strong>Collect references</strong> from every family you work with (contact name + permission to be contacted) — References build trust with new families faster than anything else.</li>
         <li><strong>Clearly list your coverage areas</strong> — Save time on long commutes.</li>
         <li><strong>Keep records</strong> — Track hours, payments, and contact info for each family.</li>
       </ol>
