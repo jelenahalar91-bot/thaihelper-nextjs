@@ -7,6 +7,7 @@
 
 import { getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
+import { getDisplayAge } from '../../lib/age';
 
 export default async function handler(req, res) {
   const session = await getEmployerSession(req);
@@ -43,7 +44,7 @@ export default async function handler(req, res) {
     const { data: helpers } = await supabase
       .from('helper_profiles')
       .select(
-        'helper_ref, first_name, last_name, age, category, skills, city, area, ' +
+        'helper_ref, first_name, last_name, age, date_of_birth, category, skills, city, area, ' +
         'experience, languages, rate, bio, bio_en, photo_url, email_verified, status'
       )
       .in('helper_ref', refs)
@@ -59,7 +60,7 @@ export default async function handler(req, res) {
           ref: h.helper_ref,
           firstName: h.first_name,
           lastName: h.last_name ? h.last_name.charAt(0) + '.' : '',
-          age: h.age || null,
+          age: getDisplayAge(h) || null,
           category: h.category || '',
           skills: h.skills || '',
           city: h.city || '',

@@ -121,12 +121,8 @@ export default function EmployerProfileMenu({ profile, lang = 'en', current }) {
               active={current === 'profile'}
               onClick={() => { setOpen(false); router.push('/employer-profile'); }}
             />
-            <MenuItem
-              icon={<IconSettings />}
-              label={t.menu_settings}
-              active={current === 'settings'}
-              onClick={() => { setOpen(false); router.push('/employer-profile#settings'); }}
-            />
+            {/* Settings hidden until we have payment / notification toggles
+                worth showing — currently it just routed to /employer-profile. */}
 
             <div className="border-t border-gray-100 mt-1.5">
               <MenuItem

@@ -443,8 +443,13 @@ export default function EmployerDashboard() {
     // of whether the helper's stored `category` is a slug ("nanny") or a
     // display name ("Nanny & Babysitter"). filterCat is always a slug.
     if (filterCat) {
-      const helperSlug = categoryToSlug(h.category);
-      if (helperSlug !== filterCat) return false;
+      // Helpers can pick multiple categories now ("nanny, housekeeper");
+      // match if ANY of their slugs equals the selected filter.
+      const helperSlugs = String(h.category || '')
+        .split(/[,]+/)
+        .map(s => categoryToSlug(s.trim()))
+        .filter(Boolean);
+      if (!helperSlugs.includes(filterCat)) return false;
     }
     if (filterArea && !h.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
 
