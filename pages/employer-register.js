@@ -6,6 +6,8 @@ import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Turnstile from '@/components/Turnstile';
 import { employerSignup, uploadEmployerPhoto } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
+import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
+import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS } from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
 
 // Plain category labels for the multi-select (no emojis — we'll show clean chips)
@@ -58,6 +60,14 @@ const T = {
     area_ph: 'e.g. Sukhumvit, Rawai, Nimman…',
     section_needs: 'What are you looking for?',
     needs_hint: 'Select everything that applies',
+    section_tasks: 'Specific tasks',
+    tasks_hint: 'Tap the duties you actually need help with — this helps us match you with the right helpers.',
+    section_schedule: 'When do you need help?',
+    schedule_days_label: 'Days',
+    schedule_time_label: 'Time of day',
+    duration_label: 'How long',
+    section_kids: 'Children\u2019s ages',
+    kids_hint: 'Select all age groups your helper will work with.',
     job_label: 'Tell us about the job (optional)',
     job_ph: 'e.g. Looking for a nanny for our 2-year-old, 3 days a week. Must speak basic English.',
     job_hint: 'Phone numbers and emails will be automatically hidden for privacy.',
@@ -119,6 +129,14 @@ const T = {
     area_ph: 'เช่น สุขุมวิท, รวาย, นิมมาน…',
     section_needs: 'คุณกำลังหาอะไร?',
     needs_hint: 'เลือกทุกข้อที่เกี่ยวข้อง',
+    section_tasks: 'งานที่ต้องการ',
+    tasks_hint: 'แตะหน้าที่ที่คุณต้องการความช่วยเหลือจริงๆ — ช่วยให้เราจับคู่ผู้ช่วยที่เหมาะกับคุณ',
+    section_schedule: 'คุณต้องการเมื่อไหร่?',
+    schedule_days_label: 'วันที่ต้องการ',
+    schedule_time_label: 'ช่วงเวลา',
+    duration_label: 'ระยะเวลา',
+    section_kids: 'ช่วงอายุของเด็ก',
+    kids_hint: 'เลือกช่วงอายุของเด็กที่ผู้ช่วยจะดูแล',
     job_label: 'บอกเราเกี่ยวกับงาน (ไม่จำเป็น)',
     job_ph: 'เช่น ต้องการพี่เลี้ยงเด็กอายุ 2 ขวบ 3 วันต่อสัปดาห์',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนโดยอัตโนมัติเพื่อความเป็นส่วนตัว',
@@ -156,6 +174,11 @@ export default function EmployerRegisterPage() {
   const [city, setCity] = useState('');
   const [area, setArea] = useState('');
   const [lookingFor, setLookingFor] = useState([]);
+  const [neededSkills, setNeededSkills] = useState([]);
+  const [scheduleDays, setScheduleDays] = useState([]);
+  const [scheduleTime, setScheduleTime] = useState([]);
+  const [duration, setDuration] = useState('');
+  const [childAgeGroups, setChildAgeGroups] = useState([]);
   const [arrangementPreference, setArrangementPreference] = useState('');
   const [preferredAgeRange, setPreferredAgeRange] = useState('');
   const [jobDescription, setJobDescription] = useState('');
@@ -181,10 +204,39 @@ export default function EmployerRegisterPage() {
   const t = T[lang] || T.en;
 
   const toggleCategory = (value) => {
-    setLookingFor(prev =>
-      prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
-    );
+    setLookingFor(prev => {
+      const next = prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value];
+      // Drop skills that no longer belong to any selected category. Otherwise
+      // unticking "nanny" would leave "infant_care" in the saved profile,
+      // hidden from the chip UI.
+      const allowed = new Set(next.flatMap(c => (SKILLS_BY_CATEGORY[c] || []).map(s => s.value)));
+      setNeededSkills(curr => curr.filter(s => allowed.has(s)));
+      return next;
+    });
   };
+
+  const toggleInList = (setter) => (value) => {
+    setter(prev => prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]);
+  };
+  const toggleSkill      = toggleInList(setNeededSkills);
+  const toggleDay        = toggleInList(setScheduleDays);
+  const toggleTime       = toggleInList(setScheduleTime);
+  const toggleChildAge   = toggleInList(setChildAgeGroups);
+
+  // Skills shown — union of every selected category's skills, deduped on slug.
+  const skillOptions = (() => {
+    const seen = new Set();
+    const out = [];
+    for (const cat of lookingFor) {
+      for (const s of (SKILLS_BY_CATEGORY[cat] || [])) {
+        if (!seen.has(s.value)) { seen.add(s.value); out.push(s); }
+      }
+    }
+    return out;
+  })();
+
+  // Childcare-related categories drive the "Children's ages" section.
+  const showChildAges = lookingFor.some(c => c === 'nanny' || c === 'tutor');
 
   const handlePhoto = (e) => {
     const file = e.target.files[0];
@@ -219,6 +271,11 @@ export default function EmployerRegisterPage() {
         city,
         area: area.trim(),
         lookingFor,
+        neededSkills,
+        scheduleDays,
+        scheduleTime,
+        duration: duration || null,
+        childAgeGroups: showChildAges ? childAgeGroups : [],
         arrangementPreference: arrangementPreference || null,
         preferredAgeRange: preferredAgeRange || null,
         jobDescription: jobDescription.trim(),
@@ -469,6 +526,76 @@ export default function EmployerRegisterPage() {
                 })}
               </div>
 
+              {/* Section: Specific tasks — drawn from selected categories */}
+              {skillOptions.length > 0 && (
+                <>
+                  <SectionTitle>{t.section_tasks}</SectionTitle>
+                  <p style={{ fontSize: '14px', color: 'var(--gray-400)', marginTop: '-12px', marginBottom: '12px' }}>
+                    {t.tasks_hint}
+                  </p>
+                  <div style={{ marginBottom: '20px' }}>
+                    <ChipGroup
+                      options={skillOptions}
+                      selected={neededSkills}
+                      onToggle={toggleSkill}
+                      lang={lang}
+                    />
+                  </div>
+                </>
+              )}
+
+              {/* Section: Children's ages — only when childcare is selected */}
+              {showChildAges && (
+                <>
+                  <SectionTitle>{t.section_kids}</SectionTitle>
+                  <p style={{ fontSize: '14px', color: 'var(--gray-400)', marginTop: '-12px', marginBottom: '12px' }}>
+                    {t.kids_hint}
+                  </p>
+                  <div style={{ marginBottom: '20px' }}>
+                    <ChipGroup
+                      options={CHILD_AGE_GROUPS}
+                      selected={childAgeGroups}
+                      onToggle={toggleChildAge}
+                      lang={lang}
+                    />
+                  </div>
+                </>
+              )}
+
+              {/* Section: Schedule — days, time of day, duration */}
+              <SectionTitle>{t.section_schedule}</SectionTitle>
+
+              <div className="field">
+                <label>{t.schedule_days_label}</label>
+                <ChipGroup
+                  options={SCHEDULE_DAYS}
+                  selected={scheduleDays}
+                  onToggle={toggleDay}
+                  lang={lang}
+                />
+              </div>
+
+              <div className="field">
+                <label>{t.schedule_time_label}</label>
+                <ChipGroup
+                  options={SCHEDULE_TIMES}
+                  selected={scheduleTime}
+                  onToggle={toggleTime}
+                  lang={lang}
+                />
+              </div>
+
+              <div className="field">
+                <label>{t.duration_label}</label>
+                <ChipGroup
+                  options={DURATIONS}
+                  selected={duration}
+                  onToggle={(v) => setDuration(prev => prev === v ? '' : v)}
+                  lang={lang}
+                  single
+                />
+              </div>
+
               {/* Section: Preferences (arrangement + age) */}
               <SectionTitle>{t.section_preferences}</SectionTitle>
 
@@ -567,6 +694,40 @@ export default function EmployerRegisterPage() {
         </div>
       </div>
     </>
+  );
+}
+
+// Small reusable chip set. `selected` is either an array (multi) or a string
+// (single-select). When `single` is true the chip group is mutually exclusive.
+function ChipGroup({ options, selected, onToggle, lang, single = false }) {
+  const isOn = (val) => single ? selected === val : (Array.isArray(selected) && selected.includes(val));
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+      {options.map(opt => {
+        const on = isOn(opt.value);
+        const label = opt[lang] || opt.en || opt.label;
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => onToggle(opt.value)}
+            style={{
+              padding: '8px 14px',
+              borderRadius: '999px',
+              border: `1.5px solid ${on ? '#006a62' : 'var(--gray-200, #e5e7eb)'}`,
+              background: on ? '#e6f5f3' : 'white',
+              color: on ? '#006a62' : 'var(--gray-600, #4b5563)',
+              fontSize: '13px',
+              fontWeight: on ? 600 : 500,
+              cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+          >
+            {on ? '\u2713 ' : ''}{label}
+          </button>
+        );
+      })}
+    </div>
   );
 }
 

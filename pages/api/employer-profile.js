@@ -11,12 +11,22 @@ const EDITABLE_FIELDS = [
   'city',
   'area',
   'looking_for',
+  'needed_skills',
+  'schedule_days',
+  'schedule_time',
+  'duration',
+  'child_age_groups',
   'arrangement_preference',
   'preferred_age_range',
   'job_description',
   'preferred_language',
   'notify_on_message',
 ];
+
+// Fields that may arrive as either an array (from chip toggles) or a CSV
+// string. We normalise both into a comma-separated string for storage so
+// reads always look the same.
+const ARRAY_OR_CSV_FIELDS = ['looking_for', 'needed_skills', 'schedule_days', 'schedule_time', 'child_age_groups'];
 
 const ARRANGEMENT_VALUES = ['live_in', 'live_out', 'either'];
 
@@ -32,7 +42,8 @@ export default async function handler(req, res) {
       .from('employer_accounts')
       .select(
         'employer_ref, first_name, last_name, email, phone, city, area, ' +
-        'looking_for, arrangement_preference, preferred_age_range, ' +
+        'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
+        'child_age_groups, arrangement_preference, preferred_age_range, ' +
         'job_description, preferred_language, photo_url, notify_on_message, ' +
         'access_until, access_tier, email_verified, created_at, last_login_at'
       )
@@ -67,9 +78,12 @@ export default async function handler(req, res) {
       }
     }
 
-    // looking_for can come as array or string
-    if ('looking_for' in body && Array.isArray(body.looking_for)) {
-      patch.looking_for = body.looking_for.join(', ') || null;
+    // looking_for / needed_skills / schedule_* / child_age_groups can come
+    // as either array or CSV string — normalise to CSV.
+    for (const field of ARRAY_OR_CSV_FIELDS) {
+      if (field in body && Array.isArray(body[field])) {
+        patch[field] = body[field].join(', ') || null;
+      }
     }
 
     // Sanitize job description

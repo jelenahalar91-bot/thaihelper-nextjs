@@ -14,7 +14,13 @@ function toPublicCard(row, source) {
     city: row.city || '',
     area: row.area || '',
     lookingFor: row.looking_for || row.helper_types || '',
+    neededSkills: row.needed_skills || '',
+    scheduleDays: row.schedule_days || '',
+    scheduleTime: row.schedule_time || '',
+    duration: row.duration || '',
+    childAgeGroups: row.child_age_groups || '',
     jobDescription: row.job_description || '',
+    photo: row.photo_url || '',
     arrangementPreference: row.arrangement_preference || null,
     preferredAgeRange: row.preferred_age_range || null,
     source, // 'account' | 'registration'
@@ -35,8 +41,9 @@ export default async function handler(req, res) {
       .from('employer_accounts')
       .select(
         'employer_ref, first_name, last_name, city, area, ' +
-        'looking_for, arrangement_preference, preferred_age_range, ' +
-        'job_description, created_at'
+        'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
+        'child_age_groups, arrangement_preference, preferred_age_range, ' +
+        'job_description, photo_url, created_at'
       )
       .order('created_at', { ascending: false });
 

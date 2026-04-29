@@ -5,6 +5,8 @@ import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES } from '@/lib/constants/cities';
+import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
+import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugList } from '@/lib/constants/employer';
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
@@ -37,6 +39,7 @@ const T = {
     card_cta:       'Register as Helper to Apply',
     card_signin:    'Sign in to apply',
     card_employer_badge: 'Family',
+    card_tasks:     'Tasks',
     live_in:        'Live-in',
     live_out:       'Live-out',
     either:         'Either',
@@ -78,6 +81,7 @@ const T = {
     card_cta:       'ลงทะเบียนเป็นผู้ช่วยเพื่อสมัคร',
     card_signin:    'เข้าสู่ระบบเพื่อสมัคร',
     card_employer_badge: 'ครอบครัว',
+    card_tasks:     'งาน',
     live_in:        'อยู่ประจำ',
     live_out:       'ไป-กลับ',
     either:         'ทั้งสองแบบ',
@@ -293,6 +297,7 @@ export default function EmployersBrowse() {
                       key={emp.ref || `reg-${i}`}
                       employer={emp}
                       t={t}
+                      lang={lang}
                       arrangementLabel={arrangementLabel}
                     />
                   ))}
@@ -440,19 +445,36 @@ export default function EmployersBrowse() {
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
 // Mirrors HelperCard layout (components/HelperCard.jsx) so /helpers and
-// /employers-browse feel like two views of the same product. Employers
-// don't have photos, so the photo slot becomes a coloured initial tile
-// at the same dimensions.
-function PublicEmployerCard({ employer, t, arrangementLabel }) {
+// /employers-browse feel like two views of the same product. Falls back
+// to a coloured initial tile when no photo is present.
+function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
   const e = employer;
   const initial = (e.firstName || '?').charAt(0).toUpperCase();
   const displayName = [e.firstName, e.lastName].filter(Boolean).join(' ');
 
+  // Build a flattened skill pool covering every category the employer is
+  // looking for, then translate the selected `needed_skills` slugs.
+  const skillsLabel = (() => {
+    if (!e.neededSkills) return '';
+    const cats = String(e.lookingFor || '').split(/[,]+/).map(c => c.trim()).filter(Boolean);
+    const pool = cats.flatMap(c => SKILLS_BY_CATEGORY[c] || []);
+    return formatSlugList(e.neededSkills, pool, lang);
+  })();
+  const daysLabel     = formatSlugList(e.scheduleDays, SCHEDULE_DAYS, lang);
+  const timeLabel     = formatSlugList(e.scheduleTime, SCHEDULE_TIMES, lang);
+  const durationLabel = e.duration ? formatSlugList(e.duration, DURATIONS, lang) : '';
+  const childLabel    = formatSlugList(e.childAgeGroups, CHILD_AGE_GROUPS, lang);
+
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
-      {/* Photo slot — coloured initial tile, same size as helper photo */}
-      <div className="relative bg-[#e6f5f3] flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square flex items-center justify-center">
-        <span className="text-6xl font-bold text-[#006a62]">{initial}</span>
+      {/* Photo slot — real photo if uploaded, else coloured initial */}
+      <div className="relative bg-[#e6f5f3] flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square flex items-center justify-center overflow-hidden">
+        {e.photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={e.photo} alt={displayName} className="w-full h-full object-cover" loading="lazy" />
+        ) : (
+          <span className="text-6xl font-bold text-[#006a62]">{initial}</span>
+        )}
         <span className="absolute top-2 left-2 inline-flex items-center px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
           🏠 {t.card_employer_badge || 'Family'}
         </span>
@@ -476,6 +498,12 @@ function PublicEmployerCard({ employer, t, arrangementLabel }) {
           )}
         </div>
 
+        {skillsLabel && (
+          <div className="text-sm text-gray-600">
+            <span className="text-gray-400">🛠 {t.card_tasks || 'Tasks'}:</span> {skillsLabel}
+          </div>
+        )}
+
         {e.jobDescription && (
           <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
             {e.jobDescription}
@@ -486,6 +514,26 @@ function PublicEmployerCard({ employer, t, arrangementLabel }) {
           {e.arrangementPreference && (
             <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
               🏡 {arrangementLabel(e.arrangementPreference)}
+            </span>
+          )}
+          {durationLabel && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              ⏳ {durationLabel}
+            </span>
+          )}
+          {daysLabel && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              📅 {daysLabel}
+            </span>
+          )}
+          {timeLabel && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              🕓 {timeLabel}
+            </span>
+          )}
+          {childLabel && (
+            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+              👶 {childLabel}
             </span>
           )}
           {e.preferredAgeRange && (

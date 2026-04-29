@@ -28,6 +28,8 @@ import {
   uploadEmployerPhoto,
 } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
+import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
+import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS } from '@/lib/constants/employer';
 
 const LOOKING_FOR_OPTIONS = [
   { value: 'nanny',       iconKey: 'baby',   en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
@@ -77,6 +79,12 @@ const T = {
     age_any: 'Any age',
     label_looking_for: 'Helper types',
     looking_hint: 'Select all categories you\'re open to',
+    label_tasks: 'Specific tasks',
+    tasks_hint: 'Tap the duties you actually need help with.',
+    label_schedule_days: 'Days needed',
+    label_schedule_time: 'Time of day',
+    label_duration: 'How long',
+    label_child_ages: 'Children\u2019s ages',
     label_job_desc: 'About the job (optional)',
     job_hint: 'Phone numbers and emails will be hidden automatically.',
     save: 'Save changes',
@@ -120,6 +128,12 @@ const T = {
     age_any: 'ทุกช่วงอายุ',
     label_looking_for: 'ประเภทผู้ช่วย',
     looking_hint: 'เลือกทุกประเภทที่คุณสนใจ',
+    label_tasks: 'งานที่ต้องการ',
+    tasks_hint: 'แตะหน้าที่ที่คุณต้องการความช่วยเหลือจริงๆ',
+    label_schedule_days: 'วันที่ต้องการ',
+    label_schedule_time: 'ช่วงเวลา',
+    label_duration: 'ระยะเวลา',
+    label_child_ages: 'ช่วงอายุของเด็ก',
     label_job_desc: 'เกี่ยวกับงาน (ถ้ามี)',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนอัตโนมัติ',
     save: 'บันทึก',
@@ -177,6 +191,11 @@ export default function EmployerProfile() {
         arrangement_preference: p.arrangement_preference || '',
         preferred_age_range: p.preferred_age_range || '',
         looking_for: lookingForToArray(p.looking_for),
+        needed_skills: lookingForToArray(p.needed_skills),
+        schedule_days: lookingForToArray(p.schedule_days),
+        schedule_time: lookingForToArray(p.schedule_time),
+        duration: p.duration || '',
+        child_age_groups: lookingForToArray(p.child_age_groups),
         job_description: p.job_description || '',
         preferred_language: p.preferred_language || 'en',
         notify_on_message: p.notify_on_message !== false,
@@ -228,9 +247,36 @@ export default function EmployerProfile() {
       const set = new Set(prev.looking_for);
       if (set.has(slug)) set.delete(slug);
       else set.add(slug);
-      return { ...prev, looking_for: Array.from(set) };
+      const nextLooking = Array.from(set);
+      // Drop skills no longer covered by any selected category — same logic
+      // as on registration. Otherwise legacy slugs persist invisibly.
+      const allowed = new Set(nextLooking.flatMap(c => (SKILLS_BY_CATEGORY[c] || []).map(s => s.value)));
+      const nextSkills = (prev.needed_skills || []).filter(s => allowed.has(s));
+      return { ...prev, looking_for: nextLooking, needed_skills: nextSkills };
     });
   }
+
+  function toggleField(field, slug) {
+    setForm(prev => {
+      const set = new Set(prev[field] || []);
+      if (set.has(slug)) set.delete(slug);
+      else set.add(slug);
+      return { ...prev, [field]: Array.from(set) };
+    });
+  }
+
+  // Skills shown — union of every selected category's skills, deduped.
+  const skillOptions = (() => {
+    const seen = new Set();
+    const out = [];
+    for (const cat of (form?.looking_for || [])) {
+      for (const s of (SKILLS_BY_CATEGORY[cat] || [])) {
+        if (!seen.has(s.value)) { seen.add(s.value); out.push(s); }
+      }
+    }
+    return out;
+  })();
+  const showChildAges = (form?.looking_for || []).some(c => c === 'nanny' || c === 'tutor');
 
   async function handleSave() {
     setSaving(true);
@@ -493,6 +539,67 @@ export default function EmployerProfile() {
               </div>
             </div>
 
+            {/* Specific tasks — appears once at least one category is picked */}
+            {skillOptions.length > 0 && (
+              <div className="mb-5">
+                <Label>{t.label_tasks}</Label>
+                <div className="text-sm text-gray-500 mb-3">{t.tasks_hint}</div>
+                <ProfileChipRow
+                  options={skillOptions}
+                  selected={form.needed_skills}
+                  onToggle={(v) => toggleField('needed_skills', v)}
+                  lang={lang}
+                />
+              </div>
+            )}
+
+            {/* Children's age groups — only when childcare is selected */}
+            {showChildAges && (
+              <div className="mb-5">
+                <Label>{t.label_child_ages}</Label>
+                <ProfileChipRow
+                  options={CHILD_AGE_GROUPS}
+                  selected={form.child_age_groups}
+                  onToggle={(v) => toggleField('child_age_groups', v)}
+                  lang={lang}
+                />
+              </div>
+            )}
+
+            {/* Schedule — days */}
+            <div className="mb-5">
+              <Label>{t.label_schedule_days}</Label>
+              <ProfileChipRow
+                options={SCHEDULE_DAYS}
+                selected={form.schedule_days}
+                onToggle={(v) => toggleField('schedule_days', v)}
+                lang={lang}
+              />
+            </div>
+
+            {/* Schedule — time of day */}
+            <div className="mb-5">
+              <Label>{t.label_schedule_time}</Label>
+              <ProfileChipRow
+                options={SCHEDULE_TIMES}
+                selected={form.schedule_time}
+                onToggle={(v) => toggleField('schedule_time', v)}
+                lang={lang}
+              />
+            </div>
+
+            {/* Duration — single-select */}
+            <div className="mb-5">
+              <Label>{t.label_duration}</Label>
+              <ProfileChipRow
+                options={DURATIONS}
+                selected={form.duration}
+                onToggle={(v) => update('duration', form.duration === v ? '' : v)}
+                lang={lang}
+                single
+              />
+            </div>
+
             {/* Arrangement */}
             <div className="mb-5">
               <Label>{t.label_arrangement}</Label>
@@ -721,6 +828,35 @@ function Field({ label, hint, children }) {
       <Label>{label}</Label>
       {children}
       {hint && <div className="text-sm text-gray-500 mt-1.5">{hint}</div>}
+    </div>
+  );
+}
+
+// Chip row used for the new task/schedule/duration sections. `single` makes
+// it a radio-style selector (compares scalar value), otherwise it's a
+// multi-select that compares against an array.
+function ProfileChipRow({ options, selected, onToggle, lang, single = false }) {
+  const isOn = (v) => single ? selected === v : (Array.isArray(selected) && selected.includes(v));
+  return (
+    <div className="flex flex-wrap gap-2">
+      {options.map(opt => {
+        const on = isOn(opt.value);
+        const label = opt[lang] || opt.en || opt.label;
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => onToggle(opt.value)}
+            className={`px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
+              on
+                ? 'bg-[#006a62] text-white border-[#006a62] shadow-sm'
+                : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
+            }`}
+          >
+            {on ? '\u2713 ' : ''}{label}
+          </button>
+        );
+      })}
     </div>
   );
 }
