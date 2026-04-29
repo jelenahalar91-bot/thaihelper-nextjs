@@ -5,7 +5,13 @@ import Turnstile from '@/components/Turnstile';
 import { useLang } from './_app';
 import Link from 'next/link';
 import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/helpers';
-import { CITY_OPTIONS } from '@/lib/constants/cities';
+import { CITY_OPTIONS, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
+import { computeAge, validateDob } from '@/lib/age';
+import {
+  SKILLS_BY_CATEGORY,
+  RATES,
+  LANGUAGES,
+} from '@/lib/constants/categories';
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
@@ -29,12 +35,16 @@ const T = {
     cat_elder:       'Elder Care & Caregiver',
     cat_tutor:       'Tutor & Teacher',
     cat_multiple:    'Multiple Services',
-    cat_error:       'Please select a category.',
+    cat_error:       'Please select at least one category.',
+    cat_multi_hint:  'Select everything you can do — pick one or more.',
     skills_label:    'What can you do?',
     skills_sub:      'Select everything that applies — this helps families find you.',
-    age_label:       'Your Age',
-    age_ph:          '— Select your age —',
-    age_error:       'Please select your age.',
+    age_label:       'Date of Birth',
+    age_ph:          '',
+    age_error:       'Please enter your date of birth.',
+    age_too_young:   'You must be at least 18 years old to register.',
+    age_too_old:     'Please enter a valid date of birth.',
+    age_preview:     'You are {age} years old.',
     fname_label:     'First Name',
     fname_ph:        'e.g. Maria',
     fname_error:     'Please enter your first name.',
@@ -52,6 +62,9 @@ const T = {
     area_other_ph:   'e.g. Nakhon Pathom, Chumphon...',
     area_other_hint: 'Please type the name of your city or province.',
     area_other_error:'Please type your city or province.',
+    extra_cities_label: 'Also available in',
+    extra_cities_hint:  `Optional — pick up to ${MAX_ADDITIONAL_CITIES} other locations where you can work.`,
+    extra_cities_max:   `You can select up to ${MAX_ADDITIONAL_CITIES} additional locations.`,
     btn_next1:       'Next: Your Experience →',
     step2_title:     'Your experience',
     step2_sub:       'Help families understand your background and skills.',
@@ -134,12 +147,16 @@ const T = {
     cat_elder:       'ดูแลผู้สูงอายุ',
     cat_tutor:       'ติวเตอร์ / ครูสอนพิเศษ',
     cat_multiple:    'หลายบริการ',
-    cat_error:       'กรุณาเลือกประเภทบริการ',
+    cat_error:       'กรุณาเลือกอย่างน้อยหนึ่งประเภท',
+    cat_multi_hint:  'เลือกทุกอย่างที่คุณทำได้ — หนึ่งหรือมากกว่า',
     skills_label:    'คุณทำอะไรได้บ้าง?',
     skills_sub:      'เลือกทุกอย่างที่เกี่ยวข้อง — ช่วยให้ครอบครัวค้นพบคุณได้ง่ายขึ้น',
-    age_label:       'อายุของคุณ',
-    age_ph:          '— เลือกช่วงอายุ —',
-    age_error:       'กรุณาเลือกอายุ',
+    age_label:       'วันเกิด',
+    age_ph:          '',
+    age_error:       'กรุณาระบุวันเกิดของคุณ',
+    age_too_young:   'คุณต้องมีอายุอย่างน้อย 18 ปีจึงจะลงทะเบียนได้',
+    age_too_old:     'กรุณาระบุวันเกิดที่ถูกต้อง',
+    age_preview:     'คุณอายุ {age} ปี',
     fname_label:     'ชื่อ',
     fname_ph:        'เช่น มาเรีย',
     fname_error:     'กรุณากรอกชื่อของคุณ',
@@ -157,6 +174,9 @@ const T = {
     area_label:      'ย่าน / พื้นที่',
     area_ph:         'เช่น ราไวย์, สุขุมวิท, นิมมาน...',
     area_hint:       'ไม่บังคับ — ช่วยให้ครอบครัวใกล้เคียงค้นหาคุณได้เร็วขึ้น',
+    extra_cities_label: 'ทำงานในพื้นที่อื่นด้วย',
+    extra_cities_hint:  `ไม่บังคับ — เลือกได้สูงสุด ${MAX_ADDITIONAL_CITIES} พื้นที่ที่คุณสามารถไปทำงานได้`,
+    extra_cities_max:   `เลือกได้สูงสุด ${MAX_ADDITIONAL_CITIES} พื้นที่`,
     btn_next1:       'ถัดไป: ประสบการณ์ →',
     step2_title:     'ประสบการณ์ของคุณ',
     step2_sub:       'ช่วยให้ครอบครัวเข้าใจภูมิหลังและทักษะของคุณ',
@@ -221,133 +241,43 @@ const T = {
   }
 };
 
-// ─── SKILLS PER CATEGORY ────────���─────────────────────────────────���──────────
-// NOTE: Canonical source is @/lib/constants/categories.js — keep in sync
-const SKILLS_BY_CATEGORY = {
-  nanny: [
-    { value: 'infant_care',   en: '👶 Infant care (0–2 years)',      th: '👶 ดูแลทารก (0–2 ปี)' },
-    { value: 'child_care',    en: '🧒 Child care (3–12 years)',       th: '🧒 ดูแลเด็ก (3–12 ปี)' },
-    { value: 'school_run',    en: '🚌 School pickup & dropoff',       th: '🚌 รับ-ส่งโรงเรียน' },
-    { value: 'homework',      en: '📚 Homework help',                 th: '📚 ช่วยการบ้าน' },
-    { value: 'cooking_kids',  en: '🍳 Cooking for children',          th: '🍳 ทำอาหารเด็ก' },
-    { value: 'overnight',     en: '🌙 Overnight care',                th: '🌙 ดูแลกลางคืน' },
-    { value: 'live_in',       en: '🏠 Live-in (accommodation needed)', th: '🏠 อยู่ประจำ (ต้องการที่พัก)' },
-    { value: 'live_out',      en: '🚶 Live-out (commuting daily)',     th: '🚶 ไป-กลับ (เดินทางเอง)' },
-    { value: 'pool_superv',   en: '🏊 Pool supervision',              th: '🏊 ดูแลบริเวณสระน้ำ' },
-    { value: 'weekend',       en: '📅 Weekend & holiday care',        th: '📅 ดูแลวันหยุด' },
-  ],
-  housekeeper: [
-    { value: 'general_clean', en: '🧹 General cleaning',             th: '🧹 ทำความสะอาดทั่วไป' },
-    { value: 'laundry',       en: '👕 Laundry & ironing',            th: '👕 ซักรีด' },
-    { value: 'cooking',       en: '🍳 Cooking & meal prep',          th: '🍳 ทำอาหาร' },
-    { value: 'windows',       en: '🪟 Window cleaning',              th: '🪟 เช็ดกระจก' },
-    { value: 'shopping',      en: '🛒 Grocery shopping',             th: '🛒 ซื้อของตลาด' },
-    { value: 'organising',    en: '📦 Organising & tidying',         th: '📦 จัดระเบียบบ้าน' },
-  ],
-  chef: [
-    { value: 'thai_cuisine',  en: '🇹🇭 Thai cuisine',               th: '🇹🇭 อาหารไทย' },
-    { value: 'western',       en: '🍝 Western cuisine',              th: '🍝 อาหารตะวันตก' },
-    { value: 'asian',         en: '🍜 Other Asian cuisine',          th: '🍜 อาหารเอเชียอื่นๆ' },
-    { value: 'vegetarian',    en: '🥗 Vegetarian / vegan',           th: '🥗 มังสวิรัติ / วีแกน' },
-    { value: 'baking',        en: '🎂 Baking & desserts',            th: '🎂 ขนมอบ' },
-    { value: 'meal_prep',     en: '🥡 Meal planning',                th: '🥡 วางแผนเมนู' },
-  ],
-  driver: [
-    { value: 'airport',       en: '✈️ Airport transfers',           th: '✈️ รับ-ส่งสนามบิน' },
-    { value: 'school_run',    en: '🚌 School runs',                  th: '🚌 รับ-ส่งโรงเรียน' },
-    { value: 'shopping_trip', en: '🛒 Shopping & errands',           th: '🛒 พาช้อปปิ้ง / ทำธุระ' },
-    { value: 'full_time',     en: '🕐 Full-time / live-in driver',   th: '🕐 คนขับประจำ' },
-    { value: 'night',         en: '🌙 Night driving',                th: '🌙 ขับรถกลางคืน' },
-  ],
-  gardener: [
-    { value: 'garden_maint',  en: '🌿 Garden maintenance',          th: '🌿 ดูแลสวน' },
-    { value: 'pool_clean',    en: '🏊 Pool cleaning',                th: '🏊 ทำความสะอาดสระ' },
-    { value: 'pool_chem',     en: '🧪 Pool chemical management',     th: '🧪 จัดการสารเคมีสระน้ำ' },
-    { value: 'lawn',          en: '🌱 Lawn mowing',                  th: '🌱 ตัดหญ้า' },
-    { value: 'plants',        en: '🪴 Plant care & watering',        th: '🪴 รดน้ำต้นไม้' },
-  ],
-  elder_care: [
-    { value: 'hygiene',       en: '🛁 Personal hygiene assistance',  th: '🛁 ช่วยดูแลสุขอนามัย' },
-    { value: 'medication',    en: '💊 Medication reminders',         th: '💊 เตือนทานยา' },
-    { value: 'mobility',      en: '🦽 Mobility assistance',          th: '🦽 ช่วยเรื่องการเคลื่อนที่' },
-    { value: 'companion',     en: '🤝 Companionship',                th: '🤝 คอยเป็นเพื่อน' },
-    { value: 'appointments',  en: '🏥 Medical appointments',         th: '🏥 พาไปพบแพทย์' },
-  ],
-  tutor: [
-    { value: 'math',          en: '🔢 Maths',                        th: '🔢 คณิตศาสตร์' },
-    { value: 'english_subj',  en: '📖 English (subject)',            th: '📖 ภาษาอังกฤษ (วิชา)' },
-    { value: 'science',       en: '🔬 Science',                      th: '🔬 วิทยาศาสตร์' },
-    { value: 'thai_lang',     en: '🇹🇭 Thai language',              th: '🇹🇭 ภาษาไทย' },
-    { value: 'russian_lang',  en: '🇷🇺 Russian language',           th: '🇷🇺 ภาษารัสเซีย' },
-    { value: 'german_lang',   en: '🇩🇪 German language',            th: '🇩🇪 ภาษาเยอรมัน' },
-    { value: 'chinese_lang',  en: '🇨🇳 Chinese / Mandarin',         th: '🇨🇳 ภาษาจีน / แมนดาริน' },
-    { value: 'piano',         en: '🎹 Piano',                        th: '🎹 เปียโน' },
-    { value: 'guitar',        en: '🎸 Guitar',                       th: '🎸 กีตาร์' },
-    { value: 'singing',       en: '🎤 Singing / Voice',              th: '🎤 ร้องเพลง / เสียงร้อง' },
-    { value: 'ballet',        en: '🩰 Ballet & Dance',               th: '🩰 บัลเล่ต์ / เต้นรำ' },
-    { value: 'art',           en: '🎨 Art & Drawing',                th: '🎨 ศิลปะ / วาดรูป' },
-    { value: 'swim_coach',    en: '🏊 Swimming lessons',             th: '🏊 สอนว่ายน้ำ' },
-    { value: 'coding',        en: '💻 Coding for kids',              th: '💻 โค้ดดิ้งสำหรับเด็ก' },
-  ],
-  multiple: [
-    { value: 'nanny',         en: '👶 Nanny / childcare',            th: '👶 พี่เลี้ยงเด็ก' },
-    { value: 'cleaning',      en: '🧹 Cleaning',                     th: '🧹 ทำความสะอาด' },
-    { value: 'cooking',       en: '🍳 Cooking',                      th: '🍳 ทำอาหาร' },
-    { value: 'driving',       en: '🚗 Driving',                      th: '🚗 ขับรถ' },
-    { value: 'garden',        en: '🌿 Gardening',                    th: '🌿 ดูแลสวน' },
-    { value: 'elder',         en: '🏥 Elder care',                   th: '🏥 ดูแลผู้สูงอายุ' },
-    { value: 'tutoring',      en: '📚 Tutoring / teaching',          th: '📚 สอนพิเศษ' },
-  ],
-};
-
-// ─── HOURLY RATES ────────────────────────────────────────────────────────────
-const RATES = [
-  { value: 'negotiable',   en: 'Negotiable',                   th: 'แล้วแต่ตกลง' },
-  { value: 'under_150',    en: 'Under 150 THB / hour',         th: 'ต่ำกว่า 150 บาท / ชั่วโมง' },
-  { value: '150_200',      en: '150–200 THB / hour',           th: '150–200 บาท / ชั่วโมง' },
-  { value: '200_300',      en: '200–300 THB / hour',           th: '200–300 บาท / ชั่วโมง' },
-  { value: '300_500',      en: '300–500 THB / hour',           th: '300–500 บาท / ชั่วโมง' },
-  { value: '500_700',      en: '500–700 THB / hour',           th: '500–700 บาท / ชั่วโมง' },
-  { value: '700_1000',     en: '700–1,000 THB / hour',         th: '700–1,000 บาท / ชั่วโมง' },
-  { value: 'over_1000',    en: '1,000+ THB / hour',            th: '1,000+ บาท / ชั่วโมง' },
-];
-
-// ─── LANGUAGES ───────────────────────────────────────────────────────────────
-const LANGUAGES = [
-  { value: 'english', label: '🇬🇧 English' },
-  { value: 'thai',    label: '🇹🇭 Thai' },
-  { value: 'tagalog', label: '🇵🇭 Tagalog' },
-  { value: 'russian', label: '🇷🇺 Russian' },
-  { value: 'german',  label: '🇩🇪 German' },
-  { value: 'chinese', label: '🇨🇳 Chinese' },
-  { value: 'other',   label: '🌍 Other' },
-];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
-function generateBio({ lang, category, skills, experience, languages, city }) {
+function generateBio({ lang, categories, skills, experience, languages, city }) {
   const catEN = {
     nanny: 'nanny and childcare provider', housekeeper: 'housekeeper and cleaner',
     chef: 'private chef and cook', driver: 'driver and chauffeur',
     gardener: 'gardener and pool care specialist', elder_care: 'elder care and caregiver',
-    tutor: 'tutor and private teacher', multiple: 'household services professional',
+    tutor: 'tutor and private teacher',
   };
   const catTH = {
     nanny: 'พี่เลี้ยงเด็ก', housekeeper: 'แม่บ้าน', chef: 'พ่อครัว/แม่ครัวส่วนตัว',
     driver: 'คนขับรถ', gardener: 'คนสวนและดูแลสระ', elder_care: 'ผู้ดูแลผู้สูงอายุ',
-    tutor: 'ติวเตอร์และครูสอนพิเศษ', multiple: 'ผู้ให้บริการงานบ้านหลายด้าน',
+    tutor: 'ติวเตอร์และครูสอนพิเศษ',
   };
+  // Combine up to two category labels for a natural-reading bio. More than
+  // two becomes verbose, so we just say "household services professional".
+  const catList = (categories || []).slice(0, 2);
   const expEN = { '0': 'less than a year', '1': '1–2 years', '3': '3–5 years', '6': '6–10 years', '10': 'over 10 years' };
   const langNames = { english: 'English', thai: 'Thai', tagalog: 'Tagalog', russian: 'Russian', german: 'German', chinese: 'Chinese', other: 'other languages' };
   const cityName = (c) => c ? c.charAt(0).toUpperCase() + c.slice(1).replace(/_/g, ' ') : 'Thailand';
 
   if (lang === 'th') {
-    const cat = catTH[category] || 'ผู้ให้บริการงานบ้าน';
+    const cat = catList.length === 0
+      ? 'ผู้ให้บริการงานบ้าน'
+      : catList.length > 2
+        ? 'ผู้ให้บริการงานบ้านหลายด้าน'
+        : catList.map(c => catTH[c] || c).join(' และ ');
     const loc = city && city !== 'other' ? cityName(city) : 'ประเทศไทย';
     const skillSnippet = skills.length > 0 ? `ทักษะของฉันได้แก่ ${skills.slice(0, 3).map(s => s.replace(/_/g, ' ')).join(', ')} ` : '';
     return `ฉันเป็น${cat}ที่มีประสบการณ์ ทำงานในพื้นที่${loc} ฉันรักงานบริการและมุ่งมั่นในการดูแลทุกครอบครัวอย่างดีที่สุด ${skillSnippet}ฉันมีความขยัน ซื่อสัตย์ น่าเชื่อถือ และพร้อมพูดคุยถึงความต้องการของครอบครัวคุณโดยตรง`;
   }
 
-  const cat = catEN[category] || 'household services professional';
+  const cat = catList.length === 0
+    ? 'household services professional'
+    : (categories || []).length > 2
+      ? 'household services professional'
+      : catList.map(c => catEN[c] || c).join(' and ');
   const exp = expEN[experience] || 'several years';
   const loc = city && city !== 'other' ? cityName(city) : 'Thailand';
   const langList = languages.length > 0 ? languages.map(l => langNames[l] || l).join(' and ') : 'multiple languages';
@@ -364,13 +294,14 @@ export default function Register() {
   const [submitting, setSubmitting] = useState(false);
 
   // Form fields
-  const [category,    setCategory]    = useState('');
+  const [categories,  setCategories]  = useState([]); // array of slugs — multi-select
   const [skills,      setSkills]      = useState([]);
-  const [age,         setAge]         = useState('');
+  const [dob,         setDob]         = useState(''); // YYYY-MM-DD
   const [firstname,   setFirstname]   = useState('');
   const [lastname,    setLastname]    = useState('');
   const [city,        setCity]        = useState('');
   const [area,        setArea]        = useState('');
+  const [extraCities, setExtraCities] = useState([]); // array of slugs
   const [experience,  setExperience]  = useState('');
   const [languages,   setLanguages]   = useState([]);
   const [rate,        setRate]        = useState('');
@@ -394,11 +325,17 @@ export default function Register() {
     if (!photoPreview) setPhotoText(T[lang].photo_strong);
   }, [lang]);
 
-  // When category changes, reset skills
-  const handleCategoryChange = (val) => {
-    setCategory(val);
-    setSkills([]);
+  // Toggle a category slug in/out of the selection. Skills not in any of
+  // the still-selected categories get pruned so we never submit irrelevant
+  // skills (e.g. helper unchecks "nanny" → infant_care drops).
+  const toggleCategoryChip = (val) => {
     setErrors(e => ({ ...e, category: '' }));
+    setCategories(prev => {
+      const next = prev.includes(val) ? prev.filter(c => c !== val) : [...prev, val];
+      const allowedSkills = new Set(next.flatMap(c => (SKILLS_BY_CATEGORY[c] || []).map(s => s.value)));
+      setSkills(s => s.filter(sk => allowedSkills.has(sk)));
+      return next;
+    });
   };
 
   const toggleSkill = (val) => {
@@ -408,6 +345,14 @@ export default function Register() {
   const toggleLanguage = (val) => {
     setLanguages(prev => prev.includes(val) ? prev.filter(l => l !== val) : [...prev, val]);
     setErrors(e => ({ ...e, languages: '' }));
+  };
+
+  const toggleExtraCity = (slug) => {
+    setExtraCities(prev => {
+      if (prev.includes(slug)) return prev.filter(s => s !== slug);
+      if (prev.length >= MAX_ADDITIONAL_CITIES) return prev;
+      return [...prev, slug];
+    });
   };
 
   const handlePhoto = (e) => {
@@ -431,8 +376,14 @@ export default function Register() {
   const validate = (stepNum) => {
     const errs = {};
     if (stepNum === 1) {
-      if (!category)             errs.category  = t.cat_error;
-      if (!age)                  errs.age       = t.age_error;
+      if (categories.length === 0) errs.category  = t.cat_error;
+      const dobCheck = validateDob(dob);
+      if (!dobCheck.ok) {
+        errs.dob =
+          dobCheck.reason === 'too_young' ? t.age_too_young :
+          dobCheck.reason === 'too_old'   ? t.age_too_old :
+          t.age_error;
+      }
       if (!firstname.trim())     errs.firstname = t.fname_error;
       if (!lastname.trim())      errs.lastname  = t.lname_error;
       if (!city)                 errs.city      = t.city_error;
@@ -466,11 +417,12 @@ export default function Register() {
     const data = {
       first_name: firstname.trim(),
       last_name:  lastname.trim(),
-      age,
-      category,
+      date_of_birth: dob,
+      category: categories.join(', '),
       skills:     skills.join(', '),
       city,
       area,
+      additional_cities: extraCities.filter(s => s !== city).join(', '),
       experience,
       languages:  languages.join(', '),
       rate,
@@ -518,7 +470,18 @@ export default function Register() {
     return 'step-dot';
   };
 
-  const currentSkills = SKILLS_BY_CATEGORY[category] || [];
+  // Skills shown = union of skills across all selected categories, with
+  // duplicates collapsed so a shared skill appears once.
+  const currentSkills = (() => {
+    const seen = new Set();
+    const out = [];
+    for (const cat of categories) {
+      for (const s of SKILLS_BY_CATEGORY[cat] || []) {
+        if (!seen.has(s.value)) { seen.add(s.value); out.push(s); }
+      }
+    }
+    return out;
+  })();
 
   // ─── RENDER ─────────────────────────────────────────────────────────────────
   return (
@@ -596,25 +559,48 @@ export default function Register() {
                 <h2 className="step-title">{t.step1_title}</h2>
                 <p className="step-sub">{t.step1_sub}</p>
 
-                {/* Category */}
+                {/* Category — multi-select chips. Pick everything you do. */}
                 <div className={`field ${errors.category ? 'has-error' : ''}`}>
                   <label>{t.cat_label} <span className="req">*</span></label>
-                  <select value={category} onChange={e => handleCategoryChange(e.target.value)}>
-                    <option value="">{t.cat_ph}</option>
-                    <option value="nanny">{t.cat_nanny}</option>
-                    <option value="housekeeper">{t.cat_housekeeper}</option>
-                    <option value="chef">{t.cat_chef}</option>
-                    <option value="driver">{t.cat_driver}</option>
-                    <option value="gardener">{t.cat_gardener}</option>
-                    <option value="elder_care">{t.cat_elder}</option>
-                    <option value="tutor">{t.cat_tutor}</option>
-                    <option value="multiple">{t.cat_multiple}</option>
-                  </select>
+                  <p className="field-hint" style={{ marginBottom: '10px' }}>{t.cat_multi_hint}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                    {[
+                      { value: 'nanny',       label: t.cat_nanny },
+                      { value: 'housekeeper', label: t.cat_housekeeper },
+                      { value: 'chef',        label: t.cat_chef },
+                      { value: 'driver',      label: t.cat_driver },
+                      { value: 'gardener',    label: t.cat_gardener },
+                      { value: 'elder_care',  label: t.cat_elder },
+                      { value: 'tutor',       label: t.cat_tutor },
+                    ].map(opt => {
+                      const selected = categories.includes(opt.value);
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => toggleCategoryChip(opt.value)}
+                          style={{
+                            padding: '10px 16px',
+                            borderRadius: '999px',
+                            border: `1.5px solid ${selected ? '#006a62' : '#e5e7eb'}`,
+                            background: selected ? '#e6f5f3' : 'white',
+                            color: selected ? '#006a62' : '#4b5563',
+                            fontSize: '14px',
+                            fontWeight: selected ? 600 : 500,
+                            cursor: 'pointer',
+                            transition: 'all 0.15s',
+                          }}
+                        >
+                          {opt.label}
+                        </button>
+                      );
+                    })}
+                  </div>
                   <div className="field-error">{errors.category}</div>
                 </div>
 
-                {/* Skills checkboxes – appear after category selection */}
-                {category && currentSkills.length > 0 && (
+                {/* Skills checkboxes – appear after at least one category is selected */}
+                {categories.length > 0 && currentSkills.length > 0 && (
                   <div className="field">
                     <label>{t.skills_label}</label>
                     <p className="field-hint" style={{ marginBottom: '12px' }}>{t.skills_sub}</p>
@@ -649,16 +635,20 @@ export default function Register() {
                   </div>
                 </div>
 
-                {/* Age */}
-                <div className={`field ${errors.age ? 'has-error' : ''}`}>
+                {/* Date of birth — exact age computed from this */}
+                <div className={`field ${errors.dob ? 'has-error' : ''}`}>
                   <label>{t.age_label} <span className="req">*</span></label>
-                  <select value={age} onChange={e => { setAge(e.target.value); setErrors(ev => ({...ev, age:''})); }}>
-                    <option value="">{t.age_ph}</option>
-                    {['18–24','25–29','30–34','35–39','40–44','45–49','50–54','55–59','60+'].map(a => (
-                      <option key={a} value={a}>{a}</option>
-                    ))}
-                  </select>
-                  <div className="field-error">{errors.age}</div>
+                  <input
+                    type="date"
+                    value={dob}
+                    max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().slice(0, 10)}
+                    min={new Date(new Date().setFullYear(new Date().getFullYear() - 80)).toISOString().slice(0, 10)}
+                    onChange={e => { setDob(e.target.value); setErrors(ev => ({...ev, dob:''})); }}
+                  />
+                  {dob && computeAge(dob) !== null && (
+                    <div className="field-hint">{t.age_preview.replace('{age}', computeAge(dob))}</div>
+                  )}
+                  <div className="field-error">{errors.dob}</div>
                 </div>
 
                 {/* City */}
@@ -690,6 +680,45 @@ export default function Register() {
                   <div className="field-hint">{city === 'other' ? t.area_other_hint : t.area_hint}</div>
                   <div className="field-error">{errors.area}</div>
                 </div>
+
+                {/* Additional cities — optional. Hidden until a primary city
+                    is picked; "other" skips this since it's free-text already. */}
+                {city && city !== 'other' && (
+                  <div className="field">
+                    <label>{t.extra_cities_label}</label>
+                    <p className="field-hint" style={{ marginBottom: '10px' }}>
+                      {extraCities.length >= MAX_ADDITIONAL_CITIES ? t.extra_cities_max : t.extra_cities_hint}
+                    </p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                      {CITY_OPTIONS.filter(c => c.slug !== city).map(c => {
+                        const selected = extraCities.includes(c.slug);
+                        const atLimit = !selected && extraCities.length >= MAX_ADDITIONAL_CITIES;
+                        return (
+                          <button
+                            key={c.slug}
+                            type="button"
+                            disabled={atLimit}
+                            onClick={() => toggleExtraCity(c.slug)}
+                            style={{
+                              padding: '8px 14px',
+                              borderRadius: '999px',
+                              border: `1.5px solid ${selected ? '#006a62' : '#e5e7eb'}`,
+                              background: selected ? '#e6f5f3' : 'white',
+                              color: selected ? '#006a62' : (atLimit ? '#cbd5e1' : '#4b5563'),
+                              fontSize: '13px',
+                              fontWeight: selected ? 600 : 500,
+                              cursor: atLimit ? 'not-allowed' : 'pointer',
+                              opacity: atLimit ? 0.6 : 1,
+                              transition: 'all 0.15s',
+                            }}
+                          >
+                            {selected ? '✓ ' : '+ '}{c.name}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
 
                 <div className="btn-row" style={{ justifyContent: 'flex-end' }}>
                   <button className="btn-next" onClick={() => goToStep(2)}>{t.btn_next1}</button>
@@ -766,7 +795,7 @@ export default function Register() {
                       type="button"
                       className="btn-generate-bio"
                       onClick={() => {
-                        const generated = generateBio({ lang, category, skills, experience, languages, city });
+                        const generated = generateBio({ lang, categories, skills, experience, languages, city });
                         setBio(generated);
                         setErrors(ev => ({...ev, bio:''}));
                       }}

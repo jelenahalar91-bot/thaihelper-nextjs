@@ -3,7 +3,8 @@
 
 import { getSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
-import { translateThaiText } from '../../lib/translate';
+import { translateForeignText } from '../../lib/translate';
+import { getDisplayAge } from '../../lib/age';
 
 // Strip phone numbers and email addresses from free-text fields. Mirrors the
 // sanitizer used on registration (pages/api/register.js) so helpers can't
@@ -41,11 +42,13 @@ function toFrontend(row) {
     firstName: row.first_name,
     lastName: row.last_name,
     email: row.email,
-    age: row.age || '',
+    age: getDisplayAge(row),
+    dateOfBirth: row.date_of_birth || '',
     category: row.category || '',
     skills: row.skills || '',
     city: row.city || '',
     area: row.area || '',
+    additionalCities: row.additional_cities || '',
     experience: row.experience || '',
     languages: row.languages || '',
     rate: row.rate || '',
@@ -71,10 +74,12 @@ const fieldMap = {
   firstName: 'first_name',
   lastName: 'last_name',
   age: 'age',
+  dateOfBirth: 'date_of_birth',
   category: 'category',
   skills: 'skills',
   city: 'city',
   area: 'area',
+  additionalCities: 'additional_cities',
   experience: 'experience',
   languages: 'languages',
   rate: 'rate',
@@ -147,7 +152,14 @@ export default async function handler(req, res) {
       // If bio changed, re-translate. Pass null when the new bio has no Thai
       // script so we don't leave a stale English translation lying around.
       if ('bio' in updates) {
-        updates.bio_en = await translateThaiText(updates.bio);
+        updates.bio_en = await translateForeignText(updates.bio);
+      }
+
+      // If date_of_birth was set, clear the legacy age range so display logic
+      // (getDisplayAge) prefers the DOB-based exact age and doesn't fall back
+      // to a stale "35–39" string.
+      if (updates.date_of_birth) {
+        updates.age = null;
       }
 
       const { error } = await supabase

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLang } from '../pages/_app';
+import { formatCity, formatAdditionalCities } from '../lib/constants/cities';
 
 /**
  * Shared helper card — used by:
@@ -146,9 +147,19 @@ export default function HelperCard({
             </div>
           )}
           <div className="text-sm text-gray-500 mt-1">
-            📍 {helper.city}
+            📍 {formatCity(helper.city)}
             {helper.area ? ` · ${helper.area}` : ''}
           </div>
+          {helper.additionalCities && (() => {
+            const extras = formatAdditionalCities(helper.additionalCities, helper.city);
+            if (!extras) return null;
+            const alsoLabel = lang === 'th' ? 'ทำงานที่' : 'also';
+            return (
+              <div className="text-xs text-gray-500 mt-0.5">
+                <span className="text-gray-400">↳ {alsoLabel}:</span> {extras}
+              </div>
+            );
+          })()}
         </div>
 
         {displayBio && (

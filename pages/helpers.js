@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
+import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
-import { CITIES } from '@/lib/constants/cities';
+import { CITIES, parseAdditionalCities } from '@/lib/constants/cities';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
@@ -117,6 +118,12 @@ function categoryToSlug(cat) {
 
 function categoryWithEmoji(cat) {
   if (!cat) return '';
+  // New helpers store multiple categories as "nanny, housekeeper". Render
+  // each one with its own emoji + label so cards show the full picture.
+  const parts = String(cat).split(/[,]+/).map(p => p.trim()).filter(Boolean);
+  if (parts.length > 1) {
+    return parts.map(p => categoryWithEmoji(p)).join(' · ');
+  }
   const slug = categoryToSlug(cat);
   if (slug) {
     const def = CATEGORIES.find(c => c.value === slug);
@@ -155,13 +162,15 @@ const EXP_OPTIONS = [
 export async function getServerSideProps() {
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
+    const { getDisplayAge } = await import('@/lib/age');
     const supabase = getServiceSupabase();
     const { data, error } = await supabase
       .from('helper_profiles')
       .select(
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
-        'age, category, skills, city, area, experience, languages, rate, ' +
-        'education, certificates, bio, photo_url, created_at, status'
+        'age, date_of_birth, category, skills, city, area, additional_cities, ' +
+        'experience, languages, rate, education, certificates, bio, bio_en, ' +
+        'photo_url, created_at, status'
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)
@@ -173,17 +182,19 @@ export async function getServerSideProps() {
       ref: row.helper_ref,
       firstName: row.first_name,
       lastName: row.last_name ? row.last_name.charAt(0) + '.' : '',
-      age: row.age || null,
+      age: getDisplayAge(row) || null,
       category: row.category || '',
       skills: row.skills || '',
       city: row.city || '',
       area: row.area || '',
+      additionalCities: row.additional_cities || '',
       experience: row.experience || '',
       languages: row.languages || '',
       rate: row.rate || '',
       education: row.education || '',
       certificates: row.certificates || '',
       bio: row.bio || '',
+      bioEn: row.bio_en || '',
       photo: row.photo_url || '',
       createdAt: row.created_at || null,
       hasWhatsApp: !!row.whatsapp,
@@ -237,6 +248,7 @@ export default function Helpers({ initialHelpers = [] }) {
   // as employer), and true when favorites were successfully loaded.
   const [favorites, setFavorites] = useState(new Set());
   const [isEmployer, setIsEmployer] = useState(null);
+  const [viewingHelper, setViewingHelper] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -299,10 +311,23 @@ export default function Helpers({ initialHelpers = [] }) {
   const t = T[lang] || T.en;
 
   const filtered = useMemo(() => helpers.filter(h => {
-    if (filterCity && h.city?.toLowerCase() !== filterCity.toLowerCase()) return false;
+    if (filterCity) {
+      // A helper matches if their primary city OR any of their additional
+      // cities equals the selected filter — so an Andaman helper appears
+      // under each island they listed.
+      const primary = (h.city || '').toLowerCase();
+      const extras = parseAdditionalCities(h.additionalCities);
+      const target = filterCity.toLowerCase();
+      if (primary !== target && !extras.includes(target)) return false;
+    }
     if (filterCat) {
-      const helperSlug = categoryToSlug(h.category);
-      if (helperSlug !== filterCat) return false;
+      // A helper may store multiple categories ("nanny, housekeeper"); they
+      // match the filter if ANY of their slugs equals the selected one.
+      const helperSlugs = String(h.category || '')
+        .split(/[,]+/)
+        .map(s => categoryToSlug(s.trim()))
+        .filter(Boolean);
+      if (!helperSlugs.includes(filterCat)) return false;
     }
     if (filterArea && !h.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
 
@@ -514,6 +539,7 @@ export default function Helpers({ initialHelpers = [] }) {
                       isFavorite={favorites.has(h.ref)}
                       onToggleFavorite={toggleFavorite}
                       favoriteHint={isEmployer === false ? t.fav_login : undefined}
+                      onViewProfile={setViewingHelper}
                     />
                   ))}
                 </div>
@@ -659,6 +685,25 @@ export default function Helpers({ initialHelpers = [] }) {
           </div>
         </footer>
       </div>
+
+      {viewingHelper && (
+        <HelperProfileModal
+          helper={viewingHelper}
+          onClose={() => setViewingHelper(null)}
+          t={t}
+          lang={lang}
+          footerCta={
+            isEmployer ? null : (
+              <Link
+                href="/login"
+                className="block w-full text-center px-4 py-3 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
+              >
+                🔒 {t.card_signin_btn}
+              </Link>
+            )
+          }
+        />
+      )}
     </>
   );
 }

@@ -3,13 +3,65 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { fetchProfile as fetchProfileApi, updateProfile as updateProfileApi } from '@/lib/api/helpers';
+import { CATEGORIES, SKILLS_BY_CATEGORY, RATES, LANGUAGES } from '@/lib/constants/categories';
+import { formatCity, formatAdditionalCities } from '@/lib/constants/cities';
+
+// Render a category slug (or comma-separated list of slugs) as readable
+// labels in the current UI language, e.g. "nanny, housekeeper" →
+// "Nanny & Babysitter · Housekeeper & Cleaner".
+function formatCategory(slugOrCsv, lang) {
+  if (!slugOrCsv) return '';
+  return String(slugOrCsv)
+    .split(/[,]+/)
+    .map(s => s.trim())
+    .filter(Boolean)
+    .map(slug => {
+      const cat = CATEGORIES.find(c => c.value === slug);
+      return cat ? (cat[lang] || cat.en) : slug;
+    })
+    .join(' · ');
+}
+
+function formatLanguages(csv) {
+  if (!csv) return '';
+  return String(csv)
+    .split(/[,]+/)
+    .map(s => s.trim())
+    .filter(Boolean)
+    .map(slug => {
+      const l = LANGUAGES.find(x => x.value === slug);
+      return l ? l.label : slug;
+    })
+    .join(', ');
+}
+
+function formatRate(slug, lang) {
+  if (!slug) return '';
+  const r = RATES.find(x => x.value === slug);
+  return r ? (r[lang] || r.en) : slug;
+}
+
+function formatSkills(csv, category, lang) {
+  if (!csv) return '';
+  const cats = String(category || '').split(/[,]+/).map(c => c.trim()).filter(Boolean);
+  const pool = cats.flatMap(c => SKILLS_BY_CATEGORY[c] || []);
+  return String(csv)
+    .split(/[,]+/)
+    .map(s => s.trim())
+    .filter(Boolean)
+    .map(slug => {
+      const skill = pool.find(p => p.value === slug);
+      return skill ? (skill[lang] || skill.en) : slug;
+    })
+    .join(', ');
+}
 import { logout } from '@/lib/api/auth-client';
 import { fetchDocuments, uploadDocument, deleteDocument } from '@/lib/api/documents';
 import { fetchReferences, addReference, updateReference, deleteReference } from '@/lib/api/references';
 import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConversationAsHelper, deleteConversation } from '@/lib/api/messages';
 import { fetchSettings } from '@/lib/api/settings';
 import { fetchEmployers } from '@/lib/api/employers';
-import { CITIES } from '@/lib/constants/cities';
+import { CITIES, CITY_OPTIONS, MAX_ADDITIONAL_CITIES, parseAdditionalCities } from '@/lib/constants/cities';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
@@ -87,6 +139,9 @@ const T = {
     label_age: 'Age',
     label_city: 'City',
     label_area: 'Area / District',
+    label_extra_cities: 'Also available in',
+    extra_cities_hint: 'Optional — pick up to 5 other locations.',
+    extra_cities_max: 'Maximum 5 additional locations.',
     label_category: 'Category',
     label_skills: 'Skills',
     label_experience: 'Experience',
@@ -245,6 +300,9 @@ const T = {
     label_age: 'อายุ',
     label_city: 'เมือง',
     label_area: 'ย่าน / เขต',
+    label_extra_cities: 'ทำงานในพื้นที่อื่นด้วย',
+    extra_cities_hint: 'ไม่บังคับ — เลือกได้สูงสุด 5 พื้นที่',
+    extra_cities_max: 'เลือกได้สูงสุด 5 พื้นที่',
     label_category: 'ประเภท',
     label_skills: 'ทักษะ',
     label_experience: 'ประสบการณ์',
@@ -452,7 +510,18 @@ export default function Profile() {
   const startEditing = () => {
     setEditData({
       firstName: profile.firstName || '', lastName: profile.lastName || '',
-      age: profile.age || '', city: profile.city || '', area: profile.area || '',
+      dateOfBirth: profile.dateOfBirth || '',
+      city: profile.city || '', area: profile.area || '',
+      additionalCities: profile.additionalCities || '',
+      // Seed the chip-selector fields too so toggling preserves prior values.
+      // Strip the legacy "multiple" so the orange refine banner triggers a
+      // fresh selection rather than showing a non-option as already-checked.
+      category: String(profile.category || '')
+        .split(/[,]+/).map(s => s.trim()).filter(s => s && s !== 'multiple').join(', '),
+      skills: profile.skills || '',
+      languages: Array.isArray(profile.languages)
+        ? profile.languages.join(', ')
+        : (profile.languages || ''),
       experience: profile.experience || '', rate: profile.rate || '',
       education: profile.education || '', certificates: profile.certificates || '',
       bio: profile.bio || '', whatsapp: profile.whatsapp || '',
@@ -491,6 +560,33 @@ export default function Profile() {
   };
 
   const handleSave = async () => {
+    // If the helper edited their category, require at least one selected
+    // (and never let an empty string overwrite a previously saved value).
+    if ('category' in editData) {
+      const cleaned = String(editData.category || '')
+        .split(/[,]+/)
+        .map(s => s.trim())
+        .filter(s => s && s !== 'multiple');
+      if (cleaned.length === 0) {
+        setSaveError(lang === 'th'
+          ? 'กรุณาเลือกอย่างน้อยหนึ่งประเภทบริการ'
+          : 'Please pick at least one service category before saving.');
+        return;
+      }
+      editData.category = cleaned.join(', ');
+
+      // Prune skills to only those that belong to one of the still-selected
+      // categories. Otherwise switching from "nanny" to "chef" leaves the
+      // old infant_care slug behind in DB, hidden from the chip UI.
+      if ('skills' in editData) {
+        const allowed = new Set(cleaned.flatMap(c => (SKILLS_BY_CATEGORY[c] || []).map(s => s.value)));
+        editData.skills = String(editData.skills || '')
+          .split(/[,]+/)
+          .map(s => s.trim())
+          .filter(s => allowed.has(s))
+          .join(', ');
+      }
+    }
     setSaving(true); setSaveError('');
     try {
       await updateProfileApi(editData);
@@ -1323,6 +1419,7 @@ export default function Profile() {
           {activeTab === 'browse' && (
             <BrowseEmployersTab
               t={t}
+              lang={lang}
               loading={employersLoading}
               employers={filteredEmployers}
               totalCount={filteredEmployers.length}
@@ -1453,7 +1550,7 @@ export default function Profile() {
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <h2 style={{ fontSize: isMobile ? '19px' : '22px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px', wordBreak: 'break-word' }}>{p.firstName} {p.lastName}</h2>
-                    <p style={{ fontSize: isMobile ? '14px' : '15px', color: '#666', margin: '0 0 10px' }}>{p.category} &middot; {p.city}{p.area ? ` — ${p.area}` : ''}</p>
+                    <p style={{ fontSize: isMobile ? '14px' : '15px', color: '#666', margin: '0 0 10px' }}>{formatCategory(p.category, lang)} &middot; {formatCity(p.city)}{p.area ? ` — ${p.area}` : ''}</p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       {p.emailVerified ? (
                         <span style={{ fontSize: '13px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#ecfdf5', color: '#059669' }}>{t.verified} ✓</span>
@@ -1481,6 +1578,44 @@ export default function Profile() {
                 <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '12px 16px', marginBottom: '14px', color: '#dc2626', fontSize: '15px' }}>{saveError}</div>
               )}
 
+              {/* Banner: ask helpers who registered with the legacy "multiple"
+                  bucket to refine their category to one or more specific
+                  services. Disappears once they save a non-multiple value. */}
+              {String(p.category || '').toLowerCase().includes('multiple') && !editing && (
+                <div style={{
+                  background: '#fff7ed',
+                  border: '1px solid #fed7aa',
+                  borderRadius: '12px',
+                  padding: '16px 20px',
+                  marginBottom: '14px',
+                  display: 'flex',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  alignItems: isMobile ? 'flex-start' : 'center',
+                  justifyContent: 'space-between',
+                  gap: '12px',
+                }}>
+                  <div style={{ fontSize: '14px', color: '#9a3412', lineHeight: 1.5 }}>
+                    <strong>
+                      {lang === 'th' ? 'อัปเดตประเภทบริการของคุณ' : 'Please refine your category'}
+                    </strong>
+                    <br/>
+                    {lang === 'th'
+                      ? 'เราเลิกใช้ "Multiple Services" แล้ว — กรุณาเลือกบริการเฉพาะที่คุณให้ได้ เพื่อให้ครอบครัวค้นหาคุณเจอได้ดีขึ้น'
+                      : 'We no longer use "Multiple Services" — please pick the specific services you offer so families can find you more easily.'}
+                  </div>
+                  <button
+                    onClick={() => { setEditing(true); }}
+                    style={{
+                      background: '#ea580c', color: 'white', border: 'none',
+                      borderRadius: '8px', padding: '10px 18px', fontSize: '14px',
+                      fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {lang === 'th' ? 'อัปเดตเดี๋ยวนี้' : 'Update now'}
+                  </button>
+                </div>
+              )}
+
               {/* Profile Details */}
               <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '22px' : '28px', border: '1px solid #e5e7eb' }}>
                 {/* Personal */}
@@ -1491,16 +1626,39 @@ export default function Profile() {
                       <EditField label="First Name" value={editData.firstName} onChange={v => handleFieldChange('firstName', v)} />
                       <EditField label="Last Name" value={editData.lastName} onChange={v => handleFieldChange('lastName', v)} />
                     </div>
-                    <EditField label={t.label_age} value={editData.age} onChange={v => handleFieldChange('age', v)} />
+                    <EditField
+                      label={lang === 'th' ? 'วันเกิด' : 'Date of Birth'}
+                      type="date"
+                      value={editData.dateOfBirth || ''}
+                      onChange={v => handleFieldChange('dateOfBirth', v)}
+                      max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().slice(0, 10)}
+                      min={new Date(new Date().setFullYear(new Date().getFullYear() - 80)).toISOString().slice(0, 10)}
+                    />
                     <EditField label={t.label_city} value={editData.city} onChange={v => handleFieldChange('city', v)} />
                     <EditField label={t.label_area} value={editData.area} onChange={v => handleFieldChange('area', v)} placeholder="e.g. Sukhumvit, Rawai..." />
+                    <ExtraCitiesChips
+                      label={t.label_extra_cities}
+                      hint={t.extra_cities_hint}
+                      maxHint={t.extra_cities_max}
+                      primarySlug={editData.city}
+                      value={editData.additionalCities ?? ''}
+                      onChange={v => handleFieldChange('additionalCities', v)}
+                    />
                   </div>
                 ) : (
                   <div style={{ display: 'grid', gap: isMobile ? '16px' : '10px', marginBottom: '28px' }}>
                     <ProfileField label={t.label_name} value={`${p.firstName} ${p.lastName}`} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_age} value={p.age} t={t} isMobile={isMobile} />
-                    <ProfileField label={t.label_city} value={p.city} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_city} value={formatCity(p.city)} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_area} value={p.area} t={t} isMobile={isMobile} />
+                    {p.additionalCities && (
+                      <ProfileField
+                        label={t.label_extra_cities}
+                        value={formatAdditionalCities(p.additionalCities, p.city)}
+                        t={t}
+                        isMobile={isMobile}
+                      />
+                    )}
                   </div>
                 )}
 
@@ -1508,11 +1666,54 @@ export default function Profile() {
                 <SectionTitle>{t.section_work}</SectionTitle>
                 {editing ? (
                   <div style={{ display: 'grid', gap: '14px', marginBottom: '28px' }}>
-                    <ProfileField label={t.label_category} value={p.category} t={t} />
-                    <ProfileField label={t.label_skills} value={p.skills} t={t} />
+                    <CategoryChips
+                      label={t.label_category}
+                      lang={lang}
+                      value={editData.category ?? (p.category || '')}
+                      onChange={v => handleFieldChange('category', v)}
+                    />
+                    {/* Skills — chips drawn from the categories the helper
+                        currently has selected. Pruned client-side when a
+                        category gets unchecked above. */}
+                    {(() => {
+                      const cats = String(editData.category ?? p.category ?? '')
+                        .split(/[,]+/)
+                        .map(c => c.trim())
+                        .filter(c => c && c !== 'multiple');
+                      const seen = new Set();
+                      const skillOptions = [];
+                      for (const c of cats) {
+                        for (const s of (SKILLS_BY_CATEGORY[c] || [])) {
+                          if (!seen.has(s.value)) { seen.add(s.value); skillOptions.push(s); }
+                        }
+                      }
+                      if (skillOptions.length === 0) {
+                        return <ProfileField label={t.label_skills} value={p.skills} t={t} />;
+                      }
+                      return (
+                        <ChipMultiSelect
+                          label={t.label_skills}
+                          lang={lang}
+                          value={editData.skills ?? (p.skills || '')}
+                          onChange={v => handleFieldChange('skills', v)}
+                          options={skillOptions}
+                        />
+                      );
+                    })()}
                     <EditField label={t.label_experience} value={editData.experience} onChange={v => handleFieldChange('experience', v)} />
-                    <EditField label={t.label_languages} value={editData.languages || (p.languages || '')} onChange={v => handleFieldChange('languages', v)} />
-                    <EditField label={t.label_rate} value={editData.rate} onChange={v => handleFieldChange('rate', v)} />
+                    <ChipMultiSelect
+                      label={t.label_languages}
+                      lang={lang}
+                      value={editData.languages ?? (p.languages || '')}
+                      onChange={v => handleFieldChange('languages', v)}
+                      options={LANGUAGES}
+                    />
+                    <RateSelect
+                      label={t.label_rate}
+                      lang={lang}
+                      value={editData.rate ?? (p.rate || '')}
+                      onChange={v => handleFieldChange('rate', v)}
+                    />
                     <EditField label={t.label_education} value={editData.education} onChange={v => handleFieldChange('education', v)} placeholder="e.g. Bachelor's Degree..." />
                     <EditField label={t.label_certificates} value={editData.certificates} onChange={v => handleFieldChange('certificates', v)} placeholder="e.g. First Aid, Childcare..." />
                     <div>
@@ -1523,11 +1724,11 @@ export default function Profile() {
                   </div>
                 ) : (
                   <div style={{ display: 'grid', gap: isMobile ? '16px' : '10px', marginBottom: '28px' }}>
-                    <ProfileField label={t.label_category} value={p.category} t={t} isMobile={isMobile} />
-                    <ProfileField label={t.label_skills} value={p.skills} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_category} value={formatCategory(p.category, lang)} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_skills} value={formatSkills(p.skills, p.category, lang)} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_experience} value={p.experience} t={t} isMobile={isMobile} />
-                    <ProfileField label={t.label_languages} value={(() => { const v = Array.isArray(p.languages) ? p.languages.join(', ') : (p.languages || ''); return v.includes('[Ljava.lang') ? '' : v; })()} t={t} isMobile={isMobile} />
-                    <ProfileField label={t.label_rate} value={p.rate} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_languages} value={(() => { const raw = Array.isArray(p.languages) ? p.languages.join(', ') : (p.languages || ''); const v = raw.includes('[Ljava.lang') ? '' : raw; return formatLanguages(v); })()} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_rate} value={formatRate(p.rate, lang)} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_education} value={p.education} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_certificates} value={p.certificates} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_bio} value={p.bio} t={t} multiline isMobile={isMobile} />
@@ -1810,6 +2011,176 @@ function SectionTitle({ children }) {
   );
 }
 
+// Multi-select chips for category. value/onChange use a comma-separated
+// string ("nanny, housekeeper") to match how the API stores category.
+function CategoryChips({ label, lang, value, onChange }) {
+  const OPTIONS = [
+    { value: 'nanny',       en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
+    { value: 'housekeeper', en: 'Housekeeper & Cleaner', th: 'แม่บ้าน / ทำความสะอาด' },
+    { value: 'chef',        en: 'Private Chef & Cook',   th: 'พ่อครัว / แม่ครัว' },
+    { value: 'driver',      en: 'Driver & Chauffeur',    th: 'คนขับรถ' },
+    { value: 'gardener',    en: 'Gardener & Pool Care',  th: 'ดูแลสวน / สระน้ำ' },
+    { value: 'elder_care',  en: 'Elder Care',            th: 'ดูแลผู้สูงอายุ' },
+    { value: 'tutor',       en: 'Tutor & Teacher',       th: 'ติวเตอร์' },
+  ];
+  const selected = String(value || '')
+    .split(/[,]+/)
+    .map(s => s.trim())
+    .filter(s => s && s !== 'multiple');
+  const toggle = (slug) => {
+    const next = selected.includes(slug)
+      ? selected.filter(s => s !== slug)
+      : [...selected, slug];
+    onChange(next.join(', '));
+  };
+  return (
+    <div>
+      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {OPTIONS.map(opt => {
+          const isOn = selected.includes(opt.value);
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => toggle(opt.value)}
+              style={{
+                padding: '8px 14px',
+                borderRadius: '999px',
+                border: `1.5px solid ${isOn ? '#006a62' : '#e5e7eb'}`,
+                background: isOn ? '#e6f5f3' : 'white',
+                color: isOn ? '#006a62' : '#4b5563',
+                fontSize: '14px',
+                fontWeight: isOn ? 600 : 500,
+                cursor: 'pointer',
+              }}
+            >
+              {opt[lang] || opt.en}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// Generic multi-select chip group used for Languages and Skills in the
+// edit form. Value/onChange use a comma-separated string to match the API
+// storage format. `options` is an array of { value, en, th } or { value, label }.
+function ChipMultiSelect({ label, hint, lang, value, onChange, options }) {
+  const selected = String(value || '')
+    .split(/[,]+/)
+    .map(s => s.trim())
+    .filter(Boolean);
+  const toggle = (slug) => {
+    const next = selected.includes(slug)
+      ? selected.filter(s => s !== slug)
+      : [...selected, slug];
+    onChange(next.join(', '));
+  };
+  return (
+    <div>
+      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
+      {hint && <p style={{ fontSize: '13px', color: '#888', margin: '0 0 10px' }}>{hint}</p>}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {options.map(opt => {
+          const isOn = selected.includes(opt.value);
+          const text = opt.label || opt[lang] || opt.en;
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => toggle(opt.value)}
+              style={{
+                padding: '8px 14px',
+                borderRadius: '999px',
+                border: `1.5px solid ${isOn ? '#006a62' : '#e5e7eb'}`,
+                background: isOn ? '#e6f5f3' : 'white',
+                color: isOn ? '#006a62' : '#4b5563',
+                fontSize: '14px',
+                fontWeight: isOn ? 600 : 500,
+                cursor: 'pointer',
+              }}
+            >
+              {text}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// Multi-select for additional cities. Hides the helper's own primary city
+// and disables further selections once MAX_ADDITIONAL_CITIES is reached.
+function ExtraCitiesChips({ label, hint, maxHint, primarySlug, value, onChange }) {
+  const primary = (primarySlug || '').toLowerCase();
+  const selected = parseAdditionalCities(value, primary);
+  const atLimit = selected.length >= MAX_ADDITIONAL_CITIES;
+  const toggle = (slug) => {
+    const next = selected.includes(slug)
+      ? selected.filter(s => s !== slug)
+      : (atLimit ? selected : [...selected, slug]);
+    onChange(next.join(', '));
+  };
+  return (
+    <div>
+      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
+      <p style={{ fontSize: '13px', color: '#888', margin: '0 0 10px' }}>
+        {atLimit ? maxHint : hint}
+      </p>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+        {CITY_OPTIONS.filter(c => c.slug !== primary).map(c => {
+          const isOn = selected.includes(c.slug);
+          const disabled = !isOn && atLimit;
+          return (
+            <button
+              key={c.slug}
+              type="button"
+              disabled={disabled}
+              onClick={() => toggle(c.slug)}
+              style={{
+                padding: '8px 14px',
+                borderRadius: '999px',
+                border: `1.5px solid ${isOn ? '#006a62' : '#e5e7eb'}`,
+                background: isOn ? '#e6f5f3' : 'white',
+                color: isOn ? '#006a62' : (disabled ? '#cbd5e1' : '#4b5563'),
+                fontSize: '13px',
+                fontWeight: isOn ? 600 : 500,
+                cursor: disabled ? 'not-allowed' : 'pointer',
+                opacity: disabled ? 0.6 : 1,
+              }}
+            >
+              {isOn ? '✓ ' : '+ '}{c.name}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// Single-select dropdown styled to match the chip fields above. Used for
+// Hourly Rate so helpers pick from canonical buckets instead of typing
+// "around 200 baht maybe".
+function RateSelect({ label, lang, value, onChange }) {
+  return (
+    <div>
+      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
+      <select
+        value={value || ''}
+        onChange={e => onChange(e.target.value)}
+        style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit', background: 'white' }}
+      >
+        <option value="">—</option>
+        {RATES.map(r => (
+          <option key={r.value} value={r.value}>{r[lang] || r.en}</option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
 function ProfileField({ label, value, t, multiline, isMobile }) {
   const stack = multiline || isMobile;
   return (
@@ -1820,11 +2191,19 @@ function ProfileField({ label, value, t, multiline, isMobile }) {
   );
 }
 
-function EditField({ label, value, onChange, placeholder }) {
+function EditField({ label, value, onChange, placeholder, type = 'text', max, min }) {
   return (
     <div>
       <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
-      <input type="text" value={value || ''} onChange={e => onChange(e.target.value)} placeholder={placeholder || ''} style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit' }} />
+      <input
+        type={type}
+        value={value || ''}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder || ''}
+        max={max}
+        min={min}
+        style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit' }}
+      />
     </div>
   );
 }
@@ -1839,7 +2218,7 @@ function IconSearch() {
 
 // ─── Browse Employers Tab ──────────────────────────────────────────────────
 function BrowseEmployersTab({
-  t, loading, employers, totalCount,
+  t, lang, loading, employers, totalCount,
   empFilterCity, setEmpFilterCity,
   empFilterLooking, setEmpFilterLooking,
   empFilterArea, setEmpFilterArea,
@@ -1851,6 +2230,7 @@ function BrowseEmployersTab({
   const sidebar = (
     <EmployerFilterSidebar
       t={t}
+      lang={lang}
       empFilterCity={empFilterCity} setEmpFilterCity={setEmpFilterCity}
       empFilterLooking={empFilterLooking} setEmpFilterLooking={setEmpFilterLooking}
       empFilterArea={empFilterArea} setEmpFilterArea={setEmpFilterArea}
@@ -1943,6 +2323,7 @@ function BrowseEmployersTab({
                   key={emp.ref || `reg-${i}`}
                   employer={emp}
                   t={t}
+                  lang={lang}
                   arrangementLabel={arrangementLabel}
                   onMessage={emp.ref ? () => onMessageEmployer(emp.ref) : null}
                   isStarting={startingEmpConv === emp.ref}
@@ -2016,7 +2397,7 @@ function BrowseEmployersTab({
   );
 }
 
-function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting }) {
+function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, lang = 'en' }) {
   const e = employer;
   return (
     <div style={{
@@ -2058,11 +2439,12 @@ function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting }) 
             )}
           </div>
 
-          {/* Looking for */}
+          {/* Looking for — render slugs as readable labels (e.g. elder_care
+              → Elder Care) so cards match the registration / profile UI. */}
           {e.lookingFor && (
             <div style={{ fontSize: '14px', color: '#374151', marginBottom: '6px' }}>
               <span style={{ fontWeight: 600, color: '#666' }}>{t.browse_card_looking}:</span>{' '}
-              {e.lookingFor}
+              {formatCategory(e.lookingFor, lang)}
             </div>
           )}
 
@@ -2114,7 +2496,7 @@ function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting }) 
 }
 
 function EmployerFilterSidebar({
-  t,
+  t, lang = 'en',
   empFilterCity, setEmpFilterCity,
   empFilterLooking, setEmpFilterLooking,
   empFilterArea, setEmpFilterArea,
@@ -2184,11 +2566,15 @@ function EmployerFilterSidebar({
         </select>
       </EmpFilterGroup>
 
-      {/* Looking for */}
+      {/* Looking for — slugs come from raw employer.lookingFor data; render
+          each option through CATEGORIES so "elder_care" shows as "Elder Care". */}
       <EmpFilterGroup label={t.browse_filter_looking_label}>
         <select value={empFilterLooking} onChange={e => setEmpFilterLooking(e.target.value)} style={selectStyle}>
           <option value="">{t.browse_filter_looking_all}</option>
-          {lookingForOptions.map(o => <option key={o} value={o}>{o}</option>)}
+          {lookingForOptions.map(o => {
+            const cat = CATEGORIES.find(c => c.value === o);
+            return <option key={o} value={o}>{cat ? (cat[lang] || cat.en) : o}</option>;
+          })}
         </select>
       </EmpFilterGroup>
 

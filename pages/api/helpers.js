@@ -5,6 +5,7 @@
 // GET /api/helpers/[ref]/contact (which checks employer access).
 
 import { getServiceSupabase } from '../../lib/supabase';
+import { getDisplayAge } from '../../lib/age';
 
 // Map a helper_profiles row to a public-safe card shape.
 // IMPORTANT: never expose whatsapp / has_whatsapp / phone / email here.
@@ -13,11 +14,12 @@ function toPublicCard(row) {
     ref: row.helper_ref,
     firstName: row.first_name,
     lastName: row.last_name ? row.last_name.charAt(0) + '.' : '', // only initial
-    age: row.age || null,
+    age: getDisplayAge(row) || null,
     category: row.category || '',
     skills: row.skills || '',
     city: row.city || '',
     area: row.area || '',
+    additionalCities: row.additional_cities || '',
     experience: row.experience || '',
     languages: row.languages || '',
     rate: row.rate || '',
@@ -44,8 +46,9 @@ export default async function handler(req, res) {
       .from('helper_profiles')
       .select(
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
-        'age, category, skills, city, area, experience, languages, rate, ' +
-        'education, certificates, bio, bio_en, photo_url, created_at, status'
+        'age, date_of_birth, category, skills, city, area, additional_cities, ' +
+        'experience, languages, rate, education, certificates, bio, bio_en, ' +
+        'photo_url, created_at, status'
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)

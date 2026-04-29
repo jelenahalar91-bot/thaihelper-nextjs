@@ -8,7 +8,7 @@ import { getServiceSupabase } from '../../lib/supabase';
 import { createToken, setSessionCookie } from '../../lib/auth';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
 import { verifyTurnstile } from '../../lib/turnstile';
-import { romanizeThaiName, translateThaiText } from '../../lib/translate';
+import { romanizeThaiName, translateForeignText } from '../../lib/translate';
 
 function generateRef() {
   return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -29,8 +29,8 @@ export default async function handler(req, res) {
   }
 
   const {
-    first_name, last_name, age, category, skills,
-    city, area, experience, languages, rate,
+    first_name, last_name, date_of_birth, category, skills,
+    city, area, additional_cities, experience, languages, rate,
     education, certificates, bio, email,
     turnstileToken,
   } = req.body;
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
   const [cleanFirstName, cleanLastName, bioEn] = await Promise.all([
     romanizeThaiName(first_name),
     romanizeThaiName(last_name),
-    translateThaiText(sanitizedBio),
+    translateForeignText(sanitizedBio),
   ]);
 
   try {
@@ -72,11 +72,13 @@ export default async function handler(req, res) {
         first_name: cleanFirstName,
         last_name: cleanLastName,
         email: cleanEmail,
-        age: age || null,
+        date_of_birth: date_of_birth || null,
+        age: null, // exact age is now derived from date_of_birth at display time
         category,
         skills: skills || null,
         city,
         area: area || null,
+        additional_cities: additional_cities || null,
         experience: experience || null,
         languages: languages || null,
         rate: rate || null,

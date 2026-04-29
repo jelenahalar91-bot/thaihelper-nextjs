@@ -23,19 +23,30 @@ import {
   RATES,
   LANGUAGES,
 } from '../../lib/constants/categories';
+import { formatCity, formatAdditionalCities } from '../../lib/constants/cities';
 
 // ─── Label helpers ──────────────────────────────────────────────────────────
 
-function getCategoryLabel(slug, lang = 'en') {
-  if (!slug) return '';
-  const cat = CATEGORIES.find(c => c.value === slug);
-  return cat ? (cat[lang] || cat.en) : slug;
+function getCategoryLabel(slugOrCsv, lang = 'en') {
+  if (!slugOrCsv) return '';
+  // Handle multi-category strings ("nanny, housekeeper") by translating
+  // each slug separately and joining with " · ".
+  const slugs = String(slugOrCsv).split(/[,]+/).map(s => s.trim()).filter(Boolean);
+  return slugs
+    .map(slug => {
+      const cat = CATEGORIES.find(c => c.value === slug);
+      return cat ? (cat[lang] || cat.en) : slug;
+    })
+    .join(' · ');
 }
 
 function getSkillLabels(skillsStr, category, lang = 'en') {
   if (!skillsStr) return [];
   const slugs = skillsStr.split(',').map(s => s.trim()).filter(Boolean);
-  const pool = SKILLS_BY_CATEGORY[category] || [];
+  // Build a skill pool from every category the helper picked, so skills
+  // get matched even when the helper is multi-category.
+  const cats = String(category || '').split(/[,]+/).map(c => c.trim()).filter(Boolean);
+  const pool = cats.flatMap(c => SKILLS_BY_CATEGORY[c] || []);
   // Also check all categories in case skills don't match the current category
   const allSkills = Object.values(SKILLS_BY_CATEGORY).flat();
 
@@ -80,7 +91,7 @@ const REL_LABELS = {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) {
+export default function HelperProfileModal({ helper, onClose, t, lang = 'en', footerCta = null }) {
   const [references, setReferences] = useState([]);
   const [refsLoading, setRefsLoading] = useState(true);
   const [certDocs, setCertDocs] = useState([]);
@@ -272,8 +283,18 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
             border: '1px solid #e5e7eb',
           }}>
             <InfoRow icon="📍" label={t?.profile_location || 'Location'}>
-              {helper.city}
+              {formatCity(helper.city)}
               {helper.area ? ` · ${helper.area}` : ''}
+              {(() => {
+                const extras = formatAdditionalCities(helper.additionalCities, helper.city);
+                if (!extras) return null;
+                const alsoLabel = lang === 'th' ? 'ทำงานที่' : 'also';
+                return (
+                  <span style={{ display: 'block', fontSize: '13px', color: '#6b7280', fontWeight: 400, marginTop: '2px' }}>
+                    ↳ {alsoLabel}: {extras}
+                  </span>
+                );
+              })()}
             </InfoRow>
             {expLabel && (
               <InfoRow icon="⏱" label={t?.profile_experience || 'Experience'}>
@@ -412,6 +433,16 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en' }) 
             )}
           </Section>
         </div>
+
+        {footerCta && (
+          <div style={{
+            position: 'sticky', bottom: 0, background: 'white',
+            borderTop: '1px solid #e5e7eb',
+            padding: '16px 20px',
+          }}>
+            {footerCta}
+          </div>
+        )}
       </div>
 
       {/* Inline keyframes (kept local so the modal doesn't depend on globals) */}
