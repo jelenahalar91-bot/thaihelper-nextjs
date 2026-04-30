@@ -190,7 +190,7 @@ export default async function handler(req, res) {
         content_translated: translatedContent,
         source_language: sourceLanguage,
         target_language: targetLanguage,
-        is_read: true, // sender has read their own message
+        is_read: false, // recipient hasn't seen it yet — flips to true via PUT when they open the conversation
       })
       .select()
       .single();
