@@ -260,7 +260,7 @@ function generateBio({ lang, categories, skills, experience, languages, city }) 
   // two becomes verbose, so we just say "household services professional".
   const catList = (categories || []).slice(0, 2);
   const expEN = { '0': 'less than a year', '1': '1–2 years', '3': '3–5 years', '6': '6–10 years', '10': 'over 10 years' };
-  const langNames = { english: 'English', thai: 'Thai', tagalog: 'Tagalog', russian: 'Russian', german: 'German', chinese: 'Chinese', other: 'other languages' };
+  const langNames = { english: 'English', thai: 'Thai', burmese: 'Burmese', khmer: 'Khmer', lao: 'Lao', vietnamese: 'Vietnamese', tagalog: 'Tagalog', chinese: 'Chinese', russian: 'Russian', german: 'German', other: 'other languages' };
   const cityName = (c) => c ? c.charAt(0).toUpperCase() + c.slice(1).replace(/_/g, ' ') : 'Thailand';
 
   if (lang === 'th') {

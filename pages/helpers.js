@@ -136,11 +136,16 @@ function categoryWithEmoji(cat) {
 }
 
 const LANGUAGE_OPTIONS = [
-  { value: 'english', label: 'English', flag: '🇬🇧' },
-  { value: 'thai',    label: 'ไทย',     flag: '🇹🇭' },
-  { value: 'russian', label: 'Русский', flag: '🇷🇺' },
-  { value: 'chinese', label: '中文',     flag: '🇨🇳' },
-  { value: 'german',  label: 'Deutsch', flag: '🇩🇪' },
+  { value: 'english',    label: 'English',     flag: '🇬🇧' },
+  { value: 'thai',       label: 'ไทย',          flag: '🇹🇭' },
+  { value: 'burmese',    label: 'မြန်မာ',         flag: '🇲🇲' },
+  { value: 'khmer',      label: 'ខ្មែរ',         flag: '🇰🇭' },
+  { value: 'lao',        label: 'ລາວ',          flag: '🇱🇦' },
+  { value: 'vietnamese', label: 'Tiếng Việt',  flag: '🇻🇳' },
+  { value: 'tagalog',    label: 'Tagalog',     flag: '🇵🇭' },
+  { value: 'chinese',    label: '中文',         flag: '🇨🇳' },
+  { value: 'russian',    label: 'Русский',     flag: '🇷🇺' },
+  { value: 'german',     label: 'Deutsch',     flag: '🇩🇪' },
 ];
 
 const AGE_OPTIONS = [
