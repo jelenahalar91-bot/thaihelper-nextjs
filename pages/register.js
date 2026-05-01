@@ -101,6 +101,15 @@ const T = {
     step3_sub:       'Families will contact you through our platform messaging. Your email stays private and is only used for login and notifications.',
     email_label:     'Email Address',
     email_error:     'Please enter a valid email address.',
+    notify_title:    'Get notified about new messages',
+    notify_email:    'Email',
+    notify_email_sub:'Always on — we send important updates here',
+    notify_line:     'LINE',
+    notify_line_sub: 'Get instant alerts on your phone',
+    notify_whatsapp: 'WhatsApp',
+    notify_whatsapp_sub: 'Get instant alerts on your phone',
+    notify_disclaimer: 'Notifications only — your conversations always stay on ThaiHelper. We never share your LINE or WhatsApp number with families.',
+    notify_coming_soon: 'Coming soon',
     photo_label:     'Profile Photo',
     photo_optional:  '(optional but recommended)',
     photo_strong:    'Upload a photo of yourself',
@@ -213,6 +222,15 @@ const T = {
     step3_sub:       'ครอบครัวจะติดต่อคุณผ่านระบบข้อความบนแพลตฟอร์มของเรา อีเมลของคุณเป็นส่วนตัว ใช้สำหรับเข้าสู่ระบบและแจ้งเตือนเท่านั้น',
     email_label:     'อีเมล',
     email_error:     'กรุณากรอกอีเมลที่ถูกต้อง',
+    notify_title:    'รับการแจ้งเตือนข้อความใหม่',
+    notify_email:    'อีเมล',
+    notify_email_sub:'เปิดเสมอ — เราส่งการอัปเดตสำคัญทางอีเมล',
+    notify_line:     'LINE',
+    notify_line_sub: 'รับการแจ้งเตือนทันทีบนมือถือ',
+    notify_whatsapp: 'WhatsApp',
+    notify_whatsapp_sub: 'รับการแจ้งเตือนทันทีบนมือถือ',
+    notify_disclaimer: 'เฉพาะการแจ้งเตือนเท่านั้น — บทสนทนาของคุณจะอยู่บน ThaiHelper เสมอ เราไม่เปิดเผยหมายเลข LINE หรือ WhatsApp ของคุณกับครอบครัว',
+    notify_coming_soon: 'เร็วๆ นี้',
     photo_label:     'รูปโปรไฟล์',
     photo_optional:  '(ไม่บังคับ แต่แนะนำ)',
     photo_strong:    'อัปโหลดรูปถ่ายของคุณ',
@@ -311,6 +329,8 @@ export default function Register() {
   const [bio,         setBio]         = useState('');
   const [email,       setEmail]       = useState('');
   const [terms,       setTerms]       = useState(false);
+  const [notifyLine,     setNotifyLine]     = useState(false);
+  const [notifyWhatsapp, setNotifyWhatsapp] = useState(false);
   const [photoFile,   setPhotoFile]   = useState(null);
   const [photoPreview,setPhotoPreview]= useState('');
   const [photoText,   setPhotoText]   = useState('');
@@ -431,6 +451,8 @@ export default function Register() {
       certificates: certificates.trim(),
       bio:        bio.trim(),
       email:      email.trim(),
+      notify_via_line:     notifyLine,
+      notify_via_whatsapp: notifyWhatsapp,
       turnstileToken,
     };
 
@@ -842,6 +864,94 @@ export default function Register() {
                   <input type="email" value={email} placeholder="your@email.com"
                     onChange={e => { setEmail(e.target.value); setErrors(ev => ({...ev, email:''})); }} />
                   <div className="field-error">{errors.email}</div>
+                </div>
+
+                {/* Notification channels — multi-channel opt-in. Email is
+                    always on; LINE / WhatsApp are opt-in extras that ping
+                    the user's phone when a new message arrives. The actual
+                    LINE / WhatsApp connection (friend-add / phone verify)
+                    happens after registration; here we just capture intent. */}
+                <div className="field">
+                  <label style={{ marginBottom: '8px' }}>{t.notify_title}</label>
+
+                  {/* Email row — locked on, no checkbox */}
+                  <div style={{
+                    display: 'flex', alignItems: 'flex-start', gap: '12px',
+                    padding: '12px 14px', borderRadius: '12px',
+                    background: '#f0fdfa', border: '1px solid #99f6e4',
+                    marginBottom: '8px',
+                  }}>
+                    <span style={{ fontSize: '20px', lineHeight: 1, marginTop: '2px' }}>✉️</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 600, fontSize: '15px', color: '#0f766e' }}>{t.notify_email}</div>
+                      <div style={{ fontSize: '13px', color: '#0d9488', marginTop: '2px' }}>{t.notify_email_sub}</div>
+                    </div>
+                    <span style={{ fontSize: '18px', color: '#14b8a6', marginTop: '2px' }}>✓</span>
+                  </div>
+
+                  {/* LINE row — checkbox */}
+                  <label style={{
+                    display: 'flex', alignItems: 'flex-start', gap: '12px',
+                    padding: '12px 14px', borderRadius: '12px',
+                    background: notifyLine ? '#f0fdf4' : '#fafafa',
+                    border: `1px solid ${notifyLine ? '#86efac' : '#e5e7eb'}`,
+                    marginBottom: '8px', cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}>
+                    <input
+                      type="checkbox"
+                      checked={notifyLine}
+                      onChange={e => setNotifyLine(e.target.checked)}
+                      style={{ width: '18px', height: '18px', marginTop: '2px', flexShrink: 0, cursor: 'pointer' }}
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <span style={{ fontWeight: 600, fontSize: '15px' }}>{t.notify_line}</span>
+                        <span style={{
+                          fontSize: '11px', fontWeight: 600,
+                          padding: '2px 8px', borderRadius: '999px',
+                          background: '#fef3c7', color: '#92400e',
+                        }}>{t.notify_coming_soon}</span>
+                      </div>
+                      <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '2px' }}>{t.notify_line_sub}</div>
+                    </div>
+                  </label>
+
+                  {/* WhatsApp row — checkbox */}
+                  <label style={{
+                    display: 'flex', alignItems: 'flex-start', gap: '12px',
+                    padding: '12px 14px', borderRadius: '12px',
+                    background: notifyWhatsapp ? '#f0fdf4' : '#fafafa',
+                    border: `1px solid ${notifyWhatsapp ? '#86efac' : '#e5e7eb'}`,
+                    marginBottom: '10px', cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}>
+                    <input
+                      type="checkbox"
+                      checked={notifyWhatsapp}
+                      onChange={e => setNotifyWhatsapp(e.target.checked)}
+                      style={{ width: '18px', height: '18px', marginTop: '2px', flexShrink: 0, cursor: 'pointer' }}
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <span style={{ fontWeight: 600, fontSize: '15px' }}>{t.notify_whatsapp}</span>
+                        <span style={{
+                          fontSize: '11px', fontWeight: 600,
+                          padding: '2px 8px', borderRadius: '999px',
+                          background: '#fef3c7', color: '#92400e',
+                        }}>{t.notify_coming_soon}</span>
+                      </div>
+                      <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '2px' }}>{t.notify_whatsapp_sub}</div>
+                    </div>
+                  </label>
+
+                  {/* Disclaimer — privacy reassurance */}
+                  <div style={{
+                    fontSize: '12px', color: 'var(--gray-500)',
+                    lineHeight: 1.5, padding: '0 4px',
+                  }}>
+                    🔒 {t.notify_disclaimer}
+                  </div>
                 </div>
 
                 {/* Photo upload */}

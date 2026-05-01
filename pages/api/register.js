@@ -33,6 +33,7 @@ export default async function handler(req, res) {
     first_name, last_name, date_of_birth, category, skills,
     city, area, additional_cities, experience, languages, rate,
     education, certificates, bio, email,
+    notify_via_line, notify_via_whatsapp,
     turnstileToken, attribution,
   } = req.body;
 
@@ -87,6 +88,8 @@ export default async function handler(req, res) {
         certificates: certificates?.trim() || null,
         bio: sanitizedBio,
         bio_en: bioEn,
+        notify_via_line: notify_via_line === true,
+        notify_via_whatsapp: notify_via_whatsapp === true,
         source: formatAttributionString(attribution),
         email_verified: false,
         verification_token: verificationToken,
