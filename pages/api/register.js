@@ -10,7 +10,10 @@ import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-co
 import { verifyTurnstile } from '../../lib/turnstile';
 import { romanizeThaiName, translateForeignText } from '../../lib/translate';
 import { formatAttributionString } from '../../lib/utm';
-import { generateLinkToken as generateLineLinkToken } from '../../lib/line';
+import {
+  generateLinkToken as generateLineLinkToken,
+  getAddFriendUrl as getLineAddFriendUrl,
+} from '../../lib/line';
 
 // LINE link tokens expire in 30 minutes — long enough to add the bot and
 // send the link message, short enough to limit abuse.
@@ -176,6 +179,9 @@ export default async function handler(req, res) {
         token: lineLinkToken,
         message: `link ${lineLinkToken}`,
         expiresAt: lineLinkExpires,
+        // Full add-friend URL so the success screen can encode it into a
+        // QR code without needing the bot id client-side.
+        addFriendUrl: getLineAddFriendUrl(),
       } : null,
     });
   } catch (err) {

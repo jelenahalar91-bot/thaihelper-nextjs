@@ -8,6 +8,7 @@ import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/hel
 import { CITY_OPTIONS, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
 import { computeAge, validateDob } from '@/lib/age';
 import { event as gaEvent, EVENTS } from '@/lib/analytics';
+import LineConnectCard from '@/components/LineConnectCard';
 import {
   SKILLS_BY_CATEGORY,
   RATES,
@@ -310,6 +311,9 @@ export default function Register() {
   const [step, setStep]             = useState(1);
   const [success, setSuccess]       = useState(false);
   const [refNumber, setRefNumber]   = useState('');
+  // Returned by /api/register when the helper opted into LINE notifications.
+  // Drives the post-registration "Connect LINE" card. null when not opted in.
+  const [lineLink, setLineLink]     = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   // Form fields
@@ -477,6 +481,7 @@ export default function Register() {
       }
 
       setRefNumber(result.ref);
+      setLineLink(result.lineLink || null);
       setSuccess(true);
       gaEvent({ ...EVENTS.REGISTER_COMPLETE, label: 'helper' });
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -559,6 +564,19 @@ export default function Register() {
                 <p>{t.success_p1}</p>
                 <p>{t.success_p2}</p>
                 <div className="success-ref">Ref: {refNumber}</div>
+
+                {/* If the helper opted into LINE, show the connect-card
+                    inline so they can finish the handshake right here
+                    rather than hunting for it later in the dashboard. */}
+                {lineLink && (
+                  <LineConnectCard
+                    token={lineLink.token}
+                    message={lineLink.message}
+                    addFriendUrl={lineLink.addFriendUrl}
+                    lang={lang}
+                  />
+                )}
+
                 <div style={{ textAlign: 'center', margin: '24px 0' }}>
                   <Link href="/profile" style={{
                     display: 'inline-block', padding: '14px 32px', borderRadius: '10px',
