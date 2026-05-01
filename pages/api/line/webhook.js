@@ -86,7 +86,7 @@ async function handleEvent(event) {
 async function onFollow(event) {
   const replyToken = event.replyToken;
   if (!replyToken) return;
-  await sendReply(replyToken, templates.followGreeting({ lang: 'en' }));
+  await sendReply(replyToken, templates.followGreeting({ lang: 'both' }));
 }
 
 // User sent a text message — only meaningful one for us is "link XXXX".
@@ -114,8 +114,8 @@ async function onMessage(event) {
     await sendReply(
       replyToken,
       linked
-        ? templates.linkSuccess({ lang: 'en' })
-        : templates.linkInvalidToken({ lang: 'en' })
+        ? templates.linkSuccess({ lang: 'both' })
+        : templates.linkInvalidToken({ lang: 'both' })
     );
   }
 }
