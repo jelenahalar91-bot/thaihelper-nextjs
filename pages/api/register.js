@@ -10,6 +10,11 @@ import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-co
 import { verifyTurnstile } from '../../lib/turnstile';
 import { romanizeThaiName, translateForeignText } from '../../lib/translate';
 import { formatAttributionString } from '../../lib/utm';
+import { generateLinkToken as generateLineLinkToken } from '../../lib/line';
+
+// LINE link tokens expire in 30 minutes — long enough to add the bot and
+// send the link message, short enough to limit abuse.
+const LINE_LINK_TTL_MS = 30 * 60 * 1000;
 
 function generateRef() {
   return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
@@ -54,6 +59,14 @@ export default async function handler(req, res) {
   const cleanEmail = email.trim().toLowerCase();
   const sanitizedBio = bio ? sanitizeFreeText(bio.trim()) : null;
 
+  // If the helper opted in to LINE notifications, pre-generate the link
+  // token now so the success screen can render the QR + "send this code"
+  // instructions without an extra round-trip.
+  const lineLinkToken = notify_via_line === true ? generateLineLinkToken() : null;
+  const lineLinkExpires = lineLinkToken
+    ? new Date(Date.now() + LINE_LINK_TTL_MS).toISOString()
+    : null;
+
   // If the helper typed their name in Thai script, store a romanized version
   // alongside the original so English-reading employers can read it. Same
   // for the bio: store an English translation in `bio_en` so we can render
@@ -90,6 +103,8 @@ export default async function handler(req, res) {
         bio_en: bioEn,
         notify_via_line: notify_via_line === true,
         notify_via_whatsapp: notify_via_whatsapp === true,
+        line_link_token: lineLinkToken,
+        line_link_expires: lineLinkExpires,
         source: formatAttributionString(attribution),
         email_verified: false,
         verification_token: verificationToken,
@@ -150,7 +165,19 @@ export default async function handler(req, res) {
       console.error('Failed to send confirmation email:', emailErr);
     }
 
-    return res.status(200).json({ success: true, ref, firstName: cleanFirstName });
+    return res.status(200).json({
+      success: true,
+      ref,
+      firstName: cleanFirstName,
+      // If the helper opted in to LINE, hand back the link instructions so
+      // the success screen can render the QR + "send this code" message
+      // without a follow-up API call. The token is also stored in the DB.
+      lineLink: lineLinkToken ? {
+        token: lineLinkToken,
+        message: `link ${lineLinkToken}`,
+        expiresAt: lineLinkExpires,
+      } : null,
+    });
   } catch (err) {
     console.error('Failed to save helper registration:', err);
     return res.status(500).json({ error: 'Failed to save registration' });
