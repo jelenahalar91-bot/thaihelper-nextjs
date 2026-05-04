@@ -148,6 +148,13 @@ const T = {
     hero_cta: 'Create Free Account',
     hero_browse: 'Browse Helper Profiles — No account needed',
     hero_badge: '100% free during launch',
+    // Work permit banner (just below hero)
+    wp_label: 'Work Permits & Visas',
+    wp_title: 'Need a work permit for your nanny?',
+    wp_p: 'Take our 2-minute wizard to find out whether you really need a WP, what it costs, and how long it takes — or jump straight to a vetted lawyer in your city.',
+    wp_cta_wizard: 'Start the Wizard →',
+    wp_cta_directory: 'Find an Expert',
+    nav_wizard: 'Work Permit?',
     // How it works
     how_label: 'How It Works',
     how_title: '3 simple steps',
@@ -270,6 +277,12 @@ const T = {
     hero_cta: 'สร้างบัญชีฟรี',
     hero_browse: 'ดูโปรไฟล์ผู้ช่วย — ไม่ต้องสมัคร',
     hero_badge: 'ฟรี 100% ในช่วงเปิดตัว',
+    wp_label: 'ใบอนุญาตทำงานและวีซ่า',
+    wp_title: 'ต้องการใบอนุญาตทำงานสำหรับพี่เลี้ยงของคุณ?',
+    wp_p: 'ทำแบบสอบถาม 2 นาทีของเรา เพื่อดูว่าคุณจำเป็นต้องมี WP หรือไม่ ค่าใช้จ่ายเท่าไหร่ และใช้เวลานานแค่ไหน หรือไปหาทนายความที่เชื่อถือได้ในเมืองของคุณได้เลย',
+    wp_cta_wizard: 'เริ่มแบบสอบถาม →',
+    wp_cta_directory: 'หาผู้เชี่ยวชาญ',
+    nav_wizard: 'ใบอนุญาต?',
     how_label: 'วิธีการใช้งาน',
     how_title: '3 ขั้นตอนง่ายๆ',
     how_sub: 'เราเชื่อมต่อคุณกับผู้เชี่ยวชาญดูแลบ้านโดยตรง ไม่มีคนกลาง',
@@ -562,6 +575,9 @@ export default function Employers({ featuredHelpers = [] }) {
             </span>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
+            <Link className="hidden md:inline text-xs md:text-sm font-semibold text-primary hover:text-primary-container transition-colors" href="/work-permit-wizard">
+              {t.nav_wizard}
+            </Link>
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/blog">{t.nav_blog}</Link>
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
             <LangSwitcher />
@@ -620,6 +636,36 @@ export default function Employers({ featuredHelpers = [] }) {
                       <div className="text-xs text-on-surface-variant mt-1">{s.l}</div>
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* WORK PERMIT BANNER — wizard + directory entry point */}
+          <section className="px-6 pb-12">
+            <div className="max-w-4xl mx-auto rounded-2xl bg-gradient-to-br from-primary/5 via-white to-primary-container/10 border border-primary/20 p-8 md:p-10">
+              <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8">
+                <div className="flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-primary/10 flex items-center justify-center text-3xl md:text-4xl">
+                  📋
+                </div>
+                <div className="flex-1">
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2 block">{t.wp_label}</span>
+                  <h3 className="text-xl md:text-2xl font-extrabold font-headline text-on-background mb-3">{t.wp_title}</h3>
+                  <p className="text-on-surface-variant text-sm md:text-base leading-relaxed mb-5">{t.wp_p}</p>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Link
+                      href="/work-permit-wizard"
+                      className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-primary text-white text-sm font-bold hover:bg-primary-container hover:shadow-lg transition-all"
+                    >
+                      {t.wp_cta_wizard}
+                    </Link>
+                    <Link
+                      href="/directory"
+                      className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-white border-2 border-primary text-primary text-sm font-bold hover:bg-primary/5 transition-colors"
+                    >
+                      {t.wp_cta_directory}
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
