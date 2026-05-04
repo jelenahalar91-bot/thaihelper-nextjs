@@ -20,23 +20,23 @@ const T = {
     story_title: 'Our story',
     story_p1: 'In December 2024 our family of four packed up our life and moved to Thailand. New country, new language, new everything — and like most expat families with kids, one of the first things we needed was a nanny.',
     story_p2: 'We searched for weeks. Facebook groups felt chaotic — endless posts, dozens of replies, no way to tell who was serious. Half the messages disappeared into the "message requests" folder we never thought to check. We sent enquiries to several agencies, waited days for an answer, and at the end of it all still had no one in our region.',
-    story_p3: 'When applications did come in, they often had no real information — no background, no photo, no idea whether the person had ever cared for children. We wanted transparent pricing, detailed profiles, and a more direct way to connect with the people who might become part of our daily life.',
+    story_p3: 'When applications did come in, they often had no real information — no background, no photo, no idea whether the person had ever cared for children. We wanted detailed profiles and a more direct way to connect with the people who might become part of our daily life.',
     story_p4: 'It wasn\'t just a nanny. We were also looking for a gardener for our pool and garden, and tutors for our kids. Every single search was the same chaos all over again. We kept thinking: in other countries we\'ve lived in, there were proper platforms for exactly this. Why not here?',
     story_p5: 'So we built one.',
 
     values_title: 'What we wanted to fix',
     val1_h: 'Direct contact',
     val1_p: 'No middleman standing between you and the person you might welcome into your home. You message helpers directly, ask the questions that matter to you, and decide for yourselves.',
-    val2_h: 'Transparent, one-time pricing',
-    val2_p: 'Employers pay one simple fee for full access during the period they choose. No hidden charges, no auto-renewing subscriptions, no surprise commissions skimmed off helpers\' wages.',
-    val3_h: 'Free for helpers, always',
-    val3_p: 'Helpers never pay to list their profile or to receive messages. Every dollar they earn from a job stays with them. We refuse to build a platform on the backs of the people doing the work.',
+    val2_h: 'Free for everyone',
+    val2_p: 'No sign-up fees, no subscriptions, no commissions. Both families and helpers use ThaiHelper at no cost — every baht a helper earns from a job stays with them.',
+    val3_h: 'Verified profiles',
+    val3_p: 'Every account is email-verified before it goes live. No fake messages, no recruiters posing as families, no profiles thrown together with no information.',
     val4_h: 'Real profiles, real information',
     val4_p: 'Photos, experience, languages, references, certifications — the things you actually need to make a decision. No more guessing from a one-line Facebook comment.',
 
     family_title: 'Why this matters to us',
     family_p1: 'We are not a faceless company. We are a family living in Thailand who got frustrated enough to build a solution — first for ourselves, then for everyone else in the same situation.',
-    family_p2: 'Every feature on ThaiHelper exists because we needed it ourselves. The category filters, the messaging tool, the verification, the simple pricing — all of it comes from real searches we ran for our own kids, our own home, our own garden.',
+    family_p2: 'Every feature on ThaiHelper exists because we needed it ourselves. The category filters, the messaging tool, the verification, the direct contact — all of it comes from real searches we ran for our own kids, our own home, our own garden.',
     family_p3: 'We hope ThaiHelper saves you the weeks of waiting and uncertainty we went through. And we hope it gives the wonderful helpers across Thailand a fairer way to find good families to work with.',
 
     cta_h2: 'Ready to get started?',
@@ -49,7 +49,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
 
   th: {
@@ -68,23 +68,23 @@ const T = {
     story_title: 'เรื่องราวของเรา',
     story_p1: 'ในเดือนธันวาคม 2024 ครอบครัวสี่คนของเราย้ายมาอยู่ประเทศไทย ประเทศใหม่ ภาษาใหม่ ทุกอย่างใหม่ และเหมือนครอบครัวต่างชาติที่มีลูกส่วนใหญ่ สิ่งแรกๆ ที่เราต้องการคือพี่เลี้ยงเด็ก',
     story_p2: 'เราหาอยู่หลายสัปดาห์ กลุ่ม Facebook นั้นวุ่นวายมาก โพสต์ไม่จบสิ้น คำตอบนับสิบ และไม่มีวิธีบอกได้ว่าใครจริงจัง ข้อความครึ่งหนึ่งหายไปในโฟลเดอร์ "คำขอข้อความ" ที่เราไม่เคยคิดจะเปิดดู เราติดต่อเอเจนซี่หลายแห่ง รอหลายวันกว่าจะได้คำตอบ และสุดท้ายก็ยังไม่มีใครในพื้นที่ของเรา',
-    story_p3: 'เมื่อมีใบสมัครเข้ามา ก็มักจะไม่มีข้อมูลจริง ไม่มีประวัติ ไม่มีรูปถ่าย ไม่รู้เลยว่าคนคนนั้นเคยดูแลเด็กมาก่อนหรือไม่ เราต้องการราคาที่โปร่งใส โปรไฟล์ที่มีรายละเอียด และวิธีเชื่อมต่อโดยตรงกับคนที่อาจเข้ามาเป็นส่วนหนึ่งของชีวิตประจำวัน',
+    story_p3: 'เมื่อมีใบสมัครเข้ามา ก็มักจะไม่มีข้อมูลจริง ไม่มีประวัติ ไม่มีรูปถ่าย ไม่รู้เลยว่าคนคนนั้นเคยดูแลเด็กมาก่อนหรือไม่ เราต้องการโปรไฟล์ที่มีรายละเอียดและวิธีเชื่อมต่อโดยตรงกับคนที่อาจเข้ามาเป็นส่วนหนึ่งของชีวิตประจำวัน',
     story_p4: 'ไม่ใช่แค่พี่เลี้ยง เรายังต้องการคนสวนสำหรับสระน้ำและสวน และครูสอนพิเศษให้ลูกๆ ทุกการค้นหาคือความวุ่นวายเดิมๆ ซ้ำแล้วซ้ำเล่า เราคิดอยู่ตลอดว่า ในประเทศอื่นๆ ที่เราเคยอยู่ มีแพลตฟอร์มที่เหมาะสมสำหรับเรื่องนี้โดยเฉพาะ ทำไมที่นี่ไม่มี?',
     story_p5: 'เราเลยสร้างมันขึ้นมาเอง',
 
     values_title: 'สิ่งที่เราต้องการแก้ไข',
     val1_h: 'ติดต่อโดยตรง',
     val1_p: 'ไม่มีคนกลางระหว่างคุณกับคนที่คุณอาจรับเข้ามาในบ้าน คุณส่งข้อความหาผู้ช่วยโดยตรง ถามคำถามที่สำคัญสำหรับคุณ และตัดสินใจด้วยตัวเอง',
-    val2_h: 'ราคาโปร่งใส จ่ายครั้งเดียว',
-    val2_p: 'นายจ้างจ่ายค่าธรรมเนียมเดียวง่ายๆ สำหรับการเข้าถึงเต็มรูปแบบในช่วงเวลาที่เลือก ไม่มีค่าใช้จ่ายแอบแฝง ไม่มีการต่ออายุอัตโนมัติ ไม่มีค่าคอมมิชชั่นที่หักจากค่าจ้างผู้ช่วย',
-    val3_h: 'ฟรีสำหรับผู้ช่วยตลอดไป',
-    val3_p: 'ผู้ช่วยไม่ต้องจ่ายเงินเพื่อลงโปรไฟล์หรือรับข้อความ รายได้ทั้งหมดที่พวกเขาได้รับจากการทำงานเป็นของพวกเขา เราจะไม่สร้างแพลตฟอร์มบนหลังของคนที่ทำงานจริง',
+    val2_h: 'ฟรีสำหรับทุกคน',
+    val2_p: 'ไม่มีค่าสมัคร ไม่มีค่าสมาชิก ไม่มีค่าคอมมิชชั่น ทั้งครอบครัวและผู้ช่วยใช้งาน ThaiHelper ได้ฟรี — ทุกบาทที่ผู้ช่วยได้รับจากงานเป็นของพวกเขา',
+    val3_h: 'โปรไฟล์ที่ยืนยันแล้ว',
+    val3_p: 'ทุกบัญชีต้องยืนยันอีเมลก่อนเปิดใช้งาน ไม่มีข้อความปลอม ไม่มีนักสรรหาที่แอบอ้างเป็นครอบครัว ไม่มีโปรไฟล์ที่ทำขึ้นอย่างขาดข้อมูล',
     val4_h: 'โปรไฟล์จริง ข้อมูลจริง',
     val4_p: 'รูปภาพ ประสบการณ์ ภาษา ใบอ้างอิง ใบรับรอง สิ่งที่คุณต้องการเพื่อตัดสินใจ ไม่ต้องเดาจากความคิดเห็นบรรทัดเดียวบน Facebook อีกต่อไป',
 
     family_title: 'ทำไมสิ่งนี้สำคัญกับเรา',
     family_p1: 'เราไม่ใช่บริษัทไร้ตัวตน เราคือครอบครัวที่อาศัยอยู่ในประเทศไทยที่หงุดหงิดมากพอจนต้องสร้างทางออก ก่อนอื่นเพื่อตัวเรา จากนั้นเพื่อทุกคนที่อยู่ในสถานการณ์เดียวกัน',
-    family_p2: 'ทุกฟีเจอร์บน ThaiHelper มีอยู่เพราะเราต้องการมันเอง ตัวกรองหมวดหมู่ เครื่องมือส่งข้อความ การยืนยันตัวตน ราคาที่เรียบง่าย ทั้งหมดมาจากการค้นหาจริงๆ ที่เราทำเพื่อลูกๆ ของเรา บ้านของเรา สวนของเรา',
+    family_p2: 'ทุกฟีเจอร์บน ThaiHelper มีอยู่เพราะเราต้องการมันเอง ตัวกรองหมวดหมู่ เครื่องมือส่งข้อความ การยืนยันตัวตน การติดต่อโดยตรง ทั้งหมดมาจากการค้นหาจริงๆ ที่เราทำเพื่อลูกๆ ของเรา บ้านของเรา สวนของเรา',
     family_p3: 'เราหวังว่า ThaiHelper จะช่วยให้คุณประหยัดเวลาหลายสัปดาห์ของการรอคอยและความไม่แน่นอนที่เราเคยเจอ และเราหวังว่ามันจะให้ผู้ช่วยที่ยอดเยี่ยมทั่วประเทศไทยมีวิธีที่เป็นธรรมในการหาครอบครัวที่ดีให้ทำงานด้วย',
 
     cta_h2: 'พร้อมเริ่มต้นแล้วหรือยัง?',
@@ -96,7 +96,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_line: 'LINE', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการให้บริการ',
-    footer_disclaimer: 'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app ใช้งานฟรี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
 
 };
@@ -270,7 +270,6 @@ export default function About() {
                   <ul className="space-y-3">
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#benefits">{t.footer_find}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#categories">{t.footer_hire}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/pricing">{t.footer_pricing}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_employers}</Link></li>
                   </ul>
                 </div>

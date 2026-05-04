@@ -382,7 +382,7 @@ export default function HirePage({ page, matchingHelpers = [] }) {
         {/* Footer */}
         <footer className="bg-[#001b3d] text-white/60 border-t border-white/10 py-8">
           <div className="max-w-5xl mx-auto px-4 text-center text-sm">
-            <p>&copy; {new Date().getFullYear()} ThaiHelper.app — Planet Bamboo GmbH</p>
+            <p>&copy; {new Date().getFullYear()} ThaiHelper.app</p>
             <div className="mt-2 flex justify-center gap-4">
               <Link href="/privacy" className="hover:text-white transition-colors">{isEn ? 'Privacy' : 'ความเป็นส่วนตัว'}</Link>
               <Link href="/terms" className="hover:text-white transition-colors">{isEn ? 'Terms' : 'ข้อกำหนด'}</Link>

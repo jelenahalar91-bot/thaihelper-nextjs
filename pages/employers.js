@@ -80,11 +80,11 @@ const EMPLOYER_FAQS = {
   en: [
     {
       question: 'How much does it cost to find a helper on ThaiHelper?',
-      answer: 'ThaiHelper is currently 100% free for everyone — including messaging helpers — during our launch phase. After launch, families pay a one-time access fee starting at $9 for 1 month of unlimited messaging. Helpers always pay nothing.',
+      answer: 'ThaiHelper is 100% free for everyone — including messaging helpers. There are no fees for families and no fees for helpers.',
     },
     {
       question: 'How is ThaiHelper different from a traditional agency?',
-      answer: 'Traditional agencies charge 1–3 months\' salary as a placement fee plus ongoing commissions. ThaiHelper charges a small one-time platform fee (free during launch) and connects you directly with helpers — no commissions, no middleman. You agree on salary directly with the helper.',
+      answer: 'Traditional agencies charge 1–3 months\' salary as a placement fee plus ongoing commissions. ThaiHelper is free to use and connects you directly with helpers — no commissions, no middleman. You agree on salary directly with the helper.',
     },
     {
       question: 'Does ThaiHelper verify helpers?',
@@ -106,11 +106,11 @@ const EMPLOYER_FAQS = {
   th: [
     {
       question: 'การหาผู้ช่วยบน ThaiHelper มีค่าใช้จ่ายเท่าไหร่?',
-      answer: 'ขณะนี้ ThaiHelper ฟรี 100% สำหรับทุกคน — รวมถึงการส่งข้อความหาผู้ช่วย — ในช่วงเปิดตัว หลังเปิดตัว ครอบครัวจะจ่ายค่าธรรมเนียมแบบครั้งเดียวเริ่มต้นที่ $9 สำหรับ 1 เดือนของการส่งข้อความไม่จำกัด ผู้ช่วยไม่ต้องจ่ายเงินเสมอ',
+      answer: 'ThaiHelper ฟรี 100% สำหรับทุกคน — รวมถึงการส่งข้อความหาผู้ช่วย ไม่มีค่าธรรมเนียมสำหรับครอบครัวหรือผู้ช่วย',
     },
     {
       question: 'ThaiHelper แตกต่างจากเอเจนซี่ทั่วไปอย่างไร?',
-      answer: 'เอเจนซี่ทั่วไปคิดค่านายหน้า 1–3 เดือนของเงินเดือน บวกค่าคอมมิชชั่นต่อเนื่อง ThaiHelper คิดค่าธรรมเนียมแพลตฟอร์มเล็กน้อยแบบครั้งเดียว (ฟรีในช่วงเปิดตัว) และเชื่อมต่อคุณกับผู้ช่วยโดยตรง — ไม่มีค่าคอมมิชชั่น ไม่มีคนกลาง คุณตกลงเรื่องเงินเดือนกับผู้ช่วยโดยตรง',
+      answer: 'เอเจนซี่ทั่วไปคิดค่านายหน้า 1–3 เดือนของเงินเดือน บวกค่าคอมมิชชั่นต่อเนื่อง ThaiHelper ใช้งานฟรีและเชื่อมต่อคุณกับผู้ช่วยโดยตรง — ไม่มีค่าคอมมิชชั่น ไม่มีคนกลาง คุณตกลงเรื่องเงินเดือนกับผู้ช่วยโดยตรง',
     },
     {
       question: 'ThaiHelper ตรวจสอบผู้ช่วยอย่างไร?',
@@ -147,7 +147,7 @@ const T = {
     hero_p: 'Browse verified nannies, housekeepers, chefs, drivers and more in your city. Create a free account and start messaging helpers today.',
     hero_cta: 'Create Free Account',
     hero_browse: 'Browse Helper Profiles — No account needed',
-    hero_badge: '100% free during launch',
+    hero_badge: '100% free for everyone',
     // Work permit banner (just below hero)
     wp_label: 'Work Permits & Visas',
     wp_title: 'Need a work permit for your nanny?',
@@ -170,7 +170,7 @@ const T = {
     why_title: 'A better way to find help',
     why_sub: 'We built ThaiHelper because finding trusted help should be simple, transparent and affordable.',
     why1_h: '100% Free to Start',
-    why1_p: 'No sign-up fees, no monthly subscriptions. Browse profiles at no cost — only pay for premium contact features later.',
+    why1_p: 'No sign-up fees, no subscriptions, no commissions. Browse profiles, message helpers, and connect — all free.',
     why2_h: 'No Middleman Fees',
     why2_p: 'Connect directly with helpers. We charge a small platform fee — no commissions on salaries.',
     why3_h: 'Email-Verified Profiles',
@@ -217,7 +217,7 @@ const T = {
     form_label: 'Register Now',
     form_title: 'Start Hiring Today',
     form_sub: 'Create your free account and message helpers directly.',
-    promo_badge: '100% free during launch — no credit card',
+    promo_badge: '100% free — no credit card',
     cta_card_h: 'Create Your Free Account',
     cta_card_sub: 'Free account with full messaging access. Find the perfect helper for your family.',
     cta_card_b1: 'Browse verified helper profiles in your city',
@@ -247,7 +247,7 @@ const T = {
     cta_btn: 'Share with Helpers',
     // Footer
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff. Direct connections, no middlemen.',
-    footer_disclaimer: 'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
     footer_product: 'Product',
     footer_fp1: 'For Helpers',
     footer_fp2: 'For Families',
@@ -276,7 +276,7 @@ const T = {
     hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ สร้างบัญชีฟรีและเริ่มส่งข้อความหาผู้ช่วยได้วันนี้',
     hero_cta: 'สร้างบัญชีฟรี',
     hero_browse: 'ดูโปรไฟล์ผู้ช่วย — ไม่ต้องสมัคร',
-    hero_badge: 'ฟรี 100% ในช่วงเปิดตัว',
+    hero_badge: 'ฟรี 100% สำหรับทุกคน',
     wp_label: 'ใบอนุญาตทำงานและวีซ่า',
     wp_title: 'ต้องการใบอนุญาตทำงานสำหรับพี่เลี้ยงของคุณ?',
     wp_p: 'ทำแบบสอบถาม 2 นาทีของเรา เพื่อดูว่าคุณจำเป็นต้องมี WP หรือไม่ ค่าใช้จ่ายเท่าไหร่ และใช้เวลานานแค่ไหน หรือไปหาทนายความที่เชื่อถือได้ในเมืองของคุณได้เลย',
@@ -363,7 +363,7 @@ const T = {
     cta_sub: 'บอกพี่เลี้ยง แม่บ้าน หรือคนขับของคุณเกี่ยวกับ ThaiHelper พวกเขาสามารถลงทะเบียนฟรี',
     cta_btn: 'แชร์กับผู้ช่วย',
     footer_desc: 'ThaiHelper เชื่อมต่อครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานดูแลบ้านที่ไว้ใจได้ เชื่อมต่อโดยตรง ไม่มีคนกลาง',
-    footer_disclaimer: 'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app ใช้งานฟรี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
     footer_product: 'ผลิตภัณฑ์', footer_fp1: 'สำหรับผู้ช่วย', footer_fp2: 'สำหรับครอบครัว', footer_fp3: 'วิธีการใช้งาน', footer_fp4: 'ตัวช่วยใบอนุญาตทำงาน', footer_fp5: 'รายชื่อผู้เชี่ยวชาญ',
     footer_company: 'บริษัท', footer_fc1: 'เกี่ยวกับเรา', footer_fc2: 'ติดต่อ', footer_line: 'LINE',
     footer_legal: 'กฎหมาย', footer_fl1: 'นโยบายความเป็นส่วนตัว', footer_fl2: 'ข้อกำหนดการใช้บริการ',
@@ -735,62 +735,6 @@ export default function Employers({ featuredHelpers = [] }) {
             </div>
           </section>
 
-          {/* PRICING — three one-time-payment tiers. Promo banner on top,
-              "no subscription" hammered in the subline + footnote so the
-              page reads as transparent rather than a trial trap. */}
-          <section className="py-16 md:py-24 px-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-12">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-2 block">{t.pricing_label}</span>
-                <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-background mb-4">{t.pricing_title}</h2>
-                <p className="text-on-surface-variant max-w-2xl mx-auto mb-4">{t.pricing_sub}</p>
-                <div className="inline-block bg-[#006a62]/10 text-[#006a62] text-sm font-bold px-4 py-2 rounded-full">
-                  🎉 {t.pricing_promo}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                {[
-                  { name: t.pricing_tier1_name,  price: t.pricing_tier1_price,  desc: t.pricing_tier1_desc, badge: null,             save: null },
-                  { name: t.pricing_tier3_name,  price: t.pricing_tier3_price,  desc: t.pricing_tier3_desc, badge: t.pricing_tier3_badge, save: t.pricing_tier3_save, highlight: true },
-                  { name: t.pricing_tier12_name, price: t.pricing_tier12_price, desc: t.pricing_tier12_desc, badge: null,            save: t.pricing_tier12_save },
-                ].map((tier, i) => (
-                  <div
-                    key={i}
-                    className={`rounded-2xl p-6 border-2 ${tier.highlight ? 'border-[#006a62] bg-white shadow-lg scale-[1.02]' : 'border-gray-200 bg-white'}`}
-                  >
-                    {tier.badge && (
-                      <div className="inline-block bg-[#006a62] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">{tier.badge}</div>
-                    )}
-                    <h3 className="text-lg font-bold text-on-background">{tier.name}</h3>
-                    <div className="flex items-baseline gap-2 my-3">
-                      <span className="text-4xl font-extrabold text-on-background">{tier.price}</span>
-                      {tier.save && <span className="text-sm font-bold text-[#F4A261]">{tier.save}</span>}
-                    </div>
-                    <p className="text-sm text-on-surface-variant mb-5">{tier.desc}</p>
-                    <ul className="space-y-2 text-sm text-on-surface-variant">
-                      <li>✓ {t.pricing_feat_browse}</li>
-                      <li>✓ {t.pricing_feat_message}</li>
-                      <li>✓ {t.pricing_feat_contact}</li>
-                      <li>✓ {t.pricing_feat_favs}</li>
-                    </ul>
-                  </div>
-                ))}
-              </div>
-
-              <div className="text-center mt-8 space-y-3">
-                <p className="text-sm font-semibold text-[#006a62]">
-                  ✓ {t.pricing_no_subscription}
-                </p>
-                <p className="text-xs text-on-surface-variant max-w-2xl mx-auto">
-                  {t.pricing_compare}
-                </p>
-                <Link href="/pricing" className="inline-block text-sm font-semibold text-[#006a62] hover:underline">
-                  {t.pricing_full_link}
-                </Link>
-              </div>
-            </div>
-          </section>
 
           {/* FEATURED HELPERS — real, recently registered helpers fetched
               server-side. Each card opens the full HelperProfileModal so

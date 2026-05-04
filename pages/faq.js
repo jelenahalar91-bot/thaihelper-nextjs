@@ -13,7 +13,7 @@ const ALL_FAQS = [
   { question: 'What information is visible on my profile?', answer: 'Your name, city, service category, skills, experience, languages, rate, bio and profile photo are publicly visible. Your email and phone number are never shown publicly.' },
   { question: 'How do families contact me?', answer: 'Families send you messages directly through the ThaiHelper platform. You will see their messages when you log in to your dashboard.' },
   { question: 'Can I edit or delete my profile?', answer: 'Yes. Log in to your dashboard to edit your profile at any time. To delete your profile entirely, contact support@thaihelper.app and we will remove it within 14 days.' },
-  { question: 'How much does ThaiHelper cost for families?', answer: 'ThaiHelper is currently 100% free for everyone — including messaging helpers — while we are in launch phase. In the future we will introduce a one-time access fee for messaging, but for now everything on the platform is free to use.' },
+  { question: 'How much does ThaiHelper cost for families?', answer: 'ThaiHelper is 100% free for everyone — including messaging helpers. There are no fees for families or for helpers.' },
   { question: 'How do I find a helper?', answer: 'Browse the helper directory and use filters (city, category, experience, languages) to narrow down your search. Click on a profile to see the full details, then send a message directly.' },
   { question: 'Does ThaiHelper do background checks?', answer: 'No. ThaiHelper is a platform that connects helpers with families. We do not verify credentials or conduct background checks. We recommend conducting your own interviews, reference checks and any applicable legal employment steps before hiring.' },
   { question: 'Can I post a job listing?', answer: 'Currently, employers browse and contact helpers directly. A dedicated job board feature is planned for the future.' },
@@ -52,7 +52,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
   th: {
     nav_employers: 'สำหรับครอบครัว',
@@ -66,7 +66,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_line: 'LINE', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ',
-    footer_disclaimer: 'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app ใช้งานฟรี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
 };
 
@@ -154,7 +154,6 @@ export default function FAQ() {
                   <ul className="space-y-3">
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#benefits">{t.footer_find}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#categories">{t.footer_hire}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/pricing">{t.footer_pricing}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_employers}</Link></li>
                   </ul>
                 </div>
@@ -238,7 +237,7 @@ function FAQEN() {
 
       <h3>How much does ThaiHelper cost for families?</h3>
       <p>
-        ThaiHelper is currently <strong>100% free for everyone</strong> — including messaging helpers — while we are in launch phase. In the future we will introduce a one-time access fee for messaging, but for now everything on the platform is free to use. Check our <Link href="/pricing" style={{ color: '#006a62' }}>pricing page</Link> for details.
+        ThaiHelper is <strong>100% free for everyone</strong> — including messaging helpers. There are no fees for families or for helpers.
       </p>
 
       <h3>How do I find a helper?</h3>
@@ -329,7 +328,7 @@ function FAQTH() {
 
       <h3>ThaiHelper ราคาเท่าไหร่?</h3>
       <p>
-        ThaiHelper ใช้งาน <strong>ฟรี 100% สำหรับทุกคน</strong> — รวมถึงการส่งข้อความหาผู้ช่วย — ในช่วงเปิดตัว ในอนาคตเราจะเก็บค่าธรรมเนียมแบบจ่ายครั้งเดียวสำหรับการส่งข้อความ แต่ตอนนี้ทุกอย่างฟรี ดูรายละเอียดที่ <Link href="/pricing" style={{ color: '#006a62' }}>หน้าราคา</Link>
+        ThaiHelper ใช้งาน <strong>ฟรี 100% สำหรับทุกคน</strong> — รวมถึงการส่งข้อความหาผู้ช่วย ไม่มีค่าธรรมเนียมสำหรับครอบครัวหรือผู้ช่วย
       </p>
 
       <h3>ฉันหาผู้ช่วยได้อย่างไร?</h3>

@@ -259,7 +259,6 @@ export default function BlogPost({ post }) {
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">Product</h4>
                   <ul className="space-y-3">
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/helpers">Browse Helpers</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/pricing">Pricing</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/employers">For Families</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm font-medium text-primary" href="/blog">Blog</Link></li>
                   </ul>

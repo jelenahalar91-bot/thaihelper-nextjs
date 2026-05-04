@@ -17,7 +17,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
   },
   th: {
     nav_employers: 'สำหรับครอบครัว',
@@ -32,7 +32,7 @@ const T = {
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_line: 'LINE', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้บริการ',
-    footer_disclaimer: 'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer: 'ThaiHelper.app ใช้งานฟรี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
 };
 
@@ -116,7 +116,6 @@ export default function Terms() {
                   <ul className="space-y-3">
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#benefits">{t.footer_find}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#categories">{t.footer_hire}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/pricing">{t.footer_pricing}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_employers}</Link></li>
                   </ul>
                 </div>
@@ -157,7 +156,7 @@ function TermsEN() {
         ThaiHelper.app is a community connection platform and passive digital bulletin board that helps families in Thailand discover household service providers, and helps service providers find work opportunities. ThaiHelper does not provide recruitment or placement services.
       </p>
       <p>
-        <strong>Operator:</strong> Planet Bamboo GmbH, Ginsterweg 7, 70794 Filderstadt, Germany. Registered at Amtsgericht Stuttgart, HRB 770197. Managing Director: Jelena Hermann. Contact: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>.
+        <strong>Operator:</strong> ThaiHelper.app. Contact: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>.
       </p>
       <p>
         By using ThaiHelper — whether as a service provider registering a profile, or as a family browsing the platform — you agree to these Terms of Service.
@@ -173,7 +172,7 @@ function TermsEN() {
 
       <h2>3. Nature of Service — Digital Bulletin Board, Not an Agency</h2>
       <p>
-        ThaiHelper.app is a digital bulletin board that allows users to post profiles and communicate. We do not provide local employment services in Thailand. We are a venue, not an employer, agent, or recruiter. We are not a recruitment agency and do not engage in placement services as defined under Thai or German law.
+        ThaiHelper.app is a digital bulletin board that allows users to post profiles and communicate. We do not provide local employment services in Thailand. We are a venue, not an employer, agent, or recruiter. We are not a recruitment agency and do not engage in placement services as defined under Thai law.
       </p>
       <p>
         Any agreement between a "Helper" (service provider) and a "Family" (employer) is a private contract to which ThaiHelper.app is not a party. ThaiHelper does not employ, supervise, or control any service providers listed on the platform and accepts no liability arising from any such agreement.
@@ -200,15 +199,9 @@ function TermsEN() {
         <li>You are strictly advised to consult with the Thai Department of Employment or a legal professional before formalizing an employment arrangement.</li>
       </ul>
 
-      <h2>6. Fee Structure &amp; Platform Access</h2>
+      <h2>6. Platform Access</h2>
       <p>
-        <strong>ThaiHelper is currently 100% free to use for all users.</strong> No fees are charged to service providers (Helpers) or families (Employers) at this time.
-      </p>
-      <p>
-        Any future introduction of fees will be announced in advance and governed by updated terms. Should fees be introduced, they will take the form of a <strong>Platform Access Fee</strong> for the use of software, database access, and communication tools only. Such a fee would <strong>not</strong> constitute a "Success Fee," "Placement Fee," or "Recruitment Fee." Future payments will be processed as international transactions through a foreign Merchant of Record.
-      </p>
-      <p>
-        A Platform Access Fee, if introduced, would not guarantee a successful hire, the availability of any candidate, or the legal eligibility of any service provider to work in a specific role.
+        <strong>ThaiHelper is 100% free to use for all users.</strong> No fees are charged to service providers (Helpers) or to families (Employers).
       </p>
 
       <h2>7. Work Permits &amp; Visas</h2>
@@ -255,7 +248,7 @@ function TermsEN() {
 
       <h2>12. Governing Law</h2>
       <p>
-        This platform is operated from Germany under German business registration. These Terms are governed by the laws of the Federal Republic of Germany. Any legal disputes arising from the use of this platform shall be governed by German law and subject to the jurisdiction of the competent courts in Stuttgart, Germany.
+        These Terms are governed by the laws of the Kingdom of Thailand. Any disputes arising from the use of this platform shall be subject to the non-exclusive jurisdiction of the competent courts in Thailand.
       </p>
 
       <h2>13. Changes to These Terms</h2>
@@ -280,7 +273,7 @@ function TermsTH() {
         ThaiHelper.app เป็นแพลตฟอร์มเชื่อมต่อชุมชนและกระดานประกาศดิจิทัลแบบพาสซีฟที่ช่วยให้ครอบครัวในประเทศไทยค้นหาผู้ให้บริการในบ้าน และช่วยให้ผู้ให้บริการค้นหาโอกาสในการทำงาน ThaiHelper ไม่ได้ให้บริการสรรหาหรือจัดหางาน
       </p>
       <p>
-        <strong>ผู้ดำเนินการ:</strong> Planet Bamboo GmbH, Ginsterweg 7, 70794 Filderstadt ประเทศเยอรมนี จดทะเบียนที่ Amtsgericht Stuttgart, HRB 770197 กรรมการผู้จัดการ: Jelena Hermann ติดต่อ: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>
+        <strong>ผู้ดำเนินการ:</strong> ThaiHelper.app ติดต่อ: <a href="mailto:support@thaihelper.app">support@thaihelper.app</a>
       </p>
       <p>
         การใช้ ThaiHelper ไม่ว่าจะในฐานะผู้ให้บริการที่ลงทะเบียนโปรไฟล์ หรือครอบครัวที่ค้นหาผู้ช่วย ถือว่าคุณยอมรับข้อกำหนดการใช้บริการเหล่านี้
@@ -296,7 +289,7 @@ function TermsTH() {
 
       <h2>3. ลักษณะของบริการ — กระดานประกาศดิจิทัล ไม่ใช่ตัวแทนจัดหางาน</h2>
       <p>
-        ThaiHelper.app เป็นกระดานประกาศดิจิทัลที่อนุญาตให้ผู้ใช้โพสต์โปรไฟล์และสื่อสารกัน เราไม่ได้ให้บริการจ้างงานในประเทศไทย เราเป็นสถานที่ (venue) ไม่ใช่นายจ้าง ตัวแทน หรือผู้สรรหา เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางานตามที่กฎหมายไทยหรือเยอรมันกำหนด
+        ThaiHelper.app เป็นกระดานประกาศดิจิทัลที่อนุญาตให้ผู้ใช้โพสต์โปรไฟล์และสื่อสารกัน เราไม่ได้ให้บริการจ้างงานในประเทศไทย เราเป็นสถานที่ (venue) ไม่ใช่นายจ้าง ตัวแทน หรือผู้สรรหา เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางานตามที่กฎหมายไทยกำหนด
       </p>
       <p>
         ข้อตกลงใดๆ ระหว่าง "ผู้ช่วย" (ผู้ให้บริการ) และ "ครอบครัว" (นายจ้าง) เป็นสัญญาส่วนตัวที่ ThaiHelper.app ไม่ใช่คู่สัญญา ThaiHelper ไม่ได้จ้าง ดูแล หรือควบคุมผู้ให้บริการที่แสดงอยู่บนแพลตฟอร์ม และไม่รับผิดชอบใดๆ ที่เกิดจากข้อตกลงดังกล่าว
@@ -324,15 +317,9 @@ function TermsTH() {
         <li>แนะนำอย่างยิ่งให้ปรึกษากรมการจัดหางานหรือผู้เชี่ยวชาญทางกฎหมายก่อนทำข้อตกลงการจ้างงาน</li>
       </ul>
 
-      <h2>6. โครงสร้างค่าบริการและการเข้าถึงแพลตฟอร์ม</h2>
+      <h2>6. การเข้าถึงแพลตฟอร์ม</h2>
       <p>
-        <strong>ThaiHelper ให้บริการฟรี 100% สำหรับผู้ใช้ทุกคนในปัจจุบัน</strong> ไม่มีการเรียกเก็บค่าธรรมเนียมจากผู้ให้บริการ (ผู้ช่วย) หรือครอบครัว (นายจ้าง) ในขณะนี้
-      </p>
-      <p>
-        การเรียกเก็บค่าธรรมเนียมในอนาคตจะได้รับการแจ้งล่วงหน้าและอยู่ภายใต้ข้อกำหนดที่ปรับปรุงใหม่ หากมีการเรียกเก็บค่าธรรมเนียม จะอยู่ในรูปแบบ <strong>ค่าธรรมเนียมการเข้าถึงแพลตฟอร์ม</strong> สำหรับการใช้ซอฟต์แวร์ การเข้าถึงฐานข้อมูล และเครื่องมือสื่อสารเท่านั้น <strong>ไม่ใช่</strong> "ค่าธรรมเนียมความสำเร็จ" "ค่าจัดหางาน" หรือ "ค่าสรรหาบุคลากร" การชำระเงินในอนาคตจะดำเนินการเป็นธุรกรรมระหว่างประเทศผ่าน Merchant of Record ต่างประเทศ
-      </p>
-      <p>
-        ค่าธรรมเนียมการเข้าถึงแพลตฟอร์ม หากมีการเรียกเก็บ จะไม่รับประกันการจ้างงานที่สำเร็จ ความพร้อมของผู้สมัคร หรือสิทธิ์ตามกฎหมายของผู้ให้บริการในการทำงานในตำแหน่งใดตำแหน่งหนึ่ง
+        <strong>ThaiHelper ให้บริการฟรี 100% สำหรับผู้ใช้ทุกคน</strong> ไม่มีการเรียกเก็บค่าธรรมเนียมจากผู้ให้บริการ (ผู้ช่วย) หรือครอบครัว (นายจ้าง)
       </p>
 
       <h2>7. ใบอนุญาตทำงานและวีซ่า</h2>
@@ -379,7 +366,7 @@ function TermsTH() {
 
       <h2>12. กฎหมายที่ใช้บังคับ</h2>
       <p>
-        แพลตฟอร์มนี้ดำเนินการจากประเทศเยอรมนีภายใต้การจดทะเบียนธุรกิจเยอรมัน ข้อกำหนดเหล่านี้อยู่ภายใต้กฎหมายแห่งสหพันธ์สาธารณรัฐเยอรมนี ข้อพิพาททางกฎหมายใดๆ ที่เกิดจากการใช้แพลตฟอร์มนี้จะอยู่ภายใต้กฎหมายเยอรมันและเขตอำนาจศาลที่มีอำนาจในเมืองชตุทท์การ์ท ประเทศเยอรมนี
+        ข้อกำหนดเหล่านี้อยู่ภายใต้กฎหมายแห่งราชอาณาจักรไทย ข้อพิพาทใดๆ ที่เกิดจากการใช้แพลตฟอร์มนี้จะอยู่ภายใต้เขตอำนาจศาลที่มีอำนาจในประเทศไทย
       </p>
 
       <h2>13. การเปลี่ยนแปลงข้อกำหนด</h2>

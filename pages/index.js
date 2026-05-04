@@ -59,7 +59,7 @@ const T = {
     cta_sub:'Create your free profile and let families find you.',
     cta_btn1:'Register Now – Free',cta_btn2:'Learn More',
     footer_desc:'A free platform connecting independent service providers with families in Thailand.',
-    footer_disclaimer:'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer:'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
     footer_product:'Product',footer_company:'Company',footer_legal:'Legal',
     footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',footer_employers:'For Families',footer_wizard:'Work Permit Wizard',footer_directory:'Expert Directory',
     footer_contact:'Contact Us',footer_line:'LINE',footer_about:'About Us',footer_faq:'FAQ',
@@ -114,7 +114,7 @@ const T = {
     cta_sub:'สร้างโปรไฟล์ฟรีและให้ครอบครัวที่กำลังมองหาผู้ช่วยที่ไว้วางใจได้ค้นพบคุณ',
     cta_btn1:'สมัครเลย – ฟรี',cta_btn2:'เรียนรู้เพิ่มเติม',
     footer_desc:'แพลตฟอร์มฟรีที่เชื่อมต่อผู้ให้บริการอิสระกับครอบครัวในประเทศไทย',
-    footer_disclaimer:'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
+    footer_disclaimer:'ThaiHelper.app ใช้งานฟรี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
     footer_product:'ผลิตภัณฑ์',footer_company:'บริษัท',footer_legal:'กฎหมาย',
     footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',footer_employers:'สำหรับครอบครัว',footer_wizard:'ตัวช่วยใบอนุญาตทำงาน',footer_directory:'รายชื่อผู้เชี่ยวชาญ',
     footer_contact:'ติดต่อเรา',footer_line:'LINE',footer_about:'เกี่ยวกับเรา',footer_faq:'คำถามที่พบบ่อย',
@@ -212,7 +212,7 @@ export default function Home() {
 
   // FAQ data for structured data — these target common AI queries
   const homeFaqs = [
-    { question: 'Is ThaiHelper really free for helpers?', answer: 'Yes, creating a profile on ThaiHelper is 100% free for helpers — forever. There are no sign-up fees, no monthly fees, and no commission taken from your salary. Only employers pay for verified access to contact helpers directly.' },
+    { question: 'Is ThaiHelper really free for helpers?', answer: 'Yes, creating a profile on ThaiHelper is 100% free for helpers — forever. There are no sign-up fees, no monthly fees, and no commission taken from your salary. ThaiHelper is also free for families — there are no fees for either side.' },
     { question: 'How does ThaiHelper work?', answer: 'Sign up for free, create your profile with experience, skills and a photo, then get discovered by families searching for household staff in your city. Chat directly and agree on terms — no middleman involved. Registration takes about 3 minutes.' },
     { question: 'What types of helpers can register on ThaiHelper?', answer: 'Nannies, babysitters, housekeepers, cleaners, private chefs, cooks, personal drivers, chauffeurs, gardeners, pool care specialists, elder caregivers, tutors and teachers are all welcome to register on ThaiHelper.' },
     { question: 'Which cities does ThaiHelper cover?', answer: 'ThaiHelper covers all of Thailand with the strongest presence in Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, and Hua Hin. Helpers and families from any city in Thailand can use the platform.' },
@@ -561,7 +561,6 @@ export default function Home() {
                   <ul className="space-y-3">
                     <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="#benefits">{t.footer_find}</a></li>
                     <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="#categories">{t.footer_hire}</a></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/pricing">{t.footer_pricing}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_employers}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/work-permit-wizard">{t.footer_wizard}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/directory">{t.footer_directory}</Link></li>
