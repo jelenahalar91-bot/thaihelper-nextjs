@@ -6,12 +6,11 @@
  *     that creates (or finds) a conversation and jumps into the chat.
  *  2. Conversations — list of existing conversations + embedded chat view.
  *
- * Paywall:
- *  - Free tier: can browse helpers, can see conversation list with masked
- *    last-message preview, can open a chat (server only sends `is_locked`
- *    message previews), but the composer is replaced with an Upgrade CTA.
- *    All masking happens server-side.
- *  - Promo / Paid: full access — green banner showing days remaining.
+ * Access: ThaiHelper is currently free for all users, so every
+ * verified employer gets full messaging access. The tier-based code
+ * below ('free' / 'promo' / 'paid') is kept in place for when paid
+ * tiers come back online — paywall masking and the Upgrade CTA flow
+ * are inactive but ready.
  *
  * Auth: redirects to /login on 401.
  */
@@ -49,8 +48,8 @@ const T = {
     hi_morning: 'Good morning',
     hi_afternoon: 'Good afternoon',
     hi_evening: 'Good evening',
-    hero_subtitle_promo: 'You have full access — {n} days left to message helpers.',
-    hero_subtitle_paid: 'Full access active — {n} days remaining.',
+    hero_subtitle_promo: 'Browse helpers, send unlimited messages, save favorites — all free.',
+    hero_subtitle_paid: 'Browse helpers, send unlimited messages, save favorites — all free.',
     hero_subtitle_free: 'Welcome! Browse helpers and start conversations.',
     hero_status_promo: 'FREE',
     hero_status_paid: 'PAID',
@@ -66,11 +65,11 @@ const T = {
     fav_remove: 'Remove from favorites',
     fav_empty_title: 'No favorites yet',
     fav_empty_sub: 'Tap the heart on any helper card to save them here.',
-    access_promo: '🎉 You have full access — {n} days remaining',
-    access_paid: '✓ Full access — {n} days remaining',
-    access_free_title: 'Free account',
-    access_free_text: 'Upgrade to message helpers and see full conversations.',
-    access_upgrade: 'Upgrade',
+    access_promo: '🎉 Full access — message helpers, save favorites',
+    access_paid: '✓ Full access — message helpers, save favorites',
+    access_free_title: 'Welcome',
+    access_free_text: 'You have full access — start messaging helpers right away.',
+    access_upgrade: '',
     filter_title: 'Filters',
     filter_show_filters: 'Filters',
     filter_show_results: 'Show {n} results',
@@ -139,8 +138,8 @@ const T = {
     hi_morning: 'อรุณสวัสดิ์',
     hi_afternoon: 'สวัสดีตอนบ่าย',
     hi_evening: 'สวัสดีตอนเย็น',
-    hero_subtitle_promo: 'คุณมีสิทธิ์เข้าถึงเต็มรูปแบบ — เหลืออีก {n} วันในการส่งข้อความ',
-    hero_subtitle_paid: 'เปิดใช้งานเต็มรูปแบบ — เหลืออีก {n} วัน',
+    hero_subtitle_promo: 'ค้นหาผู้ช่วย ส่งข้อความไม่จำกัด บันทึกรายการโปรด — ฟรีทั้งหมด',
+    hero_subtitle_paid: 'ค้นหาผู้ช่วย ส่งข้อความไม่จำกัด บันทึกรายการโปรด — ฟรีทั้งหมด',
     hero_subtitle_free: 'ยินดีต้อนรับ! ค้นหาผู้ช่วยและเริ่มการสนทนาได้เลย',
     hero_status_promo: 'ฟรี',
     hero_status_paid: 'ชำระเงินแล้ว',
@@ -156,11 +155,11 @@ const T = {
     fav_remove: 'ลบออกจากรายการโปรด',
     fav_empty_title: 'ยังไม่มีรายการโปรด',
     fav_empty_sub: 'แตะหัวใจบนการ์ดผู้ช่วยเพื่อบันทึกไว้ที่นี่',
-    access_promo: '🎉 คุณมีสิทธิ์เข้าถึงเต็มรูปแบบ — เหลืออีก {n} วัน',
-    access_paid: '✓ เข้าถึงเต็มรูปแบบ — เหลืออีก {n} วัน',
-    access_free_title: 'บัญชีฟรี',
-    access_free_text: 'อัปเกรดเพื่อส่งข้อความและอ่านบทสนทนาแบบเต็ม',
-    access_upgrade: 'อัปเกรด',
+    access_promo: '🎉 เข้าถึงเต็มรูปแบบ — ส่งข้อความและบันทึกรายการโปรด',
+    access_paid: '✓ เข้าถึงเต็มรูปแบบ — ส่งข้อความและบันทึกรายการโปรด',
+    access_free_title: 'ยินดีต้อนรับ',
+    access_free_text: 'คุณมีสิทธิ์เข้าถึงเต็มรูปแบบ — เริ่มส่งข้อความหาผู้ช่วยได้ทันที',
+    access_upgrade: '',
     filter_title: 'ตัวกรอง',
     filter_show_filters: 'ตัวกรอง',
     filter_show_results: 'แสดง {n} ผลลัพธ์',
