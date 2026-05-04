@@ -43,7 +43,6 @@ You can preview the directory at https://thaihelper.app/directory.
 Thank you,
 Jelena Hermann
 Founder, ThaiHelper.app
-Planet Bamboo GmbH
 jelena@thaihelper.app
 
 ---
@@ -79,7 +78,6 @@ You can preview the directory at https://thaihelper.app/directory.
 Thank you,
 Jelena Hermann
 Founder, ThaiHelper.app
-Planet Bamboo GmbH
 jelena@thaihelper.app
 
 ---
@@ -113,7 +111,6 @@ You can preview the directory at https://thaihelper.app/directory.
 Thank you,
 Jelena Hermann
 Founder, ThaiHelper.app
-Planet Bamboo GmbH
 jelena@thaihelper.app
 
 ---
@@ -147,7 +144,6 @@ You can preview the directory at https://thaihelper.app/directory.
 Thank you,
 Jelena Hermann
 Founder, ThaiHelper.app
-Planet Bamboo GmbH
 jelena@thaihelper.app
 
 ---
@@ -181,7 +177,6 @@ You can preview the directory at https://thaihelper.app/directory.
 Thank you,
 Jelena Hermann
 Founder, ThaiHelper.app
-Planet Bamboo GmbH
 jelena@thaihelper.app
 
 ---
