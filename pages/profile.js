@@ -62,6 +62,7 @@ import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConver
 import { fetchSettings } from '@/lib/api/settings';
 import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES, CITY_OPTIONS, MAX_ADDITIONAL_CITIES, parseAdditionalCities } from '@/lib/constants/cities';
+import { WP_STATUS_OPTIONS, WP_PUBLIC_BADGES, formatWpStatus } from '@/lib/constants/work-permit';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
@@ -146,6 +147,10 @@ const T = {
     label_skills: 'Skills',
     label_experience: 'Experience',
     label_languages: 'Languages',
+    label_wp: 'Work Permit Status',
+    wp_optional: '(optional)',
+    wp_ph: '— Select if you wish —',
+    wp_hint: 'This is optional. Your answer is only used to help families find you.',
     label_rate: 'Hourly Rate',
     label_education: 'Education',
     label_certificates: 'Certificates',
@@ -307,6 +312,10 @@ const T = {
     label_skills: 'ทักษะ',
     label_experience: 'ประสบการณ์',
     label_languages: 'ภาษา',
+    label_wp: 'สถานะใบอนุญาตทำงาน',
+    wp_optional: '(ไม่บังคับ)',
+    wp_ph: '— เลือกหากต้องการ —',
+    wp_hint: 'ไม่บังคับ คำตอบของคุณจะใช้เพื่อช่วยให้ครอบครัวค้นพบคุณเท่านั้น',
     label_rate: 'ค่าจ้างต่อชั่วโมง',
     label_education: 'การศึกษา',
     label_certificates: 'ใบรับรอง',
@@ -525,6 +534,7 @@ export default function Profile() {
       experience: profile.experience || '', rate: profile.rate || '',
       education: profile.education || '', certificates: profile.certificates || '',
       bio: profile.bio || '', whatsapp: profile.whatsapp || '',
+      wpStatus: profile.wpStatus || '',
     });
     setPhotoPreview(''); setEditing(true); setSavedMsg(''); setSaveError('');
   };
@@ -1708,6 +1718,23 @@ export default function Profile() {
                       onChange={v => handleFieldChange('languages', v)}
                       options={LANGUAGES}
                     />
+                    {/* Work permit status (optional) */}
+                    <div>
+                      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        {t.label_wp} <span style={{ color: '#bbb', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>{t.wp_optional}</span>
+                      </label>
+                      <select
+                        value={editData.wpStatus ?? ''}
+                        onChange={e => handleFieldChange('wpStatus', e.target.value)}
+                        style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit', background: '#fff' }}
+                      >
+                        <option value="">{t.wp_ph}</option>
+                        {WP_STATUS_OPTIONS.map(o => (
+                          <option key={o.value} value={o.value}>{lang === 'th' ? o.th : o.en}</option>
+                        ))}
+                      </select>
+                      <div style={{ marginTop: 6, fontSize: '13px', color: '#bbb' }}>{t.wp_hint}</div>
+                    </div>
                     <RateSelect
                       label={t.label_rate}
                       lang={lang}
@@ -1728,6 +1755,9 @@ export default function Profile() {
                     <ProfileField label={t.label_skills} value={formatSkills(p.skills, p.category, lang)} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_experience} value={p.experience} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_languages} value={(() => { const raw = Array.isArray(p.languages) ? p.languages.join(', ') : (p.languages || ''); const v = raw.includes('[Ljava.lang') ? '' : raw; return formatLanguages(v); })()} t={t} isMobile={isMobile} />
+                    {WP_PUBLIC_BADGES.includes(p.wpStatus) && (
+                      <ProfileField label={t.label_wp} value={formatWpStatus(p.wpStatus, lang)} t={t} isMobile={isMobile} />
+                    )}
                     <ProfileField label={t.label_rate} value={formatRate(p.rate, lang)} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_education} value={p.education} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_certificates} value={p.certificates} t={t} isMobile={isMobile} />

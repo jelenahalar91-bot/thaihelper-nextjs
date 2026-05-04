@@ -61,7 +61,7 @@ const T = {
     footer_desc:'A free platform connecting independent service providers with families in Thailand.',
     footer_disclaimer:'ThaiHelper.app is operated by Planet Bamboo GmbH (Germany). We are not a recruitment agency and do not provide placement services. The platform is currently free to use. All transactions are processed offshore via LemonSqueezy. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
     footer_product:'Product',footer_company:'Company',footer_legal:'Legal',
-    footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',footer_employers:'For Families',
+    footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',footer_employers:'For Families',footer_wizard:'Work Permit Wizard',footer_directory:'Expert Directory',
     footer_contact:'Contact Us',footer_line:'LINE',footer_about:'About Us',footer_faq:'FAQ',
     footer_privacy:'Privacy Policy',footer_terms:'Terms of Service',
   },
@@ -116,7 +116,7 @@ const T = {
     footer_desc:'แพลตฟอร์มฟรีที่เชื่อมต่อผู้ให้บริการอิสระกับครอบครัวในประเทศไทย',
     footer_disclaimer:'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
     footer_product:'ผลิตภัณฑ์',footer_company:'บริษัท',footer_legal:'กฎหมาย',
-    footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',footer_employers:'สำหรับครอบครัว',
+    footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',footer_employers:'สำหรับครอบครัว',footer_wizard:'ตัวช่วยใบอนุญาตทำงาน',footer_directory:'รายชื่อผู้เชี่ยวชาญ',
     footer_contact:'ติดต่อเรา',footer_line:'LINE',footer_about:'เกี่ยวกับเรา',footer_faq:'คำถามที่พบบ่อย',
     footer_privacy:'นโยบายความเป็นส่วนตัว',footer_terms:'ข้อกำหนดการใช้งาน',
   },
@@ -563,6 +563,8 @@ export default function Home() {
                     <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="#categories">{t.footer_hire}</a></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/pricing">{t.footer_pricing}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_employers}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/work-permit-wizard">{t.footer_wizard}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/directory">{t.footer_directory}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/blog">{t.nav_blog}</Link></li>
                   </ul>
                 </div>

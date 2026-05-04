@@ -14,6 +14,7 @@ import {
   generateLinkToken as generateLineLinkToken,
   getAddFriendUrl as getLineAddFriendUrl,
 } from '../../lib/line';
+import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
 
 // LINE link tokens expire in 30 minutes — long enough to add the bot and
 // send the link message, short enough to limit abuse.
@@ -42,6 +43,7 @@ export default async function handler(req, res) {
     city, area, additional_cities, experience, languages, rate,
     education, certificates, bio, email,
     notify_via_line, notify_via_whatsapp,
+    work_permit_status,
     turnstileToken, attribution,
   } = req.body;
 
@@ -54,6 +56,13 @@ export default async function handler(req, res) {
   // Validate required fields
   if (!first_name?.trim() || !last_name?.trim() || !email?.trim() || !city || !category) {
     return res.status(400).json({ error: 'Missing required fields: first name, last name, email, city, and category are required.' });
+  }
+
+  // Work permit status is optional. Reject unknown values rather than
+  // silently dropping them — keeps the DB CHECK constraint and the
+  // client-side option list in sync.
+  if (work_permit_status && !WP_STATUS_VALUES.includes(work_permit_status)) {
+    return res.status(400).json({ error: 'Invalid work permit status' });
   }
 
   const supabase = getServiceSupabase();
@@ -106,6 +115,7 @@ export default async function handler(req, res) {
         bio_en: bioEn,
         notify_via_line: notify_via_line === true,
         notify_via_whatsapp: notify_via_whatsapp === true,
+        work_permit_status: work_permit_status || null,
         line_link_token: lineLinkToken,
         line_link_expires: lineLinkExpires,
         source: formatAttributionString(attribution),

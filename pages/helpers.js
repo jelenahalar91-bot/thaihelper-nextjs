@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
 import { useLang } from './_app';
@@ -8,6 +9,7 @@ import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import { CITIES, parseAdditionalCities } from '@/lib/constants/cities';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
+import { WP_FILTER_OPTIONS } from '@/lib/constants/work-permit';
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
@@ -30,6 +32,7 @@ const T = {
     filter_age_label:   'Age',
     filter_exp_label:   'Experience (years)',
     filter_lang_label:  'Languages',
+    filter_wp_label:    'Work Permit',
     filter_city:    'All Cities',
     filter_cat:     'All Categories',
     filter_area_ph: 'Search by area...',
@@ -71,6 +74,7 @@ const T = {
     filter_age_label:   'อายุ',
     filter_exp_label:   'ประสบการณ์ (ปี)',
     filter_lang_label:  'ภาษา',
+    filter_wp_label:    'ใบอนุญาตทำงาน',
     filter_city:    'ทุกจังหวัด',
     filter_cat:     'ทุกประเภท',
     filter_area_ph: 'ค้นหาตามย่าน...',
@@ -219,6 +223,7 @@ export async function getServerSideProps() {
 
 export default function Helpers({ initialHelpers = [] }) {
   const { lang, setLang: changeLang } = useLang();
+  const router = useRouter();
   const [helpers, setHelpers] = useState(initialHelpers);
   const [loading, setLoading] = useState(false);
 
@@ -229,6 +234,7 @@ export default function Helpers({ initialHelpers = [] }) {
   const [filterAgeRange, setFilterAgeRange] = useState('');
   const [filterMinExp, setFilterMinExp] = useState('');
   const [filterLanguages, setFilterLanguages] = useState([]);
+  const [filterWp, setFilterWp] = useState('');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Only fetch client-side if SSR didn't provide data (fallback)
@@ -254,6 +260,20 @@ export default function Helpers({ initialHelpers = [] }) {
   const [favorites, setFavorites] = useState(new Set());
   const [isEmployer, setIsEmployer] = useState(null);
   const [viewingHelper, setViewingHelper] = useState(null);
+
+  // Pre-fill the WP filter from `?wp=` so the wizard's recommendation
+  // CTAs (e.g. /helpers?wp=thai_national) land directly on a filtered
+  // list. Only positive, public values are accepted — never a negative
+  // filter via URL manipulation.
+  useEffect(() => {
+    if (!router.isReady) return;
+    const raw = router.query.wp;
+    const value = Array.isArray(raw) ? raw[0] : raw;
+    if (!value) return;
+    if (WP_FILTER_OPTIONS.some(o => o.value && o.value === value)) {
+      setFilterWp(value);
+    }
+  }, [router.isReady, router.query.wp]);
 
   useEffect(() => {
     let cancelled = false;
@@ -363,8 +383,11 @@ export default function Helpers({ initialHelpers = [] }) {
       }
     }
 
+    // Positive WP filter only — empty string means "All".
+    if (filterWp && h.wpStatus !== filterWp) return false;
+
     return true;
-  }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages]);
+  }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp]);
 
   const resetFilters = () => {
     setFilterCity('');
@@ -373,6 +396,7 @@ export default function Helpers({ initialHelpers = [] }) {
     setFilterAgeRange('');
     setFilterMinExp('');
     setFilterLanguages([]);
+    setFilterWp('');
   };
 
   const toggleLanguage = (lng) => {
@@ -383,7 +407,8 @@ export default function Helpers({ initialHelpers = [] }) {
 
   const activeFilterCount =
     (filterCity ? 1 : 0) + (filterCat ? 1 : 0) + (filterArea ? 1 : 0) +
-    (filterAgeRange ? 1 : 0) + (filterMinExp ? 1 : 0) + filterLanguages.length;
+    (filterAgeRange ? 1 : 0) + (filterMinExp ? 1 : 0) + filterLanguages.length +
+    (filterWp ? 1 : 0);
 
   return (
     <>
@@ -459,12 +484,14 @@ export default function Helpers({ initialHelpers = [] }) {
             >
               <FilterSidebar
                 t={t}
+                lang={lang}
                 filterCity={filterCity} setFilterCity={setFilterCity}
                 filterCat={filterCat} setFilterCat={setFilterCat}
                 filterArea={filterArea} setFilterArea={setFilterArea}
                 filterAgeRange={filterAgeRange} setFilterAgeRange={setFilterAgeRange}
                 filterMinExp={filterMinExp} setFilterMinExp={setFilterMinExp}
                 filterLanguages={filterLanguages} toggleLanguage={toggleLanguage}
+                filterWp={filterWp} setFilterWp={setFilterWp}
                 activeFilterCount={activeFilterCount}
                 onResetFilters={resetFilters}
               />
@@ -594,12 +621,14 @@ export default function Helpers({ initialHelpers = [] }) {
                   </div>
                   <FilterSidebar
                     t={t}
+                    lang={lang}
                     filterCity={filterCity} setFilterCity={setFilterCity}
                     filterCat={filterCat} setFilterCat={setFilterCat}
                     filterArea={filterArea} setFilterArea={setFilterArea}
                     filterAgeRange={filterAgeRange} setFilterAgeRange={setFilterAgeRange}
                     filterMinExp={filterMinExp} setFilterMinExp={setFilterMinExp}
                     filterLanguages={filterLanguages} toggleLanguage={toggleLanguage}
+                    filterWp={filterWp} setFilterWp={setFilterWp}
                     activeFilterCount={activeFilterCount}
                     onResetFilters={resetFilters}
                   />
@@ -716,12 +745,14 @@ export default function Helpers({ initialHelpers = [] }) {
 // ─── Filter sidebar ─────────────────────────────────────────────────────
 function FilterSidebar({
   t,
+  lang = 'en',
   filterCity, setFilterCity,
   filterCat, setFilterCat,
   filterArea, setFilterArea,
   filterAgeRange, setFilterAgeRange,
   filterMinExp, setFilterMinExp,
   filterLanguages, toggleLanguage,
+  filterWp, setFilterWp,
   activeFilterCount, onResetFilters,
 }) {
   return (
@@ -851,6 +882,21 @@ function FilterSidebar({
             </ChipButton>
           ))}
         </div>
+      </FilterGroup>
+
+      {/* Work permit — positive filter only ("Has WP" / "Thai national") */}
+      <FilterGroup label={t.filter_wp_label}>
+        <select
+          value={filterWp}
+          onChange={e => setFilterWp(e.target.value)}
+          style={filterSelectStyle}
+        >
+          {WP_FILTER_OPTIONS.map(o => (
+            <option key={o.value || 'all'} value={o.value}>
+              {lang === 'th' ? o.th : o.en}
+            </option>
+          ))}
+        </select>
       </FilterGroup>
     </div>
   );

@@ -174,7 +174,7 @@ function PrivacyEN() {
         <li>Email address (optional)</li>
         <li>Profile photo (optional)</li>
       </ul>
-      <p>We do not collect sensitive categories of data such as health information, nationality, or government ID numbers.</p>
+      <p>We do not collect sensitive categories of data such as health information or government ID numbers. Work permit status is collected optionally and only if you choose to share it — leave the field blank to skip it entirely.</p>
 
       <h2>3. Why We Collect This Data</h2>
       <p>Your data is used solely to:</p>

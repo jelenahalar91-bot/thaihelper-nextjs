@@ -5,6 +5,7 @@ import { getSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { translateForeignText } from '../../lib/translate';
 import { getDisplayAge } from '../../lib/age';
+import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
 
 // Strip phone numbers and email addresses from free-text fields. Mirrors the
 // sanitizer used on registration (pages/api/register.js) so helpers can't
@@ -66,6 +67,7 @@ function toFrontend(row) {
     // Treat NULL as opted-in (the default) so the toggle shows on in the UI
     // until the user explicitly opts out.
     notifyOnMessage: row.notify_on_message !== false,
+    wpStatus: row.work_permit_status || null,
   };
 }
 
@@ -90,6 +92,7 @@ const fieldMap = {
   hasWhatsApp: 'has_whatsapp',
   photo: 'photo_url',
   notifyOnMessage: 'notify_on_message',
+  wpStatus: 'work_permit_status',
 };
 
 export default async function handler(req, res) {
@@ -126,6 +129,18 @@ export default async function handler(req, res) {
     try {
       const incoming = req.body;
 
+      // Reject unknown work_permit_status values rather than letting the
+      // DB CHECK constraint fail with a 500. Empty string is treated as
+      // "clear the field".
+      if (
+        incoming.wpStatus !== undefined
+        && incoming.wpStatus !== null
+        && incoming.wpStatus !== ''
+        && !WP_STATUS_VALUES.includes(incoming.wpStatus)
+      ) {
+        return res.status(400).json({ error: 'Invalid work permit status' });
+      }
+
       // Build update object with snake_case keys
       const updates = {};
       for (const [frontKey, value] of Object.entries(incoming)) {
@@ -139,6 +154,9 @@ export default async function handler(req, res) {
             // helpers can't route families around on-platform messaging by
             // editing their profile after signup.
             updates[dbKey] = sanitizeFreeText(value);
+          } else if (frontKey === 'wpStatus') {
+            // Empty string would violate the CHECK constraint — store as null.
+            updates[dbKey] = value || null;
           } else {
             updates[dbKey] = value;
           }

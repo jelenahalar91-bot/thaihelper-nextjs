@@ -218,6 +218,9 @@ function TermsEN() {
       <p>
         Compliance with all work permit, visa, and employment regulations under Thai law is the <strong>sole responsibility of the employer and the candidate</strong>. ThaiHelper does not provide legal advice regarding work permits, visas, or employment law.
       </p>
+      <p>
+        <strong>Directory &amp; Wizard Disclaimer:</strong> The expert directory and work permit wizard on ThaiHelper provide general information only. ThaiHelper does not endorse, guarantee, or verify the qualifications of any listed professional. Users are solely responsible for verifying credentials and making hiring decisions. ThaiHelper is not liable for the quality, legality, or outcome of any services provided by listed professionals.
+      </p>
 
       <h2>8. Prohibited Use</h2>
       <p>You may not use ThaiHelper to:</p>
@@ -338,6 +341,9 @@ function TermsTH() {
       </p>
       <p>
         การปฏิบัติตามกฎระเบียบทั้งหมดเกี่ยวกับใบอนุญาตทำงาน วีซ่า และการจ้างงานตามกฎหมายไทยเป็น <strong>ความรับผิดชอบของนายจ้างและผู้สมัครแต่เพียงผู้เดียว</strong> ThaiHelper ไม่ให้คำปรึกษาทางกฎหมายเกี่ยวกับใบอนุญาตทำงาน วีซ่า หรือกฎหมายแรงงาน
+      </p>
+      <p>
+        <strong>ข้อจำกัดความรับผิดชอบสำหรับรายชื่อผู้เชี่ยวชาญและตัวช่วย:</strong> รายชื่อผู้เชี่ยวชาญและตัวช่วยใบอนุญาตทำงานบน ThaiHelper เป็นข้อมูลทั่วไปเท่านั้น ThaiHelper ไม่รับรอง รับประกัน หรือยืนยันคุณสมบัติของผู้เชี่ยวชาญที่อยู่ในรายชื่อ ผู้ใช้มีหน้าที่รับผิดชอบในการตรวจสอบคุณสมบัติและตัดสินใจจ้างงานเอง ThaiHelper ไม่รับผิดชอบต่อคุณภาพ ความถูกต้องตามกฎหมาย หรือผลของบริการใดๆ ที่ผู้เชี่ยวชาญที่อยู่ในรายชื่อให้บริการ
       </p>
 
       <h2>8. การใช้งานที่ห้าม</h2>

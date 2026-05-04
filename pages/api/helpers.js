@@ -6,6 +6,7 @@
 
 import { getServiceSupabase } from '../../lib/supabase';
 import { getDisplayAge } from '../../lib/age';
+import { maskWpStatusForPublic } from '../../lib/constants/work-permit';
 
 // Map a helper_profiles row to a public-safe card shape.
 // IMPORTANT: never expose whatsapp / has_whatsapp / phone / email here.
@@ -32,6 +33,10 @@ function toPublicCard(row) {
     // Signal to the UI whether contact info exists (without revealing it)
     hasWhatsApp: !!row.whatsapp,
     hasEmail: !!row.email,
+    // Only positive WP statuses are surfaced publicly. Anything else
+    // (in_progress / no_wp / prefer_not_say) is masked to null so it
+    // can't leak through the public API.
+    wpStatus: maskWpStatusForPublic(row.work_permit_status),
   };
 }
 
@@ -48,7 +53,7 @@ export default async function handler(req, res) {
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
         'age, date_of_birth, category, skills, city, area, additional_cities, ' +
         'experience, languages, rate, education, certificates, bio, bio_en, ' +
-        'photo_url, created_at, status'
+        'photo_url, created_at, status, work_permit_status'
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)

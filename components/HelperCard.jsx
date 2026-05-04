@@ -177,6 +177,16 @@ export default function HelperCard({
               🗣 {helper.languages}
             </span>
           )}
+          {helper.wpStatus === 'thai_national' && (
+            <span className="px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 font-medium">
+              🇹🇭 {lang === 'th' ? 'คนไทย' : 'Thai National'}
+            </span>
+          )}
+          {helper.wpStatus === 'valid_wp' && (
+            <span className="px-2 py-1 rounded-md bg-blue-100 text-blue-800 font-medium">
+              ✅ {lang === 'th' ? 'มีใบอนุญาตทำงาน' : 'Work Permit'}
+            </span>
+          )}
         </div>
 
         {/* CTA */}

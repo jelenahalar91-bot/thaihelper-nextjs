@@ -245,6 +245,8 @@ const T = {
     footer_fp1: 'For Helpers',
     footer_fp2: 'For Families',
     footer_fp3: 'How It Works',
+    footer_fp4: 'Work Permit Wizard',
+    footer_fp5: 'Expert Directory',
     footer_company: 'Company',
     footer_fc1: 'About Us',
     footer_fc2: 'Contact', footer_line: 'LINE',
@@ -349,7 +351,7 @@ const T = {
     cta_btn: 'แชร์กับผู้ช่วย',
     footer_desc: 'ThaiHelper เชื่อมต่อครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานดูแลบ้านที่ไว้ใจได้ เชื่อมต่อโดยตรง ไม่มีคนกลาง',
     footer_disclaimer: 'ThaiHelper.app ดำเนินการโดย Planet Bamboo GmbH (ประเทศเยอรมนี) เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน แพลตฟอร์มให้บริการฟรีในปัจจุบัน ธุรกรรมทั้งหมดดำเนินการผ่าน LemonSqueezy การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
-    footer_product: 'ผลิตภัณฑ์', footer_fp1: 'สำหรับผู้ช่วย', footer_fp2: 'สำหรับครอบครัว', footer_fp3: 'วิธีการใช้งาน',
+    footer_product: 'ผลิตภัณฑ์', footer_fp1: 'สำหรับผู้ช่วย', footer_fp2: 'สำหรับครอบครัว', footer_fp3: 'วิธีการใช้งาน', footer_fp4: 'ตัวช่วยใบอนุญาตทำงาน', footer_fp5: 'รายชื่อผู้เชี่ยวชาญ',
     footer_company: 'บริษัท', footer_fc1: 'เกี่ยวกับเรา', footer_fc2: 'ติดต่อ', footer_line: 'LINE',
     footer_legal: 'กฎหมาย', footer_fl1: 'นโยบายความเป็นส่วนตัว', footer_fl2: 'ข้อกำหนดการใช้บริการ',
     footer_copy: '© 2026 ThaiHelper สงวนลิขสิทธิ์',
@@ -924,6 +926,8 @@ export default function Employers({ featuredHelpers = [] }) {
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/">{t.footer_fp1}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_fp2}</Link></li>
                     <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#how-it-works">{t.footer_fp3}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/work-permit-wizard">{t.footer_fp4}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/directory">{t.footer_fp5}</Link></li>
                   </ul>
                 </div>
                 <div>

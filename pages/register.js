@@ -6,6 +6,7 @@ import { useLang } from './_app';
 import Link from 'next/link';
 import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/helpers';
 import { CITY_OPTIONS, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
+import { WP_STATUS_OPTIONS } from '@/lib/constants/work-permit';
 import { computeAge, validateDob } from '@/lib/age';
 import { event as gaEvent, EVENTS } from '@/lib/analytics';
 import LineConnectCard from '@/components/LineConnectCard';
@@ -80,6 +81,9 @@ const T = {
     exp_error:       'Please select your experience level.',
     lang_label:      'Languages Spoken',
     lang_error:      'Please select at least one language.',
+    wp_label:        'Work Permit Status (optional)',
+    wp_ph:           '— Select if you wish —',
+    wp_hint:         'This is optional. Your answer is only used to help families find you.',
     rate_label:      'Hourly Rate',
     rate_ph:         '— What is your rate per hour? —',
     edu_label:       'Education (optional)',
@@ -201,6 +205,9 @@ const T = {
     exp_error:       'กรุณาเลือกระดับประสบการณ์',
     lang_label:      'ภาษาที่พูดได้',
     lang_error:      'กรุณาเลือกอย่างน้อยหนึ่งภาษา',
+    wp_label:        'สถานะใบอนุญาตทำงาน (ไม่บังคับ)',
+    wp_ph:           '— เลือกหากต้องการ —',
+    wp_hint:         'ไม่บังคับ คำตอบของคุณจะใช้เพื่อช่วยให้ครอบครัวค้นพบคุณเท่านั้น',
     rate_label:      'ค่าจ้างต่อชั่วโมง',
     rate_ph:         '— คุณต้องการเท่าไหร่ต่อชั่วโมง? —',
     edu_label:       'การศึกษา (ไม่จำเป็น)',
@@ -327,6 +334,7 @@ export default function Register() {
   const [extraCities, setExtraCities] = useState([]); // array of slugs
   const [experience,  setExperience]  = useState('');
   const [languages,   setLanguages]   = useState([]);
+  const [wpStatus,    setWpStatus]    = useState('');
   const [rate,        setRate]        = useState('');
   const [education,   setEducation]   = useState('');
   const [certificates,setCertificates]= useState('');
@@ -450,6 +458,7 @@ export default function Register() {
       additional_cities: extraCities.filter(s => s !== city).join(', '),
       experience,
       languages:  languages.join(', '),
+      work_permit_status: wpStatus || null,
       rate,
       education:    education.trim(),
       certificates: certificates.trim(),
@@ -804,6 +813,20 @@ export default function Register() {
                     ))}
                   </div>
                   {errors.languages && <div className="field-error" style={{ display: 'block' }}>{errors.languages}</div>}
+                </div>
+
+                {/* Work Permit status (optional) */}
+                <div className="field">
+                  <label>{t.wp_label}</label>
+                  <select value={wpStatus} onChange={e => setWpStatus(e.target.value)}>
+                    <option value="">{t.wp_ph}</option>
+                    {WP_STATUS_OPTIONS.map(o => (
+                      <option key={o.value} value={o.value}>{lang === 'th' ? o.th : o.en}</option>
+                    ))}
+                  </select>
+                  <div style={{ marginTop: 6, fontSize: '0.85rem', color: 'var(--gray-500)' }}>
+                    {t.wp_hint}
+                  </div>
                 </div>
 
                 {/* Expected rate (optional) */}
