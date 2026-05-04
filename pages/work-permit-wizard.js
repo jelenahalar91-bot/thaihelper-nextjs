@@ -42,7 +42,7 @@ const T = {
 
     hero_eyebrow: 'Work Permit Wizard',
     hero_h1: 'Do I need a work permit for my helper?',
-    hero_sub: 'Five quick questions, no signup. We\'ll show you whether a work permit is realistic for your situation — and what to do next.',
+    hero_sub: 'Five quick questions, no signup. We\'ll show you whether a work permit makes sense for your situation — and what to do next.',
 
     step_label: 'Step {n} of 5',
     btn_back: '← Back',
@@ -112,7 +112,7 @@ const T = {
 
     // Result: worth it
     wi_h2: 'A work permit makes sense for this engagement.',
-    wi_p_long: 'For a long-term arrangement, the upfront cost amortises well. Here\'s the realistic plan:',
+    wi_p_long: 'For a long-term arrangement, the upfront cost amortises well. Here\'s a practical plan:',
     wi_step1_h: 'Confirm the candidate',
     wi_step1_p: 'Pick your helper before you start any paperwork — the application is tied to one specific employer/employee pair.',
     wi_step2_h: 'Engage an expert',
