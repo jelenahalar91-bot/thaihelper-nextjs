@@ -55,18 +55,17 @@ function ResourcesDropdown({ t, items }) {
       {open && (
         <div
           role="menu"
-          className="absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50"
+          className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50"
         >
           {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setOpen(false)}
-              className="flex items-start gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors"
+              className="block px-4 py-2.5 text-sm font-semibold text-[#001b3d] hover:bg-gray-50 hover:text-primary transition-colors"
               role="menuitem"
             >
-              <span className="text-lg leading-none mt-0.5">{item.icon}</span>
-              <span className="text-sm font-semibold text-[#001b3d]">{item.label}</span>
+              {item.label}
             </Link>
           ))}
         </div>
@@ -151,17 +150,22 @@ function MobileMenu({ t, items }) {
           </Link>
         </div>
 
-        {/* Nav links */}
-        <nav className="flex-1 px-2 py-2 border-t border-gray-100">
+        {/* Nav links — explicit flex-col + w-full guarantees the items
+            stack vertically and span the panel even if some global
+            stylesheet treats <a> as inline. */}
+        <nav className="flex-1 flex flex-col px-2 py-2 border-t border-gray-100">
           {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={close}
-              className="flex items-center gap-3 px-4 py-3.5 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex w-full items-center justify-between gap-3 px-4 py-4 rounded-lg hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-b-0"
+              style={{ display: 'flex', width: '100%' }}
             >
-              <span className="text-xl leading-none w-7 text-center">{item.icon}</span>
               <span className="text-base font-semibold text-[#001b3d]">{item.label}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-300 flex-shrink-0" aria-hidden>
+                <path d="M9 6l6 6-6 6" />
+              </svg>
             </Link>
           ))}
         </nav>
