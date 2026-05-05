@@ -8,12 +8,13 @@
     "phone": "+66 2 254 8900",
     "email": "info@siam-legal.com",
     "website": "https://siam-legal.com",
-    "description": "Bueros auch in Phuket, Chiang Mai, Pattaya, Samui. Grosse Kanzlei.",
+    "description": "Large multi-office law firm with branches in Phuket, Chiang Mai, Pattaya and Koh Samui.",
     "specialties": "work_permit,visa,labor_law,company_registration",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "สำนักงานกฎหมายขนาดใหญ่ มีสาขาที่ภูเก็ต เชียงใหม่ พัทยา และเกาะสมุย"
   },
   {
     "slug": "baan-thai-immigration-solutions-bti",
@@ -24,12 +25,13 @@
     "phone": "+66 93 498 5955",
     "email": "info@btisolutions.co",
     "website": "https://btisolutions.co",
-    "description": "Fokus auf Expats. AMCHAM Mitglied. WhatsApp/LINE verfuegbar.",
+    "description": "Focus on expat families. AMCHAM member. Available on WhatsApp and LINE.",
     "specialties": "visa,work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "มุ่งเน้นครอบครัวต่างชาติ สมาชิก AMCHAM ติดต่อทาง WhatsApp และ LINE ได้"
   },
   {
     "slug": "g-a-m-legal-alliance",
@@ -40,12 +42,13 @@
     "phone": "",
     "email": "",
     "website": "https://gam-legalalliance.com",
-    "description": "Buero auch in Phuket. Kostenlose Erstberatung.",
+    "description": "Also has an office in Phuket. Free initial consultation.",
     "specialties": "visa,work_permit,company_registration",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "มีสำนักงานในภูเก็ตด้วย ปรึกษาครั้งแรกฟรี"
   },
   {
     "slug": "siam-attorney",
@@ -56,12 +59,13 @@
     "phone": "",
     "email": "",
     "website": "https://siam-attorney.com",
-    "description": "Buero auch in Phuket.",
+    "description": "Also has an office in Phuket.",
     "specialties": "visa,work_permit,company_registration",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "มีสำนักงานในภูเก็ตด้วย"
   },
   {
     "slug": "lawyer-v-work",
@@ -72,12 +76,13 @@
     "phone": "",
     "email": "",
     "website": "https://lawyer-vwork.com",
-    "description": "Spezialisiert auf MOU-Worker Dokumente. Mo-Sa geoeffnet.",
+    "description": "Specialised in MOU worker documentation. Open Monday to Saturday.",
     "specialties": "visa,work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "เชี่ยวชาญด้านเอกสารแรงงาน MOU เปิดทำการจันทร์ถึงเสาร์"
   },
   {
     "slug": "forvis-mazars-thailand",
@@ -88,12 +93,13 @@
     "phone": "",
     "email": "",
     "website": "https://forvismazars.com/th",
-    "description": "Grosse internationale Beratung. Eher fuer Unternehmen.",
+    "description": "Large international consultancy — better suited to corporate clients than households.",
     "specialties": "work_permit,visa",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "บริษัทที่ปรึกษานานาชาติขนาดใหญ่ เหมาะกับลูกค้าองค์กรมากกว่าครัวเรือน"
   },
   {
     "slug": "manpower-thailand",
@@ -104,12 +110,13 @@
     "phone": "",
     "email": "",
     "website": "https://manpowerthailand.com",
-    "description": "Grosser HR-Konzern. Eher B2B-fokussiert.",
+    "description": "Large HR group with a primarily B2B focus.",
     "specialties": "work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "กลุ่มบริษัท HR ขนาดใหญ่ เน้นลูกค้าธุรกิจเป็นหลัก"
   },
   {
     "slug": "ata-outsourcing",
@@ -120,12 +127,13 @@
     "phone": "",
     "email": "",
     "website": "https://ata-outsourcing.com",
-    "description": "Erfahren mit vielen Nationalitaeten.",
+    "description": "Experienced handling work permits for many nationalities.",
     "specialties": "work_permit,visa",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "มีประสบการณ์ดำเนินการใบอนุญาตทำงานสำหรับหลายสัญชาติ"
   },
   {
     "slug": "workpermitthai-com",
@@ -136,12 +144,13 @@
     "phone": "",
     "email": "",
     "website": "https://workpermitthai.com",
-    "description": "Preise: ab 18.000 THB (One Stop) / 22.000 THB (Standard)",
+    "description": "Pricing from 18,000 THB (One Stop) / 22,000 THB (Standard).",
     "specialties": "work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "ราคาเริ่มต้น 18,000 บาท (One Stop) / 22,000 บาท (Standard)"
   },
   {
     "slug": "smart-advisor-thailand",
@@ -152,12 +161,13 @@
     "phone": "",
     "email": "",
     "website": "https://smartadvisor-thailand.com",
-    "description": "",
+    "description": "Bangkok-based visa and work permit consultancy.",
     "specialties": "visa,work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "ที่ปรึกษาวีซ่าและใบอนุญาตทำงานในกรุงเทพ"
   },
   {
     "slug": "10-mile-labour-group",
@@ -168,12 +178,13 @@
     "phone": "+66 98 278 4840",
     "email": "10mile.customer@gmail.com",
     "website": "https://10mile.co.th",
-    "description": "Lizenzierte MOU-Agentur. Mehrere Ansprechpartner verfuegbar.",
+    "description": "Licensed MOU agency — multiple contact points available.",
     "specialties": "mou",
     "languages_spoken": "thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "หน่วยงาน MOU ที่ได้รับใบอนุญาต ติดต่อได้หลายช่องทาง"
   },
   {
     "slug": "siam-legal-international-phuket",
@@ -184,12 +195,13 @@
     "phone": "+66 84 021 9800",
     "email": "info@siam-legal.com",
     "website": "https://siam-legal.com",
-    "description": "Bangtao, Thalang. Gleiche Kanzlei wie Bangkok.",
+    "description": "Phuket office of Siam Legal International (Bangtao, Thalang).",
     "specialties": "work_permit,visa",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "สำนักงานสยามลีกัลที่ภูเก็ต (บางเทา ถลาง)"
   },
   {
     "slug": "hwal-international-law",
@@ -200,12 +212,13 @@
     "phone": "",
     "email": "",
     "website": "https://hwal-legal.com",
-    "description": "",
+    "description": "International law firm with a Phuket office.",
     "specialties": "visa,work_permit,company_registration",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "สำนักงานกฎหมายนานาชาติ มีสำนักงานในภูเก็ต"
   },
   {
     "slug": "thailandia-legal-services",
@@ -216,12 +229,13 @@
     "phone": "",
     "email": "",
     "website": "https://attorneyinphuket.com",
-    "description": "Boutique-Kanzlei in Phuket.",
+    "description": "Boutique law firm based in Phuket.",
     "specialties": "visa,work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "สำนักงานกฎหมายขนาดเล็กในภูเก็ต"
   },
   {
     "slug": "g-a-m-legal-alliance-phuket",
@@ -232,12 +246,13 @@
     "phone": "",
     "email": "",
     "website": "https://gam-legalalliance.com",
-    "description": "Bangtao, Phuket. Gleiche Kanzlei wie Bangkok.",
+    "description": "Phuket office of G.A.M. Legal Alliance (Bangtao).",
     "specialties": "visa,work_permit,company_registration",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "สำนักงาน G.A.M. Legal Alliance ที่ภูเก็ต (บางเทา)"
   },
   {
     "slug": "phuket-consult",
@@ -248,12 +263,13 @@
     "phone": "",
     "email": "",
     "website": "https://phuketconsult.com",
-    "description": "Full-Service Visa-Agentur.",
+    "description": "Full-service visa agency in Phuket.",
     "specialties": "work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "ตัวแทนวีซ่าครบวงจรในภูเก็ต"
   },
   {
     "slug": "siam-legal-international-cm",
@@ -264,12 +280,13 @@
     "phone": "+66 53 818 306",
     "email": "info@siam-legal.com",
     "website": "https://siam-legal.com",
-    "description": "Curve Mall, Chang Klan Rd.",
+    "description": "Chiang Mai office of Siam Legal International (Curve Mall, Chang Klan Road).",
     "specialties": "work_permit,visa,company_registration",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "สำนักงานสยามลีกัลที่เชียงใหม่ (Curve Mall ถนนช้างคลาน)"
   },
   {
     "slug": "visa-support-thailand",
@@ -280,12 +297,13 @@
     "phone": "",
     "email": "",
     "website": "https://visasupportthailand.com",
-    "description": "Bueros in Chiang Mai + Bangkok.",
+    "description": "Visa support consultancy with offices in Chiang Mai and Bangkok.",
     "specialties": "visa,work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "บริการที่ปรึกษาด้านวีซ่า มีสำนักงานในเชียงใหม่และกรุงเทพ"
   },
   {
     "slug": "virasin-partners",
@@ -296,12 +314,13 @@
     "phone": "",
     "email": "",
     "website": "https://virasin.com",
-    "description": "US-lizenzierte Anwaelte. Bueros Bangkok + Chiang Mai.",
+    "description": "US-licensed attorneys. Offices in Bangkok and Chiang Mai.",
     "specialties": "visa,work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "ทนายความที่ได้รับใบอนุญาตจากสหรัฐอเมริกา สำนักงานในกรุงเทพและเชียงใหม่"
   },
   {
     "slug": "magna-carta-law-firm",
@@ -312,12 +331,13 @@
     "phone": "+66 38 37 37 35",
     "email": "",
     "website": "https://magnacarta.co.th",
-    "description": "20 Jahre Erfahrung. Fuehrende Kanzlei in Pattaya.",
+    "description": "20 years of experience — a leading law firm in Pattaya.",
     "specialties": "visa,work_permit,company_registration",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "ประสบการณ์ 20 ปี สำนักงานกฎหมายชั้นนำในพัทยา"
   },
   {
     "slug": "siam-gp-law-firm",
@@ -328,12 +348,13 @@
     "phone": "+66 86 664 4412",
     "email": "",
     "website": "https://siamgp.com",
-    "description": "",
+    "description": "Pattaya-based law firm covering visa, work permit and labour matters.",
     "specialties": "visa,work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "สำนักงานกฎหมายในพัทยา ครอบคลุมเรื่องวีซ่า ใบอนุญาตทำงาน และแรงงาน"
   },
   {
     "slug": "legal-services-hua-hin",
@@ -344,12 +365,13 @@
     "phone": "+66 84 881 8396",
     "email": "legalserviceshuahin@gmail.com",
     "website": "https://legalserviceshuahin.com",
-    "description": "Kostenlose Erstberatung.",
+    "description": "Hua Hin legal services — free initial consultation.",
     "specialties": "visa,work_permit",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "บริการกฎหมายในหัวหิน ปรึกษาครั้งแรกฟรี"
   },
   {
     "slug": "absolute-lawyer-hua-hin",
@@ -360,11 +382,12 @@
     "phone": "+66 32 522 273",
     "email": "amita@absolutelawyer-huahin.com",
     "website": "https://absolutelawyerhuahin.com",
-    "description": "Soi Hua Hin 112.",
+    "description": "Hua Hin law firm based on Soi Hua Hin 112.",
     "specialties": "visa",
     "languages_spoken": "english,thai",
     "tier": "free",
     "verified": false,
-    "status": "active"
+    "status": "active",
+    "description_th": "สำนักงานกฎหมายในหัวหิน ตั้งอยู่ที่ซอยหัวหิน 112"
   }
 ]
