@@ -3,20 +3,26 @@
  * Backfill `work_permit_status = 'thai_national'` for existing helpers
  * who almost certainly are Thai nationals based on their language list.
  *
- * Heuristic (per Jelena's call):
- *  1. Thai must appear in the first OR second language slot.
- *  2. The list must NOT contain any "MOU source" language —
- *     Burmese, Tagalog, Lao, Khmer or Vietnamese — anywhere.
- *     A Filipino nanny who also speaks Thai is NOT a Thai national.
- *  3. Other languages (English, Chinese, Russian, German, ...) are
- *     fine — they don't imply foreign nationality, just bilingualism.
+ * Two heuristics:
+ *
+ *  --strict (default): match ONLY helpers whose `languages` field
+ *  contains "thai" and nothing else. Most conservative — no risk of
+ *  flagging a Myanmar/Filipino worker as Thai. Misses bilingual Thai
+ *  helpers who listed English/Chinese alongside Thai.
+ *
+ *  --heuristic: match if Thai is in slot 0 or 1 AND no MOU-source
+ *  language (Burmese, Tagalog, Lao, Khmer, Vietnamese) appears
+ *  anywhere. More inclusive but accepts a few helpers whose self-
+ *  reported language list might not match their actual nationality.
  *
  * Skips helpers who already have a work_permit_status set (manual
  * choice always wins).
  *
  * Usage:
- *   node scripts/backfill-thai-national.js            (dry run, no DB writes)
- *   node scripts/backfill-thai-national.js --write    (actually update)
+ *   node scripts/backfill-thai-national.js                     # dry run, strict
+ *   node scripts/backfill-thai-national.js --heuristic         # dry run, heuristic
+ *   node scripts/backfill-thai-national.js --write             # write, strict
+ *   node scripts/backfill-thai-national.js --heuristic --write # write, heuristic
  */
 
 const fs = require('fs');
@@ -41,9 +47,9 @@ const supabase = createClient(
 );
 
 const writeMode = process.argv.includes('--write');
+const heuristicMode = process.argv.includes('--heuristic');
 
 // "MOU source" = languages that signal the helper is FROM that country.
-// If any of these show up in the list, we can't safely call them Thai.
 const FOREIGN_SOURCE = ['burmese', 'myanmar', 'tagalog', 'filipino', 'lao', 'khmer', 'cambodian', 'vietnamese'];
 
 function parseLanguages(raw) {
@@ -54,14 +60,20 @@ function parseLanguages(raw) {
     .filter(Boolean);
 }
 
-function isThaiNational(langs) {
+// Strict: language list is exactly ["thai"]. No bilinguals.
+function isStrictThai(langs) {
+  return langs.length === 1 && langs[0].includes('thai');
+}
+
+// Heuristic: Thai in slot 0/1, no MOU-source language anywhere.
+function isHeuristicThai(langs) {
   if (langs.length === 0) return false;
-  // Thai must be in slot 0 or slot 1.
   const thaiPos = langs.findIndex(l => l.includes('thai'));
   if (thaiPos === -1 || thaiPos > 1) return false;
-  // No MOU-source language anywhere.
   return !langs.some(l => FOREIGN_SOURCE.some(f => l.includes(f)));
 }
+
+const isThaiNational = heuristicMode ? isHeuristicThai : isStrictThai;
 
 (async () => {
   const { data: helpers, error } = await supabase
@@ -79,7 +91,8 @@ function isThaiNational(langs) {
     else skipped.push(h);
   }
 
-  console.log(`\nMode: ${writeMode ? 'WRITE' : 'DRY RUN'} (use --write to commit)`);
+  console.log(`\nMatcher: ${heuristicMode ? 'HEURISTIC (Thai in slot 0/1, no MOU-source language)' : 'STRICT (only "thai" listed, no other language)'}`);
+  console.log(`Mode:    ${writeMode ? 'WRITE' : 'DRY RUN'} (use --write to commit)`);
   console.log(`Verified helpers without WP status: ${eligible.length}`);
   console.log(`  → would mark as thai_national: ${toMark.length}`);
   console.log(`  → leave untouched: ${skipped.length}\n`);
