@@ -186,6 +186,7 @@ export async function getServerSideProps() {
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
     const { getDisplayAge } = await import('@/lib/age');
+    const { maskWpStatusForPublic } = await import('@/lib/constants/work-permit');
     const supabase = getServiceSupabase();
     const { data, error } = await supabase
       .from('helper_profiles')
@@ -193,7 +194,7 @@ export async function getServerSideProps() {
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
         'age, date_of_birth, category, skills, city, area, additional_cities, ' +
         'experience, languages, rate, education, certificates, bio, bio_en, ' +
-        'photo_url, created_at, status'
+        'photo_url, created_at, status, work_permit_status, nationality'
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)
@@ -222,6 +223,10 @@ export async function getServerSideProps() {
       createdAt: row.created_at || null,
       hasWhatsApp: !!row.whatsapp,
       hasEmail: !!row.email,
+      // Mirror the public masking from /api/helpers so the URL filter
+      // and the SSR-rendered page agree on what's visible.
+      wpStatus: maskWpStatusForPublic(row.work_permit_status),
+      nationality: row.nationality === 'prefer_not_say' ? null : (row.nationality || null),
     }));
 
     return {
