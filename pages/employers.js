@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import SEOHead, { getBreadcrumbSchema, getServiceSchema, getSpeakableSchema, getFAQSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
@@ -13,6 +13,65 @@ import {
   UserPlus, MessageCircle, PartyPopper,
   Wallet, Ban, ShieldCheck, LayoutGrid, MapPin,
 } from 'lucide-react';
+
+// ─── RESOURCES DROPDOWN — bundles secondary nav items so the header
+// stays uncluttered. Closes on click outside, Escape, or item click.
+function ResourcesDropdown({ t, items }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onMouseDown(e) {
+      if (!ref.current?.contains(e.target)) setOpen(false);
+    }
+    function onKey(e) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onMouseDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        className="flex items-center gap-1 text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors"
+      >
+        {t.nav_resources}
+        <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor" className={`transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden>
+          <path d="M0 0l5 6 5-6z" />
+        </svg>
+      </button>
+      {open && (
+        <div
+          role="menu"
+          className="absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50"
+        >
+          {items.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="flex items-start gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors"
+              role="menuitem"
+            >
+              <span className="text-lg leading-none mt-0.5">{item.icon}</span>
+              <span className="text-sm font-semibold text-[#001b3d]">{item.label}</span>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ─── HERO CAROUSEL (2 visible cards) ────────────────────────────────────────
 function HeroCarousel({ items }) {
@@ -154,7 +213,11 @@ const T = {
     wp_p: 'Take our 2-minute wizard to find out whether you really need a WP, what it costs, and how long it takes — or jump straight to a vetted lawyer in your city.',
     wp_cta_wizard: 'Start the Wizard →',
     wp_cta_directory: 'Find an Expert',
-    nav_wizard: 'Work Permit?',
+    nav_wizard: 'Work Permit Wizard',
+    nav_resources: 'Resources',
+    nav_browse_helpers: 'Browse Helpers',
+    nav_directory: 'Expert Directory',
+    nav_faq: 'FAQ',
     // How it works
     how_label: 'How It Works',
     how_title: '3 simple steps',
@@ -282,7 +345,11 @@ const T = {
     wp_p: 'ทำแบบสอบถาม 2 นาทีของเรา เพื่อดูว่าคุณจำเป็นต้องมี WP หรือไม่ ค่าใช้จ่ายเท่าไหร่ และใช้เวลานานแค่ไหน หรือไปหาทนายความที่เชื่อถือได้ในเมืองของคุณได้เลย',
     wp_cta_wizard: 'เริ่มแบบสอบถาม →',
     wp_cta_directory: 'หาผู้เชี่ยวชาญ',
-    nav_wizard: 'ใบอนุญาต?',
+    nav_wizard: 'ตัวช่วยใบอนุญาตทำงาน',
+    nav_resources: 'แหล่งข้อมูล',
+    nav_browse_helpers: 'ดูผู้ช่วย',
+    nav_directory: 'รายชื่อผู้เชี่ยวชาญ',
+    nav_faq: 'คำถามที่พบบ่อย',
     how_label: 'วิธีการใช้งาน',
     how_title: '3 ขั้นตอนง่ายๆ',
     how_sub: 'เราเชื่อมต่อคุณกับผู้เชี่ยวชาญดูแลบ้านโดยตรง ไม่มีคนกลาง',
@@ -574,11 +641,17 @@ export default function Employers({ featuredHelpers = [] }) {
               {lang === 'en' ? 'For Families' : lang === 'ru' ? 'Для семей' : 'สำหรับครอบครัว'}
             </span>
           </div>
-          <div className="flex items-center gap-2 md:gap-3">
-            <Link className="hidden md:inline text-xs md:text-sm font-semibold text-primary hover:text-primary-container transition-colors" href="/work-permit-wizard">
-              {t.nav_wizard}
-            </Link>
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/blog">{t.nav_blog}</Link>
+          <div className="flex items-center gap-3 md:gap-4">
+            <ResourcesDropdown
+              t={t}
+              items={[
+                { href: '/helpers',             icon: '👥', label: t.nav_browse_helpers },
+                { href: '/work-permit-wizard',  icon: '📋', label: t.nav_wizard },
+                { href: '/directory',           icon: '⚖️', label: t.nav_directory },
+                { href: '/faq',                 icon: '💬', label: t.nav_faq },
+                { href: '/blog',                icon: '✏️', label: t.nav_blog },
+              ]}
+            />
             <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
             <LangSwitcher />
             <Link className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="/employer-register">{t.nav_cta}</Link>
