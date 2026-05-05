@@ -150,17 +150,18 @@ function MobileMenu({ t, items }) {
           </Link>
         </div>
 
-        {/* Nav links — explicit flex-col + w-full guarantees the items
-            stack vertically and span the panel even if some global
-            stylesheet treats <a> as inline. */}
-        <nav className="flex-1 flex flex-col px-2 py-2 border-t border-gray-100">
+        {/* Nav links. NB: rendered as <div> (not <nav>) because the
+            global stylesheet has `nav { display: flex; height: 64px;
+            justify-content: space-between }` which would force the
+            items into a single-row strip. */}
+        <div role="menu" className="px-2 py-2 border-t border-gray-100">
           {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={close}
+              role="menuitem"
               className="flex w-full items-center justify-between gap-3 px-4 py-4 rounded-lg hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-b-0"
-              style={{ display: 'flex', width: '100%' }}
             >
               <span className="text-base font-semibold text-[#001b3d]">{item.label}</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-300 flex-shrink-0" aria-hidden>
@@ -168,10 +169,10 @@ function MobileMenu({ t, items }) {
               </svg>
             </Link>
           ))}
-        </nav>
+        </div>
 
-        {/* Footer — language switcher */}
-        <div className="px-5 py-4 border-t border-gray-100">
+        {/* Footer — language switcher, pinned to bottom */}
+        <div className="mt-auto px-5 py-4 border-t border-gray-100">
           <LangSwitcher />
         </div>
       </div>
