@@ -10,7 +10,7 @@ import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS } from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu } from '@/components/MobileMenu';
-import { event as gaEvent, EVENTS } from '@/lib/analytics';
+import { event as gaEvent, fbTrack, EVENTS } from '@/lib/analytics';
 
 // Plain category labels for the multi-select (no emojis — we'll show clean chips)
 const LOOKING_FOR_OPTIONS = [
@@ -304,6 +304,7 @@ export default function EmployerRegisterPage() {
 
       setSuccessRef(result.ref);
       gaEvent({ ...EVENTS.EMPLOYER_SIGNUP, label: 'employer' });
+      fbTrack('Lead', { content_name: 'employer_waitlist' });
     } catch {
       setError(t.error_generic);
     } finally {

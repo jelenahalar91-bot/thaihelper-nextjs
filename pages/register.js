@@ -9,7 +9,7 @@ import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/hel
 import { CITY_OPTIONS, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS } from '@/lib/constants/work-permit';
 import { computeAge, validateDob } from '@/lib/age';
-import { event as gaEvent, EVENTS } from '@/lib/analytics';
+import { event as gaEvent, fbTrack, EVENTS } from '@/lib/analytics';
 import LineConnectCard from '@/components/LineConnectCard';
 import {
   SKILLS_BY_CATEGORY,
@@ -494,6 +494,7 @@ export default function Register() {
       setLineLink(result.lineLink || null);
       setSuccess(true);
       gaEvent({ ...EVENTS.REGISTER_COMPLETE, label: 'helper' });
+      fbTrack('CompleteRegistration', { content_name: 'helper_signup' });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error('Submit error:', err);

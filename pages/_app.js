@@ -5,7 +5,7 @@ import Script from 'next/script';
 import { Plus_Jakarta_Sans, Manrope, Sarabun } from 'next/font/google';
 import '../styles/globals.css';
 import { getOrganizationSchema, getWebSiteSchema } from '@/components/SEOHead';
-import { GA_ID, pageview } from '@/lib/analytics';
+import { GA_ID, FB_PIXEL_ID, pageview, fbPageview } from '@/lib/analytics';
 import { captureAttribution } from '@/lib/utm';
 import CookieConsent, { useCookieConsent } from '@/components/CookieConsent';
 
@@ -42,6 +42,7 @@ export default function App({ Component, pageProps }) {
   const [lang, setLangState] = useState('en');
   const cookieConsent = useCookieConsent();
   const gaAllowed = GA_ID && cookieConsent === 'accepted';
+  const fbAllowed = FB_PIXEL_ID && cookieConsent === 'accepted';
 
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
@@ -60,13 +61,16 @@ export default function App({ Component, pageProps }) {
     document.documentElement.lang = lang === 'th' ? 'th' : 'en';
   }, [lang]);
 
-  // Track page views on route change
+  // Track page views on route change — fires both GA and Meta Pixel
   useEffect(() => {
-    if (!gaAllowed) return;
-    const handleRouteChange = (url) => pageview(url);
+    if (!gaAllowed && !fbAllowed) return;
+    const handleRouteChange = (url) => {
+      if (gaAllowed) pageview(url);
+      if (fbAllowed) fbPageview();
+    };
     router.events.on('routeChangeComplete', handleRouteChange);
     return () => router.events.off('routeChangeComplete', handleRouteChange);
-  }, [router.events, gaAllowed]);
+  }, [router.events, gaAllowed, fbAllowed]);
 
   // Register Service Worker — production only, required for PWA installability + TWA
   useEffect(() => {
@@ -101,6 +105,31 @@ export default function App({ Component, pageProps }) {
             }}
           />
         </>
+      )}
+
+      {/* Meta Pixel — only loads after cookie consent. Fires PageView on
+          load; subsequent route changes fire via fbPageview() in the effect
+          above. Standard events (CompleteRegistration, Lead) are fired from
+          the relevant pages via fbTrack(). */}
+      {fbAllowed && (
+        <Script
+          id="fb-pixel-init"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+              !function(f,b,e,v,n,t,s)
+              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+              n.queue=[];t=b.createElement(e);t.async=!0;
+              t.src=v;s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)}(window, document,'script',
+              'https://connect.facebook.net/en_US/fbevents.js');
+              fbq('init', '${FB_PIXEL_ID}');
+              fbq('track', 'PageView');
+            `,
+          }}
+        />
       )}
       <Head>
         {/* Viewport — critical for mobile rendering */}
