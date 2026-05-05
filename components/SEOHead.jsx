@@ -90,7 +90,7 @@ export function getOrganizationSchema() {
     alternateName: 'Thai Helper',
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
-    description: 'ThaiHelper is Thailand\'s free marketplace for household staff. Families find verified nannies, housekeepers, chefs, drivers, gardeners, elder caregivers, and tutors. Helpers create free profiles and connect directly with families — no agency fees, no middleman.',
+    description: 'ThaiHelper is Thailand\'s free marketplace for household staff. Families and helpers connect directly — both sides use the platform at no cost. Find verified nannies, housekeepers, chefs, drivers, gardeners, elder caregivers, and tutors. No agency fees, no middleman.',
     foundingDate: '2024',
     areaServed: {
       '@type': 'Country',
@@ -232,7 +232,7 @@ export function getLocalBusinessSchema(city) {
     '@context': 'https://schema.org',
     '@type': 'EmploymentAgency',
     name: `ThaiHelper ${c.name}`,
-    description: `Find verified nannies, housekeepers, chefs, drivers and household staff in ${c.name}, Thailand. Free for helpers — no agency fees.`,
+    description: `Find verified nannies, housekeepers, chefs, drivers and household staff in ${c.name}, Thailand. Free for both families and helpers — no agency fees.`,
     url: `${SITE_URL}/helpers?city=${city}`,
     telephone: '',
     address: {
@@ -250,7 +250,7 @@ export function getLocalBusinessSchema(city) {
       '@type': 'City',
       name: c.name,
     },
-    priceRange: 'Free for helpers',
+    priceRange: 'Free for everyone',
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],

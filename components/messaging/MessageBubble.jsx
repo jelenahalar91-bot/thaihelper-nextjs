@@ -3,10 +3,10 @@
  *
  * Dual-role aware:
  *  - `isOwn` controls bubble alignment / colour
- *  - `message.is_locked === true` is set by the API for free-tier employers.
- *    In that case the API only sent us a short preview (`content_preview`)
- *    and the full text is never available client-side. We render the preview
- *    with a blur overlay + an upgrade CTA.
+ *  - `message.is_locked === true` is set by the API only for unverified
+ *    employers (paid-tier gating is currently disabled — ThaiHelper is
+ *    free for everyone). The locked variant renders a preview blur with
+ *    an "Verify your email" CTA instead of an upgrade prompt.
  */
 
 import { useState } from 'react';
@@ -58,7 +58,7 @@ export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
               cursor: 'pointer',
             }}
           >
-            🔒 {t.msg_locked_cta || 'Upgrade to read'}
+            🔒 {t.msg_locked_cta || 'Verify your email to unlock'}
           </button>
           <div style={{
             marginTop: '4px',
