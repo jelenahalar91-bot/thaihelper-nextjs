@@ -33,8 +33,8 @@ import {
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────────
 const T = {
   en: {
-    page_title: 'Do I need a Work Permit? – ThaiHelper',
-    meta_desc: 'Free 5-step wizard for families in Thailand. Find out whether you need a work permit for your helper, what it costs, and how long it takes.',
+    page_title: 'Hire a non-Thai helper legally — Work Permit Wizard | ThaiHelper',
+    meta_desc: 'Every non-Thai worker in Thailand needs a work permit. This free 5-step wizard tells you whether starting the WP process for your candidate is worth it, what it costs, how long it takes, and what to do next.',
     nav_employers: 'For Families',
     nav_helpers: 'For Helpers',
     nav_employers: 'For Families',
@@ -48,8 +48,10 @@ const T = {
     nav_faq: 'FAQ',
 
     hero_eyebrow: 'Work Permit Wizard',
-    hero_h1: 'Do I need a work permit for my helper?',
-    hero_sub: 'Five quick questions, no signup. We\'ll show you whether a work permit makes sense for your situation — and what to do next.',
+    hero_h1: 'Hiring a non-Thai helper? Let\'s make it legal.',
+    hero_sub: 'Five quick questions, no signup. The wizard tells you whether starting the work permit process for your specific candidate is worth it — and exactly what to do next.',
+    rule_label: 'The basic rule',
+    rule_text: 'In Thailand, every non-Thai worker needs a work permit — no exceptions, not even on a tourist, retirement, dependent or education visa. The only people who can work without a WP are Thai nationals. This wizard helps you decide whether the WP process is worth it for THIS candidate, given the cost, timeline, and how long you plan to employ them.',
 
     step_label: 'Step {n} of 5',
     btn_back: '← Back',
@@ -137,8 +139,8 @@ const T = {
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
   },
   th: {
-    page_title: 'ฉันต้องมีใบอนุญาตทำงานหรือไม่? – ThaiHelper',
-    meta_desc: 'แบบสอบถาม 5 ขั้นตอนฟรีสำหรับครอบครัวในประเทศไทย เพื่อช่วยให้คุณรู้ว่าจำเป็นต้องมีใบอนุญาตทำงานสำหรับผู้ช่วยหรือไม่ ค่าใช้จ่ายและระยะเวลา',
+    page_title: 'จ้างผู้ช่วยที่ไม่ใช่คนไทยอย่างถูกกฎหมาย — ตัวช่วยใบอนุญาตทำงาน | ThaiHelper',
+    meta_desc: 'คนต่างชาติทุกคนที่ทำงานในประเทศไทยต้องมีใบอนุญาตทำงาน แบบสอบถามฟรี 5 ขั้นตอนนี้จะบอกคุณว่าควรเริ่มกระบวนการ WP สำหรับผู้สมัครของคุณหรือไม่ ค่าใช้จ่าย ระยะเวลา และขั้นตอนถัดไป',
     nav_employers: 'สำหรับครอบครัว',
     nav_helpers: 'สำหรับผู้ช่วย',
     nav_employers: 'สำหรับครอบครัว',
@@ -152,8 +154,10 @@ const T = {
     nav_faq: 'คำถามที่พบบ่อย',
 
     hero_eyebrow: 'ตัวช่วยใบอนุญาตทำงาน',
-    hero_h1: 'ฉันต้องมีใบอนุญาตทำงานสำหรับผู้ช่วยหรือไม่?',
-    hero_sub: 'ห้าคำถามสั้นๆ ไม่ต้องสมัครสมาชิก เราจะแสดงให้คุณเห็นว่าใบอนุญาตทำงานสมเหตุสมผลสำหรับสถานการณ์ของคุณหรือไม่',
+    hero_h1: 'จ้างผู้ช่วยที่ไม่ใช่คนไทย? มาทำให้ถูกกฎหมายกัน',
+    hero_sub: 'ห้าคำถามสั้นๆ ไม่ต้องสมัครสมาชิก แบบสอบถามจะบอกคุณว่าการเริ่มกระบวนการขอใบอนุญาตทำงานสำหรับผู้สมัครของคุณคุ้มค่าหรือไม่ และต้องทำอะไรต่อไป',
+    rule_label: 'กฎพื้นฐาน',
+    rule_text: 'ในประเทศไทย คนต่างชาติทุกคนที่ทำงานต้องมีใบอนุญาตทำงาน ไม่มีข้อยกเว้น แม้จะอยู่ด้วยวีซ่าท่องเที่ยว เกษียณอายุ ผู้ติดตาม หรือนักเรียน เฉพาะคนไทยเท่านั้นที่สามารถทำงานได้โดยไม่ต้องมี WP แบบสอบถามนี้ช่วยคุณตัดสินใจว่ากระบวนการ WP คุ้มค่าสำหรับผู้สมัครคนนี้หรือไม่ โดยพิจารณาจากค่าใช้จ่าย ระยะเวลา และระยะเวลาที่คุณวางแผนจะจ้าง',
 
     step_label: 'ขั้นตอนที่ {n} จาก 5',
     btn_back: '← ย้อนกลับ',
@@ -447,6 +451,17 @@ export default function WorkPermitWizard() {
               <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
                 {t.hero_sub}
               </p>
+            </div>
+          </section>
+
+          {/* Baseline rule callout — visible upfront so the wizard's
+              role (cost/benefit decision) doesn't get confused with the
+              question of whether a WP is legally required. The legal
+              answer is always yes for non-Thai workers. */}
+          <section className="px-4 md:px-6 pb-2">
+            <div className="max-w-2xl mx-auto rounded-xl border border-blue-200 bg-blue-50 px-5 py-4 text-sm text-blue-900 leading-relaxed">
+              <strong className="font-bold">📋 {t.rule_label}: </strong>
+              {t.rule_text}
             </div>
           </section>
 
