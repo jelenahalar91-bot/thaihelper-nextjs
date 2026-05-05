@@ -14,8 +14,9 @@ import {
   Wallet, Ban, ShieldCheck, LayoutGrid, MapPin,
 } from 'lucide-react';
 
-// ─── RESOURCES DROPDOWN — bundles secondary nav items so the header
-// stays uncluttered. Closes on click outside, Escape, or item click.
+// ─── RESOURCES DROPDOWN — desktop only. On lg+ we have room to show a
+// dropdown next to the inline links; on smaller screens the same items
+// live inside the MobileMenu panel.
 function ResourcesDropdown({ t, items }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -70,6 +71,119 @@ function ResourcesDropdown({ t, items }) {
         </div>
       )}
     </div>
+  );
+}
+
+// ─── MOBILE MENU — hamburger + slide-in panel from the right.
+// Below `lg` the header collapses to logo + this menu so the layout
+// doesn't squeeze multiple links onto one cramped line. The panel
+// holds login/register CTAs at the top, nav links in the middle,
+// and the language switcher at the bottom (mirrors competitor UX).
+function MobileMenu({ t, items }) {
+  const [open, setOpen] = useState(false);
+
+  // Lock body scroll while the panel is open so the page behind doesn't
+  // scroll when the user pans the menu.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    function onKey(e) { if (e.key === 'Escape') setOpen(false); }
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  const close = () => setOpen(false);
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label="Open menu"
+        aria-expanded={open}
+        className="p-2 -mr-2 text-[#001b3d] hover:text-primary transition-colors"
+      >
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+
+      {open && (
+        <>
+          {/* Backdrop */}
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={close}
+            className="fixed inset-0 bg-black/45 z-[70]"
+          />
+
+          {/* Panel */}
+          <div className="fixed right-0 top-0 bottom-0 w-[85%] max-w-sm bg-white z-[80] shadow-2xl flex flex-col overflow-y-auto">
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <span className="text-xl font-bold font-headline">
+                <span>Thai</span><span style={{ color: '#006a62' }}>Helper</span>
+              </span>
+              <button
+                type="button"
+                onClick={close}
+                aria-label="Close menu"
+                className="p-2 -mr-2 text-gray-500 hover:text-gray-900"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Auth CTAs — side-by-side, prominent */}
+            <div className="grid grid-cols-2 gap-3 px-5 py-4">
+              <Link
+                href="/login"
+                onClick={close}
+                className="text-center px-4 py-3 rounded-xl bg-gray-100 text-[#001b3d] text-sm font-bold hover:bg-gray-200 transition-colors"
+              >
+                {t.nav_login}
+              </Link>
+              <Link
+                href="/employer-register"
+                onClick={close}
+                className="text-center px-4 py-3 rounded-xl bg-[#001b3d] text-white text-sm font-bold hover:bg-[#002d5f] transition-colors"
+              >
+                {t.nav_cta}
+              </Link>
+            </div>
+
+            {/* Nav links */}
+            <nav className="flex-1 px-2 py-2 border-t border-gray-100">
+              {items.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={close}
+                  className="flex items-center gap-3 px-4 py-3.5 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <span className="text-xl leading-none w-7 text-center">{item.icon}</span>
+                  <span className="text-base font-semibold text-[#001b3d]">{item.label}</span>
+                </Link>
+              ))}
+            </nav>
+
+            {/* Footer — language switcher */}
+            <div className="px-5 py-4 border-t border-gray-100">
+              <LangSwitcher />
+            </div>
+          </div>
+        </>
+      )}
+    </>
   );
 }
 
@@ -641,21 +755,38 @@ export default function Employers({ featuredHelpers = [] }) {
               {lang === 'en' ? 'For Families' : lang === 'ru' ? 'Для семей' : 'สำหรับครอบครัว'}
             </span>
           </div>
-          <div className="flex items-center gap-3 md:gap-4">
-            <ResourcesDropdown
-              t={t}
-              items={[
-                { href: '/helpers',             icon: '👥', label: t.nav_browse_helpers },
-                { href: '/work-permit-wizard',  icon: '📋', label: t.nav_wizard },
-                { href: '/directory',           icon: '⚖️', label: t.nav_directory },
-                { href: '/faq',                 icon: '💬', label: t.nav_faq },
-                { href: '/blog',                icon: '✏️', label: t.nav_blog },
-              ]}
-            />
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
-            <LangSwitcher />
-            <Link className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-[#001b3d] text-white text-xs md:text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150" href="/employer-register">{t.nav_cta}</Link>
-          </div>
+          {(() => {
+            // Same set of items powers both the desktop dropdown and the
+            // mobile slide-out panel — defined once so they stay in sync.
+            const navItems = [
+              { href: '/helpers',             icon: '👥', label: t.nav_browse_helpers },
+              { href: '/work-permit-wizard',  icon: '📋', label: t.nav_wizard },
+              { href: '/directory',           icon: '⚖️', label: t.nav_directory },
+              { href: '/faq',                 icon: '💬', label: t.nav_faq },
+              { href: '/blog',                icon: '✏️', label: t.nav_blog },
+            ];
+            return (
+              <>
+                {/* Desktop nav — lg and up */}
+                <div className="hidden lg:flex items-center gap-4">
+                  <ResourcesDropdown t={t} items={navItems} />
+                  <Link className="text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
+                  <LangSwitcher />
+                  <Link
+                    className="px-6 py-2.5 rounded-full bg-[#001b3d] text-white text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap"
+                    href="/employer-register"
+                  >
+                    {t.nav_cta}
+                  </Link>
+                </div>
+
+                {/* Mobile / tablet nav — below lg */}
+                <div className="lg:hidden">
+                  <MobileMenu t={t} items={navItems} />
+                </div>
+              </>
+            );
+          })()}
         </nav>
 
         <main className="pt-24 md:pt-28">
