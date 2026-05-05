@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/helpers';
 import { CITY_OPTIONS, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS } from '@/lib/constants/work-permit';
+import { NATIONALITY_OPTIONS } from '@/lib/constants/nationalities';
 import { computeAge, validateDob } from '@/lib/age';
 import { event as gaEvent, fbTrack, EVENTS } from '@/lib/analytics';
 import LineConnectCard from '@/components/LineConnectCard';
@@ -82,6 +83,10 @@ const T = {
     exp_error:       'Please select your experience level.',
     lang_label:      'Languages Spoken',
     lang_error:      'Please select at least one language.',
+    nat_label:       'Nationality',
+    nat_ph:          '— Select your nationality —',
+    nat_hint:        'Used to determine work permit needs and to help families find the right match.',
+    nat_error:       'Please select your nationality.',
     wp_label:        'Work Permit Status (optional)',
     wp_ph:           '— Select if you wish —',
     wp_hint:         'This is optional. Your answer is only used to help families find you.',
@@ -206,6 +211,10 @@ const T = {
     exp_error:       'กรุณาเลือกระดับประสบการณ์',
     lang_label:      'ภาษาที่พูดได้',
     lang_error:      'กรุณาเลือกอย่างน้อยหนึ่งภาษา',
+    nat_label:       'สัญชาติ',
+    nat_ph:          '— เลือกสัญชาติของคุณ —',
+    nat_hint:        'ใช้เพื่อพิจารณาความจำเป็นของใบอนุญาตทำงาน และช่วยให้ครอบครัวหาผู้ช่วยที่เหมาะกับตน',
+    nat_error:       'กรุณาเลือกสัญชาติของคุณ',
     wp_label:        'สถานะใบอนุญาตทำงาน (ไม่บังคับ)',
     wp_ph:           '— เลือกหากต้องการ —',
     wp_hint:         'ไม่บังคับ คำตอบของคุณจะใช้เพื่อช่วยให้ครอบครัวค้นพบคุณเท่านั้น',
@@ -335,6 +344,7 @@ export default function Register() {
   const [extraCities, setExtraCities] = useState([]); // array of slugs
   const [experience,  setExperience]  = useState('');
   const [languages,   setLanguages]   = useState([]);
+  const [nationality, setNationality] = useState('');
   const [wpStatus,    setWpStatus]    = useState('');
   const [rate,        setRate]        = useState('');
   const [education,   setEducation]   = useState('');
@@ -424,9 +434,10 @@ export default function Register() {
       if (city === 'other' && !area.trim()) errs.area = t.area_other_error;
     }
     if (stepNum === 2) {
-      if (!experience)           errs.experience = t.exp_error;
-      if (languages.length === 0)errs.languages  = t.lang_error;
-      if (bio.trim().length < 30)errs.bio        = t.bio_error;
+      if (!experience)           errs.experience  = t.exp_error;
+      if (languages.length === 0)errs.languages   = t.lang_error;
+      if (!nationality)          errs.nationality = t.nat_error;
+      if (bio.trim().length < 30)errs.bio         = t.bio_error;
     }
     if (stepNum === 3) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = t.email_error;
@@ -459,6 +470,7 @@ export default function Register() {
       additional_cities: extraCities.filter(s => s !== city).join(', '),
       experience,
       languages:  languages.join(', '),
+      nationality: nationality || null,
       work_permit_status: wpStatus || null,
       rate,
       education:    education.trim(),
@@ -828,6 +840,26 @@ export default function Register() {
                     ))}
                   </div>
                   {errors.languages && <div className="field-error" style={{ display: 'block' }}>{errors.languages}</div>}
+                </div>
+
+                {/* Nationality (required) — drives WP-status auto-derivation. */}
+                <div className={`field ${errors.nationality ? 'has-error' : ''}`}>
+                  <label>{t.nat_label} <span className="req">*</span></label>
+                  <select
+                    value={nationality}
+                    onChange={e => { setNationality(e.target.value); setErrors(ev => ({ ...ev, nationality: '' })); }}
+                  >
+                    <option value="">{t.nat_ph}</option>
+                    {NATIONALITY_OPTIONS.map(o => (
+                      <option key={o.value} value={o.value}>
+                        {o.flag} {lang === 'th' ? o.th : o.en}
+                      </option>
+                    ))}
+                  </select>
+                  <div style={{ marginTop: 6, fontSize: '0.85rem', color: 'var(--gray-500)' }}>
+                    {t.nat_hint}
+                  </div>
+                  {errors.nationality && <div className="field-error" style={{ display: 'block' }}>{errors.nationality}</div>}
                 </div>
 
                 {/* Work Permit status (optional) */}

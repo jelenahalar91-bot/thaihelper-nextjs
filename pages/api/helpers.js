@@ -37,6 +37,9 @@ function toPublicCard(row) {
     // (in_progress / no_wp / prefer_not_say) is masked to null so it
     // can't leak through the public API.
     wpStatus: maskWpStatusForPublic(row.work_permit_status),
+    // Nationality is shown publicly except "prefer_not_say" — that
+    // value is the helper's explicit opt-out and must stay private.
+    nationality: row.nationality === 'prefer_not_say' ? null : (row.nationality || null),
   };
 }
 
@@ -53,7 +56,7 @@ export default async function handler(req, res) {
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
         'age, date_of_birth, category, skills, city, area, additional_cities, ' +
         'experience, languages, rate, education, certificates, bio, bio_en, ' +
-        'photo_url, created_at, status, work_permit_status'
+        'photo_url, created_at, status, work_permit_status, nationality'
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)

@@ -11,6 +11,7 @@ import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import { CITIES, parseAdditionalCities } from '@/lib/constants/cities';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 import { WP_FILTER_OPTIONS } from '@/lib/constants/work-permit';
+import { NATIONALITY_FILTER_OPTIONS } from '@/lib/constants/nationalities';
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
@@ -38,6 +39,7 @@ const T = {
     filter_age_label:   'Age',
     filter_exp_label:   'Experience (years)',
     filter_lang_label:  'Languages',
+    filter_nat_label:   'Nationality',
     filter_wp_label:    'Work Permit',
     filter_city:    'All Cities',
     filter_cat:     'All Categories',
@@ -85,6 +87,7 @@ const T = {
     filter_age_label:   'อายุ',
     filter_exp_label:   'ประสบการณ์ (ปี)',
     filter_lang_label:  'ภาษา',
+    filter_nat_label:   'สัญชาติ',
     filter_wp_label:    'ใบอนุญาตทำงาน',
     filter_city:    'ทุกจังหวัด',
     filter_cat:     'ทุกประเภท',
@@ -246,6 +249,7 @@ export default function Helpers({ initialHelpers = [] }) {
   const [filterMinExp, setFilterMinExp] = useState('');
   const [filterLanguages, setFilterLanguages] = useState([]);
   const [filterWp, setFilterWp] = useState('');
+  const [filterNationality, setFilterNationality] = useState('');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Only fetch client-side if SSR didn't provide data (fallback)
@@ -285,6 +289,18 @@ export default function Helpers({ initialHelpers = [] }) {
       setFilterWp(value);
     }
   }, [router.isReady, router.query.wp]);
+
+  // Same shape for the nationality filter — wizard CTA can deep-link to
+  // /helpers?nationality=thai once the field is widely populated.
+  useEffect(() => {
+    if (!router.isReady) return;
+    const raw = router.query.nationality;
+    const value = Array.isArray(raw) ? raw[0] : raw;
+    if (!value) return;
+    if (NATIONALITY_FILTER_OPTIONS.some(o => o.value && o.value === value)) {
+      setFilterNationality(value);
+    }
+  }, [router.isReady, router.query.nationality]);
 
   useEffect(() => {
     let cancelled = false;
@@ -397,8 +413,12 @@ export default function Helpers({ initialHelpers = [] }) {
     // Positive WP filter only — empty string means "All".
     if (filterWp && h.wpStatus !== filterWp) return false;
 
+    // Nationality filter — match exactly. Helpers without nationality
+    // set are excluded when a specific value is selected.
+    if (filterNationality && h.nationality !== filterNationality) return false;
+
     return true;
-  }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp]);
+  }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality]);
 
   const resetFilters = () => {
     setFilterCity('');
@@ -408,6 +428,7 @@ export default function Helpers({ initialHelpers = [] }) {
     setFilterMinExp('');
     setFilterLanguages([]);
     setFilterWp('');
+    setFilterNationality('');
   };
 
   const toggleLanguage = (lng) => {
@@ -419,7 +440,7 @@ export default function Helpers({ initialHelpers = [] }) {
   const activeFilterCount =
     (filterCity ? 1 : 0) + (filterCat ? 1 : 0) + (filterArea ? 1 : 0) +
     (filterAgeRange ? 1 : 0) + (filterMinExp ? 1 : 0) + filterLanguages.length +
-    (filterWp ? 1 : 0);
+    (filterWp ? 1 : 0) + (filterNationality ? 1 : 0);
 
   return (
     <>
@@ -519,6 +540,7 @@ export default function Helpers({ initialHelpers = [] }) {
                 filterMinExp={filterMinExp} setFilterMinExp={setFilterMinExp}
                 filterLanguages={filterLanguages} toggleLanguage={toggleLanguage}
                 filterWp={filterWp} setFilterWp={setFilterWp}
+                filterNationality={filterNationality} setFilterNationality={setFilterNationality}
                 activeFilterCount={activeFilterCount}
                 onResetFilters={resetFilters}
               />
@@ -656,6 +678,7 @@ export default function Helpers({ initialHelpers = [] }) {
                     filterMinExp={filterMinExp} setFilterMinExp={setFilterMinExp}
                     filterLanguages={filterLanguages} toggleLanguage={toggleLanguage}
                     filterWp={filterWp} setFilterWp={setFilterWp}
+                    filterNationality={filterNationality} setFilterNationality={setFilterNationality}
                     activeFilterCount={activeFilterCount}
                     onResetFilters={resetFilters}
                   />
@@ -779,6 +802,7 @@ function FilterSidebar({
   filterMinExp, setFilterMinExp,
   filterLanguages, toggleLanguage,
   filterWp, setFilterWp,
+  filterNationality, setFilterNationality,
   activeFilterCount, onResetFilters,
 }) {
   return (
@@ -908,6 +932,21 @@ function FilterSidebar({
             </ChipButton>
           ))}
         </div>
+      </FilterGroup>
+
+      {/* Nationality */}
+      <FilterGroup label={t.filter_nat_label}>
+        <select
+          value={filterNationality}
+          onChange={e => setFilterNationality(e.target.value)}
+          style={filterSelectStyle}
+        >
+          {NATIONALITY_FILTER_OPTIONS.map(o => (
+            <option key={o.value || 'all'} value={o.value}>
+              {o.flag ? `${o.flag} ` : ''}{lang === 'th' ? o.th : o.en}
+            </option>
+          ))}
+        </select>
       </FilterGroup>
 
       {/* Work permit — positive filter only ("Has WP" / "Thai national") */}

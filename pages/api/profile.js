@@ -6,6 +6,7 @@ import { getServiceSupabase } from '../../lib/supabase';
 import { translateForeignText } from '../../lib/translate';
 import { getDisplayAge } from '../../lib/age';
 import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
+import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/constants/nationalities';
 
 // Strip phone numbers and email addresses from free-text fields. Mirrors the
 // sanitizer used on registration (pages/api/register.js) so helpers can't
@@ -68,6 +69,7 @@ function toFrontend(row) {
     // until the user explicitly opts out.
     notifyOnMessage: row.notify_on_message !== false,
     wpStatus: row.work_permit_status || null,
+    nationality: row.nationality || null,
   };
 }
 
@@ -93,6 +95,7 @@ const fieldMap = {
   photo: 'photo_url',
   notifyOnMessage: 'notify_on_message',
   wpStatus: 'work_permit_status',
+  nationality: 'nationality',
 };
 
 export default async function handler(req, res) {
@@ -141,6 +144,26 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid work permit status' });
       }
 
+      // Same shape for nationality.
+      if (
+        incoming.nationality !== undefined
+        && incoming.nationality !== null
+        && incoming.nationality !== ''
+        && !NATIONALITY_VALUES.includes(incoming.nationality)
+      ) {
+        return res.status(400).json({ error: 'Invalid nationality' });
+      }
+
+      // If the helper switched to "thai" and didn't already have a WP
+      // status, auto-derive it. We don't overwrite a manually-set value.
+      if (
+        incoming.nationality === 'thai'
+        && (incoming.wpStatus === undefined || incoming.wpStatus === '' || incoming.wpStatus === null)
+      ) {
+        const derived = deriveWpStatusFromNationality('thai');
+        if (derived) incoming.wpStatus = derived;
+      }
+
       // Build update object with snake_case keys
       const updates = {};
       for (const [frontKey, value] of Object.entries(incoming)) {
@@ -154,7 +177,7 @@ export default async function handler(req, res) {
             // helpers can't route families around on-platform messaging by
             // editing their profile after signup.
             updates[dbKey] = sanitizeFreeText(value);
-          } else if (frontKey === 'wpStatus') {
+          } else if (frontKey === 'wpStatus' || frontKey === 'nationality') {
             // Empty string would violate the CHECK constraint — store as null.
             updates[dbKey] = value || null;
           } else {

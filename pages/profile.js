@@ -63,6 +63,7 @@ import { fetchSettings } from '@/lib/api/settings';
 import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES, CITY_OPTIONS, MAX_ADDITIONAL_CITIES, parseAdditionalCities } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS, WP_PUBLIC_BADGES, formatWpStatus } from '@/lib/constants/work-permit';
+import { NATIONALITY_OPTIONS, formatNationality } from '@/lib/constants/nationalities';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
@@ -151,6 +152,9 @@ const T = {
     wp_optional: '(optional)',
     wp_ph: '— Select if you wish —',
     wp_hint: 'This is optional. Your answer is only used to help families find you.',
+    label_nationality: 'Nationality',
+    nat_ph: '— Select nationality —',
+    nat_hint: 'Used to determine work permit needs and to help families find the right match.',
     label_rate: 'Hourly Rate',
     label_education: 'Education',
     label_certificates: 'Certificates',
@@ -316,6 +320,9 @@ const T = {
     wp_optional: '(ไม่บังคับ)',
     wp_ph: '— เลือกหากต้องการ —',
     wp_hint: 'ไม่บังคับ คำตอบของคุณจะใช้เพื่อช่วยให้ครอบครัวค้นพบคุณเท่านั้น',
+    label_nationality: 'สัญชาติ',
+    nat_ph: '— เลือกสัญชาติ —',
+    nat_hint: 'ใช้เพื่อพิจารณาความจำเป็นของใบอนุญาตทำงาน และช่วยให้ครอบครัวหาผู้ช่วยที่เหมาะกับตน',
     label_rate: 'ค่าจ้างต่อชั่วโมง',
     label_education: 'การศึกษา',
     label_certificates: 'ใบรับรอง',
@@ -535,6 +542,7 @@ export default function Profile() {
       education: profile.education || '', certificates: profile.certificates || '',
       bio: profile.bio || '', whatsapp: profile.whatsapp || '',
       wpStatus: profile.wpStatus || '',
+      nationality: profile.nationality || '',
     });
     setPhotoPreview(''); setEditing(true); setSavedMsg(''); setSaveError('');
   };
@@ -1718,6 +1726,26 @@ export default function Profile() {
                       onChange={v => handleFieldChange('languages', v)}
                       options={LANGUAGES}
                     />
+                    {/* Nationality */}
+                    <div>
+                      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        {t.label_nationality}
+                      </label>
+                      <select
+                        value={editData.nationality ?? ''}
+                        onChange={e => handleFieldChange('nationality', e.target.value)}
+                        style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit', background: '#fff' }}
+                      >
+                        <option value="">{t.nat_ph}</option>
+                        {NATIONALITY_OPTIONS.map(o => (
+                          <option key={o.value} value={o.value}>
+                            {o.flag} {lang === 'th' ? o.th : o.en}
+                          </option>
+                        ))}
+                      </select>
+                      <div style={{ marginTop: 6, fontSize: '13px', color: '#bbb' }}>{t.nat_hint}</div>
+                    </div>
+
                     {/* Work permit status (optional) */}
                     <div>
                       <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -1755,6 +1783,11 @@ export default function Profile() {
                     <ProfileField label={t.label_skills} value={formatSkills(p.skills, p.category, lang)} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_experience} value={p.experience} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_languages} value={(() => { const raw = Array.isArray(p.languages) ? p.languages.join(', ') : (p.languages || ''); const v = raw.includes('[Ljava.lang') ? '' : raw; return formatLanguages(v); })()} t={t} isMobile={isMobile} />
+                    {p.nationality && p.nationality !== 'prefer_not_say' && (() => {
+                      const opt = NATIONALITY_OPTIONS.find(o => o.value === p.nationality);
+                      const label = opt ? `${opt.flag} ${formatNationality(p.nationality, lang)}` : '';
+                      return <ProfileField label={t.label_nationality} value={label} t={t} isMobile={isMobile} />;
+                    })()}
                     {WP_PUBLIC_BADGES.includes(p.wpStatus) && (
                       <ProfileField label={t.label_wp} value={formatWpStatus(p.wpStatus, lang)} t={t} isMobile={isMobile} />
                     )}

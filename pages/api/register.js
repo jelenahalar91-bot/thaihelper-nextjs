@@ -15,6 +15,7 @@ import {
   getAddFriendUrl as getLineAddFriendUrl,
 } from '../../lib/line';
 import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
+import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/constants/nationalities';
 
 // LINE link tokens expire in 30 minutes — long enough to add the bot and
 // send the link message, short enough to limit abuse.
@@ -43,7 +44,7 @@ export default async function handler(req, res) {
     city, area, additional_cities, experience, languages, rate,
     education, certificates, bio, email,
     notify_via_line, notify_via_whatsapp,
-    work_permit_status,
+    work_permit_status, nationality,
     turnstileToken, attribution,
   } = req.body;
 
@@ -64,6 +65,18 @@ export default async function handler(req, res) {
   if (work_permit_status && !WP_STATUS_VALUES.includes(work_permit_status)) {
     return res.status(400).json({ error: 'Invalid work permit status' });
   }
+
+  // Nationality has the same shape — optional, whitelist-validated.
+  if (nationality && !NATIONALITY_VALUES.includes(nationality)) {
+    return res.status(400).json({ error: 'Invalid nationality' });
+  }
+
+  // Auto-derive WP status when the helper picks Thai but didn't
+  // explicitly fill the WP field — Thai citizens never need a permit,
+  // so we save them the extra click.
+  const finalWpStatus = work_permit_status
+    || deriveWpStatusFromNationality(nationality)
+    || null;
 
   const supabase = getServiceSupabase();
   const ref = generateRef();
@@ -115,7 +128,8 @@ export default async function handler(req, res) {
         bio_en: bioEn,
         notify_via_line: notify_via_line === true,
         notify_via_whatsapp: notify_via_whatsapp === true,
-        work_permit_status: work_permit_status || null,
+        work_permit_status: finalWpStatus,
+        nationality: nationality || null,
         line_link_token: lineLinkToken,
         line_link_expires: lineLinkExpires,
         source: formatAttributionString(attribution),

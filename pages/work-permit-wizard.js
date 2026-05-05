@@ -663,8 +663,13 @@ function ResultPanel({ result, t, lang, city, agree, setAgree, trackCta, onResta
   if (!result) return null;
 
   // CTA URL helpers — keep all link generation in one place so the
-  // /helpers and /directory routes stay consistent.
-  const helpersUrl = (wp) => `/helpers${wp ? `?wp=${wp}` : ''}`;
+  // /helpers and /directory routes stay consistent. We use the
+  // nationality filter (`?nationality=thai`) for the "Thai helper"
+  // CTAs because it matches helpers self-identifying as Thai citizens
+  // directly, rather than going through the WP-status proxy.
+  const thaiHelpersUrl   = '/helpers?nationality=thai';
+  const validWpHelpersUrl = '/helpers?wp=valid_wp';
+  const allHelpersUrl    = '/helpers';
   const directoryUrl = () => `/directory${city ? `?city=${encodeURIComponent(city)}` : ''}`;
 
   // Disable CTAs until the user confirms they understand this is general
@@ -740,7 +745,7 @@ function ResultPanel({ result, t, lang, city, agree, setAgree, trackCta, onResta
       {/* Recommendations by flow */}
       {result.flow === 'no_wp_needed' && (
         <Link
-          href={helpersUrl('thai_national')}
+          href={thaiHelpersUrl}
           onClick={() => trackCta('no_wp_browse_thai')}
           className={`inline-block w-full text-center px-6 py-3.5 rounded-2xl font-bold transition-colors ${ctaDisabledClass}`}
         >
@@ -752,13 +757,13 @@ function ResultPanel({ result, t, lang, city, agree, setAgree, trackCta, onResta
         <div className="grid gap-3">
           <Recommendation t={t}
             title={t.nw_rec1_h} body={t.nw_rec1_p} cta={t.nw_rec1_cta}
-            href={helpersUrl('thai_national')}
+            href={thaiHelpersUrl}
             disabled={!agree}
             onClick={() => trackCta('nw_browse_thai')}
           />
           <Recommendation t={t}
             title={t.nw_rec2_h} body={t.nw_rec2_p} cta={t.nw_rec2_cta}
-            href={helpersUrl()}
+            href={allHelpersUrl}
             disabled={!agree}
             onClick={() => trackCta('nw_browse_all')}
           />
@@ -772,13 +777,13 @@ function ResultPanel({ result, t, lang, city, agree, setAgree, trackCta, onResta
         <div className="grid gap-3">
           <Recommendation t={t}
             title={t.ws_rec1_h} body={t.ws_rec1_p} cta={t.ws_rec1_cta}
-            href={helpersUrl('thai_national')}
+            href={thaiHelpersUrl}
             disabled={!agree}
             onClick={() => trackCta('ws_browse_thai')}
           />
           <Recommendation t={t}
             title={t.ws_rec2_h} body={t.ws_rec2_p} cta={t.ws_rec2_cta}
-            href={helpersUrl('valid_wp')}
+            href={validWpHelpersUrl}
             disabled={!agree}
             onClick={() => trackCta('ws_browse_valid_wp')}
           />
@@ -810,7 +815,7 @@ function ResultPanel({ result, t, lang, city, agree, setAgree, trackCta, onResta
               {t.wi_cta_experts}
             </Link>
             <Link
-              href={helpersUrl('thai_national')}
+              href={thaiHelpersUrl}
               onClick={() => trackCta('wi_bridge')}
               className={`inline-block text-center px-6 py-3 rounded-2xl font-bold border-2 border-primary text-primary bg-white transition-colors ${agree ? 'hover:bg-primary/5' : 'opacity-40 pointer-events-none'}`}
             >
