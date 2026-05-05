@@ -4,6 +4,7 @@ import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
 import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
+import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import HelperCard from '@/components/HelperCard';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
@@ -16,6 +17,11 @@ const T = {
   en: {
     nav_employers:  'For Families',
     nav_employers_q:'Looking to hire a helper?',
+    nav_resources:  'Resources',
+    nav_wizard:     'Work Permit Wizard',
+    nav_directory:  'Expert Directory',
+    nav_about:      'About',
+    nav_faq:        'FAQ',
     nav_home:       'Home',
     nav_blog:       'Blog',
     nav_login:      'Login',
@@ -58,6 +64,11 @@ const T = {
   th: {
     nav_employers:  'สำหรับครอบครัว',
     nav_employers_q:'กำลังหาผู้ช่วย?',
+    nav_resources:  'แหล่งข้อมูล',
+    nav_wizard:     'ตัวช่วยใบอนุญาตทำงาน',
+    nav_directory:  'รายชื่อผู้เชี่ยวชาญ',
+    nav_about:      'เกี่ยวกับเรา',
+    nav_faq:        'คำถามที่พบบ่อย',
     nav_home:       'หน้าแรก',
     nav_blog:       'บล็อก',
     nav_login:      'เข้าสู่ระบบ',
@@ -438,24 +449,40 @@ export default function Helpers({ initialHelpers = [] }) {
             <Link href="/" className="text-xl md:text-2xl font-bold">
               Thai<span style={{color:'#006a62'}}>Helper</span>
             </Link>
-            <div className="flex items-center gap-2 md:gap-3">
-              <Link href="/" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
-                {t.nav_home}
-              </Link>
-              <Link href="/blog" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
-                {t.nav_blog}
-              </Link>
-              <Link href="/login" className="hidden sm:inline text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
-                {t.nav_login}
-              </Link>
-              <LangSwitcher languages={['en', 'th', 'ru']} />
-              <Link
-                href="/register"
-                className="px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-[#006a62] to-[#004d47] text-white text-xs md:text-sm font-semibold hover:shadow-lg transition-all"
-              >
-                {t.nav_cta}
-              </Link>
-            </div>
+            {(() => {
+              const navItems = [
+                { href: '/employers',           label: t.nav_employers },
+                { href: '/work-permit-wizard',  label: t.nav_wizard },
+                { href: '/directory',           label: t.nav_directory },
+                { href: '/about',               label: t.nav_about },
+                { href: '/faq',                 label: t.nav_faq },
+                { href: '/blog',                label: t.nav_blog },
+              ];
+              return (
+                <>
+                  <div className="hidden lg:flex items-center gap-4">
+                    <ResourcesDropdown label={t.nav_resources} items={navItems} />
+                    <Link href="/login" className="text-sm font-semibold text-gray-700 hover:text-[#006a62] transition-colors">
+                      {t.nav_login}
+                    </Link>
+                    <LangSwitcher languages={['en', 'th', 'ru']} />
+                    <Link
+                      href="/register"
+                      className="px-5 py-2.5 rounded-full bg-gradient-to-br from-[#006a62] to-[#004d47] text-white text-sm font-semibold hover:shadow-lg transition-all whitespace-nowrap"
+                    >
+                      {t.nav_cta}
+                    </Link>
+                  </div>
+                  <div className="lg:hidden">
+                    <MobileMenu
+                      items={navItems}
+                      secondaryCta={{ href: '/login', label: t.nav_login }}
+                      primaryCta={{ href: '/register', label: t.nav_cta }}
+                    />
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </header>
 

@@ -9,6 +9,7 @@ import {
   fetchEmployerProfile,
 } from '@/lib/api/employer-auth-client';
 import LangSwitcher from '@/components/LangSwitcher';
+import { MobileMenu } from '@/components/MobileMenu';
 
 const T = {
   en: {
@@ -163,7 +164,22 @@ export default function Login() {
         {/* Nav */}
         <nav className="register-nav">
           <Link href="/" className="brand">Thai<span>Helper</span></Link>
-          <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
+            <MobileMenu
+              items={[
+                { href: '/',                    label: 'For Helpers' },
+                { href: '/employers',           label: 'For Families' },
+                { href: '/helpers',             label: 'Browse Helpers' },
+                { href: '/work-permit-wizard',  label: 'Work Permit Wizard' },
+                { href: '/directory',           label: 'Expert Directory' },
+                { href: '/about',               label: 'About' },
+                { href: '/faq',                 label: 'FAQ' },
+                { href: '/blog',                label: 'Blog' },
+              ]}
+              primaryCta={{ href: '/register', label: 'Register Free' }}
+            />
+          </div>
         </nav>
 
         {/* Login Card */}

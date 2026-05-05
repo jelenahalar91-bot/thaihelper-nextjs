@@ -11,6 +11,7 @@
 import Link from 'next/link';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
+import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import LegalDisclaimer from '@/components/LegalDisclaimer';
 import { useLang } from '../_app';
 import { getServiceSupabase } from '@/lib/supabase';
@@ -30,6 +31,13 @@ const T = {
     nav_blog: 'Blog',
     nav_login: 'Login',
     nav_cta: 'Register – Free',
+    nav_resources: 'Resources',
+    nav_browse_helpers: 'Browse Helpers',
+    nav_wizard: 'Work Permit Wizard',
+    nav_directory_back: 'Expert Directory',
+    nav_employers_link: 'For Families',
+    nav_about: 'About',
+    nav_faq: 'FAQ',
 
     crumb_dir: 'Expert Directory',
     back_link: '← Back to directory',
@@ -63,6 +71,13 @@ const T = {
     nav_blog: 'บล็อก',
     nav_login: 'เข้าสู่ระบบ',
     nav_cta: 'สมัคร – ฟรี',
+    nav_resources: 'แหล่งข้อมูล',
+    nav_browse_helpers: 'ดูผู้ช่วย',
+    nav_wizard: 'ตัวช่วยใบอนุญาตทำงาน',
+    nav_directory_back: 'รายชื่อผู้เชี่ยวชาญ',
+    nav_employers_link: 'สำหรับครอบครัว',
+    nav_about: 'เกี่ยวกับเรา',
+    nav_faq: 'คำถามที่พบบ่อย',
 
     crumb_dir: 'รายชื่อผู้เชี่ยวชาญ',
     back_link: '← กลับไปหน้ารายชื่อ',
@@ -261,17 +276,39 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
           <Link href="/" className="text-xl md:text-2xl font-bold font-headline">
             <span>Thai</span><span style={{ color: '#006a62' }}>Helper</span>
           </Link>
-          <div className="flex items-center gap-2 md:gap-3">
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/blog">{t.nav_blog}</Link>
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
-            <LangSwitcher />
-            <Link
-              className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150"
-              href="/employer-register"
-            >
-              {t.nav_cta}
-            </Link>
-          </div>
+          {(() => {
+            const navItems = [
+              { href: '/directory',           label: t.nav_directory_back },
+              { href: '/helpers',             label: t.nav_browse_helpers },
+              { href: '/work-permit-wizard',  label: t.nav_wizard },
+              { href: '/employers',           label: t.nav_employers_link },
+              { href: '/about',               label: t.nav_about },
+              { href: '/faq',                 label: t.nav_faq },
+              { href: '/blog',                label: t.nav_blog },
+            ];
+            return (
+              <>
+                <div className="hidden lg:flex items-center gap-4">
+                  <ResourcesDropdown label={t.nav_resources} items={navItems} />
+                  <Link className="text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
+                  <LangSwitcher />
+                  <Link
+                    className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap"
+                    href="/employer-register"
+                  >
+                    {t.nav_cta}
+                  </Link>
+                </div>
+                <div className="lg:hidden">
+                  <MobileMenu
+                    items={navItems}
+                    secondaryCta={{ href: '/login', label: t.nav_login }}
+                    primaryCta={{ href: '/employer-register', label: t.nav_cta }}
+                  />
+                </div>
+              </>
+            );
+          })()}
         </nav>
 
         <main className="pt-24 md:pt-28">

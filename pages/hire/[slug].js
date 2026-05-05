@@ -2,6 +2,7 @@ import Link from 'next/link';
 import SEOHead, { getBreadcrumbSchema, getLocalBusinessSchema, getSpeakableSchema } from '@/components/SEOHead';
 import { useLang } from '@/pages/_app';
 import LangSwitcher from '@/components/LangSwitcher';
+import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { getAllHirePages, getHirePageBySlug } from '@/lib/seo/hire-pages';
 import { CATEGORIES, CATEGORIES_DATA } from '@/lib/constants/categories';
 import { CITIES_DATA } from '@/lib/constants/cities';
@@ -200,15 +201,35 @@ export default function HirePage({ page, matchingHelpers = [] }) {
           <Link href="/" className="text-xl font-bold font-headline">
             <span>Thai</span><span style={{ color: '#006a62' }}>Helper</span>
           </Link>
-          <div className="flex items-center gap-3">
-            <Link href="/helpers" className="text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors">
-              {isEn ? 'Browse All' : 'ดูทั้งหมด'}
-            </Link>
-            <Link href="/register" className="text-sm font-bold bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors">
-              {isEn ? 'Register Free' : 'สมัครฟรี'}
-            </Link>
-            <LangSwitcher />
-          </div>
+          {(() => {
+            const navItems = [
+              { href: '/helpers',             label: isEn ? 'Browse Helpers' : 'ดูผู้ช่วย' },
+              { href: '/employers',           label: isEn ? 'For Families' : 'สำหรับครอบครัว' },
+              { href: '/work-permit-wizard',  label: isEn ? 'Work Permit Wizard' : 'ตัวช่วยใบอนุญาตทำงาน' },
+              { href: '/directory',           label: isEn ? 'Expert Directory' : 'รายชื่อผู้เชี่ยวชาญ' },
+              { href: '/about',               label: isEn ? 'About' : 'เกี่ยวกับเรา' },
+              { href: '/faq',                 label: isEn ? 'FAQ' : 'คำถามที่พบบ่อย' },
+              { href: '/blog',                label: isEn ? 'Blog' : 'บล็อก' },
+            ];
+            return (
+              <>
+                <div className="hidden lg:flex items-center gap-3">
+                  <ResourcesDropdown label={isEn ? 'Resources' : 'แหล่งข้อมูล'} items={navItems} />
+                  <Link href="/register" className="text-sm font-bold bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors whitespace-nowrap">
+                    {isEn ? 'Register Free' : 'สมัครฟรี'}
+                  </Link>
+                  <LangSwitcher />
+                </div>
+                <div className="lg:hidden">
+                  <MobileMenu
+                    items={navItems}
+                    secondaryCta={{ href: '/login', label: isEn ? 'Login' : 'เข้าสู่ระบบ' }}
+                    primaryCta={{ href: '/register', label: isEn ? 'Register Free' : 'สมัครฟรี' }}
+                  />
+                </div>
+              </>
+            );
+          })()}
         </nav>
 
         {/* Breadcrumbs */}

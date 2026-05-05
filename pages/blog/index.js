@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
+import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import BlogCard from '@/components/BlogCard';
 import { blogPosts } from '@/content/blog/posts';
 import { useLang } from '../_app';
@@ -42,21 +43,37 @@ export default function BlogIndex() {
               <span>Thai</span><span style={{ color: '#006a62' }}>Helper</span>
             </Link>
           </div>
-          <div className="flex items-center gap-2 md:gap-3">
-            <Link className="hidden sm:inline text-xs md:text-sm font-semibold text-primary hover:text-primary-container transition-colors" href="/">
-              For Helpers
-            </Link>
-            <Link className="hidden sm:inline text-xs md:text-sm font-semibold px-3 py-1.5 rounded-full border border-secondary/20 text-secondary hover:bg-secondary hover:text-white transition-all" href="/employers">
-              For Families
-            </Link>
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
-              Login
-            </Link>
-            <LangSwitcher />
-            <Link className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150" href="/register">
-              Register Free
-            </Link>
-          </div>
+          {(() => {
+            const navItems = [
+              { href: '/employers',           label: 'For Families' },
+              { href: '/helpers',             label: 'Browse Helpers' },
+              { href: '/work-permit-wizard',  label: 'Work Permit Wizard' },
+              { href: '/directory',           label: 'Expert Directory' },
+              { href: '/about',               label: 'About' },
+              { href: '/faq',                 label: 'FAQ' },
+            ];
+            return (
+              <>
+                <div className="hidden lg:flex items-center gap-4">
+                  <ResourcesDropdown label="Resources" items={navItems} />
+                  <Link className="text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">
+                    Login
+                  </Link>
+                  <LangSwitcher />
+                  <Link className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap" href="/register">
+                    Register Free
+                  </Link>
+                </div>
+                <div className="lg:hidden">
+                  <MobileMenu
+                    items={navItems}
+                    secondaryCta={{ href: '/login', label: 'Login' }}
+                    primaryCta={{ href: '/register', label: 'Register Free' }}
+                  />
+                </div>
+              </>
+            );
+          })()}
         </nav>
 
         {/* ── HERO HEADER ── */}

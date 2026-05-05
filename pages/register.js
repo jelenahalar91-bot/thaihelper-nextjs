@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
+import { MobileMenu } from '@/components/MobileMenu';
 import Turnstile from '@/components/Turnstile';
 import { useLang } from './_app';
 import Link from 'next/link';
@@ -537,9 +538,22 @@ export default function Register() {
         {/* NAV */}
         <nav>
           <Link className="nav-brand" href="/">Thai<span>Helper</span></Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <LangSwitcher />
-            <Link className="nav-back" href="/">{t.nav_back}</Link>
+            <Link className="nav-back hidden sm:inline" href="/">{t.nav_back}</Link>
+            <MobileMenu
+              items={[
+                { href: '/',                    label: lang === 'th' ? 'หน้าแรก' : 'Home' },
+                { href: '/employers',           label: lang === 'th' ? 'สำหรับครอบครัว' : 'For Families' },
+                { href: '/helpers',             label: lang === 'th' ? 'ดูผู้ช่วย' : 'Browse Helpers' },
+                { href: '/work-permit-wizard',  label: lang === 'th' ? 'ตัวช่วยใบอนุญาตทำงาน' : 'Work Permit Wizard' },
+                { href: '/directory',           label: lang === 'th' ? 'รายชื่อผู้เชี่ยวชาญ' : 'Expert Directory' },
+                { href: '/about',               label: lang === 'th' ? 'เกี่ยวกับเรา' : 'About' },
+                { href: '/faq',                 label: lang === 'th' ? 'คำถามที่พบบ่อย' : 'FAQ' },
+                { href: '/blog',                label: lang === 'th' ? 'บล็อก' : 'Blog' },
+              ]}
+              secondaryCta={{ href: '/login', label: lang === 'th' ? 'เข้าสู่ระบบ' : 'Login' }}
+            />
           </div>
         </nav>
 

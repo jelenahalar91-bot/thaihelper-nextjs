@@ -6,11 +6,13 @@ const CircularTestimonials = dynamic(() => import('@/components/ui/circular-test
 import SEOHead, { getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
+import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { useLang } from './_app';
 
 const T = {
   en: {
     nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Families',nav_blog:'Blog',nav_login:'Login',nav_cta:'Register Free',
+    nav_resources:'Resources',nav_about:'About',nav_faq:'FAQ',
     hero_badge:'Premium Marketplace',
     hero_h1:'Find Work Directly.',hero_h1_em:'No Middleman Needed.',
     hero_p:"Connect directly with Thailand's best nannies, chefs, drivers and domestic helpers. No middleman, no hidden fees, just pure Thai hospitality at its finest.",
@@ -67,6 +69,7 @@ const T = {
   },
   th: {
     nav_find:'สิทธิประโยชน์',nav_hire:'ประเภทงาน',nav_how:'วิธีการทำงาน',nav_employers:'สำหรับครอบครัว',nav_blog:'บล็อก',nav_login:'เข้าสู่ระบบ',nav_cta:'ลงทะเบียนฟรี',
+    nav_resources:'แหล่งข้อมูล',nav_about:'เกี่ยวกับเรา',nav_faq:'คำถามที่พบบ่อย',
     hero_badge:'แพลตฟอร์มพรีเมียม',
     hero_h1:'หางานโดยตรง',hero_h1_em:'ไม่ต้องผ่านคนกลาง',
     hero_p:'เชื่อมต่อโดยตรงกับพี่เลี้ยง พ่อครัว คนขับรถ และผู้ช่วยงานบ้านที่ดีที่สุดในประเทศไทย ไม่มีคนกลาง ไม่มีค่าธรรมเนียมซ่อนเร้น',
@@ -256,12 +259,33 @@ export default function Home() {
               {lang === 'en' ? 'For Helpers' : lang === 'ru' ? 'Помощники' : 'ผู้ช่วย'}
             </span>
           </div>
-          <div className="flex items-center gap-2 md:gap-3">
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/blog">{t.nav_blog}</Link>
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
-            <LangSwitcher />
-            <Link className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150" href="/register">{t.nav_cta}</Link>
-          </div>
+          {(() => {
+            const navItems = [
+              { href: '/employers',           label: t.nav_employers },
+              { href: '/work-permit-wizard',  label: lang === 'th' ? 'ตัวช่วยใบอนุญาตทำงาน' : 'Work Permit Wizard' },
+              { href: '/directory',           label: lang === 'th' ? 'รายชื่อผู้เชี่ยวชาญ' : 'Expert Directory' },
+              { href: '/about',               label: t.nav_about },
+              { href: '/faq',                 label: t.nav_faq },
+              { href: '/blog',                label: t.nav_blog },
+            ];
+            return (
+              <>
+                <div className="hidden lg:flex items-center gap-4">
+                  <ResourcesDropdown label={t.nav_resources} items={navItems} />
+                  <Link className="text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
+                  <LangSwitcher />
+                  <Link className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap" href="/register">{t.nav_cta}</Link>
+                </div>
+                <div className="lg:hidden">
+                  <MobileMenu
+                    items={navItems}
+                    secondaryCta={{ href: '/login', label: t.nav_login }}
+                    primaryCta={{ href: '/register', label: t.nav_cta }}
+                  />
+                </div>
+              </>
+            );
+          })()}
         </nav>
 
         <main className="pt-24">

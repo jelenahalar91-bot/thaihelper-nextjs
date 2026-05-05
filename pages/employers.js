@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import { useState, useEffect, useCallback } from 'react';
 import SEOHead, { getBreadcrumbSchema, getServiceSchema, getSpeakableSchema, getFAQSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
+import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import HelperCard from '@/components/HelperCard';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { CATEGORIES } from '@/lib/constants/categories';
@@ -15,190 +15,6 @@ import {
   Wallet, Ban, ShieldCheck, LayoutGrid, MapPin,
 } from 'lucide-react';
 
-// ─── RESOURCES DROPDOWN — desktop only. On lg+ we have room to show a
-// dropdown next to the inline links; on smaller screens the same items
-// live inside the MobileMenu panel.
-function ResourcesDropdown({ t, items }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    if (!open) return;
-    function onMouseDown(e) {
-      if (!ref.current?.contains(e.target)) setOpen(false);
-    }
-    function onKey(e) {
-      if (e.key === 'Escape') setOpen(false);
-    }
-    document.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', onMouseDown);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen(o => !o)}
-        aria-haspopup="menu"
-        aria-expanded={open}
-        className="flex items-center gap-1 text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors"
-      >
-        {t.nav_resources}
-        <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor" className={`transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden>
-          <path d="M0 0l5 6 5-6z" />
-        </svg>
-      </button>
-      {open && (
-        <div
-          role="menu"
-          className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50"
-        >
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="block px-4 py-2.5 text-sm font-semibold text-[#001b3d] hover:bg-gray-50 hover:text-primary transition-colors"
-              role="menuitem"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─── MOBILE MENU — hamburger + slide-in panel from the right.
-// The panel is rendered through a React portal directly into <body>
-// because the parent <nav> uses `backdrop-blur-md`, which establishes
-// a new containing block for fixed-position descendants. Without the
-// portal, the panel would be positioned relative to the nav (starting
-// below the utility top bar instead of at viewport top: 0).
-function MobileMenu({ t, items }) {
-  const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  // createPortal needs document.body, which is undefined during SSR.
-  useEffect(() => { setMounted(true); }, []);
-
-  // Lock body scroll while the panel is open so the page behind doesn't
-  // scroll when the user pans the menu.
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    function onKey(e) { if (e.key === 'Escape') setOpen(false); }
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [open]);
-
-  const close = () => setOpen(false);
-
-  const overlay = (
-    <>
-      {/* Backdrop */}
-      <button
-        type="button"
-        aria-label="Close menu"
-        onClick={close}
-        className="fixed inset-0 bg-black/45 z-[1000]"
-      />
-
-      {/* Panel */}
-      <div className="fixed right-0 top-0 bottom-0 w-[85%] max-w-sm bg-white z-[1001] shadow-2xl flex flex-col overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <span className="text-xl font-bold font-headline">
-            <span>Thai</span><span style={{ color: '#006a62' }}>Helper</span>
-          </span>
-          <button
-            type="button"
-            onClick={close}
-            aria-label="Close menu"
-            className="p-2 -mr-2 text-gray-500 hover:text-gray-900"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Auth CTAs — side-by-side, prominent */}
-        <div className="grid grid-cols-2 gap-3 px-5 py-4">
-          <Link
-            href="/login"
-            onClick={close}
-            className="text-center px-4 py-3 rounded-xl bg-gray-100 text-[#001b3d] text-sm font-bold hover:bg-gray-200 transition-colors"
-          >
-            {t.nav_login}
-          </Link>
-          <Link
-            href="/employer-register"
-            onClick={close}
-            className="text-center px-4 py-3 rounded-xl bg-[#001b3d] text-white text-sm font-bold hover:bg-[#002d5f] transition-colors"
-          >
-            {t.nav_cta}
-          </Link>
-        </div>
-
-        {/* Nav links. NB: rendered as <div> (not <nav>) because the
-            global stylesheet has `nav { display: flex; height: 64px;
-            justify-content: space-between }` which would force the
-            items into a single-row strip. */}
-        <div role="menu" className="px-2 py-2 border-t border-gray-100">
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={close}
-              role="menuitem"
-              className="flex w-full items-center justify-between gap-3 px-4 py-4 rounded-lg hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-b-0"
-            >
-              <span className="text-base font-semibold text-[#001b3d]">{item.label}</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-300 flex-shrink-0" aria-hidden>
-                <path d="M9 6l6 6-6 6" />
-              </svg>
-            </Link>
-          ))}
-        </div>
-
-        {/* Footer — language switcher, pinned to bottom */}
-        <div className="mt-auto px-5 py-4 border-t border-gray-100">
-          <LangSwitcher />
-        </div>
-      </div>
-    </>
-  );
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label="Open menu"
-        aria-expanded={open}
-        className="p-2 -mr-2 text-[#001b3d] hover:text-primary transition-colors"
-      >
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
-      </button>
-
-      {open && mounted && createPortal(overlay, document.body)}
-    </>
-  );
-}
 
 // ─── HERO CAROUSEL (2 visible cards) ────────────────────────────────────────
 function HeroCarousel({ items }) {
@@ -772,17 +588,17 @@ export default function Employers({ featuredHelpers = [] }) {
             // Same set of items powers both the desktop dropdown and the
             // mobile slide-out panel — defined once so they stay in sync.
             const navItems = [
-              { href: '/helpers',             icon: '👥', label: t.nav_browse_helpers },
-              { href: '/work-permit-wizard',  icon: '📋', label: t.nav_wizard },
-              { href: '/directory',           icon: '⚖️', label: t.nav_directory },
-              { href: '/faq',                 icon: '💬', label: t.nav_faq },
-              { href: '/blog',                icon: '✏️', label: t.nav_blog },
+              { href: '/helpers',             label: t.nav_browse_helpers },
+              { href: '/work-permit-wizard',  label: t.nav_wizard },
+              { href: '/directory',           label: t.nav_directory },
+              { href: '/faq',                 label: t.nav_faq },
+              { href: '/blog',                label: t.nav_blog },
             ];
             return (
               <>
                 {/* Desktop nav — lg and up */}
                 <div className="hidden lg:flex items-center gap-4">
-                  <ResourcesDropdown t={t} items={navItems} />
+                  <ResourcesDropdown label={t.nav_resources} items={navItems} />
                   <Link className="text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
                   <LangSwitcher />
                   <Link
@@ -795,7 +611,11 @@ export default function Employers({ featuredHelpers = [] }) {
 
                 {/* Mobile / tablet nav — below lg */}
                 <div className="lg:hidden">
-                  <MobileMenu t={t} items={navItems} />
+                  <MobileMenu
+                    items={navItems}
+                    secondaryCta={{ href: '/login', label: t.nav_login }}
+                    primaryCta={{ href: '/employer-register', label: t.nav_cta }}
+                  />
                 </div>
               </>
             );

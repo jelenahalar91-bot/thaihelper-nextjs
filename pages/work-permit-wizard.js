@@ -18,6 +18,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
+import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import LegalDisclaimer from '@/components/LegalDisclaimer';
 import { useLang } from './_app';
 import { CITY_OPTIONS } from '@/lib/constants/cities';
@@ -36,9 +37,15 @@ const T = {
     meta_desc: 'Free 5-step wizard for families in Thailand. Find out whether you need a work permit for your helper, what it costs, and how long it takes.',
     nav_employers: 'For Families',
     nav_helpers: 'For Helpers',
+    nav_employers: 'For Families',
     nav_blog: 'Blog',
     nav_login: 'Login',
     nav_cta: 'Register – Free',
+    nav_resources: 'Resources',
+    nav_browse_helpers: 'Browse Helpers',
+    nav_directory: 'Expert Directory',
+    nav_about: 'About',
+    nav_faq: 'FAQ',
 
     hero_eyebrow: 'Work Permit Wizard',
     hero_h1: 'Do I need a work permit for my helper?',
@@ -134,9 +141,15 @@ const T = {
     meta_desc: 'แบบสอบถาม 5 ขั้นตอนฟรีสำหรับครอบครัวในประเทศไทย เพื่อช่วยให้คุณรู้ว่าจำเป็นต้องมีใบอนุญาตทำงานสำหรับผู้ช่วยหรือไม่ ค่าใช้จ่ายและระยะเวลา',
     nav_employers: 'สำหรับครอบครัว',
     nav_helpers: 'สำหรับผู้ช่วย',
+    nav_employers: 'สำหรับครอบครัว',
     nav_blog: 'บล็อก',
     nav_login: 'เข้าสู่ระบบ',
     nav_cta: 'สมัคร – ฟรี',
+    nav_resources: 'แหล่งข้อมูล',
+    nav_browse_helpers: 'ดูผู้ช่วย',
+    nav_directory: 'รายชื่อผู้เชี่ยวชาญ',
+    nav_about: 'เกี่ยวกับเรา',
+    nav_faq: 'คำถามที่พบบ่อย',
 
     hero_eyebrow: 'ตัวช่วยใบอนุญาตทำงาน',
     hero_h1: 'ฉันต้องมีใบอนุญาตทำงานสำหรับผู้ช่วยหรือไม่?',
@@ -387,17 +400,38 @@ export default function WorkPermitWizard() {
           <Link href="/" className="text-xl md:text-2xl font-bold font-headline">
             <span>Thai</span><span style={{ color: '#006a62' }}>Helper</span>
           </Link>
-          <div className="flex items-center gap-2 md:gap-3">
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/blog">{t.nav_blog}</Link>
-            <Link className="text-xs md:text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
-            <LangSwitcher />
-            <Link
-              className="px-4 md:px-6 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-xs md:text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150"
-              href="/employer-register"
-            >
-              {t.nav_cta}
-            </Link>
-          </div>
+          {(() => {
+            const navItems = [
+              { href: '/helpers',             label: t.nav_browse_helpers },
+              { href: '/directory',           label: t.nav_directory },
+              { href: '/employers',           label: t.nav_employers },
+              { href: '/about',               label: t.nav_about },
+              { href: '/faq',                 label: t.nav_faq },
+              { href: '/blog',                label: t.nav_blog },
+            ];
+            return (
+              <>
+                <div className="hidden lg:flex items-center gap-4">
+                  <ResourcesDropdown label={t.nav_resources} items={navItems} />
+                  <Link className="text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
+                  <LangSwitcher />
+                  <Link
+                    className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap"
+                    href="/employer-register"
+                  >
+                    {t.nav_cta}
+                  </Link>
+                </div>
+                <div className="lg:hidden">
+                  <MobileMenu
+                    items={navItems}
+                    secondaryCta={{ href: '/login', label: t.nav_login }}
+                    primaryCta={{ href: '/employer-register', label: t.nav_cta }}
+                  />
+                </div>
+              </>
+            );
+          })()}
         </nav>
 
         <main className="pt-24 md:pt-28">

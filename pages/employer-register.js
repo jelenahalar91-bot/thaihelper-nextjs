@@ -9,6 +9,7 @@ import { CITIES } from '@/lib/constants/cities';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS } from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
+import { MobileMenu } from '@/components/MobileMenu';
 import { event as gaEvent, EVENTS } from '@/lib/analytics';
 
 // Plain category labels for the multi-select (no emojis — we'll show clean chips)
@@ -383,7 +384,22 @@ export default function EmployerRegisterPage() {
       <div className="register-body">
         <nav className="register-nav">
           <Link href="/" className="brand">Thai<span>Helper</span></Link>
-          <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
+            <MobileMenu
+              items={[
+                { href: '/',                    label: lang === 'th' ? 'หน้าแรก' : 'Home' },
+                { href: '/employers',           label: lang === 'th' ? 'สำหรับครอบครัว' : 'For Families' },
+                { href: '/helpers',             label: lang === 'th' ? 'ดูผู้ช่วย' : 'Browse Helpers' },
+                { href: '/work-permit-wizard',  label: lang === 'th' ? 'ตัวช่วยใบอนุญาตทำงาน' : 'Work Permit Wizard' },
+                { href: '/directory',           label: lang === 'th' ? 'รายชื่อผู้เชี่ยวชาญ' : 'Expert Directory' },
+                { href: '/about',               label: lang === 'th' ? 'เกี่ยวกับเรา' : 'About' },
+                { href: '/faq',                 label: lang === 'th' ? 'คำถามที่พบบ่อย' : 'FAQ' },
+                { href: '/blog',                label: lang === 'th' ? 'บล็อก' : 'Blog' },
+              ]}
+              secondaryCta={{ href: '/login', label: lang === 'th' ? 'เข้าสู่ระบบ' : 'Login' }}
+            />
+          </div>
         </nav>
 
         <div className="register-container">
