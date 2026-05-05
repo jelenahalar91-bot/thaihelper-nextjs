@@ -7,7 +7,6 @@ import '../styles/globals.css';
 import { getOrganizationSchema, getWebSiteSchema } from '@/components/SEOHead';
 import { GA_ID, FB_PIXEL_ID, pageview, fbPageview } from '@/lib/analytics';
 import { captureAttribution } from '@/lib/utm';
-import CookieConsent, { useCookieConsent } from '@/components/CookieConsent';
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -40,9 +39,6 @@ export function useLang() {
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   const [lang, setLangState] = useState('en');
-  const cookieConsent = useCookieConsent();
-  const gaAllowed = GA_ID && cookieConsent === 'accepted';
-  const fbAllowed = FB_PIXEL_ID && cookieConsent === 'accepted';
 
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
@@ -63,14 +59,14 @@ export default function App({ Component, pageProps }) {
 
   // Track page views on route change — fires both GA and Meta Pixel
   useEffect(() => {
-    if (!gaAllowed && !fbAllowed) return;
+    if (!GA_ID && !FB_PIXEL_ID) return;
     const handleRouteChange = (url) => {
-      if (gaAllowed) pageview(url);
-      if (fbAllowed) fbPageview();
+      if (GA_ID) pageview(url);
+      if (FB_PIXEL_ID) fbPageview();
     };
     router.events.on('routeChangeComplete', handleRouteChange);
     return () => router.events.off('routeChangeComplete', handleRouteChange);
-  }, [router.events, gaAllowed, fbAllowed]);
+  }, [router.events]);
 
   // Register Service Worker — production only, required for PWA installability + TWA
   useEffect(() => {
@@ -81,8 +77,8 @@ export default function App({ Component, pageProps }) {
 
   return (
     <LangContext.Provider value={{ lang, setLang }}>
-      {/* Google Analytics 4 — only loads after cookie consent */}
-      {gaAllowed && (
+      {/* Google Analytics 4 */}
+      {GA_ID && (
         <>
           <Script
             strategy="lazyOnload"
@@ -107,11 +103,11 @@ export default function App({ Component, pageProps }) {
         </>
       )}
 
-      {/* Meta Pixel — only loads after cookie consent. Fires PageView on
-          load; subsequent route changes fire via fbPageview() in the effect
-          above. Standard events (CompleteRegistration, Lead) are fired from
-          the relevant pages via fbTrack(). */}
-      {fbAllowed && (
+      {/* Meta Pixel — fires PageView on load; subsequent route changes fire
+          via fbPageview() in the effect above. Standard events
+          (CompleteRegistration, Lead) are fired from the relevant pages via
+          fbTrack(). */}
+      {FB_PIXEL_ID && (
         <Script
           id="fb-pixel-init"
           strategy="lazyOnload"
@@ -156,8 +152,6 @@ export default function App({ Component, pageProps }) {
       </Head>
       <div className={`${plusJakarta.variable} ${manrope.variable} ${sarabun.variable}`}>
         <Component {...pageProps} />
-        {/* Cookie consent banner — shown once, remembers choice */}
-        <CookieConsent lang={lang} />
       </div>
     </LangContext.Provider>
   );
