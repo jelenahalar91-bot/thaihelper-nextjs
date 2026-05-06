@@ -57,7 +57,7 @@ const nextConfig = {
     // Short links for marketing channels — keep them <= 5 chars after the slash
     // so they're easy to type into a Facebook comment. Each one preserves UTM
     // attribution via the destination query string, so analytics still work.
-    const shortlinks = [
+    const helperLinks = [
       { src: '/fb',  campaign: 'jobseekers' },
       { src: '/bk',  campaign: 'bangkok-jobs' },
       { src: '/cm',  campaign: 'chiangmai-jobs' },
@@ -71,6 +71,19 @@ const nextConfig = {
       destination: `/register?utm_source=facebook&utm_medium=comment&utm_campaign=${campaign}`,
       permanent: false,
     }));
+
+    const familyLinks = [
+      { src: '/fam',    campaign: 'family-search' },
+      { src: '/fam-nn', campaign: 'family-nanny' },
+      { src: '/fam-hk', campaign: 'family-housekeeper' },
+      { src: '/fam-cg', campaign: 'family-caregiver' },
+    ].map(({ src, campaign }) => ({
+      source: src,
+      destination: `/employers?utm_source=facebook&utm_medium=comment&utm_campaign=${campaign}`,
+      permanent: false,
+    }));
+
+    const shortlinks = [...helperLinks, ...familyLinks];
 
     return [
       {
