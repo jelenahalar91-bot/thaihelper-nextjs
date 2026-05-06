@@ -144,13 +144,20 @@ export default function HirePage({ page, matchingHelpers = [] }) {
   const related = getRelatedPages(page);
   const isEn = lang === 'en';
 
-  const title = isEn ? page.title : page.titleTh;
-  const description = isEn ? page.description : page.descriptionTh;
-  const h1 = isEn ? page.h1 : (page.cityTh && page.categoryTh
-    ? `หา${page.categoryTh}ใน${page.cityTh}`
-    : page.categoryTh
-    ? `หา${page.categoryTh}ในประเทศไทย`
-    : `หาผู้ช่วยใน${page.cityTh}`);
+  const title = isEn ? page.title : (page.titleTh || page.title_th || page.title);
+  const description = isEn
+    ? page.description
+    : (page.descriptionTh || page.description_th || page.description);
+  // Fallback chain ensures h1 is never empty (critical for SEO)
+  const h1En = page.h1
+    || (page.categoryEn && page.cityEn ? `Hire a Trusted ${page.categoryEn} in ${page.cityEn}` : null)
+    || (page.categoryEn ? `Hire a Trusted ${page.categoryEn} in Thailand` : null)
+    || (page.cityEn ? `Hire Trusted Household Staff in ${page.cityEn}` : 'Hire Household Staff in Thailand');
+  const h1Th = page.h1Th
+    || (page.categoryTh && page.cityTh ? `หา${page.categoryTh}ใน${page.cityTh}` : null)
+    || (page.categoryTh ? `หา${page.categoryTh}ในประเทศไทย` : null)
+    || (page.cityTh ? `หาผู้ช่วยงานบ้านใน${page.cityTh}` : 'หาผู้ช่วยงานบ้านในประเทศไทย');
+  const h1 = isEn ? h1En : h1Th;
 
   const breadcrumbs = [
     { name: 'Home', path: '/' },
