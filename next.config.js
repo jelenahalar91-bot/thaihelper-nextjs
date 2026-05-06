@@ -54,6 +54,24 @@ const nextConfig = {
 
   // Redirects
   async redirects() {
+    // Short links for marketing channels — keep them <= 5 chars after the slash
+    // so they're easy to type into a Facebook comment. Each one preserves UTM
+    // attribution via the destination query string, so analytics still work.
+    const shortlinks = [
+      { src: '/fb',  campaign: 'jobseekers' },
+      { src: '/bk',  campaign: 'bangkok-jobs' },
+      { src: '/cm',  campaign: 'chiangmai-jobs' },
+      { src: '/pt',  campaign: 'pattaya-jobs' },
+      { src: '/ph',  campaign: 'phuket-jobs' },
+      { src: '/ks',  campaign: 'samui-jobs' },
+      { src: '/bm',  campaign: 'burmese-jobs' },
+      { src: '/cg',  campaign: 'caregiver-jobs' },
+    ].map(({ src, campaign }) => ({
+      source: src,
+      destination: `/register?utm_source=facebook&utm_medium=comment&utm_campaign=${campaign}`,
+      permanent: false,
+    }));
+
     return [
       {
         // Old confirmation emails linked to /inbox, but messaging lives in /profile (tab "Messages").
@@ -62,6 +80,7 @@ const nextConfig = {
         destination: '/profile',
         permanent: true,
       },
+      ...shortlinks,
     ];
   },
 
