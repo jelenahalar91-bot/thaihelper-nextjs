@@ -5,8 +5,23 @@ import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES } from '@/lib/constants/cities';
-import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
+import { CATEGORIES, SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugList } from '@/lib/constants/employer';
+
+// Render an employer's "looking for" CSV (e.g. "nanny, housekeeper") as
+// readable labels in the current UI language.
+function formatLookingFor(csv, lang) {
+  if (!csv) return '';
+  return String(csv)
+    .split(/[,]+/)
+    .map(s => s.trim())
+    .filter(Boolean)
+    .map(slug => {
+      const cat = CATEGORIES.find(c => c.value === slug);
+      return cat ? (cat[lang] || cat.en) : slug;
+    })
+    .join(', ');
+}
 
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
@@ -135,12 +150,19 @@ export default function EmployersBrowse() {
     setFilterArea('');
   };
 
+  // Build a label-aware option list so the dropdown shows
+  // "Nanny & Babysitter" instead of the raw slug "nanny".
   const lookingForOptions = [...new Set(
     employers
       .flatMap(e => (e.lookingFor || '').split(/,\s*/))
       .filter(Boolean)
       .map(s => s.trim())
-  )].sort();
+  )]
+    .map(slug => {
+      const cat = CATEGORIES.find(c => c.value === slug);
+      return { value: slug, label: cat ? (cat[lang] || cat.en) : slug };
+    })
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   const arrangementLabel = (val) => {
     if (val === 'live_in') return t.live_in;
@@ -482,7 +504,7 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
           </h3>
           {e.lookingFor && (
             <div className="text-sm text-gray-700 mt-1 font-medium">
-              {t.card_looking}: {e.lookingFor}
+              {t.card_looking}: {formatLookingFor(e.lookingFor, lang)}
             </div>
           )}
           {e.city && (
@@ -626,7 +648,7 @@ function EmpBrowseSidebar({
       <FG label={t.filter_looking_label}>
         <select value={filterLooking} onChange={e => setFilterLooking(e.target.value)} style={selectStyle}>
           <option value="">{t.filter_looking_all}</option>
-          {lookingForOptions.map(o => <option key={o} value={o}>{o}</option>)}
+          {lookingForOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
       </FG>
 
