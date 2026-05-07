@@ -130,6 +130,12 @@ const T = {
     msg_delete_confirm: 'Delete?',
     msg_delete_yes: 'Yes',
     msg_delete_no: 'No',
+    msg_contact_blocked: 'For your safety, please don\'t share phone numbers, emails, or links in messages. Keep the conversation here — both sides are protected this way.',
+    msg_verify_required_title: 'Verify your email to start messaging',
+    msg_verify_required_body: 'Your profile will only show up to helpers once your email is verified — and then you can also send messages.',
+    msg_verify_resend: 'Resend verification email',
+    msg_verify_resent: 'Verification email sent — please check your inbox.',
+    msg_verify_resend_error: 'Could not resend the email. Please try again later.',
     verify_banner: 'Please check your email and click the verification link to activate your account.',
   },
   th: {
@@ -220,6 +226,12 @@ const T = {
     msg_delete_confirm: 'ลบ?',
     msg_delete_yes: 'ใช่',
     msg_delete_no: 'ไม่',
+    msg_contact_blocked: 'เพื่อความปลอดภัยของคุณ กรุณาอย่าแชร์เบอร์โทร อีเมล หรือลิงก์ในข้อความ การสนทนาควรอยู่ที่นี่ ทั้งสองฝ่ายจะได้รับการคุ้มครอง',
+    msg_verify_required_title: 'ยืนยันอีเมลเพื่อเริ่มส่งข้อความ',
+    msg_verify_required_body: 'โปรไฟล์ของคุณจะปรากฏต่อผู้ช่วยเมื่อยืนยันอีเมลแล้วเท่านั้น จากนั้นคุณจะส่งข้อความได้ด้วย',
+    msg_verify_resend: 'ส่งอีเมลยืนยันอีกครั้ง',
+    msg_verify_resent: 'ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ',
+    msg_verify_resend_error: 'ส่งอีเมลไม่สำเร็จ กรุณาลองอีกครั้งภายหลัง',
     verify_banner: 'กรุณาตรวจสอบอีเมลของคุณและคลิกลิงก์ยืนยันเพื่อเปิดใช้งานบัญชี',
   },
 };
@@ -315,6 +327,8 @@ export default function EmployerDashboard() {
   const [sending, setSending] = useState(false);
   const [errorBanner, setErrorBanner] = useState('');
   const [viewingHelper, setViewingHelper] = useState(null); // helper obj shown in profile modal
+  const [resendingVerify, setResendingVerify] = useState(false);
+  const [resendVerifyResult, setResendVerifyResult] = useState(null); // 'sent' | 'error' | null
 
   // ── Favorites state ───────────────────────────────────────────────────
   const [favorites, setFavorites] = useState(new Set());
@@ -634,11 +648,31 @@ export default function EmployerDashboard() {
         setErrorBanner(t.err_start_locked);
       } else if (err.code === 'message_too_long') {
         setErrorBanner((t.err_too_long || 'Message is too long.').replace('{n}', err.max || 4000));
+      } else if (err.code === 'contact_info_not_allowed') {
+        setErrorBanner(t.msg_contact_blocked);
+      } else if (err.code === 'email_not_verified') {
+        setErrorBanner(t.msg_verify_required_body);
       } else {
         setErrorBanner(t.err_generic);
       }
     }
     setSending(false);
+  }
+
+  async function handleResendVerify() {
+    setResendingVerify(true);
+    setResendVerifyResult(null);
+    try {
+      const res = await fetch('/api/auth/resend-verification', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      setResendVerifyResult(res.ok ? 'sent' : 'error');
+    } catch {
+      setResendVerifyResult('error');
+    } finally {
+      setResendingVerify(false);
+    }
   }
 
   function handleUpgrade() {
@@ -913,6 +947,10 @@ export default function EmployerDashboard() {
                   messages={messages}
                   currentRole="employer"
                   canSend={employerHasAccess}
+                  verifyRequired={!!profile && profile.email_verified === false}
+                  onResendVerify={handleResendVerify}
+                  resendingVerify={resendingVerify}
+                  resendVerifyResult={resendVerifyResult}
                   loading={messagesLoading}
                   msgInput={msgInput}
                   setMsgInput={setMsgInput}

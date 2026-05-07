@@ -215,6 +215,16 @@ const T = {
     msg_delete_confirm: 'Delete?',
     msg_delete_yes: 'Yes',
     msg_delete_no: 'No',
+    msg_contact_blocked: 'For your safety, please don\'t share phone numbers, emails, or links in messages. Keep the conversation here — both sides are protected this way.',
+    msg_verify_required_title: 'Verify your email to start messaging',
+    msg_verify_required_body: 'Your profile will only show up to families once your email is verified — and then you can also send messages.',
+    msg_verify_resend: 'Resend verification email',
+    msg_verify_resent: 'Verification email sent — please check your inbox.',
+    msg_verify_resend_error: 'Could not resend the email. Please try again later.',
+    msg_quick_replies_label: 'Quick replies',
+    msg_quick_reply_1: 'Hi! I saw the job and I\'m very interested in helping your family. Could you tell me more about what you\'re looking for?',
+    msg_quick_reply_2: 'Hi! I\'m available and would love to talk about working with your family. When would be a good time for a quick call?',
+    msg_quick_reply_3: 'Hi! Thank you for your post. I have experience working with families in Thailand and I\'d love to hear more about you and the work you need.',
     // Browse employers
     tab_browse: 'Browse',
     browse_title: 'Browse Employers',
@@ -383,6 +393,16 @@ const T = {
     msg_delete_confirm: 'ลบ?',
     msg_delete_yes: 'ใช่',
     msg_delete_no: 'ไม่',
+    msg_contact_blocked: 'เพื่อความปลอดภัยของคุณ กรุณาอย่าแชร์เบอร์โทร อีเมล หรือลิงก์ในข้อความ การสนทนาควรอยู่ที่นี่ ทั้งสองฝ่ายจะได้รับการคุ้มครอง',
+    msg_verify_required_title: 'ยืนยันอีเมลเพื่อเริ่มส่งข้อความ',
+    msg_verify_required_body: 'โปรไฟล์ของคุณจะปรากฏต่อครอบครัวเมื่อยืนยันอีเมลแล้วเท่านั้น จากนั้นคุณจะส่งข้อความได้ด้วย',
+    msg_verify_resend: 'ส่งอีเมลยืนยันอีกครั้ง',
+    msg_verify_resent: 'ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ',
+    msg_verify_resend_error: 'ส่งอีเมลไม่สำเร็จ กรุณาลองอีกครั้งภายหลัง',
+    msg_quick_replies_label: 'ข้อความสำเร็จรูป',
+    msg_quick_reply_1: 'สวัสดีค่ะ ฉันเห็นประกาศงานแล้วและสนใจที่จะช่วยเหลือครอบครัวของคุณ ขอทราบรายละเอียดเพิ่มเติมเกี่ยวกับสิ่งที่คุณกำลังมองหาได้ไหมคะ',
+    msg_quick_reply_2: 'สวัสดีค่ะ ฉันว่างและอยากพูดคุยเกี่ยวกับการทำงานกับครอบครัวของคุณ จะสะดวกคุยกันสั้นๆ ได้เมื่อไหร่ดีคะ',
+    msg_quick_reply_3: 'สวัสดีค่ะ ขอบคุณสำหรับโพสต์ของคุณ ฉันมีประสบการณ์ทำงานกับครอบครัวในประเทศไทยและอยากทราบเพิ่มเติมเกี่ยวกับคุณและงานที่ต้องการค่ะ',
     // Browse employers
     tab_browse: 'ค้นหา',
     browse_title: 'ค้นหานายจ้าง',
@@ -455,6 +475,9 @@ export default function Profile() {
   const [loadingMsgs, setLoadingMsgs] = useState(false);
   const [msgToast, setMsgToast] = useState(''); // translation-failed / error banner
   const [viewingEmployer, setViewingEmployer] = useState(null); // employer profile modal
+  // Resend-verify state for the messaging tab banner
+  const [resendingVerify, setResendingVerify] = useState(false);
+  const [resendVerifyResult, setResendVerifyResult] = useState(null); // 'sent' | 'error' | null
   // Settings (reserved for future use)
   // Menu dropdown
   const [menuOpen, setMenuOpen] = useState(false);
@@ -781,12 +804,38 @@ export default function Profile() {
         setMsgToast(
           (t.msg_too_long || 'Message is too long (max {n} characters).').replace('{n}', err.max || 4000)
         );
+      } else if (err.code === 'contact_info_not_allowed') {
+        setMsgToast(t.msg_contact_blocked || 'Phone numbers, emails and links are not allowed in messages.');
+      } else if (err.code === 'email_not_verified') {
+        setMsgToast(t.msg_verify_required_body || 'Please verify your email first.');
+        // Re-fetch profile so the verify-banner appears if the user cleared the cookie
+        fetchProfile();
       } else {
         setMsgToast(t.msg_send_error || 'Failed to send message.');
       }
-      setTimeout(() => setMsgToast(''), 5000);
+      setTimeout(() => setMsgToast(''), 6000);
     } finally {
       setSendingMsg(false);
+    }
+  };
+
+  const handleResendVerify = async () => {
+    setResendingVerify(true);
+    setResendVerifyResult(null);
+    try {
+      const res = await fetch('/api/auth/resend-verification', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (res.ok) {
+        setResendVerifyResult('sent');
+      } else {
+        setResendVerifyResult('error');
+      }
+    } catch {
+      setResendVerifyResult('error');
+    } finally {
+      setResendingVerify(false);
     }
   };
 
@@ -1506,6 +1555,11 @@ export default function Profile() {
                   messages={messages}
                   currentRole="helper"
                   canSend={true}
+                  verifyRequired={!!p && !p.emailVerified}
+                  onResendVerify={handleResendVerify}
+                  resendingVerify={resendingVerify}
+                  resendVerifyResult={resendVerifyResult}
+                  quickReplies={[t.msg_quick_reply_1, t.msg_quick_reply_2, t.msg_quick_reply_3]}
                   loading={loadingMsgs}
                   msgInput={msgInput}
                   setMsgInput={setMsgInput}

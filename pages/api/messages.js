@@ -21,6 +21,7 @@ import {
 import { sendNewMessageNotification } from '../../lib/send-confirmation-email';
 import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../lib/unsubscribe';
 import { sendPushToUser } from '../../lib/web-push';
+import { hasContactInfo } from '../../lib/messaging-filter';
 
 const MESSAGES_PER_PAGE = 50;
 // Max characters per message. Generous enough for long Thai replies but
@@ -128,6 +129,19 @@ export default async function handler(req, res) {
       });
     }
 
+    // Sender must have a verified email before they can send messages.
+    // Check the live DB state, not the JWT (which is long-lived).
+    const senderTable = isEmployer ? 'employer_accounts' : 'helper_profiles';
+    const senderRefCol = isEmployer ? 'employer_ref' : 'helper_ref';
+    const { data: senderRow } = await supabase
+      .from(senderTable)
+      .select('email_verified')
+      .eq(senderRefCol, session.ref)
+      .single();
+    if (!senderRow?.email_verified) {
+      return res.status(403).json({ error: 'email_not_verified' });
+    }
+
     const { conversation_id, content } = req.body;
     const trimmed = typeof content === 'string' ? content.trim() : '';
     if (!conversation_id || !trimmed) {
@@ -138,6 +152,11 @@ export default async function handler(req, res) {
         error: 'message_too_long',
         max: MAX_MESSAGE_LENGTH,
       });
+    }
+    // Block phone numbers, emails, links, bare domains — keep all
+    // communication on thaihelper.app.
+    if (hasContactInfo(trimmed)) {
+      return res.status(400).json({ error: 'contact_info_not_allowed' });
     }
 
     const conv = await loadConversation(supabase, conversation_id, session);

@@ -28,6 +28,13 @@ export default function ConversationDetail({
   onBack,
   onUpgrade,
   onViewProfile,
+  // Verify-required state (overrides input with a verify banner)
+  verifyRequired = false,
+  onResendVerify,
+  resendingVerify = false,
+  resendVerifyResult = null, // 'sent' | 'error' | null
+  // Optional quick-reply chips shown above the input. Array of strings.
+  quickReplies = null,
   t,
 }) {
   const messagesEndRef = useRef(null);
@@ -212,14 +219,104 @@ export default function ConversationDetail({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* ── Input — locked variant for free-tier employers ─── */}
-      {canSend ? (
+      {/* ── Input — verify-required > free-tier-locked > normal ─── */}
+      {verifyRequired ? (
         <div style={{
-          display: 'flex', gap: '10px', padding: '14px 16px',
+          padding: '16px 18px',
+          background: 'linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%)',
+          borderTop: '1px solid #fed7aa',
+          display: 'flex', flexDirection: 'column', gap: '10px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+            <span style={{ fontSize: '20px', flexShrink: 0 }}>✉️</span>
+            <div style={{ fontSize: '14px', color: '#92400e', lineHeight: 1.5 }}>
+              <div style={{ fontWeight: 700, marginBottom: '2px' }}>
+                {t.msg_verify_required_title}
+              </div>
+              <div>{t.msg_verify_required_body}</div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <button
+              onClick={onResendVerify}
+              disabled={resendingVerify || resendVerifyResult === 'sent'}
+              style={{
+                padding: '8px 16px', borderRadius: '10px', border: 'none',
+                background: resendVerifyResult === 'sent' ? '#10b981' : '#92400e',
+                color: 'white', fontSize: '13px', fontWeight: 700,
+                cursor: resendingVerify ? 'wait' : 'pointer',
+                opacity: resendingVerify ? 0.7 : 1,
+              }}
+            >
+              {resendingVerify
+                ? '...'
+                : resendVerifyResult === 'sent'
+                  ? `✓ ${t.msg_verify_resent}`
+                  : t.msg_verify_resend}
+            </button>
+            {resendVerifyResult === 'error' && (
+              <span style={{ fontSize: '13px', color: '#9a3412' }}>
+                {t.msg_verify_resend_error}
+              </span>
+            )}
+          </div>
+        </div>
+      ) : canSend ? (
+        <div style={{
+          display: 'flex', flexDirection: 'column',
           background: 'white',
           borderTop: '1px solid #e5e7eb',
-          alignItems: 'center',
         }}>
+          {Array.isArray(quickReplies) && quickReplies.length > 0 && messages.length === 0 && (
+            <div style={{
+              padding: '12px 16px 0',
+              display: 'flex', flexDirection: 'column', gap: '8px',
+            }}>
+              {t.msg_quick_replies_label && (
+                <div style={{
+                  fontSize: '12px', color: '#6b7280',
+                  fontWeight: 600, letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                }}>
+                  {t.msg_quick_replies_label}
+                </div>
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                {quickReplies.map((text, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setMsgInput(text)}
+                    style={{
+                      textAlign: 'left',
+                      padding: '10px 14px',
+                      borderRadius: '12px',
+                      border: '1px solid #d1fae5',
+                      background: '#f0fdfa',
+                      fontSize: '13px', lineHeight: 1.45,
+                      color: '#065f46',
+                      cursor: 'pointer',
+                      transition: 'background 0.15s, border-color 0.15s',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = '#d1fae5';
+                      e.currentTarget.style.borderColor = '#6ee7b7';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = '#f0fdfa';
+                      e.currentTarget.style.borderColor = '#d1fae5';
+                    }}
+                  >
+                    {text}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          <div style={{
+            display: 'flex', gap: '10px', padding: '14px 16px',
+            alignItems: 'center',
+          }}>
           <div style={{
             flex: 1, position: 'relative',
             display: 'flex', alignItems: 'center',
@@ -284,6 +381,7 @@ export default function ConversationDetail({
                 </svg>
               )}
             </button>
+          </div>
           </div>
         </div>
       ) : (
