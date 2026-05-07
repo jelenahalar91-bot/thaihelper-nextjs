@@ -22,7 +22,7 @@ I've just launched a free directory of immigration lawyers, visa agents and MOU 
 - **Phuket:** https://thaihelper.app/directory/siam-legal-international-phuket
 - **Chiang Mai:** https://thaihelper.app/directory/siam-legal-international-cm
 
-The listings are live now, based on publicly available information. There's no cost — we don't take commissions and there's no contract. Our users are expat and Thai families actively hiring helpers, many of whom need professional support with work permits, visa extensions, and the MOU process for Myanmar/Lao/Cambodian workers.
+The listings are live now, based on publicly available information. There's no cost — we don't take commissions and there's no contract. Our users are expat and Thai families actively hiring helpers, many of whom need professional support with work permits and visa extensions.
 
 To make the listings as accurate as possible, could you reply with:
 
