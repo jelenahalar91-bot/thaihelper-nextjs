@@ -3,6 +3,7 @@
 
 import { getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
+import { notifyHelpersOfNewEmployer } from '../../lib/match-notifications';
 
 const EDITABLE_FIELDS = [
   'first_name',
@@ -95,6 +96,19 @@ export default async function handler(req, res) {
 
     patch.updated_at = new Date().toISOString();
 
+    // Read previous city/looking_for so we can detect material changes after
+    // the update and re-fire the match notifier (existing helpers in the
+    // employer's new city / new categories should hear about them).
+    let prev = null;
+    if ('city' in patch || 'looking_for' in patch) {
+      const { data } = await supabase
+        .from('employer_accounts')
+        .select('city, looking_for, first_name, email_verified')
+        .eq('employer_ref', ref)
+        .single();
+      prev = data || null;
+    }
+
     const { error } = await supabase
       .from('employer_accounts')
       .update(patch)
@@ -103,6 +117,25 @@ export default async function handler(req, res) {
     if (error) {
       console.error('Employer profile update error:', error);
       return res.status(500).json({ error: 'Failed to update profile' });
+    }
+
+    // Re-trigger match notifications when the employer actually moved or
+    // changed which categories they're looking for. Skip while unverified.
+    if (prev?.email_verified) {
+      const cityChanged    = 'city' in patch         && patch.city         !== prev.city;
+      const lookingChanged = 'looking_for' in patch  && patch.looking_for  !== prev.looking_for;
+      if (cityChanged || lookingChanged) {
+        try {
+          await notifyHelpersOfNewEmployer({
+            employer_ref: ref,
+            first_name:  prev.first_name || '',
+            city:        patch.city        ?? prev.city,
+            looking_for: patch.looking_for ?? prev.looking_for,
+          });
+        } catch (err) {
+          console.error('Match re-trigger on employer profile update failed:', err.message);
+        }
+      }
     }
 
     return res.status(200).json({ success: true });

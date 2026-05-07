@@ -7,6 +7,7 @@ import { translateForeignText } from '../../lib/translate';
 import { getDisplayAge } from '../../lib/age';
 import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
 import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/constants/nationalities';
+import { notifyEmployersOfNewHelper } from '../../lib/match-notifications';
 
 // Strip phone numbers and email addresses from free-text fields. Mirrors the
 // sanitizer used on registration (pages/api/register.js) so helpers can't
@@ -203,6 +204,20 @@ export default async function handler(req, res) {
         updates.age = null;
       }
 
+      // Read previous city/category so we can detect material changes after
+      // the update and re-fire the match notifier (existing employers in the
+      // helper's new city / new category should hear about them).
+      let prev = null;
+      if ('city' in updates || 'category' in updates) {
+        const { data } = await supabase
+          .from('helper_profiles')
+          .select('city, category, first_name, email_verified')
+          .eq('helper_ref', session.ref)
+          .eq('email', session.email)
+          .single();
+        prev = data || null;
+      }
+
       const { error } = await supabase
         .from('helper_profiles')
         .update(updates)
@@ -212,6 +227,26 @@ export default async function handler(req, res) {
       if (error) {
         console.error('Profile update error:', error);
         return res.status(500).json({ error: 'Failed to update profile' });
+      }
+
+      // Re-trigger match notifications when the helper actually moved or
+      // switched category. Only verified helpers ever produce matches, so
+      // skip the call entirely while the account is still unverified.
+      if (prev?.email_verified) {
+        const cityChanged     = 'city' in updates     && updates.city     !== prev.city;
+        const categoryChanged = 'category' in updates && updates.category !== prev.category;
+        if (cityChanged || categoryChanged) {
+          try {
+            await notifyEmployersOfNewHelper({
+              helper_ref: session.ref,
+              first_name: prev.first_name || '',
+              city:     updates.city     ?? prev.city,
+              category: updates.category ?? prev.category,
+            });
+          } catch (err) {
+            console.error('Match re-trigger on helper profile update failed:', err.message);
+          }
+        }
       }
 
       return res.status(200).json({ success: true });
