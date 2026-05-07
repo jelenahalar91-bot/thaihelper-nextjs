@@ -83,7 +83,18 @@ const nextConfig = {
       permanent: false,
     }));
 
-    const shortlinks = [...helperLinks, ...familyLinks];
+    // Group-post shortlinks — land on the homepage so both helpers and
+    // families can self-select. utm_medium=group-post distinguishes these
+    // from the comment shortlinks above.
+    const groupPostLinks = [
+      { src: '/fbg', campaign: 'bangkok-may-2026' },
+    ].map(({ src, campaign }) => ({
+      source: src,
+      destination: `/?utm_source=facebook&utm_medium=group-post&utm_campaign=${campaign}`,
+      permanent: false,
+    }));
+
+    const shortlinks = [...helperLinks, ...familyLinks, ...groupPostLinks];
 
     return [
       {
