@@ -223,7 +223,7 @@ const T = {
     msg_verify_resend_error: 'Could not resend the email. Please try again later.',
     msg_quick_replies_label: 'Quick replies',
     msg_quick_reply_1: 'Hi! I saw the job and I\'m very interested in helping your family. Could you tell me more about what you\'re looking for?',
-    msg_quick_reply_2: 'Hi! I\'m available and would love to talk about working with your family. When would be a good time for a quick call?',
+    msg_quick_reply_2: 'Hi! I\'m available and ready to help. Could you tell me about the schedule and start date you have in mind?',
     msg_quick_reply_3: 'Hi! Thank you for your post. I have experience working with families in Thailand and I\'d love to hear more about you and the work you need.',
     // Browse employers
     tab_browse: 'Browse',
@@ -401,7 +401,7 @@ const T = {
     msg_verify_resend_error: 'ส่งอีเมลไม่สำเร็จ กรุณาลองอีกครั้งภายหลัง',
     msg_quick_replies_label: 'ข้อความสำเร็จรูป',
     msg_quick_reply_1: 'สวัสดีค่ะ ฉันเห็นประกาศงานแล้วและสนใจที่จะช่วยเหลือครอบครัวของคุณ ขอทราบรายละเอียดเพิ่มเติมเกี่ยวกับสิ่งที่คุณกำลังมองหาได้ไหมคะ',
-    msg_quick_reply_2: 'สวัสดีค่ะ ฉันว่างและอยากพูดคุยเกี่ยวกับการทำงานกับครอบครัวของคุณ จะสะดวกคุยกันสั้นๆ ได้เมื่อไหร่ดีคะ',
+    msg_quick_reply_2: 'สวัสดีค่ะ ฉันว่างและพร้อมช่วยเหลือ ขอทราบเกี่ยวกับตารางเวลาและวันที่เริ่มงานที่คุณคิดไว้ได้ไหมคะ',
     msg_quick_reply_3: 'สวัสดีค่ะ ขอบคุณสำหรับโพสต์ของคุณ ฉันมีประสบการณ์ทำงานกับครอบครัวในประเทศไทยและอยากทราบเพิ่มเติมเกี่ยวกับคุณและงานที่ต้องการค่ะ',
     // Browse employers
     tab_browse: 'ค้นหา',
