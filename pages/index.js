@@ -332,12 +332,13 @@ export default function Home() {
                   <Link className="px-8 py-4 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform text-center" href="/register">{t.hero_cta1}</Link>
                   <a className="px-8 py-4 rounded-xl bg-surface-container-highest text-secondary font-bold text-lg hover:bg-surface-container-high transition-colors text-center" href="#how-it-works">{t.hero_cta2}</a>
                 </div>
-                <Link className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all" href="/employers-browse">{t.hero_browse}</Link>
               </div>
-              <div className="relative h-full">
+              <div className="relative h-full flex flex-col">
                 <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl"></div>
-                <div className="relative z-10 bg-white rounded-3xl p-6 sm:p-7 shadow-2xl shadow-on-background/10 border border-gray-100 h-full flex flex-col">
+                {/* Spacer to align panel-top with headline (not kicker) on desktop */}
+                <div className="hidden lg:block h-10 flex-shrink-0"></div>
+                <div className="relative z-10 bg-white rounded-3xl p-6 sm:p-7 shadow-2xl shadow-on-background/10 border border-gray-100 flex-1 flex flex-col">
                   <div className="flex justify-between items-center pb-4 border-b border-gray-100 flex-shrink-0">
                     <span className="font-bold text-sm sm:text-base font-headline text-on-background">{lang === 'th' ? 'สมาชิกใหม่ล่าสุด' : lang === 'ru' ? 'Новые регистрации' : 'Recently joined'}</span>
                     <span className="flex items-center gap-2 text-xs font-semibold text-emerald-600">
@@ -396,31 +397,13 @@ export default function Home() {
                       <span className="text-xs text-gray-400 font-medium flex-shrink-0">3d ago</span>
                     </div>
 
-                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
+                    <div className="flex items-center gap-3 py-2.5">
                       <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
                       <div className="flex-1 min-w-0">
                         <div className="font-bold text-sm text-on-background truncate">Malai S.</div>
                         <div className="text-xs text-on-surface-variant mt-0.5">Tutor · Chiang Mai</div>
                       </div>
                       <span className="text-xs text-gray-400 font-medium flex-shrink-0">4d ago</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
-                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>WK</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-bold text-sm text-on-background truncate">Wassana K.</div>
-                        <div className="text-xs text-on-surface-variant mt-0.5">Housekeeper · Pattaya</div>
-                      </div>
-                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">5d ago</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 py-2.5">
-                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>KR</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-bold text-sm text-on-background truncate">Kanya R.</div>
-                        <div className="text-xs text-on-surface-variant mt-0.5">Nanny · Koh Samui</div>
-                      </div>
-                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">1w ago</span>
                     </div>
                   </div>
 
@@ -435,6 +418,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+                <Link className="relative z-10 mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all" href="/employers-browse">{t.hero_browse}</Link>
               </div>
             </div>
           </section>
