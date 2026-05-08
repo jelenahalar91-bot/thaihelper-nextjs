@@ -302,11 +302,11 @@ export default function Home() {
                 {/* Main headline */}
                 <h1 className="font-extrabold font-headline leading-[1.0] text-on-background mb-3 uppercase" style={{fontSize:'clamp(2.8rem,6vw,5rem)'}}>
                   {lang === 'en' ? (
-                    <>Your Next <span className="text-primary">Job</span> starts here.</>
+                    <>Your Next <span className="text-primary">Job</span><br />starts here.</>
                   ) : lang === 'ru' ? (
-                    <>Ваша следующая <span className="text-primary">работа</span> начинается здесь.</>
+                    <>Ваша следующая <span className="text-primary">работа</span><br />начинается здесь.</>
                   ) : (
-                    <><span className="text-primary">งาน</span>ต่อไปของคุณเริ่มที่นี่</>
+                    <><span className="text-primary">งาน</span>ต่อไปของคุณ<br />เริ่มที่นี่</>
                   )}
                 </h1>
                 {/* "No fees" line with gold shimmer */}
@@ -339,13 +339,13 @@ export default function Home() {
                 <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl"></div>
                 <div className="relative z-10 bg-white rounded-3xl p-6 sm:p-7 shadow-2xl shadow-on-background/10 border border-gray-100">
                   <div className="flex justify-between items-center pb-4 border-b border-gray-100">
-                    <span className="font-bold text-sm sm:text-base font-headline text-on-background">Recently joined</span>
+                    <span className="font-bold text-sm sm:text-base font-headline text-on-background">{lang === 'th' ? 'สมาชิกใหม่ล่าสุด' : lang === 'ru' ? 'Новые регистрации' : 'Recently joined'}</span>
                     <span className="flex items-center gap-2 text-xs font-semibold text-emerald-600">
                       <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                       </span>
-                      Live
+                      {lang === 'th' ? 'สด' : lang === 'ru' ? 'В реальном времени' : 'Live'}
                     </span>
                   </div>
 
@@ -389,11 +389,11 @@ export default function Home() {
                   <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-gray-100">
                     <div>
                       <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">80+</div>
-                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">Helpers registered<br/>&amp; growing daily</div>
+                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>ผู้ช่วยลงทะเบียน<br/>เพิ่มขึ้นทุกวัน</>) : lang === 'ru' ? (<>Зарегистрировано<br/>и растёт ежедневно</>) : (<>Helpers registered<br/>&amp; growing daily</>)}</div>
                     </div>
                     <div>
                       <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">20+</div>
-                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">Cities across<br/>Thailand</div>
+                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>เมือง<br/>ทั่วประเทศไทย</>) : lang === 'ru' ? (<>Городов по<br/>всему Таиланду</>) : (<>Cities across<br/>Thailand</>)}</div>
                     </div>
                   </div>
                 </div>
