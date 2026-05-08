@@ -10,7 +10,7 @@
 //   - Paid/promo tier: full access to both GET and POST.
 // Helpers ALWAYS have full access (they're producing the value).
 
-import { getAnySession } from '../../lib/auth';
+import { getAnySession, getSession, getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { translateText, detectLanguage } from '../../lib/translate';
 import {
@@ -66,7 +66,27 @@ async function loadConversation(supabase, conversationId, session) {
 }
 
 export default async function handler(req, res) {
-  const session = await getAnySession(req);
+  // Same role-resolution as /api/conversations: stale helper cookies
+  // were hijacking employer-side requests because getAnySession checked
+  // helper first. Accept ?role=employer / ?role=helper as a hint, and
+  // when no hint is given prefer employer.
+  const roleHint = req.query.role;
+  let session;
+  if (roleHint === 'employer') {
+    const emp = await getEmployerSession(req);
+    session = emp ? { ...emp, role: 'employer' } : null;
+  } else if (roleHint === 'helper') {
+    const h = await getSession(req);
+    session = h ? { ...h, role: 'helper' } : null;
+  } else {
+    const emp = await getEmployerSession(req);
+    if (emp) {
+      session = { ...emp, role: 'employer' };
+    } else {
+      const h = await getSession(req);
+      session = h ? { ...h, role: 'helper' } : null;
+    }
+  }
   if (!session) return res.status(401).json({ error: 'Not authenticated' });
 
   const supabase = getServiceSupabase();

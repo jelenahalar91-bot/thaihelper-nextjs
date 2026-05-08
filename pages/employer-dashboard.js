@@ -438,7 +438,7 @@ export default function EmployerDashboard() {
     if (!selectedConv) return;
     const id = setInterval(async () => {
       try {
-        const res = await fetchMessages(selectedConv.id);
+        const res = await fetchMessages(selectedConv.id, 1, 'employer');
         setMessages(res.messages || []);
         if (res.accessStatus) setAccessStatus(res.accessStatus);
       } catch {
@@ -613,12 +613,12 @@ export default function EmployerDashboard() {
     setMessagesLoading(true);
     setMessages([]);
     try {
-      const res = await fetchMessages(conv.id);
+      const res = await fetchMessages(conv.id, 1, 'employer');
       setMessages(res.messages || []);
       if (res.accessStatus) setAccessStatus(res.accessStatus);
       // Mark incoming messages as read
       if (conv.unread_count > 0) {
-        markAsRead(conv.id).catch(() => {});
+        markAsRead(conv.id, 'employer').catch(() => {});
         setConversations(prev =>
           prev.map(c => c.id === conv.id ? { ...c, unread_count: 0 } : c)
         );
@@ -633,7 +633,7 @@ export default function EmployerDashboard() {
     if (!msgInput.trim() || !selectedConv) return;
     setSending(true);
     try {
-      const res = await sendMessage(selectedConv.id, msgInput.trim());
+      const res = await sendMessage(selectedConv.id, msgInput.trim(), 'employer');
       setMessages(prev => [...prev, res.message]);
       setMsgInput('');
 
@@ -686,7 +686,7 @@ export default function EmployerDashboard() {
   // reload (would look like a ghost bug to the user).
   async function handleDeleteConversation(conversationId) {
     try {
-      await deleteConversation(conversationId);
+      await deleteConversation(conversationId, 'employer');
       setConversations(prev => prev.filter(c => c.id !== conversationId));
       // If the deleted conversation was currently open, close it
       if (selectedConv?.id === conversationId) {

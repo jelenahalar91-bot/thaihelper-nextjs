@@ -751,7 +751,7 @@ export default function Profile() {
   // conversation "disappear" from the UI only to reappear on reload.
   const handleDeleteConversation = async (conversationId) => {
     try {
-      await deleteConversation(conversationId);
+      await deleteConversation(conversationId, 'helper');
       setConversations(prev => prev.filter(c => c.id !== conversationId));
       if (selectedConv?.id === conversationId) {
         setSelectedConv(null);
@@ -769,10 +769,10 @@ export default function Profile() {
     setSelectedConv(conv);
     setLoadingMsgs(true);
     try {
-      const res = await fetchMessages(conv.id);
+      const res = await fetchMessages(conv.id, 1, 'helper');
       setMessages(res.messages || []);
       if (conv.unread_count > 0) {
-        await markAsRead(conv.id);
+        await markAsRead(conv.id, 'helper');
         setConversations(prev => prev.map(c => c.id === conv.id ? { ...c, unread_count: 0 } : c));
       }
     } catch (err) {
@@ -786,7 +786,7 @@ export default function Profile() {
     if (!msgInput.trim() || !selectedConv) return;
     setSendingMsg(true);
     try {
-      const res = await sendMessage(selectedConv.id, msgInput.trim());
+      const res = await sendMessage(selectedConv.id, msgInput.trim(), 'helper');
       setMessages(prev => [...prev, res.message]);
       setMsgInput('');
 
@@ -859,7 +859,7 @@ export default function Profile() {
     if (!selectedConv) return;
     const id = setInterval(async () => {
       try {
-        const res = await fetchMessages(selectedConv.id);
+        const res = await fetchMessages(selectedConv.id, 1, 'helper');
         setMessages(res.messages || []);
       } catch { /* ignore */ }
     }, 10000);
