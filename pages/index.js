@@ -301,7 +301,13 @@ export default function Home() {
                 </div>
                 {/* Main headline */}
                 <h1 className="font-extrabold font-headline leading-[1.0] text-on-background mb-3 uppercase" style={{fontSize:'clamp(2.8rem,6vw,5rem)'}}>
-                  {lang === 'en' ? 'Your Next Job.' : lang === 'ru' ? 'Ваша следующая работа.' : 'งานต่อไปของคุณ'}
+                  {lang === 'en' ? (
+                    <>Your Next <span className="text-primary">Job</span> starts here.</>
+                  ) : lang === 'ru' ? (
+                    <>Ваша следующая <span className="text-primary">работа</span> начинается здесь.</>
+                  ) : (
+                    <><span className="text-primary">งาน</span>ต่อไปของคุณเริ่มที่นี่</>
+                  )}
                 </h1>
                 {/* "No fees" line with gold shimmer */}
                 <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.5rem,3vw,2.2rem)'}}>
@@ -331,32 +337,65 @@ export default function Home() {
               <div className="relative">
                 <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl"></div>
-                <div className="relative z-10">
-                  <CircularTestimonials
-                    testimonials={JOB_CATEGORIES}
-                    autoplay={true}
-                    colors={{
-                      name: '#001b3d',
-                      designation: '#006a62',
-                      testimony: '#3d4947',
-                      arrowBackground: '#006a62',
-                      arrowForeground: '#ffffff',
-                      arrowHoverBackground: '#35a79c',
-                    }}
-                    fontSizes={{
-                      name: '24px',
-                      designation: '16px',
-                      quote: '16px',
-                    }}
-                  />
-                  {/* SSR fallback — visible to crawlers when JS carousel hasn't loaded */}
-                  <noscript>
-                    <ul>
-                      {JOB_CATEGORIES.map((cat) => (
-                        <li key={cat.name}><strong>{cat.name}</strong> — {cat.designation}: {cat.quote}</li>
-                      ))}
-                    </ul>
-                  </noscript>
+                <div className="relative z-10 bg-white rounded-3xl p-6 sm:p-7 shadow-2xl shadow-on-background/10 border border-gray-100">
+                  <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+                    <span className="font-bold text-sm sm:text-base font-headline text-on-background">Recently joined</span>
+                    <span className="flex items-center gap-2 text-xs font-semibold text-emerald-600">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
+                      Live
+                    </span>
+                  </div>
+
+                  {/* Feed entries — placeholders until wired to Sheets */}
+                  <div className="flex items-center gap-3 py-3 border-b border-gray-100">
+                    <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-sm text-on-background truncate">Som M.</div>
+                      <div className="text-xs text-on-surface-variant mt-0.5">Nanny · Bangkok</div>
+                    </div>
+                    <span className="text-xs text-gray-400 font-medium flex-shrink-0">2h ago</span>
+                  </div>
+
+                  <div className="flex items-center gap-3 py-3 border-b border-gray-100">
+                    <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>PT</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-sm text-on-background truncate">Ploy T.</div>
+                      <div className="text-xs text-on-surface-variant mt-0.5">Private Chef · Phuket</div>
+                    </div>
+                    <span className="text-xs text-gray-400 font-medium flex-shrink-0">5h ago</span>
+                  </div>
+
+                  <div className="flex items-center gap-3 py-3 border-b border-gray-100">
+                    <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-sm text-on-background truncate">Nok K.</div>
+                      <div className="text-xs text-on-surface-variant mt-0.5">Housekeeper · Chiang Mai</div>
+                    </div>
+                    <span className="text-xs text-gray-400 font-medium flex-shrink-0">Yesterday</span>
+                  </div>
+
+                  <div className="flex items-center gap-3 py-3">
+                    <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>AC</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-sm text-on-background truncate">Apinya C.</div>
+                      <div className="text-xs text-on-surface-variant mt-0.5">Caregiver · Hua Hin</div>
+                    </div>
+                    <span className="text-xs text-gray-400 font-medium flex-shrink-0">2d ago</span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-gray-100">
+                    <div>
+                      <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">80+</div>
+                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">Helpers registered<br/>&amp; growing daily</div>
+                    </div>
+                    <div>
+                      <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">20+</div>
+                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">Cities across<br/>Thailand</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
