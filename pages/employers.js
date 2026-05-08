@@ -649,11 +649,11 @@ export default function Employers({ featuredHelpers = [] }) {
 
         <main className="pt-24 md:pt-28">
 
-          {/* HERO — text on top, full-width "latest signups" grid below */}
-          <section className="relative px-6 py-16 md:py-20 overflow-hidden" style={{background:'linear-gradient(160deg, #FFF8F0 0%, #FFFCF5 100%)'}}>
-            <div className="max-w-7xl mx-auto">
-              {/* Top: hero text + primary CTA */}
-              <div className="max-w-3xl mb-12 lg:mb-16">
+          {/* HERO — text left, 2×4 latest-signups grid right (cream bg full width) */}
+          <section className="relative px-6 py-16 md:py-24 overflow-hidden" style={{background:'linear-gradient(160deg, #FFF8F0 0%, #FFFCF5 100%)'}}>
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+              {/* Left: text */}
+              <div className="z-10">
                 <div className="flex items-center gap-3 mb-5">
                   <span className="block w-8 h-0.5 bg-gold"></span>
                   <span className="text-xs font-bold tracking-[0.25em] uppercase text-gold">{t.hero_eyebrow}</span>
@@ -667,20 +667,21 @@ export default function Employers({ featuredHelpers = [] }) {
                 <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.3rem,2.8vw,2rem)'}}>
                   {t.hero_shimmer}
                 </p>
-                <p className="text-lg md:text-xl mb-8 leading-relaxed text-on-surface-variant">
+                <p className="text-lg md:text-xl max-w-xl mb-8 leading-relaxed text-on-surface-variant">
                   {t.hero_p}
                 </p>
                 <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all inline-block" href="/employer-register">{t.hero_cta}</Link>
               </div>
 
-              {/* Bottom: latest signups grid (full width within container) */}
-              <div>
-                <div className="flex items-end justify-between mb-6 pb-4 border-b border-gold/20">
+              {/* Right: 2×4 grid (8 helpers) with header + stats + browse */}
+              <div className="relative h-full flex flex-col">
+                <div className="hidden lg:block h-10 flex-shrink-0"></div>
+                <div className="flex items-end justify-between pb-3 mb-3 border-b border-gold/20 flex-shrink-0">
                   <div>
-                    <span className="text-xs font-bold tracking-[0.25em] uppercase text-gold mb-1.5 block">{lang === 'th' ? 'ผู้สมัครล่าสุด' : 'Latest signups'}</span>
-                    <h2 className="text-2xl md:text-3xl font-extrabold font-headline text-on-background">{lang === 'th' ? 'สมาชิกใหม่ของเรา' : 'Recently joined helpers'}</h2>
+                    <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-gold mb-1 block">{lang === 'th' ? 'ผู้สมัครล่าสุด' : 'Latest signups'}</span>
+                    <h2 className="text-base sm:text-lg font-extrabold font-headline text-on-background leading-tight">{lang === 'th' ? 'สมาชิกใหม่ของเรา' : 'Recently joined helpers'}</h2>
                   </div>
-                  <span className="flex items-center gap-2 text-xs font-semibold text-emerald-600 flex-shrink-0">
+                  <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 flex-shrink-0">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -689,46 +690,44 @@ export default function Employers({ featuredHelpers = [] }) {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
+                <div className="grid grid-cols-2 gap-2 flex-1 content-around">
                   {recentHelpers.slice(0, 8).map((entry, i) => (
                     <Link
                       key={i}
                       href="/helpers"
-                      className="bg-white rounded-xl p-2.5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-3 border border-gray-100"
+                      className="bg-white rounded-xl p-2 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2.5 border border-gray-100"
                     >
                       {entry.photo ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img className="w-12 h-12 rounded-lg object-cover flex-shrink-0" src={entry.photo} alt="" loading="lazy" />
+                        <img className="w-10 h-10 rounded-lg object-cover flex-shrink-0" src={entry.photo} alt="" loading="lazy" />
                       ) : (
-                        <div className="w-12 h-12 rounded-lg text-white flex items-center justify-center font-bold text-base flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>
+                        <div className="w-10 h-10 rounded-lg text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>
                           {entryInitials(entry.firstName, entry.lastInitial)}
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold text-sm text-on-background truncate">{entry.firstName} {entry.lastInitial}</div>
-                        <div className="text-xs text-on-surface-variant mt-0.5 truncate">{roleLabel(entry.category, lang)} · {cityLabel(entry.city)}</div>
+                        <div className="font-bold text-xs text-on-background truncate">{entry.firstName} {entry.lastInitial}</div>
+                        <div className="text-[11px] text-on-surface-variant mt-0.5 truncate">{roleLabel(entry.category, lang)} · {cityLabel(entry.city)}</div>
                       </div>
                     </Link>
                   ))}
                 </div>
 
-                <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-6 pt-6 border-t border-gold/30">
-                  <div className="flex gap-8 sm:gap-12">
-                    <div>
-                      <div className="font-headline font-extrabold text-2xl text-gold leading-none">{Math.floor(totalHelpers / 10) * 10}+</div>
-                      <div className="text-xs text-on-surface-variant mt-1.5">{lang === 'th' ? 'ผู้ช่วยที่ยืนยันแล้ว' : 'Verified helpers'}</div>
-                    </div>
-                    <div>
-                      <div className="font-headline font-extrabold text-2xl text-gold leading-none">20+</div>
-                      <div className="text-xs text-on-surface-variant mt-1.5">{lang === 'th' ? 'เมือง' : 'Cities'}</div>
-                    </div>
-                    <div>
-                      <div className="font-headline font-extrabold text-2xl text-gold leading-none">7</div>
-                      <div className="text-xs text-on-surface-variant mt-1.5">{lang === 'th' ? 'หมวดหมู่' : 'Categories'}</div>
-                    </div>
+                <div className="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-gold/30 flex-shrink-0">
+                  <div className="text-center">
+                    <div className="font-headline font-extrabold text-xl text-gold leading-none">{Math.floor(totalHelpers / 10) * 10}+</div>
+                    <div className="text-[11px] text-on-surface-variant mt-1">{lang === 'th' ? 'ผู้ช่วยที่ยืนยันแล้ว' : 'Verified helpers'}</div>
                   </div>
-                  <Link className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gold text-on-background hover:bg-gold-dark hover:text-white font-bold text-sm transition-all" href="/helpers">{t.hero_browse}</Link>
+                  <div className="text-center">
+                    <div className="font-headline font-extrabold text-xl text-gold leading-none">20+</div>
+                    <div className="text-[11px] text-on-surface-variant mt-1">{lang === 'th' ? 'เมือง' : 'Cities'}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-headline font-extrabold text-xl text-gold leading-none">7</div>
+                    <div className="text-[11px] text-on-surface-variant mt-1">{lang === 'th' ? 'หมวดหมู่' : 'Categories'}</div>
+                  </div>
                 </div>
+                <Link className="mt-3 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gold text-on-background hover:bg-gold-dark hover:text-white font-bold text-sm transition-all" href="/helpers">{t.hero_browse}</Link>
               </div>
             </div>
           </section>
