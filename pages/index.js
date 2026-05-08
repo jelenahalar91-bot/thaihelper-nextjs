@@ -9,6 +9,76 @@ import HelperCard from '@/components/HelperCard';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { useLang } from './_app';
 
+// ── Recently joined panel ──────────────────────────────────────────
+// Short role labels (panel needs compact text, not the full
+// "Nanny & Babysitter" / "Private Chef & Cook" form)
+const ROLE_LABELS = {
+  nanny:       { en: 'Nanny',         th: 'พี่เลี้ยงเด็ก' },
+  housekeeper: { en: 'Housekeeper',   th: 'แม่บ้าน' },
+  chef:        { en: 'Private Chef',  th: 'พ่อครัวส่วนตัว' },
+  driver:      { en: 'Driver',        th: 'คนขับรถ' },
+  gardener:    { en: 'Gardener',      th: 'คนสวน' },
+  elder_care:  { en: 'Caregiver',     th: 'ผู้ดูแล' },
+  tutor:       { en: 'Tutor',         th: 'ติวเตอร์' },
+  multiple:    { en: 'Multiple',      th: 'หลายบริการ' },
+};
+const CITY_LABELS = {
+  bangkok: 'Bangkok', chiang_mai: 'Chiang Mai', phuket: 'Phuket',
+  pattaya: 'Pattaya', hua_hin: 'Hua Hin', krabi: 'Krabi',
+  ao_nang: 'Ao Nang', koh_samui: 'Koh Samui', koh_phangan: 'Koh Phangan',
+  koh_tao: 'Koh Tao', koh_lanta: 'Koh Lanta', koh_chang: 'Koh Chang',
+  chonburi: 'Chonburi', rayong: 'Rayong', nonthaburi: 'Nonthaburi',
+  samut_prakan: 'Samut Prakan', chiang_rai: 'Chiang Rai', pai: 'Pai',
+  khon_kaen: 'Khon Kaen', udon_thani: 'Udon Thani',
+};
+function roleLabel(category, lang) {
+  const cat = ROLE_LABELS[category];
+  if (!cat) return category || '';
+  return cat[lang === 'th' ? 'th' : 'en'];
+}
+function cityLabel(slug) {
+  if (!slug) return '';
+  if (CITY_LABELS[slug]) return CITY_LABELS[slug];
+  return String(slug).replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+function relativeTime(iso, lang) {
+  if (!iso) return '';
+  const diff = Date.now() - new Date(iso).getTime();
+  const min = Math.floor(diff / 60000);
+  const hr = Math.floor(diff / 3600000);
+  const day = Math.floor(diff / 86400000);
+  if (lang === 'th') {
+    if (min < 1) return 'เมื่อสักครู่';
+    if (min < 60) return `${min} นาทีที่แล้ว`;
+    if (hr < 24) return `${hr} ชม. ที่แล้ว`;
+    if (day === 1) return 'เมื่อวาน';
+    if (day < 7) return `${day} วันที่แล้ว`;
+    if (day < 30) return `${Math.floor(day / 7)} สัปดาห์ที่แล้ว`;
+    return `${Math.floor(day / 30)} เดือนที่แล้ว`;
+  }
+  if (min < 1) return 'just now';
+  if (min < 60) return `${min}m ago`;
+  if (hr < 24) return `${hr}h ago`;
+  if (day === 1) return 'Yesterday';
+  if (day < 7) return `${day}d ago`;
+  if (day < 30) return `${Math.floor(day / 7)}w ago`;
+  return `${Math.floor(day / 30)}mo ago`;
+}
+function entryInitials(firstName, lastInitial) {
+  const f = (firstName || '?').charAt(0).toUpperCase();
+  const l = (lastInitial || '').replace(/[^A-Za-z]/g, '').charAt(0).toUpperCase();
+  return (f + l) || '?';
+}
+// Used during initial render and as a fallback if /api/recent-helpers
+// fails or hasn't returned yet. timeLabel avoids hydration mismatch
+// from Date.now() so SSR markup matches the first client render.
+const FALLBACK_HELPERS = [
+  { firstName: 'Som',    lastInitial: 'M.', category: 'nanny',       city: 'bangkok',    photo: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&fit=crop&crop=face',  timeLabel: { en: '2h ago',   th: '2 ชม. ที่แล้ว' } },
+  { firstName: 'Ploy',   lastInitial: 'T.', category: 'chef',        city: 'phuket',     photo: null,                                                                                            timeLabel: { en: '5h ago',   th: '5 ชม. ที่แล้ว' } },
+  { firstName: 'Nok',    lastInitial: 'K.', category: 'housekeeper', city: 'chiang_mai', photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&crop=face',  timeLabel: { en: 'Yesterday', th: 'เมื่อวาน' } },
+  { firstName: 'Apinya', lastInitial: 'C.', category: 'elder_care',  city: 'hua_hin',    photo: null,                                                                                            timeLabel: { en: '2d ago',   th: '2 วันที่แล้ว' } },
+];
+
 const T = {
   en: {
     nav_find:'Benefits',nav_hire:'Categories',nav_how:'How it Works',nav_employers:'For Families',nav_blog:'Blog',nav_login:'Login',nav_cta:'Register Free',
@@ -213,6 +283,25 @@ export default function Home() {
   const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
 
+  // Recently joined panel — fetch real signups from Supabase, fall back
+  // to placeholder data if the request fails or returns nothing.
+  const [recentHelpers, setRecentHelpers] = useState(FALLBACK_HELPERS);
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/recent-helpers')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled) return;
+        if (data?.helpers && data.helpers.length > 0) {
+          setRecentHelpers(data.helpers.slice(0, 4));
+        }
+      })
+      .catch(() => {
+        // Keep fallback silently
+      });
+    return () => { cancelled = true; };
+  }, []);
+
   // FAQ data for structured data — these target common AI queries
   const homeFaqs = [
     { question: 'Is ThaiHelper really free for helpers?', answer: 'Yes, creating a profile on ThaiHelper is 100% free for helpers — forever. There are no sign-up fees, no monthly fees, and no commission taken from your salary. ThaiHelper is also free for families — there are no fees for either side.' },
@@ -350,43 +439,33 @@ export default function Home() {
                     </span>
                   </div>
 
-                  {/* Feed entries — placeholders until wired to Supabase */}
+                  {/* Feed entries — pulled live from /api/recent-helpers */}
                   <div className="flex-1 flex flex-col justify-around">
-                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
-                      <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
-                      <div className="flex-1 min-w-0">
-                        <div className="font-bold text-sm text-on-background truncate">Som M.</div>
-                        <div className="text-xs text-on-surface-variant mt-0.5">Nanny · Bangkok</div>
-                      </div>
-                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">2h ago</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
-                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>PT</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-bold text-sm text-on-background truncate">Ploy T.</div>
-                        <div className="text-xs text-on-surface-variant mt-0.5">Private Chef · Phuket</div>
-                      </div>
-                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">5h ago</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
-                      <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
-                      <div className="flex-1 min-w-0">
-                        <div className="font-bold text-sm text-on-background truncate">Nok K.</div>
-                        <div className="text-xs text-on-surface-variant mt-0.5">Housekeeper · Chiang Mai</div>
-                      </div>
-                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">Yesterday</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 py-2.5">
-                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>AC</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="font-bold text-sm text-on-background truncate">Apinya C.</div>
-                        <div className="text-xs text-on-surface-variant mt-0.5">Caregiver · Hua Hin</div>
-                      </div>
-                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">2d ago</span>
-                    </div>
+                    {recentHelpers.slice(0, 4).map((entry, i, arr) => {
+                      const isLast = i === arr.length - 1;
+                      const time = entry.createdAt
+                        ? relativeTime(entry.createdAt, lang)
+                        : (entry.timeLabel?.[lang === 'th' ? 'th' : 'en'] || '');
+                      return (
+                        <div key={i} className={`flex items-center gap-3 py-2.5 ${isLast ? '' : 'border-b border-gray-100'}`}>
+                          {entry.photo ? (
+                            // Plain <img>: helper photos can come from any domain
+                            // (Supabase storage, etc.) — avoids next/image's
+                            // remotePatterns validation. Avatars are 40px so
+                            // optimisation savings are negligible.
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src={entry.photo} alt="" width={40} height={40} loading="lazy" />
+                          ) : (
+                            <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>{entryInitials(entry.firstName, entry.lastInitial)}</div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-sm text-on-background truncate">{entry.firstName} {entry.lastInitial}</div>
+                            <div className="text-xs text-on-surface-variant mt-0.5">{roleLabel(entry.category, lang)} · {cityLabel(entry.city)}</div>
+                          </div>
+                          <span className="text-xs text-gray-400 font-medium flex-shrink-0">{time}</span>
+                        </div>
+                      );
+                    })}
                   </div>
 
                   <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-gray-100 flex-shrink-0">
