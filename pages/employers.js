@@ -146,8 +146,9 @@ const T = {
     nav_cta: 'Register Free',
     // Hero
     hero_eyebrow: 'For Families & Households',
-    hero_h1: 'Find Trusted',
-    hero_h1b: 'Helpers.',
+    hero_h1: 'Find your',
+    hero_h1b: 'Trusted',
+    hero_h1c: 'Helper today.',
     hero_shimmer: 'No middlemen, no fees.',
     hero_p: 'Browse verified nannies, housekeepers, chefs, drivers and more in your city. Create a free account and start messaging helpers today.',
     hero_cta: 'Create Free Account',
@@ -279,8 +280,9 @@ const T = {
     nav_login: 'เข้าสู่ระบบ',
     nav_cta: 'ลงทะเบียนฟรี',
     hero_eyebrow: 'สำหรับครอบครัวและครัวเรือน',
-    hero_h1: 'หาผู้ช่วยที่ไว้ใจได้',
-    hero_h1b: 'โดยตรง',
+    hero_h1: 'หาผู้ช่วย',
+    hero_h1b: 'ที่ไว้ใจได้',
+    hero_h1c: 'วันนี้',
     hero_shimmer: 'ไม่มีคนกลาง ไม่มีค่าธรรมเนียม',
     hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ สร้างบัญชีฟรีและเริ่มส่งข้อความหาผู้ช่วยได้วันนี้',
     hero_cta: 'สร้างบัญชีฟรี',
@@ -650,7 +652,7 @@ export default function Employers({ featuredHelpers = [] }) {
         <main className="pt-24 md:pt-28">
 
           {/* HERO — text left, 2×4 latest-signups grid right (cream bg full width) */}
-          <section className="relative px-6 py-16 md:py-24 overflow-hidden" style={{background:'linear-gradient(160deg, #FFF8F0 0%, #FFFCF5 100%)'}}>
+          <section className="relative px-6 py-16 md:py-24 overflow-hidden" style={{background:'linear-gradient(180deg, #FFF4E5 0%, #FFFAF0 100%)'}}>
             <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
               {/* Left: text */}
               <div className="z-10">
@@ -661,8 +663,11 @@ export default function Employers({ featuredHelpers = [] }) {
                 <h1 className="font-extrabold font-headline leading-[1.0] text-on-background mb-1 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
                   {t.hero_h1}
                 </h1>
-                <span className="block font-extrabold font-headline leading-[1.0] text-gold mb-4 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
+                <span className="block font-extrabold font-headline leading-[1.0] text-gold mb-1 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
                   {t.hero_h1b}
+                </span>
+                <span className="block font-extrabold font-headline leading-[1.0] text-on-background mb-4 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
+                  {t.hero_h1c}
                 </span>
                 <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.3rem,2.8vw,2rem)'}}>
                   {t.hero_shimmer}
