@@ -292,7 +292,7 @@ export default function Home() {
 
           {/* HERO */}
           <section className="relative px-6 py-16 md:py-24 overflow-hidden">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
               <div className="z-10">
                 {/* Eyebrow */}
                 <div className="flex items-center gap-3 mb-5">
@@ -334,11 +334,11 @@ export default function Home() {
                 </div>
                 <Link className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all" href="/employers-browse">{t.hero_browse}</Link>
               </div>
-              <div className="relative">
+              <div className="relative h-full">
                 <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl"></div>
-                <div className="relative z-10 bg-white rounded-3xl p-6 sm:p-7 shadow-2xl shadow-on-background/10 border border-gray-100">
-                  <div className="flex justify-between items-center pb-4 border-b border-gray-100">
+                <div className="relative z-10 bg-white rounded-3xl p-6 sm:p-7 shadow-2xl shadow-on-background/10 border border-gray-100 h-full flex flex-col">
+                  <div className="flex justify-between items-center pb-4 border-b border-gray-100 flex-shrink-0">
                     <span className="font-bold text-sm sm:text-base font-headline text-on-background">{lang === 'th' ? 'สมาชิกใหม่ล่าสุด' : lang === 'ru' ? 'Новые регистрации' : 'Recently joined'}</span>
                     <span className="flex items-center gap-2 text-xs font-semibold text-emerald-600">
                       <span className="relative flex h-2 w-2">
@@ -349,44 +349,82 @@ export default function Home() {
                     </span>
                   </div>
 
-                  {/* Feed entries — placeholders until wired to Sheets */}
-                  <div className="flex items-center gap-3 py-3 border-b border-gray-100">
-                    <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold text-sm text-on-background truncate">Som M.</div>
-                      <div className="text-xs text-on-surface-variant mt-0.5">Nanny · Bangkok</div>
+                  {/* Feed entries — placeholders until wired to Supabase */}
+                  <div className="flex-1 flex flex-col justify-around">
+                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
+                      <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm text-on-background truncate">Som M.</div>
+                        <div className="text-xs text-on-surface-variant mt-0.5">Nanny · Bangkok</div>
+                      </div>
+                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">2h ago</span>
                     </div>
-                    <span className="text-xs text-gray-400 font-medium flex-shrink-0">2h ago</span>
+
+                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
+                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>PT</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm text-on-background truncate">Ploy T.</div>
+                        <div className="text-xs text-on-surface-variant mt-0.5">Private Chef · Phuket</div>
+                      </div>
+                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">5h ago</span>
+                    </div>
+
+                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
+                      <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm text-on-background truncate">Nok K.</div>
+                        <div className="text-xs text-on-surface-variant mt-0.5">Housekeeper · Chiang Mai</div>
+                      </div>
+                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">Yesterday</span>
+                    </div>
+
+                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
+                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>AC</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm text-on-background truncate">Apinya C.</div>
+                        <div className="text-xs text-on-surface-variant mt-0.5">Caregiver · Hua Hin</div>
+                      </div>
+                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">2d ago</span>
+                    </div>
+
+                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
+                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>NP</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm text-on-background truncate">Niran P.</div>
+                        <div className="text-xs text-on-surface-variant mt-0.5">Driver · Bangkok</div>
+                      </div>
+                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">3d ago</span>
+                    </div>
+
+                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
+                      <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm text-on-background truncate">Malai S.</div>
+                        <div className="text-xs text-on-surface-variant mt-0.5">Tutor · Chiang Mai</div>
+                      </div>
+                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">4d ago</span>
+                    </div>
+
+                    <div className="flex items-center gap-3 py-2.5 border-b border-gray-100">
+                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>WK</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm text-on-background truncate">Wassana K.</div>
+                        <div className="text-xs text-on-surface-variant mt-0.5">Housekeeper · Pattaya</div>
+                      </div>
+                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">5d ago</span>
+                    </div>
+
+                    <div className="flex items-center gap-3 py-2.5">
+                      <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>KR</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm text-on-background truncate">Kanya R.</div>
+                        <div className="text-xs text-on-surface-variant mt-0.5">Nanny · Koh Samui</div>
+                      </div>
+                      <span className="text-xs text-gray-400 font-medium flex-shrink-0">1w ago</span>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-3 py-3 border-b border-gray-100">
-                    <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>PT</div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold text-sm text-on-background truncate">Ploy T.</div>
-                      <div className="text-xs text-on-surface-variant mt-0.5">Private Chef · Phuket</div>
-                    </div>
-                    <span className="text-xs text-gray-400 font-medium flex-shrink-0">5h ago</span>
-                  </div>
-
-                  <div className="flex items-center gap-3 py-3 border-b border-gray-100">
-                    <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&h=120&fit=crop&crop=face" alt="" width={40} height={40} unoptimized />
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold text-sm text-on-background truncate">Nok K.</div>
-                      <div className="text-xs text-on-surface-variant mt-0.5">Housekeeper · Chiang Mai</div>
-                    </div>
-                    <span className="text-xs text-gray-400 font-medium flex-shrink-0">Yesterday</span>
-                  </div>
-
-                  <div className="flex items-center gap-3 py-3">
-                    <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>AC</div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold text-sm text-on-background truncate">Apinya C.</div>
-                      <div className="text-xs text-on-surface-variant mt-0.5">Caregiver · Hua Hin</div>
-                    </div>
-                    <span className="text-xs text-gray-400 font-medium flex-shrink-0">2d ago</span>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-gray-100">
+                  <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-gray-100 flex-shrink-0">
                     <div>
                       <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">80+</div>
                       <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>ผู้ช่วยลงทะเบียน<br/>เพิ่มขึ้นทุกวัน</>) : lang === 'ru' ? (<>Зарегистрировано<br/>и растёт ежедневно</>) : (<>Helpers registered<br/>&amp; growing daily</>)}</div>
