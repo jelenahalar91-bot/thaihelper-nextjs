@@ -237,12 +237,12 @@ const T = {
     cta_card_login_q: 'Already have an account?',
     cta_card_login: 'Login',
     // Launch banner
-    launch_label: 'Launch Timeline',
-    launch_title: 'We\'re launching in April 2026',
-    launch_p: 'ThaiHelper is brand new. We\'re building the largest network of verified household staff in Thailand. Be among the first families to join.',
+    launch_label: 'We\'re Live',
+    launch_title: 'We launched in April 2026',
+    launch_p: 'ThaiHelper just launched. We\'re growing the largest network of verified household staff in Thailand. Be among the first families to join.',
     launch_stat1_n: '7',
     launch_stat1_l: 'Staff Categories',
-    launch_stat2_n: '6+',
+    launch_stat2_n: '20+',
     launch_stat2_l: 'Cities Covered',
     launch_stat3_n: '$0',
     launch_stat3_l: 'Registration Fee',
@@ -366,10 +366,10 @@ const T = {
     cta_card_btn: 'สร้างบัญชีฟรี',
     cta_card_login_q: 'มีบัญชีอยู่แล้ว?',
     cta_card_login: 'เข้าสู่ระบบ',
-    launch_label: 'เปิดตัว',
-    launch_title: 'เราเปิดตัวเมษายน 2026',
-    launch_p: 'ThaiHelper เป็นแพลตฟอร์มใหม่ เรากำลังสร้างเครือข่ายพนักงานดูแลบ้านที่ผ่านการยืนยันที่ใหญ่ที่สุดในประเทศไทย',
-    launch_stat1_n: '7', launch_stat1_l: 'หมวดหมู่', launch_stat2_n: '6+', launch_stat2_l: 'เมืองที่ครอบคลุม', launch_stat3_n: '$0', launch_stat3_l: 'ค่าลงทะเบียน',
+    launch_label: 'เปิดให้บริการแล้ว',
+    launch_title: 'เราเปิดตัวเมื่อเมษายน 2026',
+    launch_p: 'ThaiHelper เพิ่งเปิดตัว เรากำลังขยายเครือข่ายพนักงานดูแลบ้านที่ผ่านการยืนยันที่ใหญ่ที่สุดในประเทศไทย เป็นครอบครัวแรกๆ ที่ร่วมกับเรา',
+    launch_stat1_n: '7', launch_stat1_l: 'หมวดหมู่', launch_stat2_n: '20+', launch_stat2_l: 'เมืองที่ครอบคลุม', launch_stat3_n: '$0', launch_stat3_l: 'ค่าลงทะเบียน',
     faq_label: 'คำถามที่พบบ่อย',
     faq_title: 'คำถามที่ครอบครัวมักถาม',
     faq_sub: 'คำตอบสั้นๆ เกี่ยวกับราคา การยืนยันตัวตน และวิธีจ้างพนักงานในบ้านในประเทศไทย',
@@ -738,7 +738,7 @@ export default function Employers({ featuredHelpers = [] }) {
           </section>
 
           {/* LAUNCH BANNER */}
-          <section className="px-6 pb-8">
+          <section className="px-6 pt-16 pb-8">
             <div className="max-w-4xl mx-auto rounded-2xl bg-gradient-to-r from-gold/10 to-gold/5 border border-gold/20 p-8 md:p-10">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="flex-1">
