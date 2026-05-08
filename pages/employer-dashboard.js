@@ -410,7 +410,7 @@ export default function EmployerDashboard() {
   async function loadConversations({ silent = false } = {}) {
     if (!silent) setConvsLoading(true);
     try {
-      const data = await fetchConversations();
+      const data = await fetchConversations('employer');
       setConversations(data.conversations || []);
       if (data.accessStatus) setAccessStatus(data.accessStatus);
     } catch (err) {
@@ -563,7 +563,7 @@ export default function EmployerDashboard() {
       const { conversation_id } = await startConversation(helperRef);
 
       // Try to find this conversation in the (filtered) list
-      const data = await fetchConversations();
+      const data = await fetchConversations('employer');
       setConversations(data.conversations || []);
       if (data.accessStatus) setAccessStatus(data.accessStatus);
       const conv = (data.conversations || []).find(c => c.id === conversation_id);

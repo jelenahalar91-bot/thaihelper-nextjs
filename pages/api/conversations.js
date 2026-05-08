@@ -5,7 +5,7 @@
 // Free-tier employers see conversation metadata + blurred last-message preview.
 // Helpers always see full content.
 
-import { getAnySession } from '../../lib/auth';
+import { getAnySession, getSession, getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import {
   hasActiveAccess,
@@ -14,7 +14,34 @@ import {
 } from '../../lib/access';
 
 export default async function handler(req, res) {
-  const session = await getAnySession(req);
+  // The caller can pin which side it expects via ?role=employer or
+  // ?role=helper. This avoids a stale helper cookie hijacking the
+  // employer-dashboard's conversation list (and vice versa) when both
+  // cookies happen to be set in the same browser. When no hint is
+  // given we fall back to getAnySession but PREFER employer, since
+  // most multi-cookie users on this platform are employers who tested
+  // a helper account once.
+  const roleHint = req.query.role;
+  let session;
+  if (roleHint === 'employer') {
+    const emp = await getEmployerSession(req);
+    session = emp ? { ...emp, role: 'employer' } : null;
+  } else if (roleHint === 'helper') {
+    const h = await getSession(req);
+    session = h ? { ...h, role: 'helper' } : null;
+  } else {
+    // Reverse the default order — employer first, then helper. Same
+    // logic as getAnySession but flipped: a stale helper cookie no
+    // longer hijacks an employer's conversation list. Helpers who
+    // happen to also have an employer cookie should pass ?role=helper.
+    const emp = await getEmployerSession(req);
+    if (emp) {
+      session = { ...emp, role: 'employer' };
+    } else {
+      const h = await getSession(req);
+      session = h ? { ...h, role: 'helper' } : null;
+    }
+  }
   if (!session) return res.status(401).json({ error: 'Not authenticated' });
 
   const supabase = getServiceSupabase();

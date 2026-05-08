@@ -515,7 +515,7 @@ export default function Profile() {
       const [docsRes, refsRes, convsRes, settingsRes, empsRes] = await Promise.allSettled([
         fetchDocuments(),
         fetchReferences(),
-        fetchConversations(),
+        fetchConversations('helper'),
         fetchSettings(),
         fetchEmployers(),
       ]);
@@ -795,7 +795,7 @@ export default function Profile() {
       const inList = conversations.some(c => c.id === selectedConv.id);
       if (!inList) {
         try {
-          const data = await fetchConversations();
+          const data = await fetchConversations('helper');
           setConversations(data.conversations || []);
         } catch { /* non-critical */ }
       }
@@ -847,7 +847,7 @@ export default function Profile() {
     if (selectedConv) return;
     const id = setInterval(async () => {
       try {
-        const data = await fetchConversations();
+        const data = await fetchConversations('helper');
         setConversations(data.conversations || []);
       } catch { /* ignore */ }
     }, 15000);
@@ -965,7 +965,7 @@ export default function Profile() {
       // Try to find this conversation in the (filtered) list
       let conv = null;
       try {
-        const data = await fetchConversations();
+        const data = await fetchConversations('helper');
         setConversations(data.conversations || []);
         conv = (data.conversations || []).find(c => c.id === conversation_id);
       } catch { /* ignore — we'll fall through to the synthetic conv below */ }
