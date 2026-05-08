@@ -15,6 +15,13 @@ export default async function handler(req, res) {
   try {
     const supabase = getServiceSupabase();
 
+    // Optional ?limit=N (1..20) — default 4 for the helpers homepage
+    // panel; the families page passes 8 for its 4×2 latest-signups grid.
+    const limitParam = parseInt(req.query.limit, 10);
+    const limit = Number.isFinite(limitParam) && limitParam > 0
+      ? Math.min(limitParam, 20)
+      : 4;
+
     const [recentResult, countResult] = await Promise.all([
       supabase
         .from('helper_profiles')
@@ -22,7 +29,7 @@ export default async function handler(req, res) {
         .or('status.eq.active,status.is.null')
         .eq('email_verified', true)
         .order('created_at', { ascending: false })
-        .limit(4),
+        .limit(limit),
       supabase
         .from('helper_profiles')
         .select('helper_ref', { count: 'exact', head: true })
