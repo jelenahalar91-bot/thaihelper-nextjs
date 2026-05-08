@@ -673,33 +673,33 @@ export default function Employers({ featuredHelpers = [] }) {
                   <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all text-center" href="/employer-register">{t.hero_cta}</Link>
                 </div>
               </div>
-              {/* Right: 2×2 grid of available helpers */}
+              {/* Right: 2×2 grid of available helpers (compact horizontal cards) */}
               <div className="relative h-full flex flex-col">
                 {/* Spacer to align grid-top with headline (not kicker) on desktop */}
                 <div className="hidden lg:block h-10 flex-shrink-0"></div>
-                <div className="grid grid-cols-2 gap-3 sm:gap-4 flex-1">
+                <div className="grid grid-cols-2 gap-3 flex-1 content-around">
                   {recentHelpers.slice(0, 4).map((entry, i) => (
                     <Link
                       key={i}
                       href="/helpers"
-                      className="bg-white rounded-2xl p-3 shadow-lg shadow-on-background/5 border border-gray-100 hover:shadow-xl hover:-translate-y-0.5 transition-all flex flex-col"
+                      className="bg-white rounded-xl p-2.5 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-3 border border-gray-100"
                     >
                       {entry.photo ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img className="w-full aspect-square rounded-xl object-cover" src={entry.photo} alt="" loading="lazy" />
+                        <img className="w-12 h-12 rounded-lg object-cover flex-shrink-0" src={entry.photo} alt="" loading="lazy" />
                       ) : (
-                        <div className="w-full aspect-square rounded-xl text-white flex items-center justify-center font-extrabold text-3xl font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>
+                        <div className="w-12 h-12 rounded-lg text-white flex items-center justify-center font-bold text-base flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>
                           {entryInitials(entry.firstName, entry.lastInitial)}
                         </div>
                       )}
-                      <div className="mt-2.5 px-1 min-w-0">
+                      <div className="flex-1 min-w-0">
                         <div className="font-bold text-sm text-on-background truncate">{entry.firstName} {entry.lastInitial}</div>
                         <div className="text-xs text-on-surface-variant mt-0.5 truncate">{roleLabel(entry.category, lang)} · {cityLabel(entry.city)}</div>
                       </div>
                     </Link>
                   ))}
                 </div>
-                <div className="grid grid-cols-3 gap-2 mt-5 pt-5 border-t border-gold/30 flex-shrink-0">
+                <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-gold/30 flex-shrink-0">
                   <div className="text-center">
                     <div className="font-headline font-extrabold text-2xl text-gold leading-none">{Math.floor(totalHelpers / 10) * 10}+</div>
                     <div className="text-xs text-on-surface-variant mt-1.5">{lang === 'th' ? 'ผู้ช่วยที่ยืนยันแล้ว' : 'Verified helpers'}</div>
