@@ -286,6 +286,10 @@ export default function Home() {
   // Recently joined panel — fetch real signups from Supabase, fall back
   // to placeholder data if the request fails or returns nothing.
   const [recentHelpers, setRecentHelpers] = useState(FALLBACK_HELPERS);
+  // Total verified-helper count for the "80+ registered" stat. 80 is the
+  // floor we want to never go below visually — if the API is slow or
+  // failing, we still show "80+".
+  const [totalHelpers, setTotalHelpers] = useState(80);
   useEffect(() => {
     let cancelled = false;
     fetch('/api/recent-helpers')
@@ -294,6 +298,9 @@ export default function Home() {
         if (cancelled) return;
         if (data?.helpers && data.helpers.length > 0) {
           setRecentHelpers(data.helpers.slice(0, 4));
+        }
+        if (typeof data?.count === 'number' && data.count > 80) {
+          setTotalHelpers(data.count);
         }
       })
       .catch(() => {
@@ -470,7 +477,7 @@ export default function Home() {
 
                   <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-gray-100 flex-shrink-0">
                     <div>
-                      <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">80+</div>
+                      <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">{Math.floor(totalHelpers / 10) * 10}+</div>
                       <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>ผู้ช่วยลงทะเบียน<br/>เพิ่มขึ้นทุกวัน</>) : lang === 'ru' ? (<>Зарегистрировано<br/>и растёт ежедневно</>) : (<>Helpers registered<br/>&amp; growing daily</>)}</div>
                     </div>
                     <div>
