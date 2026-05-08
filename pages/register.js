@@ -9,6 +9,7 @@ import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/hel
 import { CITY_OPTIONS, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS } from '@/lib/constants/nationalities';
+import { suggestEmail } from '@/lib/email-typo';
 import { computeAge, validateDob } from '@/lib/age';
 import { event as gaEvent, fbTrack, EVENTS } from '@/lib/analytics';
 import LineConnectCard from '@/components/LineConnectCard';
@@ -112,6 +113,8 @@ const T = {
     step3_sub:       'Families will contact you through our platform messaging. Your email stays private and is only used for login and notifications.',
     email_label:     'Email Address',
     email_error:     'Please enter a valid email address.',
+    email_typo:      'Did you mean',
+    email_typo_use:  'Use this',
     notify_title:    'Get notified about new messages',
     notify_email:    'Email',
     notify_email_sub:'Always on — we send important updates here',
@@ -240,6 +243,8 @@ const T = {
     step3_sub:       'ครอบครัวจะติดต่อคุณผ่านระบบข้อความบนแพลตฟอร์มของเรา อีเมลของคุณเป็นส่วนตัว ใช้สำหรับเข้าสู่ระบบและแจ้งเตือนเท่านั้น',
     email_label:     'อีเมล',
     email_error:     'กรุณากรอกอีเมลที่ถูกต้อง',
+    email_typo:      'คุณหมายถึง',
+    email_typo_use:  'ใช้อันนี้',
     notify_title:    'รับการแจ้งเตือนข้อความใหม่',
     notify_email:    'อีเมล',
     notify_email_sub:'เปิดเสมอ — เราส่งการอัปเดตสำคัญทางอีเมล',
@@ -351,6 +356,7 @@ export default function Register() {
   const [certificates,setCertificates]= useState('');
   const [bio,         setBio]         = useState('');
   const [email,       setEmail]       = useState('');
+  const [emailSuggestion, setEmailSuggestion] = useState('');
   const [terms,       setTerms]       = useState(false);
   const [notifyLine,     setNotifyLine]     = useState(false);
   const [notifyWhatsapp, setNotifyWhatsapp] = useState(false);
@@ -950,7 +956,31 @@ export default function Register() {
                 <div className={`field ${errors.email ? 'has-error' : ''}`}>
                   <label>{t.email_label} <span className="req">*</span></label>
                   <input type="email" value={email} placeholder="your@email.com"
-                    onChange={e => { setEmail(e.target.value); setErrors(ev => ({...ev, email:''})); }} />
+                    onChange={e => {
+                      setEmail(e.target.value);
+                      setErrors(ev => ({ ...ev, email: '' }));
+                      setEmailSuggestion('');
+                    }}
+                    onBlur={() => setEmailSuggestion(suggestEmail(email) || '')} />
+                  {emailSuggestion && (
+                    <div style={{
+                      marginTop: 6, fontSize: '0.9rem',
+                      background: '#fffbeb', border: '1px solid #fde68a',
+                      color: '#92400e', borderRadius: 8, padding: '8px 12px',
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8,
+                    }}>
+                      <span>{t.email_typo} <strong>{emailSuggestion}</strong>?</span>
+                      <button type="button"
+                        onClick={() => { setEmail(emailSuggestion); setEmailSuggestion(''); setErrors(ev => ({ ...ev, email: '' })); }}
+                        style={{
+                          background: '#f59e0b', color: 'white', border: 'none',
+                          padding: '4px 10px', borderRadius: 6, fontSize: '0.85rem',
+                          fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
+                        }}>
+                        {t.email_typo_use}
+                      </button>
+                    </div>
+                  )}
                   <div className="field-error">{errors.email}</div>
                 </div>
 

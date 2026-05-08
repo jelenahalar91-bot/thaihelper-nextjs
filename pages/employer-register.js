@@ -10,6 +10,7 @@ import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS } from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu } from '@/components/MobileMenu';
+import { suggestEmail } from '@/lib/email-typo';
 import { event as gaEvent, fbTrack, EVENTS } from '@/lib/analytics';
 
 // Plain category labels for the multi-select (no emojis — we'll show clean chips)
@@ -52,6 +53,8 @@ const T = {
     lname_ph: 'e.g. Miller',
     email_label: 'Email Address',
     email_ph: 'you@example.com',
+    email_typo: 'Did you mean',
+    email_typo_use: 'Use this',
     email_hint: 'Used for login and notifications',
     phone_label: 'Phone (optional)',
     phone_ph: '+66 …',
@@ -121,6 +124,8 @@ const T = {
     lname_ph: 'เช่น มิลเลอร์',
     email_label: 'อีเมล',
     email_ph: 'you@example.com',
+    email_typo: 'คุณหมายถึง',
+    email_typo_use: 'ใช้อันนี้',
     email_hint: 'ใช้สำหรับเข้าสู่ระบบและการแจ้งเตือน',
     phone_label: 'โทรศัพท์ (ไม่จำเป็น)',
     phone_ph: '+66 …',
@@ -172,6 +177,7 @@ export default function EmployerRegisterPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [emailSuggestion, setEmailSuggestion] = useState('');
   const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
   const [area, setArea] = useState('');
@@ -439,7 +445,29 @@ export default function EmployerRegisterPage() {
 
               <div className="field">
                 <label>{t.email_label}</label>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t.email_ph} required />
+                <input type="email" value={email}
+                  onChange={e => { setEmail(e.target.value); setEmailSuggestion(''); }}
+                  onBlur={() => setEmailSuggestion(suggestEmail(email) || '')}
+                  placeholder={t.email_ph} required />
+                {emailSuggestion && (
+                  <div style={{
+                    marginTop: 6, fontSize: '0.9rem',
+                    background: '#fffbeb', border: '1px solid #fde68a',
+                    color: '#92400e', borderRadius: 8, padding: '8px 12px',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8,
+                  }}>
+                    <span>{t.email_typo} <strong>{emailSuggestion}</strong>?</span>
+                    <button type="button"
+                      onClick={() => { setEmail(emailSuggestion); setEmailSuggestion(''); }}
+                      style={{
+                        background: '#f59e0b', color: 'white', border: 'none',
+                        padding: '4px 10px', borderRadius: 6, fontSize: '0.85rem',
+                        fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
+                      }}>
+                      {t.email_typo_use}
+                    </button>
+                  </div>
+                )}
                 <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.email_hint}</p>
               </div>
 
