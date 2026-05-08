@@ -6,6 +6,9 @@ import HelperCard from '@/components/HelperCard';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { CATEGORIES } from '@/lib/constants/categories';
 import { useLang } from './_app';
+import {
+  roleLabel, cityLabel, entryInitials, FALLBACK_HELPERS,
+} from '@/lib/recent-helpers-display';
 import Link from 'next/link';
 import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -543,6 +546,27 @@ export default function Employers({ featuredHelpers = [] }) {
   const t = T[lang];
   const [viewingHelper, setViewingHelper] = useState(null);
 
+  // Hero "Available helpers" panel — same data source as the helpers
+  // homepage but framed as a discovery grid for families.
+  const [recentHelpers, setRecentHelpers] = useState(FALLBACK_HELPERS);
+  const [totalHelpers, setTotalHelpers] = useState(80);
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/recent-helpers')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled) return;
+        if (data?.helpers && data.helpers.length > 0) {
+          setRecentHelpers(data.helpers.slice(0, 4));
+        }
+        if (typeof data?.count === 'number' && data.count > 80) {
+          setTotalHelpers(data.count);
+        }
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
   return (
     <>
       <SEOHead
@@ -624,9 +648,9 @@ export default function Employers({ featuredHelpers = [] }) {
 
         <main className="pt-24 md:pt-28">
 
-          {/* HERO + CAROUSEL SIDE BY SIDE */}
-          <section className="relative px-6 py-16 md:py-24 overflow-hidden">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* HERO + AVAILABLE HELPERS GRID */}
+          <section className="relative px-6 py-16 md:py-24 overflow-hidden" style={{background:'linear-gradient(160deg, #FFF8F0 0%, #FFFCF5 100%)'}}>
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
               {/* Left: text */}
               <div className="z-10">
                 <div className="flex items-center gap-3 mb-5">
@@ -636,7 +660,7 @@ export default function Employers({ featuredHelpers = [] }) {
                 <h1 className="font-extrabold font-headline leading-[1.0] text-on-background mb-1 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
                   {t.hero_h1}
                 </h1>
-                <span className="block font-extrabold font-headline leading-[1.0] text-[#001b3d] mb-4 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
+                <span className="block font-extrabold font-headline leading-[1.0] text-gold mb-4 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
                   {t.hero_h1b}
                 </span>
                 <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.3rem,2.8vw,2rem)'}}>
@@ -648,11 +672,48 @@ export default function Employers({ featuredHelpers = [] }) {
                 <div className="flex flex-col sm:flex-row gap-4 items-start">
                   <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all text-center" href="/employer-register">{t.hero_cta}</Link>
                 </div>
-                <Link className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all" href="/helpers">{t.hero_browse}</Link>
               </div>
-              {/* Right: mini carousel showing 2 cards */}
-              <div className="relative">
-                <HeroCarousel items={EMPLOYER_TRUST_SLIDES} />
+              {/* Right: 2×2 grid of available helpers */}
+              <div className="relative h-full flex flex-col">
+                {/* Spacer to align grid-top with headline (not kicker) on desktop */}
+                <div className="hidden lg:block h-10 flex-shrink-0"></div>
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 flex-1">
+                  {recentHelpers.slice(0, 4).map((entry, i) => (
+                    <Link
+                      key={i}
+                      href="/helpers"
+                      className="bg-white rounded-2xl p-3 shadow-lg shadow-on-background/5 border border-gray-100 hover:shadow-xl hover:-translate-y-0.5 transition-all flex flex-col"
+                    >
+                      {entry.photo ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img className="w-full aspect-square rounded-xl object-cover" src={entry.photo} alt="" loading="lazy" />
+                      ) : (
+                        <div className="w-full aspect-square rounded-xl text-white flex items-center justify-center font-extrabold text-3xl font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>
+                          {entryInitials(entry.firstName, entry.lastInitial)}
+                        </div>
+                      )}
+                      <div className="mt-2.5 px-1 min-w-0">
+                        <div className="font-bold text-sm text-on-background truncate">{entry.firstName} {entry.lastInitial}</div>
+                        <div className="text-xs text-on-surface-variant mt-0.5 truncate">{roleLabel(entry.category, lang)} · {cityLabel(entry.city)}</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                <div className="grid grid-cols-3 gap-2 mt-5 pt-5 border-t border-gold/30 flex-shrink-0">
+                  <div className="text-center">
+                    <div className="font-headline font-extrabold text-2xl text-gold leading-none">{Math.floor(totalHelpers / 10) * 10}+</div>
+                    <div className="text-xs text-on-surface-variant mt-1.5">{lang === 'th' ? 'ผู้ช่วยที่ยืนยันแล้ว' : 'Verified helpers'}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-headline font-extrabold text-2xl text-gold leading-none">20+</div>
+                    <div className="text-xs text-on-surface-variant mt-1.5">{lang === 'th' ? 'เมือง' : 'Cities'}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-headline font-extrabold text-2xl text-gold leading-none">7</div>
+                    <div className="text-xs text-on-surface-variant mt-1.5">{lang === 'th' ? 'หมวดหมู่' : 'Categories'}</div>
+                  </div>
+                </div>
+                <Link className="mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gold text-on-background hover:bg-gold-dark hover:text-white font-bold text-sm transition-all" href="/helpers">{t.hero_browse}</Link>
               </div>
             </div>
           </section>
