@@ -273,7 +273,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 md:py-2.5 flex justify-end items-center text-xs md:text-sm">
             <Link href="/employers" className="font-medium hover:text-gold transition-colors flex items-center gap-1.5 whitespace-nowrap">
               <span className="opacity-80">
-                {lang === 'en' ? 'Looking to hire a helper?' : lang === 'ru' ? 'Ищете помощника?' : 'กำลังหาผู้ช่วย?'}
+                {lang === 'en' ? 'Looking to hire a helper?' : 'กำลังหาผู้ช่วย?'}
               </span>
               <span className="font-bold">{t.nav_employers} →</span>
             </Link>
@@ -285,7 +285,7 @@ export default function Home() {
           <div className="flex items-center gap-3 shrink-0">
             <Link href="/" className="text-xl md:text-2xl font-bold font-headline"><span>Thai</span><span style={{color:"#006a62"}}>Helper</span></Link>
             <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-primary text-white text-[10px] font-bold tracking-wide uppercase">
-              {lang === 'en' ? 'For Helpers' : lang === 'ru' ? 'Помощники' : 'ผู้ช่วย'}
+              {lang === 'en' ? 'For Helpers' : 'ผู้ช่วย'}
             </span>
           </div>
           {(() => {
@@ -326,21 +326,19 @@ export default function Home() {
                 {/* Eyebrow */}
                 <div className="flex items-center gap-3 mb-5">
                   <span className="block w-8 h-0.5 bg-gold"></span>
-                  <span className="text-xs font-bold tracking-[0.25em] uppercase text-gold">{lang === 'en' ? 'Get Hired Directly.' : lang === 'ru' ? 'Устройтесь напрямую.' : 'หางานโดยตรง'}</span>
+                  <span className="text-xs font-bold tracking-[0.25em] uppercase text-gold">{lang === 'en' ? 'Get Hired Directly.' : 'หางานโดยตรง'}</span>
                 </div>
                 {/* Main headline */}
                 <h1 className="font-extrabold font-headline leading-[1.0] text-on-background mb-3 uppercase" style={{fontSize:'clamp(2.8rem,6vw,5rem)'}}>
                   {lang === 'en' ? (
                     <>Your Next <span className="text-primary">Job</span><br />starts here.</>
-                  ) : lang === 'ru' ? (
-                    <>Ваша следующая <span className="text-primary">работа</span><br />начинается здесь.</>
                   ) : (
                     <><span className="text-primary">งาน</span>ต่อไปของคุณ<br />เริ่มที่นี่</>
                   )}
                 </h1>
                 {/* "No fees" line with gold shimmer */}
                 <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.5rem,3vw,2.2rem)'}}>
-                  {lang === 'en' ? 'No fees, no middlemen.' : lang === 'ru' ? 'Без комиссий, без посредников.' : 'ไม่มีค่าธรรมเนียม ไม่มีคนกลาง'}
+                  {lang === 'en' ? 'No fees, no middlemen.' : 'ไม่มีค่าธรรมเนียม ไม่มีคนกลาง'}
                 </p>
                 {/* 3 Steps — clear and simple */}
                 <ul className="max-w-xl mb-10 space-y-3">
@@ -369,13 +367,13 @@ export default function Home() {
                 <div className="hidden lg:block h-10 flex-shrink-0"></div>
                 <div className="relative z-10 bg-white rounded-3xl p-6 sm:p-7 shadow-2xl shadow-on-background/10 border border-gray-100 flex-1 flex flex-col">
                   <div className="flex justify-between items-center pb-4 border-b border-gray-100 flex-shrink-0">
-                    <span className="font-bold text-sm sm:text-base font-headline text-on-background">{lang === 'th' ? 'สมาชิกใหม่ล่าสุด' : lang === 'ru' ? 'Новые регистрации' : 'Recently joined'}</span>
+                    <span className="font-bold text-sm sm:text-base font-headline text-on-background">{lang === 'th' ? 'สมาชิกใหม่ล่าสุด' : 'Recently joined'}</span>
                     <span className="flex items-center gap-2 text-xs font-semibold text-emerald-600">
                       <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                       </span>
-                      {lang === 'th' ? 'สด' : lang === 'ru' ? 'В реальном времени' : 'Live'}
+                      {lang === 'th' ? 'สด' : 'Live'}
                     </span>
                   </div>
 
@@ -411,11 +409,11 @@ export default function Home() {
                   <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-gray-100 flex-shrink-0">
                     <div>
                       <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">{Math.floor(totalHelpers / 10) * 10}+</div>
-                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>ผู้ช่วยลงทะเบียน<br/>เพิ่มขึ้นทุกวัน</>) : lang === 'ru' ? (<>Зарегистрировано<br/>и растёт ежедневно</>) : (<>Helpers registered<br/>&amp; growing daily</>)}</div>
+                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>ผู้ช่วยลงทะเบียน<br/>เพิ่มขึ้นทุกวัน</>) : (<>Helpers registered<br/>&amp; growing daily</>)}</div>
                     </div>
                     <div>
                       <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">20+</div>
-                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>เมือง<br/>ทั่วประเทศไทย</>) : lang === 'ru' ? (<>Городов по<br/>всему Таиланду</>) : (<>Cities across<br/>Thailand</>)}</div>
+                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>เมือง<br/>ทั่วประเทศไทย</>) : (<>Cities across<br/>Thailand</>)}</div>
                     </div>
                   </div>
                 </div>
@@ -438,8 +436,6 @@ export default function Home() {
               <p className="text-sm font-medium text-on-surface-variant tracking-wide">
                 {lang === 'en' ? (
                   <>Be among the <span className="font-bold text-gold">first verified</span> helpers on the platform</>
-                ) : lang === 'ru' ? (
-                  <>Будьте среди <span className="font-bold text-gold">первых проверенных</span> помощников</>
                 ) : (
                   <>เป็นหนึ่งใน<span className="font-bold text-gold">ผู้ช่วยที่ผ่านการยืนยัน</span>กลุ่มแรก</>
                 )}
@@ -674,7 +670,7 @@ export default function Home() {
             {/* SEO footer links — popular searches */}
             <div className="mt-8 pt-6 border-t border-slate-200">
               <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 text-center">
-                {lang === 'en' ? 'Popular Searches' : lang === 'ru' ? 'Популярные запросы' : 'ค้นหายอดนิยม'}
+                {lang === 'en' ? 'Popular Searches' : 'ค้นหายอดนิยม'}
               </h4>
               <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
                 {[
@@ -717,7 +713,7 @@ export default function Home() {
           className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-3 rounded-full bg-[#06C755] text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all group"
         >
           <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-          <span className="hidden sm:inline font-semibold text-sm whitespace-nowrap">{lang === 'th' ? 'แชทกับเรา' : lang === 'ru' ? 'Чат в LINE' : 'Chat on LINE'}</span>
+          <span className="hidden sm:inline font-semibold text-sm whitespace-nowrap">{lang === 'th' ? 'แชทกับเรา' : 'Chat on LINE'}</span>
         </a>
 
         <CookieBanner lang={lang} />
@@ -736,12 +732,10 @@ function CookieBanner({ lang }) {
       <span className="text-sm">
         {lang === 'th'
           ? <>เราใช้ local storage เพื่อบันทึกการตั้งค่าภาษาเท่านั้น ไม่มีการติดตาม อ่าน <Link href="/privacy" className="text-inverse-primary hover:underline">นโยบายความเป็นส่วนตัว</Link></>
-          : lang === 'ru'
-          ? <>Мы используем local storage только для сохранения языковых настроек — без отслеживания. Читайте нашу <Link href="/privacy" className="text-inverse-primary hover:underline">Политику конфиденциальности</Link>.</>
           : <>We only use local storage to remember your language preference — no tracking. Read our <Link href="/privacy" className="text-inverse-primary hover:underline">Privacy Policy</Link>.</>
         }
       </span>
-      <button className="px-6 py-2 rounded-full bg-primary text-on-primary font-semibold text-sm hover:bg-primary-container transition-colors whitespace-nowrap" onClick={accept}>{lang === 'th' ? 'รับทราบ' : lang === 'ru' ? 'Понятно' : 'Got it'}</button>
+      <button className="px-6 py-2 rounded-full bg-primary text-on-primary font-semibold text-sm hover:bg-primary-container transition-colors whitespace-nowrap" onClick={accept}>{lang === 'th' ? 'รับทราบ' : 'Got it'}</button>
     </div>
   );
 }

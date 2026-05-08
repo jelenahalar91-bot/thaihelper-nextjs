@@ -802,7 +802,7 @@ export default function EmployerDashboard() {
               </button>
 
               {/* Language toggle */}
-              <LangSwitcher languages={['en', 'th', 'ru']} />
+              <LangSwitcher languages={['en', 'th']} />
 
               {/* Profile avatar with dropdown menu (Dashboard / Profile / Settings / Logout) */}
               <EmployerProfileMenu

@@ -591,7 +591,7 @@ export default function Employers({ featuredHelpers = [] }) {
           <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 md:py-2.5 flex justify-end items-center text-xs md:text-sm">
             <Link href="/" className="font-medium hover:text-gold transition-colors flex items-center gap-1.5 whitespace-nowrap">
               <span className="opacity-80">
-                {lang === 'en' ? 'Are you a helper looking for work?' : lang === 'ru' ? 'Вы помощник в поиске работы?' : 'คุณเป็นผู้ช่วยที่กำลังหางาน?'}
+                {lang === 'en' ? 'Are you a helper looking for work?' : 'คุณเป็นผู้ช่วยที่กำลังหางาน?'}
               </span>
               <span className="font-bold">{t.nav_helpers} →</span>
             </Link>
@@ -605,7 +605,7 @@ export default function Employers({ featuredHelpers = [] }) {
               <span className="text-xl md:text-2xl font-bold font-headline"><span>Thai</span><span style={{color:"#006a62"}}>Helper</span></span>
             </Link>
             <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-[#001b3d] text-white text-[10px] font-bold tracking-wide uppercase">
-              {lang === 'en' ? 'For Families' : lang === 'ru' ? 'Для семей' : 'สำหรับครอบครัว'}
+              {lang === 'en' ? 'For Families' : 'สำหรับครอบครัว'}
             </span>
           </div>
           {(() => {

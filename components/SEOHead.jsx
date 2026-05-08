@@ -7,7 +7,6 @@ const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 const LANG_MAP = {
   en: { hreflang: 'en', label: 'English' },
   th: { hreflang: 'th', label: 'Thai' },
-  ru: { hreflang: 'ru', label: 'Russian' },
 };
 
 /**
@@ -54,7 +53,7 @@ export default function SEOHead({
       <meta property="og:image:height" content="630" />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={SITE_NAME} />
-      <meta property="og:locale" content={lang === 'th' ? 'th_TH' : lang === 'ru' ? 'ru_RU' : 'en_US'} />
+      <meta property="og:locale" content={lang === 'th' ? 'th_TH' : 'en_US'} />
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
