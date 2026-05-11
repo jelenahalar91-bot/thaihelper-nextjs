@@ -150,9 +150,9 @@ export default function HirePage({ page, matchingHelpers = [] }) {
     : (page.descriptionTh || page.description_th || page.description);
   // Fallback chain ensures h1 is never empty (critical for SEO)
   const h1En = page.h1
-    || (page.categoryEn && page.cityEn ? `Hire a Trusted ${page.categoryEn} in ${page.cityEn}` : null)
-    || (page.categoryEn ? `Hire a Trusted ${page.categoryEn} in Thailand` : null)
-    || (page.cityEn ? `Hire Trusted Household Staff in ${page.cityEn}` : 'Hire Household Staff in Thailand');
+    || (page.categoryEn && page.cityEn ? `Find a Trusted ${page.categoryEn} in ${page.cityEn}` : null)
+    || (page.categoryEn ? `Find a Trusted ${page.categoryEn} in Thailand` : null)
+    || (page.cityEn ? `Find Trusted Household Staff in ${page.cityEn}` : 'Find Household Staff in Thailand');
   const h1Th = page.h1Th
     || (page.categoryTh && page.cityTh ? `หา${page.categoryTh}ใน${page.cityTh}` : null)
     || (page.categoryTh ? `หา${page.categoryTh}ในประเทศไทย` : null)
@@ -260,9 +260,19 @@ export default function HirePage({ page, matchingHelpers = [] }) {
           <h1 className="text-3xl md:text-4xl font-bold font-headline text-[#001b3d] mb-4">
             {h1}
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mb-8">
+          <p className="text-lg text-gray-600 max-w-2xl mb-4">
             {description}
           </p>
+
+          {/* Synonyms — visible long-tail keyword anchor for SEO.
+              Targets GSC queries with impressions but 0 clicks
+              (e.g. "babysitter bangkok", "live-in maid"). */}
+          {isEn && page.synonyms && (
+            <p className="text-sm text-gray-500 max-w-2xl mb-8">
+              <span className="font-medium">Also searched as:</span> {page.synonyms}
+              {page.cityEn ? ` in ${page.cityEn}` : ' in Thailand'}.
+            </p>
+          )}
 
           <div className="flex flex-wrap gap-3">
             <Link
