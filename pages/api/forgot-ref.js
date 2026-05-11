@@ -59,7 +59,12 @@ export default async function handler(req, res) {
   const employer = employerRes.data;
 
   if (!helper && !employer) {
-    return res.status(404).json({ error: 'No account found with this email.' });
+    // Email not in our system. Return success anyway — distinguishing
+    // 200 vs 404 here lets an attacker enumerate which addresses are
+    // registered on the platform (a basic privacy leak that also
+    // helps credential-stuffing). The UX cost is zero: a real user
+    // who mistyped their email just won't get a mail.
+    return res.status(200).json({ success: true });
   }
 
   // Build a list of accounts to include in the email
