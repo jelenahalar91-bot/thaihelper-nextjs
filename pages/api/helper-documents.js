@@ -32,6 +32,18 @@ export default async function handler(req, res) {
 
   const supabase = getServiceSupabase();
 
+  // Has this employer contacted this helper before? Certificates are
+  // blurred by default to protect helper PII (DOB, addresses can appear
+  // anywhere on the image). Once the employer has sent at least one
+  // message, the helper has chosen to engage — we reveal the full image.
+  const { data: convo } = await supabase
+    .from('conversations')
+    .select('id, last_message_at')
+    .eq('helper_ref', ref)
+    .eq('employer_id', session.ref)
+    .maybeSingle();
+  const hasContacted = !!(convo && convo.last_message_at);
+
   // Only fetch certificate-type documents (not IDs or other private docs)
   const { data: docs, error } = await supabase
     .from('documents')
@@ -46,7 +58,7 @@ export default async function handler(req, res) {
   }
 
   if (!docs || docs.length === 0) {
-    return res.status(200).json({ documents: [] });
+    return res.status(200).json({ documents: [], hasContacted });
   }
 
   // Generate signed URLs for each document
@@ -81,5 +93,5 @@ export default async function handler(req, res) {
     })
   );
 
-  return res.status(200).json({ documents: withUrls });
+  return res.status(200).json({ documents: withUrls, hasContacted });
 }

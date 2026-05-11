@@ -95,6 +95,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
   const [references, setReferences] = useState([]);
   const [refsLoading, setRefsLoading] = useState(true);
   const [certDocs, setCertDocs] = useState([]);
+  const [certsRevealed, setCertsRevealed] = useState(false);
   const [certsLoading, setCertsLoading] = useState(true);
 
   // Close on Escape
@@ -139,7 +140,14 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
         const res = await fetch(`/api/helper-documents?ref=${helper.ref}`);
         if (res.ok) {
           const data = await res.json();
-          if (!cancelled) setCertDocs(data.documents || []);
+          if (!cancelled) {
+            setCertDocs(data.documents || []);
+            // hasContacted = the employer has already sent at least one
+            // message to this helper. Once true, certificate images are
+            // revealed in full — the helper has implicitly accepted the
+            // contact, so the blur protecting PII is no longer needed.
+            setCertsRevealed(!!data.hasContacted);
+          }
         }
       } catch (err) {
         console.error('Failed to load certificate documents:', err);
@@ -376,7 +384,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
             ) : certDocs.length > 0 ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {certDocs.map((doc) => (
-                  <CertificatePreview key={doc.id} doc={doc} t={t} />
+                  <CertificatePreview key={doc.id} doc={doc} t={t} revealed={certsRevealed} />
                 ))}
               </div>
             ) : !helper.certificates ? (
@@ -460,7 +468,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
   );
 }
 
-function CertificatePreview({ doc, t }) {
+function CertificatePreview({ doc, t, revealed = false }) {
   if (!doc.isImage || !doc.url) {
     // PDF or missing URL — show as file badge
     return (
@@ -484,9 +492,11 @@ function CertificatePreview({ doc, t }) {
     );
   }
 
-  // Image certificate — entire image blurred for privacy (GDPR-safe)
-  // Contact details, addresses, DOBs can appear ANYWHERE on certificates,
-  // so we blur the whole image. Employers contact the helper to verify details.
+  // Image certificate — blurred until the employer has contacted the
+  // helper (sent at least one message). After contact, the helper has
+  // implicitly accepted engagement, so the image is shown in full.
+  // Pre-contact, certs can contain DOBs, addresses, full names so we
+  // blur defensively.
   return (
     <div style={{
       position: 'relative',
@@ -496,7 +506,6 @@ function CertificatePreview({ doc, t }) {
       background: '#f9fafb',
       minHeight: '180px',
     }}>
-      {/* Certificate image — fully blurred */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={doc.url}
@@ -506,39 +515,41 @@ function CertificatePreview({ doc, t }) {
           width: '100%',
           display: 'block',
           borderRadius: '12px',
-          filter: 'blur(14px)',
-          WebkitFilter: 'blur(14px)',
-          transform: 'scale(1.05)', // avoid blur edge artifacts
+          filter: revealed ? 'none' : 'blur(14px)',
+          WebkitFilter: revealed ? 'none' : 'blur(14px)',
+          transform: revealed ? 'none' : 'scale(1.05)', // avoid blur edge artifacts
         }}
       />
 
-      {/* Centered privacy badge */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        pointerEvents: 'none',
-      }}>
+      {/* Centered privacy badge — only shown pre-contact */}
+      {!revealed && (
         <div style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          background: 'rgba(0, 106, 98, 0.95)',
-          color: 'white',
-          padding: '10px 18px',
-          borderRadius: '24px',
-          fontSize: '12px',
-          fontWeight: 600,
-          letterSpacing: '0.2px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pointerEvents: 'none',
         }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-          </svg>
-          {t?.profile_cert_privacy || 'Certificate available after contact'}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'rgba(0, 106, 98, 0.95)',
+            color: 'white',
+            padding: '10px 18px',
+            borderRadius: '24px',
+            fontSize: '12px',
+            fontWeight: 600,
+            letterSpacing: '0.2px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            {t?.profile_cert_privacy || 'Certificate available after contact'}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* File name label */}
       <div style={{
