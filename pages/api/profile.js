@@ -51,6 +51,7 @@ function toFrontend(row) {
     skills: row.skills || '',
     city: row.city || '',
     area: row.area || '',
+    areaEn: row.area_en || '',
     additionalCities: row.additional_cities || '',
     experience: row.experience || '',
     languages: row.languages || '',
@@ -195,6 +196,12 @@ export default async function handler(req, res) {
       // script so we don't leave a stale English translation lying around.
       if ('bio' in updates) {
         updates.bio_en = await translateForeignText(updates.bio);
+      }
+
+      // Same for area — translate to English when the helper updates it
+      // so families viewing in EN see a Latin-script district name.
+      if ('area' in updates) {
+        updates.area_en = await translateForeignText(updates.area);
       }
 
       // If date_of_birth was set, clear the legacy age range so display logic

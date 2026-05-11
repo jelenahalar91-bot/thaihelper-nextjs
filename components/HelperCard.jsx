@@ -148,7 +148,14 @@ export default function HelperCard({
           )}
           <div className="text-sm text-gray-500 mt-1">
             📍 {formatCity(helper.city)}
-            {helper.area ? ` · ${helper.area}` : ''}
+            {(() => {
+              // Prefer the English translation of the free-text area when
+              // the viewer is in EN mode. Falls back to the original area
+              // (Thai or whatever the helper typed) when no translation
+              // exists or the viewer is in TH mode.
+              const displayArea = lang === 'en' && helper.areaEn ? helper.areaEn : helper.area;
+              return displayArea ? ` · ${displayArea}` : '';
+            })()}
           </div>
           {helper.additionalCities && (() => {
             const extras = formatAdditionalCities(helper.additionalCities, helper.city);

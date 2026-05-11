@@ -97,10 +97,11 @@ export default async function handler(req, res) {
   // for the bio: store an English translation in `bio_en` so we can render
   // the right version based on the viewer's language. Falls back to raw
   // input if the Translate API is unavailable.
-  const [cleanFirstName, cleanLastName, bioEn] = await Promise.all([
+  const [cleanFirstName, cleanLastName, bioEn, areaEn] = await Promise.all([
     romanizeThaiName(first_name),
     romanizeThaiName(last_name),
     translateForeignText(sanitizedBio),
+    translateForeignText(area),
   ]);
 
   try {
@@ -118,6 +119,7 @@ export default async function handler(req, res) {
         skills: skills || null,
         city,
         area: area || null,
+        area_en: areaEn || null,
         additional_cities: additional_cities || null,
         experience: experience || null,
         languages: languages || null,
