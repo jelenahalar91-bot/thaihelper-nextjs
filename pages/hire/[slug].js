@@ -188,7 +188,31 @@ export default function HirePage({ page, matchingHelpers = [] }) {
     areaServed: page.cityEn
       ? { '@type': 'City', name: page.cityEn, containedInPlace: { '@type': 'Country', name: 'Thailand' } }
       : { '@type': 'Country', name: 'Thailand' },
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'THB', description: 'Free for helpers.' },
+    // Salary range as machine-readable PriceSpecification — lets Google
+    // surface "10,000–35,000 THB/month" as a price in rich snippets and
+    // gives AI search engines a structured answer for "how much does a
+    // nanny in Bangkok cost?".
+    ...(page.salaryRange
+      ? {
+          offers: {
+            '@type': 'Offer',
+            priceSpecification: {
+              '@type': 'PriceSpecification',
+              priceCurrency: 'THB',
+              minPrice: page.salaryRange.min,
+              maxPrice: page.salaryRange.max,
+              unitText: 'MONTH',
+              description: page.cityEn && page.categoryEn
+                ? `Typical monthly salary for a ${page.categoryEn.toLowerCase()} in ${page.cityEn}`
+                : page.categoryEn
+                ? `Typical monthly salary for a ${page.categoryEn.toLowerCase()} in Thailand`
+                : `Typical monthly salary for household staff in ${page.cityEn || 'Thailand'}`,
+            },
+          },
+        }
+      : {
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'THB', description: 'Free for helpers.' },
+        }),
   };
 
   // ItemList schema — exposes the matched helpers on this page as a list
