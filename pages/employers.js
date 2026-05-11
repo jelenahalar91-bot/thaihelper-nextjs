@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import SEOHead, { getBreadcrumbSchema, getServiceSchema, getSpeakableSchema, getFAQSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
@@ -11,71 +11,10 @@ import {
 } from '@/lib/recent-helpers-display';
 import Link from 'next/link';
 import Image from 'next/image';
-import useEmblaCarousel from 'embla-carousel-react';
 import {
-  ArrowLeft, ArrowRight,
   UserPlus, MessageCircle, PartyPopper,
   Wallet, Ban, ShieldCheck, LayoutGrid, MapPin,
 } from 'lucide-react';
-
-
-// ─── HERO CAROUSEL (2 visible cards) ────────────────────────────────────────
-function HeroCarousel({ items }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: 'start',
-    loop: true,
-    slidesToScroll: 1,
-  });
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setCanScrollPrev(emblaApi.canScrollPrev());
-    setCanScrollNext(emblaApi.canScrollNext());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on('select', onSelect);
-    emblaApi.on('reInit', onSelect);
-
-    // Auto-play
-    const interval = setInterval(() => { emblaApi.scrollNext(); }, 4000);
-    return () => { clearInterval(interval); emblaApi.off('select', onSelect); };
-  }, [emblaApi, onSelect]);
-
-  return (
-    <div className="relative">
-      <div ref={emblaRef} className="overflow-hidden">
-        <div className="flex -ml-4">
-          {items.map((item) => (
-            <div key={item.id} className="flex-[0_0_50%] min-w-0 pl-4">
-              <div className="relative h-[320px] md:h-[380px] overflow-hidden rounded-2xl">
-                <Image src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover" fill sizes="(max-width: 768px) 100vw, 50vw" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#001b3d]/95 via-[#001b3d]/40 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <div className="text-base font-bold text-white mb-1">{item.title}</div>
-                  <div className="text-[13px] text-white/85 leading-relaxed line-clamp-4">{item.description}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      {/* Navigation arrows */}
-      <div className="flex gap-2 mt-4 justify-end">
-        <button aria-label="Previous slide" onClick={() => emblaApi?.scrollPrev()} className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-[#001b3d] hover:text-white hover:border-[#001b3d] transition-all">
-          <ArrowLeft className="w-4 h-4" />
-        </button>
-        <button aria-label="Next slide" onClick={() => emblaApi?.scrollNext()} className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-[#001b3d] hover:text-white hover:border-[#001b3d] transition-all">
-          <ArrowRight className="w-4 h-4" />
-        </button>
-      </div>
-    </div>
-  );
-}
 
 // ─── EMPLOYER FAQ — content + schema source of truth ─────────────────────────
 // 6 questions chosen for high-frequency AI-search prompts (ChatGPT, Perplexity,
@@ -385,45 +324,6 @@ const T = {
     footer_copy: '© 2026 ThaiHelper สงวนลิขสิทธิ์',
   },
 };
-
-const EMPLOYER_TRUST_SLIDES = [
-  {
-    id: 'no-fees',
-    title: 'Hire Directly, Save Money',
-    description: 'Traditional hiring options can be expensive and unclear. ThaiHelper is free for families. Zero fees, zero commission — just direct hiring.',
-    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&h=600&fit=crop',
-  },
-  {
-    id: 'no-facebook',
-    title: 'No More Facebook Chaos',
-    description: 'Scrolling through Facebook groups, hoping to find someone reliable? Unstructured posts, fake leads, and spam. ThaiHelper gives you real, structured profiles with email-verified accounts.',
-    image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&h=600&fit=crop',
-  },
-  {
-    id: 'structured-profiles',
-    title: 'Know Who You\'re Talking To',
-    description: 'Every helper on ThaiHelper has an email-verified profile with experience, skills, languages and photos — so you can shortlist before you even say hello.',
-    image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop',
-  },
-  {
-    id: 'direct',
-    title: 'Talk Directly, No Middleman',
-    description: 'No middleman between you and your future nanny. Chat directly, discuss your needs, agree on salary and schedule — on your terms.',
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
-  },
-  {
-    id: 'nearby',
-    title: 'Helpers in Your City',
-    description: 'Whether you\'re in Bangkok, Phuket, Chiang Mai, or Koh Samui — we show you helpers who actually live near you. No more "sorry, I\'m in another province."',
-    image: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&h=600&fit=crop',
-  },
-  {
-    id: 'all-staff',
-    title: 'One Place for Everything',
-    description: 'Need a nanny AND a housekeeper? Maybe a driver too? Stop searching across multiple places. Find all household staff in one place.',
-    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop',
-  },
-];
 
 // Sample profiles for the employer-landing preview. Same shape as the
 // /helpers API and the helper-landing preview, so the shared <HelperCard>

@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-const CircularTestimonials = dynamic(() => import('@/components/ui/circular-testimonials').then(m => m.CircularTestimonials), { ssr: false });
 import SEOHead, { getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
@@ -158,57 +156,6 @@ const PROFILES = [
     bio_en:'Private chef specialising in Thai and Western cuisine. Trained in pastry and weekly meal prep.',
     bio_th:'พ่อครัวส่วนตัว ชำนาญอาหารไทยและตะวันตก ทำขนมอบและเตรียมอาหารรายสัปดาห์',
     experience:3, languages:'English, Thai, Filipino',
-  },
-];
-
-const MATCHES = [
-  { family:'The Johnson Family', family_photo:'https://images.unsplash.com/photo-1609220136736-443140cffec6?w=80&h=80&fit=crop&crop=face', helper:'Maria S.', helper_photo:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=80&h=80&fit=crop&crop=face', role_en:'Full-time Nanny', role_th:'พี่เลี้ยงเด็กเต็มเวลา', city:'Phuket', quote_en:'Maria has been incredible with our kids. Found her in 2 days!', quote_th:'Maria ดูแลลูกๆ ได้อย่างยอดเยี่ยม พบเธอใน 2 วัน!' },
-  { family:'The Weber Family', family_photo:'https://images.unsplash.com/photo-1600486913747-55e5470d6f40?w=80&h=80&fit=crop&crop=face', helper:'Sunisa K.', helper_photo:'https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?w=80&h=80&fit=crop&crop=face', role_en:'Housekeeper', role_th:'แม่บ้าน', city:'Bangkok', quote_en:'No fees, direct communication. Exactly what we needed.', quote_th:'ไม่มีค่าธรรมเนียม สื่อสารโดยตรง ตรงตามที่เราต้องการ' },
-  { family:'The Petrov Family', family_photo:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face', helper:'Ana R.', helper_photo:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&crop=face', role_en:'Private Chef', role_th:'พ่อครัวส่วนตัว', city:'Phuket', quote_en:'Ana cooks amazing Thai and Western food. Our family loves her!', quote_th:'Ana ทำอาหารไทยและตะวันตกได้อย่างยอดเยี่ยม ครอบครัวเรารักเธอ!' },
-];
-
-const JOB_CATEGORIES = [
-  {
-    name: 'Nanny & Babysitter',
-    designation: 'Childcare & Development',
-    quote: 'Trusted nannies and babysitters who provide loving, attentive care for your children — from infants to school-age kids.',
-    src: '/images/categories/nanny.jpg',
-  },
-  {
-    name: 'Housekeeper & Cleaner',
-    designation: 'Home Management',
-    quote: 'Professional housekeepers who keep your home spotless, organized and running smoothly — daily or weekly service.',
-    src: '/images/categories/housekeeper.jpg',
-  },
-  {
-    name: 'Private Chef & Cook',
-    designation: 'Culinary Arts',
-    quote: 'Skilled private chefs preparing delicious Thai, Western and international cuisine tailored to your family\'s taste.',
-    src: '/images/categories/chef.jpg',
-  },
-  {
-    name: 'Driver & Chauffeur',
-    designation: 'Transportation',
-    quote: 'Reliable drivers for school runs, airport transfers, errands and daily commutes across Thailand.',
-    src: '/images/categories/driver.jpg',
-  },
-  {
-    name: 'Gardener & Pool Care',
-    designation: 'Outdoor Maintenance',
-    quote: 'Expert gardeners and pool technicians who keep your outdoor spaces lush, clean and beautiful year-round.',
-    src: '/images/categories/gardener.jpg',
-  },
-  {
-    name: 'Elder Care & Caregiver',
-    designation: 'Senior Support',
-    quote: 'Compassionate caregivers providing personal care, medication management and companionship for elderly family members.',
-    src: '/images/categories/caregiver.jpg',
-  },
-  {
-    name: 'Tutor & Teacher',
-    designation: 'Education & Learning',
-    quote: 'Qualified tutors for maths, languages, exam prep and more — helping your children excel academically.',
-    src: '/images/categories/tutor.jpg',
   },
 ];
 
