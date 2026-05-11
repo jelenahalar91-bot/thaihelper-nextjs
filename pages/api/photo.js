@@ -4,6 +4,7 @@
 import { getSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import Busboy from 'busboy';
+import { bufferMatchesMime } from '../../lib/file-magic';
 
 export const config = { api: { bodyParser: false } };
 
@@ -55,6 +56,14 @@ export default async function handler(req, res) {
 
     if (!ALLOWED_TYPES.includes(mimeType)) {
       return res.status(400).json({ error: 'Only JPG, PNG, and WEBP images are allowed.' });
+    }
+
+    // Verify the actual file content matches the declared MIME — Busboy's
+    // mimeType comes from the client-supplied Content-Type, which an
+    // attacker can lie about (e.g. upload HTML claiming to be JPEG).
+    // Magic bytes are the file's actual signature.
+    if (!bufferMatchesMime(fileBuffer, mimeType)) {
+      return res.status(400).json({ error: 'File contents do not match the declared image type.' });
     }
 
     const ext = mimeType.split('/')[1] === 'jpeg' ? 'jpg' : mimeType.split('/')[1];

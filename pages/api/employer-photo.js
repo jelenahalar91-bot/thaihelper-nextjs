@@ -7,6 +7,7 @@
 import { getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import Busboy from 'busboy';
+import { bufferMatchesMime } from '../../lib/file-magic';
 
 export const config = { api: { bodyParser: false } };
 
@@ -61,6 +62,12 @@ export default async function handler(req, res) {
 
     if (!ALLOWED_TYPES.includes(mimeType)) {
       return res.status(400).json({ error: 'Only JPG, PNG, and WEBP images are allowed.' });
+    }
+
+    // Verify magic bytes — see lib/file-magic.js. Prevents an attacker
+    // from uploading HTML/JS/SVG with Content-Type: image/jpeg.
+    if (!bufferMatchesMime(fileBuffer, mimeType)) {
+      return res.status(400).json({ error: 'File contents do not match the declared image type.' });
     }
 
     const ext = mimeType.split('/')[1] === 'jpeg' ? 'jpg' : mimeType.split('/')[1];

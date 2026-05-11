@@ -5,6 +5,7 @@
 import { getSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import Busboy from 'busboy';
+import { bufferMatchesMime } from '../../lib/file-magic';
 
 export const config = { api: { bodyParser: false } };
 
@@ -78,6 +79,14 @@ export default async function handler(req, res) {
 
       if (!ALLOWED_TYPES.includes(mimeType)) {
         return res.status(400).json({ error: 'File type not allowed. Use PDF, JPG, PNG, or WEBP.' });
+      }
+
+      // Verify the file's actual content matches the declared MIME.
+      // Without this an attacker can upload HTML/JS/SVG with a fake
+      // Content-Type: image/jpeg header and have it served from our
+      // storage bucket. See lib/file-magic.js.
+      if (!bufferMatchesMime(fileBuffer, mimeType)) {
+        return res.status(400).json({ error: 'File contents do not match the declared type.' });
       }
 
       // Generate unique storage path
