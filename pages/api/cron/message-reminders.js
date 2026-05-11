@@ -28,7 +28,13 @@ function authorize(req) {
     const got = req.headers.authorization || '';
     return got === `Bearer ${expected}`;
   }
-  // No secret configured — accept Vercel's own cron header.
+  // The x-vercel-cron header isn't a real auth signal — any client can
+  // send it. In production we must have CRON_SECRET set or the cron
+  // endpoints become a public mass-email trigger.
+  if (process.env.NODE_ENV === 'production') {
+    console.error('CRON_SECRET not set in production — refusing cron run');
+    return false;
+  }
   return req.headers['x-vercel-cron'] === '1';
 }
 

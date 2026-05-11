@@ -37,6 +37,15 @@ function authorize(req) {
     const got = req.headers.authorization || '';
     return got === `Bearer ${expected}`;
   }
+  // No secret configured — fail closed in production. The x-vercel-cron
+  // header was previously trusted, but it's a regular HTTP header that
+  // any client can send; Vercel doesn't strip it from public requests,
+  // so it's not a real authentication signal. Allow only in development
+  // (local cron testing without setting up the secret).
+  if (process.env.NODE_ENV === 'production') {
+    console.error('CRON_SECRET not set in production — refusing cron run');
+    return false;
+  }
   return req.headers['x-vercel-cron'] === '1';
 }
 
