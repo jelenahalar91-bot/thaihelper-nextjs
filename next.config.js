@@ -94,7 +94,18 @@ const nextConfig = {
       permanent: false,
     }));
 
-    const shortlinks = [...helperLinks, ...familyLinks, ...groupPostLinks];
+    // Expat-group posts targeting families → land directly on /employers.
+    // Two variants so we can A/B which post wording converts better.
+    const expatGroupEmployerLinks = [
+      { src: '/fbe1', campaign: 'expat-2026-05-p1' }, // empathy hook variant
+      { src: '/fbe2', campaign: 'expat-2026-05-p2' }, // direct-value variant
+    ].map(({ src, campaign }) => ({
+      source: src,
+      destination: `/employers?utm_source=facebook&utm_medium=group-post&utm_campaign=${campaign}`,
+      permanent: false,
+    }));
+
+    const shortlinks = [...helperLinks, ...familyLinks, ...groupPostLinks, ...expatGroupEmployerLinks];
 
     return [
       {
