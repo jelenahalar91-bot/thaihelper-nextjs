@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import SEOHead, { getBreadcrumbSchema, getLocalBusinessSchema, getSpeakableSchema } from '@/components/SEOHead';
+import SEOFooter from '@/components/SEOFooter';
 import { useLang } from '@/pages/_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
@@ -421,16 +422,11 @@ export default function HirePage({ page, matchingHelpers = [] }) {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="bg-[#001b3d] text-white/60 border-t border-white/10 py-8">
-          <div className="max-w-5xl mx-auto px-4 text-center text-sm">
-            <p>&copy; {new Date().getFullYear()} ThaiHelper.app</p>
-            <div className="mt-2 flex justify-center gap-4">
-              <Link href="/privacy" className="hover:text-white transition-colors">{isEn ? 'Privacy' : 'ความเป็นส่วนตัว'}</Link>
-              <Link href="/terms" className="hover:text-white transition-colors">{isEn ? 'Terms' : 'ข้อกำหนด'}</Link>
-            </div>
-          </div>
-        </footer>
+        {/* SEO Footer — internal links to top cities + categories so every
+            /hire/* page passes link juice to the others. Helps Google index
+            the long-tail combo pages that are currently flagged
+            "Discovered – currently not indexed". */}
+        <SEOFooter lang={lang} />
       </div>
     </>
   );
