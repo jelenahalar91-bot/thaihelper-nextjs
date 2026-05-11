@@ -159,10 +159,14 @@ export default function HirePage({ page, matchingHelpers = [] }) {
     || (page.cityTh ? `หาผู้ช่วยงานบ้านใน${page.cityTh}` : 'หาผู้ช่วยงานบ้านในประเทศไทย');
   const h1 = isEn ? h1En : h1Th;
 
+  // Critical: use computed h1En / h1Th (never undefined) — not raw page.h1.
+  // GSC flagged BreadcrumbList items with empty `name` on pages where
+  // page.h1 was missing, causing "Entweder 'name' oder 'item.name' müssen
+  // angegeben werden" rich-result errors that block Rich Snippets.
   const breadcrumbs = [
     { name: 'Home', path: '/' },
     { name: isEn ? 'Browse Helpers' : 'ดูผู้ช่วย', path: '/helpers' },
-    { name: isEn ? page.h1 : h1, path: `/hire/${page.slug}` },
+    { name: isEn ? h1En : h1Th, path: `/hire/${page.slug}` },
   ];
 
   const faqSchema = {
