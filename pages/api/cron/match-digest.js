@@ -104,12 +104,14 @@ export default async function handler(req, res) {
 
       // Pull verified helpers in the same city verified after `since`.
       // Filter category in JS — small set, "multiple" wildcard is awkward in SQL.
+      // Uses email_verified_at (not created_at) so a helper who registered
+      // weeks ago but verified yesterday is still surfaced in the digest.
       const { data: helpers, error: hErr } = await supabase
         .from('helper_profiles')
         .select('helper_ref, first_name, city, category, email_verified, status')
         .eq('city', emp.city)
         .eq('email_verified', true)
-        .gt('created_at', since)
+        .gt('email_verified_at', since)
         .or('status.eq.active,status.is.null')
         .limit(20);
 
@@ -203,12 +205,14 @@ export default async function handler(req, res) {
 
       // Pull verified employers in the same city verified after `since`.
       // Filter looking_for in JS so the "multiple" helper wildcard works.
+      // Uses email_verified_at (not created_at) so an employer who registered
+      // earlier and only verified recently still appears in the digest.
       const { data: employers, error: eErr } = await supabase
         .from('employer_accounts')
         .select('employer_ref, first_name, city, looking_for, email_verified')
         .eq('city', hlp.city)
         .eq('email_verified', true)
-        .gt('created_at', since)
+        .gt('email_verified_at', since)
         .limit(20);
 
       if (eErr) {

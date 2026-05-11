@@ -35,7 +35,11 @@ export default async function handler(req, res) {
   if (helper) {
     await supabase
       .from('helper_profiles')
-      .update({ email_verified: true, verification_token: null })
+      .update({
+        email_verified: true,
+        email_verified_at: new Date().toISOString(),
+        verification_token: null,
+      })
       .eq('helper_ref', helper.helper_ref);
 
     try {
@@ -58,7 +62,11 @@ export default async function handler(req, res) {
   if (employer) {
     await supabase
       .from('employer_accounts')
-      .update({ email_verified: true, verification_token: null })
+      .update({
+        email_verified: true,
+        email_verified_at: new Date().toISOString(),
+        verification_token: null,
+      })
       .eq('employer_ref', employer.employer_ref);
 
     try {
