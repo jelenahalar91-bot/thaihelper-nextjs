@@ -14,7 +14,13 @@ import { verifyTurnstile } from '../../lib/turnstile';
 import { formatAttributionString } from '../../lib/utm';
 
 function generateRef() {
-  return 'EMP-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+  // crypto.randomBytes is cryptographically secure — Math.random() is
+  // not. The employer_ref is effectively a second auth factor alongside
+  // the email, so a guessable ref weakens authentication directly.
+  return 'EMP-' + crypto.randomBytes(8).toString('base64')
+    .replace(/[+/=]/g, '')
+    .slice(0, 6)
+    .toUpperCase();
 }
 
 // Promo access during the launch phase:

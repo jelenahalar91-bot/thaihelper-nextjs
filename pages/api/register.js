@@ -22,7 +22,14 @@ import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/con
 const LINE_LINK_TTL_MS = 30 * 60 * 1000;
 
 function generateRef() {
-  return 'TH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+  // crypto.randomBytes is cryptographically secure — Math.random() is
+  // not, and the helper_ref is effectively a second auth factor (email
+  // + ref = login), so a guessable ref directly weakens authentication.
+  // 6 bytes of base32-ish → ~10 chars of entropy after slicing to 6.
+  return 'TH-' + crypto.randomBytes(8).toString('base64')
+    .replace(/[+/=]/g, '')
+    .slice(0, 6)
+    .toUpperCase();
 }
 
 // Strip phone numbers and email addresses from free-text fields. Helpers
