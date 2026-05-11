@@ -21,6 +21,7 @@ function toPublicCard(row) {
     city: row.city || '',
     area: row.area || '',
     areaEn: row.area_en || '',
+    availabilityStatus: row.availability_status || 'available',
     additionalCities: row.additional_cities || '',
     experience: row.experience || '',
     languages: row.languages || '',
@@ -57,7 +58,7 @@ export default async function handler(req, res) {
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
         'age, date_of_birth, category, skills, city, area, area_en, additional_cities, ' +
         'experience, languages, rate, education, certificates, bio, bio_en, ' +
-        'photo_url, created_at, status, work_permit_status, nationality'
+        'photo_url, created_at, status, availability_status, work_permit_status, nationality'
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)

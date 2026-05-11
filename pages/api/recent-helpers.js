@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     const [recentResult, countResult] = await Promise.all([
       supabase
         .from('helper_profiles')
-        .select('first_name, last_name, category, city, photo_url, created_at')
+        .select('first_name, last_name, category, city, photo_url, created_at, availability_status')
         .or('status.eq.active,status.is.null')
         .eq('email_verified', true)
         .order('created_at', { ascending: false })
@@ -49,6 +49,7 @@ export default async function handler(req, res) {
       city: row.city || '',
       photo: row.photo_url || null,
       createdAt: row.created_at || null,
+      availabilityStatus: row.availability_status || 'available',
     }));
 
     // Count failure is non-fatal — frontend has its own fallback

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { fetchProfile as fetchProfileApi, updateProfile as updateProfileApi } from '@/lib/api/helpers';
 import { CATEGORIES, SKILLS_BY_CATEGORY, RATES, LANGUAGES } from '@/lib/constants/categories';
 import { formatCity, formatAdditionalCities } from '@/lib/constants/cities';
+import { AVAILABILITY_LABELS, AVAILABILITY_VALUES } from '@/components/AvailabilityPill';
 
 // Render a category slug (or comma-separated list of slugs) as readable
 // labels in the current UI language, e.g. "nanny, housekeeper" →
@@ -637,6 +638,26 @@ export default function Profile() {
     finally { setSaving(false); }
   };
 
+  // ─── Availability status quick toggle ─────────────────────────────────
+  // 3-way toggle (available / open_to_offers / working). Saves immediately
+  // on click — no edit form, no save button.
+  const [availSaving, setAvailSaving] = useState(false);
+  const handleAvailabilityChange = async (nextValue) => {
+    if (availSaving) return;
+    if (profile?.availabilityStatus === nextValue) return;
+    const previous = profile?.availabilityStatus || 'available';
+    setAvailSaving(true);
+    setProfile(prev => prev ? { ...prev, availabilityStatus: nextValue } : prev);
+    try {
+      await updateProfileApi({ availabilityStatus: nextValue });
+    } catch (err) {
+      console.error('Availability toggle failed:', err);
+      setProfile(prev => prev ? { ...prev, availabilityStatus: previous } : prev);
+    } finally {
+      setAvailSaving(false);
+    }
+  };
+
   // ─── Email notification toggle ────────────────────────────────────────
   // Separate from the main edit flow because it's a simple one-tap switch
   // that should save immediately without asking the user to click "Save".
@@ -1207,6 +1228,54 @@ export default function Profile() {
 
                   {/* Completeness ring */}
                   <CompletenessRing percent={completeness} />
+                </div>
+              </div>
+
+              {/* Availability quick toggle */}
+              <div style={{ marginBottom: '20px', background: 'white', borderRadius: '16px', border: '1px solid #E2ECF0', padding: isMobile ? '16px' : '20px' }}>
+                <div style={{ marginBottom: '12px' }}>
+                  <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: '#1B3A4B', marginBottom: '4px' }}>
+                    {lang === 'th' ? 'สถานะของคุณในขณะนี้' : 'Your availability'}
+                  </div>
+                  <div style={{ fontSize: '13px', color: '#6B8999' }}>
+                    {lang === 'th' ? 'เลือกว่าครอบครัวสามารถติดต่อคุณได้หรือไม่' : 'Tell families whether they can contact you about work.'}
+                  </div>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                  {AVAILABILITY_VALUES.map((s) => {
+                    const isActive = (p.availabilityStatus || 'available') === s;
+                    const palette = {
+                      available:      { active: '#006a62', text: '#006a62', soft: 'rgba(0,106,98,0.08)' },
+                      open_to_offers: { active: '#F4A261', text: '#A6612A', soft: 'rgba(244,162,97,0.12)' },
+                      working:        { active: '#1B3A4B', text: '#1B3A4B', soft: 'rgba(27,58,75,0.08)' },
+                    }[s];
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => handleAvailabilityChange(s)}
+                        disabled={availSaving}
+                        style={{
+                          padding: isMobile ? '10px 8px' : '12px 14px',
+                          borderRadius: '12px',
+                          border: `2px solid ${isActive ? palette.active : '#E2ECF0'}`,
+                          background: isActive ? palette.active : 'white',
+                          color: isActive ? 'white' : palette.text,
+                          fontWeight: 700,
+                          fontSize: isMobile ? '12px' : '13px',
+                          cursor: availSaving ? 'wait' : 'pointer',
+                          transition: 'all 0.15s',
+                          fontFamily: 'inherit',
+                          textAlign: 'center',
+                          lineHeight: 1.25,
+                        }}
+                        onMouseEnter={(e) => { if (!isActive && !availSaving) e.currentTarget.style.background = palette.soft; }}
+                        onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = 'white'; }}
+                      >
+                        {AVAILABILITY_LABELS[s][lang === 'th' ? 'th' : 'en']}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 

@@ -52,6 +52,7 @@ function toFrontend(row) {
     city: row.city || '',
     area: row.area || '',
     areaEn: row.area_en || '',
+    availabilityStatus: row.availability_status || 'available',
     additionalCities: row.additional_cities || '',
     experience: row.experience || '',
     languages: row.languages || '',
@@ -85,6 +86,7 @@ const fieldMap = {
   skills: 'skills',
   city: 'city',
   area: 'area',
+  availabilityStatus: 'availability_status',
   additionalCities: 'additional_cities',
   experience: 'experience',
   languages: 'languages',
@@ -144,6 +146,16 @@ export default async function handler(req, res) {
         && !WP_STATUS_VALUES.includes(incoming.wpStatus)
       ) {
         return res.status(400).json({ error: 'Invalid work permit status' });
+      }
+
+      // Same shape for availability_status.
+      const AVAILABILITY_VALUES = ['available', 'open_to_offers', 'working'];
+      if (
+        incoming.availabilityStatus !== undefined
+        && incoming.availabilityStatus !== null
+        && !AVAILABILITY_VALUES.includes(incoming.availabilityStatus)
+      ) {
+        return res.status(400).json({ error: 'Invalid availability status' });
       }
 
       // Same shape for nationality.

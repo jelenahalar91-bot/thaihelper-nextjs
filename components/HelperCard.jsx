@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useLang } from '../pages/_app';
 import { formatCity, formatAdditionalCities } from '../lib/constants/cities';
+import AvailabilityPill from './AvailabilityPill';
 
 /**
  * Shared helper card — used by:
@@ -133,14 +134,19 @@ export default function HelperCard({
       {/* Body */}
       <div className="p-5 sm:p-6 flex flex-col flex-1 min-w-0 gap-3">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 leading-tight">
-            {displayName}
-            {helper.age && (
-              <span className="text-gray-400 font-medium text-base ml-1">
-                · {helper.age}
-              </span>
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <h3 className="text-xl font-bold text-gray-900 leading-tight flex-1 min-w-0">
+              {displayName}
+              {helper.age && (
+                <span className="text-gray-400 font-medium text-base ml-1">
+                  · {helper.age}
+                </span>
+              )}
+            </h3>
+            {helper.availabilityStatus && (
+              <AvailabilityPill status={helper.availabilityStatus} lang={lang} size="sm" />
             )}
-          </h3>
+          </div>
           {helper.categoryLabel && (
             <div className="text-sm text-gray-700 mt-1 font-medium">
               {helper.categoryLabel}
