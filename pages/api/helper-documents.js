@@ -1,7 +1,13 @@
 // GET /api/helper-documents?ref=TH-XXXX
-// Returns certificate documents for a specific helper (signed URLs).
-// Used by employer dashboard profile modal to display uploaded certificates.
-// Only returns documents of type 'certificate' — not IDs or other private docs.
+// Employer-only endpoint: returns certificate documents for a specific
+// helper (signed URLs). Used by employer dashboard profile modal to
+// display uploaded certificates. Only returns documents of type
+// 'certificate' — not IDs or other private docs.
+//
+// Helpers manage their own documents via /api/documents (scoped to
+// session.ref). They MUST NOT be able to read other helpers' documents
+// here — that would let any signed-up helper account harvest signed
+// URLs for every certificate in the system.
 
 import { getAnySession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
@@ -15,9 +21,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Must be authenticated
   const session = await getAnySession(req);
   if (!session) return res.status(401).json({ error: 'Not authenticated' });
+  if (session.role !== 'employer') {
+    return res.status(403).json({ error: 'Forbidden — employer access only' });
+  }
 
   const { ref } = req.query;
   if (!ref) return res.status(400).json({ error: 'ref is required' });
