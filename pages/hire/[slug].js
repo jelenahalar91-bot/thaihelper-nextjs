@@ -191,6 +191,46 @@ export default function HirePage({ page, matchingHelpers = [] }) {
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'THB', description: 'Free for helpers.' },
   };
 
+  // ItemList schema — exposes the matched helpers on this page as a list
+  // of Person items. Google can render this as a richer search result
+  // and AI crawlers (Perplexity, ChatGPT) ingest it more reliably.
+  // Each helper is anonymised (first name + initial only) to match the
+  // visible card content.
+  const itemListSchema = matchingHelpers.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        itemListOrder: 'https://schema.org/ItemListOrderDescending',
+        numberOfItems: matchingHelpers.length,
+        name: page.categoryEn && page.cityEn
+          ? `${page.categoryEn} profiles in ${page.cityEn}`
+          : page.categoryEn
+          ? `${page.categoryEn} profiles in Thailand`
+          : page.cityEn
+          ? `Household helper profiles in ${page.cityEn}`
+          : 'Household helper profiles in Thailand',
+        itemListElement: matchingHelpers.map((h, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          item: {
+            '@type': 'Person',
+            name: `${h.firstName || ''} ${h.lastInitial || ''}`.trim() || 'Verified helper',
+            jobTitle: page.categoryEn || h.category || 'Household helper',
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: h.city || page.cityEn || 'Thailand',
+              addressCountry: 'TH',
+            },
+            knowsLanguage: h.languages
+              ? h.languages.split(',').map((l) => l.trim()).filter(Boolean)
+              : undefined,
+            description: (h.bioEn || h.bio || '').slice(0, 200) || undefined,
+            image: h.photo || undefined,
+          },
+        })),
+      }
+    : null;
+
   return (
     <>
       <SEOHead
@@ -203,6 +243,7 @@ export default function HirePage({ page, matchingHelpers = [] }) {
           serviceSchema,
           getBreadcrumbSchema(breadcrumbs),
           getSpeakableSchema(`/hire/${page.slug}`),
+          ...(itemListSchema ? [itemListSchema] : []),
           ...(page.city ? [getLocalBusinessSchema(page.city)] : []),
         ]}
       />
