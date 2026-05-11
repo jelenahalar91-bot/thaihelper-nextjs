@@ -4,7 +4,7 @@
 
 ## About
 
-ThaiHelper (https://thaihelper.app) is operated by Planet Bamboo GmbH (Germany). The platform serves both Thai and international families (expats) living in Thailand who need household help, as well as domestic workers seeking employment. The user interface is available in English and Thai.
+ThaiHelper (https://thaihelper.app) is an independent platform launched in March 2026. It serves both Thai and international families (expats) living in Thailand who need household help, as well as domestic workers seeking employment. The user interface is available in English and Thai.
 
 ## Key Facts
 
@@ -91,5 +91,5 @@ ThaiHelper (https://thaihelper.app) is operated by Planet Bamboo GmbH (Germany).
 ## Contact
 
 - Website: https://thaihelper.app
-- Operated by: Planet Bamboo GmbH, Germany
+- Launched: March 2026
 - Email: Listed on https://thaihelper.app/about
