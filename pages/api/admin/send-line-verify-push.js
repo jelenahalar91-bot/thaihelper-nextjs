@@ -41,7 +41,7 @@ export default async function handler(req, res) {
   if (refArg) {
     const { data } = await supabase
       .from('helper_profiles')
-      .select('helper_ref, first_name, line_user_id, preferred_language, email_verified')
+      .select('helper_ref, first_name, line_user_id, email_verified')
       .eq('helper_ref', refArg)
       .single();
     if (!data) return res.status(404).json({ error: 'helper not found' });
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     targets.push({
       table: 'helper_profiles', refCol: 'helper_ref', kind: 'helper',
       ref: data.helper_ref, first_name: data.first_name,
-      line_user_id: data.line_user_id, lang: data.preferred_language || 'th',
+      line_user_id: data.line_user_id, lang: 'th',
     });
   } else if (empArg) {
     const { data } = await supabase
@@ -71,7 +71,7 @@ export default async function handler(req, res) {
     const [helpRes, empRes] = await Promise.all([
       supabase
         .from('helper_profiles')
-        .select('helper_ref, first_name, line_user_id, preferred_language')
+        .select('helper_ref, first_name, line_user_id')
         .eq('email_verified', false)
         .not('line_user_id', 'is', null),
       supabase
@@ -83,7 +83,7 @@ export default async function handler(req, res) {
     helpRes.data?.forEach(h => targets.push({
       table: 'helper_profiles', refCol: 'helper_ref', kind: 'helper',
       ref: h.helper_ref, first_name: h.first_name,
-      line_user_id: h.line_user_id, lang: h.preferred_language || 'th',
+      line_user_id: h.line_user_id, lang: 'th', // default — helper_profiles has no language col
     }));
     empRes.data?.forEach(e => targets.push({
       table: 'employer_accounts', refCol: 'employer_ref', kind: 'employer',
