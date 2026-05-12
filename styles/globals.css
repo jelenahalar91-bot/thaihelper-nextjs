@@ -39,6 +39,25 @@ body.lang-th {
   font-family: var(--font-thai), 'Sarabun', sans-serif;
 }
 
+/* Thai script needs more line-height than Latin: tone marks sit above
+   each letter and crash into the descenders of the line above when
+   leading is tight enough for Latin headlines (we use leading-[1.0] in
+   places). These overrides target the heading utility class and Tailwind
+   tight-leading utilities so every hero / section title gets breathing
+   room in Thai mode without hand-tweaking each component.
+   Specificity: html[lang="th"] .x > Tailwind .x, no !important needed. */
+html[lang="th"] .font-headline,
+html[lang="th"] h1,
+html[lang="th"] h2,
+html[lang="th"] h3 {
+  line-height: 1.25;
+}
+html[lang="th"] .leading-\[1\.0\],
+html[lang="th"] .leading-none,
+html[lang="th"] .leading-tight {
+  line-height: 1.25;
+}
+
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
