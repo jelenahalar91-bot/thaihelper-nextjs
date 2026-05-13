@@ -39,6 +39,20 @@ const T = {
     forgot_not_found: 'No account found with this email address.',
     forgot_error: 'Something went wrong. Please try again.',
     forgot_back: 'Back to login',
+    // Magic-link login
+    magic_email_label: 'Email address',
+    magic_email_ph: 'you@example.com',
+    magic_submit: 'Send login link',
+    magic_submitting: 'Sending...',
+    magic_sent_title: 'Check your email',
+    magic_sent_body: "If an account exists with this email, you'll get a login link in a moment. The link is valid for 15 minutes.",
+    magic_sent_resend: 'Send another link',
+    magic_helper_text: "We'll email you a one-tap login link — no password or reference number needed.",
+    magic_switch_to_ref: 'Or log in with your reference number',
+    magic_back_to_magic: 'Use email login link instead',
+    url_error_invalid: 'That login link is not valid. Please request a new one.',
+    url_error_expired: 'That login link has expired or was already used. Please request a new one below.',
+    url_error_unavailable: 'Your account is not available. Please contact support@thaihelper.app',
   },
   th: {
     page_title: 'เข้าสู่ระบบ – ThaiHelper',
@@ -67,6 +81,20 @@ const T = {
     forgot_not_found: 'ไม่พบบัญชีที่ใช้อีเมลนี้',
     forgot_error: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
     forgot_back: 'กลับไปหน้าเข้าสู่ระบบ',
+    // Magic-link login
+    magic_email_label: 'อีเมล',
+    magic_email_ph: 'you@example.com',
+    magic_submit: 'ส่งลิงก์เข้าสู่ระบบ',
+    magic_submitting: 'กำลังส่ง...',
+    magic_sent_title: 'ตรวจสอบอีเมลของคุณ',
+    magic_sent_body: 'หากมีบัญชีที่ใช้อีเมลนี้ คุณจะได้รับลิงก์เข้าสู่ระบบในอีกสักครู่ ลิงก์ใช้ได้ 15 นาที',
+    magic_sent_resend: 'ส่งลิงก์อีกครั้ง',
+    magic_helper_text: 'เราจะส่งลิงก์เข้าสู่ระบบให้คุณทางอีเมล ไม่ต้องใช้รหัสผ่านหรือหมายเลขอ้างอิง',
+    magic_switch_to_ref: 'หรือเข้าสู่ระบบด้วยหมายเลขอ้างอิง',
+    magic_back_to_magic: 'ใช้ลิงก์เข้าสู่ระบบทางอีเมลแทน',
+    url_error_invalid: 'ลิงก์นี้ไม่ถูกต้อง กรุณาขอลิงก์ใหม่',
+    url_error_expired: 'ลิงก์นี้หมดอายุหรือถูกใช้ไปแล้ว กรุณาขอลิงก์ใหม่ด้านล่าง',
+    url_error_unavailable: 'บัญชีของคุณไม่พร้อมใช้งาน กรุณาติดต่อ support@thaihelper.app',
   },
 };
 
@@ -83,11 +111,29 @@ export default function Login() {
   const [ref, setRef] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  // 'magic' (default — passwordless email link) | 'ref' (fallback)
+  const [mode, setMode] = useState('magic');
+  // Magic-link flow
+  const [magicEmail, setMagicEmail] = useState('');
+  const [magicSubmitting, setMagicSubmitting] = useState(false);
+  const [magicSent, setMagicSent] = useState(false);
+  // Read URL ?error= so a failed magic-login redirect can show a message
+  const [urlError, setUrlError] = useState('');
   // "Forgot ref" flow
   const [showForgot, setShowForgot] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotSubmitting, setForgotSubmitting] = useState(false);
   const [forgotResult, setForgotResult] = useState(''); // 'sent' | 'not_found' | 'error'
+
+  // Surface ?error=invalid_link|expired_link|account_unavailable from
+  // a bounced magic-login redirect.
+  useEffect(() => {
+    if (!router.isReady) return;
+    const err = router.query?.error;
+    if (err === 'invalid_link') setUrlError('url_error_invalid');
+    else if (err === 'expired_link') setUrlError('url_error_expired');
+    else if (err === 'account_unavailable') setUrlError('url_error_unavailable');
+  }, [router.isReady, router.query]);
 
   useEffect(() => {
     const saved = localStorage.getItem('th_lang') || 'en';
@@ -124,6 +170,26 @@ export default function Login() {
   };
 
   const t = T[lang] || T.en;
+
+  const handleMagicSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    if (!magicEmail.trim()) return;
+    setMagicSubmitting(true);
+    try {
+      await fetch('/api/auth/magic-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: magicEmail.trim() }),
+      });
+      // Always show success — even if the email doesn't exist (anti-enumeration).
+      setMagicSent(true);
+    } catch {
+      setError(t.error_generic);
+    } finally {
+      setMagicSubmitting(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -192,6 +258,15 @@ export default function Login() {
               {t.sub}
             </p>
 
+            {urlError && (
+              <div style={{
+                background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px',
+                padding: '14px 18px', marginBottom: '20px', color: '#dc2626', fontSize: '15px',
+              }}>
+                {t[urlError]}
+              </div>
+            )}
+
             {error && (
               <div style={{
                 background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '12px',
@@ -201,45 +276,133 @@ export default function Login() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
-              <div className="field">
-                <label>{t.email_label}</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder={t.email_ph}
-                  required
-                />
-              </div>
+            {mode === 'magic' && !magicSent && (
+              <>
+                <form onSubmit={handleMagicSubmit}>
+                  <div className="field">
+                    <label>{t.magic_email_label}</label>
+                    <input
+                      type="email"
+                      value={magicEmail}
+                      onChange={e => setMagicEmail(e.target.value)}
+                      placeholder={t.magic_email_ph}
+                      required
+                      autoComplete="email"
+                    />
+                    <p style={{ fontSize: '14px', color: 'var(--gray-400)', marginTop: '6px' }}>
+                      {t.magic_helper_text}
+                    </p>
+                  </div>
 
-              <div className="field">
-                <label>{t.ref_label}</label>
-                <input
-                  type="text"
-                  value={ref}
-                  onChange={e => setRef(e.target.value.toUpperCase())}
-                  placeholder={t.ref_ph}
-                  required
-                  style={{ fontFamily: 'monospace', letterSpacing: '1px' }}
-                />
-                <p style={{ fontSize: '14px', color: 'var(--gray-400)', marginTop: '6px' }}>
-                  {t.ref_hint}
+                  <button
+                    type="submit"
+                    className="btn-next"
+                    disabled={magicSubmitting}
+                    style={{ width: '100%', marginTop: '8px' }}
+                  >
+                    {magicSubmitting ? t.magic_submitting : t.magic_submit}
+                  </button>
+                </form>
+
+                <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => { setMode('ref'); setError(''); setUrlError(''); }}
+                    style={{
+                      background: 'none', border: 'none',
+                      color: 'var(--gray-500)', fontSize: '14px',
+                      cursor: 'pointer', textDecoration: 'underline',
+                    }}
+                  >
+                    {t.magic_switch_to_ref}
+                  </button>
+                </div>
+              </>
+            )}
+
+            {mode === 'magic' && magicSent && (
+              <div style={{
+                background: '#ecfdf5', border: '1px solid #a7f3d0', borderRadius: '12px',
+                padding: '24px', textAlign: 'center',
+              }}>
+                <div style={{ fontSize: '40px', marginBottom: '12px' }}>📬</div>
+                <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#065f46', margin: '0 0 8px' }}>
+                  {t.magic_sent_title}
+                </h2>
+                <p style={{ fontSize: '14px', color: '#047857', lineHeight: 1.5, margin: '0 0 16px' }}>
+                  {t.magic_sent_body}
                 </p>
+                <button
+                  type="button"
+                  onClick={() => { setMagicSent(false); setMagicEmail(''); }}
+                  style={{
+                    background: 'none', border: 'none',
+                    color: 'var(--primary)', fontSize: '14px',
+                    cursor: 'pointer', textDecoration: 'underline',
+                  }}
+                >
+                  {t.magic_sent_resend}
+                </button>
               </div>
+            )}
 
-              <button
-                type="submit"
-                className="btn-next"
-                disabled={submitting}
-                style={{ width: '100%', marginTop: '8px' }}
-              >
-                {submitting ? t.submitting : t.submit}
-              </button>
-            </form>
+            {mode === 'ref' && (
+              <>
+                <form onSubmit={handleSubmit}>
+                  <div className="field">
+                    <label>{t.email_label}</label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      placeholder={t.email_ph}
+                      required
+                    />
+                  </div>
 
-            {/* Forgot ref */}
-            {!showForgot ? (
+                  <div className="field">
+                    <label>{t.ref_label}</label>
+                    <input
+                      type="text"
+                      value={ref}
+                      onChange={e => setRef(e.target.value.toUpperCase())}
+                      placeholder={t.ref_ph}
+                      required
+                      style={{ fontFamily: 'monospace', letterSpacing: '1px' }}
+                    />
+                    <p style={{ fontSize: '14px', color: 'var(--gray-400)', marginTop: '6px' }}>
+                      {t.ref_hint}
+                    </p>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn-next"
+                    disabled={submitting}
+                    style={{ width: '100%', marginTop: '8px' }}
+                  >
+                    {submitting ? t.submitting : t.submit}
+                  </button>
+                </form>
+
+                <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => { setMode('magic'); setError(''); }}
+                    style={{
+                      background: 'none', border: 'none',
+                      color: 'var(--primary)', fontSize: '14px',
+                      cursor: 'pointer', textDecoration: 'underline',
+                    }}
+                  >
+                    {t.magic_back_to_magic}
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* Forgot ref — only relevant when the user is on the ref-number flow */}
+            {mode === 'ref' && (!showForgot ? (
               <div style={{ marginTop: '20px', textAlign: 'center' }}>
                 <button
                   type="button"
@@ -342,7 +505,7 @@ export default function Login() {
                   &larr; {t.forgot_back}
                 </button>
               </div>
-            )}
+            ))}
 
             {/* Register links */}
             <div style={{ textAlign: 'center', marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--gray-100)' }}>
