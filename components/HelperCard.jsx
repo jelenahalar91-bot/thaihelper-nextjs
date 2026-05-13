@@ -4,6 +4,23 @@ import { useLang } from '../pages/_app';
 import { formatCity, formatAdditionalCities } from '../lib/constants/cities';
 import AvailabilityPill from './AvailabilityPill';
 
+// Thai / CJK / other non-Latin script ranges — used to detect data
+// quality issues where helpers typed text into structured fields
+// (e.g. "หาดใหญ่" in the city slug field, or "30+ปี" in experience).
+const NONLATIN = /[฀-๿一-鿿぀-ヿ]/;
+
+// Strip everything except digits, +, -, . from the free-text experience
+// field. Most legit values are numbers like "5" or "10+"; some users
+// typed Thai ("30+ปี") or full sentences (which we hide entirely by
+// returning empty).
+function cleanExperience(exp) {
+  if (!exp) return '';
+  const cleaned = String(exp).replace(/[^\d+\-.]/g, '').trim();
+  // If after cleaning we have something other than a single digit or 0,
+  // it's plausibly a year count. Otherwise hide.
+  return /\d/.test(cleaned) ? cleaned : '';
+}
+
 /**
  * Shared helper card — used by:
  *   • the public landing           (mode="preview",  static marketing data)
@@ -153,14 +170,19 @@ export default function HelperCard({
             </div>
           )}
           <div className="text-sm text-gray-500 mt-1">
-            📍 {formatCity(helper.city)}
-            {(() => {
-              // Prefer the English translation of the free-text area when
-              // the viewer is in EN mode. Falls back to the original area
-              // (Thai or whatever the helper typed) when no translation
-              // exists or the viewer is in TH mode.
-              const displayArea = lang === 'en' && helper.areaEn ? helper.areaEn : helper.area;
-              return displayArea ? ` · ${displayArea}` : '';
+            📍 {(() => {
+              // City should be a slug ("bangkok") that formatCity maps to
+              // a display name. A few legacy rows have free Thai text in
+              // the city field instead of a slug — in EN mode that reads
+              // as gibberish to non-Thai viewers, so we hide it and let
+              // area_en carry the location.
+              let cityLabel = formatCity(helper.city);
+              if (lang === 'en' && NONLATIN.test(cityLabel)) cityLabel = '';
+              const area = lang === 'en' && helper.areaEn ? helper.areaEn : helper.area;
+              if (!cityLabel && !area) return '—';
+              if (!cityLabel) return area;
+              if (!area || area === cityLabel) return cityLabel;
+              return `${cityLabel} · ${area}`;
             })()}
           </div>
           {helper.additionalCities && (() => {
@@ -180,11 +202,18 @@ export default function HelperCard({
         )}
 
         <div className="flex flex-wrap gap-1.5 text-sm">
-          {helper.experience && (
-            <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
-              ⏱ {helper.experience} {t.card_exp}
-            </span>
-          )}
+          {(() => {
+            // Sanitise experience: see cleanExperience above. Hides the
+            // badge entirely when the field contains a full sentence or
+            // is otherwise non-numeric.
+            const exp = cleanExperience(helper.experience);
+            if (!exp) return null;
+            return (
+              <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
+                ⏱ {exp} {t.card_exp}
+              </span>
+            );
+          })()}
           {helper.languages && (
             <span className="px-2 py-1 rounded-md bg-gray-100 text-gray-700">
               🗣 {helper.languages}
