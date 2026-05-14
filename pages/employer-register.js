@@ -22,6 +22,7 @@ const LOOKING_FOR_OPTIONS = [
   { value: 'gardener',    en: 'Gardener & Pool Care',  th: 'ดูแลสวน / สระน้ำ' },
   { value: 'elder_care',  en: 'Elder Care',            th: 'ดูแลผู้สูงอายุ' },
   { value: 'tutor',       en: 'Tutor & Teacher',       th: 'ติวเตอร์' },
+  { value: 'petsitter',   en: 'Pet Sitter & Dog Walker', th: 'ดูแลสัตว์เลี้ยง / พาสุนัขเดินเล่น' },
 ];
 
 const T = {

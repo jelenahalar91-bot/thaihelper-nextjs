@@ -89,7 +89,7 @@ export function getOrganizationSchema() {
     alternateName: 'Thai Helper',
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
-    description: 'ThaiHelper is Thailand\'s free marketplace for household staff. Families and helpers connect directly — both sides use the platform at no cost. Find verified nannies, housekeepers, chefs, drivers, gardeners, elder caregivers, and tutors. No agency fees, no middleman.',
+    description: 'ThaiHelper is Thailand\'s free marketplace for household staff. Families and helpers connect directly — both sides use the platform at no cost. Find verified nannies, housekeepers, chefs, drivers, gardeners, elder caregivers, tutors, and pet sitters. No agency fees, no middleman.',
     foundingDate: '2026-03',
     areaServed: {
       '@type': 'Country',
@@ -156,6 +156,7 @@ export function getServiceSchema() {
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Gardener & Pool Care' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Elder Care & Caregiver' } },
         { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Tutor & Teacher' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Pet Sitter & Dog Walker' } },
       ],
     },
     offers: {

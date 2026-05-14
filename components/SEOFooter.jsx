@@ -35,6 +35,7 @@ const CATEGORIES = [
   { slug: 'caregiver',   en: 'Elder Care',    th: 'ผู้ดูแลผู้สูงอายุ' },
   { slug: 'gardener',    en: 'Gardeners',     th: 'คนสวน' },
   { slug: 'tutor',       en: 'Tutors',        th: 'ติวเตอร์' },
+  { slug: 'petsitter',   en: 'Pet Sitters',   th: 'ผู้ดูแลสัตว์เลี้ยง' },
 ];
 
 export default function SEOFooter({ lang = 'en' }) {

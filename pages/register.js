@@ -40,6 +40,7 @@ const T = {
     cat_gardener:    'Gardener & Pool Care',
     cat_elder:       'Elder Care & Caregiver',
     cat_tutor:       'Tutor & Teacher',
+    cat_petsitter:   'Pet Sitter & Dog Walker',
     cat_multiple:    'Multiple Services',
     cat_error:       'Please select at least one category.',
     cat_multi_hint:  'Select everything you can do — pick one or more.',
@@ -170,6 +171,7 @@ const T = {
     cat_gardener:    'ดูแลสวน / สระน้ำ',
     cat_elder:       'ดูแลผู้สูงอายุ',
     cat_tutor:       'ติวเตอร์ / ครูสอนพิเศษ',
+    cat_petsitter:   'ดูแลสัตว์เลี้ยง / พาสุนัขเดินเล่น',
     cat_multiple:    'หลายบริการ',
     cat_error:       'กรุณาเลือกอย่างน้อยหนึ่งประเภท',
     cat_multi_hint:  'เลือกทุกอย่างที่คุณทำได้ — หนึ่งหรือมากกว่า',
@@ -290,12 +292,12 @@ function generateBio({ lang, categories, skills, experience, languages, city }) 
     nanny: 'nanny and childcare provider', housekeeper: 'housekeeper and cleaner',
     chef: 'private chef and cook', driver: 'driver and chauffeur',
     gardener: 'gardener and pool care specialist', elder_care: 'elder care and caregiver',
-    tutor: 'tutor and private teacher',
+    tutor: 'tutor and private teacher', petsitter: 'pet sitter and dog walker',
   };
   const catTH = {
     nanny: 'พี่เลี้ยงเด็ก', housekeeper: 'แม่บ้าน', chef: 'พ่อครัว/แม่ครัวส่วนตัว',
     driver: 'คนขับรถ', gardener: 'คนสวนและดูแลสระ', elder_care: 'ผู้ดูแลผู้สูงอายุ',
-    tutor: 'ติวเตอร์และครูสอนพิเศษ',
+    tutor: 'ติวเตอร์และครูสอนพิเศษ', petsitter: 'ผู้ดูแลสัตว์เลี้ยง',
   };
   // Combine up to two category labels for a natural-reading bio. More than
   // two becomes verbose, so we just say "household services professional".
@@ -656,6 +658,7 @@ export default function Register() {
                       { value: 'gardener',    label: t.cat_gardener },
                       { value: 'elder_care',  label: t.cat_elder },
                       { value: 'tutor',       label: t.cat_tutor },
+                      { value: 'petsitter',   label: t.cat_petsitter },
                     ].map(opt => {
                       const selected = categories.includes(opt.value);
                       return (

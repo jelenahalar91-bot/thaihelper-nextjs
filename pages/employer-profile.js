@@ -39,6 +39,7 @@ const LOOKING_FOR_OPTIONS = [
   { value: 'gardener',    iconKey: 'leaf',   en: 'Gardener & Pool Care',  th: 'ดูแลสวน / สระน้ำ' },
   { value: 'elder_care',  iconKey: 'heart',  en: 'Elder Care',            th: 'ดูแลผู้สูงอายุ' },
   { value: 'tutor',       iconKey: 'book',   en: 'Tutor & Teacher',       th: 'ติวเตอร์' },
+  { value: 'petsitter',   iconKey: 'paw',    en: 'Pet Sitter & Dog Walker', th: 'ดูแลสัตว์เลี้ยง / พาสุนัขเดินเล่น' },
 ];
 
 const AGE_RANGES = ['any', '20-30', '30-40', '40-50', '50+'];
@@ -778,6 +779,16 @@ function LineIcon({ name }) {
         <svg {...LINE_ICON_PROPS}>
           <path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z" />
           <path d="M4 19a2 2 0 0 1 2-2h12" />
+        </svg>
+      );
+    case 'paw':
+      return (
+        <svg {...LINE_ICON_PROPS}>
+          <circle cx="6" cy="10" r="1.7" />
+          <circle cx="10" cy="6" r="1.7" />
+          <circle cx="14" cy="6" r="1.7" />
+          <circle cx="18" cy="10" r="1.7" />
+          <path d="M8 16a4 4 0 0 1 8 0c0 2-1.5 3-4 3s-4-1-4-3z" />
         </svg>
       );
     case 'dots':

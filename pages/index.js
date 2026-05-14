@@ -52,7 +52,7 @@ const T = {
     cat_label:'Service Categories',cat_title:'Who can register?',
     cat_sub:'Household staff, tutors, teachers and more — all welcome.',
     cat1:'Nanny & Babysitter',cat2:'Housekeeper & Cleaner',cat3:'Private Chef & Cook',
-    cat4:'Driver & Chauffeur',cat5:'Gardener & Pool Care',cat6:'Elder Care & Caregiver',cat7:'Tutor & Teacher',
+    cat4:'Driver & Chauffeur',cat5:'Gardener & Pool Care',cat6:'Elder Care & Caregiver',cat7:'Tutor & Teacher',cat8:'Pet Sitter & Dog Walker',
     vid_label:'See It In Action',vid_title:'Real people. Real jobs.',
     vid_sub:'Watch how ThaiHelper works — from registration to your first job.',
     vid1_title:'Welcome to ThaiHelper',vid1_sub:'A quick intro from our founder',vid1_badge:'🇬🇧 English',
@@ -109,7 +109,7 @@ const T = {
     cat_label:'ประเภทบริการ',cat_title:'ใครลงทะเบียนได้บ้าง?',
     cat_sub:'พนักงานบ้าน ติวเตอร์ ครูสอนพิเศษ และอื่นๆ — ยินดีต้อนรับทุกคน',
     cat1:'พี่เลี้ยงเด็ก',cat2:'แม่บ้านและพนักงานทำความสะอาด',cat3:'พ่อครัว / แม่ครัวส่วนตัว',
-    cat4:'คนขับรถ',cat5:'คนสวนและดูแลสระว่ายน้ำ',cat6:'ผู้ดูแลผู้สูงอายุ',cat7:'ติวเตอร์ / ครูสอนพิเศษ',
+    cat4:'คนขับรถ',cat5:'คนสวนและดูแลสระว่ายน้ำ',cat6:'ผู้ดูแลผู้สูงอายุ',cat7:'ติวเตอร์ / ครูสอนพิเศษ',cat8:'ดูแลสัตว์เลี้ยง / พาสุนัขเดินเล่น',
     vid_label:'ดูการทำงานจริง',vid_title:'คนจริง งานจริง',vid_sub:'ดูวิธีที่ ThaiHelper ทำงาน',
     vid1_title:'ยินดีต้อนรับสู่ ThaiHelper',vid1_sub:'แนะนำสั้นๆ จากผู้ก่อตั้ง',vid1_badge:'🇬🇧 ภาษาอังกฤษ',
     vid2_title:'วิธีสมัครงาน (How to Register)',vid2_sub:'คู่มือทีละขั้นตอนสำหรับผู้ให้บริการ',vid2_badge:'🇵🇭 ฟิลิปปินส์ · 🇹🇭 ไทย',
@@ -525,6 +525,7 @@ export default function Home() {
                     { label: t.cat5, href: '/hire/gardener' },
                     { label: t.cat6, href: '/hire/caregiver' },
                     { label: t.cat7, href: '/hire/tutor' },
+                    { label: t.cat8, href: '/hire/petsitter' },
                   ].map((c, i) => (
                     <Link key={i + 4} href={c.href} className="px-6 py-3 rounded-full bg-surface-container-highest text-on-background font-semibold text-sm hover:bg-primary hover:text-on-primary transition-colors">{c.label}</Link>
                   ))}
