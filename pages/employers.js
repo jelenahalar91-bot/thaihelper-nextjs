@@ -91,6 +91,7 @@ const T = {
     hero_shimmer: 'No middlemen, no fees.',
     hero_p: 'Browse verified nannies, housekeepers, chefs, drivers and more in your city. Create a free account and start messaging helpers today.',
     hero_cta: 'Create Free Account',
+    hero_launch_banner: '🎉 Free for families until end of 2026 — message any helper directly, no fees, no commission.',
     hero_browse: 'Browse Helper Profiles — No account needed',
     hero_badge: '100% free for everyone',
     // Work permit banner (just below hero)
@@ -225,6 +226,7 @@ const T = {
     hero_shimmer: 'ไม่มีคนกลาง ไม่มีค่าธรรมเนียม',
     hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ สร้างบัญชีฟรีและเริ่มส่งข้อความหาผู้ช่วยได้วันนี้',
     hero_cta: 'สร้างบัญชีฟรี',
+    hero_launch_banner: '🎉 ฟรีสำหรับครอบครัวถึงสิ้นปี 2026 — ส่งข้อความถึงผู้ช่วยได้โดยตรง ไม่มีค่าธรรมเนียม',
     hero_browse: 'ดูโปรไฟล์ผู้ช่วย — ไม่ต้องสมัคร',
     hero_badge: 'ฟรี 100% สำหรับทุกคน',
     wp_label: 'ใบอนุญาตทำงานและวีซ่า',
@@ -572,10 +574,15 @@ export default function Employers({ featuredHelpers = [] }) {
                 <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.3rem,2.8vw,2rem)'}}>
                   {t.hero_shimmer}
                 </p>
-                <p className="text-lg md:text-xl max-w-xl mb-8 leading-relaxed text-on-surface-variant">
+                <p className="text-lg md:text-xl max-w-xl mb-6 leading-relaxed text-on-surface-variant">
                   {t.hero_p}
                 </p>
-                <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all inline-block" href="/employer-register">{t.hero_cta}</Link>
+                <div className="inline-block mb-6 px-4 py-2 rounded-full bg-[#FFF4E5] text-[#A6612A] text-sm font-semibold border border-[#F4A261]/30">
+                  {t.hero_launch_banner}
+                </div>
+                <div>
+                  <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all inline-block" href="/employer-register">{t.hero_cta}</Link>
+                </div>
               </div>
 
               {/* Right: 2×4 grid (8 helpers) with header + stats + browse */}
