@@ -30,6 +30,7 @@ const T = {
     hero_badge:     '🇹🇭 Find Help in Thailand',
     hero_h1:        'Browse Trusted Helpers',
     hero_sub:       'Find nannies, housekeepers, chefs, drivers and more — directly, no middleman.',
+    launch_banner:  '🎉 Free for families & helpers until end of 2026 — message any helper directly, no fees, no commission.',
     filter_title:   'Filters',
     filter_show_filters: 'Filters',
     filter_show_results: 'Show {n} results',
@@ -78,6 +79,7 @@ const T = {
     hero_badge:     '🇹🇭 หาผู้ช่วยในประเทศไทย',
     hero_h1:        'ค้นหาผู้ช่วยที่ไว้ใจได้',
     hero_sub:       'หาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ — โดยตรง ไม่มีคนกลาง',
+    launch_banner:  '🎉 ฟรีสำหรับครอบครัวและผู้ช่วยถึงสิ้นปี 2026 — ส่งข้อความถึงผู้ช่วยได้โดยตรง ไม่มีค่าธรรมเนียม',
     filter_title:   'ตัวกรอง',
     filter_show_filters: 'ตัวกรอง',
     filter_show_results: 'แสดง {n} รายการ',
@@ -162,7 +164,6 @@ const LANGUAGE_OPTIONS = [
   { value: 'vietnamese', label: 'Tiếng Việt',  flag: '🇻🇳' },
   { value: 'tagalog',    label: 'Tagalog',     flag: '🇵🇭' },
   { value: 'chinese',    label: '中文',         flag: '🇨🇳' },
-  { value: 'russian',    label: 'Русский',     flag: '🇷🇺' },
   { value: 'german',     label: 'Deutsch',     flag: '🇩🇪' },
 ];
 
@@ -193,7 +194,7 @@ export async function getServerSideProps() {
       .select(
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
         'age, date_of_birth, category, skills, city, area, area_en, additional_cities, ' +
-        'experience, languages, rate, education, certificates, bio, bio_en, ' +
+        'experience, languages, rate, education, education_en, certificates, bio, bio_en, ' +
         'photo_url, created_at, status, availability_status, work_permit_status, nationality'
       )
       .or('status.eq.active,status.is.null')
@@ -218,6 +219,7 @@ export async function getServerSideProps() {
       languages: row.languages || '',
       rate: row.rate || '',
       education: row.education || '',
+      educationEn: row.education_en || '',
       certificates: row.certificates || '',
       bio: row.bio || '',
       bioEn: row.bio_en || '',
@@ -523,9 +525,12 @@ export default function Helpers({ initialHelpers = [] }) {
             <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-3">
               {t.hero_h1}
             </h1>
-            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mb-5">
               {t.hero_sub}
             </p>
+            <div className="inline-block px-4 py-2 rounded-full bg-[#FFF4E5] text-[#A6612A] text-sm font-semibold border border-[#F4A261]/30">
+              {t.launch_banner}
+            </div>
           </div>
         </section>
 

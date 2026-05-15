@@ -172,12 +172,16 @@ export default function HelperCard({
           <div className="text-sm text-gray-500 mt-1">
             📍 {(() => {
               // City should be a slug ("bangkok") that formatCity maps to
-              // a display name. A few legacy rows have free Thai text in
-              // the city field instead of a slug — in EN mode that reads
-              // as gibberish to non-Thai viewers, so we hide it and let
-              // area_en carry the location.
+              // a display name. Two failure modes we guard against:
+              //  1. Free Thai text instead of a slug — display would be
+              //     gibberish in EN mode, so we hide.
+              //  2. city === 'other' — slug is real but the display
+              //     label ("Other") is meaningless on a card. Let the
+              //     area carry the real location.
               let cityLabel = formatCity(helper.city);
+              const cityIsOther = !helper.city || String(helper.city).toLowerCase() === 'other';
               if (lang === 'en' && NONLATIN.test(cityLabel)) cityLabel = '';
+              if (cityIsOther) cityLabel = '';
               const area = lang === 'en' && helper.areaEn ? helper.areaEn : helper.area;
               if (!cityLabel && !area) return '—';
               if (!cityLabel) return area;

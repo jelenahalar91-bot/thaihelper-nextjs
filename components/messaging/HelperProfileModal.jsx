@@ -291,8 +291,21 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
             border: '1px solid #e5e7eb',
           }}>
             <InfoRow icon="📍" label={t?.profile_location || 'Location'}>
-              {formatCity(helper.city)}
-              {helper.area ? ` · ${helper.area}` : ''}
+              {(() => {
+                // Same logic as HelperCard — hide non-Latin city in EN
+                // mode and hide "Other" prefix when slug is 'other'.
+                // Prefer areaEn for English viewers.
+                const NONLATIN_RE = /[฀-๿一-鿿぀-ヿ]/;
+                let cityLabel = formatCity(helper.city);
+                const cityIsOther = !helper.city || String(helper.city).toLowerCase() === 'other';
+                if (lang === 'en' && NONLATIN_RE.test(cityLabel)) cityLabel = '';
+                if (cityIsOther) cityLabel = '';
+                const area = lang === 'en' && helper.areaEn ? helper.areaEn : helper.area;
+                if (!cityLabel && !area) return '—';
+                if (!cityLabel) return area;
+                if (!area || area === cityLabel) return cityLabel;
+                return `${cityLabel} · ${area}`;
+              })()}
               {(() => {
                 const extras = formatAdditionalCities(helper.additionalCities, helper.city);
                 if (!extras) return null;
@@ -316,7 +329,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
             )}
             {helper.education && (
               <InfoRow icon="🎓" label={t?.profile_education || 'Education'}>
-                {helper.education}
+                {lang === 'en' && helper.educationEn ? helper.educationEn : helper.education}
               </InfoRow>
             )}
             {rateLabel && (
