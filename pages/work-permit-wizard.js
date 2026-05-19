@@ -107,8 +107,8 @@ const T = {
     nonb_notice_tier3: 'Philippines, China, India, Indonesia, Middle East: ≥ 35,000 THB / month',
     nonb_notice_tier4: 'Cambodia, Laos, Myanmar, Vietnam, Africa: ≥ 25,000 THB / month',
     nonb_notice_b1: 'If you plan to pay less than this threshold, the WP application will be rejected — even if all other paperwork is correct.',
-    nonb_notice_b2: 'Household domestic work is allowed (not on the 27-prohibited-occupations list), but domestic workers are not covered by the Labour Protection Act 1998 — put working hours, days off, sick pay in writing.',
-    nonb_notice_b3: 'Since September 2025 you can submit Non-B WP applications via the e-Work Permit system online and track them in real time.',
+    nonb_notice_b2: 'Household domestic work is allowed (not on the 27-prohibited-occupations list). Since April 2024 (Ministerial Regulation No. 15) domestic workers are entitled to minimum wage, an 8-hour day with breaks, overtime, a weekly rest day, and 98 days of maternity leave (45 paid). Still excluded from Social Security.',
+    nonb_notice_b3: 'Online submission via the e-Work Permit system (ewp.doe.go.th) is mandatory for all foreign workers since 13 October 2025 — real-time tracking and a QR-coded permit card.',
 
     // Result: no WP needed
     no_wp_h2: 'Good news — no work permit needed.',
@@ -229,8 +229,8 @@ const T = {
     nonb_notice_tier3: 'ฟิลิปปินส์ จีน อินเดีย อินโดนีเซีย ตะวันออกกลาง: ≥ 35,000 บาท / เดือน',
     nonb_notice_tier4: 'กัมพูชา ลาว พม่า เวียดนาม แอฟริกา: ≥ 25,000 บาท / เดือน',
     nonb_notice_b1: 'หากคุณจ่ายต่ำกว่านี้ คำขอ WP จะถูกปฏิเสธ แม้เอกสารอื่นจะถูกต้องครบถ้วน',
-    nonb_notice_b2: 'งานในบ้านได้รับอนุญาต (ไม่อยู่ในรายการอาชีพต้องห้าม 27 อาชีพ) แต่ลูกจ้างในบ้านไม่อยู่ภายใต้ พ.ร.บ.คุ้มครองแรงงาน 2541 ควรระบุชั่วโมงทำงาน วันหยุด สิทธิลาป่วย เป็นลายลักษณ์อักษร',
-    nonb_notice_b3: 'ตั้งแต่กันยายน 2025 สามารถยื่นคำขอ Non-B WP ผ่านระบบ e-Work Permit ออนไลน์ และติดตามสถานะแบบเรียลไทม์ได้',
+    nonb_notice_b2: 'งานในบ้านได้รับอนุญาต (ไม่อยู่ในรายการอาชีพต้องห้าม 27 อาชีพ) ตั้งแต่เมษายน 2567 (กฎกระทรวงฉบับที่ 15) ลูกจ้างในบ้านมีสิทธิรับค่าจ้างขั้นต่ำ ทำงาน 8 ชั่วโมง/วันพร้อมเวลาพัก ค่าล่วงเวลา วันหยุดประจำสัปดาห์ และลาคลอด 98 วัน (จ่ายเงิน 45 วัน) — แต่ยังไม่อยู่ในระบบประกันสังคม',
+    nonb_notice_b3: 'ตั้งแต่ 13 ตุลาคม 2568 การยื่นคำขอผ่านระบบ e-Work Permit ออนไลน์ (ewp.doe.go.th) เป็นข้อบังคับสำหรับแรงงานต่างชาติทุกคน พร้อมติดตามสถานะแบบเรียลไทม์และบัตรอนุญาตทำงานพร้อม QR',
 
     no_wp_h2: 'ข่าวดี — ไม่ต้องมีใบอนุญาตทำงาน',
     no_wp_p: 'คนไทยสามารถทำงานในครัวเรือนในประเทศไทยได้โดยไม่ต้องมีใบอนุญาตทำงานแยกต่างหาก คุณสามารถจ้างได้โดยตรงและจ่ายเงินสมทบประกันสังคมหากการจ้างงานเป็นประจำ',
