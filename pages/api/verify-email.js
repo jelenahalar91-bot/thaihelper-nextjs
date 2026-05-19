@@ -24,57 +24,51 @@ export default async function handler(req, res) {
 
   const supabase = getServiceSupabase();
 
-  // Try helper_profiles first
+  // Helpers: atomic UPDATE-then-SELECT so concurrent clicks (e.g. Gmail
+  // link prefetch + user click) don't both trip the "still unverified"
+  // SELECT and both fire match notifications. The UPDATE filters on
+  // email_verified=false, so only the FIRST request actually returns a
+  // row — the second sees null and is a no-op.
   const { data: helper } = await supabase
     .from('helper_profiles')
-    .select('helper_ref, first_name, city, category')
+    .update({
+      email_verified: true,
+      email_verified_at: new Date().toISOString(),
+      verification_token: null,
+    })
     .eq('verification_token', token)
     .eq('email_verified', false)
-    .single();
+    .select('helper_ref, first_name, city, category')
+    .maybeSingle();
 
   if (helper) {
-    await supabase
-      .from('helper_profiles')
-      .update({
-        email_verified: true,
-        email_verified_at: new Date().toISOString(),
-        verification_token: null,
-      })
-      .eq('helper_ref', helper.helper_ref);
-
     try {
       await notifyEmployersOfNewHelper(helper);
     } catch (err) {
       console.error('Match notify on helper verification failed (non-critical):', err.message);
     }
-
     return res.redirect('/verify?status=success&role=helper');
   }
 
-  // Try employer_accounts
+  // Same atomic pattern for employers.
   const { data: employer } = await supabase
     .from('employer_accounts')
-    .select('employer_ref, first_name, city, looking_for')
+    .update({
+      email_verified: true,
+      email_verified_at: new Date().toISOString(),
+      verification_token: null,
+    })
     .eq('verification_token', token)
     .eq('email_verified', false)
-    .single();
+    .select('employer_ref, first_name, city, looking_for')
+    .maybeSingle();
 
   if (employer) {
-    await supabase
-      .from('employer_accounts')
-      .update({
-        email_verified: true,
-        email_verified_at: new Date().toISOString(),
-        verification_token: null,
-      })
-      .eq('employer_ref', employer.employer_ref);
-
     try {
       await notifyHelpersOfNewEmployer(employer);
     } catch (err) {
       console.error('Match notify on employer verification failed (non-critical):', err.message);
     }
-
     return res.redirect('/verify?status=success&role=employer');
   }
 
