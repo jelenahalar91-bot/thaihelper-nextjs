@@ -365,7 +365,18 @@ const PROFILES = [
 // Featured Helpers carousel so the employer landing shows real, live
 // people instead of stock images. If the fetch fails, we just render an
 // empty array — the section is hidden by the JSX guard below.
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }) {
+  // Detect anonymous visitor — same logic as /helpers. The launch
+  // banner is a conversion tool aimed at not-yet-registered families;
+  // logged-in users already get the value and don't need to see the
+  // "until end of 2026" framing again.
+  let isAnonymous = true;
+  try {
+    const { getAnySession } = await import('@/lib/auth');
+    const session = await getAnySession(req);
+    if (session) isAnonymous = false;
+  } catch {}
+
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
     const { getDisplayAge } = await import('@/lib/age');
@@ -427,10 +438,10 @@ export async function getServerSideProps() {
         photo: row.photo_url || '',
       }));
 
-    return { props: { featuredHelpers } };
+    return { props: { featuredHelpers, isAnonymous } };
   } catch (err) {
     console.error('Failed to fetch featured helpers:', err);
-    return { props: { featuredHelpers: [] } };
+    return { props: { featuredHelpers: [], isAnonymous } };
   }
 }
 
@@ -445,7 +456,7 @@ function getCategoryLabel(slugCsv, lang) {
     .join(' · ');
 }
 
-export default function Employers({ featuredHelpers = [] }) {
+export default function Employers({ featuredHelpers = [], isAnonymous = true }) {
   const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
   const [viewingHelper, setViewingHelper] = useState(null);
@@ -577,9 +588,11 @@ export default function Employers({ featuredHelpers = [] }) {
                 <p className="text-lg md:text-xl max-w-xl mb-6 leading-relaxed text-on-surface-variant">
                   {t.hero_p}
                 </p>
-                <div className="inline-block mb-6 px-4 py-2 rounded-full bg-[#FFF4E5] text-[#A6612A] text-sm font-semibold border border-[#F4A261]/30">
-                  {t.hero_launch_banner}
-                </div>
+                {isAnonymous && (
+                  <div className="inline-block mb-6 px-4 py-2 rounded-full bg-[#FFF4E5] text-[#A6612A] text-sm font-semibold border border-[#F4A261]/30">
+                    {t.hero_launch_banner}
+                  </div>
+                )}
                 <div>
                   <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all inline-block" href="/employer-register">{t.hero_cta}</Link>
                 </div>

@@ -183,7 +183,18 @@ const EXP_OPTIONS = [
 ];
 
 // ─── Server-side data fetch — fixes Soft 404 for Googlebot ──────────────────
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }) {
+  // Detect whether the visitor is logged in (helper OR employer). The
+  // launch banner only makes sense for anonymous visitors — they're
+  // the ones we're trying to convert. Logged-in users already know
+  // it's free and the banner becomes noise / vague pricing FUD.
+  let isAnonymous = true;
+  try {
+    const { getAnySession } = await import('@/lib/auth');
+    const session = await getAnySession(req);
+    if (session) isAnonymous = false;
+  } catch {}
+
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
     const { getDisplayAge } = await import('@/lib/age');
@@ -236,15 +247,16 @@ export async function getServerSideProps() {
     return {
       props: {
         initialHelpers: helpers,
+        isAnonymous,
       },
     };
   } catch (err) {
     console.error('SSR helpers fetch failed:', err);
-    return { props: { initialHelpers: [] } };
+    return { props: { initialHelpers: [], isAnonymous } };
   }
 }
 
-export default function Helpers({ initialHelpers = [] }) {
+export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
   const { lang, setLang: changeLang } = useLang();
   const router = useRouter();
   const [helpers, setHelpers] = useState(initialHelpers);
@@ -528,9 +540,11 @@ export default function Helpers({ initialHelpers = [] }) {
             <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mb-5">
               {t.hero_sub}
             </p>
-            <div className="inline-block px-4 py-2 rounded-full bg-[#FFF4E5] text-[#A6612A] text-sm font-semibold border border-[#F4A261]/30">
-              {t.launch_banner}
-            </div>
+            {isAnonymous && (
+              <div className="inline-block px-4 py-2 rounded-full bg-[#FFF4E5] text-[#A6612A] text-sm font-semibold border border-[#F4A261]/30">
+                {t.launch_banner}
+              </div>
+            )}
           </div>
         </section>
 
