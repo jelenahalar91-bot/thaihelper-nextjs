@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { login } from '@/lib/api/auth-client';
 import { fetchProfile as fetchProfileApi } from '@/lib/api/helpers';
+import Turnstile from '@/components/Turnstile';
 import {
   employerLogin,
   fetchEmployerProfile,
@@ -115,6 +116,8 @@ export default function Login() {
   const [mode, setMode] = useState('magic');
   // Magic-link flow
   const [magicEmail, setMagicEmail] = useState('');
+  const [magicTurnstileToken, setMagicTurnstileToken] = useState('');
+  const handleMagicTurnstileToken = useCallback((token) => setMagicTurnstileToken(token), []);
   const [magicSubmitting, setMagicSubmitting] = useState(false);
   const [magicSent, setMagicSent] = useState(false);
   // Read URL ?error= so a failed magic-login redirect can show a message
@@ -180,7 +183,10 @@ export default function Login() {
       await fetch('/api/auth/magic-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: magicEmail.trim() }),
+        body: JSON.stringify({
+          email: magicEmail.trim(),
+          turnstileToken: magicTurnstileToken,
+        }),
       });
       // Always show success — even if the email doesn't exist (anti-enumeration).
       setMagicSent(true);
@@ -292,6 +298,10 @@ export default function Login() {
                     <p style={{ fontSize: '14px', color: 'var(--gray-400)', marginTop: '6px' }}>
                       {t.magic_helper_text}
                     </p>
+                  </div>
+
+                  <div style={{ margin: '16px 0' }}>
+                    <Turnstile onToken={handleMagicTurnstileToken} />
                   </div>
 
                   <button

@@ -73,14 +73,9 @@ export default async function handler(req, res) {
     const ext = mimeType.split('/')[1] === 'jpeg' ? 'jpg' : mimeType.split('/')[1];
     const storagePath = `employer/${ref}/profile-photo.${ext}`;
 
-    // Delete old photo (any extension) before uploading the new one
-    await supabase.storage.from(BUCKET).remove([
-      `employer/${ref}/profile-photo.jpg`,
-      `employer/${ref}/profile-photo.png`,
-      `employer/${ref}/profile-photo.webp`,
-    ]);
-
-    // Upload new photo
+    // Upload first (upsert overwrites the same-extension file). Old
+    // OTHER-extension files are removed only after the upload succeeds
+    // so a failed upload can't leave the employer with no photo.
     const { error: uploadError } = await supabase.storage
       .from(BUCKET)
       .upload(storagePath, fileBuffer, {
@@ -91,6 +86,17 @@ export default async function handler(req, res) {
     if (uploadError) {
       console.error('Employer photo upload error:', uploadError);
       return res.status(500).json({ error: `Upload failed: ${uploadError.message}` });
+    }
+
+    // Clean up stale photos in other extensions (non-fatal on failure).
+    const stalePaths = ['jpg', 'png', 'webp']
+      .filter((e) => e !== ext)
+      .map((e) => `employer/${ref}/profile-photo.${e}`);
+    if (stalePaths.length > 0) {
+      const { error: removeErr } = await supabase.storage.from(BUCKET).remove(stalePaths);
+      if (removeErr) {
+        console.warn('Employer photo cleanup (old extensions) failed:', removeErr.message);
+      }
     }
 
     // Get public URL and save it on the employer record

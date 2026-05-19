@@ -69,14 +69,12 @@ export default async function handler(req, res) {
     const ext = mimeType.split('/')[1] === 'jpeg' ? 'jpg' : mimeType.split('/')[1];
     const storagePath = `${ref}/profile-photo.${ext}`;
 
-    // Delete old photo if exists (overwrite)
-    await supabase.storage.from(BUCKET).remove([
-      `${ref}/profile-photo.jpg`,
-      `${ref}/profile-photo.png`,
-      `${ref}/profile-photo.webp`,
-    ]);
-
-    // Upload new photo
+    // Upload first (upsert overwrites the same extension's file). Only
+    // AFTER the upload succeeds do we remove the OTHER extensions —
+    // that way if the upload fails the helper still has their previous
+    // photo. The old "delete-then-upload" sequence had a data-loss race:
+    // if the upload step failed after the delete succeeded, the helper
+    // was left with nothing.
     const { error: uploadError } = await supabase.storage
       .from(BUCKET)
       .upload(storagePath, fileBuffer, {
@@ -87,6 +85,20 @@ export default async function handler(req, res) {
     if (uploadError) {
       console.error('Photo upload error:', uploadError);
       return res.status(500).json({ error: `Upload failed: ${uploadError.message}` });
+    }
+
+    // Now clean up any old photos with a DIFFERENT extension. We don't
+    // touch the path we just wrote to (the upsert handled that). Errors
+    // here are non-fatal — orphan files are a minor storage cost, not
+    // a user-visible problem.
+    const stalePaths = ['jpg', 'png', 'webp']
+      .filter((e) => e !== ext)
+      .map((e) => `${ref}/profile-photo.${e}`);
+    if (stalePaths.length > 0) {
+      const { error: removeErr } = await supabase.storage.from(BUCKET).remove(stalePaths);
+      if (removeErr) {
+        console.warn('Photo cleanup (old extensions) failed:', removeErr.message);
+      }
     }
 
     // Get public URL

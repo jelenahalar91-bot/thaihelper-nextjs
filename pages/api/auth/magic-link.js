@@ -15,21 +15,25 @@
 import crypto from 'crypto';
 import { getServiceSupabase } from '../../../lib/supabase';
 import { sendMagicLoginEmail } from '../../../lib/send-confirmation-email';
+import { verifyTurnstile } from '../../../lib/turnstile';
+import { checkRateLimit } from '../../../lib/rate-limit';
 
-// In-memory throttle. Per-email cap to limit spam-the-recipient and
-// reduce Resend cost burn. On Vercel cold starts this resets, which is
-// fine for the small abuse window it leaves open — a proper fix is a
-// Supabase table or KV, see the security cleanup list.
-const lastSendByEmail = new Map();
-const SEND_COOLDOWN_MS = 60 * 1000; // 1 minute between sends to same email
 const TOKEN_TTL_MS = 15 * 60 * 1000; // 15 minutes
+
+// Per-IP rate limit. 10 magic-link requests per 15 minutes is well
+// above any legitimate use (a real user clicks "send link" maybe
+// 1-3 times when their email is slow) and tight enough to stop a
+// script bombing the endpoint to burn Resend budget or amplify DB
+// queries.
+const RATE_LIMIT_MAX = 10;
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email } = req.body || {};
+  const { email, turnstileToken } = req.body || {};
   if (!email || typeof email !== 'string') {
     return res.status(400).json({ error: 'Email is required.' });
   }
@@ -38,15 +42,33 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid email.' });
   }
 
-  // Throttle per email — caller cannot tell whether the cap was hit
-  // (still returns 200) so this doesn't help enumeration; it just
-  // protects mailbox owners from being spammed if someone keys in
-  // their address repeatedly.
-  const now = Date.now();
-  const lastSend = lastSendByEmail.get(normalizedEmail);
-  if (lastSend && now - lastSend < SEND_COOLDOWN_MS) {
-    return res.status(200).json({ success: true });
+  // CAPTCHA — Turnstile keeps simple scripted bots off the endpoint.
+  // In production this fails closed if the secret is missing (see
+  // lib/turnstile.js); in dev it's permissive so local forms work.
+  const captcha = await verifyTurnstile(turnstileToken);
+  if (!captcha.success) {
+    return res.status(400).json({ error: captcha.error || 'Captcha failed' });
   }
+
+  // Per-IP rate limit — backed by Supabase so the limit actually holds
+  // across Vercel cold starts (an in-memory Map resets and is bypassed
+  // in seconds). Returns 429 so the client knows it's been limited;
+  // caller still sees the generic "we sent a link if the email exists"
+  // message so enumeration via 429 vs 200 isn't a useful signal here.
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+    || req.socket?.remoteAddress
+    || null;
+  const allowed = await checkRateLimit({
+    bucket: 'magic-link',
+    key: ip,
+    max: RATE_LIMIT_MAX,
+    windowMs: RATE_LIMIT_WINDOW_MS,
+  });
+  if (!allowed) {
+    return res.status(429).json({ error: 'Too many requests. Please wait a few minutes.' });
+  }
+
+  const now = Date.now();
 
   const supabase = getServiceSupabase();
 
@@ -89,9 +111,6 @@ export default async function handler(req, res) {
 
   // Issue a token per matched account and send one email each.
   const expiresAt = new Date(now + TOKEN_TTL_MS).toISOString();
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
-    || req.socket?.remoteAddress
-    || null;
 
   for (const target of targets) {
     // Skip accounts whose email isn't verified — they need to finish
@@ -130,6 +149,5 @@ export default async function handler(req, res) {
     }
   }
 
-  lastSendByEmail.set(normalizedEmail, now);
   return res.status(200).json({ success: true });
 }
