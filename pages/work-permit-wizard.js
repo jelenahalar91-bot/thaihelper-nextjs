@@ -89,6 +89,13 @@ const T = {
     result_estimated_time: 'Estimated time',
     result_thb: 'THB',
 
+    // Myanmar-specific 2026 compliance notice — shown on every MOU result
+    // where the helper is Myanmar.
+    myanmar_notice_title: '📌 New 2026 requirements for Myanmar workers',
+    myanmar_notice_b1: 'Original Myanmar NIC (national ID card) + copy of the household list (Tabian Baan) are now mandatory for the application.',
+    myanmar_notice_b2: 'Workers must hold a valid Certificate of Identity (CI). For permits expiring 31 March 2026, the CI renewal window has been extended to 17 August 2026.',
+    myanmar_notice_b3: 'Many Myanmar workers missed the 31 March 2026 renewal deadline and are currently undocumented. Verify your candidate\'s work-permit renewal status before hiring.',
+
     // Result: no WP needed
     no_wp_h2: 'Good news — no work permit needed.',
     no_wp_p: 'Thai nationals can work for any household in Thailand without a separate work permit. You can hire directly and pay social-security contributions if the engagement is regular.',
@@ -193,6 +200,12 @@ const T = {
     result_estimated_cost: 'ค่าใช้จ่ายโดยประมาณ',
     result_estimated_time: 'เวลาโดยประมาณ',
     result_thb: 'บาท',
+
+    // ข้อกำหนดใหม่ปี 2026 เฉพาะแรงงานพม่า — แสดงเมื่อสัญชาติ = พม่า + MOU
+    myanmar_notice_title: '📌 ข้อกำหนดใหม่ปี 2026 สำหรับแรงงานพม่า',
+    myanmar_notice_b1: 'ต้องใช้บัตรประชาชนพม่าตัวจริง (NIC) พร้อมสำเนาทะเบียนบ้านในการยื่นคำขอใบอนุญาตทำงาน',
+    myanmar_notice_b2: 'แรงงานต้องมี Certificate of Identity (CI) ที่ใช้ได้ สำหรับใบอนุญาตที่หมดอายุ 31 มี.ค. 2026 ขยายเวลาต่ออายุ CI ถึง 17 ส.ค. 2026',
+    myanmar_notice_b3: 'แรงงานพม่าจำนวนมากพลาดเส้นตายการต่ออายุ 31 มี.ค. 2026 และอยู่ในสถานะไม่ถูกต้อง โปรดตรวจสอบสถานะการต่ออายุของผู้สมัครก่อนตัดสินใจจ้าง',
 
     no_wp_h2: 'ข่าวดี — ไม่ต้องมีใบอนุญาตทำงาน',
     no_wp_p: 'คนไทยสามารถทำงานในครัวเรือนในประเทศไทยได้โดยไม่ต้องมีใบอนุญาตทำงานแยกต่างหาก คุณสามารถจ้างได้โดยตรงและจ่ายเงินสมทบประกันสังคมหากการจ้างงานเป็นประจำ',
@@ -582,6 +595,7 @@ export default function WorkPermitWizard() {
                   t={t}
                   lang={lang}
                   city={city}
+                  nationality={nationality}
                   agree={agree}
                   setAgree={setAgree}
                   trackCta={trackCta}
@@ -659,7 +673,7 @@ function ChoiceList({ options, value, onChange, lang }) {
   );
 }
 
-function ResultPanel({ result, t, lang, city, agree, setAgree, trackCta, onRestart }) {
+function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trackCta, onRestart }) {
   if (!result) return null;
 
   // CTA URL helpers — keep all link generation in one place so the
@@ -726,6 +740,23 @@ function ResultPanel({ result, t, lang, city, agree, setAgree, trackCta, onResta
               <div className="font-bold">{result.estimatedCost.timeMonths}</div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Myanmar-specific 2026 compliance notice. Shown for every MOU
+          result where the helper is Myanmar — covers NIC/household-list
+          requirement, CI status, and the 31 Mar 2026 renewal deadline
+          that a large share of Myanmar workers missed. */}
+      {result.track === 'mou' && nationality === 'myanmar' && (
+        <div className="rounded-2xl border-2 border-orange-300 bg-orange-50 p-4 md:p-5 mb-6">
+          <div className="font-bold text-orange-900 mb-2 text-sm md:text-base">
+            {t.myanmar_notice_title}
+          </div>
+          <ul className="text-sm text-orange-900 leading-relaxed space-y-2 list-disc pl-5">
+            <li>{t.myanmar_notice_b1}</li>
+            <li>{t.myanmar_notice_b2}</li>
+            <li>{t.myanmar_notice_b3}</li>
+          </ul>
         </div>
       )}
 
