@@ -96,6 +96,20 @@ const T = {
     myanmar_notice_b2: 'Workers must hold a valid Certificate of Identity (CI). For permits expiring 31 March 2026, the CI renewal window has been extended to 17 August 2026.',
     myanmar_notice_b3: 'Many Myanmar workers missed the 31 March 2026 renewal deadline and are currently undocumented. Verify your candidate\'s work-permit renewal status before hiring.',
 
+    // Non-B compliance notice — shown on every Non-B track result
+    // (Philippines, Western, Indian, Chinese, etc.). The salary threshold
+    // is the part most families don't know about and that often makes
+    // the engagement economically unviable.
+    nonb_notice_title: '💸 Salary threshold for Non-B work permit',
+    nonb_notice_intro: 'Thailand sets a minimum monthly salary for the work permit to be issued. It varies by the worker\'s nationality:',
+    nonb_notice_tier1: 'US, Canada, EU, Australia, Japan: ≥ 50,000 THB / month',
+    nonb_notice_tier2: 'Hong Kong, Singapore, Malaysia, Korea, Taiwan: ≥ 45,000 THB / month',
+    nonb_notice_tier3: 'Philippines, China, India, Indonesia, Middle East: ≥ 35,000 THB / month',
+    nonb_notice_tier4: 'Cambodia, Laos, Myanmar, Vietnam, Africa: ≥ 25,000 THB / month',
+    nonb_notice_b1: 'If you plan to pay less than this threshold, the WP application will be rejected — even if all other paperwork is correct.',
+    nonb_notice_b2: 'Household domestic work is allowed (not on the 27-prohibited-occupations list), but domestic workers are not covered by the Labour Protection Act 1998 — put working hours, days off, sick pay in writing.',
+    nonb_notice_b3: 'Since September 2025 you can submit Non-B WP applications via the e-Work Permit system online and track them in real time.',
+
     // Result: no WP needed
     no_wp_h2: 'Good news — no work permit needed.',
     no_wp_p: 'Thai nationals can work for any household in Thailand without a separate work permit. You can hire directly and pay social-security contributions if the engagement is regular.',
@@ -206,6 +220,17 @@ const T = {
     myanmar_notice_b1: 'ต้องใช้บัตรประชาชนพม่าตัวจริง (NIC) พร้อมสำเนาทะเบียนบ้านในการยื่นคำขอใบอนุญาตทำงาน',
     myanmar_notice_b2: 'แรงงานต้องมี Certificate of Identity (CI) ที่ใช้ได้ สำหรับใบอนุญาตที่หมดอายุ 31 มี.ค. 2026 ขยายเวลาต่ออายุ CI ถึง 17 ส.ค. 2026',
     myanmar_notice_b3: 'แรงงานพม่าจำนวนมากพลาดเส้นตายการต่ออายุ 31 มี.ค. 2026 และอยู่ในสถานะไม่ถูกต้อง โปรดตรวจสอบสถานะการต่ออายุของผู้สมัครก่อนตัดสินใจจ้าง',
+
+    // ข้อกำหนด Non-B — แสดงเมื่อ track = Non-B (ฟิลิปปินส์ ตะวันตก ฯลฯ)
+    nonb_notice_title: '💸 เงินเดือนขั้นต่ำสำหรับใบอนุญาตทำงาน Non-B',
+    nonb_notice_intro: 'ประเทศไทยกำหนดเงินเดือนขั้นต่ำต่อเดือนเพื่อออกใบอนุญาตทำงาน โดยขึ้นอยู่กับสัญชาติของผู้ช่วย:',
+    nonb_notice_tier1: 'สหรัฐฯ แคนาดา ยุโรป ออสเตรเลีย ญี่ปุ่น: ≥ 50,000 บาท / เดือน',
+    nonb_notice_tier2: 'ฮ่องกง สิงคโปร์ มาเลเซีย เกาหลี ไต้หวัน: ≥ 45,000 บาท / เดือน',
+    nonb_notice_tier3: 'ฟิลิปปินส์ จีน อินเดีย อินโดนีเซีย ตะวันออกกลาง: ≥ 35,000 บาท / เดือน',
+    nonb_notice_tier4: 'กัมพูชา ลาว พม่า เวียดนาม แอฟริกา: ≥ 25,000 บาท / เดือน',
+    nonb_notice_b1: 'หากคุณจ่ายต่ำกว่านี้ คำขอ WP จะถูกปฏิเสธ แม้เอกสารอื่นจะถูกต้องครบถ้วน',
+    nonb_notice_b2: 'งานในบ้านได้รับอนุญาต (ไม่อยู่ในรายการอาชีพต้องห้าม 27 อาชีพ) แต่ลูกจ้างในบ้านไม่อยู่ภายใต้ พ.ร.บ.คุ้มครองแรงงาน 2541 ควรระบุชั่วโมงทำงาน วันหยุด สิทธิลาป่วย เป็นลายลักษณ์อักษร',
+    nonb_notice_b3: 'ตั้งแต่กันยายน 2025 สามารถยื่นคำขอ Non-B WP ผ่านระบบ e-Work Permit ออนไลน์ และติดตามสถานะแบบเรียลไทม์ได้',
 
     no_wp_h2: 'ข่าวดี — ไม่ต้องมีใบอนุญาตทำงาน',
     no_wp_p: 'คนไทยสามารถทำงานในครัวเรือนในประเทศไทยได้โดยไม่ต้องมีใบอนุญาตทำงานแยกต่างหาก คุณสามารถจ้างได้โดยตรงและจ่ายเงินสมทบประกันสังคมหากการจ้างงานเป็นประจำ',
@@ -756,6 +781,33 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
             <li>{t.myanmar_notice_b1}</li>
             <li>{t.myanmar_notice_b2}</li>
             <li>{t.myanmar_notice_b3}</li>
+          </ul>
+        </div>
+      )}
+
+      {/* Non-B compliance notice. Shown for every Non-B result regardless
+          of nationality. The minimum-salary tiers are the dealbreaker
+          most families don't know about — a Filipino nanny needs ≥35k
+          THB/month for the WP to issue, which often makes the engagement
+          economically unviable vs hiring a Thai or MOU-country helper. */}
+      {result.track === 'non_b' && (
+        <div className="rounded-2xl border-2 border-amber-300 bg-amber-50 p-4 md:p-5 mb-6">
+          <div className="font-bold text-amber-900 mb-2 text-sm md:text-base">
+            {t.nonb_notice_title}
+          </div>
+          <p className="text-sm text-amber-900 leading-relaxed mb-2">
+            {t.nonb_notice_intro}
+          </p>
+          <ul className="text-sm text-amber-900 leading-relaxed mb-3 space-y-1 list-disc pl-5">
+            <li>{t.nonb_notice_tier1}</li>
+            <li>{t.nonb_notice_tier2}</li>
+            <li>{t.nonb_notice_tier3}</li>
+            <li>{t.nonb_notice_tier4}</li>
+          </ul>
+          <ul className="text-sm text-amber-900 leading-relaxed space-y-2 list-disc pl-5 border-t border-amber-200 pt-3">
+            <li>{t.nonb_notice_b1}</li>
+            <li>{t.nonb_notice_b2}</li>
+            <li>{t.nonb_notice_b3}</li>
           </ul>
         </div>
       )}
