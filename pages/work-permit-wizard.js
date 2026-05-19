@@ -63,7 +63,7 @@ const T = {
     q1_placeholder: '— Select your city —',
 
     q2_title: 'What is your helper\'s nationality?',
-    q2_sub: 'This determines whether the Thai/Myanmar/Lao/Cambodia MOU process applies, or the Non-B work-visa track.',
+    q2_sub: 'This determines whether the Myanmar / Laos / Cambodia / Vietnam MOU process applies, or the Non-B work-visa track.',
     q2_thai: 'Thai',
     q2_myanmar: 'Myanmar (Burmese)',
     q2_laos: 'Laos',
@@ -83,7 +83,7 @@ const T = {
     // Results — common
     result_disclaimer_title: 'Before you continue',
     result_disclaimer: 'I understand this is general information, not legal advice.',
-    result_label_track_mou: 'MOU process (Myanmar / Laos / Cambodia)',
+    result_label_track_mou: 'MOU process (Myanmar / Laos / Cambodia / Vietnam)',
     result_label_track_non_b: 'Non-B work visa (other nationalities)',
     result_estimated_cost: 'Estimated cost',
     result_estimated_time: 'Estimated time',
@@ -169,7 +169,7 @@ const T = {
     q1_placeholder: '— เลือกเมืองของคุณ —',
 
     q2_title: 'ผู้ช่วยของคุณสัญชาติอะไร?',
-    q2_sub: 'สิ่งนี้กำหนดว่าจะใช้กระบวนการ MOU (พม่า/ลาว/กัมพูชา) หรือวีซ่าทำงาน Non-B',
+    q2_sub: 'สิ่งนี้กำหนดว่าจะใช้กระบวนการ MOU (พม่า / ลาว / กัมพูชา / เวียดนาม) หรือวีซ่าทำงาน Non-B',
     q2_thai: 'ไทย',
     q2_myanmar: 'พม่า',
     q2_laos: 'ลาว',
@@ -188,7 +188,7 @@ const T = {
 
     result_disclaimer_title: 'ก่อนคุณดำเนินการต่อ',
     result_disclaimer: 'ฉันเข้าใจว่านี่เป็นข้อมูลทั่วไปไม่ใช่คำแนะนำทางกฎหมาย',
-    result_label_track_mou: 'กระบวนการ MOU (พม่า / ลาว / กัมพูชา)',
+    result_label_track_mou: 'กระบวนการ MOU (พม่า / ลาว / กัมพูชา / เวียดนาม)',
     result_label_track_non_b: 'วีซ่าทำงาน Non-B (สัญชาติอื่นๆ)',
     result_estimated_cost: 'ค่าใช้จ่ายโดยประมาณ',
     result_estimated_time: 'เวลาโดยประมาณ',
