@@ -687,3 +687,27 @@ function CookieBanner({ lang }) {
     </div>
   );
 }
+
+/**
+ * Auto-redirect logged-in users straight into their dashboard so the
+ * Capacitor app feels app-like: open → dashboard, no extra tap on the
+ * marketing homepage. First-time visitors and signed-out users still
+ * see the helper landing as before (so SEO + new-visitor conversion
+ * are unaffected).
+ *
+ * Role precedence mirrors getAnySession's default: employer first, then
+ * helper. Pass ?role=helper to override on shared browsers.
+ */
+export async function getServerSideProps({ req }) {
+  const { getAnySession } = await import('@/lib/auth');
+  const session = await getAnySession(req);
+  if (session) {
+    return {
+      redirect: {
+        destination: session.role === 'employer' ? '/employer-dashboard' : '/profile',
+        permanent: false,
+      },
+    };
+  }
+  return { props: {} };
+}
