@@ -1,4 +1,5 @@
-# *
+# Default — allow standard search engines (Google, Bing, DuckDuckGo etc.)
+# to crawl public pages. Block authenticated/API surfaces.
 User-agent: *
 Allow: /
 Disallow: /api/
@@ -9,33 +10,93 @@ Disallow: /employer-login
 Disallow: /employer-dashboard
 Disallow: /employer-profile
 
-# GPTBot
+# ─── AI training crawlers — BLOCKED ─────────────────────────────────────
+# These bots crawl the entire site systematically to build training
+# corpora for LLMs. They drive ZERO direct traffic to us — only
+# Supabase bandwidth costs. Bytespider in particular was a major
+# share of Cached Egress in May 2026.
+#
+# Important: blocking these does NOT affect Google/Bing search
+# rankings. Googlebot and Bingbot stay fully allowed via "*" above.
+
 User-agent: GPTBot
-Allow: /
+Disallow: /
 
-# ChatGPT-User
-User-agent: ChatGPT-User
-Allow: /
-
-# Google-Extended
 User-agent: Google-Extended
-Allow: /
+Disallow: /
 
-# PerplexityBot
-User-agent: PerplexityBot
-Allow: /
-
-# ClaudeBot
 User-agent: ClaudeBot
-Allow: /
+Disallow: /
 
-# Bytespider
-User-agent: Bytespider
-Allow: /
+User-agent: anthropic-ai
+Disallow: /
 
-# CCBot
 User-agent: CCBot
-Allow: /
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: AI2Bot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
+
+User-agent: Timpibot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: Omgili
+Disallow: /
+
+User-agent: peer39_crawler
+Disallow: /
+
+User-agent: Webzio-Extended
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+# ─── AI search / on-demand fetchers — ALLOWED ──────────────────────────
+# These bots only fetch a page when a real user asks the AI a question
+# that needs current info. Low volume, real traffic potential: when
+# someone asks ChatGPT/Claude/Perplexity "find a thai nanny", the
+# answer can cite thaihelper.app and link us. Keep them open.
+#
+# No explicit rules needed — they fall under "User-agent: *" above.
+# Listed here for documentation:
+#   - ChatGPT-User       (OpenAI browsing tool)
+#   - OAI-SearchBot      (ChatGPT Search)
+#   - Claude-Web         (Claude browsing)
+#   - PerplexityBot      (Perplexity citations)
+#   - Perplexity-User    (Perplexity on-demand)
+#   - Meta-ExternalFetcher (Meta AI on-demand)
+#   - DuckAssistBot      (DuckDuckGo AI)
 
 # Host
 Host: https://thaihelper.app
