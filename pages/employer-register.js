@@ -56,6 +56,7 @@ const T = {
     email_ph: 'you@example.com',
     email_typo: 'Did you mean',
     email_typo_use: 'Use this',
+    email_typo_block: 'Looks like a typo in your email — please fix it or use the suggestion above.',
     email_hint: 'Used for login and notifications',
     phone_label: 'Phone (optional)',
     phone_ph: '+66 …',
@@ -127,6 +128,7 @@ const T = {
     email_ph: 'you@example.com',
     email_typo: 'คุณหมายถึง',
     email_typo_use: 'ใช้อันนี้',
+    email_typo_block: 'ดูเหมือนอีเมลของคุณพิมพ์ผิด — กรุณาแก้ไขหรือใช้คำแนะนำด้านบน',
     email_hint: 'ใช้สำหรับเข้าสู่ระบบและการแจ้งเตือน',
     phone_label: 'โทรศัพท์ (ไม่จำเป็น)',
     phone_ph: '+66 …',
@@ -267,6 +269,17 @@ export default function EmployerRegisterPage() {
 
     if (!firstName.trim() || !lastName.trim() || !email.trim() || !city) {
       setError(t.error_invalid);
+      return;
+    }
+
+    // Hard-block on confident email typos (e.g. gmail.co, hotmail.con).
+    // The yellow "Did you mean ..." hint is already shown on blur; here we
+    // refuse to submit until the user either accepts the suggestion or
+    // edits the address themselves.
+    const typoFix = suggestEmail(email);
+    if (typoFix) {
+      setEmailSuggestion(typoFix);
+      setError(t.email_typo_block);
       return;
     }
 

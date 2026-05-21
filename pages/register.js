@@ -116,6 +116,7 @@ const T = {
     email_error:     'Please enter a valid email address.',
     email_typo:      'Did you mean',
     email_typo_use:  'Use this',
+    email_typo_block:'Looks like a typo in your email — please fix it or use the suggestion above.',
     notify_title:    'Get notified about new messages',
     notify_email:    'Email',
     notify_email_sub:'Always on — we send important updates here',
@@ -247,6 +248,7 @@ const T = {
     email_error:     'กรุณากรอกอีเมลที่ถูกต้อง',
     email_typo:      'คุณหมายถึง',
     email_typo_use:  'ใช้อันนี้',
+    email_typo_block:'ดูเหมือนอีเมลของคุณพิมพ์ผิด — กรุณาแก้ไขหรือใช้คำแนะนำด้านบน',
     notify_title:    'รับการแจ้งเตือนข้อความใหม่',
     notify_email:    'อีเมล',
     notify_email_sub:'เปิดเสมอ — เราส่งการอัปเดตสำคัญทางอีเมล',
@@ -448,7 +450,19 @@ export default function Register() {
       if (bio.trim().length < 30)errs.bio         = t.bio_error;
     }
     if (stepNum === 3) {
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = t.email_error;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errs.email = t.email_error;
+      } else {
+        // Hard-block submission when our typo detector has a confident
+        // suggestion (e.g. gmail.co → gmail.com, hotmail.con → hotmail.com).
+        // Users still see the existing yellow "Did you mean" hint; we just
+        // also refuse to submit until they accept it or fix the address.
+        const typoFix = suggestEmail(email);
+        if (typoFix) {
+          setEmailSuggestion(typoFix);
+          errs.email = t.email_typo_block;
+        }
+      }
       if (!terms)                errs.terms    = t.terms_error;
     }
     setErrors(errs);
