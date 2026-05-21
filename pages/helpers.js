@@ -165,6 +165,7 @@ const LANGUAGE_OPTIONS = [
   { value: 'vietnamese', label: 'Tiếng Việt',  flag: '🇻🇳' },
   { value: 'tagalog',    label: 'Tagalog',     flag: '🇵🇭' },
   { value: 'chinese',    label: '中文',         flag: '🇨🇳' },
+  { value: 'japanese',   label: '日本語',       flag: '🇯🇵' },
   { value: 'german',     label: 'Deutsch',     flag: '🇩🇪' },
 ];
 
