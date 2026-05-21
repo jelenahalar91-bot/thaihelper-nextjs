@@ -206,6 +206,10 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'No valid fields to update' });
       }
 
+      // Any profile edit is a strong "still active" signal — bump
+      // last_login_at so the public card stays fresh even between logins.
+      updates.last_login_at = new Date().toISOString();
+
       // If bio changed, re-translate. Pass null when the new bio has no Thai
       // script so we don't leave a stale English translation lying around.
       if ('bio' in updates) {

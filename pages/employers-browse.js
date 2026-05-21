@@ -7,6 +7,7 @@ import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES } from '@/lib/constants/cities';
 import { CATEGORIES, SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugList } from '@/lib/constants/employer';
+import { relativeTime } from '@/lib/recent-helpers-display';
 
 // Render an employer's "looking for" CSV (e.g. "nanny, housekeeper") as
 // readable labels in the current UI language.
@@ -512,6 +513,14 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
               📍 {e.city}{e.area ? ` · ${e.area}` : ''}
             </div>
           )}
+          {e.createdAt && (() => {
+            const postedLabel = lang === 'th' ? 'ลงประกาศเมื่อ' : 'Posted';
+            return (
+              <div className="text-xs text-gray-400 mt-1">
+                🕐 {postedLabel} {relativeTime(e.createdAt, lang)}
+              </div>
+            );
+          })()}
         </div>
 
         {skillsLabel && (

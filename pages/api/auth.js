@@ -68,6 +68,16 @@ export default async function handler(req, res) {
 
     setSessionCookie(res, token);
 
+    // Update last_login_at (non-blocking) — powers "Last active Xd ago"
+    // on public helper cards. Mirrors the employer-auth pattern.
+    supabase
+      .from('helper_profiles')
+      .update({ last_login_at: new Date().toISOString() })
+      .eq('helper_ref', profile.helper_ref)
+      .then(({ error: updErr }) => {
+        if (updErr) console.error('helper last_login_at update failed:', updErr.message);
+      });
+
     // Ensure user_preferences exists (for documents, references, etc.)
     try {
       await supabase.from('user_preferences').upsert(

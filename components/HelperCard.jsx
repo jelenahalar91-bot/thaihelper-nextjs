@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useLang } from '../pages/_app';
 import { formatCity, formatAdditionalCities } from '../lib/constants/cities';
+import { relativeTime } from '../lib/recent-helpers-display';
 import AvailabilityPill from './AvailabilityPill';
 
 // Thai / CJK / other non-Latin script ranges — used to detect data
@@ -196,6 +197,22 @@ export default function HelperCard({
             return (
               <div className="text-xs text-gray-500 mt-0.5">
                 <span className="text-gray-400">↳ {alsoLabel}:</span> {extras}
+              </div>
+            );
+          })()}
+          {(helper.lastActiveAt || helper.createdAt) && (() => {
+            // Prefer last_login_at — families want to know "is this person
+            // still around", not just "when did they sign up". Falls back
+            // to created_at only for legacy rows where the backfill hasn't
+            // run yet, so we never render an empty timestamp.
+            const ts = helper.lastActiveAt || helper.createdAt;
+            const isActive = !!helper.lastActiveAt;
+            const label = isActive
+              ? (lang === 'th' ? 'ใช้งานล่าสุด' : 'Last active')
+              : (lang === 'th' ? 'เข้าร่วมเมื่อ' : 'Joined');
+            return (
+              <div className="text-xs text-gray-400 mt-1">
+                🕐 {label} {relativeTime(ts, lang)}
               </div>
             );
           })()}

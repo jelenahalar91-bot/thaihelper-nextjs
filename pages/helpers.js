@@ -207,7 +207,7 @@ export async function getServerSideProps({ req }) {
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
         'age, date_of_birth, category, skills, city, area, area_en, additional_cities, ' +
         'experience, languages, rate, education, education_en, certificates, bio, bio_en, ' +
-        'photo_url, created_at, status, availability_status, work_permit_status, nationality'
+        'photo_url, created_at, last_login_at, status, availability_status, work_permit_status, nationality'
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)
@@ -237,6 +237,7 @@ export async function getServerSideProps({ req }) {
       bioEn: row.bio_en || '',
       photo: row.photo_url || '',
       createdAt: row.created_at || null,
+      lastActiveAt: row.last_login_at || null,
       hasWhatsApp: !!row.whatsapp,
       hasEmail: !!row.email,
       // Mirror the public masking from /api/helpers so the URL filter
