@@ -9,6 +9,7 @@ import HelperCard from '@/components/HelperCard';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import { CITIES, parseAdditionalCities } from '@/lib/constants/cities';
+import { getAllHireSlugs } from '@/lib/seo/hire-pages';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 import { WP_FILTER_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_FILTER_OPTIONS } from '@/lib/constants/nationalities';
@@ -463,12 +464,35 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     (filterAgeRange ? 1 : 0) + (filterMinExp ? 1 : 0) + filterLanguages.length +
     (filterWp ? 1 : 0) + (filterNationality ? 1 : 0);
 
+  // Point the canonical URL at the matching /hire/ landing page when the
+  // user has filtered to a single city / category / city+category combo.
+  // GSC was logging /helpers?city=Bangkok, /helpers?city=Chonburi etc. as
+  // "Alternative page with proper canonical tag" — they were all pointing
+  // at /helpers (the generic browse), so the link juice never reached the
+  // dedicated /hire/<city> SEO landing pages. Now those filter URLs hand
+  // their authority to the right /hire/* page when one exists.
+  const canonicalPath = useMemo(() => {
+    const fallback = '/helpers';
+    // Normalise the city filter — query params arrive as "Bangkok", "phuket",
+    // "udon-thani", "chiang_mai" etc. depending on entry point.
+    const citySlug = filterCity
+      ? String(filterCity).trim().toLowerCase().replace(/[_\s]+/g, '-')
+      : '';
+    const catSlug = filterCat ? String(filterCat).trim().toLowerCase() : '';
+    if (!citySlug && !catSlug) return fallback;
+    const hireSlugs = getAllHireSlugs();
+    const candidate = catSlug && citySlug
+      ? `${catSlug}-${citySlug}`
+      : (catSlug || citySlug);
+    return hireSlugs.includes(candidate) ? `/hire/${candidate}` : fallback;
+  }, [filterCity, filterCat]);
+
   return (
     <>
       <SEOHead
         title="Browse Helpers – Find Nannies, Chefs, Drivers & More"
         description="Browse verified household staff profiles in Thailand. Find nannies, housekeepers, private chefs, drivers, gardeners, caregivers and tutors."
-        path="/helpers"
+        path={canonicalPath}
         lang={lang}
         jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Browse Helpers', path: '/helpers' }])}
       />
