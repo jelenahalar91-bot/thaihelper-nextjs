@@ -93,6 +93,12 @@ const T = {
     logout: 'Log out',
     ref_label: 'Your reference',
     member_since: 'Member since',
+    edit_profile: 'Edit profile',
+    cancel: 'Cancel',
+    empty_value: '—',
+    not_set: 'Not set',
+    notify_on: 'On — we\'ll email you about new messages',
+    notify_off: 'Off — no email notifications',
   },
   th: {
     page_title: 'โปรไฟล์ – ThaiHelper',
@@ -142,6 +148,12 @@ const T = {
     logout: 'ออกจากระบบ',
     ref_label: 'หมายเลขอ้างอิง',
     member_since: 'สมาชิกตั้งแต่',
+    edit_profile: 'แก้ไขโปรไฟล์',
+    cancel: 'ยกเลิก',
+    empty_value: '—',
+    not_set: 'ยังไม่ได้ตั้งค่า',
+    notify_on: 'เปิด — เราจะส่งอีเมลแจ้งข้อความใหม่',
+    notify_off: 'ปิด — ไม่ส่งอีเมลแจ้งเตือน',
   },
 };
 
@@ -168,7 +180,41 @@ export default function EmployerProfile() {
   const [errorMsg, setErrorMsg] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const fileInputRef = useRef(null);
+
+  function buildFormFromProfile(p) {
+    return {
+      first_name: p.first_name || '',
+      last_name: p.last_name || '',
+      phone: p.phone || '',
+      city: p.city || '',
+      area: p.area || '',
+      arrangement_preference: p.arrangement_preference || '',
+      preferred_age_range: p.preferred_age_range || '',
+      looking_for: lookingForToArray(p.looking_for),
+      needed_skills: lookingForToArray(p.needed_skills),
+      schedule_days: lookingForToArray(p.schedule_days),
+      schedule_time: lookingForToArray(p.schedule_time),
+      duration: p.duration || '',
+      child_age_groups: lookingForToArray(p.child_age_groups),
+      job_description: p.job_description || '',
+      preferred_language: p.preferred_language || 'en',
+      notify_on_message: p.notify_on_message !== false,
+    };
+  }
+
+  function handleEdit() {
+    setEditMode(true);
+    setErrorMsg('');
+    setSavedMsg('');
+  }
+
+  function handleCancel() {
+    if (profile) setForm(buildFormFromProfile(profile));
+    setEditMode(false);
+    setErrorMsg('');
+  }
 
   // Mount: load profile
   useEffect(() => {
@@ -183,24 +229,7 @@ export default function EmployerProfile() {
       const p = res.profile;
       setProfile(p);
       setPhotoUrl(p.photo_url || '');
-      setForm({
-        first_name: p.first_name || '',
-        last_name: p.last_name || '',
-        phone: p.phone || '',
-        city: p.city || '',
-        area: p.area || '',
-        arrangement_preference: p.arrangement_preference || '',
-        preferred_age_range: p.preferred_age_range || '',
-        looking_for: lookingForToArray(p.looking_for),
-        needed_skills: lookingForToArray(p.needed_skills),
-        schedule_days: lookingForToArray(p.schedule_days),
-        schedule_time: lookingForToArray(p.schedule_time),
-        duration: p.duration || '',
-        child_age_groups: lookingForToArray(p.child_age_groups),
-        job_description: p.job_description || '',
-        preferred_language: p.preferred_language || 'en',
-        notify_on_message: p.notify_on_message !== false,
-      });
+      setForm(buildFormFromProfile(p));
       setAuthChecked(true);
     })();
     return () => { cancelled = true; };
@@ -291,6 +320,9 @@ export default function EmployerProfile() {
       });
       if (res?.success) {
         setSavedMsg(t.saved);
+        // Snapshot the new values so a future Cancel returns to them.
+        setProfile(prev => prev ? { ...prev, ...form } : prev);
+        setEditMode(false);
       } else {
         setErrorMsg('Save failed');
       }
@@ -396,6 +428,21 @@ export default function EmployerProfile() {
               the user has decided (granted / denied / "Later"). */}
           <PushNotificationBanner lang={lang} />
 
+          {/* Edit-mode toggle. In view mode this is the only thing that
+              switches the page into a form; in edit mode the bottom-of-page
+              Save/Cancel pair is what exits. */}
+          {!editMode && (
+            <div className="mb-4 flex justify-end">
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="px-5 py-2.5 rounded-xl bg-[#006a62] text-white text-sm font-bold cursor-pointer hover:bg-[#004d47] transition-colors"
+              >
+                {t.edit_profile}
+              </button>
+            </div>
+          )}
+
           {/* ── Header card with photo ───────────────── */}
           <section className="bg-white rounded-2xl border border-gray-200 p-5 md:p-7 mb-4">
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
@@ -451,247 +498,373 @@ export default function EmployerProfile() {
 
           {/* ── Personal information ─────────────────── */}
           <Section title={t.section_personal}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label={t.label_first}>
-                <input
-                  type="text"
-                  value={form.first_name}
-                  onChange={e => update('first_name', e.target.value)}
-                  className={inputClass}
-                />
-              </Field>
-              <Field label={t.label_last}>
-                <input
-                  type="text"
-                  value={form.last_name}
-                  onChange={e => update('last_name', e.target.value)}
-                  className={inputClass}
-                />
-              </Field>
-              <Field label={t.label_email} hint={t.email_locked}>
-                <input
-                  type="email"
-                  value={profile.email}
-                  disabled
-                  className={`${inputClass} bg-gray-100 text-gray-500 cursor-not-allowed`}
-                />
-              </Field>
-              <Field label={t.label_phone}>
-                <input
-                  type="tel"
-                  value={form.phone}
-                  onChange={e => update('phone', e.target.value)}
-                  placeholder="+66 …"
-                  className={inputClass}
-                />
-              </Field>
-            </div>
+            {editMode ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Field label={t.label_first}>
+                  <input
+                    type="text"
+                    value={form.first_name}
+                    onChange={e => update('first_name', e.target.value)}
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={t.label_last}>
+                  <input
+                    type="text"
+                    value={form.last_name}
+                    onChange={e => update('last_name', e.target.value)}
+                    className={inputClass}
+                  />
+                </Field>
+                <Field label={t.label_email} hint={t.email_locked}>
+                  <input
+                    type="email"
+                    value={profile.email}
+                    disabled
+                    className={`${inputClass} bg-gray-100 text-gray-500 cursor-not-allowed`}
+                  />
+                </Field>
+                <Field label={t.label_phone}>
+                  <input
+                    type="tel"
+                    value={form.phone}
+                    onChange={e => update('phone', e.target.value)}
+                    placeholder="+66 …"
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <ViewField label={t.label_first}>{form.first_name}</ViewField>
+                <ViewField label={t.label_last}>{form.last_name}</ViewField>
+                <ViewField label={t.label_email}>{profile.email}</ViewField>
+                <ViewField label={t.label_phone}>{form.phone}</ViewField>
+              </div>
+            )}
           </Section>
 
           {/* ── Location ─────────────────────────────── */}
           <Section title={t.section_location}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label={t.label_city}>
-                <select
-                  value={form.city}
-                  onChange={e => update('city', e.target.value)}
-                  className={inputClass}
-                >
-                  {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </Field>
-              <Field label={t.label_area}>
-                <input
-                  type="text"
-                  value={form.area}
-                  onChange={e => update('area', e.target.value)}
-                  placeholder="e.g. Sukhumvit, Rawai…"
-                  className={inputClass}
-                />
-              </Field>
-            </div>
+            {editMode ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Field label={t.label_city}>
+                  <select
+                    value={form.city}
+                    onChange={e => update('city', e.target.value)}
+                    className={inputClass}
+                  >
+                    {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </Field>
+                <Field label={t.label_area}>
+                  <input
+                    type="text"
+                    value={form.area}
+                    onChange={e => update('area', e.target.value)}
+                    placeholder="e.g. Sukhumvit, Rawai…"
+                    className={inputClass}
+                  />
+                </Field>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <ViewField label={t.label_city}>{form.city}</ViewField>
+                <ViewField label={t.label_area}>{form.area}</ViewField>
+              </div>
+            )}
           </Section>
 
           {/* ── Preferences ──────────────────────────── */}
           <Section title={t.section_preferences}>
-            {/* Looking for chips */}
-            <div className="mb-5">
-              <Label>{t.label_looking_for}</Label>
-              <div className="text-sm text-gray-500 mb-3">{t.looking_hint}</div>
-              <div className="flex flex-wrap gap-2">
-                {LOOKING_FOR_OPTIONS.map(opt => {
-                  const active = form.looking_for.includes(opt.value);
-                  return (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => toggleLookingFor(opt.value)}
-                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
-                        active
-                          ? 'bg-[#006a62] text-white border-[#006a62] shadow-sm'
-                          : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
-                      }`}
-                    >
-                      <LineIcon name={opt.iconKey} />
-                      {opt[lang] || opt.en}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+            {editMode ? (
+              <>
+                {/* Looking for chips */}
+                <div className="mb-5">
+                  <Label>{t.label_looking_for}</Label>
+                  <div className="text-sm text-gray-500 mb-3">{t.looking_hint}</div>
+                  <div className="flex flex-wrap gap-2">
+                    {LOOKING_FOR_OPTIONS.map(opt => {
+                      const active = form.looking_for.includes(opt.value);
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => toggleLookingFor(opt.value)}
+                          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
+                            active
+                              ? 'bg-[#006a62] text-white border-[#006a62] shadow-sm'
+                              : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
+                          }`}
+                        >
+                          <LineIcon name={opt.iconKey} />
+                          {opt[lang] || opt.en}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
-            {/* Specific tasks — appears once at least one category is picked */}
-            {skillOptions.length > 0 && (
-              <div className="mb-5">
-                <Label>{t.label_tasks}</Label>
-                <div className="text-sm text-gray-500 mb-3">{t.tasks_hint}</div>
-                <ProfileChipRow
-                  options={skillOptions}
-                  selected={form.needed_skills}
-                  onToggle={(v) => toggleField('needed_skills', v)}
-                  lang={lang}
-                />
-              </div>
-            )}
+                {/* Specific tasks — appears once at least one category is picked */}
+                {skillOptions.length > 0 && (
+                  <div className="mb-5">
+                    <Label>{t.label_tasks}</Label>
+                    <div className="text-sm text-gray-500 mb-3">{t.tasks_hint}</div>
+                    <ProfileChipRow
+                      options={skillOptions}
+                      selected={form.needed_skills}
+                      onToggle={(v) => toggleField('needed_skills', v)}
+                      lang={lang}
+                    />
+                  </div>
+                )}
 
-            {/* Children's age groups — only when childcare is selected */}
-            {showChildAges && (
-              <div className="mb-5">
-                <Label>{t.label_child_ages}</Label>
-                <ProfileChipRow
-                  options={CHILD_AGE_GROUPS}
-                  selected={form.child_age_groups}
-                  onToggle={(v) => toggleField('child_age_groups', v)}
-                  lang={lang}
-                />
-              </div>
-            )}
+                {/* Children's age groups — only when childcare is selected */}
+                {showChildAges && (
+                  <div className="mb-5">
+                    <Label>{t.label_child_ages}</Label>
+                    <ProfileChipRow
+                      options={CHILD_AGE_GROUPS}
+                      selected={form.child_age_groups}
+                      onToggle={(v) => toggleField('child_age_groups', v)}
+                      lang={lang}
+                    />
+                  </div>
+                )}
 
-            {/* Schedule — days */}
-            <div className="mb-5">
-              <Label>{t.label_schedule_days}</Label>
-              <ProfileChipRow
-                options={SCHEDULE_DAYS}
-                selected={form.schedule_days}
-                onToggle={(v) => toggleField('schedule_days', v)}
-                lang={lang}
-              />
-            </div>
+                {/* Schedule — days */}
+                <div className="mb-5">
+                  <Label>{t.label_schedule_days}</Label>
+                  <ProfileChipRow
+                    options={SCHEDULE_DAYS}
+                    selected={form.schedule_days}
+                    onToggle={(v) => toggleField('schedule_days', v)}
+                    lang={lang}
+                  />
+                </div>
 
-            {/* Schedule — time of day */}
-            <div className="mb-5">
-              <Label>{t.label_schedule_time}</Label>
-              <ProfileChipRow
-                options={SCHEDULE_TIMES}
-                selected={form.schedule_time}
-                onToggle={(v) => toggleField('schedule_time', v)}
-                lang={lang}
-              />
-            </div>
+                {/* Schedule — time of day */}
+                <div className="mb-5">
+                  <Label>{t.label_schedule_time}</Label>
+                  <ProfileChipRow
+                    options={SCHEDULE_TIMES}
+                    selected={form.schedule_time}
+                    onToggle={(v) => toggleField('schedule_time', v)}
+                    lang={lang}
+                  />
+                </div>
 
-            {/* Duration — single-select */}
-            <div className="mb-5">
-              <Label>{t.label_duration}</Label>
-              <ProfileChipRow
-                options={DURATIONS}
-                selected={form.duration}
-                onToggle={(v) => update('duration', form.duration === v ? '' : v)}
-                lang={lang}
-                single
-              />
-            </div>
+                {/* Duration — single-select */}
+                <div className="mb-5">
+                  <Label>{t.label_duration}</Label>
+                  <ProfileChipRow
+                    options={DURATIONS}
+                    selected={form.duration}
+                    onToggle={(v) => update('duration', form.duration === v ? '' : v)}
+                    lang={lang}
+                    single
+                  />
+                </div>
 
-            {/* Arrangement */}
-            <div className="mb-5">
-              <Label>{t.label_arrangement}</Label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
-                {[
-                  { v: '',         iconKey: 'dots',    label: t.arr_unset },
-                  { v: 'live_in',  iconKey: 'bed',     label: t.arr_live_in },
-                  { v: 'live_out', iconKey: 'walk',    label: t.arr_live_out },
-                  { v: 'either',   iconKey: 'check',   label: t.arr_either },
-                ].map(opt => (
-                  <button
-                    key={opt.v}
-                    type="button"
-                    onClick={() => update('arrangement_preference', opt.v)}
-                    className={`inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
-                      form.arrangement_preference === opt.v
-                        ? 'bg-[#006a62] text-white border-[#006a62] shadow-sm'
-                        : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
-                    }`}
+                {/* Arrangement */}
+                <div className="mb-5">
+                  <Label>{t.label_arrangement}</Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
+                    {[
+                      { v: '',         iconKey: 'dots',    label: t.arr_unset },
+                      { v: 'live_in',  iconKey: 'bed',     label: t.arr_live_in },
+                      { v: 'live_out', iconKey: 'walk',    label: t.arr_live_out },
+                      { v: 'either',   iconKey: 'check',   label: t.arr_either },
+                    ].map(opt => (
+                      <button
+                        key={opt.v}
+                        type="button"
+                        onClick={() => update('arrangement_preference', opt.v)}
+                        className={`inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
+                          form.arrangement_preference === opt.v
+                            ? 'bg-[#006a62] text-white border-[#006a62] shadow-sm'
+                            : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
+                        }`}
+                      >
+                        <LineIcon name={opt.iconKey} />
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Age range */}
+                <Field label={t.label_age_pref}>
+                  <select
+                    value={form.preferred_age_range}
+                    onChange={e => update('preferred_age_range', e.target.value)}
+                    className={inputClass}
                   >
-                    <LineIcon name={opt.iconKey} />
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+                    {AGE_RANGES.map(r => (
+                      <option key={r} value={r === 'any' ? '' : r}>
+                        {r === 'any' ? t.age_any : `${r} years`}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+              </>
+            ) : (
+              <>
+                <div className="mb-5">
+                  <Label>{t.label_looking_for}</Label>
+                  <ViewChips
+                    options={LOOKING_FOR_OPTIONS}
+                    selected={form.looking_for}
+                    lang={lang}
+                  />
+                </div>
 
-            {/* Age range */}
-            <Field label={t.label_age_pref}>
-              <select
-                value={form.preferred_age_range}
-                onChange={e => update('preferred_age_range', e.target.value)}
-                className={inputClass}
-              >
-                {AGE_RANGES.map(r => (
-                  <option key={r} value={r === 'any' ? '' : r}>
-                    {r === 'any' ? t.age_any : `${r} years`}
-                  </option>
-                ))}
-              </select>
-            </Field>
+                {form.needed_skills.length > 0 && (
+                  <div className="mb-5">
+                    <Label>{t.label_tasks}</Label>
+                    <ViewChips
+                      options={skillOptions}
+                      selected={form.needed_skills}
+                      lang={lang}
+                    />
+                  </div>
+                )}
+
+                {form.child_age_groups.length > 0 && (
+                  <div className="mb-5">
+                    <Label>{t.label_child_ages}</Label>
+                    <ViewChips
+                      options={CHILD_AGE_GROUPS}
+                      selected={form.child_age_groups}
+                      lang={lang}
+                    />
+                  </div>
+                )}
+
+                <div className="mb-5">
+                  <Label>{t.label_schedule_days}</Label>
+                  <ViewChips
+                    options={SCHEDULE_DAYS}
+                    selected={form.schedule_days}
+                    lang={lang}
+                  />
+                </div>
+
+                <div className="mb-5">
+                  <Label>{t.label_schedule_time}</Label>
+                  <ViewChips
+                    options={SCHEDULE_TIMES}
+                    selected={form.schedule_time}
+                    lang={lang}
+                  />
+                </div>
+
+                <div className="mb-5">
+                  <Label>{t.label_duration}</Label>
+                  <ViewChips
+                    options={DURATIONS}
+                    selected={form.duration}
+                    lang={lang}
+                  />
+                </div>
+
+                <div className="mb-5">
+                  <Label>{t.label_arrangement}</Label>
+                  <ViewChips
+                    options={[
+                      { value: 'live_in',  iconKey: 'bed',   label: t.arr_live_in },
+                      { value: 'live_out', iconKey: 'walk',  label: t.arr_live_out },
+                      { value: 'either',   iconKey: 'check', label: t.arr_either },
+                    ]}
+                    selected={form.arrangement_preference}
+                    lang={lang}
+                    empty={t.arr_unset}
+                  />
+                </div>
+
+                <ViewField label={t.label_age_pref}>
+                  {form.preferred_age_range ? `${form.preferred_age_range} years` : t.age_any}
+                </ViewField>
+              </>
+            )}
           </Section>
 
           {/* ── Job description ──────────────────────── */}
           <Section title={t.section_job}>
-            <Field label={t.label_job_desc} hint={t.job_hint}>
-              <textarea
-                value={form.job_description}
-                onChange={e => update('job_description', e.target.value)}
-                rows={5}
-                className={`${inputClass} resize-y font-sans`}
-              />
-            </Field>
+            {editMode ? (
+              <Field label={t.label_job_desc} hint={t.job_hint}>
+                <textarea
+                  value={form.job_description}
+                  onChange={e => update('job_description', e.target.value)}
+                  rows={5}
+                  className={`${inputClass} resize-y font-sans`}
+                />
+              </Field>
+            ) : (
+              <ViewField label={t.label_job_desc}>
+                {form.job_description
+                  ? <span className="whitespace-pre-wrap">{form.job_description}</span>
+                  : null}
+              </ViewField>
+            )}
           </Section>
 
           {/* ── Email notifications ──────────────────── */}
           <Section id="notifications" title={t.section_notifications}>
-            <label className="flex items-start gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={form.notify_on_message !== false}
-                onChange={e => update('notify_on_message', e.target.checked)}
-                className="mt-1 w-5 h-5 accent-[#006a62] cursor-pointer"
-              />
-              <span>
-                <span className="block text-sm font-semibold text-gray-900">
-                  {t.notify_label}
+            {editMode ? (
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={form.notify_on_message !== false}
+                  onChange={e => update('notify_on_message', e.target.checked)}
+                  className="mt-1 w-5 h-5 accent-[#006a62] cursor-pointer"
+                />
+                <span>
+                  <span className="block text-sm font-semibold text-gray-900">
+                    {t.notify_label}
+                  </span>
+                  <span className="block text-xs text-gray-500 mt-1 leading-relaxed">
+                    {t.notify_hint}
+                  </span>
                 </span>
-                <span className="block text-xs text-gray-500 mt-1 leading-relaxed">
-                  {t.notify_hint}
-                </span>
-              </span>
-            </label>
+              </label>
+            ) : (
+              <div className="text-sm text-gray-900">
+                {form.notify_on_message !== false ? t.notify_on : t.notify_off}
+              </div>
+            )}
 
-            {/* Push notifications (separate from email, per-device opt-in) */}
+            {/* Push notifications (separate from email, per-device opt-in).
+                Kept outside the edit gate because it manages its own browser
+                permission flow and doesn't go through Save. */}
             <div className="mt-4">
               <PushNotificationToggle lang={lang} />
             </div>
           </Section>
 
 
-          {/* Save button */}
-          <div className="mt-2 mb-12 flex justify-end">
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="px-7 py-3 rounded-xl bg-[#006a62] text-white text-sm font-bold cursor-pointer hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
-            >
-              {saving ? t.saving : t.save}
-            </button>
-          </div>
+          {/* Save / Cancel — only in edit mode. View mode uses the top-of-page
+              Edit button to enter edit mode instead. */}
+          {editMode && (
+            <div className="mt-2 mb-12 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={handleCancel}
+                disabled={saving}
+                className="px-5 py-3 rounded-xl bg-white border border-gray-300 text-gray-700 text-sm font-bold cursor-pointer hover:bg-gray-50 transition-colors disabled:opacity-60"
+              >
+                {t.cancel}
+              </button>
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={saving}
+                className="px-7 py-3 rounded-xl bg-[#006a62] text-white text-sm font-bold cursor-pointer hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
+              >
+                {saving ? t.saving : t.save}
+              </button>
+            </div>
+          )}
         </main>
       </div>
     </>
@@ -839,6 +1012,46 @@ function Field({ label, hint, children }) {
       <Label>{label}</Label>
       {children}
       {hint && <div className="text-sm text-gray-500 mt-1.5">{hint}</div>}
+    </div>
+  );
+}
+
+// Read-only display of a labeled value. Used when the page is not in edit
+// mode so the profile reads like a profile rather than a giant form.
+function ViewField({ label, children, empty }) {
+  const hasValue =
+    children !== null && children !== undefined && children !== '' &&
+    !(Array.isArray(children) && children.length === 0);
+  return (
+    <div>
+      <Label>{label}</Label>
+      <div className="text-sm text-gray-900 py-2.5 min-h-[1.5rem]">
+        {hasValue ? children : <span className="text-gray-400">{empty || '—'}</span>}
+      </div>
+    </div>
+  );
+}
+
+// Read-only chip strip: shows ONLY the chosen options as solid badges.
+// Falls back to `empty` text when nothing is selected.
+function ViewChips({ options, selected, lang, empty }) {
+  const selectedArr = Array.isArray(selected) ? selected : (selected ? [selected] : []);
+  const set = new Set(selectedArr);
+  const chosen = options.filter(o => set.has(o.value));
+  if (chosen.length === 0) {
+    return <span className="text-sm text-gray-400">{empty || '—'}</span>;
+  }
+  return (
+    <div className="flex flex-wrap gap-2">
+      {chosen.map(o => (
+        <span
+          key={o.value}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#e6f5f3] text-[#006a62] text-sm font-semibold"
+        >
+          {o.iconKey ? <LineIcon name={o.iconKey} /> : null}
+          {o[lang] || o.en || o.label}
+        </span>
+      ))}
     </div>
   );
 }
