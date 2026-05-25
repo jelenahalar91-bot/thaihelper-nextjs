@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
 import { useLang } from './_app';
@@ -490,8 +491,18 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
       {/* Photo slot — real photo if uploaded, else coloured initial */}
       <div className="relative bg-[#e6f5f3] flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square flex items-center justify-center overflow-hidden">
         {e.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={e.photo} alt={displayName} className="w-full h-full object-cover" loading="lazy" />
+          e.photo.includes('.supabase.co') ? (
+            <Image
+              src={e.photo}
+              alt={displayName}
+              fill
+              sizes="(max-width: 640px) 100vw, 224px"
+              className="object-cover"
+            />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={e.photo} alt={displayName} className="w-full h-full object-cover" loading="lazy" />
+          )
         ) : (
           <span className="text-6xl font-bold text-[#006a62]">{initial}</span>
         )}

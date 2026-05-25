@@ -117,10 +117,11 @@ export default function HelperCard({
           </button>
         )}
         {helper.photo ? (
-          // Local images (/images/...) get full next/image optimization;
-          // user-uploaded photos (data: URLs or unknown remote hosts) fall
-          // back to a plain <img> so they still render reliably.
-          helper.photo.startsWith('/') ? (
+          // Both local (/images/...) and Supabase Storage URLs go through
+          // next/image so Vercel's CDN serves compressed WebPs instead of
+          // 2-5 MB Supabase originals. data: URLs and unknown hosts still
+          // need the plain <img> escape hatch.
+          (helper.photo.startsWith('/') || helper.photo.includes('.supabase.co')) ? (
             <Image
               src={helper.photo}
               alt={displayName}

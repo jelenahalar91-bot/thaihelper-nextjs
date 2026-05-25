@@ -623,8 +623,14 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                       className="bg-white rounded-xl p-2 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2.5 border border-gray-100"
                     >
                       {entry.photo ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img className="w-10 h-10 rounded-lg object-cover flex-shrink-0" src={entry.photo} alt="" loading="lazy" />
+                        // Route Supabase photos through next/image so Vercel
+                        // CDN serves a 40×40 WebP instead of the raw upload.
+                        entry.photo.includes('.supabase.co') ? (
+                          <Image className="w-10 h-10 rounded-lg object-cover flex-shrink-0" src={entry.photo} alt="" width={40} height={40} />
+                        ) : (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img className="w-10 h-10 rounded-lg object-cover flex-shrink-0" src={entry.photo} alt="" loading="lazy" />
+                        )
                       ) : (
                         <div className="w-10 h-10 rounded-lg text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>
                           {entryInitials(entry.firstName, entry.lastInitial)}

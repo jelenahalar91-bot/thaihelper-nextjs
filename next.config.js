@@ -10,10 +10,23 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      {
+        // Supabase Storage public URLs — running them through Next.js
+        // Image lets Vercel's CDN absorb the bandwidth (free 100 GB/mo)
+        // instead of hammering Supabase egress (free 5 GB/mo). Bots
+        // scraping /helpers now hit Vercel for compressed WebPs, not
+        // 2-5 MB originals on Supabase.
+        protocol: 'https',
+        hostname: '**.supabase.co',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    // Cache optimised images on Vercel's CDN for 30 days — once the
+    // first user hits an (image, size) combo, every subsequent fetch
+    // for the next 30 days bypasses both Supabase AND our function.
+    minimumCacheTTL: 60 * 60 * 24 * 30,
   },
 
   // Security & caching headers

@@ -334,12 +334,17 @@ export default function Home() {
                       return (
                         <div key={i} className={`flex items-center gap-3 py-2.5 ${isLast ? '' : 'border-b border-gray-100'}`}>
                           {entry.photo ? (
-                            // Plain <img>: helper photos can come from any domain
-                            // (Supabase storage, etc.) — avoids next/image's
-                            // remotePatterns validation. Avatars are 40px so
-                            // optimisation savings are negligible.
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src={entry.photo} alt="" width={40} height={40} loading="lazy" />
+                            // Supabase Storage photos go through next/image
+                            // so Vercel's CDN serves a 40×40 WebP (~2 KB)
+                            // instead of the 2-5 MB raw upload — savings are
+                            // huge at scale even though the rendered size is
+                            // small. Plain <img> fallback for unknown hosts.
+                            entry.photo.includes('.supabase.co') ? (
+                              <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src={entry.photo} alt="" width={40} height={40} />
+                            ) : (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src={entry.photo} alt="" width={40} height={40} loading="lazy" />
+                            )
                           ) : (
                             <div className="w-10 h-10 rounded-full text-white flex items-center justify-center font-bold text-sm flex-shrink-0 font-headline" style={{background:'linear-gradient(135deg,#006a62,#0a8a7e)'}}>{entryInitials(entry.firstName, entry.lastInitial)}</div>
                           )}

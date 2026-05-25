@@ -17,6 +17,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import {
   CATEGORIES,
   SKILLS_BY_CATEGORY,
@@ -250,12 +251,22 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
               boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
             }}>
               {helper.photo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={helper.photo}
-                  alt={displayName}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
+                helper.photo.includes('.supabase.co') ? (
+                  <Image
+                    src={helper.photo}
+                    alt={displayName}
+                    width={96}
+                    height={96}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={helper.photo}
+                    alt={displayName}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                )
               ) : initial}
             </div>
             <h2 style={{
