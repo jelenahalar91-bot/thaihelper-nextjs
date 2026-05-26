@@ -537,12 +537,20 @@ export default function Profile() {
     }
   };
 
+  // Clear both session cookies so the homepage SSR redirect (which sends any
+  // session-bearing visitor to /profile or /employer-dashboard) doesn't trap
+  // a user with a stale/invalid token on this lock screen.
+  const clearStaleSessionCookies = () => {
+    fetch('/api/auth', { method: 'DELETE' }).catch(() => {});
+    fetch('/api/employer-auth', { method: 'DELETE' }).catch(() => {});
+  };
+
   const fetchProfile = async () => {
     try {
       const data = await fetchProfileApi();
-      if (data.authError) { setAuthError(true); setLoading(false); return; }
-      if (data.success) { setProfile(data.profile); } else { setAuthError(true); }
-    } catch { setAuthError(true); }
+      if (data.authError) { clearStaleSessionCookies(); setAuthError(true); setLoading(false); return; }
+      if (data.success) { setProfile(data.profile); } else { clearStaleSessionCookies(); setAuthError(true); }
+    } catch { clearStaleSessionCookies(); setAuthError(true); }
     finally { setLoading(false); }
   };
 
