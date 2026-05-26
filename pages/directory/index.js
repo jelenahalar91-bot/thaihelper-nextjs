@@ -57,6 +57,10 @@ const T = {
     tab_visa_agent_desc: 'Tourist, retirement & long-stay visas',
     tab_mou_agency_desc: 'Foreign-worker paperwork (CI, PJ, MOU)',
     tab_agency_desc: 'Direct-hire & staffing support',
+    tab_training_desc: 'Helper courses, first aid, languages',
+    tab_partner_desc: 'Insurance, payroll, transport',
+    tab_association_desc: 'Embassies, expat networks, NGOs',
+    tab_coming_soon: 'Coming soon',
 
     filter_title: 'Filters',
     filter_city: 'All cities',
@@ -112,6 +116,10 @@ const T = {
     tab_visa_agent_desc: 'วีซ่าท่องเที่ยว เกษียณ และระยะยาว',
     tab_mou_agency_desc: 'เอกสารแรงงานต่างด้าว (CI, PJ, MOU)',
     tab_agency_desc: 'การจ้างตรงและจัดหางาน',
+    tab_training_desc: 'หลักสูตรผู้ช่วย ปฐมพยาบาล ภาษา',
+    tab_partner_desc: 'ประกัน เงินเดือน การขนส่ง',
+    tab_association_desc: 'สถานทูต เครือข่ายชาวต่างชาติ NGO',
+    tab_coming_soon: 'เร็วๆ นี้',
 
     filter_title: 'ตัวกรอง',
     filter_city: 'ทุกเมือง',
@@ -341,18 +349,22 @@ export default function DirectoryIndex({ initialListings = [] }) {
           <section className="px-4 md:px-6 pb-16">
             <div className="max-w-5xl mx-auto">
               {/* Category tabs — Helperplace-style top-level navigation. Horizontally
-                  scrollable on mobile so all 5 options stay reachable on narrow screens. */}
+                  scrollable on mobile so all options stay reachable on narrow screens.
+                  Categories with no active listings get a "Coming soon" badge so empty
+                  tabs don't look broken. */}
               <div className="mb-5 -mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto">
                 <div className="flex gap-2 md:gap-3 min-w-max md:min-w-0 md:flex-wrap">
                   {[
-                    { value: '', label: t.tab_all, desc: t.tab_all_desc },
+                    { value: '', label: t.tab_all, desc: t.tab_all_desc, count: initialListings.length },
                     ...DIRECTORY_TYPES.map(o => ({
                       value: o.value,
                       label: lang === 'th' ? o.th : o.en,
                       desc: t[`tab_${o.value}_desc`] || '',
+                      count: initialListings.filter(l => l.type === o.value).length,
                     })),
                   ].map(tab => {
                     const isActive = filterType === tab.value;
+                    const isEmpty = tab.count === 0 && tab.value !== '';
                     return (
                       <button
                         key={tab.value || 'all'}
@@ -360,11 +372,20 @@ export default function DirectoryIndex({ initialListings = [] }) {
                         className={`flex-1 md:flex-initial min-w-[160px] text-left px-4 py-3 rounded-xl border-2 transition-all ${
                           isActive
                             ? 'border-primary bg-primary/5 shadow-sm'
-                            : 'border-slate-200 bg-white hover:border-slate-300'
+                            : isEmpty
+                              ? 'border-slate-200 bg-slate-50 hover:border-slate-300'
+                              : 'border-slate-200 bg-white hover:border-slate-300'
                         }`}
                       >
-                        <div className={`text-sm font-bold leading-tight ${isActive ? 'text-primary' : 'text-on-background'}`}>
-                          {tab.label}
+                        <div className={`text-sm font-bold leading-tight flex items-center gap-1.5 flex-wrap ${
+                          isActive ? 'text-primary' : isEmpty ? 'text-slate-500' : 'text-on-background'
+                        }`}>
+                          <span>{tab.label}</span>
+                          {isEmpty && (
+                            <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                              {t.tab_coming_soon}
+                            </span>
+                          )}
                         </div>
                         {tab.desc && (
                           <div className="text-[11px] text-slate-500 mt-1 leading-snug">
