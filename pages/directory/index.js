@@ -368,11 +368,25 @@ export default function DirectoryIndex({ initialListings = [] }) {
         </nav>
 
         <main className="pt-24 md:pt-28">
-          {/* Category tabs FIRST — Helperplace-style. The hero below adapts to the
-              selected tab so the page communicates what each category covers. */}
-          <section className="px-4 md:px-6 pt-2 md:pt-4 pb-2">
+          <section className="px-6 pt-8 pb-6 md:pt-12 md:pb-8">
+            <div className="max-w-3xl mx-auto text-center">
+              <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-primary mb-3">
+                {t.hero_eyebrow}
+              </span>
+              <h1 className="text-3xl md:text-5xl font-extrabold font-headline text-on-background mb-3 leading-tight">
+                {t[`hero_h1_${filterType || 'all'}`] || t.hero_h1_all}
+              </h1>
+              <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                {t[`hero_sub_${filterType || 'all'}`] || t.hero_sub_all}
+              </p>
+            </div>
+          </section>
+
+          <section className="px-4 md:px-6 pb-16">
             <div className="max-w-5xl mx-auto">
-              <div className="-mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto">
+              {/* Category tabs — Helperplace-style row directly under the hero so a
+                  tab switch visibly updates the headline above. */}
+              <div className="mb-5 -mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto">
                 <div className="flex gap-2 md:gap-3 min-w-max md:min-w-0 md:flex-wrap">
                   {[
                     { value: '', label: t.tab_all, desc: t.tab_all_desc, count: initialListings.length },
@@ -417,25 +431,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
                   })}
                 </div>
               </div>
-            </div>
-          </section>
 
-          <section className="px-6 pt-6 pb-6 md:pt-8 md:pb-8">
-            <div className="max-w-3xl mx-auto text-center">
-              <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-primary mb-3">
-                {t.hero_eyebrow}
-              </span>
-              <h1 className="text-3xl md:text-5xl font-extrabold font-headline text-on-background mb-3 leading-tight">
-                {t[`hero_h1_${filterType || 'all'}`] || t.hero_h1_all}
-              </h1>
-              <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-                {t[`hero_sub_${filterType || 'all'}`] || t.hero_sub_all}
-              </p>
-            </div>
-          </section>
-
-          <section className="px-4 md:px-6 pb-16">
-            <div className="max-w-5xl mx-auto">
               {/* Secondary filters — city + specialty */}
               <div className="bg-white rounded-2xl border border-slate-200 p-4 md:p-5 mb-5 flex flex-wrap items-end gap-3">
                 <div className="flex-1 min-w-[180px]">
