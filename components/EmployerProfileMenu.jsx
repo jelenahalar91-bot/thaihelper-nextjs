@@ -20,12 +20,14 @@ const T = {
     menu_dashboard: 'Dashboard',
     menu_profile: 'Profile',
     menu_settings: 'Settings',
+    menu_directory: 'Expert Directory',
     logout: 'Log out',
   },
   th: {
     menu_dashboard: 'แดชบอร์ด',
     menu_profile: 'โปรไฟล์',
     menu_settings: 'ตั้งค่า',
+    menu_directory: 'รายชื่อผู้เชี่ยวชาญ',
     logout: 'ออกจากระบบ',
   },
 };
@@ -121,6 +123,12 @@ export default function EmployerProfileMenu({ profile, lang = 'en', current }) {
               active={current === 'profile'}
               onClick={() => { setOpen(false); router.push('/employer-profile'); }}
             />
+            <MenuItem
+              icon={<IconCompass />}
+              label={t.menu_directory}
+              active={current === 'directory'}
+              onClick={() => { setOpen(false); router.push('/directory'); }}
+            />
             {/* Settings hidden until we have payment / notification toggles
                 worth showing — currently it just routed to /employer-profile. */}
 
@@ -209,6 +217,15 @@ function IconLogout() {
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
       <polyline points="16 17 21 12 16 7" />
       <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
+
+function IconCompass() {
+  return (
+    <svg {...iconProps}>
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
     </svg>
   );
 }

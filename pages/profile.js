@@ -84,6 +84,7 @@ const T = {
     nav_help: 'Help',
     menu_profile: 'Profile',
     menu_settings: 'Settings',
+    menu_directory: 'Expert Directory',
     notify_title: 'Email notifications',
     notify_label: 'Email me when I receive a new message',
     notify_hint: 'We\'ll email you when an employer writes to you. Unsubscribe any time from the link in every email.',
@@ -170,6 +171,7 @@ const T = {
     chars: 'characters',
     login_required: 'Please log in to view your dashboard.',
     login_btn: 'Go to Login',
+    back_home: '← Back to home',
     // Documents
     doc_title: 'Documents & Certificates',
     doc_upload: 'Upload Document',
@@ -265,6 +267,7 @@ const T = {
     nav_help: 'ช่วยเหลือ',
     menu_profile: 'โปรไฟล์',
     menu_settings: 'ตั้งค่า',
+    menu_directory: 'รายชื่อผู้เชี่ยวชาญ',
     notify_title: 'การแจ้งเตือนทางอีเมล',
     notify_label: 'ส่งอีเมลหาฉันเมื่อได้รับข้อความใหม่',
     notify_hint: 'เราจะส่งอีเมลเมื่อมีนายจ้างส่งข้อความถึงคุณ ยกเลิกได้ทุกเมื่อจากลิงก์ในทุกอีเมล',
@@ -348,6 +351,7 @@ const T = {
     chars: 'ตัวอักษร',
     login_required: 'กรุณาเข้าสู่ระบบเพื่อดูแดชบอร์ด',
     login_btn: 'ไปหน้าเข้าสู่ระบบ',
+    back_home: '← กลับหน้าแรก',
     // Documents
     doc_title: 'เอกสารและใบรับรอง',
     doc_upload: 'อัปโหลดเอกสาร',
@@ -915,6 +919,9 @@ export default function Profile() {
               <div style={{ marginBottom: '16px', color: '#006a62', display: 'flex', justifyContent: 'center' }}><IconLock /></div>
               <h1 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '8px' }}>{t.login_required}</h1>
               <Link href="/login" className="btn-next" style={{ display: 'inline-block', marginTop: '16px', textDecoration: 'none' }}>{t.login_btn}</Link>
+              <div style={{ marginTop: '14px' }}>
+                <Link href="/" style={{ fontSize: '14px', color: '#006a62', textDecoration: 'none', fontWeight: 600 }}>{t.back_home}</Link>
+              </div>
             </div>
           </div>
         </div>
@@ -1149,6 +1156,7 @@ export default function Profile() {
                     <MenuItem icon={<IconDashboard />} label={t.menu_dashboard} onClick={() => { setActiveTab('dashboard'); setMenuOpen(false); if (editing) cancelEditing(); }} />
                     <MenuItem icon={<IconSearch />} label={t.browse_title} onClick={() => { setActiveTab('browse'); setMenuOpen(false); if (editing) cancelEditing(); }} />
                     <MenuItem icon={<IconUser />} label={t.menu_profile} onClick={() => { setActiveTab('profile'); setMenuOpen(false); }} />
+                    <MenuItem icon={<IconCompass />} label={t.menu_directory} onClick={() => { setMenuOpen(false); router.push('/directory'); }} />
 
 
                     {/* Language quick switch */}
@@ -2399,6 +2407,15 @@ function IconSearch() {
   return (
     <svg {...iconProps}>
       <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
+
+function IconCompass() {
+  return (
+    <svg {...iconProps}>
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
     </svg>
   );
 }

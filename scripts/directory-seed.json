@@ -389,5 +389,22 @@
     "verified": false,
     "status": "active",
     "description_th": "งานเอกสารแรงงานต่างด้าวภาษาไทย: พิสูจน์สัญชาติเมียนมา (CI) หนังสือเดินทาง (PJ) Re-Entry Permit และต่อใบอนุญาตทำงาน เหมาะกับครอบครัวที่มีคนช่วยพูดไทยหรือ HR คนไทย เบอร์สำรอง +66 62 567 3777"
+  },
+  {
+    "slug": "ayasana",
+    "name": "Ayasana",
+    "type": "agency",
+    "city": "bangkok",
+    "cities_served": "",
+    "phone": "",
+    "email": "",
+    "website": "",
+    "description": "",
+    "specialties": "",
+    "languages_spoken": "",
+    "tier": "free",
+    "verified": false,
+    "status": "pending",
+    "description_th": ""
   }
 ]
