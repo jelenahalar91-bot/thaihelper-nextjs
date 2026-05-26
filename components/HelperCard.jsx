@@ -4,6 +4,7 @@ import { useLang } from '../pages/_app';
 import { formatCity, formatAdditionalCities } from '../lib/constants/cities';
 import { relativeTime } from '../lib/recent-helpers-display';
 import AvailabilityPill from './AvailabilityPill';
+import { StarRatingDisplay } from './StarRating';
 
 // Thai / CJK / other non-Latin script ranges — used to detect data
 // quality issues where helpers typed text into structured fields
@@ -169,6 +170,11 @@ export default function HelperCard({
           {helper.categoryLabel && (
             <div className="text-sm text-gray-700 mt-1 font-medium">
               {helper.categoryLabel}
+            </div>
+          )}
+          {helper.ratingCount > 0 && (
+            <div className="mt-1">
+              <StarRatingDisplay avg={helper.ratingAvg} count={helper.ratingCount} size="sm" lang={lang} />
             </div>
           )}
           <div className="text-sm text-gray-500 mt-1">

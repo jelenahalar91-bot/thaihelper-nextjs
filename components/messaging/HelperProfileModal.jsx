@@ -25,6 +25,8 @@ import {
   LANGUAGES,
 } from '../../lib/constants/categories';
 import { formatCity, formatAdditionalCities } from '../../lib/constants/cities';
+import { relativeTime } from '../../lib/recent-helpers-display';
+import { StarRatingDisplay, StarRatingInput } from '../StarRating';
 
 // ─── Label helpers ──────────────────────────────────────────────────────────
 
@@ -99,6 +101,41 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
   const [certsRevealed, setCertsRevealed] = useState(false);
   const [certsLoading, setCertsLoading] = useState(true);
 
+  // Ratings: list of public reviews + whether the current user (an
+  // employer) is eligible to leave a rating. Loaded on open and
+  // refetched after a successful submit so the list updates without
+  // closing/reopening the modal.
+  const [reviews, setReviews] = useState([]);
+  const [canRate, setCanRate] = useState(false);
+  const [cannotRateReason, setCannotRateReason] = useState(null);
+  const [myRating, setMyRating] = useState(null);
+  const [ratingsLoading, setRatingsLoading] = useState(true);
+  // Aggregate computed from the local reviews so the modal stays in
+  // sync after submit (helper.ratingAvg/Count come from props and are
+  // stale once we POST a new rating). Falls back to prop values on first
+  // render while reviews are still loading.
+  const ratingCount = reviews.length || helper?.ratingCount || 0;
+  const ratingAvg = reviews.length > 0
+    ? reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length
+    : (helper?.ratingAvg ?? null);
+
+  async function loadRatings() {
+    if (!helper?.ref) { setRatingsLoading(false); return; }
+    try {
+      const res = await fetch(`/api/ratings?helper=${encodeURIComponent(helper.ref)}`);
+      if (res.ok) {
+        const data = await res.json();
+        setReviews(data.reviews || []);
+        setCanRate(!!data.canRate);
+        setCannotRateReason(data.cannotRateReason || null);
+        setMyRating(data.myRating || null);
+      }
+    } catch (err) {
+      console.error('Failed to load ratings:', err);
+    }
+    setRatingsLoading(false);
+  }
+
   // Close on Escape
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -130,6 +167,18 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
       if (!cancelled) setRefsLoading(false);
     })();
     return () => { cancelled = true; };
+  }, [helper?.ref]);
+
+  // Load ratings + eligibility when modal opens
+  useEffect(() => {
+    let cancelled = false;
+    setRatingsLoading(true);
+    (async () => {
+      if (cancelled) return;
+      await loadRatings();
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [helper?.ref]);
 
   // Fetch certificate documents when modal opens
@@ -285,6 +334,18 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
                 {categoryLabel}
               </div>
             )}
+            {ratingCount > 0 && (
+              <div style={{
+                marginTop: '8px',
+                display: 'inline-flex',
+                padding: '4px 10px',
+                borderRadius: '12px',
+                background: 'rgba(255,255,255,0.18)',
+                backdropFilter: 'blur(4px)',
+              }}>
+                <StarRatingDisplay avg={ratingAvg} count={ratingCount} size="sm" lang={lang} dark />
+              </div>
+            )}
           </div>
         </div>
 
@@ -416,6 +477,57 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
                 {t?.profile_no_certificates || 'No certificates uploaded yet.'}
               </p>
             ) : null}
+          </Section>
+
+          {/* Reviews — families who messaged with this helper can leave
+              1-5 star ratings + optional comment. Eligibility comes from
+              /api/ratings (true iff a conversation exists with messages
+              from both sides). */}
+          <Section title={lang === 'th' ? 'รีวิว' : 'Reviews'}>
+            {ratingsLoading ? (
+              <p style={{ fontSize: '13px', color: '#9ca3af', margin: 0 }}>Loading...</p>
+            ) : (
+              <>
+                {reviews.length === 0 ? (
+                  <p style={{
+                    fontSize: '13px', color: '#9ca3af', margin: 0,
+                    fontStyle: 'italic',
+                  }}>
+                    {lang === 'th'
+                      ? 'ยังไม่มีรีวิว — เป็นครอบครัวแรกที่ให้คะแนน'
+                      : 'No reviews yet — be the first family to rate.'}
+                  </p>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {reviews.map((r, i) => (
+                      <ReviewItem key={i} review={r} lang={lang} />
+                    ))}
+                  </div>
+                )}
+
+                {/* Inline rating form — only for eligible employers */}
+                {canRate && (
+                  <RateForm
+                    helperRef={helper.ref}
+                    existingRating={myRating}
+                    onSubmitted={loadRatings}
+                    lang={lang}
+                  />
+                )}
+
+                {/* Friendly nudge for employers who aren't eligible yet */}
+                {!canRate && cannotRateReason === 'not_messaged' && (
+                  <p style={{
+                    fontSize: '12px', color: '#9ca3af', marginTop: '14px',
+                    fontStyle: 'italic',
+                  }}>
+                    {lang === 'th'
+                      ? 'คุณจะให้คะแนนได้หลังจากที่ทั้งคู่ส่งข้อความกันแล้ว'
+                      : 'You can leave a rating after both you and the helper have exchanged messages.'}
+                  </p>
+                )}
+              </>
+            )}
           </Section>
 
           {/* Recommendations / References */}
@@ -641,6 +753,201 @@ function Section({ title, children }) {
         border: '1px solid #e5e7eb',
       }}>
         {children}
+      </div>
+    </div>
+  );
+}
+
+// ─── Reviews sub-components ──────────────────────────────────────────────────
+
+function ReviewItem({ review, lang }) {
+  return (
+    <div style={{
+      padding: '12px 14px',
+      background: '#fffbeb',
+      borderRadius: '12px',
+      border: '1px solid #fde68a',
+    }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        gap: '8px', marginBottom: review.comment ? '6px' : 0,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <StarRatingDisplay avg={review.stars} count={1} size="sm" lang={lang} />
+        </div>
+        <div style={{ fontSize: '11px', color: '#9ca3af' }}>
+          {review.employerFirstName} · {relativeTime(review.createdAt, lang)}
+        </div>
+      </div>
+      {review.comment && (
+        <p style={{
+          fontSize: '13px', color: '#555', margin: 0,
+          lineHeight: 1.5, fontStyle: 'italic',
+        }}>
+          &ldquo;{review.comment}&rdquo;
+        </p>
+      )}
+    </div>
+  );
+}
+
+// Inline form: stars + optional 280-char comment + submit/delete.
+// Pre-fills with the employer's existing rating (if any) so the same
+// component handles both "first rating" and "update my rating".
+function RateForm({ helperRef, existingRating, onSubmitted, lang }) {
+  const [stars, setStars] = useState(existingRating?.stars || 0);
+  const [comment, setComment] = useState(existingRating?.comment || '');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const MAX = 280;
+
+  const labels = lang === 'th' ? {
+    title: existingRating ? 'แก้ไขรีวิวของคุณ' : 'ให้คะแนนผู้ช่วยคนนี้',
+    placeholder: 'แชร์ประสบการณ์ของคุณ (ไม่บังคับ)',
+    submit: existingRating ? 'อัปเดต' : 'ส่ง',
+    remove: 'ลบรีวิวของฉัน',
+    pickStars: 'กรุณาเลือกจำนวนดาว',
+    saved: 'บันทึกแล้ว',
+    failed: 'บันทึกไม่สำเร็จ',
+  } : {
+    title: existingRating ? 'Update your review' : 'Rate this helper',
+    placeholder: 'Share your experience (optional)',
+    submit: existingRating ? 'Update' : 'Submit',
+    remove: 'Remove my review',
+    pickStars: 'Please pick a star rating',
+    saved: 'Saved',
+    failed: 'Could not save',
+  };
+
+  async function submit() {
+    if (!stars) { setError(labels.pickStars); return; }
+    setSubmitting(true);
+    setError('');
+    try {
+      const res = await fetch('/api/ratings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          helperRef,
+          stars,
+          comment: comment.trim() || null,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data.error || labels.failed);
+      } else if (onSubmitted) {
+        await onSubmitted();
+      }
+    } catch (err) {
+      setError(labels.failed);
+    }
+    setSubmitting(false);
+  }
+
+  async function remove() {
+    if (!existingRating) return;
+    setSubmitting(true);
+    setError('');
+    try {
+      const res = await fetch(`/api/ratings?helper=${encodeURIComponent(helperRef)}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || labels.failed);
+      } else {
+        setStars(0);
+        setComment('');
+        if (onSubmitted) await onSubmitted();
+      }
+    } catch (err) {
+      setError(labels.failed);
+    }
+    setSubmitting(false);
+  }
+
+  return (
+    <div style={{
+      marginTop: '16px', padding: '14px 16px',
+      background: '#f9fafb', borderRadius: '12px',
+      border: '1px solid #e5e7eb',
+    }}>
+      <div style={{
+        fontSize: '13px', fontWeight: 700, color: '#1a1a1a',
+        marginBottom: '10px',
+      }}>
+        {labels.title}
+      </div>
+      <div style={{ marginBottom: '10px' }}>
+        <StarRatingInput value={stars} onChange={setStars} size="lg" disabled={submitting} />
+      </div>
+      <textarea
+        value={comment}
+        onChange={(e) => setComment(e.target.value.slice(0, MAX))}
+        placeholder={labels.placeholder}
+        rows={3}
+        disabled={submitting}
+        style={{
+          width: '100%',
+          padding: '10px 12px',
+          borderRadius: '10px',
+          border: '1px solid #e5e7eb',
+          fontSize: '14px',
+          fontFamily: 'inherit',
+          resize: 'vertical',
+          minHeight: '70px',
+          boxSizing: 'border-box',
+        }}
+      />
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        marginTop: '6px', fontSize: '11px', color: '#9ca3af',
+      }}>
+        <span>{comment.length}/{MAX}</span>
+        {error && <span style={{ color: '#dc2626', fontWeight: 600 }}>{error}</span>}
+      </div>
+      <div style={{
+        display: 'flex', gap: '8px', marginTop: '12px',
+        alignItems: 'center', flexWrap: 'wrap',
+      }}>
+        <button
+          type="button"
+          onClick={submit}
+          disabled={submitting || !stars}
+          style={{
+            padding: '9px 18px',
+            borderRadius: '10px',
+            border: 'none',
+            background: '#006a62',
+            color: 'white',
+            fontSize: '13px',
+            fontWeight: 700,
+            cursor: submitting || !stars ? 'not-allowed' : 'pointer',
+            opacity: submitting || !stars ? 0.6 : 1,
+          }}
+        >
+          {submitting ? '...' : labels.submit}
+        </button>
+        {existingRating && (
+          <button
+            type="button"
+            onClick={remove}
+            disabled={submitting}
+            style={{
+              padding: '9px 14px',
+              borderRadius: '10px',
+              border: '1px solid #e5e7eb',
+              background: 'white',
+              color: '#dc2626',
+              fontSize: '12px',
+              fontWeight: 600,
+              cursor: submitting ? 'not-allowed' : 'pointer',
+            }}
+          >
+            {labels.remove}
+          </button>
+        )}
       </div>
     </div>
   );
