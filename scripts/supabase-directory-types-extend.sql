@@ -21,6 +21,7 @@ ALTER TABLE directory_listings
     'visa_agent',
     'mou_agency',
     'agency',
+    'service_company',
     'training',
     'partner',
     'association'

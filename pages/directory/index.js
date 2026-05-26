@@ -50,29 +50,32 @@ const T = {
     hero_eyebrow: 'Expert Directory',
     // Per-tab hero copy. The default ('all') is also the SEO title users land
     // on; tab-specific copy makes the page feel responsive to the filter.
-    hero_h1_all:         'Find an immigration expert near you',
-    hero_sub_all:        'Browse vetted lawyers, visa agents, MOU agencies and staffing agencies across Thailand for work permits, visas, paperwork and hiring support. No commissions — you contact them directly.',
-    hero_h1_lawyer:      'Find an immigration lawyer in Thailand',
-    hero_sub_lawyer:     'Specialists in work permits, visas, Thai labor law and dispute resolution. Reach out directly — we don\'t take a cut.',
-    hero_h1_visa_agent:  'Find a visa agent near you',
-    hero_sub_visa_agent: 'Tourist, retirement, education and long-stay visa specialists across Thailand. No commissions — you handle the engagement directly.',
-    hero_h1_mou_agency:  'Find an MOU agency in Thailand',
-    hero_sub_mou_agency: 'Foreign-worker paperwork done right: CI (nationality verification), PJ passports, MOU process and work-permit renewals for Myanmar, Lao and Cambodian staff.',
-    hero_h1_agency:      'Find a staffing agency near you',
-    hero_sub_agency:     'Vetted staffing agencies for nannies, housekeepers, caregivers and drivers — for families who prefer a curated shortlist over direct search.',
-    hero_h1_training:    'Find a training provider in Thailand',
-    hero_sub_training:   'Childcare courses, first-aid certification, Thai language and household-management training for helpers and families. Coming soon — we\'re inviting providers now.',
-    hero_h1_partner:     'Find a service partner in Thailand',
-    hero_sub_partner:    'Insurance, payroll administration, salary transfer and transport partners that work with household-staff arrangements. Coming soon.',
-    hero_h1_association: 'Find an association or NGO',
-    hero_sub_association:'Embassies, expat networks, worker-rights NGOs and community support groups across Thailand. Coming soon.',
+    hero_h1_all:                 'Everything you need to hire household help in Thailand',
+    hero_sub_all:                'Vetted agencies, cleaning & nanny companies, immigration lawyers, visa agents, MOU specialists, trainers and service partners — all in one directory. No commissions, you contact them directly.',
+    hero_h1_agency:              'Find a domestic helper agency near you',
+    hero_sub_agency:             'Staffing agencies that place nannies, housekeepers, caregivers and drivers with families across Thailand. Curated shortlist, you choose.',
+    hero_h1_service_company:     'Find a cleaning, nanny or driver company near you',
+    hero_sub_service_company:    'Local companies that send their own teams of cleaners, nannies or drivers to your home on a recurring schedule — staff stay employed by the company.',
+    hero_h1_lawyer:              'Find an immigration lawyer in Thailand',
+    hero_sub_lawyer:             'Specialists in work permits, visas, Thai labor law and dispute resolution. Reach out directly — we don\'t take a cut.',
+    hero_h1_visa_agent:          'Find a visa agent near you',
+    hero_sub_visa_agent:         'Tourist, retirement, education and long-stay visa specialists across Thailand. No commissions — you handle the engagement directly.',
+    hero_h1_mou_agency:          'Find an MOU agency in Thailand',
+    hero_sub_mou_agency:         'Foreign-worker paperwork done right: CI (nationality verification), PJ passports, MOU process and work-permit renewals for Myanmar, Lao and Cambodian staff.',
+    hero_h1_training:            'Domestic helper training and classes near you',
+    hero_sub_training:           'Childcare courses, first-aid certification, Thai language, English for helpers and household-management classes. Coming soon — we\'re inviting providers now.',
+    hero_h1_partner:             'Useful services for domestic helpers near you',
+    hero_sub_partner:            'Health insurance, payroll administration, salary-transfer services and transport partners that support household-staff arrangements. Coming soon.',
+    hero_h1_association:         'Domestic helper associations and NGOs in Thailand',
+    hero_sub_association:        'Embassies, expat networks, worker-rights NGOs and community support groups for household staff across Thailand. Coming soon.',
 
-    tab_all: 'All experts',
-    tab_all_desc: 'Every expert in our directory',
+    tab_all: 'All',
+    tab_all_desc: 'Browse everything',
+    tab_agency_desc: 'Nanny, housekeeper, driver placements',
+    tab_service_company_desc: 'Cleaning, nanny & driver companies',
     tab_lawyer_desc: 'Work permits, visas, labor law',
     tab_visa_agent_desc: 'Tourist, retirement & long-stay visas',
     tab_mou_agency_desc: 'Foreign-worker paperwork (CI, PJ, MOU)',
-    tab_agency_desc: 'Direct-hire & staffing support',
     tab_training_desc: 'Helper courses, first aid, languages',
     tab_partner_desc: 'Insurance, payroll, transport',
     tab_association_desc: 'Embassies, expat networks, NGOs',
@@ -123,30 +126,33 @@ const T = {
     nav_faq: 'คำถามที่พบบ่อย',
 
     hero_eyebrow: 'รายชื่อผู้เชี่ยวชาญ',
-    hero_h1_all:         'ค้นหาผู้เชี่ยวชาญด้านตรวจคนเข้าเมืองใกล้คุณ',
-    hero_sub_all:        'ค้นหาทนายความ ตัวแทนวีซ่า หน่วยงาน MOU และบริษัทจัดหางานที่ได้รับการตรวจสอบทั่วประเทศไทย สำหรับใบอนุญาตทำงาน วีซ่า เอกสาร และการจ้างงาน เราไม่รับค่าคอมมิชชั่น — คุณติดต่อพวกเขาโดยตรง',
-    hero_h1_lawyer:      'ค้นหาทนายความตรวจคนเข้าเมืองในประเทศไทย',
-    hero_sub_lawyer:     'ผู้เชี่ยวชาญด้านใบอนุญาตทำงาน วีซ่า กฎหมายแรงงานไทย และการแก้ไขข้อพิพาท ติดต่อโดยตรง — เราไม่หักค่าธรรมเนียม',
-    hero_h1_visa_agent:  'ค้นหาตัวแทนวีซ่าใกล้คุณ',
-    hero_sub_visa_agent: 'ผู้เชี่ยวชาญด้านวีซ่าท่องเที่ยว เกษียณ การศึกษา และระยะยาว ทั่วประเทศไทย ไม่มีค่าคอมมิชชั่น — คุณดำเนินการโดยตรง',
-    hero_h1_mou_agency:  'ค้นหาหน่วยงาน MOU ในประเทศไทย',
-    hero_sub_mou_agency: 'งานเอกสารแรงงานต่างด้าวอย่างถูกต้อง: CI (พิสูจน์สัญชาติ) PJ พาสปอร์ต กระบวนการ MOU และต่อใบอนุญาตทำงานสำหรับคนงานจากเมียนมา ลาว และกัมพูชา',
-    hero_h1_agency:      'ค้นหาบริษัทจัดหางานใกล้คุณ',
-    hero_sub_agency:     'บริษัทจัดหางานที่ตรวจสอบแล้ว สำหรับพี่เลี้ยงเด็ก แม่บ้าน ผู้ดูแล และคนขับรถ — สำหรับครอบครัวที่ต้องการรายชื่อคัดสรรแทนการค้นหาเอง',
-    hero_h1_training:    'ค้นหาผู้ให้บริการฝึกอบรมในประเทศไทย',
-    hero_sub_training:   'หลักสูตรดูแลเด็ก ใบรับรองปฐมพยาบาล ภาษาไทย และการจัดการบ้านสำหรับผู้ช่วยและครอบครัว เร็วๆ นี้ — เรากำลังเชิญผู้ให้บริการ',
-    hero_h1_partner:     'ค้นหาพันธมิตรบริการในประเทศไทย',
-    hero_sub_partner:    'พันธมิตรด้านประกัน การจัดการเงินเดือน การโอนเงินเดือน และการขนส่งที่รองรับการจัดการแม่บ้าน เร็วๆ นี้',
-    hero_h1_association: 'ค้นหาสมาคมหรือ NGO',
-    hero_sub_association:'สถานทูต เครือข่ายชาวต่างชาติ NGO ด้านสิทธิแรงงาน และกลุ่มสนับสนุนชุมชนทั่วประเทศไทย เร็วๆ นี้',
+    hero_h1_all:                 'ทุกสิ่งที่คุณต้องการเพื่อจ้างแม่บ้านในประเทศไทย',
+    hero_sub_all:                'บริษัทจัดหางาน บริษัทบริการทำความสะอาดและพี่เลี้ยงเด็ก ทนายความตรวจคนเข้าเมือง ตัวแทนวีซ่า ผู้เชี่ยวชาญ MOU ผู้ฝึกอบรม และพันธมิตรบริการ — รวมไว้ในที่เดียว ไม่มีค่าคอมมิชชั่น คุณติดต่อโดยตรง',
+    hero_h1_agency:              'ค้นหาบริษัทจัดหาแม่บ้านใกล้คุณ',
+    hero_sub_agency:             'บริษัทจัดหางานที่จัดส่งพี่เลี้ยงเด็ก แม่บ้าน ผู้ดูแล และคนขับรถให้กับครอบครัวทั่วประเทศไทย รายชื่อคัดสรร คุณเป็นผู้เลือก',
+    hero_h1_service_company:     'ค้นหาบริษัททำความสะอาด พี่เลี้ยง หรือคนขับรถใกล้คุณ',
+    hero_sub_service_company:    'บริษัทท้องถิ่นที่ส่งทีมพนักงานทำความสะอาด พี่เลี้ยง หรือคนขับรถมาที่บ้านคุณตามตารางประจำ — พนักงานเป็นลูกจ้างของบริษัท',
+    hero_h1_lawyer:              'ค้นหาทนายความตรวจคนเข้าเมืองในประเทศไทย',
+    hero_sub_lawyer:             'ผู้เชี่ยวชาญด้านใบอนุญาตทำงาน วีซ่า กฎหมายแรงงานไทย และการแก้ไขข้อพิพาท ติดต่อโดยตรง — เราไม่หักค่าธรรมเนียม',
+    hero_h1_visa_agent:          'ค้นหาตัวแทนวีซ่าใกล้คุณ',
+    hero_sub_visa_agent:         'ผู้เชี่ยวชาญด้านวีซ่าท่องเที่ยว เกษียณ การศึกษา และระยะยาว ทั่วประเทศไทย ไม่มีค่าคอมมิชชั่น — คุณดำเนินการโดยตรง',
+    hero_h1_mou_agency:          'ค้นหาหน่วยงาน MOU ในประเทศไทย',
+    hero_sub_mou_agency:         'งานเอกสารแรงงานต่างด้าวอย่างถูกต้อง: CI (พิสูจน์สัญชาติ) PJ พาสปอร์ต กระบวนการ MOU และต่อใบอนุญาตทำงานสำหรับคนงานจากเมียนมา ลาว และกัมพูชา',
+    hero_h1_training:            'หลักสูตรและการฝึกอบรมแม่บ้านใกล้คุณ',
+    hero_sub_training:           'หลักสูตรดูแลเด็ก ใบรับรองปฐมพยาบาล ภาษาไทย ภาษาอังกฤษสำหรับแม่บ้าน และการจัดการบ้าน เร็วๆ นี้ — เรากำลังเชิญผู้ให้บริการ',
+    hero_h1_partner:             'บริการที่เป็นประโยชน์สำหรับแม่บ้านใกล้คุณ',
+    hero_sub_partner:            'ประกันสุขภาพ การจัดการเงินเดือน การโอนเงินเดือน และการขนส่งที่รองรับการจัดการแม่บ้าน เร็วๆ นี้',
+    hero_h1_association:         'สมาคมและ NGO สำหรับแม่บ้านในประเทศไทย',
+    hero_sub_association:        'สถานทูต เครือข่ายชาวต่างชาติ NGO ด้านสิทธิแรงงาน และกลุ่มสนับสนุนชุมชนสำหรับแม่บ้านทั่วประเทศไทย เร็วๆ นี้',
 
-    tab_all: 'ผู้เชี่ยวชาญทั้งหมด',
-    tab_all_desc: 'ผู้เชี่ยวชาญทุกคนในรายชื่อของเรา',
+    tab_all: 'ทั้งหมด',
+    tab_all_desc: 'ดูทั้งหมด',
+    tab_agency_desc: 'จัดส่งพี่เลี้ยง แม่บ้าน คนขับรถ',
+    tab_service_company_desc: 'บริษัททำความสะอาด พี่เลี้ยง คนขับรถ',
     tab_lawyer_desc: 'ใบอนุญาตทำงาน วีซ่า กฎหมายแรงงาน',
     tab_visa_agent_desc: 'วีซ่าท่องเที่ยว เกษียณ และระยะยาว',
     tab_mou_agency_desc: 'เอกสารแรงงานต่างด้าว (CI, PJ, MOU)',
-    tab_agency_desc: 'การจ้างตรงและจัดหางาน',
-    tab_training_desc: 'หลักสูตรผู้ช่วย ปฐมพยาบาล ภาษา',
+    tab_training_desc: 'หลักสูตรแม่บ้าน ปฐมพยาบาล ภาษา',
     tab_partner_desc: 'ประกัน เงินเดือน การขนส่ง',
     tab_association_desc: 'สถานทูต เครือข่ายชาวต่างชาติ NGO',
     tab_coming_soon: 'เร็วๆ นี้',
@@ -362,27 +368,11 @@ export default function DirectoryIndex({ initialListings = [] }) {
         </nav>
 
         <main className="pt-24 md:pt-28">
-          <section className="px-6 pt-8 pb-6 md:pt-12 md:pb-8">
-            <div className="max-w-3xl mx-auto text-center">
-              <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-primary mb-3">
-                {t.hero_eyebrow}
-              </span>
-              <h1 className="text-3xl md:text-5xl font-extrabold font-headline text-on-background mb-3 leading-tight">
-                {t[`hero_h1_${filterType || 'all'}`] || t.hero_h1_all}
-              </h1>
-              <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-                {t[`hero_sub_${filterType || 'all'}`] || t.hero_sub_all}
-              </p>
-            </div>
-          </section>
-
-          <section className="px-4 md:px-6 pb-16">
+          {/* Category tabs FIRST — Helperplace-style. The hero below adapts to the
+              selected tab so the page communicates what each category covers. */}
+          <section className="px-4 md:px-6 pt-2 md:pt-4 pb-2">
             <div className="max-w-5xl mx-auto">
-              {/* Category tabs — Helperplace-style top-level navigation. Horizontally
-                  scrollable on mobile so all options stay reachable on narrow screens.
-                  Categories with no active listings get a "Coming soon" badge so empty
-                  tabs don't look broken. */}
-              <div className="mb-5 -mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto">
+              <div className="-mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto">
                 <div className="flex gap-2 md:gap-3 min-w-max md:min-w-0 md:flex-wrap">
                   {[
                     { value: '', label: t.tab_all, desc: t.tab_all_desc, count: initialListings.length },
@@ -427,7 +417,25 @@ export default function DirectoryIndex({ initialListings = [] }) {
                   })}
                 </div>
               </div>
+            </div>
+          </section>
 
+          <section className="px-6 pt-6 pb-6 md:pt-8 md:pb-8">
+            <div className="max-w-3xl mx-auto text-center">
+              <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-primary mb-3">
+                {t.hero_eyebrow}
+              </span>
+              <h1 className="text-3xl md:text-5xl font-extrabold font-headline text-on-background mb-3 leading-tight">
+                {t[`hero_h1_${filterType || 'all'}`] || t.hero_h1_all}
+              </h1>
+              <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                {t[`hero_sub_${filterType || 'all'}`] || t.hero_sub_all}
+              </p>
+            </div>
+          </section>
+
+          <section className="px-4 md:px-6 pb-16">
+            <div className="max-w-5xl mx-auto">
               {/* Secondary filters — city + specialty */}
               <div className="bg-white rounded-2xl border border-slate-200 p-4 md:p-5 mb-5 flex flex-wrap items-end gap-3">
                 <div className="flex-1 min-w-[180px]">

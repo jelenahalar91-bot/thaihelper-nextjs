@@ -62,7 +62,7 @@ if (!fs.existsSync(SEED_PATH)) {
 const listings = JSON.parse(fs.readFileSync(SEED_PATH, 'utf8'));
 
 // Validate before we touch the DB — fail loud rather than insert garbage.
-const ALLOWED_TYPES   = ['lawyer', 'visa_agent', 'mou_agency', 'agency', 'training', 'partner', 'association'];
+const ALLOWED_TYPES   = ['lawyer', 'visa_agent', 'mou_agency', 'agency', 'service_company', 'training', 'partner', 'association'];
 const ALLOWED_TIERS   = ['free', 'premium', 'featured'];
 const ALLOWED_STATUS  = ['active', 'inactive', 'pending'];
 
