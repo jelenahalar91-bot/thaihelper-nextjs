@@ -48,8 +48,24 @@ const T = {
     nav_faq: 'FAQ',
 
     hero_eyebrow: 'Expert Directory',
-    hero_h1: 'Find an immigration expert near you',
-    hero_sub: 'Browse vetted lawyers, visa agents, MOU agencies and staffing agencies across Thailand for work permits, visas, paperwork and hiring support. No commissions — you contact them directly.',
+    // Per-tab hero copy. The default ('all') is also the SEO title users land
+    // on; tab-specific copy makes the page feel responsive to the filter.
+    hero_h1_all:         'Find an immigration expert near you',
+    hero_sub_all:        'Browse vetted lawyers, visa agents, MOU agencies and staffing agencies across Thailand for work permits, visas, paperwork and hiring support. No commissions — you contact them directly.',
+    hero_h1_lawyer:      'Find an immigration lawyer in Thailand',
+    hero_sub_lawyer:     'Specialists in work permits, visas, Thai labor law and dispute resolution. Reach out directly — we don\'t take a cut.',
+    hero_h1_visa_agent:  'Find a visa agent near you',
+    hero_sub_visa_agent: 'Tourist, retirement, education and long-stay visa specialists across Thailand. No commissions — you handle the engagement directly.',
+    hero_h1_mou_agency:  'Find an MOU agency in Thailand',
+    hero_sub_mou_agency: 'Foreign-worker paperwork done right: CI (nationality verification), PJ passports, MOU process and work-permit renewals for Myanmar, Lao and Cambodian staff.',
+    hero_h1_agency:      'Find a staffing agency near you',
+    hero_sub_agency:     'Vetted staffing agencies for nannies, housekeepers, caregivers and drivers — for families who prefer a curated shortlist over direct search.',
+    hero_h1_training:    'Find a training provider in Thailand',
+    hero_sub_training:   'Childcare courses, first-aid certification, Thai language and household-management training for helpers and families. Coming soon — we\'re inviting providers now.',
+    hero_h1_partner:     'Find a service partner in Thailand',
+    hero_sub_partner:    'Insurance, payroll administration, salary transfer and transport partners that work with household-staff arrangements. Coming soon.',
+    hero_h1_association: 'Find an association or NGO',
+    hero_sub_association:'Embassies, expat networks, worker-rights NGOs and community support groups across Thailand. Coming soon.',
 
     tab_all: 'All experts',
     tab_all_desc: 'Every expert in our directory',
@@ -107,8 +123,22 @@ const T = {
     nav_faq: 'คำถามที่พบบ่อย',
 
     hero_eyebrow: 'รายชื่อผู้เชี่ยวชาญ',
-    hero_h1: 'ค้นหาผู้เชี่ยวชาญด้านตรวจคนเข้าเมืองใกล้คุณ',
-    hero_sub: 'ค้นหาทนายความ ตัวแทนวีซ่า หน่วยงาน MOU และบริษัทจัดหางานที่ได้รับการตรวจสอบทั่วประเทศไทย สำหรับใบอนุญาตทำงาน วีซ่า เอกสาร และการจ้างงาน เราไม่รับค่าคอมมิชชั่น — คุณติดต่อพวกเขาโดยตรง',
+    hero_h1_all:         'ค้นหาผู้เชี่ยวชาญด้านตรวจคนเข้าเมืองใกล้คุณ',
+    hero_sub_all:        'ค้นหาทนายความ ตัวแทนวีซ่า หน่วยงาน MOU และบริษัทจัดหางานที่ได้รับการตรวจสอบทั่วประเทศไทย สำหรับใบอนุญาตทำงาน วีซ่า เอกสาร และการจ้างงาน เราไม่รับค่าคอมมิชชั่น — คุณติดต่อพวกเขาโดยตรง',
+    hero_h1_lawyer:      'ค้นหาทนายความตรวจคนเข้าเมืองในประเทศไทย',
+    hero_sub_lawyer:     'ผู้เชี่ยวชาญด้านใบอนุญาตทำงาน วีซ่า กฎหมายแรงงานไทย และการแก้ไขข้อพิพาท ติดต่อโดยตรง — เราไม่หักค่าธรรมเนียม',
+    hero_h1_visa_agent:  'ค้นหาตัวแทนวีซ่าใกล้คุณ',
+    hero_sub_visa_agent: 'ผู้เชี่ยวชาญด้านวีซ่าท่องเที่ยว เกษียณ การศึกษา และระยะยาว ทั่วประเทศไทย ไม่มีค่าคอมมิชชั่น — คุณดำเนินการโดยตรง',
+    hero_h1_mou_agency:  'ค้นหาหน่วยงาน MOU ในประเทศไทย',
+    hero_sub_mou_agency: 'งานเอกสารแรงงานต่างด้าวอย่างถูกต้อง: CI (พิสูจน์สัญชาติ) PJ พาสปอร์ต กระบวนการ MOU และต่อใบอนุญาตทำงานสำหรับคนงานจากเมียนมา ลาว และกัมพูชา',
+    hero_h1_agency:      'ค้นหาบริษัทจัดหางานใกล้คุณ',
+    hero_sub_agency:     'บริษัทจัดหางานที่ตรวจสอบแล้ว สำหรับพี่เลี้ยงเด็ก แม่บ้าน ผู้ดูแล และคนขับรถ — สำหรับครอบครัวที่ต้องการรายชื่อคัดสรรแทนการค้นหาเอง',
+    hero_h1_training:    'ค้นหาผู้ให้บริการฝึกอบรมในประเทศไทย',
+    hero_sub_training:   'หลักสูตรดูแลเด็ก ใบรับรองปฐมพยาบาล ภาษาไทย และการจัดการบ้านสำหรับผู้ช่วยและครอบครัว เร็วๆ นี้ — เรากำลังเชิญผู้ให้บริการ',
+    hero_h1_partner:     'ค้นหาพันธมิตรบริการในประเทศไทย',
+    hero_sub_partner:    'พันธมิตรด้านประกัน การจัดการเงินเดือน การโอนเงินเดือน และการขนส่งที่รองรับการจัดการแม่บ้าน เร็วๆ นี้',
+    hero_h1_association: 'ค้นหาสมาคมหรือ NGO',
+    hero_sub_association:'สถานทูต เครือข่ายชาวต่างชาติ NGO ด้านสิทธิแรงงาน และกลุ่มสนับสนุนชุมชนทั่วประเทศไทย เร็วๆ นี้',
 
     tab_all: 'ผู้เชี่ยวชาญทั้งหมด',
     tab_all_desc: 'ผู้เชี่ยวชาญทุกคนในรายชื่อของเรา',
@@ -338,10 +368,10 @@ export default function DirectoryIndex({ initialListings = [] }) {
                 {t.hero_eyebrow}
               </span>
               <h1 className="text-3xl md:text-5xl font-extrabold font-headline text-on-background mb-3 leading-tight">
-                {t.hero_h1}
+                {t[`hero_h1_${filterType || 'all'}`] || t.hero_h1_all}
               </h1>
               <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-                {t.hero_sub}
+                {t[`hero_sub_${filterType || 'all'}`] || t.hero_sub_all}
               </p>
             </div>
           </section>
