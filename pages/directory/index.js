@@ -48,8 +48,15 @@ const T = {
     nav_faq: 'FAQ',
 
     hero_eyebrow: 'Expert Directory',
-    hero_h1: 'Immigration experts in Thailand',
-    hero_sub: 'Lawyers, visa agents and MOU agencies — listed by city. We don\'t take commissions. You contact them directly.',
+    hero_h1: 'Find an immigration expert near you',
+    hero_sub: 'Browse vetted lawyers, visa agents, MOU agencies and staffing agencies across Thailand for work permits, visas, paperwork and hiring support. No commissions — you contact them directly.',
+
+    tab_all: 'All experts',
+    tab_all_desc: 'Every expert in our directory',
+    tab_lawyer_desc: 'Work permits, visas, labor law',
+    tab_visa_agent_desc: 'Tourist, retirement & long-stay visas',
+    tab_mou_agency_desc: 'Foreign-worker paperwork (CI, PJ, MOU)',
+    tab_agency_desc: 'Direct-hire & staffing support',
 
     filter_title: 'Filters',
     filter_city: 'All cities',
@@ -96,8 +103,15 @@ const T = {
     nav_faq: 'คำถามที่พบบ่อย',
 
     hero_eyebrow: 'รายชื่อผู้เชี่ยวชาญ',
-    hero_h1: 'ผู้เชี่ยวชาญด้านตรวจคนเข้าเมืองในประเทศไทย',
-    hero_sub: 'ทนายความ ตัวแทนวีซ่า และหน่วยงาน MOU จัดเรียงตามเมือง เราไม่รับค่าคอมมิชชั่น คุณติดต่อพวกเขาโดยตรง',
+    hero_h1: 'ค้นหาผู้เชี่ยวชาญด้านตรวจคนเข้าเมืองใกล้คุณ',
+    hero_sub: 'ค้นหาทนายความ ตัวแทนวีซ่า หน่วยงาน MOU และบริษัทจัดหางานที่ได้รับการตรวจสอบทั่วประเทศไทย สำหรับใบอนุญาตทำงาน วีซ่า เอกสาร และการจ้างงาน เราไม่รับค่าคอมมิชชั่น — คุณติดต่อพวกเขาโดยตรง',
+
+    tab_all: 'ผู้เชี่ยวชาญทั้งหมด',
+    tab_all_desc: 'ผู้เชี่ยวชาญทุกคนในรายชื่อของเรา',
+    tab_lawyer_desc: 'ใบอนุญาตทำงาน วีซ่า กฎหมายแรงงาน',
+    tab_visa_agent_desc: 'วีซ่าท่องเที่ยว เกษียณ และระยะยาว',
+    tab_mou_agency_desc: 'เอกสารแรงงานต่างด้าว (CI, PJ, MOU)',
+    tab_agency_desc: 'การจ้างตรงและจัดหางาน',
 
     filter_title: 'ตัวกรอง',
     filter_city: 'ทุกเมือง',
@@ -326,7 +340,44 @@ export default function DirectoryIndex({ initialListings = [] }) {
 
           <section className="px-4 md:px-6 pb-16">
             <div className="max-w-5xl mx-auto">
-              {/* Filters */}
+              {/* Category tabs — Helperplace-style top-level navigation. Horizontally
+                  scrollable on mobile so all 5 options stay reachable on narrow screens. */}
+              <div className="mb-5 -mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto">
+                <div className="flex gap-2 md:gap-3 min-w-max md:min-w-0 md:flex-wrap">
+                  {[
+                    { value: '', label: t.tab_all, desc: t.tab_all_desc },
+                    ...DIRECTORY_TYPES.map(o => ({
+                      value: o.value,
+                      label: lang === 'th' ? o.th : o.en,
+                      desc: t[`tab_${o.value}_desc`] || '',
+                    })),
+                  ].map(tab => {
+                    const isActive = filterType === tab.value;
+                    return (
+                      <button
+                        key={tab.value || 'all'}
+                        onClick={() => setFilterType(tab.value)}
+                        className={`flex-1 md:flex-initial min-w-[160px] text-left px-4 py-3 rounded-xl border-2 transition-all ${
+                          isActive
+                            ? 'border-primary bg-primary/5 shadow-sm'
+                            : 'border-slate-200 bg-white hover:border-slate-300'
+                        }`}
+                      >
+                        <div className={`text-sm font-bold leading-tight ${isActive ? 'text-primary' : 'text-on-background'}`}>
+                          {tab.label}
+                        </div>
+                        {tab.desc && (
+                          <div className="text-[11px] text-slate-500 mt-1 leading-snug">
+                            {tab.desc}
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Secondary filters — city + specialty */}
               <div className="bg-white rounded-2xl border border-slate-200 p-4 md:p-5 mb-5 flex flex-wrap items-end gap-3">
                 <div className="flex-1 min-w-[180px]">
                   <select
@@ -337,21 +388,6 @@ export default function DirectoryIndex({ initialListings = [] }) {
                     <option value="">{t.filter_city}</option>
                     {CITY_OPTIONS.map(c => (
                       <option key={c.slug} value={c.slug}>{c.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="flex-1 min-w-[180px]">
-                  <select
-                    value={filterType}
-                    onChange={e => setFilterType(e.target.value)}
-                    className="w-full p-2.5 rounded-lg border border-slate-300 text-sm bg-white"
-                  >
-                    <option value="">{t.filter_type}</option>
-                    {DIRECTORY_TYPES.map(o => (
-                      <option key={o.value} value={o.value}>
-                        {lang === 'th' ? o.th : o.en}
-                      </option>
                     ))}
                   </select>
                 </div>
