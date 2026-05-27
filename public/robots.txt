@@ -22,8 +22,12 @@ Disallow: /employer-profile
 User-agent: GPTBot
 Disallow: /
 
-User-agent: Google-Extended
-Disallow: /
+# Google-Extended (Gemini training opt-out) — UNBLOCKED 2026-05-27.
+# Google-Extended doesn't crawl pages itself; it's a signal Googlebot
+# reads while indexing. Blocking it gave ~zero Egress benefit (the
+# 230% overage came from Bytespider/GPTBot scraping helper photos,
+# not from this). Keeping it allowed keeps us eligible for Google AI
+# Overviews / SGE answers.
 
 User-agent: ClaudeBot
 Disallow: /

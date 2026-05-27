@@ -91,7 +91,7 @@ const T = {
     hero_shimmer: 'No middlemen, no fees.',
     hero_p: 'Browse verified nannies, housekeepers, chefs, drivers and more in your city. Create a free account and start messaging helpers today.',
     hero_cta: 'Create Free Account',
-    hero_launch_banner: '🎉 Free for families until end of 2026 — message any helper directly, no fees, no commission.',
+    hero_launch_banner: '🎉 Free for families — message any helper directly, no fees, no commission.',
     hero_browse: 'Browse Helper Profiles — No account needed',
     hero_badge: '100% free for everyone',
     // Work permit banner (just below hero)
@@ -226,7 +226,7 @@ const T = {
     hero_shimmer: 'ไม่มีคนกลาง ไม่มีค่าธรรมเนียม',
     hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ สร้างบัญชีฟรีและเริ่มส่งข้อความหาผู้ช่วยได้วันนี้',
     hero_cta: 'สร้างบัญชีฟรี',
-    hero_launch_banner: '🎉 ฟรีสำหรับครอบครัวถึงสิ้นปี 2026 — ส่งข้อความถึงผู้ช่วยได้โดยตรง ไม่มีค่าธรรมเนียม',
+    hero_launch_banner: '🎉 ฟรีสำหรับครอบครัว — ส่งข้อความถึงผู้ช่วยได้โดยตรง ไม่มีค่าธรรมเนียม',
     hero_browse: 'ดูโปรไฟล์ผู้ช่วย — ไม่ต้องสมัคร',
     hero_badge: 'ฟรี 100% สำหรับทุกคน',
     wp_label: 'ใบอนุญาตทำงานและวีซ่า',
@@ -369,7 +369,7 @@ export async function getServerSideProps({ req }) {
   // Detect anonymous visitor — same logic as /helpers. The launch
   // banner is a conversion tool aimed at not-yet-registered families;
   // logged-in users already get the value and don't need to see the
-  // "until end of 2026" framing again.
+  // "free for families" framing again.
   let isAnonymous = true;
   try {
     const { getAnySession } = await import('@/lib/auth');

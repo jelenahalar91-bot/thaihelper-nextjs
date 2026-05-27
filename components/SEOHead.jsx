@@ -24,7 +24,13 @@ export default function SEOHead({
   jsonLd,
   noindex = false,
 }) {
-  const canonicalUrl = `${SITE_URL}${path}`;
+  // path may or may not start with "/" — normalise.
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  // The canonical URL must reflect the locale so Google doesn't fold
+  // /foo and /th/foo into one document.
+  const enUrl = `${SITE_URL}${cleanPath === '/' ? '' : cleanPath}` || SITE_URL;
+  const thUrl = `${SITE_URL}/th${cleanPath === '/' ? '' : cleanPath}`;
+  const canonicalUrl = lang === 'th' ? thUrl : enUrl;
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
 
   return (
@@ -40,9 +46,12 @@ export default function SEOHead({
       <meta name="msnbot" content="index, follow" />
       <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large" />
 
-      {/* hreflang omitted — language is client-side (localStorage), not URL-based.
-         All languages share the same URL so hreflang would be misleading to crawlers.
-         Re-add when locale-based routing (/th/, /ru/) is implemented. */}
+      {/* hreflang alternates — tells search engines about the EN/TH pair.
+         x-default points at the EN version since that's the marketplace
+         default and what we want non-Thai-speaking users to see first. */}
+      <link rel="alternate" hrefLang="en" href={enUrl} />
+      <link rel="alternate" hrefLang="th" href={thUrl} />
+      <link rel="alternate" hrefLang="x-default" href={enUrl} />
 
       {/* Open Graph */}
       <meta property="og:title" content={fullTitle} />

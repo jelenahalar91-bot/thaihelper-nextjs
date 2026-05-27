@@ -249,12 +249,14 @@ export async function getStaticProps() {
   }
 }
 
-function trackClick(listingId, ctaName) {
+const VALID_SOURCES = ['wizard', 'direct', 'hire_page', 'search', 'internal'];
+
+function trackClick(listingId, ctaName, source) {
   // Fire-and-forget. We don't await so the user's click feels instant.
   fetch(`/api/directory/${listingId}/click`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ cta: ctaName }),
+    body: JSON.stringify({ cta: ctaName, source: source || 'direct' }),
   }).catch(() => {});
 }
 
@@ -266,8 +268,9 @@ export default function DirectoryIndex({ initialListings = [] }) {
   const [filterCity, setFilterCity] = useState('');
   const [filterType, setFilterType] = useState('');
   const [filterSpecialty, setFilterSpecialty] = useState('');
+  const [clickSource, setClickSource] = useState('direct');
 
-  // Pre-fill city from ?city=<slug> so the wizard's CTAs deep-link.
+  // Pre-fill city and source from query params so the wizard's CTAs deep-link.
   useEffect(() => {
     if (!router.isReady) return;
     const raw = router.query.city;
@@ -275,7 +278,9 @@ export default function DirectoryIndex({ initialListings = [] }) {
     if (value && CITY_OPTIONS.some(c => c.slug === value)) {
       setFilterCity(value);
     }
-  }, [router.isReady, router.query.city]);
+    const src = Array.isArray(router.query.source) ? router.query.source[0] : router.query.source;
+    if (src && VALID_SOURCES.includes(src)) setClickSource(src);
+  }, [router.isReady, router.query.city, router.query.source]);
 
   const filtered = useMemo(() => {
     return initialListings.filter(l => {
@@ -482,7 +487,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
               ) : (
                 <div className="grid gap-4">
                   {filtered.map(l => (
-                    <ListingCard key={l.id} listing={l} t={t} lang={lang} />
+                    <ListingCard key={l.id} listing={l} t={t} lang={lang} source={clickSource} />
                   ))}
                 </div>
               )}
@@ -511,7 +516,8 @@ export default function DirectoryIndex({ initialListings = [] }) {
   );
 }
 
-function ListingCard({ listing, t, lang }) {
+function ListingCard({ listing, t, lang, source = 'direct' }) {
+  const clickSource = source;
   const isFeatured = listing.tier === 'featured';
   const isPremium = listing.tier === 'premium';
 
@@ -594,7 +600,7 @@ function ListingCard({ listing, t, lang }) {
             href={listing.website}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            onClick={() => trackClick(listing.id, 'website')}
+            onClick={() => trackClick(listing.id, 'website', clickSource)}
             className="px-4 py-2 rounded-full bg-primary text-white text-sm font-bold hover:bg-primary-container transition-colors"
           >
             {t.cta_website}
@@ -603,7 +609,7 @@ function ListingCard({ listing, t, lang }) {
         {listing.phone && (
           <a
             href={`tel:${listing.phone}`}
-            onClick={() => trackClick(listing.id, 'phone')}
+            onClick={() => trackClick(listing.id, 'phone', clickSource)}
             className="px-4 py-2 rounded-full bg-white border border-primary text-primary text-sm font-bold hover:bg-primary/5 transition-colors"
           >
             {t.cta_phone}
@@ -612,15 +618,15 @@ function ListingCard({ listing, t, lang }) {
         {listing.email && (
           <a
             href={`mailto:${listing.email}`}
-            onClick={() => trackClick(listing.id, 'email')}
+            onClick={() => trackClick(listing.id, 'email', clickSource)}
             className="px-4 py-2 rounded-full bg-white border border-slate-300 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors"
           >
             {t.cta_email}
           </a>
         )}
         <Link
-          href={`/directory/${listing.slug}`}
-          onClick={() => trackClick(listing.id, 'details')}
+          href={`/directory/${listing.slug}${clickSource !== 'direct' ? `?source=${clickSource}` : ''}`}
+          onClick={() => trackClick(listing.id, 'details', clickSource)}
           className="px-4 py-2 rounded-full text-sm font-semibold text-slate-600 hover:text-primary self-center"
         >
           {t.cta_view_details}

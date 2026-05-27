@@ -10,6 +10,7 @@ import {
   fetchEmployerProfile,
 } from '@/lib/api/employer-auth-client';
 import LangSwitcher from '@/components/LangSwitcher';
+import { useLang } from '@/pages/_app';
 import { MobileMenu } from '@/components/MobileMenu';
 
 const T = {
@@ -107,7 +108,7 @@ function isEmployerRef(ref) {
 
 export default function Login() {
   const router = useRouter();
-  const [lang, setLangState] = useState('en');
+  const { lang, setLang: changeLang } = useLang();
   const [email, setEmail] = useState('');
   const [ref, setRef] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -138,11 +139,6 @@ export default function Login() {
     else if (err === 'account_unavailable') setUrlError('url_error_unavailable');
   }, [router.isReady, router.query]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem('th_lang') || 'en';
-    setLangState(saved);
-  }, []);
-
   // If already logged in (helper OR employer), send straight to the right dashboard.
   useEffect(() => {
     let cancelled = false;
@@ -166,11 +162,6 @@ export default function Login() {
     })();
     return () => { cancelled = true; };
   }, [router]);
-
-  const changeLang = (l) => {
-    setLangState(l);
-    localStorage.setItem('th_lang', l);
-  };
 
   const t = T[lang] || T.en;
 

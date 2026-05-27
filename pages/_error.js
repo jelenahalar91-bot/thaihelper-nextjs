@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 const T = {
   en: {
@@ -26,17 +27,9 @@ const T = {
   },
 };
 
-function getLang() {
-  if (typeof window === 'undefined') return 'en';
-  try {
-    return localStorage.getItem('th_lang') || 'en';
-  } catch {
-    return 'en';
-  }
-}
-
 function Error({ statusCode }) {
-  const lang = getLang();
+  const router = useRouter();
+  const lang = router?.locale === 'th' ? 'th' : 'en';
   const t = T[lang] || T.en;
 
   const isNotFound = statusCode === 404;

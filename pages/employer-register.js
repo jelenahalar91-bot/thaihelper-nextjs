@@ -10,6 +10,7 @@ import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS } from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu } from '@/components/MobileMenu';
+import { useLang } from '@/pages/_app';
 import { suggestEmail } from '@/lib/email-typo';
 import { event as gaEvent, fbTrack, EVENTS } from '@/lib/analytics';
 
@@ -174,7 +175,7 @@ const T = {
 
 export default function EmployerRegisterPage() {
   const router = useRouter();
-  const [lang, setLangState] = useState('en');
+  const { lang, setLang: changeLang } = useLang();
 
   // Form state
   const [firstName, setFirstName] = useState('');
@@ -201,16 +202,6 @@ export default function EmployerRegisterPage() {
   const [successRef, setSuccessRef] = useState(null);
   const [turnstileToken, setTurnstileToken] = useState('');
   const handleTurnstileToken = useCallback((token) => setTurnstileToken(token), []);
-
-  useEffect(() => {
-    const saved = localStorage.getItem('th_lang') || 'en';
-    setLangState(saved);
-  }, []);
-
-  const changeLang = (l) => {
-    setLangState(l);
-    localStorage.setItem('th_lang', l);
-  };
 
   const t = T[lang] || T.en;
 

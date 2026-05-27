@@ -709,7 +709,11 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
   const thaiHelpersUrl   = '/helpers?nationality=thai';
   const validWpHelpersUrl = '/helpers?wp=valid_wp';
   const allHelpersUrl    = '/helpers';
-  const directoryUrl = () => `/directory${city ? `?city=${encodeURIComponent(city)}` : ''}`;
+  const directoryUrl = () => {
+    const params = new URLSearchParams({ source: 'wizard' });
+    if (city) params.set('city', city);
+    return `/directory?${params.toString()}`;
+  };
 
   // Disable CTAs until the user confirms they understand this is general
   // information, not legal advice (per spec section 2.13).

@@ -31,7 +31,7 @@ const T = {
     hero_badge:     '🇹🇭 Find Help in Thailand',
     hero_h1:        'Browse Trusted Helpers',
     hero_sub:       'Find nannies, housekeepers, chefs, drivers and more — directly, no middleman.',
-    launch_banner:  '🎉 Always free for helpers — and free for families until end of 2026. Message helpers directly, no fees, no commission.',
+    launch_banner:  '🎉 Always free for helpers — and free for families too. Message helpers directly, no fees, no commission.',
     filter_title:   'Filters',
     filter_show_filters: 'Filters',
     filter_show_results: 'Show {n} results',
@@ -80,7 +80,7 @@ const T = {
     hero_badge:     '🇹🇭 หาผู้ช่วยในประเทศไทย',
     hero_h1:        'ค้นหาผู้ช่วยที่ไว้ใจได้',
     hero_sub:       'หาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ — โดยตรง ไม่มีคนกลาง',
-    launch_banner:  '🎉 ฟรีตลอดไปสำหรับผู้ช่วย — และฟรีสำหรับครอบครัวถึงสิ้นปี 2026 ส่งข้อความถึงผู้ช่วยได้โดยตรง ไม่มีค่าธรรมเนียม',
+    launch_banner:  '🎉 ฟรีตลอดไปสำหรับผู้ช่วย — และฟรีสำหรับครอบครัวด้วย ส่งข้อความถึงผู้ช่วยได้โดยตรง ไม่มีค่าธรรมเนียม',
     filter_title:   'ตัวกรอง',
     filter_show_filters: 'ตัวกรอง',
     filter_show_results: 'แสดง {n} รายการ',
@@ -148,7 +148,10 @@ function categoryWithEmoji(cat) {
   const slug = categoryToSlug(cat);
   if (slug) {
     const def = CATEGORIES.find(c => c.value === slug);
-    if (def) return def.en;
+    if (def) {
+      const emoji = CAT_EMOJI[def.en] || '';
+      return emoji ? `${emoji} ${def.en}` : def.en;
+    }
   }
   const found = Object.entries(CAT_EMOJI).find(([k]) =>
     String(cat).toLowerCase().includes(k.toLowerCase().split(' ')[0])
