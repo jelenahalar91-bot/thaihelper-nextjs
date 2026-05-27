@@ -9,6 +9,7 @@
  */
 
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
@@ -201,17 +202,24 @@ export async function getStaticProps({ params }) {
   }
 }
 
-function trackClick(listingId, ctaName) {
+const VALID_SOURCES = ['wizard', 'direct', 'hire_page', 'search', 'internal'];
+
+function trackClick(listingId, ctaName, source) {
   fetch(`/api/directory/${listingId}/click`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ cta: ctaName }),
+    body: JSON.stringify({ cta: ctaName, source: source || 'direct' }),
   }).catch(() => {});
 }
 
 export default function DirectoryDetail({ listing, siblings = [] }) {
   const { lang } = useLang();
   const t = T[lang] || T.en;
+  const router = useRouter();
+
+  // Preserve source from the listing index (?source=wizard etc.)
+  const rawSrc = Array.isArray(router.query.source) ? router.query.source[0] : router.query.source;
+  const clickSource = VALID_SOURCES.includes(rawSrc) ? rawSrc : 'direct';
 
   if (!listing) return null;
 
@@ -356,7 +364,7 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                     href={listing.website}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
-                    onClick={() => trackClick(listing.id, 'website')}
+                    onClick={() => trackClick(listing.id, 'website', clickSource)}
                     className="px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold hover:bg-primary-container transition-colors"
                   >
                     {t.cta_website}
@@ -365,7 +373,7 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                 {listing.phone && (
                   <a
                     href={`tel:${listing.phone}`}
-                    onClick={() => trackClick(listing.id, 'phone')}
+                    onClick={() => trackClick(listing.id, 'phone', clickSource)}
                     className="px-5 py-2.5 rounded-full bg-white border border-primary text-primary text-sm font-bold hover:bg-primary/5 transition-colors"
                   >
                     {t.cta_phone}
@@ -374,7 +382,7 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                 {listing.email && (
                   <a
                     href={`mailto:${listing.email}`}
-                    onClick={() => trackClick(listing.id, 'email')}
+                    onClick={() => trackClick(listing.id, 'email', clickSource)}
                     className="px-5 py-2.5 rounded-full bg-white border border-slate-300 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors"
                   >
                     {t.cta_email}
@@ -427,7 +435,7 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                         href={listing.googleMapsUrl}
                         target="_blank"
                         rel="nofollow noopener noreferrer"
-                        onClick={() => trackClick(listing.id, 'maps')}
+                        onClick={() => trackClick(listing.id, 'maps', clickSource)}
                         className="text-xs text-primary hover:underline mt-1 inline-block"
                       >
                         {t.cta_directions}
