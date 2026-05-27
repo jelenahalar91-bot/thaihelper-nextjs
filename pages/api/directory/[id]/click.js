@@ -36,9 +36,13 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid listing id' });
   }
 
-  const { cta } = req.body || {};
+  const { cta, source: bodySrc } = req.body || {};
   const ctaType = VALID_CTA.includes(cta) ? cta : 'website';
-  const source  = inferSource(req.headers.referer || req.headers.referrer || '');
+  // Prefer explicit source from request body (set by frontend based on ?source= param);
+  // fall back to Referer-header inference for older callers.
+  const source  = VALID_SOURCE.includes(bodySrc)
+    ? bodySrc
+    : inferSource(req.headers.referer || req.headers.referrer || '');
 
   // Generate a lightweight session id from IP + UA (no cookies needed).
   const rawSession = `${req.headers['x-forwarded-for'] || req.socket?.remoteAddress || ''}|${req.headers['user-agent'] || ''}`;
