@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext, useContext } from 'react';
+import { useEffect, createContext, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Script from 'next/script';
@@ -29,7 +29,8 @@ const sarabun = Sarabun({
   variable: '--font-thai',
 });
 
-// Language context so all pages share the same lang state
+// Language context — derived from the Next.js router locale.
+// The URL is now the source of truth: `/` is English, `/th/...` is Thai.
 const LangContext = createContext({ lang: 'en', setLang: () => {} });
 
 export function useLang() {
@@ -38,21 +39,35 @@ export function useLang() {
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const [lang, setLangState] = useState('en');
+  const lang = router.locale === 'th' ? 'th' : 'en';
 
-  useEffect(() => {
-    const saved = localStorage.getItem('th_lang') || 'en';
-    setLangState(saved);
-    captureAttribution();
-  }, []);
-
+  // setLang now switches the URL locale (which re-renders the page).
+  // We use shallow routing where possible so SSG data isn't refetched.
   const setLang = (l) => {
-    setLangState(l);
-    localStorage.setItem('th_lang', l);
-    document.documentElement.lang = l === 'th' ? 'th' : 'en';
+    if (l === lang) return;
+    router.push(router.asPath, router.asPath, { locale: l });
   };
 
-  // Set initial lang on html element
+  useEffect(() => {
+    captureAttribution();
+
+    // One-time migration: visitors who set `th` in the old localStorage-
+    // based system before the i18n switch (2026-05-27) get bounced to
+    // the /th/ equivalent of whatever page they landed on. Then we
+    // delete the key so the bounce only happens once.
+    try {
+      const saved = localStorage.getItem('th_lang');
+      if (saved) {
+        localStorage.removeItem('th_lang');
+        if (saved === 'th' && router.locale === 'en') {
+          router.replace(router.asPath, router.asPath, { locale: 'th' });
+        }
+      }
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Keep <html lang> in sync with the active locale.
   useEffect(() => {
     document.documentElement.lang = lang === 'th' ? 'th' : 'en';
   }, [lang]);

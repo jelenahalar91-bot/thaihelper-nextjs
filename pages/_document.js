@@ -1,42 +1,55 @@
-import { Html, Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-export default function Document() {
-  return (
-    <Html lang="en">
-      <Head>
-        {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
+// Locale-aware <html lang> — uses ctx.locale from Next.js i18n routing.
+// Without this, /th/* pages would still render with lang="en" and
+// confuse screen readers + AI crawlers that key on the html lang attr.
+class MyDocument extends Document {
+  static async getInitialProps(ctx) {
+    const initialProps = await Document.getInitialProps(ctx);
+    return { ...initialProps, locale: ctx.locale || 'en' };
+  }
 
-        {/* Fonts loaded via next/font in _app.js — self-hosted, no external requests */}
+  render() {
+    const locale = this.props.locale === 'th' ? 'th' : 'en';
+    return (
+      <Html lang={locale}>
+        <Head>
+          {/* Favicon */}
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+          <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+          <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+          <link rel="manifest" href="/manifest.json" />
 
-        {/* DNS prefetch for external resources */}
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+          {/* Fonts loaded via next/font in _app.js — self-hosted, no external requests */}
 
-        {/* Theme color */}
-        <meta name="theme-color" content="#006a62" />
+          {/* DNS prefetch for external resources */}
+          <link rel="dns-prefetch" href="https://images.unsplash.com" />
 
-        {/* Bing Webmaster Tools verification */}
-        <meta name="msvalidate.01" content="F12409946E0AC671E03AAAD5C5CA679C" />
+          {/* Theme color */}
+          <meta name="theme-color" content="#006a62" />
 
-        {/* Google Search Console verified via HTML file (public/google*.html) */}
+          {/* Bing Webmaster Tools verification */}
+          <meta name="msvalidate.01" content="F12409946E0AC671E03AAAD5C5CA679C" />
 
-        {/* Geo meta tags for local SEO */}
-        <meta name="geo.region" content="TH" />
-        <meta name="geo.placename" content="Thailand" />
+          {/* Google Search Console verified via HTML file (public/google*.html) */}
 
-        {/* App identification */}
-        <meta name="application-name" content="ThaiHelper" />
-        <meta name="apple-mobile-web-app-title" content="ThaiHelper" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-      </Head>
-      <body>
-        <Main />
-        <NextScript />
-      </body>
-    </Html>
-  );
+          {/* Geo meta tags for local SEO */}
+          <meta name="geo.region" content="TH" />
+          <meta name="geo.placename" content="Thailand" />
+
+          {/* App identification */}
+          <meta name="application-name" content="ThaiHelper" />
+          <meta name="apple-mobile-web-app-title" content="ThaiHelper" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
 }
+
+export default MyDocument;

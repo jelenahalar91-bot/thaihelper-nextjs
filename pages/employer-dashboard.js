@@ -273,7 +273,10 @@ function categoryWithEmoji(cat) {
   const slug = categoryToSlug(cat);
   if (slug) {
     const def = CATEGORIES.find(c => c.value === slug);
-    if (def) return def.en; // already contains the emoji
+    if (def) {
+      const emoji = CAT_EMOJI[def.en] || '';
+      return emoji ? `${emoji} ${def.en}` : def.en;
+    }
   }
   // Fallback — best-effort prefix
   const found = Object.entries(CAT_EMOJI).find(([k]) =>

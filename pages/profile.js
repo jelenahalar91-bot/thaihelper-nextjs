@@ -57,6 +57,7 @@ function formatSkills(csv, category, lang) {
     .join(', ');
 }
 import { logout } from '@/lib/api/auth-client';
+import { useLang } from '@/pages/_app';
 import { fetchDocuments, uploadDocument, deleteDocument } from '@/lib/api/documents';
 import { fetchReferences, addReference, updateReference, deleteReference } from '@/lib/api/references';
 import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConversationAsHelper, deleteConversation } from '@/lib/api/messages';
@@ -441,7 +442,7 @@ const T = {
 
 export default function Profile() {
   const router = useRouter();
-  const [lang, setLangState] = useState('en');
+  const { lang, setLang: changeLang } = useLang();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
   const [authError, setAuthError] = useState(false);
@@ -505,12 +506,6 @@ export default function Profile() {
     return () => document.removeEventListener('click', handleClick);
   }, [menuOpen]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem('th_lang') || 'en';
-    setLangState(saved);
-  }, []);
-
-  const changeLang = (l) => { setLangState(l); localStorage.setItem('th_lang', l); };
   const t = T[lang] || T.en;
 
   useEffect(() => { fetchProfile(); loadSupabaseData(); }, []);

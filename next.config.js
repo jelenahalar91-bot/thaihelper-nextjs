@@ -4,6 +4,15 @@ const { withSentryConfig } = require('@sentry/nextjs');
 const nextConfig = {
   reactStrictMode: true,
 
+  // Bilingual: English at the root (/), Thai under /th/. localeDetection
+  // is disabled so visitors aren't auto-redirected based on browser
+  // Accept-Language — the LangSwitcher gives explicit control instead.
+  i18n: {
+    locales: ['en', 'th'],
+    defaultLocale: 'en',
+    localeDetection: false,
+  },
+
   images: {
     remotePatterns: [
       {

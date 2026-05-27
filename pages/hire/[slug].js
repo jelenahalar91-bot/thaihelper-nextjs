@@ -12,8 +12,14 @@ import { CITIES_DATA } from '@/lib/constants/cities';
 
 export async function getStaticPaths() {
   const pages = getAllHirePages();
+  // With Next.js i18n + fallback: false we MUST emit a path per locale
+  // explicitly. Without the explicit `locale` field, /th/hire/* would
+  // 404 — Next assigns each path to the default locale only.
+  const locales = ['en', 'th'];
   return {
-    paths: pages.map((p) => ({ params: { slug: p.slug } })),
+    paths: pages.flatMap((p) =>
+      locales.map((locale) => ({ params: { slug: p.slug }, locale })),
+    ),
     fallback: false,
   };
 }
