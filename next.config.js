@@ -127,7 +127,18 @@ const nextConfig = {
       permanent: false,
     }));
 
-    const shortlinks = [...helperLinks, ...familyLinks, ...groupPostLinks, ...expatGroupEmployerLinks];
+    // Family group-posts that invite browsing → land directly on /helpers
+    // (the public profile grid) so the "browse without signing up" promise
+    // in the post is one click away.
+    const familyBrowseGroupLinks = [
+      { src: '/fbp', campaign: 'phuket-nanny-2026-05' }, // Phuket nanny/housekeeping group
+    ].map(({ src, campaign }) => ({
+      source: src,
+      destination: `/helpers?utm_source=facebook&utm_medium=group-post&utm_campaign=${campaign}`,
+      permanent: false,
+    }));
+
+    const shortlinks = [...helperLinks, ...familyLinks, ...groupPostLinks, ...expatGroupEmployerLinks, ...familyBrowseGroupLinks];
 
     return [
       {
