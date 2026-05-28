@@ -540,7 +540,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                     </Link>
                     <LangSwitcher languages={['en', 'th']} />
                     <Link
-                      href="/register"
+                      href="/signup"
                       className="px-5 py-2.5 rounded-full bg-gradient-to-br from-[#006a62] to-[#004d47] text-white text-sm font-semibold hover:shadow-lg transition-all whitespace-nowrap"
                     >
                       {t.nav_cta}
@@ -550,7 +550,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                     <MobileMenu
                       items={navItems}
                       secondaryCta={{ href: '/login', label: t.nav_login }}
-                      primaryCta={{ href: '/register', label: t.nav_cta }}
+                      primaryCta={{ href: '/signup', label: t.nav_cta }}
                     />
                   </div>
                 </>

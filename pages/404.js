@@ -54,7 +54,7 @@ export default function Custom404() {
               {t.cta_helpers}
             </Link>
             <Link
-              href="/register"
+              href="/signup"
               className="px-6 py-3 rounded-xl border border-primary/20 text-primary font-bold text-sm hover:bg-primary/5 transition-colors text-center"
             >
               {t.cta_register}

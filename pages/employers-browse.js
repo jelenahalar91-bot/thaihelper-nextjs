@@ -213,7 +213,7 @@ export default function EmployersBrowse() {
               </Link>
               <LangSwitcher languages={['en', 'th']} />
               <Link
-                href="/register"
+                href="/signup"
                 className="px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-gradient-to-br from-[#006a62] to-[#004d47] text-white text-xs md:text-sm font-semibold hover:shadow-lg transition-all"
               >
                 {t.nav_cta}

@@ -60,7 +60,7 @@ export default function BlogIndex() {
                     Login
                   </Link>
                   <LangSwitcher />
-                  <Link className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap" href="/register">
+                  <Link className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap" href="/signup">
                     Register Free
                   </Link>
                 </div>
@@ -68,7 +68,7 @@ export default function BlogIndex() {
                   <MobileMenu
                     items={navItems}
                     secondaryCta={{ href: '/login', label: 'Login' }}
-                    primaryCta={{ href: '/register', label: 'Register Free' }}
+                    primaryCta={{ href: '/signup', label: 'Register Free' }}
                   />
                 </div>
               </>

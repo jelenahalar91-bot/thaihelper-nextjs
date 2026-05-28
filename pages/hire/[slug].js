@@ -298,7 +298,7 @@ export default function HirePage({ page, matchingHelpers = [] }) {
               <>
                 <div className="hidden lg:flex items-center gap-3">
                   <ResourcesDropdown label={isEn ? 'Resources' : 'แหล่งข้อมูล'} items={navItems} />
-                  <Link href="/register" className="text-sm font-bold bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors whitespace-nowrap">
+                  <Link href="/signup" className="text-sm font-bold bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors whitespace-nowrap">
                     {isEn ? 'Register Free' : 'สมัครฟรี'}
                   </Link>
                   <LangSwitcher />
@@ -307,7 +307,7 @@ export default function HirePage({ page, matchingHelpers = [] }) {
                   <MobileMenu
                     items={navItems}
                     secondaryCta={{ href: '/login', label: isEn ? 'Login' : 'เข้าสู่ระบบ' }}
-                    primaryCta={{ href: '/register', label: isEn ? 'Register Free' : 'สมัครฟรี' }}
+                    primaryCta={{ href: '/signup', label: isEn ? 'Register Free' : 'สมัครฟรี' }}
                   />
                 </div>
               </>

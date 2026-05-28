@@ -543,7 +543,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                   <LangSwitcher />
                   <Link
                     className="px-6 py-2.5 rounded-full bg-[#001b3d] text-white text-sm font-semibold hover:bg-[#002d5f] hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap"
-                    href="/employer-register"
+                    href="/signup"
                   >
                     {t.nav_cta}
                   </Link>
@@ -554,7 +554,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                   <MobileMenu
                     items={navItems}
                     secondaryCta={{ href: '/login', label: t.nav_login }}
-                    primaryCta={{ href: '/employer-register', label: t.nav_cta }}
+                    primaryCta={{ href: '/signup', label: t.nav_cta }}
                   />
                 </div>
               </>
@@ -594,7 +594,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                   </div>
                 )}
                 <div>
-                  <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all inline-block" href="/employer-register">{t.hero_cta}</Link>
+                  <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all inline-block" href="/signup">{t.hero_cta}</Link>
                 </div>
               </div>
 
@@ -872,7 +872,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                   ))}
                 </ul>
 
-                <Link href="/employer-register" className="inline-block px-10 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all">
+                <Link href="/signup" className="inline-block px-10 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all">
                   {t.cta_card_btn} →
                 </Link>
 

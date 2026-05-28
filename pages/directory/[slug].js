@@ -302,7 +302,7 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                   <LangSwitcher />
                   <Link
                     className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap"
-                    href="/employer-register"
+                    href="/signup"
                   >
                     {t.nav_cta}
                   </Link>
@@ -311,7 +311,7 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                   <MobileMenu
                     items={navItems}
                     secondaryCta={{ href: '/login', label: t.nav_login }}
-                    primaryCta={{ href: '/employer-register', label: t.nav_cta }}
+                    primaryCta={{ href: '/signup', label: t.nav_cta }}
                   />
                 </div>
               </>

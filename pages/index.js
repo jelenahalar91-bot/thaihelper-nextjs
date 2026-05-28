@@ -250,13 +250,13 @@ export default function Home() {
                   <ResourcesDropdown label={t.nav_resources} items={navItems} />
                   <Link className="text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
                   <LangSwitcher />
-                  <Link className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap" href="/register">{t.nav_cta}</Link>
+                  <Link className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap" href="/signup">{t.nav_cta}</Link>
                 </div>
                 <div className="lg:hidden">
                   <MobileMenu
                     items={navItems}
                     secondaryCta={{ href: '/login', label: t.nav_login }}
-                    primaryCta={{ href: '/register', label: t.nav_cta }}
+                    primaryCta={{ href: '/signup', label: t.nav_cta }}
                   />
                 </div>
               </>
@@ -303,7 +303,7 @@ export default function Home() {
                   </li>
                 </ul>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link className="px-8 py-4 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform text-center" href="/register">{t.hero_cta1}</Link>
+                  <Link className="px-8 py-4 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold text-lg shadow-xl shadow-primary/20 hover:scale-[1.02] transition-transform text-center" href="/signup">{t.hero_cta1}</Link>
                   <a className="px-8 py-4 rounded-xl bg-surface-container-highest text-secondary font-bold text-lg hover:bg-surface-container-high transition-colors text-center" href="#how-it-works">{t.hero_cta2}</a>
                 </div>
               </div>
@@ -566,7 +566,7 @@ export default function Home() {
                 <h2 className="text-4xl md:text-5xl font-extrabold font-headline text-on-primary mb-8">{t.cta_title}</h2>
                 <p className="text-on-primary/80 text-lg mb-12 max-w-2xl mx-auto">{t.cta_sub}</p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                  <Link className="px-10 py-5 bg-white text-primary font-bold rounded-2xl text-lg hover:shadow-xl hover:scale-105 transition-all" href="/register">{t.cta_btn1}</Link>
+                  <Link className="px-10 py-5 bg-white text-primary font-bold rounded-2xl text-lg hover:shadow-xl hover:scale-105 transition-all" href="/signup">{t.cta_btn1}</Link>
                 </div>
               </div>
             </div>

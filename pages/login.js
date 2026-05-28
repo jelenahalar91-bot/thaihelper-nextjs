@@ -240,7 +240,7 @@ export default function Login() {
                 { href: '/faq',                 label: 'FAQ' },
                 { href: '/blog',                label: 'Blog' },
               ]}
-              primaryCta={{ href: '/register', label: 'Register Free' }}
+              primaryCta={{ href: '/signup', label: 'Register Free' }}
             />
           </div>
         </nav>
