@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -31,6 +31,9 @@ const T = {
     page_title: 'Register as an Employer – ThaiHelper',
     h1: 'Find your perfect helper',
     sub: 'Create a free account to browse helpers and message them directly.',
+    step_about: 'About you',
+    step_needs: 'Your needs',
+    step_job: 'The job',
     promo_badge: '🎉 100% free for everyone',
     promo_text: 'Sign up now and get full messaging access — completely free, no credit card required.',
     section_preferences: 'Your preferences',
@@ -103,6 +106,9 @@ const T = {
     page_title: 'ลงทะเบียนนายจ้าง – ThaiHelper',
     h1: 'ค้นหาผู้ช่วยที่เหมาะกับคุณ',
     sub: 'สร้างบัญชีฟรีเพื่อเรียกดูผู้ช่วยและส่งข้อความโดยตรง',
+    step_about: 'เกี่ยวกับคุณ',
+    step_needs: 'ความต้องการ',
+    step_job: 'รายละเอียดงาน',
     promo_badge: '🎉 ฟรี 100% สำหรับทุกคน',
     promo_text: 'ลงทะเบียนตอนนี้และรับสิทธิ์ส่งข้อความเต็มรูปแบบ — ฟรี 100% ไม่ต้องใช้บัตรเครดิต',
     section_preferences: 'ความต้องการของคุณ',
@@ -202,6 +208,33 @@ export default function EmployerRegisterPage() {
   const [successRef, setSuccessRef] = useState(null);
   const [turnstileToken, setTurnstileToken] = useState('');
   const handleTurnstileToken = useCallback((token) => setTurnstileToken(token), []);
+
+  // Section guide ("steps"). The form stays single-page — these are a scroll
+  // progress indicator, not gated wizard steps, so there's no per-step
+  // validation. The observer just highlights whichever section is in view.
+  const aboutRef = useRef(null);
+  const needsRef = useRef(null);
+  const jobRef   = useRef(null);
+  const [activeStep, setActiveStep] = useState(1);
+
+  useEffect(() => {
+    if (successRef) return;
+    const els = [aboutRef.current, needsRef.current, jobRef.current].filter(Boolean);
+    if (!els.length) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActiveStep(Number(e.target.dataset.step));
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, [successRef]);
+
+  const scrollToStep = (ref) =>
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const t = T[lang] || T.en;
 
@@ -414,15 +447,60 @@ export default function EmployerRegisterPage() {
           </div>
         </nav>
 
+        {/* HERO */}
+        <div style={{ background: 'linear-gradient(180deg, #FFF4E5 0%, #FFFAF0 100%)', padding: '40px 16px 30px', textAlign: 'center' }}>
+          <h1 style={{ fontSize: 'clamp(28px, 4.5vw, 40px)', fontWeight: 800, color: 'var(--navy)', margin: 0, fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: '-0.5px' }}>
+            {t.h1}
+          </h1>
+          <p style={{ fontSize: '16px', color: '#8a7355', maxWidth: '560px', margin: '10px auto 0', lineHeight: 1.5 }}>
+            {t.sub}
+          </p>
+        </div>
+
+        {/* PROGRESS — section guide (single-page form, scroll-spy only) */}
+        <div style={{ position: 'sticky', top: 0, zIndex: 20, background: 'rgba(255,255,255,0.94)', backdropFilter: 'blur(6px)', borderBottom: '1px solid var(--gray-100)' }}>
+          <div style={{ maxWidth: '560px', margin: '0 auto', padding: '14px 16px', display: 'flex', alignItems: 'center' }}>
+            {[
+              { n: 1, label: t.step_about, ref: aboutRef },
+              { n: 2, label: t.step_needs, ref: needsRef },
+              { n: 3, label: t.step_job,   ref: jobRef },
+            ].map((s, i, arr) => {
+              const active = activeStep === s.n;
+              const done = activeStep > s.n;
+              return (
+                <div key={s.n} style={{ display: 'flex', alignItems: 'center', flex: i < arr.length - 1 ? 1 : '0 0 auto' }}>
+                  <button
+                    type="button"
+                    onClick={() => scrollToStep(s.ref)}
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                  >
+                    <span style={{
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                      width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
+                      fontSize: '13px', fontWeight: 700, transition: 'all 0.2s',
+                      background: active ? '#001b3d' : done ? '#F4A261' : 'var(--gray-100, #f0f2f5)',
+                      color: active || done ? '#fff' : 'var(--gray-400, #9ca3af)',
+                    }}>
+                      {done ? '✓' : s.n}
+                    </span>
+                    <span className="hidden sm:inline" style={{
+                      fontSize: '14px', fontWeight: active ? 700 : 500, whiteSpace: 'nowrap',
+                      color: active ? '#001b3d' : 'var(--gray-400, #9ca3af)',
+                    }}>
+                      {s.label}
+                    </span>
+                  </button>
+                  {i < arr.length - 1 && (
+                    <span style={{ flex: 1, height: '2px', margin: '0 10px', borderRadius: '2px', background: done ? '#F4A261' : 'var(--gray-200, #e5e7eb)' }} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="register-container">
           <div className="card" style={{ padding: '40px', maxWidth: '640px', width: '100%' }}>
-            <h1 style={{ fontSize: '30px', fontWeight: 700, marginBottom: '8px', color: 'var(--gray-900)' }}>
-              {t.h1}
-            </h1>
-            <p style={{ fontSize: '17px', color: 'var(--gray-500)', marginBottom: '20px' }}>
-              {t.sub}
-            </p>
-
             {/* Promo Banner */}
             {error && (
               <div style={{
@@ -434,6 +512,7 @@ export default function EmployerRegisterPage() {
             )}
 
             <form onSubmit={handleSubmit}>
+              <div ref={aboutRef} data-step="1" style={{ scrollMarginTop: '76px' }} />
               {/* Section: About You */}
               <SectionTitle>{t.section_about}</SectionTitle>
 
@@ -528,6 +607,7 @@ export default function EmployerRegisterPage() {
                 </label>
               </div>
 
+              <div ref={needsRef} data-step="2" style={{ scrollMarginTop: '76px' }} />
               {/* Section: Location */}
               <SectionTitle>{t.section_location}</SectionTitle>
 
@@ -702,6 +782,7 @@ export default function EmployerRegisterPage() {
                 </select>
               </div>
 
+              <div ref={jobRef} data-step="3" style={{ scrollMarginTop: '76px' }} />
               <div className="field">
                 <label>{t.job_label}</label>
                 <textarea
