@@ -419,7 +419,7 @@ export default function HirePage({ page, matchingHelpers = [] }) {
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 { icon: '1', h: isEn ? 'Browse Profiles' : 'ดูโปรไฟล์', p: isEn ? 'Search helpers by city, category, and experience. Every profile uses an email-verified account.' : 'ค้นหาผู้ช่วยตามเมือง ประเภท และประสบการณ์ ทุกโปรไฟล์ใช้บัญชีที่ยืนยันอีเมลแล้ว' },
-                { icon: '2', h: isEn ? 'Connect Directly' : 'ติดต่อโดยตรง', p: isEn ? 'Contact helpers directly. No middleman, no agency fees. Agree on terms together.' : 'ติดต่อโดยตรง ไม่ผ่านเอเจนซี่ ตกลงเงื่อนไขร่วมกัน' },
+                { icon: '2', h: isEn ? 'Connect Directly' : 'ติดต่อโดยตรง', p: isEn ? 'Contact helpers directly. No middleman, no hidden fees. Agree on terms together.' : 'ติดต่อโดยตรง ไม่มีคนกลาง ไม่มีค่าธรรมเนียมแอบแฝง ตกลงเงื่อนไขร่วมกัน' },
                 { icon: '3', h: isEn ? 'Hire with Confidence' : 'จ้างอย่างมั่นใจ', p: isEn ? 'Structured profiles and direct messaging help you compare candidates and make the right choice.' : 'โปรไฟล์ที่มีโครงสร้างและการส่งข้อความโดยตรงช่วยให้คุณเปรียบเทียบและเลือกได้อย่างมั่นใจ' },
               ].map((step) => (
                 <div key={step.icon} className="bg-white rounded-xl p-6 shadow-sm text-center">
