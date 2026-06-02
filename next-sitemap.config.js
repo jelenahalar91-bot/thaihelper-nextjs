@@ -13,13 +13,24 @@ module.exports = {
 
   // Bilingual: Next.js i18n adds /th/ URLs automatically. We add
   // hreflang alternates so search engines know the relationship.
+  //
+  // CRITICAL: next-sitemap auto-discovers BOTH /foo and /th/foo from the
+  // Next.js i18n build output and emits each as a <loc>. Combined with
+  // these alternateRefs that prepend `/th` to every path, the /th/foo
+  // entries get hreflang alternates pointing at /th/th/foo — a duplicate
+  // URL that Google indexed and ranked (GSC showed /th/th/hire/X with
+  // real clicks on 2026-06-02). Fix: emit only EN paths as <loc>, with
+  // hreflang alternates linking each to its /th/ pendant. Done by
+  // excluding /th/* paths below and returning null for them in transform.
   alternateRefs: [
     { href: 'https://thaihelper.app',       hreflang: 'en' },
     { href: 'https://thaihelper.app/th',    hreflang: 'th' },
     { href: 'https://thaihelper.app',       hreflang: 'x-default' },
   ],
 
-  // Do NOT index auth, dashboard, or user-specific pages
+  // Do NOT index auth, dashboard, or user-specific pages.
+  // /th and /th/* are excluded too — they're referenced as hreflang
+  // alternates on the EN <loc> entries instead (see alternateRefs).
   exclude: [
     '/login',
     '/verify',
@@ -30,12 +41,20 @@ module.exports = {
     '/employer-profile',
     '/employer-register',
     '/api/*',
+    '/th',
+    '/th/*',
   ],
 
   // Custom priority per page — tells Google what matters most.
   // alternateRefs must be passed through manually: next-sitemap drops
   // the top-level alternateRefs when a custom transform is provided.
   transform: async (config, path) => {
+    // Belt-and-suspenders: even with /th/* in exclude, return null here
+    // for any /th-prefixed path that slips through. Prevents the
+    // /th/th/ alternateRef bug from ever recurring.
+    if (path === '/th' || path.startsWith('/th/')) {
+      return null;
+    }
     const lastmod = new Date().toISOString();
     const alternateRefs = config.alternateRefs;
     // Homepage = highest priority
