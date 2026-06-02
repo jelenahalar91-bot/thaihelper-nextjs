@@ -42,7 +42,15 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        // `locale: false` is required when i18n is configured — otherwise
+        // Next auto-prefixes the source with each locale (so `/(.*)` becomes
+        // `/en/(.*)` and `/th/(.*)`), and the bare root URL `/` (which
+        // internally rewrites to `/en`) stops matching. Without this flag,
+        // /login, /th/login, /api/* all kept their security headers but
+        // the homepage `/` dropped X-Frame-Options, nosniff, etc. after
+        // the Next 16 upgrade.
+        source: '/:path*',
+        locale: false,
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'DENY' },
