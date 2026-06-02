@@ -53,6 +53,9 @@ const T = {
     rule_label: 'The basic rule',
     rule_text: 'In Thailand, every non-Thai worker needs a work permit — no exceptions, not even on a tourist, retirement, dependent or education visa. The only people who can work without a WP are Thai nationals. This wizard helps you decide whether the WP process is worth it for THIS candidate, given the cost, timeline, and how long you plan to employ them.',
 
+    enforcement_label: '🚨 Active enforcement — May 2026',
+    enforcement_text: 'After a 1 May 2026 raid in Koh Phangan, the Ministry of Labour has launched a nationwide inspection campaign. Penalty for employing a worker without a valid work permit: 10,000–100,000 THB per worker (up to 200,000 THB + 1 year prison for repeat offences, plus a 3-year ban on hiring foreigners). The worker faces 5,000–50,000 THB, deportation and a 2-year re-entry ban. Don\'t rely on "we\'ll formalise later".',
+
     step_label: 'Step {n} of 5',
     btn_back: '← Back',
     btn_next: 'Next →',
@@ -179,6 +182,9 @@ const T = {
     hero_sub: 'ห้าคำถามสั้นๆ ไม่ต้องสมัครสมาชิก แบบสอบถามจะบอกคุณว่าการเริ่มกระบวนการขอใบอนุญาตทำงานสำหรับผู้สมัครของคุณคุ้มค่าหรือไม่ และต้องทำอะไรต่อไป',
     rule_label: 'กฎพื้นฐาน',
     rule_text: 'ในประเทศไทย คนต่างชาติทุกคนที่ทำงานต้องมีใบอนุญาตทำงาน ไม่มีข้อยกเว้น แม้จะอยู่ด้วยวีซ่าท่องเที่ยว เกษียณอายุ ผู้ติดตาม หรือนักเรียน เฉพาะคนไทยเท่านั้นที่สามารถทำงานได้โดยไม่ต้องมี WP แบบสอบถามนี้ช่วยคุณตัดสินใจว่ากระบวนการ WP คุ้มค่าสำหรับผู้สมัครคนนี้หรือไม่ โดยพิจารณาจากค่าใช้จ่าย ระยะเวลา และระยะเวลาที่คุณวางแผนจะจ้าง',
+
+    enforcement_label: '🚨 การบังคับใช้กฎหมายเข้มข้น — พฤษภาคม 2569',
+    enforcement_text: 'หลังเหตุการณ์บุกค้นที่เกาะพะงัน 1 พ.ค. 2569 กระทรวงแรงงานได้เริ่มแคมเปญตรวจสอบทั่วประเทศ ค่าปรับสำหรับนายจ้างที่จ้างแรงงานไม่มีใบอนุญาตทำงาน: 10,000–100,000 บาท ต่อคน (สูงสุด 200,000 บาท + จำคุก 1 ปี สำหรับผู้กระทำผิดซ้ำ พร้อมห้ามจ้างแรงงานต่างชาติ 3 ปี) ลูกจ้างถูกปรับ 5,000–50,000 บาท พร้อมถูกส่งกลับและห้ามเข้าประเทศ 2 ปี อย่าคิดว่า "ค่อยทำให้ถูกต้องภายหลัง"',
 
     step_label: 'ขั้นตอนที่ {n} จาก 5',
     btn_back: '← ย้อนกลับ',
@@ -500,6 +506,17 @@ export default function WorkPermitWizard() {
             <div className="max-w-2xl mx-auto rounded-xl border border-blue-200 bg-blue-50 px-5 py-4 text-sm text-blue-900 leading-relaxed">
               <strong className="font-bold">📋 {t.rule_label}: </strong>
               {t.rule_text}
+            </div>
+          </section>
+
+          {/* May 2026 enforcement banner — surfaces the active nationwide
+              crackdown launched after the 1 May 2026 Koh Phangan raid.
+              Sits above the wizard intentionally so every visitor sees it,
+              not just those who reach the result step. */}
+          <section className="px-4 md:px-6 pb-2 pt-2">
+            <div className="max-w-2xl mx-auto rounded-xl border-2 border-red-300 bg-red-50 px-5 py-4 text-sm text-red-900 leading-relaxed">
+              <strong className="font-bold block mb-1">{t.enforcement_label}</strong>
+              {t.enforcement_text}
             </div>
           </section>
 
