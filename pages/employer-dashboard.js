@@ -270,6 +270,12 @@ function categoryToSlug(cat) {
 // Helper for category display with emoji — accepts slug OR display name
 function categoryWithEmoji(cat) {
   if (!cat) return '';
+  // Helpers store multiple categories as "nanny, housekeeper". Render each
+  // one with its own emoji + label so the dashboard shows the full picture.
+  const parts = String(cat).split(/[,]+/).map(p => p.trim()).filter(Boolean);
+  if (parts.length > 1) {
+    return parts.map(p => categoryWithEmoji(p)).join(' · ');
+  }
   const slug = categoryToSlug(cat);
   if (slug) {
     const def = CATEGORIES.find(c => c.value === slug);
