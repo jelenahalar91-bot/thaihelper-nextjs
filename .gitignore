@@ -41,3 +41,21 @@ ios/App/*.xcodeproj/xcuserdata/
 # Source assets for icon/splash generation — outputs land in
 # android/ + ios/ via `npx capacitor-assets generate`
 assets/
+
+# Local-only operational files — contain real user data (emails, phone
+# numbers, ref codes from helper_profiles) or live messaging logs that
+# we never want pushed to GitHub. These are scratch files for outreach,
+# tester recruitment, internal stats — not source code.
+#
+# Safety net: even if someone runs `git add .`, none of this ships.
+play-store/*.csv
+play-store/*.json
+marketing/
+scripts/outreach/
+scripts/check-*.js
+scripts/send-*.js
+scripts/find-*.js
+scripts/dedupe-*.js
+scripts/list-*.js
+check-messaging*.js
+messaging-detailed-report.js
