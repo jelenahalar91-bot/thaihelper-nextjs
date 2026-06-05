@@ -98,7 +98,13 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
   const [references, setReferences] = useState([]);
   const [refsLoading, setRefsLoading] = useState(true);
   const [certDocs, setCertDocs] = useState([]);
-  const [certsRevealed, setCertsRevealed] = useState(false);
+  // Certificates are shown clear to every logged-in employer from the
+  // moment the modal opens. The earlier "blur until first message"
+  // gating was removed on 2026-06-05 — being able to verify
+  // qualifications upfront is the core value an employer comes here
+  // for, and the messaging-API contact wall is what protects helpers
+  // from cold harvesting (only authenticated employers reach here).
+  const [certsRevealed] = useState(true);
   const [certsLoading, setCertsLoading] = useState(true);
 
   // Ratings: list of public reviews + whether the current user (an
@@ -192,11 +198,9 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
           const data = await res.json();
           if (!cancelled) {
             setCertDocs(data.documents || []);
-            // hasContacted = the employer has already sent at least one
-            // message to this helper. Once true, certificate images are
-            // revealed in full — the helper has implicitly accepted the
-            // contact, so the blur protecting PII is no longer needed.
-            setCertsRevealed(!!data.hasContacted);
+            // `data.hasContacted` is still returned by the API for now
+            // but no longer drives the UI — every employer sees certs
+            // unblurred from the start.
           }
         }
       } catch (err) {
