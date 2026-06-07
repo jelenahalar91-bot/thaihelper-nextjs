@@ -778,6 +778,23 @@ export default function EmployerDashboard() {
             </button>
 
             <div className="flex items-center gap-2 md:gap-3">
+              {/* Browse Helpers button — easy way to search for new helpers */}
+              <button
+                onClick={() => { setActiveTab('browse'); setSelectedConv(null); }}
+                className={`relative p-2.5 rounded-lg transition-colors ${
+                  activeTab === 'browse'
+                    ? 'bg-[#006a62] text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+                title={t.tab_browse}
+                aria-label={t.tab_browse}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.35-4.35" />
+                </svg>
+              </button>
+
               {/* Favorites icon with count badge */}
               <button
                 onClick={() => { setActiveTab('favorites'); setSelectedConv(null); }}
