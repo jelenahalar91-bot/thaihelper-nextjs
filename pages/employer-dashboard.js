@@ -441,14 +441,24 @@ export default function EmployerDashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authChecked, activeTab, selectedConv]);
 
-  // Poll the open conversation's messages every 10s so replies land live
+  // Poll the open conversation's messages every 10s so replies land live.
+  // Deduplicate by ID to prevent showing the same message twice when
+  // optimistic updates race with the polling response.
   useEffect(() => {
     if (!authChecked) return;
     if (!selectedConv) return;
     const id = setInterval(async () => {
       try {
         const res = await fetchMessages(selectedConv.id, 1, 'employer');
-        setMessages(res.messages || []);
+        setMessages(prev => {
+          if (!res.messages) return prev;
+          // Merge polling results with local state, removing duplicates by ID
+          const existingIds = new Set(prev.map(m => m.id));
+          const newMessages = res.messages.filter(m => !existingIds.has(m.id));
+          return [...prev, ...newMessages].sort((a, b) =>
+            new Date(a.created_at) - new Date(b.created_at)
+          );
+        });
         if (res.accessStatus) setAccessStatus(res.accessStatus);
       } catch {
         /* ignore transient errors */

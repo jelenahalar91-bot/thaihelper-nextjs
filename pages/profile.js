@@ -882,13 +882,23 @@ export default function Profile() {
     return () => clearInterval(id);
   }, [activeTab, selectedConv]);
 
-  // Poll the open conversation's messages every 10s for live replies
+  // Poll the open conversation's messages every 10s for live replies.
+  // Deduplicate by ID to prevent showing the same message twice when
+  // optimistic updates race with the polling response.
   useEffect(() => {
     if (!selectedConv) return;
     const id = setInterval(async () => {
       try {
         const res = await fetchMessages(selectedConv.id, 1, 'helper');
-        setMessages(res.messages || []);
+        setMessages(prev => {
+          if (!res.messages) return prev;
+          // Merge polling results with local state, removing duplicates by ID
+          const existingIds = new Set(prev.map(m => m.id));
+          const newMessages = res.messages.filter(m => !existingIds.has(m.id));
+          return [...prev, ...newMessages].sort((a, b) =>
+            new Date(a.created_at) - new Date(b.created_at)
+          );
+        });
       } catch { /* ignore */ }
     }, 10000);
     return () => clearInterval(id);
