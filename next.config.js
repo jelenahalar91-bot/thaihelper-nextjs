@@ -156,6 +156,22 @@ const nextConfig = {
         destination: '/profile',
         permanent: true,
       },
+      {
+        // /th/th/* → /th/* (permanent 301). Cleans up the duplicate-prefix bug
+        // introduced by next-sitemap on 2026-05-27 and crawled by Google on
+        // 2026-05-28 before the fix went live on 2026-06-02. As of 2026-06-08
+        // GSC still lists 61 of these URLs as "Alternative page with proper
+        // canonical tag" — the canonical already points to the right /th/-URL,
+        // but the duplicate is still in the index. A 301 collapses the two
+        // permanently and tells Google to drop the /th/th/ variant.
+        //
+        // locale: false is required when i18n is configured, otherwise Next
+        // prefixes the source pattern with each locale and the match breaks.
+        source: '/th/th/:path*',
+        destination: '/th/:path*',
+        permanent: true,
+        locale: false,
+      },
       ...shortlinks,
     ];
   },
