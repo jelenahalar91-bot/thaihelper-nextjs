@@ -574,6 +574,298 @@ export const guides = [
       },
     ],
   },
+
+  {
+    slug: 'hire-an-elder-caregiver-in-thailand',
+    title: 'How to Hire an Elder Caregiver in Thailand — The Complete 2026 Guide',
+    description:
+      'Salary ranges by care level, shift options (8h, 12h, 24h, rotating teams), what to ask about medical training, work-permit logic for Filipino caregivers, dementia and post-stroke specialist rates. Updated for 2026.',
+    date: '2026-06-08',
+    updated: '2026-06-08',
+    readTime: 14,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=1200&q=80',
+    keywords:
+      'hire caregiver Thailand, elder care Bangkok, home nurse Thailand, Filipino caregiver Bangkok, hire dementia caregiver Thailand, 24 hour caregiver Phuket, post-stroke care Thailand, senior care at home Bangkok',
+    sections: [
+      {
+        id: 'overview',
+        h2: 'What you\'ll learn in this guide',
+        html: `
+          <p>Hiring a caregiver for an ageing parent or partner is a different decision from hiring a nanny or a housekeeper. The work is more <strong>specialised</strong> (mobility transfers, medication, sometimes incontinence and dementia behaviours), the <strong>emotional stakes are higher</strong> (you're trusting someone with a family member's safety), and the <strong>price tag is bigger</strong> (especially for 24-hour care or specialist conditions). Thailand is also one of the most cost-effective countries in the region for high-quality elder care, which is why Thai families with adult children abroad and retiring expats both increasingly choose home care over residential facilities.</p>
+          <p>This guide covers what's involved: how to <strong>match the level of care to your real need</strong> (companion, basic personal care, nursing-level, dementia-specialist, end-of-life), what each tier costs in 2026, the difference between hiring one caregiver and rotating a team of two or three, where to find candidates with real training, what to ask in interviews, the work-permit logic for foreign caregivers (Filipino caregivers are common in this profession), how to structure a contract that protects both sides, and the mistakes families make when they hire under emotional pressure after a sudden health event.</p>
+          <p><em>Last updated: 8 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data, and direct family-employer interviews. Legal references are to Thai Ministry of Labour regulations in force as of 2026.</em></p>
+        `,
+      },
+      {
+        id: 'levels',
+        h2: 'Match the level of care to your real need',
+        html: `
+          <p>"Caregiver" covers five distinct roles in Thai practice. Hiring above your need is expensive; hiring below it is dangerous. Use this section before any salary research.</p>
+
+          <h3>1. Companion caregiver</h3>
+          <p>For an older person who is <strong>physically independent</strong> but lonely, forgetful with errands, or unsafe alone (mild fall risk, mild confusion). Tasks: company, conversation, walks, meal preparation, light tidying, reminders to take medication, accompanying to appointments. No personal care (bathing, toileting).</p>
+
+          <h3>2. Personal-care caregiver</h3>
+          <p>For someone who needs <strong>help with daily living</strong>: bathing, dressing, toileting, transfers from bed to chair, eating. Many Thai caregivers in this tier have learned on the job rather than through formal training but are very experienced. The caregiver typically reports to a family member or part-time visiting nurse.</p>
+
+          <h3>3. Nursing-assistant level</h3>
+          <p>For people with <strong>chronic conditions managed at home</strong>: diabetes, hypertension, post-surgical recovery, mobility limitations, or feeding tubes. The caregiver should have either a nursing-assistant qualification, hospital experience, or formal training. They handle medication scheduling, basic wound care, blood-pressure / blood-sugar monitoring, and know when to escalate to a doctor.</p>
+
+          <h3>4. Specialist caregiver (dementia, post-stroke, palliative)</h3>
+          <p>For specific conditions that change what good care looks like. Dementia care requires patience for repetition, redirection rather than correction, safe-environment setup, and a sleep schedule the family understands. Post-stroke care emphasises physiotherapy continuity and swallowing safety. Palliative / end-of-life care is its own field with very different communication and dignity considerations. Expect a real premium here — the caregivers who can do this well are rare and command it.</p>
+
+          <h3>5. 24-hour or live-in caregiver</h3>
+          <p>An orthogonal choice on top of the four levels above. One caregiver cannot realistically work 24 hours a day, every day, sustainably. Pick one of: <strong>two-caregiver rotation</strong> (one days, one nights), <strong>three-caregiver rotation</strong> (12-hour shifts with one day off each per week), or a <strong>live-in caregiver plus night sitter</strong> for the heaviest cases. Solo live-in works only for low-needs companion-tier roles.</p>
+        `,
+      },
+      {
+        id: 'cost',
+        h2: 'How much does an elder caregiver in Thailand cost?',
+        html: `
+          <p>Pricing varies by <strong>care level</strong>, <strong>shift pattern</strong>, <strong>language requirement</strong>, and <strong>city</strong>. Below are 2026 ranges for the most common arrangements.</p>
+
+          <h3>By care level (full-time, day shift, Bangkok)</h3>
+          <table>
+            <thead><tr><th>Level</th><th>Range (THB/month)</th><th>Typical</th></tr></thead>
+            <tbody>
+              <tr><td>Companion caregiver</td><td>13,000 – 18,000</td><td>15,000</td></tr>
+              <tr><td>Personal-care caregiver</td><td>15,000 – 22,000</td><td>18,000</td></tr>
+              <tr><td>Nursing-assistant level</td><td>20,000 – 30,000</td><td>25,000</td></tr>
+              <tr><td>Dementia / post-stroke specialist</td><td>25,000 – 40,000</td><td>30,000</td></tr>
+              <tr><td>Palliative / end-of-life</td><td>30,000 – 50,000</td><td>35,000</td></tr>
+            </tbody>
+          </table>
+
+          <h3>By shift pattern</h3>
+          <ul>
+            <li><strong>Day shift (8 am – 5 pm, 6 days/week):</strong> base rates above</li>
+            <li><strong>Night shift (8 pm – 6 am, 6 nights):</strong> 1.2× day rate; the work is lighter but the inversion is harder on the body</li>
+            <li><strong>12-hour shifts (two-caregiver rotation):</strong> roughly 1.5× the day rate per caregiver — so two personal-care caregivers covering 24/7 = 18,000 × 1.5 × 2 = ~54,000 THB/month total</li>
+            <li><strong>24-hour live-in (low-needs only):</strong> 25,000 – 40,000 THB/month plus room and food. Only realistic for companion-tier patients who sleep through the night.</li>
+            <li><strong>Hourly visits (part-time):</strong> 200 – 500 THB/hour depending on level</li>
+          </ul>
+
+          <h3>Language premiums</h3>
+          <ul>
+            <li><strong>Thai-speaking only:</strong> base rate</li>
+            <li><strong>Basic conversational English:</strong> +2,000 – 4,000 THB/month</li>
+            <li><strong>Fluent English (Filipino caregiver):</strong> +5,000 – 10,000 THB/month over the Thai-speaking equivalent. A nursing-trained Filipino caregiver with hospital experience and fluent English in Bangkok commonly earns 30,000–40,000 THB/month.</li>
+            <li><strong>Mandarin / Japanese:</strong> rare; rates negotiated individually</li>
+          </ul>
+
+          <h3>By city (personal-care level, day shift)</h3>
+          <table>
+            <thead><tr><th>City</th><th>Range (THB/month)</th><th>Typical</th></tr></thead>
+            <tbody>
+              <tr><td>Bangkok</td><td>15,000 – 22,000</td><td>18,000</td></tr>
+              <tr><td>Phuket</td><td>14,000 – 21,000</td><td>17,000</td></tr>
+              <tr><td>Pattaya</td><td>13,000 – 19,000</td><td>16,000</td></tr>
+              <tr><td>Hua Hin</td><td>12,000 – 18,000</td><td>15,000</td></tr>
+              <tr><td>Chiang Mai</td><td>11,000 – 17,000</td><td>14,000</td></tr>
+              <tr><td>Khon Kaen, Udon Thani</td><td>10,000 – 14,000</td><td>12,000</td></tr>
+            </tbody>
+          </table>
+
+          <h3>What's also part of the budget</h3>
+          <ul>
+            <li><strong>Social Security (Section 33):</strong> mandatory for full-time employees. 5 % each from employer and employee, covers medical and pension.</li>
+            <li><strong>13th-month bonus:</strong> universally expected, paid before Songkran or at New Year.</li>
+            <li><strong>Transport allowance</strong> for live-out caregivers (500 – 2,000 THB/month) — especially important for nursing-level staff whose reliability you depend on.</li>
+            <li><strong>First-aid / CPR refresher</strong> (500 – 2,000 THB) — annually, paid by employer. A good caregiver wants this; one who declines it is a signal.</li>
+            <li><strong>Equipment</strong> the caregiver shouldn't be paying for: gloves, masks, hand sanitiser, blood-pressure cuff, glucometer (if relevant), basic personal-protection supplies.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'where-to-find',
+        h2: 'Where to find an elder caregiver in Thailand',
+        html: `
+          <p>The channels overlap with general household hiring, but the right channel is more level-dependent than for nannies or housekeepers.</p>
+
+          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
+          <p>Caregivers create free profiles with experience, training, languages, and the care levels they're comfortable handling. Families browse, message directly, interview at home, and agree on terms. Best for: companion and personal-care levels, full control of the hiring process, no placement fee.</p>
+
+          <h3>2. Specialist home-care agencies</h3>
+          <p>Companies like ElderThai, Bangkok Hospital Home Care, and several others operate dedicated home-care services with trained caregivers (often nursing-assistant or RN level), supervisor oversight, scheduling, and replacement on sick days. Rates are typically 1.5–2× direct-hire on a per-hour basis. Best for: nursing-level needs, complex medical situations, families who want a managed-service relationship and zero hiring effort. Limitation: cost, less choice of who exactly shows up each day, contract lock-in.</p>
+
+          <h3>3. Hospital-affiliated discharge programmes</h3>
+          <p>Bumrungrad, Bangkok Hospital, Samitivej, and BNH all have discharge-planning teams that recommend caregivers when a patient leaves after a major event (stroke, surgery, late-stage diagnosis). The caregivers they recommend are usually known to the hospital, often nursing-assistant trained, and the hospital can intervene if something goes wrong. Best for: post-surgical and post-stroke transitions. Limitation: focused on first 30–90 days; long-term arrangement still has to be negotiated separately.</p>
+
+          <h3>4. Facebook groups, expat forums, and family referrals</h3>
+          <p>Bangkok Expat Families, Phuket Expat Moms, and Chiang Mai retiree groups regularly have posts. Family-of-elderly support groups (e.g. Thailand Dementia Support, expat retirement communities) are gold for specialist referrals — caregivers who have done good work for one family in this space are often recommended onward by name.</p>
+
+          <h3>5. Word of mouth at residential communities</h3>
+          <p>Retirement villages, condo communities with older residents, and high-end serviced apartments often have a network of vetted caregivers who already work for neighbours. Ask the juristic-person office, building manager, or other residents.</p>
+
+          <p><em>Mix pattern:</em> for personal-care level, shortlist on a marketplace + validate via Facebook. For nursing-level or specialist conditions, lead with an agency or hospital discharge programme and use direct-hire for relief / weekend shifts.</p>
+        `,
+      },
+      {
+        id: 'interview',
+        h2: 'What to ask in a caregiver interview',
+        html: `
+          <p>Always interview in person at the patient's home. The caregiver should meet the person they would care for and the environment they would work in. A first interview without that introduction is incomplete.</p>
+
+          <h3>Training and experience</h3>
+          <ul>
+            <li>What formal training have you done — nursing assistant, caregiver certificate, hospital programme, on-the-job only?</li>
+            <li>How many patients have you cared for? What were their conditions?</li>
+            <li>Have you worked with someone with [the specific condition we're dealing with]? Tell me about that.</li>
+            <li>Are you comfortable with [bathing / toileting / transfers / wound care / insulin injections / NG-tube feeding] — whichever applies?</li>
+            <li>What's your CPR / first-aid certification status? When did you last refresh it?</li>
+          </ul>
+
+          <h3>Approach to the patient</h3>
+          <ul>
+            <li>How would you handle our parent on a day when they are confused / agitated / refusing to eat?</li>
+            <li>What's your view on restraints, sedatives, or asking the doctor for sleep medication?</li>
+            <li>How would you involve our parent in their own care to preserve dignity and independence?</li>
+            <li>If they ask the same question fifteen times, what do you do?</li>
+          </ul>
+
+          <h3>Safety and judgment</h3>
+          <ul>
+            <li>What would you do if our parent fell? Even a minor fall.</li>
+            <li>How would you handle a fever, a sudden behavioural change, or unusual symptom you didn't recognise?</li>
+            <li>At what point do you call us? At what point do you call an ambulance directly?</li>
+            <li>If we have to be away for a day, what does your independent decision-making look like?</li>
+          </ul>
+
+          <h3>Practical fit</h3>
+          <ul>
+            <li>Are you comfortable in our home and area? How will you commute? (If overnight: are you a good sleeper through some noise?)</li>
+            <li>What hours and days are sustainable for you?</li>
+            <li>References — may we call your last two employers / agencies / supervising nurses?</li>
+            <li>What salary feels fair to you for this level of care?</li>
+          </ul>
+
+          <p><strong>Critical:</strong> always do a paid trial day (or longer) with the patient present. Watching the caregiver actually interact with your parent for an afternoon tells you more than any number of interviews.</p>
+        `,
+      },
+      {
+        id: 'work-permit',
+        h2: 'Foreign caregivers (Filipino, Burmese) and work permits',
+        html: `
+          <p>Filipino caregivers are the largest non-Thai group in higher-tier elder care in Thailand, particularly in Bangkok and Phuket. Many have formal nursing or caregiver training from the Philippines and fluent English — both of which command real premiums. Burmese caregivers are also common, more typically at companion and personal-care levels.</p>
+
+          <h3>What's required</h3>
+          <p>A foreign citizen needs a <strong>Non-Immigrant B visa</strong> and a <strong>Work Permit</strong> from the Ministry of Labour. Both are tied to the employer and the address.</p>
+
+          <h3>Cost and timing</h3>
+          <ul>
+            <li><strong>Work permit:</strong> 6,500 – 10,000 THB per year (employer-paid)</li>
+            <li><strong>Non-Immigrant B visa:</strong> ~2,000 THB/year plus initial setup</li>
+            <li><strong>Visa agent:</strong> most families use one — 15,000 – 30,000 THB initial setup, 5,000 – 10,000 THB per renewal year</li>
+            <li><strong>Processing:</strong> 7 – 30 working days once paperwork is complete</li>
+          </ul>
+
+          <h3>Tips specific to caregiver hires</h3>
+          <ul>
+            <li>Filipino caregivers often arrive with experience caring for elderly in Hong Kong, Singapore, or the Gulf. Ask specifically about that — long stints abroad mean adaptability and proven retention.</li>
+            <li>A nursing-trained Filipino caregiver on a work permit is the closest thing to professional home nursing in Thailand at a household price. Worth budgeting for if the care level genuinely needs it.</li>
+            <li>Do <strong>not</strong> hire an undocumented foreign worker for medical-tier care. If something goes wrong, the legal exposure for both you and the worker is significant.</li>
+            <li>If you go through a specialist home-care agency that places Filipino caregivers, they typically handle the work-permit paperwork themselves and recharge you the cost.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'contract',
+        h2: 'Contract, benefits, and what to spell out',
+        html: `
+          <p>A caregiver contract should be more specific than a nanny or housekeeper one. The work changes when the patient's condition changes; both sides need clarity on what's included and what triggers a renegotiation.</p>
+
+          <h3>What a caregiver contract should specify</h3>
+          <ul>
+            <li>Full name, ID number, training credentials, contact of both parties</li>
+            <li>Patient's name, condition summary, and care goals (without sharing medical records beyond what's needed)</li>
+            <li><strong>Scope:</strong> bathing, toileting, dressing, transfers, meals, medication reminders, medication administration, blood-pressure checks, wound care, escort to appointments — whichever applies. Be specific about what's <em>not</em> in scope (e.g. "no overnight stays", "no cleaning beyond patient's room").</li>
+            <li>Working days, shift hours, public-holiday list, day(s) off each week</li>
+            <li>What happens if the patient's condition deteriorates — does scope renegotiate? Salary renegotiate?</li>
+            <li>Monthly salary, payment date, bank transfer details</li>
+            <li>Room and meal arrangement (live-in only)</li>
+            <li>Annual leave (6 days minimum, 10 – 15 customary; consider more for emotionally heavy roles)</li>
+            <li>Paid sick leave</li>
+            <li>13th-month bonus</li>
+            <li>Notice period (30 days standard, both sides) — and explicit handling of <em>what happens if the patient passes away</em>. Many caregiver contracts include a 30-day post-event payment so the caregiver has time to find the next role.</li>
+            <li>Confidentiality clause about the patient's condition and family matters</li>
+            <li>Who pays for first-aid / CPR refresher courses (the employer)</li>
+            <li>Who pays for personal-protection equipment (the employer)</li>
+          </ul>
+
+          <p>ThaiHelper publishes a free bilingual contract template that can be adapted for caregiver roles: <a href="/blog/employment-contract-template-thailand">/blog/employment-contract-template-thailand</a></p>
+
+          <h3>Legally protected rights</h3>
+          <p>Household and home-care employees are covered by <strong>Ministerial Regulation No. 14 (2012)</strong>: at least one day off per week, public-holiday entitlement, paid sick leave, and overtime pay for hours beyond the contract. For full-time staff, <strong>Social Security Section 33</strong> registration is mandatory; both sides contribute 5 % of monthly salary.</p>
+        `,
+      },
+      {
+        id: 'mistakes',
+        h2: 'Common mistakes families make',
+        html: `
+          <ul>
+            <li><strong>Hiring under emotional pressure right after a health event.</strong> The first week home from hospital is when families make their worst caregiver hires. Use a hospital-recommended caregiver for the first 2 – 4 weeks while you do a proper search for the long-term role.</li>
+            <li><strong>Mismatching the care level.</strong> Hiring a companion-tier caregiver for someone with nursing needs is dangerous; hiring a nursing-trained Filipino caregiver for a healthy companion is expensive overkill. Be honest about the actual need.</li>
+            <li><strong>Single 24-hour caregiver.</strong> Solo 24/7 doesn't work for anyone except the lowest-needs companion roles. Caregiver burnout is real and patient safety drops sharply with a chronically exhausted worker. Budget for at least a relief shift.</li>
+            <li><strong>No emergency-escalation rules.</strong> "Call me first" doesn't help when you're on a flight. Define ambulance-call thresholds and the family member who is the second-in-line decision-maker.</li>
+            <li><strong>Skipping the trial period.</strong> One paid week with the actual patient is non-negotiable. Personality fit matters enormously in elder care.</li>
+            <li><strong>Verbal medical instructions.</strong> Medications, doses, schedules, contraindications — written down. Updated when anything changes. Photographed by the caregiver before the family travels.</li>
+            <li><strong>Hiring foreign caregivers informally.</strong> The legal exposure here is the biggest in household employment. Always use a visa agent.</li>
+            <li><strong>No social-time for the caregiver.</strong> Particularly with live-in roles caring for one person: the caregiver needs real off-hours and a real social life or she will burn out and leave just when you've built the trust.</li>
+            <li><strong>Not paying the 13th-month bonus.</strong> Universal expectation; skipping it ends the relationship.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'next-steps',
+        h2: 'Next steps',
+        html: `
+          <p>You can start by browsing verified caregiver profiles on ThaiHelper — filter by city, languages, training level, and the type of care they're comfortable handling. Message directly, interview at home, no placement fees.</p>
+          <ul>
+            <li><a href="/hire/caregiver">Browse caregivers across Thailand</a></li>
+            <li><a href="/hire/caregiver-bangkok">Caregivers in Bangkok</a></li>
+            <li><a href="/hire/caregiver-phuket">Caregivers in Phuket</a></li>
+            <li><a href="/hire/caregiver-chiang-mai">Caregivers in Chiang Mai</a></li>
+            <li><a href="/blog/employment-contract-template-thailand">Free bilingual contract template</a></li>
+            <li><a href="/blog/hire-elder-care-thailand">Elder Care in Thailand — broader overview</a></li>
+            <li><a href="/guide/hire-a-nanny-in-thailand">Hire a Nanny in Thailand</a> (if you need childcare instead)</li>
+          </ul>
+        `,
+      },
+    ],
+    faqs: [
+      {
+        question: 'How much does an elder caregiver in Bangkok cost in 2026?',
+        answer:
+          'A companion-tier caregiver in Bangkok costs 13,000–18,000 THB/month for day shifts. Personal-care level is 15,000–22,000. Nursing-assistant level is 20,000–30,000. Dementia or post-stroke specialists are 25,000–40,000. Fluent English (typically a Filipino caregiver) adds 5,000–10,000 THB/month over the Thai-speaking equivalent.',
+      },
+      {
+        question: 'Can one caregiver work 24 hours a day for my elderly parent?',
+        answer:
+          'Sustainably, no — except for very low-needs companion-tier patients who sleep through the night. For anyone who needs night attention, overnight transfers, or has dementia behaviours, you need a two- or three-caregiver rotation. Standard arrangements: two 12-hour shifts with one caregiver each, or three caregivers doing 8-hour shifts with one day off per week.',
+      },
+      {
+        question: 'Do I need a nursing-trained caregiver, or is a regular caregiver enough?',
+        answer:
+          'Depends entirely on the medical needs. For companionship, mobility assistance, and basic personal care (bathing, dressing, toileting, meals), an experienced non-nursing caregiver is appropriate and far less expensive. For medication administration, wound care, insulin injections, NG-tube feeding, post-surgical recovery, or chronic-condition monitoring, hire at the nursing-assistant level or above. Don\'t hire below the medical need — the cost difference is small compared to the risk.',
+      },
+      {
+        question: 'Are Filipino caregivers in Thailand allowed to work without a work permit?',
+        answer:
+          'No. Any non-Thai citizen working in Thailand needs both a Non-Immigrant B visa and a Work Permit. Filipino caregivers are common in elder care because many have formal nursing or caregiver training and fluent English, but they all need full paperwork. The employer pays the work-permit fee (6,500–10,000 THB/year). Most families use a licensed visa agent (15,000–30,000 THB initial setup) and never deal with the paperwork directly.',
+      },
+      {
+        question: 'Is home care or a nursing home cheaper in Thailand?',
+        answer:
+          'Home care is almost always cheaper and the gap is wide. A full-time day-shift personal-care caregiver in Bangkok costs around 18,000 THB/month plus Social Security. A residential nursing home runs 35,000–90,000 THB/month per resident, sometimes more for memory-care units. The trade-off is supervision and clinical infrastructure — for nursing-tier or end-stage needs, a facility may be more appropriate.',
+      },
+      {
+        question: 'What should I do in the first week after a parent comes home from hospital?',
+        answer:
+          'Use a hospital-recommended caregiver or short-term agency for the first 2–4 weeks. Hiring under emotional pressure right after a hospital discharge is the single most common cause of bad long-term caregiver matches. Use the stabilisation period to interview properly, do paid trial days, and choose the long-term caregiver with a clear head. The slight premium on the interim placement is worth it.',
+      },
+    ],
+  },
 ];
 
 export function getGuideBySlug(slug) {
