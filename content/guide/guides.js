@@ -1161,6 +1161,310 @@ export const guides = [
       },
     ],
   },
+
+  {
+    slug: 'hire-a-driver-in-thailand',
+    title: 'How to Hire a Personal Driver in Thailand — The Complete 2026 Guide',
+    description:
+      'Monthly and daily rates, when a driver beats Grab/Bolt economically, school-run vs full-time vs executive arrangements, family-car vs driver-owned-car logic, insurance traps to avoid, work-permit and licensing essentials. Updated for 2026.',
+    date: '2026-06-08',
+    updated: '2026-06-08',
+    readTime: 14,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=1200&q=80',
+    keywords:
+      'hire driver Bangkok, personal driver Thailand, family chauffeur Bangkok, school run driver Thailand, executive driver Bangkok, hire driver Phuket, driver cost Bangkok, hire car and driver Thailand',
+    sections: [
+      {
+        id: 'overview',
+        h2: 'What you\'ll learn in this guide',
+        html: `
+          <p>Hiring a personal driver in Thailand sits in an unusual price position. A full-time Bangkok driver costs about as much as a part-time tutor — 18,000–25,000 THB/month — yet shifts how a family lives more than almost any other helper hire. The trade-off against Grab and Bolt is real and changes with how many trips you make per day; the trade-off against ride-share goes one way for school-running families and the other way for couples who occasionally need an airport run.</p>
+          <p>This guide covers all of that. You'll learn: <strong>when a personal driver beats ride-hailing economically</strong> (and when it doesn't), the four driver-role archetypes and what each one actually costs in 2026, the big <strong>family-car vs driver-owned-car decision</strong> that most expats get wrong, the <strong>insurance picture</strong> (the single most overlooked risk in this category — a driver crashing your car can become a major financial problem if you didn't structure cover correctly), where to find drivers, how to run a useful test drive, the work-permit question (mostly irrelevant for Thai drivers, important for the rare foreign-citizen driver), and the mistakes families make.</p>
+          <p><em>Last updated: 8 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data, and direct family interviews in Bangkok, Phuket, and Chiang Mai. Legal and insurance references are to Thai regulations in force as of 2026.</em></p>
+        `,
+      },
+      {
+        id: 'vs-grab',
+        h2: 'Do you actually need a driver, or is Grab enough?',
+        html: `
+          <p>Many expats in Bangkok arrive assuming they need a driver, then discover Grab and Bolt cover 90 % of trips at lower total cost. Others arrive thinking they'll Grab everywhere, then burn out two months in. The right answer depends on a small number of variables.</p>
+
+          <h3>The maths in plain terms</h3>
+          <p>A full-time Bangkok driver costs roughly 20,000 THB/month all-in (salary + social security + petrol allowance + small extras). A typical Grab Sukhumvit-to-school round trip in Bangkok runs 200–400 THB. So the break-even is roughly <strong>50–100 Grab trips per month</strong> — about 2–3 per day, every day.</p>
+
+          <p>Families who cross that threshold easily:</p>
+          <ul>
+            <li>Two children at different international schools with two drop-offs and two pick-ups daily (4 trips/day base before any errands)</li>
+            <li>A parent with a daily commute plus a child's school run</li>
+            <li>A family that does heavy errand running, shopping, weekend trips out of town, and airport runs</li>
+            <li>A retiree couple in a less-served part of Bangkok (Bang Na, Ramkhamhaeng, Nonthaburi) where Grab availability and pricing are worse than in Sukhumvit</li>
+          </ul>
+
+          <p>Families for whom Grab is plainly better:</p>
+          <ul>
+            <li>Single working professional, condo near work, occasional weekend trips</li>
+            <li>One school-age child, school is walkable or has a school bus</li>
+            <li>Anyone who travels 1–2 weeks per month — a driver still costs full salary during your trip</li>
+          </ul>
+
+          <h3>The non-financial reasons people hire a driver anyway</h3>
+          <ul>
+            <li><strong>Predictability.</strong> Grab surge pricing during rain or rush hour can double the price; a salaried driver doesn't.</li>
+            <li><strong>Continuity with kids.</strong> A familiar adult picks up your child every day; you don't relearn the school protocol with every new driver.</li>
+            <li><strong>Cargo and storage.</strong> The car becomes mobile storage for sports gear, groceries, school supplies, the dog crate.</li>
+            <li><strong>Errands without a passenger.</strong> A salaried driver can pick up the visa appointment paperwork or do the supermarket run while you work — Grab can't.</li>
+            <li><strong>Late-night and 4 am airport runs.</strong> Grab works for these but a known driver is more reliable.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'types',
+        h2: 'Four driver types — and which one fits you',
+        html: `
+          <h3>1. Personal / family driver (full-time, day shift)</h3>
+          <p>Most common arrangement. Drives the family vehicle, on standby during the working day, school-runs in the morning and afternoon, errands and shopping in between, evening home by ~6 pm. 6 days per week.</p>
+
+          <h3>2. Full-time live-in driver</h3>
+          <p>Lives in the maid's quarters (common in Bangkok villas and Phuket pool villas) or a shared family-staff room. On standby for early-morning airport runs and late-night returns. Higher monthly cost but absorbs the time you'd otherwise lose to a driver commuting in. Suits families with irregular schedules, multiple children's evening activities, or frequent late-night events.</p>
+
+          <h3>3. School-run only / part-time driver</h3>
+          <p>The driver works mornings (drop-offs) and afternoons (pick-ups), about 4–5 hours total per day, with the middle of the day free. Pay can be split — half-salary plus paid additional trips, or a flat reduced monthly. Suits families with one or two school-age children and parents who don't need a driver during work hours.</p>
+
+          <h3>4. Executive / VIP driver</h3>
+          <p>Drives the principal (an executive or business owner) on a working schedule that maps to their day. Often expected to wear a suit, drive a black sedan, speak English well, and conduct themselves at executive level. Different price band (30,000–50,000 THB/month) and often comes with specific defensive-driving training. Common for senior expats on company packages.</p>
+
+          <h3>5. Occasional / day-rate driver</h3>
+          <p>Not really a hire — a known driver booked for a specific trip (a Saturday day out, a Hua Hin weekend, a multi-stop wedding day, a multi-day Chiang Mai trip). 1,500–3,000 THB per day for the driver's time, fuel separate, plus the driver's accommodation if overnight. Many families maintain two or three such drivers in a contacts list rather than employing one.</p>
+        `,
+      },
+      {
+        id: 'cost',
+        h2: 'How much does a driver in Thailand cost?',
+        html: `
+          <h3>Monthly salaries (full-time, family-car arrangement)</h3>
+          <table>
+            <thead><tr><th>Driver type</th><th>Range (THB/month)</th><th>Typical</th></tr></thead>
+            <tbody>
+              <tr><td>Personal / family driver, Bangkok</td><td>15,000 – 25,000</td><td>20,000</td></tr>
+              <tr><td>Personal / family driver, Phuket / Pattaya</td><td>14,000 – 22,000</td><td>18,000</td></tr>
+              <tr><td>Personal / family driver, Chiang Mai / Hua Hin</td><td>12,000 – 18,000</td><td>15,000</td></tr>
+              <tr><td>Live-in driver (Bangkok)</td><td>18,000 – 30,000</td><td>22,000 + room</td></tr>
+              <tr><td>School-run only (4–5 hrs/day)</td><td>9,000 – 15,000</td><td>12,000</td></tr>
+              <tr><td>Executive / VIP driver (Bangkok)</td><td>30,000 – 50,000</td><td>40,000</td></tr>
+              <tr><td>English-speaking driver, premium</td><td>add 3,000 – 8,000</td><td>—</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Hourly and day rates (occasional / part-time)</h3>
+          <ul>
+            <li><strong>Hourly:</strong> 200 – 400 THB/hour (4-hour minimum is common)</li>
+            <li><strong>Day rate (8 hours):</strong> 1,500 – 3,000 THB, fuel separate</li>
+            <li><strong>Overnight trip:</strong> add 800 – 1,500 THB per night for the driver's accommodation</li>
+            <li><strong>Multi-day road trip (e.g. Bangkok → Chiang Mai with stops):</strong> 2,500 – 4,000 THB/day plus fuel plus accommodation</li>
+            <li><strong>Airport-only contracts:</strong> 800 – 1,500 THB per airport run within Bangkok; surcharge for very early or late hours</li>
+          </ul>
+
+          <h3>What's also part of the monthly budget</h3>
+          <ul>
+            <li><strong>Fuel:</strong> if driver uses family car, you pay petrol directly. Budget 3,000–6,000 THB/month for normal Bangkok use.</li>
+            <li><strong>Driver's meals:</strong> roughly 100–200 THB/day if not provided. Many families just give the driver a fixed daily food allowance or include lunch when at home.</li>
+            <li><strong>Parking:</strong> at your home (usually free if you have a spot), at malls and offices (the driver bills it back or you pre-pay).</li>
+            <li><strong>13th-month bonus:</strong> universally expected.</li>
+            <li><strong>Social Security (Section 33):</strong> 5 % from employer + 5 % from employee for full-time staff.</li>
+            <li><strong>Driver's licence renewal and physical:</strong> small but check the licence is current at hire.</li>
+            <li><strong>Defensive-driving / first-aid refresher</strong> if you want it. 1,500–3,000 THB for a half-day course. Worth doing once a year for school-run drivers.</li>
+          </ul>
+
+          <h3>The driver-owned-car alternative (cost shifts entirely)</h3>
+          <p>Some drivers own their own car (typically a Toyota Vios, Honda City, or similar) and offer a full package — driver + vehicle + petrol + maintenance — billed monthly. Rates: 30,000 – 50,000 THB/month all-in for a sedan in Bangkok. Useful when you don't want to own a car at all (no purchase, no registration, no maintenance headaches). Less common in Phuket and Chiang Mai. Discussed more in the next section.</p>
+        `,
+      },
+      {
+        id: 'car-decision',
+        h2: 'Driver\'s own car vs your car — the big decision',
+        html: `
+          <p>This is the single biggest practical decision in hiring a driver and most expat families don't think about it carefully enough.</p>
+
+          <h3>Option A: You own the car, driver drives it</h3>
+          <p><strong>Cost:</strong> car purchase (or lease) + maintenance + insurance + registration + petrol + driver salary.</p>
+          <p><strong>Right for:</strong> families who plan to be in Thailand 2+ years, want a specific car (SUV, 7-seater, electric), and value control over the vehicle's condition.</p>
+          <p><strong>Watch out for:</strong> insurance is your problem (covered below); maintenance is your problem; if the driver leaves, you still have a car you have to maintain or sell.</p>
+
+          <h3>Option B: Driver owns and provides the car (and petrol)</h3>
+          <p><strong>Cost:</strong> a single all-in monthly rate, typically 30,000 – 50,000 THB/month in Bangkok for a sedan. Some include first-class insurance.</p>
+          <p><strong>Right for:</strong> shorter-term assignments (under 2 years), families who specifically don't want to own a car, anyone moving to Thailand without certainty about how long they'll stay.</p>
+          <p><strong>Watch out for:</strong> car condition varies; agree explicitly that the car must be a specific year-or-newer with first-class insurance. The driver replaces tyres, services, repairs — but on the cheapest schedule. If you have small children, request a four-door sedan with rear-seat airbags and ISOFIX.</p>
+
+          <h3>Option C: Hybrid — driver only, family rents or leases a car separately</h3>
+          <p>Less common but increasingly popular in Bangkok with the rise of long-term lease services. You lease a car from a company (Toyota Sure, Mazda Lease, MG Sure, or independents like Tipperary) for 25,000–45,000 THB/month, then hire a driver separately. Some leases include first-class insurance and replacement during service, which removes the maintenance-burden objection from Option A.</p>
+        `,
+      },
+      {
+        id: 'insurance',
+        h2: 'The insurance chapter you must read',
+        html: `
+          <p>Hire-driver crashes happen. Bangkok traffic, motorbike weavers, sudden rain, fatigue at the end of a long day. The insurance setup at the moment of impact is what decides whether it's a 20,000 THB inconvenience or a 200,000 THB problem. This section is for the family-car arrangement (driver drives your vehicle); the driver-owned arrangement should also be checked but the risk is mostly on the driver.</p>
+
+          <h3>The five insurance layers in Thailand</h3>
+          <ul>
+            <li><strong>Compulsory Motor Insurance (พ.ร.บ. / "Por Ror Bor"):</strong> legally required, very cheap, covers basic injury claims to third parties (and the driver in some scenarios). Covers almost nothing in a real accident — bodily injury only, modest limits.</li>
+            <li><strong>1st-Class voluntary insurance:</strong> full cover — third-party damage, your own car, theft, fire, glass. The default for any car worth keeping. Annual premium 15,000–40,000 THB depending on car value and driver history.</li>
+            <li><strong>2nd-Class / 3rd-Class voluntary:</strong> partial cover (third-party only, or third-party with limited own-car). Used for older or low-value cars. Inadequate for a car a hired driver uses daily.</li>
+            <li><strong>"Named driver" vs "any driver" provisions:</strong> this is the trap. Some 1st-Class policies cover only drivers explicitly listed on the policy. If your hired driver isn't on the policy and crashes, the insurer can deny the claim. Always confirm in writing that the policy covers <em>any licensed driver above age X</em>, OR add your driver as a named driver from day one.</li>
+            <li><strong>Personal accident cover for the driver:</strong> separate cheap add-on (1,000–3,000 THB/year) that pays medical and disability benefits if the driver is injured. Strongly recommended — and a good faith signal to the driver.</li>
+          </ul>
+
+          <h3>The four things to do at the moment of hire</h3>
+          <ol>
+            <li><strong>Confirm the policy is 1st-Class</strong> and renew it before the start of employment if it's expired or below 1st-Class.</li>
+            <li><strong>Add the driver as a named driver, OR confirm the "any licensed driver" clause</strong> in writing with the insurance company. Get the confirmation in email or a re-issued policy schedule.</li>
+            <li><strong>Take a current photo of the driver's licence</strong> (Thai government driving licence is required; check the expiry date — many are valid 5 years). Verify it's a regular driving licence, not an expired learner's permit.</li>
+            <li><strong>Add personal accident cover for the driver</strong> as an add-on to your policy or as a separate small policy. Roughly 2,000 THB/year for meaningful cover.</li>
+          </ol>
+
+          <h3>If the car is a company car</h3>
+          <p>If you're driving a corporate car (provided by your employer in Thailand), the corporate insurance probably does <em>not</em> automatically cover personal drivers. Check with HR or the company secretary, get the cover extended in writing before the driver touches the keys, and budget the upgrade if needed.</p>
+        `,
+      },
+      {
+        id: 'where-to-find',
+        h2: 'Where to find a driver in Thailand',
+        html: `
+          <p>Four channels are realistic for a long-term hire.</p>
+
+          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
+          <p>Drivers create profiles with experience, licence type, English level, areas they're willing to commute, and the type of work they prefer (school-run, family, executive). Best for: standard family driver hires, no placement fee, structured comparison.</p>
+
+          <h3>2. Driver placement / company-secretary firms</h3>
+          <p>Several Bangkok firms place drivers for companies and high-net-worth families. They typically vet candidates more thoroughly (defensive-driving certification, background check, English assessment) and charge a placement fee of 8,000–25,000 THB. Best for: executive drivers, families wanting a fully managed shortlist.</p>
+
+          <h3>3. Word of mouth — condo, building, and school networks</h3>
+          <p>The single strongest channel for school-run drivers. Other parents at your school's drop-off line know which drivers are reliable; condo juristic-person offices know which drivers serve other residents well. A driver recommended by another family at your child's school usually beats any other channel.</p>
+
+          <h3>4. Departing-expat handovers</h3>
+          <p>An expat family leaving Thailand often wants to place their long-term driver with another family. The implicit reference is strong (this person has done the job well for years), the driver is already trained on Bangkok traffic patterns, and continuity for the driver is meaningful. Watch the Facebook groups and your school's parent network for these handover posts — they go quickly.</p>
+
+          <h3>5. Grab / Bolt poaching — the grey method</h3>
+          <p>Some families "discover" a particular ride-hailing driver, ask if he'd drive for them full-time, and convert him into a personal driver. Surprisingly common; works fine if the driver wants the stable income. Note: the Grab platform doesn't love this and the driver may need to actually leave the platform if he becomes full-time with you.</p>
+        `,
+      },
+      {
+        id: 'test-drive',
+        h2: 'The interview and the test drive',
+        html: `
+          <p>An interview is for credentials and personality. A test drive is for whether you'd actually let this person drive your child every day. Both matter and the second one matters more.</p>
+
+          <h3>Interview questions</h3>
+          <ul>
+            <li>How long have you been driving in Bangkok specifically? (Years total isn't enough — Bangkok experience is what counts.)</li>
+            <li>Show me your current Thai driving licence. (Photograph the front and back; note the expiry.)</li>
+            <li>What types of vehicles have you driven — sedan, SUV, 7-seater, manual transmission, automatic?</li>
+            <li>Have you ever had an accident? Tell me about it. (Everyone has; the answer is in how they handle the question.)</li>
+            <li>What's your typical commute to our area? Will you be reliably on time for 7 am drop-offs?</li>
+            <li>How is your English / Thai for our purposes?</li>
+            <li>Are you comfortable driving in heavy rain, late at night, on tollways, and outside Bangkok?</li>
+            <li>How do you handle a tense passenger or a child crying in the back?</li>
+            <li>References — may we contact your last two employers?</li>
+          </ul>
+
+          <h3>The test drive (non-negotiable before hiring)</h3>
+          <p>Pay for a real driving session — at least 60 – 90 minutes, with you as passenger. Include:</p>
+          <ul>
+            <li><strong>A school-run-style route</strong> at school-run time, traffic and all</li>
+            <li><strong>A motorway / expressway segment</strong> (Bangkok elevated motorway is fine)</li>
+            <li><strong>A tight parking situation</strong> (mall basement, residential street)</li>
+            <li><strong>A small unfamiliar destination</strong> using only the navigation app — to see how they handle directions and unexpected detours</li>
+          </ul>
+
+          <p>What you're looking for: smooth braking and acceleration (your back tells you), lane discipline, distance to the car in front (defensive driving is mostly distance management), calm in heavy traffic, mirror checks before lane changes, comfort with the navigation app. Hard braking, weaving between lanes, very close following, and impatience are disqualifiers — they will not improve, no matter how good the references look.</p>
+        `,
+      },
+      {
+        id: 'work-permit',
+        h2: 'Work permits — almost always a non-issue, but check',
+        html: `
+          <p>The overwhelming majority of personal drivers in Thailand are Thai citizens. No work permit is required for them; a current Thai driving licence is the only legal document that matters at hire.</p>
+
+          <h3>The rare foreign-driver case</h3>
+          <p>Driving for hire is on the list of professions <strong>reserved for Thai citizens</strong> under the Foreign Employment Act. A foreign citizen cannot be hired as a personal driver in Thailand. Some expats arrange for a spouse or trusted foreign friend to drive informally — legally this is grey but not commercial driving and is generally not enforced. A foreign-citizen "driver" hired under a work permit covering a different role (e.g. personal-assistant role that happens to include driving) is technically a workaround that depends on how the work permit is written. If a foreign person is going to be driving you regularly, get advice from a Thai immigration lawyer about how the role is described.</p>
+
+          <h3>What you do need to verify at hire (Thai driver)</h3>
+          <ul>
+            <li><strong>Valid Thai driving licence</strong> — photograph both sides, note the expiry, set a reminder to follow up before it expires</li>
+            <li><strong>Licence category appropriate to your vehicle</strong> — most car drivers are fine with the basic category; check if you have a larger vehicle (van, 7-seater on some classifications)</li>
+            <li><strong>No restrictions on the licence</strong> (e.g. "daytime only" — rare but exists)</li>
+            <li><strong>For executive / livery drivers:</strong> a "Public" category (รับจ้าง) Thai licence is sometimes required if the driver will drive a vehicle registered as commercial. Most personal-driver arrangements use private vehicles and a standard licence.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'mistakes',
+        h2: 'Common mistakes families make',
+        html: `
+          <ul>
+            <li><strong>Hiring without a real test drive.</strong> An interview tells you nothing about how someone drives. Pay for 60–90 minutes of real driving with you in the car and decide based on that.</li>
+            <li><strong>Not verifying the licence is current.</strong> Photograph it on day one. Set a calendar reminder for the renewal date.</li>
+            <li><strong>Not checking that insurance covers the hired driver.</strong> Many 1st-Class policies in Thailand only cover named drivers or the owner. A claim denied because your driver wasn't on the policy can cost six figures. Confirm in writing with the insurer before day one.</li>
+            <li><strong>No personal accident cover for the driver.</strong> A driver injured at work has limited Social Security coverage. The add-on costs ~2,000 THB/year and removes a real risk for both sides.</li>
+            <li><strong>Driver-owned-car arrangement without specifying car class.</strong> "I'll provide a car" without specifying year, make, and that it must carry first-class insurance leads to families being driven around in 15-year-old cars with bald tyres. Specify in the contract.</li>
+            <li><strong>Treating the driver like a 24/7 on-call resource.</strong> 7 am to 6 pm with a clear lunch break is sustainable. Calling them out at 11 pm three nights a week is not — the driver will quit, often without notice.</li>
+            <li><strong>No fuel-account discipline.</strong> If the driver fills up the family car, they pay first and you reimburse against the receipt. Don't hand them cash up front; receipts get vague.</li>
+            <li><strong>Skipping the 13th-month bonus.</strong> Universally expected. Skipping it ends the relationship faster in this role than almost any other helper category — drivers talk to each other.</li>
+            <li><strong>Hiring on accent alone.</strong> "English-speaking driver" is a real premium (3,000–8,000 THB/month). If your child's school is bilingual or you communicate fine in Thai, this is the easiest premium to skip.</li>
+            <li><strong>Hiring a foreigner to drive without thinking about the legal restriction.</strong> Driving is on the Thai-citizens-only list. Don't.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'next-steps',
+        h2: 'Next steps',
+        html: `
+          <p>Browse verified driver profiles on ThaiHelper — filter by city, English level, and the type of driving you need (school-run, family, executive). Free to look, free to message, no placement fees.</p>
+          <ul>
+            <li><a href="/hire/driver">Browse drivers across Thailand</a></li>
+            <li><a href="/hire/driver-bangkok">Drivers in Bangkok</a></li>
+            <li><a href="/hire/driver-phuket">Drivers in Phuket</a></li>
+            <li><a href="/hire/driver-chiang-mai">Drivers in Chiang Mai</a></li>
+            <li><a href="/blog/hire-driver-bangkok-guide">Hire a Driver in Bangkok — broader overview</a></li>
+            <li><a href="/blog/employment-contract-template-thailand">Free bilingual contract template</a></li>
+          </ul>
+        `,
+      },
+    ],
+    faqs: [
+      {
+        question: 'How much does a personal driver in Bangkok cost in 2026?',
+        answer:
+          'A full-time personal driver in Bangkok costs 15,000–25,000 THB/month for the standard family arrangement (driver drives your car, 6 days a week, ~9-hour days). Live-in drivers run 18,000–30,000 THB plus room. School-run-only drivers (4–5 hours/day) are 9,000–15,000 THB/month. Executive drivers — suit, English fluent, professional manner — are 30,000–50,000 THB/month. English-speaking premium adds 3,000–8,000 THB on any tier.',
+      },
+      {
+        question: 'Is hiring a driver cheaper than using Grab in Bangkok?',
+        answer:
+          'A full-time Bangkok driver costs about 20,000 THB/month all-in. A typical Grab trip is 200–400 THB. Break-even is around 50–100 Grab trips per month, or roughly 2–3 trips per day every day. Families with two school runs and weekend errands easily cross that threshold; single working professionals usually don\'t. Non-financial reasons — predictability, no surge pricing, continuity with kids, errands without a passenger — also matter.',
+      },
+      {
+        question: 'Should I provide a car or hire a driver who has their own?',
+        answer:
+          'Driver-with-car arrangements (30,000–50,000 THB/month all-in including petrol and insurance) make sense for shorter-term stays (under 2 years) and families who don\'t want to own a car. Family-car-with-driver (20,000 THB salary + petrol + your insurance/maintenance) makes sense for long-term residents who want a specific vehicle and value control over its condition. A third option — long-term lease the car separately, hire the driver separately — has become popular in Bangkok.',
+      },
+      {
+        question: 'Will my car insurance cover a hired driver?',
+        answer:
+          'Not automatically. Many Thai 1st-Class policies cover only "named drivers" listed on the policy, or only the registered owner. Add your driver as a named driver from day one, OR confirm in writing with the insurer that the policy covers "any licensed driver above [age]". A claim denied because the hired driver wasn\'t on the policy can cost six figures. Always confirm before the driver touches the keys.',
+      },
+      {
+        question: 'Do foreigners need a work permit to drive for a private family in Thailand?',
+        answer:
+          'A foreign citizen cannot be hired as a personal driver in Thailand — driving for hire is on the list of professions reserved for Thai citizens under the Foreign Employment Act. The overwhelming majority of personal drivers are Thai citizens; no work permit is needed but a valid Thai driving licence is. A foreign citizen driving informally for a family (e.g. a spouse, friend) is a grey area and generally not enforced, but is not a commercial-driving arrangement.',
+      },
+      {
+        question: 'What hours can I reasonably expect from a full-time driver?',
+        answer:
+          'Standard is 6 days a week, roughly 7 am to 6 pm with a clear lunch break — about 50–55 working hours per week. Overtime (late dinners, weekend errands beyond contracted hours) is paid separately or banked as time off. Calling a driver out at 11 pm three nights a week without compensation is the fastest way to lose a good driver. Live-in drivers have more flexible availability for early-morning or late-night trips but still need real off-time.',
+      },
+    ],
+  },
 ];
 
 export function getGuideBySlug(slug) {
