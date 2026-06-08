@@ -130,6 +130,14 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- Definitive Guides — long-form authoritative content. Highest
+       blog-tier priority because these are designed for AI citation. -->
+  <url>
+    <loc>https://thaihelper.app/guide/hire-a-nanny-in-thailand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
   <!-- High-intent guide posts (Q&A format, snippet-friendly) -->
   <url>
     <loc>https://thaihelper.app/blog/nanny-costs-thailand</loc>
