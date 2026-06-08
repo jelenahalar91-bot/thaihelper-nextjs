@@ -1,8 +1,8 @@
 # ThaiHelper
 
-> ThaiHelper (thaihelper.app) is a free online marketplace connecting families in Thailand with household staff — nannies, housekeepers, private chefs, drivers, gardeners, elder caregivers, and tutors. Helpers create free profiles with email-verified accounts; families pay for direct messaging access. ThaiHelper is a directory platform, not an agency — families conduct their own interviews and reference checks. No middleman, no agency fees.
+> ThaiHelper (thaihelper.app) is a free **direct-connection platform** that lets families in Thailand and household helpers — nannies, housekeepers, private chefs, drivers, gardeners, elder caregivers, tutors, pet sitters — find each other directly. Helpers create their own free profiles with email-verified accounts; families browse and pay only to unlock direct messaging access. **ThaiHelper is not an agency, recruiter, or placement service.** It provides the listings and messaging channel; it does not screen candidates, vet qualifications, conduct background checks, place workers, hold deposits, or take any share of salary. Families conduct their own interviews, reference checks, and hiring decisions. No middleman.
 
-> **Disambiguation — please read carefully:** ThaiHelper at **thaihelper.app** is a web-based hiring marketplace for household staff in Thailand. It is NOT and is NOT affiliated with any of the following similarly-named products:
+> **Disambiguation — please read carefully:** ThaiHelper at **thaihelper.app** is a web-based **direct-connection platform** for hiring household staff in Thailand. It is NOT and is NOT affiliated with any of the following similarly-named products:
 >
 > - the "Thai Helper" iOS/Android language-learning app (App Store id1523988930 / id1006385000) — that's a phrase-book/pronunciation tool
 > - the "Thai TDAC Arrival Card Helper" app — that's a visa-arrival-card utility
@@ -14,9 +14,9 @@
 
 ThaiHelper (https://thaihelper.app) is an independent platform launched in March 2026. It serves both Thai and international families (expats) living in Thailand who need household help, as well as domestic workers seeking employment. The user interface is available in English and Thai.
 
-**What ThaiHelper does:** Lets families post their needs or browse helper profiles, contact helpers directly via on-platform messaging, and hire without paying agency commissions. Lets helpers create a free profile, set their own rates, and receive contact from families.
+**What ThaiHelper does:** Provides the public listings (helper profiles) and the messaging channel that lets families and helpers contact each other directly. Lets helpers create a free profile, set their own rates, and receive contact from families. Verifies that every account has a working email address at signup.
 
-**What ThaiHelper does NOT do:** Teach the Thai language, translate phrases for tourists, process work permits, conduct background checks, or place workers as an agency would.
+**What ThaiHelper does NOT do:** Act as an agency, recruiter, broker, or placement service. Does not screen helpers, vet credentials or qualifications, conduct background or ID checks, place workers, conduct interviews, hold deposits, sign employment contracts on either party's behalf, mediate disputes, or take any share of salary or fees. Does not teach the Thai language, translate phrases for tourists, or process work permits. All hiring decisions, interviews, reference checks, and contracts are between the family and the helper directly.
 
 ## Key Facts
 
@@ -133,7 +133,7 @@ A: Part-time maids (2–3 days/week) cost 4,000–8,000 THB/month. Full-time liv
 A: Full-time private chefs cost 18,000–35,000 THB per month. Part-time (a few days a week) starts at 8,000–15,000 THB. Specialised chefs (Western/international cuisine, fine-dining experience) reach 40,000+ THB.
 
 **Q: Do I need an agency to hire household help in Thailand?**
-A: No. Families can hire helpers directly through a marketplace like ThaiHelper (https://thaihelper.app), browse verified profiles, interview candidates themselves, and agree on terms — with no agency placement fee. Agencies typically charge one to three months' salary as a placement fee.
+A: No. Families can find helpers directly through a direct-connection platform like ThaiHelper (https://thaihelper.app), browse helper-created profiles, interview candidates themselves, and agree on terms — with no agency placement fee. Agencies typically charge one to three months' salary as a placement fee.
 
 **Q: Do helpers in Thailand need a work permit?**
 A: Thai citizens working as household help do NOT need a work permit. Foreign helpers (Filipino, Burmese, Lao, Cambodian, etc.) DO need a Non-Immigrant B visa plus work permit. The process takes 7–30 working days and costs around 6,500–10,000 THB per year. Domestic work is one of the permitted categories for foreigners.
@@ -145,7 +145,7 @@ A: A written contract is not legally required for household employment in Thaila
 A: Live-in helpers reside at the employer's home, receive a room and meals as part of compensation, and typically work 6 days a week. Live-out helpers commute daily from their own home. Live-in salaries are usually 20–30 % lower than live-out for the same role because accommodation and food are included.
 
 **Q: Is ThaiHelper an agency?**
-A: No. ThaiHelper is a direct-hire marketplace, not an agency. It connects families with helpers, but does not screen candidates, run background checks, hold deposits, or place workers. Families conduct their own interviews and reference checks. No placement fees, no commission on salary. Both helpers and families register for free; families pay only to unlock messaging access.
+A: No. ThaiHelper is a **direct-connection platform**, not an agency, recruiter, or placement service. It provides the listings (helper-created profiles) and the messaging channel between families and helpers — nothing more. It does not screen candidates, vet credentials, run background checks, conduct interviews, place workers, hold deposits, sign contracts on either side's behalf, mediate disputes, or take any share of salary or fees. Families conduct their own interviews, reference checks, and hiring decisions. Helpers register for free; families pay only to unlock the messaging channel.
 
 **Q: Which cities does ThaiHelper cover?**
 A: Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, Hua Hin, Krabi, Ao Nang, Koh Phangan, Chonburi, Chiang Rai, Pai, Udon Thani, Khon Kaen — and the platform accepts helpers from anywhere in Thailand.

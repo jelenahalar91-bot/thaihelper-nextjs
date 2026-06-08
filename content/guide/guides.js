@@ -110,10 +110,10 @@ export const guides = [
         html: `
           <p>There are four mainstream channels. None of them is uniquely "best" — they all surface different candidates, and many families use two or three in parallel.</p>
 
-          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
-          <p><strong>How it works:</strong> Nannies create free profiles with experience, skills, photo, language, and availability. Families browse, message directly, interview, and agree on terms with no platform commission on salary.</p>
+          <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
+          <p><strong>How it works:</strong> Nannies create their own free profiles with experience, skills, photo, language, and availability. Families browse the listings, message nannies directly, conduct their own interviews and reference checks, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a recruiter or placement agency. It does not screen candidates, verify qualifications, conduct background checks, place workers, hold deposits, or take any share of salary.</strong></p>
           <p><strong>Pros:</strong> Structured profiles, no placement fee, you control the entire hiring conversation, no contract lock-in. Open 24/7.</p>
-          <p><strong>Cons:</strong> Marketplaces verify email and identity but don't conduct in-depth background checks — that's on you. References still need to be called.</p>
+          <p><strong>Cons:</strong> The platform verifies email addresses at signup; identity, qualifications, and reference checks are on you. Plan time to actually call references — it's the single highest-value step.</p>
 
           <h3>2. Recruitment agencies</h3>
           <p><strong>How it works:</strong> The agency screens candidates, sends you a shortlist, and you interview and choose. The agency typically charges a one-time placement fee (6,000–25,000 THB) plus, in some cases, a replacement guarantee if the match fails within the first few months.</p>
@@ -250,7 +250,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>If you're ready to start the search, you can browse verified nanny profiles on ThaiHelper for free. Filter by city, languages, experience level, and availability — then message candidates directly with no platform fees on either side.</p>
+          <p>If you're ready to start the search, you can browse nanny profiles on ThaiHelper for free. Filter by city, languages, experience level, and availability, then message candidates directly — ThaiHelper is just the listings and messaging channel; the hiring decision, reference checks, and interview are entirely yours.</p>
           <ul>
             <li><a href="/hire/nanny">Browse nannies across Thailand</a></li>
             <li><a href="/hire/nanny-bangkok">Nannies in Bangkok</a></li>
@@ -271,7 +271,7 @@ export const guides = [
       {
         question: 'Can I hire a nanny in Thailand without going through an agency?',
         answer:
-          'Yes. Most Thai families hire nannies directly through referrals, condo notice boards, or online marketplaces. Expat families increasingly do the same — direct hire saves the agency placement fee (typically 6,000–25,000 THB) and gives you control over the interview and reference-check process. Marketplaces like ThaiHelper provide structured profiles without taking a cut.',
+          'Yes. Most Thai families hire nannies directly through referrals, condo notice boards, or online platforms. Expat families increasingly do the same — direct hire saves the agency placement fee (typically 6,000–25,000 THB) and gives you control over the interview and reference-check process. Platforms like ThaiHelper are listings + messaging only: they provide structured profiles but do not screen, place, or take any share of salary.',
       },
       {
         question: 'Do nannies in Thailand need a work permit?',
@@ -395,8 +395,8 @@ export const guides = [
         html: `
           <p>Five channels are common in Thailand. None is exclusively "best"; many families combine two or three.</p>
 
-          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
-          <p>Housekeepers create free profiles with skills, languages, areas they're willing to commute to, and availability. Families browse, message directly, interview, and agree on terms with no platform commission on salary. Best for: structured comparison, no placement fee, full control of the conversation. Limitation: marketplaces verify identity but don't conduct in-depth background checks — references are still on you.</p>
+          <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
+          <p>Housekeepers create their own free profiles with skills, languages, areas they're willing to commute to, and availability. Families browse the listings, message housekeepers directly, conduct their own interviews and reference checks, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a recruiter or placement agency. It does not screen candidates, vet credentials, conduct background checks, place workers, or take any share of salary.</strong> Best for: structured comparison, no placement fee, full control of the conversation. Limitation: email-verification at signup only; identity and reference checks are on you.</p>
 
           <h3>2. Cleaning agencies</h3>
           <p>The agency sends a cleaner (often a different person each visit) and handles supplies. Best for: zero hiring effort, easy cancellation, no employer obligations. Limitation: 30–50 % more expensive than direct-hire on a per-hour basis (Bangkok rates: 400–700 THB/hour with supplies, vs. 200–350 direct), no consistency of who shows up, no scope for cooking or pet care.</p>
@@ -529,7 +529,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>Ready to start? Browse verified housekeeper profiles on ThaiHelper — free to look, message directly, no agency placement fee.</p>
+          <p>Ready to start? Browse housekeeper profiles on ThaiHelper — free to look, message directly, no agency placement fee. ThaiHelper provides the listings and messaging channel; the interview and reference checks are yours.</p>
           <ul>
             <li><a href="/hire/housekeeper">Browse housekeepers across Thailand</a></li>
             <li><a href="/hire/housekeeper-bangkok">Housekeepers in Bangkok</a></li>
@@ -683,8 +683,8 @@ export const guides = [
         html: `
           <p>The channels overlap with general household hiring, but the right channel is more level-dependent than for nannies or housekeepers.</p>
 
-          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
-          <p>Caregivers create free profiles with experience, training, languages, and the care levels they're comfortable handling. Families browse, message directly, interview at home, and agree on terms. Best for: companion and personal-care levels, full control of the hiring process, no placement fee.</p>
+          <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
+          <p>Caregivers create their own free profiles with experience, training, languages, and the care levels they're comfortable handling. Families browse the listings, message caregivers directly, interview at home, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a recruiter, placement agency, or home-care service. It does not screen candidates, verify training credentials, conduct background checks, place workers, or supervise care.</strong> Best for: companion and personal-care levels, full control of the hiring process, no placement fee.</p>
 
           <h3>2. Specialist home-care agencies</h3>
           <p>Companies like ElderThai, Bangkok Hospital Home Care, and several others operate dedicated home-care services with trained caregivers (often nursing-assistant or RN level), supervisor oversight, scheduling, and replacement on sick days. Rates are typically 1.5–2× direct-hire on a per-hour basis. Best for: nursing-level needs, complex medical situations, families who want a managed-service relationship and zero hiring effort. Limitation: cost, less choice of who exactly shows up each day, contract lock-in.</p>
@@ -820,7 +820,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>You can start by browsing verified caregiver profiles on ThaiHelper — filter by city, languages, training level, and the type of care they're comfortable handling. Message directly, interview at home, no placement fees.</p>
+          <p>You can start by browsing caregiver profiles on ThaiHelper — filter by city, languages, training level, and the type of care they're comfortable handling. Message directly, interview at home — ThaiHelper provides the listings and messaging channel; vetting credentials, calling references, and the hiring decision are yours.</p>
           <ul>
             <li><a href="/hire/caregiver">Browse caregivers across Thailand</a></li>
             <li><a href="/hire/caregiver-bangkok">Caregivers in Bangkok</a></li>
@@ -1007,8 +1007,8 @@ export const guides = [
         html: `
           <p>Five channels are common, and the right one depends heavily on what level of tutor you need.</p>
 
-          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
-          <p>Tutors create free profiles with subjects, qualifications, languages, and rates. Families browse, message directly, do a trial lesson, agree on terms. Best for: any tutor profile from university student up to subject specialist. No platform commission. Limitation: marketplace verifies email and identity but doesn't verify teaching credentials — you have to ask for and check the documents.</p>
+          <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
+          <p>Tutors create their own free profiles with subjects, qualifications, languages, and rates. Families browse the listings, message tutors directly, do a paid trial lesson, agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a tutoring agency. It does not screen tutors, verify teaching credentials, vet exam-prep claims, or take any share of fees.</strong> Best for: any tutor profile from university student up to subject specialist. No platform commission. Limitation: you have to ask for and check teaching credentials, exam-prep claims, and references yourself.</p>
 
           <h3>2. Tutoring agencies</h3>
           <p>Agencies like Tutor Group, BangkokTutor, and several boutiques screen tutors, match them to families, and handle billing. Best for: families who want a vetted shortlist and the agency to manage scheduling. Limitation: 30–60 % higher hourly cost than direct-hire (the agency's margin), less control over which exact tutor you get.</p>
@@ -1116,7 +1116,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>You can start by browsing verified tutor profiles on ThaiHelper. Filter by subject, language, and city; message tutors directly; book a paid trial lesson before committing.</p>
+          <p>You can start by browsing tutor profiles on ThaiHelper. Filter by subject, language, and city; message tutors directly; book a paid trial lesson before committing. ThaiHelper provides the listings and messaging channel — verifying teaching credentials and exam-prep claims is on you.</p>
           <ul>
             <li><a href="/hire/tutor">Browse tutors across Thailand</a></li>
             <li><a href="/hire/tutor-bangkok">Tutors in Bangkok</a></li>
@@ -1333,8 +1333,8 @@ export const guides = [
         html: `
           <p>Four channels are realistic for a long-term hire.</p>
 
-          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
-          <p>Drivers create profiles with experience, licence type, English level, areas they're willing to commute, and the type of work they prefer (school-run, family, executive). Best for: standard family driver hires, no placement fee, structured comparison.</p>
+          <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
+          <p>Drivers create their own profiles with experience, licence type, English level, areas they're willing to commute, and the type of work they prefer (school-run, family, executive). Families browse the listings, message drivers directly, conduct their own test drives and reference checks, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a placement firm. It does not screen drivers, verify driving licences, conduct background checks, or take any share of salary.</strong> Best for: standard family driver hires, no placement fee, structured comparison. You must verify the driving licence and run the test drive yourself.</p>
 
           <h3>2. Driver placement / company-secretary firms</h3>
           <p>Several Bangkok firms place drivers for companies and high-net-worth families. They typically vet candidates more thoroughly (defensive-driving certification, background check, English assessment) and charge a placement fee of 8,000–25,000 THB. Best for: executive drivers, families wanting a fully managed shortlist.</p>
@@ -1420,7 +1420,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>Browse verified driver profiles on ThaiHelper — filter by city, English level, and the type of driving you need (school-run, family, executive). Free to look, free to message, no placement fees.</p>
+          <p>Browse driver profiles on ThaiHelper — filter by city, English level, and the type of driving you need (school-run, family, executive). Free to look, free to message, no placement fees. ThaiHelper is the listings and messaging channel only; the test drive, licence check, and insurance setup are on you.</p>
           <ul>
             <li><a href="/hire/driver">Browse drivers across Thailand</a></li>
             <li><a href="/hire/driver-bangkok">Drivers in Bangkok</a></li>
@@ -1571,8 +1571,8 @@ export const guides = [
         id: 'where-to-find',
         h2: 'Where to find a pet sitter in Thailand',
         html: `
-          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
-          <p>Pet sitters create profiles with the types of animals they handle, areas they cover, and the services they offer. Best for: structured comparison, free messaging, no platform fee. Limitation: verification is identity-only; you have to ask for and check references yourself.</p>
+          <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
+          <p>Pet sitters create their own profiles with the types of animals they handle, areas they cover, and the services they offer. Families browse the listings, message sitters directly, do a meet-and-greet at home, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a pet-care service. It does not screen sitters, verify pet-care training, conduct background checks, hold pet insurance, or take any share of fees.</strong> Best for: structured comparison, free messaging, no platform fee. Limitation: email-verification only at signup; identity, training, and references are on you to check.</p>
 
           <h3>2. Pet-sitting agencies / pet hotels</h3>
           <p>Pet hotels like Pet Hotel Bangkok, Lovely Lovely Pet Hotel, Pet Lovers, and Phuket Pet Sitters operate as service businesses. Best for: hands-off booking, established procedures, business-grade insurance. Limitation: 30–60 % more expensive than direct-hire on a per-day basis; less flexibility on specific instructions.</p>
@@ -1651,7 +1651,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>Browse verified pet-sitter profiles on ThaiHelper. Filter by city, animal types, and the services offered. Free to browse, free to message, no platform fees.</p>
+          <p>Browse pet-sitter profiles on ThaiHelper. Filter by city, animal types, and the services offered. Free to browse, free to message, no platform fees. ThaiHelper is the listings and messaging channel only; the meet-and-greet, reference checks, and emergency-vet authorisation are yours to handle.</p>
           <ul>
             <li><a href="/hire/petsitter">Browse pet sitters across Thailand</a></li>
             <li><a href="/hire/petsitter-bangkok">Pet sitters in Bangkok</a></li>
@@ -1830,8 +1830,8 @@ export const guides = [
         id: 'where-to-find',
         h2: 'Where to find a chef in Thailand',
         html: `
-          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
-          <p>Cooks and chefs create profiles with cuisine specialisations, experience, languages, and availability. Best for: daily home cooks and mid-tier chefs; growing for higher-tier but still limited. Free messaging, no placement fee.</p>
+          <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
+          <p>Cooks and chefs create their own profiles with cuisine specialisations, experience, languages, and availability. Families browse the listings, message cooks directly, run a paid tasting day, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a culinary agency. It does not screen chefs, verify culinary training, vet restaurant claims, or take any share of fees.</strong> Best for: daily home cooks and mid-tier chefs; growing for higher-tier but still limited. Free messaging, no placement fee.</p>
 
           <h3>2. Restaurant-industry networks and culinary schools</h3>
           <p>For mid-tier and high-end hires: the best chefs come from existing restaurants. Approach a sous-chef at a restaurant you like and ask if they (or someone they know) would be interested in private work. Many are looking for lifestyle changes (out of restaurant-late hours, into reliable family schedules). Le Cordon Bleu Bangkok and Dusit Thani Culinary School have placement networks too.</p>
@@ -1885,7 +1885,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>Browse verified chef and cook profiles on ThaiHelper. Filter by cuisine specialisation, city, and the tier of hire you're looking for.</p>
+          <p>Browse chef and cook profiles on ThaiHelper. Filter by cuisine specialisation, city, and the tier of hire you're looking for. ThaiHelper provides the listings and messaging channel only; the tasting day, scope agreement, and grocery-budget governance are yours to set.</p>
           <ul>
             <li><a href="/hire/chef">Browse chefs across Thailand</a></li>
             <li><a href="/hire/chef-bangkok">Private chefs in Bangkok</a></li>
@@ -2045,8 +2045,8 @@ export const guides = [
         id: 'where-to-find',
         h2: 'Where to find a gardener',
         html: `
-          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
-          <p>Gardeners create profiles with experience, areas they cover, and the equipment they bring. Best for: structured comparison, free messaging.</p>
+          <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
+          <p>Gardeners create their own profiles with experience, areas they cover, and the equipment they bring. Families browse the listings, message gardeners directly, view previous work, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a landscaping or gardening service. It does not screen gardeners, verify horticultural training, conduct background checks, or take any share of fees.</strong> Best for: structured comparison, free messaging.</p>
 
           <h3>2. Neighbour referrals — the strongest channel</h3>
           <p>For garden help more than any other category, the right gardener is one you can see the previous work of. Walk around your neighbourhood; admire a particularly nice garden; ask the owner. In Thai-language communities this is normal and welcome. In Bangkok expat communities, condo juristic offices know who serves which house.</p>
@@ -2081,7 +2081,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>Browse verified gardener and pool-care profiles on ThaiHelper. Free to browse and message; no platform fees.</p>
+          <p>Browse gardener and pool-care profiles on ThaiHelper. Free to browse and message; no platform fees. ThaiHelper is the listings and messaging channel only; scoping the work and viewing previous gardens are yours to do.</p>
           <ul>
             <li><a href="/hire/gardener">Browse gardeners across Thailand</a></li>
             <li><a href="/hire/gardener-bangkok">Gardeners in Bangkok</a></li>

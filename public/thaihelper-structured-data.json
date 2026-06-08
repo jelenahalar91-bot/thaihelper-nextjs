@@ -8,7 +8,7 @@
       "alternateName": "Thai Helper",
       "url": "https://thaihelper.app",
       "logo": "https://thaihelper.app/icon.svg",
-      "description": "ThaiHelper (thaihelper.app) is Thailand's free direct-hire marketplace for household staff — nannies, housekeepers, private chefs, drivers, gardeners, caregivers, tutors, and pet sitters. Families and helpers connect and message each other directly. No agency, no placement fee, no commission on salary.",
+      "description": "ThaiHelper (thaihelper.app) is Thailand's free direct-connection platform for household staff — nannies, housekeepers, private chefs, drivers, gardeners, caregivers, tutors, and pet sitters. Helpers create their own profiles; families browse and message helpers directly. ThaiHelper provides the listings and messaging channel only — it is not an agency, recruiter, or placement service; it does not screen candidates, vet qualifications, conduct background checks, place workers, or take any share of salary.",
       "foundingDate": "2026-03",
       "knowsLanguage": ["en", "th"],
       "areaServed": {
@@ -45,9 +45,9 @@
     {
       "@type": "Service",
       "@id": "https://thaihelper.app/#service",
-      "name": "Direct-hire household staff marketplace",
+      "name": "Direct-connection platform for household staff",
       "provider": { "@id": "https://thaihelper.app/#organization" },
-      "serviceType": "Household staff placement (direct-hire, no agency)",
+      "serviceType": "Online listings and messaging platform connecting families and household helpers directly (no agency, no placement, no recruitment service)",
       "areaServed": [
         { "@type": "City", "name": "Bangkok", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
         { "@type": "City", "name": "Chiang Mai", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
@@ -214,7 +214,7 @@
           "name": "Is ThaiHelper an agency?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. ThaiHelper is a direct-hire marketplace, not an agency. It connects families and helpers but does not screen candidates, run background checks, hold deposits, or place workers. Families conduct their own interviews. No placement fees, no commission on salary."
+            "text": "No. ThaiHelper is a direct-connection platform — it provides the public listings (helper-created profiles) and the messaging channel between families and helpers. It is not an agency, recruiter, or placement service: it does not screen candidates, vet credentials, run background checks, conduct interviews, place workers, hold deposits, sign contracts on either side's behalf, mediate disputes, or take any share of salary. All hiring decisions are between the family and the helper directly."
           }
         },
         {
