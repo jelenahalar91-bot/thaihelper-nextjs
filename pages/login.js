@@ -113,8 +113,23 @@ export default function Login() {
   const [ref, setRef] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
-  // 'magic' (default — passwordless email link) | 'ref' (fallback)
+  // 'magic' (default on web — passwordless email link) | 'ref' (fallback)
+  // In the Capacitor native app we default to 'ref': magic-link emails
+  // open in the system browser (Chrome), so the resulting session cookie
+  // lands in Chrome's cookie jar, not the app's WebView — the user would
+  // then be stuck "logged in" in Chrome but logged out in the app and
+  // have to repeat the dance every launch. Ref-number login happens
+  // entirely inside the app's WebView, so the cookie persists.
   const [mode, setMode] = useState('magic');
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const isNativeApp =
+      window.Capacitor?.isNativePlatform?.() === true
+      // Fallback heuristic: Capacitor's UA includes the app id when no
+      // overrideUserAgent is set. Catches older Capacitor versions too.
+      || /thaihelper/i.test(window.navigator?.userAgent || '');
+    if (isNativeApp) setMode('ref');
+  }, []);
   // Magic-link flow
   const [magicEmail, setMagicEmail] = useState('');
   const [magicTurnstileToken, setMagicTurnstileToken] = useState('');
