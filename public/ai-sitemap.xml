@@ -157,6 +157,21 @@
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>
+  <url>
+    <loc>https://thaihelper.app/guide/hire-a-pet-sitter-in-thailand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/guide/hire-a-private-chef-in-thailand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/guide/hire-a-gardener-in-thailand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
 
   <!-- High-intent guide posts (Q&A format, snippet-friendly) -->
   <url>

@@ -1465,6 +1465,665 @@ export const guides = [
       },
     ],
   },
+
+  {
+    slug: 'hire-a-pet-sitter-in-thailand',
+    title: 'How to Hire a Pet Sitter or Dog Walker in Thailand — The Complete 2026 Guide',
+    description:
+      'House-visit, dog-walking, overnight, and boarding rates by city. How to find a pet sitter for travel cover, work-hour cover, or post-surgery care. Emergency vet authorisation, insurance gaps, and the questions that actually matter at interview. Updated for 2026.',
+    date: '2026-06-08',
+    updated: '2026-06-08',
+    readTime: 11,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1200&q=80',
+    keywords:
+      'hire pet sitter Thailand, dog walker Bangkok, cat sitter Bangkok, pet boarding Phuket, overnight pet sitter Thailand, holiday pet care Thailand, pet care while travelling Thailand',
+    sections: [
+      {
+        id: 'overview',
+        h2: 'What you\'ll learn in this guide',
+        html: `
+          <p>The Bangkok and Phuket expat dog-and-cat populations have grown sharply post-2020, and pet-sitting services in Thailand have followed. But the market is still informal: most pet sitters here are not insured, emergency-vet procedures aren't standardised, and the price range for the same service is much wider than in Western markets. A bad pet-sitting hire becomes a real problem fast — a missed medication, a heatstroke incident, a dog that escapes the property.</p>
+          <p>This guide covers what works in 2026. You'll learn: <strong>the five pet-care arrangements</strong> (drop-in visits, dog walks only, overnight in your home, boarding at the sitter's place, full-time pet caregiver) and what each costs, how to think about <strong>vacation cover vs work-hour cover vs post-surgery care</strong>, what to look for in a sitter who can handle medication, emergencies, and big dogs in Thai heat, the <strong>emergency-vet authorisation</strong> document you must have signed before you leave the country, where to find sitters whose previous clients you can actually verify, and the mistakes that lead to bad pet-sit outcomes.</p>
+          <p><em>Last updated: 8 June 2026.</em></p>
+        `,
+      },
+      {
+        id: 'arrangements',
+        h2: 'Five arrangements — pick by your real situation',
+        html: `
+          <h3>1. Drop-in house visits (the standard for cats and small dogs)</h3>
+          <p>The sitter visits your home 2–3 times a day for 30–60 minutes each: feeding, fresh water, litter box, brief play, a short walk, a medication check. The pet stays in their own environment. Best for: cats (almost always), small low-energy dogs, household with multiple pets, owners away 1–2 weeks.</p>
+
+          <h3>2. Dog walking (work-hour cover, not vacation cover)</h3>
+          <p>One or two walks per weekday, typically 45–60 minutes each, often coordinated with other dogs in the building (group walks). Best for: working owners with high-energy dogs who can't be left alone all day. Bangkok heat means morning (6–8 am) and evening (5–7 pm) are the sane windows.</p>
+
+          <h3>3. Overnight in your home (the gold standard for longer trips)</h3>
+          <p>The sitter sleeps at your place every night, manages morning + evening routine, and either lives there or only leaves the pets alone for short blocks during the day. Pet stays in their own space, gets nighttime company, and you have one person responsible end-to-end. Best for: anxious dogs, multi-pet households, owners away 1+ week.</p>
+
+          <h3>4. Boarding at the sitter's place</h3>
+          <p>Your pet stays in the sitter's home (with their pets and family) for the duration. Best for: friendly social dogs, short trips, owners willing to do meet-and-greets to verify the sitter's home. Limitation: hugely variable quality. A sitter who looks great on a profile can have a chaotic home with too many dogs and not enough space. Always visit before booking.</p>
+
+          <h3>5. Full-time pet caregiver</h3>
+          <p>A salaried staff member (often combined with light housekeeping or as part of a household-staff role) who is the primary carer for one or more pets. Best for: large multi-pet households, working dogs, owners with mobility limitations, dogs with chronic conditions needing daily monitoring. Rare outside large expat houses but a real category.</p>
+        `,
+      },
+      {
+        id: 'cost',
+        h2: 'How much does pet sitting in Thailand cost?',
+        html: `
+          <h3>Rate cards by service (Bangkok, 2026)</h3>
+          <table>
+            <thead><tr><th>Service</th><th>Rate</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Drop-in visit (30–60 min)</td><td>250 – 500 THB</td><td>Per visit; most plans are 2/day for dogs, 1–2/day for cats</td></tr>
+              <tr><td>Dog walking (single 45–60 min walk)</td><td>200 – 400 THB</td><td>Group walks slightly cheaper, solo for reactive dogs costs more</td></tr>
+              <tr><td>Dog walking (twice-daily weekday)</td><td>4,000 – 8,000 THB/month</td><td>Bangkok, working-hours cover</td></tr>
+              <tr><td>Overnight in your home</td><td>800 – 2,000 THB/night</td><td>Includes morning + evening care; midday check-in if requested</td></tr>
+              <tr><td>Boarding at sitter\'s place — cats</td><td>300 – 800 THB/night</td><td>Per cat; multi-cat discount common</td></tr>
+              <tr><td>Boarding at sitter\'s place — small/medium dogs</td><td>500 – 1,200 THB/night</td><td>Per dog; depends on home capacity</td></tr>
+              <tr><td>Boarding — large or special-needs dogs</td><td>800 – 1,800 THB/night</td><td>Big dogs in a Bangkok condo aren\'t welcome; villa-based sitters cost more</td></tr>
+              <tr><td>Full-time live-out pet caregiver</td><td>12,000 – 20,000 THB/month</td><td>Often combined with light housekeeping</td></tr>
+              <tr><td>Full-time live-in pet caregiver</td><td>15,000 – 25,000 THB/month + room</td><td>Multi-pet households, large villas</td></tr>
+            </tbody>
+          </table>
+
+          <h3>What's not in those base rates</h3>
+          <ul>
+            <li><strong>Holiday surcharge</strong> (Songkran, New Year, Chinese New Year): +20–50 % is normal — good sitters are fully booked these weeks</li>
+            <li><strong>Special-needs surcharge</strong> (insulin injections, post-op care, behavioural issues): +200–500 THB/visit</li>
+            <li><strong>Transport costs</strong> if you need pickup/drop-off for boarding: 200–800 THB depending on distance</li>
+            <li><strong>Food</strong>: drop-in sitters use your food; boarding sitters use theirs (specify in advance if your pet has dietary needs)</li>
+            <li><strong>Emergency vet visits</strong>: agree in advance who pays first and how you reimburse (covered below)</li>
+          </ul>
+
+          <h3>City variation</h3>
+          <ul>
+            <li><strong>Phuket and Pattaya</strong>: roughly similar to Bangkok rates; boarding slightly cheaper because more villas with garden space</li>
+            <li><strong>Chiang Mai</strong>: 15–25 % below Bangkok across the board; bigger pool of part-time sitters in the digital-nomad community</li>
+            <li><strong>Beach destinations</strong>: holiday-week premium can be much higher because of seasonal demand</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'vet-authorisation',
+        h2: 'The emergency-vet authorisation — get this signed before you leave',
+        html: `
+          <p>The most-skipped item in pet-sitting hires in Thailand: a written document authorising the sitter to seek emergency vet care while you are away, and capping the expense. Without it, vets can refuse non-routine treatment (legitimate concern over the bill), or the sitter doesn't act quickly enough because they don't know what they're allowed to spend.</p>
+
+          <h3>What the authorisation should specify</h3>
+          <ul>
+            <li><strong>Pet's name, breed, age, microchip number, distinguishing marks</strong></li>
+            <li><strong>Owner's name, contact, second-line contact</strong> (family member who can be reached if you can't)</li>
+            <li><strong>Sitter's name and ID number</strong>, authorising them to act on your behalf at named clinics</li>
+            <li><strong>Two preferred vets</strong> (your usual vet and one 24-hour clinic — Thonglor Pet Hospital, Sukhumvit Veterinary Centre, Phuket Animal Hospital, etc.)</li>
+            <li><strong>Spending cap</strong> — e.g. "up to 15,000 THB for emergency treatment without further authorisation"</li>
+            <li><strong>How over-cap decisions are made</strong> — sitter calls you first, second-line contact second, vet exercises clinical judgement third</li>
+            <li><strong>Payment method</strong>: most expat families either pre-load credit at the regular vet, or set the sitter's authorisation to "owner will pay invoice directly via bank transfer within 48 hours"</li>
+            <li><strong>End-of-life decisions</strong> — for older or chronically ill pets, explicit guidance (most families say "any euthanasia decision requires owner contact first; if owner is genuinely unreachable for more than 12 hours, decision is sitter + vet jointly based on suffering, not cost")</li>
+            <li><strong>Both parties sign</strong>, dated; photo of both IDs attached</li>
+          </ul>
+
+          <p>This is a 15-minute document and it is the single most important paper in a multi-week pet-sit. Print it, sign it, leave a copy with the sitter, leave a copy with the regular vet, leave a copy with the second-line contact.</p>
+        `,
+      },
+      {
+        id: 'where-to-find',
+        h2: 'Where to find a pet sitter in Thailand',
+        html: `
+          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
+          <p>Pet sitters create profiles with the types of animals they handle, areas they cover, and the services they offer. Best for: structured comparison, free messaging, no platform fee. Limitation: verification is identity-only; you have to ask for and check references yourself.</p>
+
+          <h3>2. Pet-sitting agencies / pet hotels</h3>
+          <p>Pet hotels like Pet Hotel Bangkok, Lovely Lovely Pet Hotel, Pet Lovers, and Phuket Pet Sitters operate as service businesses. Best for: hands-off booking, established procedures, business-grade insurance. Limitation: 30–60 % more expensive than direct-hire on a per-day basis; less flexibility on specific instructions.</p>
+
+          <h3>3. Vet recommendations</h3>
+          <p>Most Bangkok and Phuket vets keep an informal list of pet sitters their clients have used successfully. The vet has skin in the game — a sitter who creates problems gets removed from the list. Ask at your regular vet.</p>
+
+          <h3>4. Expat parent and pet networks on Facebook</h3>
+          <p>Bangkok Expat Families, Phuket Pet Owners, and similar groups have regular sitter recommendations. Best for: verifying a candidate's reputation ("anyone used [name]?") rather than discovering candidates from scratch.</p>
+
+          <h3>5. Word of mouth from your condo or building</h3>
+          <p>Condo neighbours, building staff, and the juristic-person office often know pet sitters who already work the building. Same-building sitters are operationally simpler (no commute risk) and have references you can check by talking to the neighbour two floors down.</p>
+
+          <p><em>Pattern for a multi-week vacation cover:</em> identify two candidates 6–8 weeks before travel, do meet-and-greet visits with your pet in both your home and the sitter's home, book a paid "test night" with one of them 2–4 weeks before the trip. Hiring a stranger to live with your animal for 10 days without these checks is the most common cause of pet-sit problems.</p>
+        `,
+      },
+      {
+        id: 'interview',
+        h2: 'What to ask in a pet-sitter meeting',
+        html: `
+          <p>An online conversation is for shortlisting; the actual hire decision should follow a meet-and-greet at your home with your pet present.</p>
+
+          <h3>Experience and reliability</h3>
+          <ul>
+            <li>How long have you been pet sitting and how many pets do you handle per year?</li>
+            <li>What types of animals are you comfortable with — small dogs, large dogs, cats, exotics?</li>
+            <li>Have you handled medication, post-surgical care, or chronic-condition pets before?</li>
+            <li>What's your backup plan if you're sick during a booked sit?</li>
+            <li>May I contact your last two clients?</li>
+          </ul>
+
+          <h3>Specific to your pet</h3>
+          <ul>
+            <li>Walk-through with your dog: how does the sitter approach? Does your dog warm up?</li>
+            <li>Show feeding schedule, medication, harness, leash, escape-prone spots in the apartment, neighbours to know about</li>
+            <li>Watch the sitter put the harness on and walk the dog to the lift</li>
+            <li>For cats: watch the sitter find the cat, approach calmly, handle the litter box</li>
+          </ul>
+
+          <h3>Emergency readiness</h3>
+          <ul>
+            <li>What would you do if my dog stopped eating for a full day?</li>
+            <li>What would you do if you saw blood, sudden lethargy, or vomiting?</li>
+            <li>Do you know my vet's address? Do you know the nearest 24-hour clinic?</li>
+            <li>What's your transport plan to a vet — own car, taxi, sitter has a friend on call?</li>
+            <li>For dog walkers: have you been trained in basic canine first aid?</li>
+          </ul>
+
+          <h3>Logistics</h3>
+          <ul>
+            <li>How do you provide visit confirmations — photos, videos, text updates? How often?</li>
+            <li>What's your cancellation and refund policy?</li>
+            <li>How do you handle pet escapes? Have you ever lost a pet on a walk, and how did you handle it?</li>
+            <li>Are you insured? For what?</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'mistakes',
+        h2: 'Common mistakes pet owners make',
+        html: `
+          <ul>
+            <li><strong>No emergency-vet authorisation.</strong> Covered above — this is the single most damaging omission and the easiest to fix.</li>
+            <li><strong>Skipping the meet-and-greet with your pet present.</strong> A sitter who is brilliant on a profile but uncomfortable with your specific dog is not the right hire. Watch the interaction.</li>
+            <li><strong>Booking boarding without visiting the sitter\'s home.</strong> Photos lie. A "spacious garden" can be a 5 sqm patio. Go in person; see how many other pets are there.</li>
+            <li><strong>Underestimating Thai heat for dog walks.</strong> Pavement temperature in Bangkok afternoon sun can exceed 50 °C and burns paw pads. Walks must be early morning and after sunset. Sitters who walk at noon are dangerous, however cheerful they are.</li>
+            <li><strong>Not specifying photo updates.</strong> Daily photos with timestamps are the simplest way to confirm visits happened. Specify in advance; reputable sitters do this naturally.</li>
+            <li><strong>Cash up front for multi-week sits.</strong> 30 % deposit on booking, 70 % on completion is the typical and fair split. 100 % up front for a 2-week sit transfers all the risk to you.</li>
+            <li><strong>No backup plan.</strong> The sitter gets sick, has a family emergency, or has a Songkran conflict at the last minute. Always know your second option before the first sit starts.</li>
+            <li><strong>Multi-dog boarding without checking pet compatibility.</strong> Most boarding sitters take multiple dogs. Some homes are stressful environments for shy or reactive dogs. Ask which other dogs will be there during your sit.</li>
+            <li><strong>Not putting it in writing.</strong> Schedule, fees, key handover, what's in scope (walks vs medication vs grooming), and the emergency-vet authorisation — all on paper. The pet doesn\'t speak; the paperwork has to.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'next-steps',
+        h2: 'Next steps',
+        html: `
+          <p>Browse verified pet-sitter profiles on ThaiHelper. Filter by city, animal types, and the services offered. Free to browse, free to message, no platform fees.</p>
+          <ul>
+            <li><a href="/hire/petsitter">Browse pet sitters across Thailand</a></li>
+            <li><a href="/hire/petsitter-bangkok">Pet sitters in Bangkok</a></li>
+            <li><a href="/hire/petsitter-phuket">Pet sitters in Phuket</a></li>
+            <li><a href="/hire/petsitter-chiang-mai">Pet sitters in Chiang Mai</a></li>
+          </ul>
+        `,
+      },
+    ],
+    faqs: [
+      {
+        question: 'How much does a pet sitter in Bangkok cost in 2026?',
+        answer:
+          'Drop-in visits cost 250–500 THB per visit (typical plan: 2 visits/day for dogs, 1–2 for cats). Dog walking is 200–400 THB per 45–60-minute walk; a twice-daily weekday walking package is 4,000–8,000 THB/month. Overnight in your home runs 800–2,000 THB/night. Boarding at the sitter\'s place: 300–800 THB/night for cats, 500–1,200 for small/medium dogs, 800–1,800 for large or special-needs dogs. Holiday weeks (Songkran, New Year) add 20–50 %.',
+      },
+      {
+        question: 'Drop-in visits or overnight stays — which is better for a vacation?',
+        answer:
+          'For cats and small low-energy dogs, drop-in visits 2–3 times a day in their own environment are usually best — less stress, normal routine. For anxious dogs, multi-pet households, or trips longer than a week, overnight in your home is worth the premium because it gives night company and one person fully responsible end-to-end. Boarding at the sitter\'s place suits social dogs and short trips but quality varies hugely — always visit the home in person first.',
+      },
+      {
+        question: 'Do I need to authorise emergency vet treatment in advance?',
+        answer:
+          'Yes. Without a signed authorisation document, vets can refuse non-routine treatment over billing concerns, and sitters hesitate to act because they don\'t know what they\'re allowed to spend. A simple one-page document specifying the pet, the sitter, two preferred clinics, a spending cap (e.g. 15,000 THB without further approval), and how over-cap decisions are made fixes this. Print, sign, leave copies with the sitter, the vet, and a second-line contact.',
+      },
+      {
+        question: 'Are pet sitters in Thailand insured?',
+        answer:
+          'Almost all independent pet sitters in Thailand are NOT insured. Pet-care insurance products exist for businesses (some pet hotels and agencies carry them) but the typical Bangkok or Phuket sitter operates uninsured. This means if your pet is injured during a sit, recovery is between you and the sitter directly, with no insurance company involved. Choose sitters with clear references and reasonable judgment rather than trusting an insurance backstop.',
+      },
+      {
+        question: 'What about pet boarding while I travel — at a sitter\'s home or at a pet hotel?',
+        answer:
+          'Pet hotels are more expensive (700–1,500 THB/night for a small dog) but have established procedures, larger staffs, and business insurance. Sitter\'s-home boarding is cheaper (500–1,200 THB/night) and your pet stays in a home environment with usually 2–4 other animals max, which is less stressful than a kennel setting. The tradeoff: hotel quality is more predictable; home-boarding quality varies hugely between sitters. Always visit the home in person before booking, and ask which other animals will be there during your stay.',
+      },
+      {
+        question: 'Can I hire a full-time pet caregiver to look after my dog while I work?',
+        answer:
+          'Yes, though it\'s rare and usually combined with light housekeeping or as part of a larger household-staff role. A live-out pet caregiver runs 12,000–20,000 THB/month for 5–6 days a week; live-in is 15,000–25,000 plus a room. Suits owners with high-energy dogs in condos who can\'t be left alone all day, working dogs, or chronic-condition pets that need daily monitoring. For most expat families with a single dog, twice-daily dog walking (4,000–8,000 THB/month) is the more sensible setup.',
+      },
+    ],
+  },
+
+  {
+    slug: 'hire-a-private-chef-in-thailand',
+    title: 'How to Hire a Private Chef or Cook in Thailand — The Complete 2026 Guide',
+    description:
+      'Daily-cook to live-in private chef rates, how to choose between Thai, Western, and fusion specialists, the tasting-day protocol, grocery-budget governance, work-permit logic for foreign chefs. Updated for 2026.',
+    date: '2026-06-08',
+    updated: '2026-06-08',
+    readTime: 13,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80',
+    keywords:
+      'hire private chef Thailand, personal chef Bangkok, hire cook Thailand, household cook Phuket, daily cook Bangkok, live-in chef Thailand, Thai chef hire, Western chef Bangkok',
+    sections: [
+      {
+        id: 'overview',
+        h2: 'What you\'ll learn in this guide',
+        html: `
+          <p>A private chef in Thailand sits between two worlds. On one side, a daily home cook (a "แม่ครัว") who prepares two Thai-family-style meals a day costs about as much as a housekeeper. On the other, a Western-trained chef with restaurant background who runs a five-course tasting menu twice a week costs as much as a senior executive. Both are called "private chef" and the price gap is 5x. Knowing which one fits your need is most of the decision.</p>
+          <p>This guide covers the full range. You'll learn: <strong>five chef archetypes</strong> and what each one actually costs in 2026, the difference between cuisine specialisations (Thai daily, Western, Italian, French, healthy / dietary-restricted, fusion), how to <strong>structure the grocery-budget side</strong> (the single most common point of friction in private-chef arrangements — the chef shops with your money), how to run a useful <strong>tasting day</strong> before hiring, where to find chefs whose work you can actually verify, work-permit logic for foreign chefs (genuinely complex in this category), and the mistakes that produce a 35,000 THB/month chef relationship neither side enjoys.</p>
+          <p><em>Last updated: 8 June 2026.</em></p>
+        `,
+      },
+      {
+        id: 'types',
+        h2: 'Five chef archetypes — pick by the actual food you want',
+        html: `
+          <h3>1. Daily home cook ("แม่ครัว")</h3>
+          <p>A Thai cook who prepares family-style meals 1–2 times per day, primarily Thai cuisine with some adaptations (less spicy for kids, lighter for older parents). Often combined with light kitchen cleaning and grocery shopping. Best for: long-term Thai cuisine at home, families with kids who eat school lunches but want a real Thai dinner, retirees who don't want to cook every day. Cost band: 12,000–20,000 THB/month full-time, 800–1,500 THB per dinner if booked occasionally.</p>
+
+          <h3>2. Household cook (international basics)</h3>
+          <p>A cook who handles both Thai and basic Western (pasta, simple grills, salads, sandwiches, school lunch boxes, breakfast). The repertoire is wider but the technical bar is lower than a trained chef. Best for: expat families who want some Western touchstones without committing to a chef. Cost band: 15,000–25,000 THB/month.</p>
+
+          <h3>3. Mid-tier private chef</h3>
+          <p>Trained chef with restaurant or hotel experience, capable of multi-course menus, weekly menu planning, dietary adaptation (low-carb, gluten-free, kid-friendly), occasional dinner parties for 6–10 guests. Best for: families who entertain at home, dietary restrictions (medical or by choice), busy households where dinner being interesting matters. Cost band: 25,000–40,000 THB/month full-time; 3,000–6,000 THB per booked dinner.</p>
+
+          <h3>4. High-end private chef (Western-trained, ex-fine-dining)</h3>
+          <p>Background in a recognised restaurant kitchen, often a non-Thai chef (French, Italian, Australian, Japanese), formal culinary training, plates with the restraint and precision of a tasting-menu kitchen. Often handles wine pairing on a knowledgeable amateur level. Best for: families who genuinely entertain at restaurant level at home, principals with specific cuisine preferences, situations where the food is part of the household's social identity. Cost band: 50,000–120,000 THB/month full-time; 8,000–20,000 THB per dinner.</p>
+
+          <h3>5. Event / pop-up chef</h3>
+          <p>Not a hire — a chef booked for specific occasions (a birthday dinner, a dinner party, a multi-day villa stay in Phuket). Brings their own menu, sometimes their own kitchen team, shops with the budget you set. Best for: anyone hosting occasionally without wanting a full-time chef. Cost band: 5,000–25,000 THB per event for the chef's time, plus food and service costs separately.</p>
+        `,
+      },
+      {
+        id: 'cost',
+        h2: 'How much does a private chef in Thailand cost?',
+        html: `
+          <h3>Monthly salaries (full-time, Bangkok)</h3>
+          <table>
+            <thead><tr><th>Chef type</th><th>Range (THB/month)</th><th>Typical</th></tr></thead>
+            <tbody>
+              <tr><td>Daily home cook (Thai)</td><td>12,000 – 20,000</td><td>16,000</td></tr>
+              <tr><td>Household cook (Thai + basic Western)</td><td>15,000 – 25,000</td><td>20,000</td></tr>
+              <tr><td>Mid-tier private chef</td><td>25,000 – 40,000</td><td>32,000</td></tr>
+              <tr><td>High-end private chef (Western-trained)</td><td>50,000 – 120,000</td><td>70,000</td></tr>
+              <tr><td>Live-in private chef (villa staff)</td><td>add 5,000–15,000</td><td>+ room and food</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Per-event rates (booking, not employment)</h3>
+          <ul>
+            <li><strong>Daily-cook dinner</strong> (4–6 people): 800 – 1,500 THB for the cook's time, food separate</li>
+            <li><strong>Mid-tier chef dinner party</strong> (6–10 people, 3 courses): 3,000 – 6,000 THB for the chef, food separate</li>
+            <li><strong>High-end chef dinner</strong> (4–8 people, 5+ courses, plating-quality): 8,000 – 20,000 THB for the chef</li>
+            <li><strong>Villa chef</strong> (multi-day Phuket / Samui rental): 4,000 – 12,000 THB/day depending on tier</li>
+            <li><strong>Service team add-on</strong> (waiter for a dinner): 1,500 – 3,000 THB per server per event</li>
+          </ul>
+
+          <h3>Cuisine-specialisation premiums</h3>
+          <ul>
+            <li><strong>Thai daily cooking:</strong> base rate (largest supply of cooks)</li>
+            <li><strong>Basic Western (pasta, simple grills):</strong> +2,000–4,000 THB/month</li>
+            <li><strong>Italian / French / specific-regional cuisine:</strong> +10,000–25,000 THB/month at mid-tier, more at high-tier</li>
+            <li><strong>Japanese (sushi, kaiseki):</strong> rare; rates negotiated individually, typically 60,000+ THB</li>
+            <li><strong>Specific dietary restriction expertise</strong> (medical keto, FODMAP, strict vegan, allergen): +3,000–8,000 THB/month for the menu-planning work involved</li>
+            <li><strong>Wine pairing knowledge:</strong> typically already priced into high-end-chef rates; otherwise no separate premium</li>
+          </ul>
+
+          <h3>City variation</h3>
+          <ul>
+            <li><strong>Phuket and Koh Samui</strong>: similar to Bangkok at the mid and high tiers (international villa-rental market keeps rates competitive); Thai-only cooks slightly cheaper than Bangkok</li>
+            <li><strong>Chiang Mai</strong>: 20–30 % below Bangkok for mid-tier; high-end is rare</li>
+            <li><strong>Pattaya / Hua Hin</strong>: roughly 10 % below Bangkok</li>
+            <li><strong>Provincial cities</strong>: 30–40 % below Bangkok for Thai cooks; mid-tier and high-end essentially unavailable locally</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'groceries',
+        h2: 'The grocery-budget question (where most relationships break)',
+        html: `
+          <p>Private-chef arrangements break most often not over food quality but over money. The chef shops with your money, sometimes daily, sometimes weekly, sometimes at expensive importers (Villa Market, Gourmet Market) and sometimes at wet markets (Klong Toey, Or Tor Kor). Without explicit ground rules, friction builds: receipts go missing, costs creep, what feels reasonable to the chef (one premium ingredient that "makes the dish") feels extravagant to the family.</p>
+
+          <h3>Three workable models</h3>
+          <ul>
+            <li><strong>Weekly budget, fixed.</strong> Family sets a weekly grocery budget (e.g. 8,000 THB). Chef manages within it. Surplus rolls over or returns; deficit comes out of next week. Simplest model; works once the chef knows the family's actual consumption.</li>
+            <li><strong>Cost-plus.</strong> Family reimburses receipts. Chef submits receipts weekly with a clear list (date, store, total). This requires receipts; it's surprisingly hard to make wet markets produce them.</li>
+            <li><strong>Cards on file.</strong> Family loads a debit card or store account; chef uses it. Family sees all transactions in real time. Clean but requires bank setup.</li>
+          </ul>
+
+          <h3>What to settle on day one</h3>
+          <ul>
+            <li>Which model you're using</li>
+            <li>Where the chef can shop (the importers vs the wet markets — both have their roles; specify)</li>
+            <li>Whether the chef takes a small "no-receipt allowance" (e.g. 200 THB/day for wet-market produce where receipts don't exist) — this is normal and far preferable to fake receipts</li>
+            <li>What's NOT in the food budget (specialty ingredients for the chef's own learning, alcohol, household items)</li>
+            <li>How over-budget items get authorised (call you, screenshot you, text "this lobster is 1,400 THB; ok?" — yes / no, then proceed)</li>
+            <li>Weekly review: receipts on Sunday, settle Sunday, no carry-over of unresolved questions</li>
+          </ul>
+
+          <p>Done correctly, this conversation takes 15 minutes on day one and removes 90 % of the future arguments.</p>
+        `,
+      },
+      {
+        id: 'tasting-day',
+        h2: 'The tasting day — interview, then audition',
+        html: `
+          <p>An interview tells you nothing. A tasting day tells you everything.</p>
+
+          <h3>How to structure it</h3>
+          <ul>
+            <li>Pay the chef their normal day rate (3,000–8,000 THB depending on tier)</li>
+            <li>Give them a budget for groceries (1,500–4,000 THB) and let them shop themselves</li>
+            <li>Specify three or four dishes that map to your real future ordering — e.g. "one weekday dinner you'd cook for a family of four, one weekend lunch for guests, one dietary-restricted dish (low-carb / kid-friendly / gluten-free)"</li>
+            <li>Let them work in your kitchen. Don't help. Take notes on how they handle the space.</li>
+            <li>Eat the food with whoever in your household will actually be eating it. Get their honest reactions.</li>
+            <li>Debrief: what would they do differently next time? What did they learn about your kitchen / pantry / preferences? What would they shop differently for? A chef whose answer is "everything was perfect" is the wrong hire.</li>
+          </ul>
+
+          <p>What to look for: ability to plan and execute on a budget, kitchen hygiene, calmness during the actual cook, real food that survives the move from "tasted at the table" to "eaten the next day at home" (because half of what a private chef makes you eats reheated), and curiosity about your tastes. Skills you can teach: timing, specific dish techniques. Skills you can't: hygiene, calm, attention.</p>
+        `,
+      },
+      {
+        id: 'where-to-find',
+        h2: 'Where to find a chef in Thailand',
+        html: `
+          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
+          <p>Cooks and chefs create profiles with cuisine specialisations, experience, languages, and availability. Best for: daily home cooks and mid-tier chefs; growing for higher-tier but still limited. Free messaging, no placement fee.</p>
+
+          <h3>2. Restaurant-industry networks and culinary schools</h3>
+          <p>For mid-tier and high-end hires: the best chefs come from existing restaurants. Approach a sous-chef at a restaurant you like and ask if they (or someone they know) would be interested in private work. Many are looking for lifestyle changes (out of restaurant-late hours, into reliable family schedules). Le Cordon Bleu Bangkok and Dusit Thani Culinary School have placement networks too.</p>
+
+          <h3>3. Villa-rental property managers</h3>
+          <p>In Phuket and Koh Samui, the villa-rental ecosystem includes chef networks. Property managers at the larger villa companies (Inspirato, Elite Havens, Asia Villa Holidays) know which chefs work well at which villas and what they charge.</p>
+
+          <h3>4. Expat Facebook groups</h3>
+          <p>Bangkok Foodies, Phuket Expat Cooking groups, and home-entertaining communities have regular chef recommendations. Best for: validating shortlisted candidates ("anyone used [name]?").</p>
+
+          <h3>5. Word of mouth in social circles</h3>
+          <p>In the high-end-chef tier, almost all hires come from personal recommendation. Ask friends who entertain at home. The same chef often serves several households on different days.</p>
+        `,
+      },
+      {
+        id: 'work-permit',
+        h2: 'Foreign chefs and work permits',
+        html: `
+          <p>"Cookery" is an occupation that <strong>is permitted</strong> for foreigners under Thai law — unlike driving or hairdressing, foreign chefs are not blocked by the Foreign Employment Act. But the work permit must still be properly arranged.</p>
+
+          <h3>Common foreign-chef setups</h3>
+          <ul>
+            <li><strong>Hotel or restaurant chef moonlighting privately:</strong> their existing work permit covers the hotel; private side work technically needs an extension. Many do private dinners "off the books"; the legal risk is on the chef.</li>
+            <li><strong>Foreign chef on a marriage / parent visa:</strong> if they have a work permit covering "food preparation" or "culinary services", fully legal to cook privately.</li>
+            <li><strong>Full-time private chef directly employed by a family:</strong> this is unusual but works if the family runs a small Thai company that employs the chef on a Non-Immigrant B visa. Most families who want a full-time foreign chef do this. Budget: 15,000–30,000 THB initial setup, 5,000–10,000 THB annual renewal.</li>
+            <li><strong>"Consulting chef" structures</strong> where the chef provides occasional services from outside Thailand: legal grey area; depends on physical presence and frequency.</li>
+          </ul>
+
+          <h3>What to do for a long-term hire</h3>
+          <p>For a one-off dinner with a foreign chef who lives in Thailand, almost no family worries about the work-permit question. For a full-time engagement at 60,000+ THB/month: get the permit. Use a visa agent. The legal exposure on a recurring relationship is genuine, and the cost of doing it properly is small relative to the chef's salary.</p>
+        `,
+      },
+      {
+        id: 'mistakes',
+        h2: 'Common mistakes families make',
+        html: `
+          <ul>
+            <li><strong>Hiring on cuisine reputation, not on real food at home.</strong> A chef who plated beautifully at a restaurant may not adapt to home-kitchen constraints. The tasting day at your kitchen, with your equipment, is the only honest test.</li>
+            <li><strong>No grocery-budget structure.</strong> Covered above — the single biggest source of friction.</li>
+            <li><strong>Vague menu expectations.</strong> "Cook some good food" is not a brief. Family preferences (red meat? heat tolerance? kids\' tastes? dietary restrictions?) should be a real document the chef has read.</li>
+            <li><strong>Hiring above your eating pattern.</strong> A high-end chef wasted on a family that eats at home 3 nights a week, simply. Match tier to actual usage.</li>
+            <li><strong>Treating the chef as on-call entertainment.</strong> Spontaneous "can you do dinner for 8 people tonight?" is the fastest way to lose a chef who values their evening. Plan menus weekly; emergency dinners are an exception, not the pattern.</li>
+            <li><strong>Skipping the work-permit question for foreign chefs in long-term roles.</strong> If you\'re paying 60,000–120,000 THB/month, you need them legally able to work.</li>
+            <li><strong>Not paying the 13th-month bonus.</strong> Universal expectation in Thai household employment; chefs are no exception.</li>
+            <li><strong>No clear scope around dishes / cleaning / shopping.</strong> Does the chef wash up after dinner? Clean the kitchen surfaces? Restock the pantry? Decide and write it down.</li>
+            <li><strong>Comparing chef cost to "cooking it ourselves" cost.</strong> The right comparison is chef vs. eating out at the same quality level. A 32,000 THB/month chef replacing 5 dinners out a week at 3,000 THB each is essentially cost-neutral, and the food is better.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'next-steps',
+        h2: 'Next steps',
+        html: `
+          <p>Browse verified chef and cook profiles on ThaiHelper. Filter by cuisine specialisation, city, and the tier of hire you're looking for.</p>
+          <ul>
+            <li><a href="/hire/chef">Browse chefs across Thailand</a></li>
+            <li><a href="/hire/chef-bangkok">Private chefs in Bangkok</a></li>
+            <li><a href="/hire/chef-phuket">Private chefs in Phuket</a></li>
+            <li><a href="/hire/chef-koh-samui">Private chefs in Koh Samui</a></li>
+            <li><a href="/blog/private-chef-thailand-cost-guide">Private Chef in Thailand — broader cost overview</a></li>
+          </ul>
+        `,
+      },
+    ],
+    faqs: [
+      {
+        question: 'How much does a private chef in Bangkok cost in 2026?',
+        answer:
+          'Daily Thai home cooks cost 12,000–20,000 THB/month. Household cooks who handle both Thai and basic Western are 15,000–25,000. Mid-tier private chefs (trained, multi-course menus) are 25,000–40,000. High-end Western-trained chefs run 50,000–120,000+ THB/month. Per-event rates: 800–1,500 THB for a daily-cook dinner, 3,000–6,000 for a mid-tier dinner party, 8,000–20,000 for a high-end multi-course meal. Food costs are always separate from chef time.',
+      },
+      {
+        question: 'Do I need to provide the chef with a grocery budget, or do they shop with their own money first?',
+        answer:
+          'The chef shops with your money — never their own. Three workable models: weekly fixed budget (chef manages within it), cost-plus (chef submits receipts weekly), or a loaded debit card you can monitor in real time. Settle the model day one, agree where they can shop (importers vs wet markets), and set a small "no-receipt allowance" for wet-market purchases where receipts don\'t exist. This conversation prevents 90 % of future arguments.',
+      },
+      {
+        question: 'Can foreigners legally work as private chefs in Thailand?',
+        answer:
+          'Yes — cookery is not on the list of professions reserved for Thai citizens, unlike driving or hairdressing. But a foreign chef still needs both a Non-Immigrant B visa and a Work Permit. Most families employing a foreign chef full-time do so through a small Thai company (15,000–30,000 THB initial setup, 5,000–10,000 THB annual renewal). One-off dinners with a foreign chef already living in Thailand are common; the formal work-permit detail matters most for long-term arrangements.',
+      },
+      {
+        question: 'How does a tasting day work and what should I look for?',
+        answer:
+          'Pay the chef their normal day rate (3,000–8,000 THB) and a grocery budget (1,500–4,000 THB). Ask them to plan and cook three or four dishes that match your real future ordering — a family dinner, a guest dish, and one dietary-restricted item. Let them work in your kitchen unaided. Eat the food with everyone in the household who will actually eat the chef\'s cooking. Look for budget discipline, kitchen hygiene, calmness, and food that survives reheating — half of what a private chef makes you eat the next day. A chef whose tasting-day post-mortem is "everything was perfect" is the wrong hire.',
+      },
+      {
+        question: 'When does hiring a chef make financial sense?',
+        answer:
+          'Compare chef cost to your current eating-out budget at the same quality level, not to "cooking it ourselves" cost. A 32,000 THB/month mid-tier chef replacing 5 dinners a week at 3,000 THB per dinner out is roughly cost-neutral, and the food is usually better and the home stays calmer. If you currently eat at home most nights cooking yourselves, hiring a chef is a lifestyle choice, not a financial one — and the right tier is whatever matches how often you\'ll actually use them.',
+      },
+      {
+        question: 'Should I pay the chef for groceries before or after they shop?',
+        answer:
+          'Before — but never in cash and never without limits. Either: (1) load a debit card you both can see in real time, (2) set a weekly budget paid at the start of the week, with reconciliation at the end, or (3) reimburse against receipts within 48 hours of submission. Don\'t hand cash up front for groceries beyond the day\'s shop. Receipts get vague when money is loose, and the cleanest relationships keep weekly settlements crisp.',
+      },
+    ],
+  },
+
+  {
+    slug: 'hire-a-gardener-in-thailand',
+    title: 'How to Hire a Gardener or Pool-Care Helper in Thailand — The Complete 2026 Guide',
+    description:
+      'Weekly, monthly, and full-time gardener rates. Pool-care combinations, equipment ownership decisions, what to specify in scope (lawn vs. ornamental vs. tree work), where to find a gardener whose previous gardens you can see. Updated for 2026.',
+    date: '2026-06-08',
+    updated: '2026-06-08',
+    readTime: 10,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200&q=80',
+    keywords:
+      'hire gardener Thailand, gardener Bangkok, pool care Phuket, garden maintenance Thailand, hire landscaper Thailand, weekly gardener Bangkok, full time gardener villa Phuket',
+    sections: [
+      {
+        id: 'overview',
+        h2: 'What you\'ll learn in this guide',
+        html: `
+          <p>Garden help in Thailand is the most informal of the helper categories: most work is done by the visit, paid in cash, with verbal agreements about scope. This works fine when your garden is small and stable, less well when you have a villa with a pool, mature trees, ornamental beds, and a sprinkler system that needs real upkeep. Either way, the right hire is mostly about scope clarity and the right cadence — not the hourly rate.</p>
+          <p>This guide covers what works in 2026: <strong>five common arrangements</strong> (one-off cleanup, weekly visit, monthly visit, full-time gardener, gardener-and-pool combo) and what each costs, the <strong>equipment-ownership question</strong> (their tools or yours — surprisingly decisive), what scope to specify (lawn alone, ornamental beds, tree work, irrigation, leaf-burn vs. compost), and where to find a gardener whose previous gardens you can actually go look at. Light guide; small section.</p>
+          <p><em>Last updated: 8 June 2026.</em></p>
+        `,
+      },
+      {
+        id: 'arrangements',
+        h2: 'Five common arrangements',
+        html: `
+          <h3>1. One-off cleanup</h3>
+          <p>The garden has been neglected (you just moved in, or a previous gardener stopped showing up). A team comes once, cuts everything back, hauls away the waste, mows, edges, and resets the garden to a maintainable baseline. Best for: starting fresh. Cost: 2,000 – 8,000 THB depending on size and overgrowth.</p>
+
+          <h3>2. Weekly visit (3–4 hours)</h3>
+          <p>The standard arrangement for small-to-medium gardens in Bangkok and Phuket. Mow, edge, weed beds, water if no automation, clear leaves. Most condos with shared garden have something like this for individual paid units. Best for: small lawn, modest ornamental beds, garden that mostly takes care of itself between visits.</p>
+
+          <h3>3. Twice-monthly visit (4–6 hours each)</h3>
+          <p>The sweet spot for larger gardens: enough to keep things tidy without paying for time the garden doesn't need. Visit one alternates with visit two so the heaviest work isn't stacked. Best for: medium-large gardens with mature plantings.</p>
+
+          <h3>4. Full-time gardener</h3>
+          <p>5–6 days per week, present at the property. Daily watering, planting rotation, lawn care, pool maintenance, light repairs. Best for: villas, large detached houses with significant garden, multi-property estates. Cost band: 12,000–18,000 THB/month for a Thai gardener, more in Bangkok and Phuket than upcountry.</p>
+
+          <h3>5. Gardener-and-pool combo</h3>
+          <p>Many villa staff combine garden maintenance with pool care (skimming, chemical balancing, filter cleaning, equipment check). A specialist pool-only visit costs 1,500–3,000 THB/month; a combined gardener-and-pool full-time staff is 14,000–22,000 THB/month. Best for: properties with both. Just check the gardener actually knows pool chemistry — many fake it and the pool turns green.</p>
+        `,
+      },
+      {
+        id: 'cost',
+        h2: 'How much does a gardener in Thailand cost?',
+        html: `
+          <h3>Bangkok / Phuket rates</h3>
+          <table>
+            <thead><tr><th>Arrangement</th><th>Rate</th></tr></thead>
+            <tbody>
+              <tr><td>One-off cleanup</td><td>2,000 – 8,000 THB</td></tr>
+              <tr><td>Weekly visit (3–4 hrs)</td><td>500 – 1,200 THB/visit; 2,000–5,000 THB/month</td></tr>
+              <tr><td>Twice-monthly visit (4–6 hrs)</td><td>800 – 1,800 THB/visit; 1,600–3,600 THB/month</td></tr>
+              <tr><td>Monthly visit (4–6 hrs)</td><td>800 – 1,800 THB; usually for very low-maintenance gardens</td></tr>
+              <tr><td>Full-time gardener</td><td>12,000 – 18,000 THB/month (Bangkok/Phuket); 9,000–14,000 upcountry</td></tr>
+              <tr><td>Gardener-and-pool combo (full-time)</td><td>14,000 – 22,000 THB/month</td></tr>
+              <tr><td>Pool-care only (twice-weekly visits)</td><td>1,500 – 3,000 THB/month</td></tr>
+              <tr><td>Tree trimming / large tree work</td><td>1,500 – 8,000 THB per tree depending on size and access</td></tr>
+              <tr><td>Landscape redesign / installation</td><td>quoted by project; small redesign 15,000–80,000 THB</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Provincial / smaller-city variation</h3>
+          <p>Chiang Mai, Hua Hin, and provincial cities are typically 25–40 % below Bangkok across the board. Hua Hin in particular has a large retiree population and a competitive gardener market.</p>
+
+          <h3>What's not in the base rate</h3>
+          <ul>
+            <li><strong>Materials:</strong> fertiliser, plants, mulch, replacement turf, sprinkler parts — buy these yourself or reimburse against receipts. Don't include them in a flat gardener fee or you'll pay too much.</li>
+            <li><strong>Waste removal</strong> for major cleanups: some gardeners include hauling away clippings, others don't. Specify.</li>
+            <li><strong>Pesticide / herbicide application:</strong> agree in advance whether the gardener applies these (some do casually with no real PPE; this is dangerous around households with kids and pets). Better: agree on cultural methods or apply chemicals yourself.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'equipment',
+        h2: 'Equipment — their tools or yours?',
+        html: `
+          <p>This question decides more than expected. Three options:</p>
+
+          <h3>Gardener brings own tools</h3>
+          <p>Common for weekly-visit arrangements. The gardener has a mower, edger, shears, rake. You provide nothing. Cost: built into the visit fee (usually 200–400 THB premium over equipment-provided). Best for: small gardens, gardeners serving multiple clients, condo-house arrangements.</p>
+
+          <h3>You provide tools</h3>
+          <p>Common for larger gardens and full-time staff. You own a proper mower (gas or electric, 10,000–40,000 THB), edger, blower, shears, pruning saw. Cost: significant up front, but visits become cheaper and the work is faster. Best for: long-term residents, villas, full-time gardener.</p>
+
+          <h3>Hybrid (you provide major equipment, gardener brings hand tools)</h3>
+          <p>You own the mower and big-ticket items; gardener brings their own shears, gloves, knives. The most common arrangement for full-time gardeners at villas.</p>
+
+          <p><strong>Critical detail with shared equipment:</strong> if the gardener serves multiple properties using their own tools, there's some cross-contamination risk for plant diseases. A gardener who didn't clean their shears between properties brought a fungal issue to a Phuket villa we know. Not a deal-breaker, but ask.</p>
+        `,
+      },
+      {
+        id: 'scope',
+        h2: 'Scope — be specific or you\'ll be disappointed',
+        html: `
+          <p>"Take care of the garden" is not a scope. Things that need explicit decisions:</p>
+          <ul>
+            <li><strong>Lawn:</strong> mow height, edge frequency, weed treatment</li>
+            <li><strong>Ornamental beds:</strong> who weeds them, who plants seasonal colour, who decides what gets pulled vs. kept</li>
+            <li><strong>Trees:</strong> trimming frequency, who does big tree work (most regular gardeners shouldn't be climbing ladders with chainsaws — hire a tree service)</li>
+            <li><strong>Irrigation:</strong> hand-water or sprinkler system, who manages the timer, who fixes broken sprinkler heads</li>
+            <li><strong>Leaf management:</strong> compost (better), bag and remove (acceptable), or burn (unhealthy; some neighbourhoods actively penalise it)</li>
+            <li><strong>Pesticides / herbicides:</strong> who decides, who applies, what's stored on site</li>
+            <li><strong>Pool</strong> (if applicable): chemical management, skimming frequency, filter cleaning, equipment check, when to call a specialist</li>
+            <li><strong>Water-feature maintenance</strong> (fountain, pond, koi): often skipped from scope; not all gardeners know what they're doing here</li>
+            <li><strong>What happens during heavy rain / Songkran / holiday weeks:</strong> the gardener doesn\'t show; agree how to handle</li>
+          </ul>
+
+          <p>A one-page scope document, signed at hire, with a quarterly review — that's all that\'s needed. Most disputes in gardener arrangements come from unwritten expectations on both sides.</p>
+        `,
+      },
+      {
+        id: 'where-to-find',
+        h2: 'Where to find a gardener',
+        html: `
+          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
+          <p>Gardeners create profiles with experience, areas they cover, and the equipment they bring. Best for: structured comparison, free messaging.</p>
+
+          <h3>2. Neighbour referrals — the strongest channel</h3>
+          <p>For garden help more than any other category, the right gardener is one you can see the previous work of. Walk around your neighbourhood; admire a particularly nice garden; ask the owner. In Thai-language communities this is normal and welcome. In Bangkok expat communities, condo juristic offices know who serves which house.</p>
+
+          <h3>3. Nursery / plant-shop networks</h3>
+          <p>Nurseries (Chatuchak weekend plant market, JJ Green) and garden-supply shops know which gardeners buy regularly and seem competent. Ask the staff.</p>
+
+          <h3>4. Pool-service companies (for gardener-and-pool combo)</h3>
+          <p>If you need pool care, start with a specialised pool-service company (Crystal Pools, Aqua Pools in Bangkok and Phuket) and ask if they have gardeners who also do pool work, or if they can recommend one.</p>
+
+          <h3>5. Facebook expat groups</h3>
+          <p>Bangkok Expat Families, Phuket Expat Homeowners, and similar groups regularly have gardener recommendations for villa and house properties.</p>
+        `,
+      },
+      {
+        id: 'mistakes',
+        h2: 'Common mistakes property owners make',
+        html: `
+          <ul>
+            <li><strong>Hiring without seeing previous work.</strong> Photos lie about gardens worse than about anything else. Visit one of the gardener\'s current clients before hiring.</li>
+            <li><strong>Letting the gardener buy plants and materials with your money unsupervised.</strong> Receipts vague, mark-ups creep. Pick plants together; pay the nursery directly when possible.</li>
+            <li><strong>No scope document.</strong> "Take care of the garden" leads to 12 months of mismatched expectations. One page, signed.</li>
+            <li><strong>Leaf burning.</strong> Some gardeners default to it. Bad for air quality, illegal in parts of Bangkok and Phuket, and a fire risk in dry season. Specify compost or removal.</li>
+            <li><strong>Pesticide/herbicide application without PPE.</strong> Many Thai gardeners spray with bare hands and no mask. Concerning around kids, pets, and edible-garden areas. Either provide PPE or do the chemical work yourself.</li>
+            <li><strong>Tree work by a regular gardener.</strong> Big tree work (climbing, chainsaws, large branches) is a specialist service. A general gardener doing it without training has injury liability you don\'t want.</li>
+            <li><strong>Gardener-and-pool combo without verifying pool knowledge.</strong> A green pool from poor chemistry is a 5,000–15,000 THB fix. Ask specific questions: chlorine vs. salt, free vs. total chlorine, when to shock.</li>
+            <li><strong>Skipping the 13th-month bonus for full-time gardeners.</strong> Universal expectation in Thai household employment.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'next-steps',
+        h2: 'Next steps',
+        html: `
+          <p>Browse verified gardener and pool-care profiles on ThaiHelper. Free to browse and message; no platform fees.</p>
+          <ul>
+            <li><a href="/hire/gardener">Browse gardeners across Thailand</a></li>
+            <li><a href="/hire/gardener-bangkok">Gardeners in Bangkok</a></li>
+            <li><a href="/hire/gardener-phuket">Gardeners in Phuket</a></li>
+            <li><a href="/hire/gardener-hua-hin">Gardeners in Hua Hin</a></li>
+          </ul>
+        `,
+      },
+    ],
+    faqs: [
+      {
+        question: 'How much does a gardener in Thailand cost in 2026?',
+        answer:
+          'Weekly visits (3–4 hours) in Bangkok or Phuket cost 500–1,200 THB per visit, or 2,000–5,000 THB/month. Twice-monthly visits run 1,600–3,600 THB/month. Full-time gardeners are 12,000–18,000 THB/month in Bangkok and Phuket, 9,000–14,000 upcountry. A combined gardener-and-pool-care arrangement is 14,000–22,000 THB/month full-time. Pool-care alone (twice-weekly visits) costs 1,500–3,000 THB/month.',
+      },
+      {
+        question: 'Should the gardener bring their own equipment or use ours?',
+        answer:
+          'For weekly visits at a small garden, the gardener bringing their own tools is normal and adds 200–400 THB per visit. For larger gardens and full-time arrangements, you provide the major equipment (mower, edger, blower — total 15,000–40,000 THB up front) and the gardener brings hand tools. The hybrid model — you provide big-ticket equipment, gardener provides shears and gloves — is most common at villa-scale properties.',
+      },
+      {
+        question: 'Can my regular gardener handle pool maintenance too?',
+        answer:
+          'A combined gardener-and-pool-care arrangement is common at villa-scale properties (14,000–22,000 THB/month full-time). But verify pool knowledge before hiring — ask specific questions about chlorine levels (free vs. total), salt vs. chlorine systems, when to shock the pool, and how often to clean the filter. A gardener faking pool knowledge produces a green pool every 2–3 months, and the recovery cost (5,000–15,000 THB per incident) negates the savings.',
+      },
+      {
+        question: 'How do I find a gardener whose work I can actually verify?',
+        answer:
+          'The strongest channel for gardener referrals is neighbour recommendations. Walk around; find a garden you like; ask who maintains it. Condo juristic offices, plant shops at JJ Green and the Chatuchak weekend market, and pool-service companies (for combo hires) are all useful secondary channels. For full-time villa gardeners, ask the property manager — they\'ve seen what works in the local area.',
+      },
+      {
+        question: 'Should I let my gardener buy plants and materials with my money?',
+        answer:
+          'No, or only at small scale (under 500 THB per visit) with receipts. Receipts get vague when money is loose, and mark-ups creep in. For larger purchases — new plants, mulch, fertiliser, irrigation parts — go to the nursery together, choose the items, and pay the nursery directly. The gardener picks for what works in your specific micro-climate; you pay for what gets installed. Cleaner relationship, no surprises.',
+      },
+      {
+        question: 'What about big tree work — can my regular gardener do it?',
+        answer:
+          'No. Tree work that involves climbing, chainsaws, or removing branches over 5–10 cm thick should go to a specialist tree service. A general gardener doing it without training is an injury liability you don\'t want, and the technical work (cuts that don\'t damage the tree, debris management, sometimes municipal permits) is genuinely different. Tree services in Bangkok and Phuket charge 1,500–8,000 THB per tree depending on size and access. Worth the specialist hire.',
+      },
+    ],
+  },
 ];
 
 export function getGuideBySlug(slug) {
