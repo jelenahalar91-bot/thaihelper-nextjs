@@ -1,0 +1,255 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://thaihelper.app/#organization",
+      "name": "ThaiHelper",
+      "alternateName": "Thai Helper",
+      "url": "https://thaihelper.app",
+      "logo": "https://thaihelper.app/icon.svg",
+      "description": "ThaiHelper (thaihelper.app) is Thailand's free direct-hire marketplace for household staff — nannies, housekeepers, private chefs, drivers, gardeners, caregivers, tutors, and pet sitters. Families and helpers connect and message each other directly. No agency, no placement fee, no commission on salary.",
+      "foundingDate": "2026-03",
+      "knowsLanguage": ["en", "th"],
+      "areaServed": {
+        "@type": "Country",
+        "name": "Thailand",
+        "alternateName": "ราชอาณาจักรไทย"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "availableLanguage": ["English", "Thai"],
+        "url": "https://thaihelper.app/about"
+      },
+      "sameAs": [
+        "https://line.me/R/ti/p/@097ymfte"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://thaihelper.app/#website",
+      "url": "https://thaihelper.app",
+      "name": "ThaiHelper",
+      "publisher": { "@id": "https://thaihelper.app/#organization" },
+      "inLanguage": ["en", "th"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://thaihelper.app/helpers?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://thaihelper.app/#service",
+      "name": "Direct-hire household staff marketplace",
+      "provider": { "@id": "https://thaihelper.app/#organization" },
+      "serviceType": "Household staff placement (direct-hire, no agency)",
+      "areaServed": [
+        { "@type": "City", "name": "Bangkok", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Chiang Mai", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Phuket", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Pattaya", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Koh Samui", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Hua Hin", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Krabi", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Ao Nang", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Koh Phangan", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Chonburi", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Chiang Rai", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Pai", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Udon Thani", "containedInPlace": { "@type": "Country", "name": "Thailand" } },
+        { "@type": "City", "name": "Khon Kaen", "containedInPlace": { "@type": "Country", "name": "Thailand" } }
+      ],
+      "audience": {
+        "@type": "Audience",
+        "name": "Families in Thailand (Thai and expat) seeking household staff; domestic workers seeking direct employment without agency fees."
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "THB",
+        "description": "Free to create a helper profile, free to browse profiles. Families pay only to unlock direct messaging access to helpers."
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Household staff categories",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Nanny & Babysitter",
+              "description": "Childcare for families in Thailand — full-time, part-time, or live-in. Hire directly without agency placement fees."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "THB",
+              "minPrice": 12000,
+              "maxPrice": 25000,
+              "unitText": "MONTH",
+              "description": "Typical monthly salary for a nanny in Thailand (Bangkok and Phuket trend higher)."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Housekeeper & Maid",
+              "description": "House cleaning, laundry, and home organisation — daily, weekly, or full-time."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "THB",
+              "minPrice": 10000,
+              "maxPrice": 18000,
+              "unitText": "MONTH",
+              "description": "Typical monthly salary for a full-time housekeeper in Thailand."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Private Chef & Cook",
+              "description": "Thai, Western, and international cuisine for households — full-time or part-time."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "THB",
+              "minPrice": 15000,
+              "maxPrice": 35000,
+              "unitText": "MONTH",
+              "description": "Typical monthly salary for a private chef in Thailand."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Driver & Chauffeur",
+              "description": "Personal drivers for school runs, errands, and airport transfers."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "THB",
+              "minPrice": 15000,
+              "maxPrice": 25000,
+              "unitText": "MONTH",
+              "description": "Typical monthly salary for a full-time personal driver in Thailand."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Gardener & Pool Care",
+              "description": "Garden maintenance, landscaping, and pool cleaning."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "THB",
+              "minPrice": 8000,
+              "maxPrice": 18000,
+              "unitText": "MONTH"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Elder Care & Caregiver",
+              "description": "Companionship and daily care for elderly family members in their own home."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "THB",
+              "minPrice": 13000,
+              "maxPrice": 22000,
+              "unitText": "MONTH"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Tutor & Teacher",
+              "description": "Private tutors for English, Thai, math, music, and academic subjects."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "THB",
+              "minPrice": 10000,
+              "maxPrice": 30000,
+              "unitText": "MONTH"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Pet Sitter & Dog Walker",
+              "description": "House visits, overnight stays, dog walking, cat care, and pet boarding."
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "priceCurrency": "THB",
+              "minPrice": 8000,
+              "maxPrice": 20000,
+              "unitText": "MONTH"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://thaihelper.app/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is ThaiHelper an agency?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. ThaiHelper is a direct-hire marketplace, not an agency. It connects families and helpers but does not screen candidates, run background checks, hold deposits, or place workers. Families conduct their own interviews. No placement fees, no commission on salary."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does it cost to use ThaiHelper?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Helpers create profiles for free, forever — no sign-up fee, no monthly fee, no commission on salary. Families browse profiles for free; they pay only to unlock direct messaging access to helpers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does a nanny cost in Bangkok?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Live-out nannies in Bangkok typically cost 15,000–25,000 THB per month. Live-in is 12,000–18,000. Experienced English-speaking nannies with 5+ years' experience reach 25,000–35,000 THB."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do helpers in Thailand need a work permit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Thai citizens working as household help do NOT need a work permit. Foreign helpers (Filipino, Burmese, Lao, Cambodian, etc.) DO need a Non-Immigrant B visa plus a work permit. The process takes 7–30 working days and costs about 6,500–10,000 THB per year."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between live-in and live-out helpers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Live-in helpers reside at the employer's home, receive a room and meals as part of compensation, and typically work 6 days a week. Live-out helpers commute daily. Live-in salaries are usually 20–30% lower than live-out for the same role because food and accommodation are included."
+          }
+        }
+      ]
+    }
+  ]
+}

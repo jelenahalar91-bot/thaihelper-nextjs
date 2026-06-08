@@ -107,3 +107,6 @@ Host: https://thaihelper.app
 
 # Sitemaps
 Sitemap: https://thaihelper.app/sitemap.xml
+# Dedicated AI-crawler sitemap — flags llms.txt, llms-full.txt,
+# structured-data JSON and the canonical hub pages at priority 1.0.
+Sitemap: https://thaihelper.app/ai-sitemap.xml

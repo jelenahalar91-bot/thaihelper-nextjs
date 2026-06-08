@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  AI-Crawler Sitemap — dedicated index for AI search engines and
+  on-demand fetchers (ChatGPT-User, PerplexityBot, Claude-Web, etc.).
+  Lists the structured/GEO assets they should prioritise: llms.txt,
+  llms-full.txt, the standalone structured-data JSON, and the canonical
+  hub pages plus high-intent guide posts.
+
+  This is a SUPPLEMENT to /sitemap.xml — Googlebot uses the standard
+  sitemap; AI fetchers can use either, but this one flags the
+  citation-friendly assets at priority 1.0.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- GEO assets — highest priority for AI ingest -->
+  <url>
+    <loc>https://thaihelper.app/llms.txt</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/llms-full.txt</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/thaihelper-structured-data.json</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Canonical hub pages -->
+  <url>
+    <loc>https://thaihelper.app/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/helpers</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/employers</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/faq</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Top category pages — citation targets for "hire X in Thailand" -->
+  <url>
+    <loc>https://thaihelper.app/hire/nanny</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/housekeeper</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/chef</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/driver</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/caregiver</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/tutor</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/gardener</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/petsitter</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- City hubs (with category breakdown inline) -->
+  <url>
+    <loc>https://thaihelper.app/hire/bangkok</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/chiang-mai</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/phuket</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/pattaya</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/koh-samui</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/hire/hua-hin</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- High-intent guide posts (Q&A format, snippet-friendly) -->
+  <url>
+    <loc>https://thaihelper.app/blog/nanny-costs-thailand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/blog/how-to-hire-a-maid-in-thailand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/blog/hiring-helper-without-agency-thailand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/blog/work-permits-foreign-helpers-thailand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/blog/employment-contract-template-thailand</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/blog/best-ways-to-find-household-help-thailand-compared</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/blog/expat-guide-domestic-help-bangkok</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://thaihelper.app/blog/thailand-helper-salary-calculator</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+</urlset>
