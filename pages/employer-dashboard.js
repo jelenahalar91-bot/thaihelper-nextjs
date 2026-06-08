@@ -667,8 +667,6 @@ export default function EmployerDashboard() {
         setErrorBanner(t.err_start_locked);
       } else if (err.code === 'message_too_long') {
         setErrorBanner((t.err_too_long || 'Message is too long.').replace('{n}', err.max || 4000));
-      } else if (err.code === 'contact_info_not_allowed') {
-        setErrorBanner(t.msg_contact_blocked);
       } else if (err.code === 'email_not_verified') {
         setErrorBanner(t.msg_verify_required_body);
       } else {

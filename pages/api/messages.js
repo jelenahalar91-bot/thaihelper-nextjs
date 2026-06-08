@@ -21,7 +21,15 @@ import {
 import { sendNewMessageNotification } from '../../lib/send-confirmation-email';
 import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../lib/unsubscribe';
 import { sendPushToUser } from '../../lib/web-push';
-import { hasContactInfo } from '../../lib/messaging-filter';
+// PII filter intentionally not imported. We removed the server-side
+// block on phone numbers, emails, and contact-app links on 2026-06-08
+// after repositioning ThaiHelper as a direct-connection platform
+// rather than a marketplace that enforces on-platform communication.
+// The paywall (free employers cannot POST messages, see line ~146
+// payment_required) is the real anti-off-platform-jumping gate; once
+// a family has paid, sharing a phone or LINE-ID is fine and explicitly
+// supported. lib/messaging-filter.js is kept around as a utility for
+// potential future spam-detection analytics, just not enforced here.
 
 const MESSAGES_PER_PAGE = 50;
 // Max characters per message. Generous enough for long Thai replies but
@@ -173,11 +181,10 @@ export default async function handler(req, res) {
         max: MAX_MESSAGE_LENGTH,
       });
     }
-    // Block phone numbers, emails, links, bare domains — keep all
-    // communication on thaihelper.app.
-    if (hasContactInfo(trimmed)) {
-      return res.status(400).json({ error: 'contact_info_not_allowed' });
-    }
+    // Note: PII (phone numbers, emails, LINE / WhatsApp / Telegram
+    // handles) is intentionally NOT blocked here. Paid families and
+    // helpers are free to share contact info directly in chat — that
+    // matches the direct-connection-platform positioning.
 
     const conv = await loadConversation(supabase, conversation_id, session);
     if (!conv) return res.status(404).json({ error: 'Conversation not found' });

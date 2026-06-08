@@ -832,8 +832,6 @@ export default function Profile() {
         setMsgToast(
           (t.msg_too_long || 'Message is too long (max {n} characters).').replace('{n}', err.max || 4000)
         );
-      } else if (err.code === 'contact_info_not_allowed') {
-        setMsgToast(t.msg_contact_blocked || 'Phone numbers, emails and links are not allowed in messages.');
       } else if (err.code === 'email_not_verified') {
         setMsgToast(t.msg_verify_required_body || 'Please verify your email first.');
         // Re-fetch profile so the verify-banner appears if the user cleared the cookie
