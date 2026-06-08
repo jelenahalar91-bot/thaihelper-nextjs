@@ -866,6 +866,301 @@ export const guides = [
       },
     ],
   },
+
+  {
+    slug: 'hire-a-tutor-in-thailand',
+    title: 'How to Hire a Tutor in Thailand — The Complete 2026 Guide',
+    description:
+      'Hourly rates by subject and tutor profile, native vs non-native English teachers, IELTS / SAT / IB exam prep specialists, online vs in-person, curriculum matching for international vs Thai schools. Updated for 2026.',
+    date: '2026-06-08',
+    updated: '2026-06-08',
+    readTime: 14,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&q=80',
+    keywords:
+      'hire tutor Thailand, English tutor Bangkok, math tutor Bangkok, IELTS tutor Thailand, SAT tutor Bangkok, IB tutor Bangkok, native English speaker tutor, online tutor Thailand, homeschool tutor Thailand',
+    sections: [
+      {
+        id: 'overview',
+        h2: 'What you\'ll learn in this guide',
+        html: `
+          <p>Hiring a tutor in Thailand is more decision-heavy than hiring a nanny or housekeeper. The right tutor depends on five things: <strong>the subject</strong>, <strong>the goal</strong> (catch-up, exam prep, enrichment, full-time homeschooling), <strong>the curriculum</strong> the child is following (Thai system, Cambridge / IGCSE, IB, American common-core, homeschool), <strong>the language of instruction</strong>, and <strong>the format</strong> (one-on-one in person, small group, online, hybrid). Each combination has a different sensible price point.</p>
+          <p>This guide walks through the entire decision: how to <strong>match a tutor type to your child's actual need</strong>, what each combination costs in 2026 (the hourly market in Thailand is wider than most parents realise — 200 THB to 2,000+ THB per hour for different profiles), how to evaluate native vs non-native English speakers honestly, when online beats in-person and vice versa, where to find candidates, what to ask in interviews and trial lessons, and the work-permit picture for foreign tutors — which matters more in this category than in any other, because most expat parents specifically want native-English-speaking tutors.</p>
+          <p><em>Last updated: 8 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data, and direct family interviews. Legal references are to Thai Ministry of Labour and Ministry of Education regulations in force as of 2026.</em></p>
+        `,
+      },
+      {
+        id: 'match',
+        h2: 'Match the tutor type to your child\'s actual goal',
+        html: `
+          <p>A 200 THB/hour university student is the right hire for some goals and the wrong hire for others. Before any price research, get clear on which of these you actually need.</p>
+
+          <h3>1. School catch-up / homework help</h3>
+          <p>Your child is following a school curriculum and falling behind, or struggling with one specific subject. You need someone who understands the curriculum and can fill specific gaps. Often a strong university student or a recent graduate works fine; a senior teacher is overkill.</p>
+
+          <h3>2. Subject deepening / enrichment</h3>
+          <p>Your child is doing fine in school but you want them ahead in math, advanced reading, or a second language. The tutor's own depth in the subject matters here more than teaching credentials.</p>
+
+          <h3>3. Exam preparation (IELTS, TOEFL, SAT, ACT, IB, IGCSE, AP)</h3>
+          <p>Specific test, specific format, specific timeline. You want a tutor who has personally prepared multiple students for the exact same exam and can name their score outcomes. This is the highest-stakes tutor category and the hardest to fake — past student score reports are a real reference check.</p>
+
+          <h3>4. English-as-a-Second-Language (ESL) for fluency</h3>
+          <p>For Thai-system kids whose parents want stronger English, or expat kids in a non-English school environment. Look for someone with TEFL / CELTA / TESOL certification at minimum; native-speaker accent matters more here than for academic subjects.</p>
+
+          <h3>5. Thai language for expats</h3>
+          <p>Adult learners and expat children. Look for tutors with experience teaching foreigners specifically — teaching Thai to Thais is a very different skill set. Methods like Cracking Thai Fundamentals, Becker, or PALV vary in suitability.</p>
+
+          <h3>6. Music, art, sport, code, drama</h3>
+          <p>Specialist domains where the tutor's own track record matters most. Piano tutors who play at recital level themselves, coding tutors with shipped projects, art tutors with exhibition history.</p>
+
+          <h3>7. Full-time homeschool tutor</h3>
+          <p>A dedicated tutor who covers most of the curriculum across subjects, typically 4–6 hours/day, 5 days/week. Different price model (monthly salary, not hourly). Usually requires a teaching credential and the right personality to spend hours one-on-one with one child.</p>
+
+          <h3>8. Learning-support tutor (for dyslexia, ADHD, etc.)</h3>
+          <p>A specialist who has worked with children with specific learning differences and can scaffold subject material. Rare in Thailand outside Bangkok; expect to pay a premium and be patient finding the right person.</p>
+        `,
+      },
+      {
+        id: 'cost',
+        h2: 'How much does a tutor in Thailand cost?',
+        html: `
+          <p>Most tutoring in Thailand is priced hourly. Monthly arrangements exist for homeschool and intensive exam-prep blocks but are the exception.</p>
+
+          <h3>Hourly rates by tutor profile (Bangkok, in-person)</h3>
+          <table>
+            <thead><tr><th>Tutor profile</th><th>Rate (THB/hour)</th></tr></thead>
+            <tbody>
+              <tr><td>Thai university student, any subject</td><td>200 – 400</td></tr>
+              <tr><td>Thai-school teacher (Thai-speaking, moonlighting)</td><td>400 – 700</td></tr>
+              <tr><td>Non-native English speaker with TEFL (Filipino, etc.)</td><td>400 – 700</td></tr>
+              <tr><td>Native-English-speaking tutor, basic ESL</td><td>600 – 1,000</td></tr>
+              <tr><td>Native English speaker with teaching credential</td><td>800 – 1,500</td></tr>
+              <tr><td>Subject specialist (Math / Science / Coding)</td><td>500 – 1,200</td></tr>
+              <tr><td>Music / Art tutor (mid-career professional)</td><td>500 – 1,200</td></tr>
+              <tr><td>IELTS / TOEFL / SAT / IB exam-prep specialist</td><td>800 – 2,000</td></tr>
+              <tr><td>Learning-support specialist (dyslexia, ADHD)</td><td>1,000 – 2,500</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Format adjustments</h3>
+          <ul>
+            <li><strong>Online (Zoom / similar):</strong> 15–25 % cheaper than in-person — the tutor saves commute time. Online works very well for high-school-age and adult learners; less well for kids under ~9.</li>
+            <li><strong>Small group (2–4 students):</strong> per-student rate drops 30–50 %, total revenue for the tutor goes up. Works for siblings or close friend-groups; doesn't work for kids at different levels.</li>
+            <li><strong>Travel to your home:</strong> add 100–300 THB/visit on top of the hourly rate to cover the tutor's transport time and cost. In Bangkok this matters because traffic eats real hours.</li>
+            <li><strong>Tutor's location (their home or a coffee shop):</strong> usually no premium but logistics are on you.</li>
+          </ul>
+
+          <h3>City variation</h3>
+          <ul>
+            <li><strong>Bangkok:</strong> the rates above</li>
+            <li><strong>Chiang Mai:</strong> ~25 % below Bangkok (large pool of digital-nomad tutors keeps rates competitive)</li>
+            <li><strong>Phuket / Pattaya / Koh Samui:</strong> ~10 % below Bangkok</li>
+            <li><strong>Provincial cities:</strong> 40–50 % below Bangkok, but candidate pool for specialist subjects can be thin</li>
+          </ul>
+
+          <h3>Monthly arrangements (homeschool and intensive prep)</h3>
+          <ul>
+            <li><strong>Thai-speaking full-time tutor for homeschool:</strong> 25,000–40,000 THB/month, ~4–6 hours/day, 5 days/week</li>
+            <li><strong>Native-English-speaking qualified tutor for homeschool:</strong> 40,000–80,000 THB/month at the same intensity</li>
+            <li><strong>Intensive exam-prep package (e.g. 3-month IELTS):</strong> typically priced per package (e.g. 50–80 hours bundled at a 10–15 % discount on the per-hour rate)</li>
+          </ul>
+
+          <h3>What's not in the hourly rate but worth budgeting for</h3>
+          <ul>
+            <li><strong>Materials:</strong> textbooks, workbooks, exam prep books (500–3,000 THB depending on subject)</li>
+            <li><strong>Mock exams:</strong> for SAT / IELTS / TOEFL — most prep tutors offer paid mocks (500–1,500 THB each); they're worth doing</li>
+            <li><strong>Cancellation policy:</strong> standard is 24-hour notice or pay-in-full; agree this in advance</li>
+            <li><strong>Holiday gaps:</strong> tutors don't bill during their own holidays but expect notice when you take your child's school holidays</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'format',
+        h2: 'Online, in-person, or hybrid?',
+        html: `
+          <p>Post-2020, online tutoring became a real option in Thailand — and it stuck around for some learner types but not others.</p>
+
+          <h3>When online works well</h3>
+          <ul>
+            <li><strong>Teenagers and adults</strong> — focus and self-direction are already there</li>
+            <li><strong>Test prep</strong> — IELTS / SAT / TOEFL / GMAT — heavily document-and-screen-based anyway, online is fine</li>
+            <li><strong>Subject deepening</strong> for a self-motivated learner — math, coding, advanced topics where work is on paper or screen</li>
+            <li><strong>Adults learning Thai or English</strong> — speaking practice on Zoom is genuinely effective</li>
+            <li><strong>When the best tutor for your need lives in a different city or country</strong> — the global tutor market opens up</li>
+          </ul>
+
+          <h3>When in-person is worth the premium</h3>
+          <ul>
+            <li><strong>Kids under ~9</strong> — attention span and physical presence matter</li>
+            <li><strong>Music and art</strong> — the tutor needs to demonstrate posture, technique, physical correction</li>
+            <li><strong>Learning-support tutoring</strong> — the tutor reads body language and adjusts in ways video doesn't carry</li>
+            <li><strong>When your child genuinely doesn't engage on screen</strong> — some don't; not worth fighting it</li>
+          </ul>
+
+          <h3>Hybrid (most common pattern)</h3>
+          <p>Many families settle into 2 in-person + 1 online session per week, or in-person during term and online during international holidays. Tutors generally accept this with no surcharge once the relationship is established.</p>
+        `,
+      },
+      {
+        id: 'where-to-find',
+        h2: 'Where to find a tutor in Thailand',
+        html: `
+          <p>Five channels are common, and the right one depends heavily on what level of tutor you need.</p>
+
+          <h3>1. Direct-hire marketplaces (e.g. ThaiHelper)</h3>
+          <p>Tutors create free profiles with subjects, qualifications, languages, and rates. Families browse, message directly, do a trial lesson, agree on terms. Best for: any tutor profile from university student up to subject specialist. No platform commission. Limitation: marketplace verifies email and identity but doesn't verify teaching credentials — you have to ask for and check the documents.</p>
+
+          <h3>2. Tutoring agencies</h3>
+          <p>Agencies like Tutor Group, BangkokTutor, and several boutiques screen tutors, match them to families, and handle billing. Best for: families who want a vetted shortlist and the agency to manage scheduling. Limitation: 30–60 % higher hourly cost than direct-hire (the agency's margin), less control over which exact tutor you get.</p>
+
+          <h3>3. International school parent networks</h3>
+          <p>Almost every international school has a parent WhatsApp / Line group where tutor recommendations circulate. If your child is at NIST, ISB, KIS, Patana, or Shrewsbury, this is often the highest-signal channel — recommendations come from parents whose children are at the same school, doing the same exam track, and the tutor is already known to that community.</p>
+
+          <h3>4. Facebook groups and expat forums</h3>
+          <p>Bangkok Expat Families, Thai-language groups (for adult learners), and homeschool parent communities have regular tutor recommendations. Best for: ESL, Thai-language tutors, and homeschool support. Limitation: unverified, noisy.</p>
+
+          <h3>5. University job boards</h3>
+          <p>Chulalongkorn, Thammasat, Mahidol, AUA, and AIT have tutor job boards where graduate students post availability. Best for: math, science, and Thai-language tutoring at student rates. Limitation: turnover is high — your tutor finishes their thesis and disappears.</p>
+
+          <p><em>Pattern for serious hires (e.g. SAT prep with a real score target):</em> ask in your school's parent network, shortlist three tutors with documented student outcomes, do a paid trial hour with each, decide on results.</p>
+        `,
+      },
+      {
+        id: 'interview',
+        h2: 'How to interview a tutor (and the trial lesson)',
+        html: `
+          <p>A first conversation is for credentials and rapport; a paid trial lesson is for whether they can actually teach your child.</p>
+
+          <h3>Credentials and background</h3>
+          <ul>
+            <li>What's your educational background and teaching qualification?</li>
+            <li>For native-English-speaker roles: where are you from, and do you have a current Thai work permit covering this work?</li>
+            <li>For exam-prep roles: which exam, how many students, what score outcomes? (Ask for specifics, not averages.)</li>
+            <li>How long have you been tutoring in Thailand?</li>
+            <li>Can you provide references from two recent families whose children studied for the same exam / subject / level?</li>
+          </ul>
+
+          <h3>Teaching approach</h3>
+          <ul>
+            <li>How would you handle a child who is anxious about the subject?</li>
+            <li>How do you decide between drilling fundamentals and pushing toward the next level?</li>
+            <li>What do you do when a child doesn't do the homework you've assigned?</li>
+            <li>How do you measure whether the tutoring is working?</li>
+            <li>How do you communicate progress back to the parents — frequency, format?</li>
+          </ul>
+
+          <h3>Logistics</h3>
+          <ul>
+            <li>What's your hourly rate, and what does it include (materials, mock exams, written feedback)?</li>
+            <li>What's your cancellation policy?</li>
+            <li>Are you available at our preferred times for at least the next school term?</li>
+            <li>Do you tutor other students in our child's school? (Useful: tutor knows the teacher / curriculum. Risk: confidentiality.)</li>
+            <li>What does your invoicing look like?</li>
+          </ul>
+
+          <h3>The trial lesson</h3>
+          <p>Pay for a full hour. Sit in for the first 5 minutes and the last 5 minutes; leave the room for the rest. After:</p>
+          <ul>
+            <li>Ask your child: did this feel useful? Did the tutor explain things in a way you understood?</li>
+            <li>Ask the tutor: what did you notice about how my child learns? What would you focus on first?</li>
+            <li>Look at what the tutor produced — notes, plan, follow-up — not just what they said.</li>
+          </ul>
+
+          <p>A good tutor leaves the trial with a clear two-page plan and a recommended cadence. A weak one says "she did great" and asks when you'd like to start.</p>
+        `,
+      },
+      {
+        id: 'work-permit',
+        h2: 'Foreign tutors and the work-permit question',
+        html: `
+          <p>This section matters more for tutoring than for any other helper category, because most expat families specifically want native English speakers and most native English speakers in Thailand are not Thai citizens.</p>
+
+          <h3>The basic rule</h3>
+          <p>Any non-Thai citizen working in Thailand — including teaching one student in your home for one hour a week — needs a <strong>Non-Immigrant B visa</strong> and a <strong>Work Permit</strong> issued by the Ministry of Labour. Tutoring is not exempt.</p>
+
+          <h3>Where most expat tutors actually sit</h3>
+          <ul>
+            <li><strong>Full-time school teachers moonlighting</strong> — their visa and work permit are tied to the school. Technically, after-hours tutoring at someone else's home requires an extension to cover the second employer. Most do it without; many schools turn a blind eye but it is technically a permit violation.</li>
+            <li><strong>Married to a Thai citizen (Non-O visa) and working with a permit covering "education"</strong> — fully legal. Ask for the permit.</li>
+            <li><strong>Retired in Thailand on a retirement visa</strong> — not permitted to work. Tutoring is work. They legally cannot.</li>
+            <li><strong>On a tourist or education visa</strong> — not permitted to work. Many do; the legal risk sits with them and with you.</li>
+            <li><strong>Digital nomads claiming to teach "online from outside Thailand"</strong> — grey area. If the student is in Thailand and the tutor is physically in Thailand, it's working in Thailand regardless of where the company is registered.</li>
+          </ul>
+
+          <h3>What this means in practice</h3>
+          <ul>
+            <li>For one-off or short-term tutoring (a few months) with a foreigner already living in Thailand, almost all families don't worry about the work-permit detail. The enforcement risk is low. The legal risk sits primarily with the tutor.</li>
+            <li>For a long-term, high-value engagement (full-time homeschool tutor, intensive multi-year exam prep), arrange the work permit properly. Use a visa agent. Budget 15,000–30,000 THB initial setup + 5,000–10,000 THB annual renewal.</li>
+            <li>If you ever want to claim the tutoring cost against business income (some expats do via small Thai companies), you need the documentation to be clean — the tutor on a permit covering the work, invoices, the lot.</li>
+            <li>Hiring an undocumented foreigner explicitly aware they can't legally work is the highest-risk version. If something goes wrong (your child's accident during a lesson, neighbour complaint, immigration sweep) the legal exposure attaches to the employer too.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'mistakes',
+        h2: 'Common mistakes families make',
+        html: `
+          <ul>
+            <li><strong>Hiring on accent alone.</strong> "Native English speaker" doesn't mean "good teacher". A Thai or Filipino tutor with TEFL training and patience often outperforms an untrained native speaker, especially for young children.</li>
+            <li><strong>Hiring without a trial lesson.</strong> An hour costs 500–2,000 THB and tells you what three interviews can't. Pay for it and run it.</li>
+            <li><strong>Stacking too many tutors.</strong> A child with school + 4 tutors + homework + sports is being prepared for burnout, not for an exam. Two well-chosen tutors is almost always better than four mediocre ones.</li>
+            <li><strong>No clear goal.</strong> "Improve in English" can mean reading level, conversational fluency, IELTS band, or grammar. Different goals, different tutors. Define the outcome.</li>
+            <li><strong>Skipping the work-permit conversation for a long-term hire.</strong> If you're paying someone 40,000 THB/month for homeschool, you need them legally able to work. This is the most-skipped item in this category.</li>
+            <li><strong>Not checking exam-prep claims.</strong> Anyone can claim "I helped a student get a 7.0 IELTS". Ask for specific past students you can call, or score-report screenshots with names redacted.</li>
+            <li><strong>Letting the tutor mark their own homework.</strong> No accountability loop. Build in independent progress checks — a mock exam every 4–6 weeks, a periodic conversation with the school teacher, or a written progress note you actually read.</li>
+            <li><strong>No exit clause.</strong> A tutor relationship that's not working should end at the end of a month, not drag on for a school year. Agree the off-ramp in writing on day one.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'next-steps',
+        h2: 'Next steps',
+        html: `
+          <p>You can start by browsing verified tutor profiles on ThaiHelper. Filter by subject, language, and city; message tutors directly; book a paid trial lesson before committing.</p>
+          <ul>
+            <li><a href="/hire/tutor">Browse tutors across Thailand</a></li>
+            <li><a href="/hire/tutor-bangkok">Tutors in Bangkok</a></li>
+            <li><a href="/hire/tutor-phuket">Tutors in Phuket</a></li>
+            <li><a href="/hire/tutor-chiang-mai">Tutors in Chiang Mai</a></li>
+            <li><a href="/blog/find-tutor-bangkok">Find a Tutor in Bangkok — broader overview</a></li>
+            <li><a href="/blog/english-speaking-nanny-demand-thailand">English-Speaking Helper Demand in Thailand</a></li>
+          </ul>
+        `,
+      },
+    ],
+    faqs: [
+      {
+        question: 'How much does a tutor cost in Bangkok in 2026?',
+        answer:
+          'Hourly rates in Bangkok range from 200 THB (Thai university student tutoring younger kids) to 2,000+ THB (specialist IELTS/SAT/IB tutors with track records). Typical bands: 200–400 THB for school catch-up, 400–700 for non-native English ESL or moonlighting Thai teachers, 600–1,000 for native English ESL, 800–1,500 for qualified native English with teaching credentials, 800–2,000 for exam-prep specialists. Online is 15–25 % cheaper than in-person.',
+      },
+      {
+        question: 'Should I hire a native English speaker or a non-native tutor with TEFL?',
+        answer:
+          'For accent and pronunciation work, a native speaker matters. For grammar, structured curriculum, exam prep below the top band, and patience with young learners, a Thai or Filipino tutor with TEFL/CELTA training often outperforms an untrained native speaker. Match the tutor profile to the specific goal — "native speaker" is not automatically the right answer and it doubles the budget.',
+      },
+      {
+        question: 'How do I find a tutor who actually knows the IB / IGCSE / SAT exam?',
+        answer:
+          'Ask for specific past students whose scores you can verify (score reports with names redacted are fine), not vague averages. Use your international school\'s parent network as the primary channel — recommendations come from families whose kids took the same exam track. Do a paid trial lesson and ask the tutor to walk you through a real past paper from the most recent year; how they handle that tells you whether they actually know the exam.',
+      },
+      {
+        question: 'Do foreign tutors in Thailand need a work permit?',
+        answer:
+          'Yes. Any non-Thai citizen working in Thailand, including one-on-one tutoring in a private home, requires a Non-Immigrant B visa and a Work Permit. In practice, short-term tutoring with a foreigner already living in Thailand is often arranged informally and enforcement is low. For long-term, high-value arrangements (full-time homeschool, multi-year exam prep), arrange the permit properly via a visa agent: 15,000–30,000 THB initial setup, 5,000–10,000 THB annual renewal.',
+      },
+      {
+        question: 'Is online tutoring as effective as in-person in Thailand?',
+        answer:
+          'For teenagers, adults, test prep, and subject deepening — yes, online is essentially as effective and 15–25 % cheaper. For young children (under 9), music, art, and learning-support tutoring, in-person is materially better. Many families settle into a hybrid pattern: 2 in-person sessions and 1 online per week during term, fully online during international holidays.',
+      },
+      {
+        question: 'How many tutoring sessions per week is reasonable for a school-age child?',
+        answer:
+          'Two sessions per week per goal is the standard cadence — enough for skill-building between sessions, not enough to interfere with school or rest. Heavy exam prep (3–6 months before SAT/IELTS) can run to 3–4 sessions per week. Beyond that, returns drop steeply: a child with school plus 4+ tutoring sessions plus homework plus sport is being set up for burnout, and progress per hour falls.',
+      },
+    ],
+  },
 ];
 
 export function getGuideBySlug(slug) {
