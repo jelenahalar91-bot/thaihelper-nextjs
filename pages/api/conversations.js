@@ -189,9 +189,12 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     if (isEmployer) {
       // ── Employer → Helper flow (existing) ──
+      // 2026-06-09: paywall removed. employerHasAccess now means
+      // "email verified" (see lib/access.js). Unverified employers
+      // can browse helpers but not start conversations.
       if (!employerHasAccess) {
-        return res.status(402).json({
-          error: 'payment_required',
+        return res.status(403).json({
+          error: 'email_not_verified',
           accessStatus: getAccessStatus(employer),
         });
       }

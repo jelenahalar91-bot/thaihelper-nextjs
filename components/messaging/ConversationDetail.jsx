@@ -3,9 +3,11 @@
  *
  * Dual-role:
  *   - currentRole: 'helper' | 'employer'  → drives "isOwn" bubble alignment
- *   - canSend: boolean — when false (free-tier employer) the composer is
- *     replaced with an upgrade CTA. The send-input is never rendered for
- *     locked users so they can't even attempt a POST that would 402.
+ *   - canSend: boolean — when false the composer is hidden. The send-input
+ *     is never rendered for locked users so they can't attempt a POST.
+ *     2026-06-09: canSend is now derived from email_verified only (the
+ *     paywall has been removed). Pre-verify users see the verify-email
+ *     banner above instead of an upgrade CTA.
  *
  * - onViewProfile: optional callback. When set, the header avatar + name
  *   become clickable and call this with the counterparty object so the
@@ -26,6 +28,9 @@ export default function ConversationDetail({
   onSend,
   sending,
   onBack,
+  // onUpgrade was used by the old paywall's "Upgrade" CTA — removed
+  // 2026-06-09. Kept as a deprecated prop so existing callers don't
+  // crash; safe to drop in a future cleanup pass.
   onUpgrade,
   onViewProfile,
   // Verify-required state (overrides input with a verify banner)
@@ -384,29 +389,11 @@ export default function ConversationDetail({
           </div>
           </div>
         </div>
-      ) : (
-        <div style={{
-          padding: '16px 18px',
-          background: 'linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%)',
-          borderTop: '1px solid #fed7aa',
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          gap: '12px', flexWrap: 'wrap',
-        }}>
-          <div style={{ fontSize: '14px', color: '#9a3412', flex: 1, minWidth: '200px' }}>
-            🔒 {t.msg_send_locked || 'Upgrade to send messages and read full conversations.'}
-          </div>
-          <button
-            onClick={onUpgrade}
-            style={{
-              padding: '10px 18px', borderRadius: '10px', border: 'none',
-              background: '#006a62', color: 'white', fontSize: '14px',
-              fontWeight: 700, cursor: 'pointer',
-            }}
-          >
-            {t.msg_locked_cta || 'Upgrade'}
-          </button>
-        </div>
-      )}
+      ) : null /* 2026-06-09: free-tier-locked "Upgrade" branch
+                  removed. The paywall is gone — canSend is now
+                  derived from email_verified only (see lib/access.js).
+                  If canSend is false, verifyRequired will be true and
+                  the verify-email banner above renders. */ }
     </div>
   );
 }

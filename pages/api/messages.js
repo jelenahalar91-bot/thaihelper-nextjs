@@ -149,10 +149,13 @@ export default async function handler(req, res) {
 
   // ─── POST — Send message ──────────────────────────────────────────────
   if (req.method === 'POST') {
-    // Free-tier employers cannot send messages
+    // Employers without a verified email cannot send messages.
+    // (Previously this was a paywall — "you haven't paid for messaging
+    // access". 2026-06-09 the paywall was removed in favour of free
+    // messaging for any email-verified employer; see lib/access.js.)
     if (isEmployer && !employerHasAccess) {
-      return res.status(402).json({
-        error: 'payment_required',
+      return res.status(403).json({
+        error: 'email_not_verified',
         accessStatus: getAccessStatus(employer),
       });
     }

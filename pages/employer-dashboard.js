@@ -24,6 +24,7 @@ import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
 import HelperCard from '@/components/HelperCard';
+import PhoneVerificationCard from '@/components/PhoneVerificationCard';
 import { fetchEmployerProfile } from '@/lib/api/employer-auth-client';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import {
@@ -615,8 +616,8 @@ export default function EmployerDashboard() {
         setMessagesLoading(false);
       }
     } catch (err) {
-      if (err.code === 'payment_required') {
-        setErrorBanner(t.err_start_locked);
+      if (err.code === 'email_not_verified') {
+        setErrorBanner(t.msg_verify_required_body);
         setActiveTab('messages');
       } else {
         console.error('Start conversation error:', err);
@@ -663,9 +664,7 @@ export default function EmployerDashboard() {
         loadConversations({ silent: true });
       }
     } catch (err) {
-      if (err.code === 'payment_required') {
-        setErrorBanner(t.err_start_locked);
-      } else if (err.code === 'message_too_long') {
+      if (err.code === 'message_too_long') {
         setErrorBanner((t.err_too_long || 'Message is too long.').replace('{n}', err.max || 4000));
       } else if (err.code === 'email_not_verified') {
         setErrorBanner(t.msg_verify_required_body);
@@ -879,6 +878,43 @@ export default function EmployerDashboard() {
               <p style={{ flex: 1, margin: 0, fontSize: '14px', color: '#92400e', lineHeight: 1.5 }}>
                 {t.verify_banner || 'Please check your email and click the verification link to activate your account.'}
               </p>
+            </div>
+          )}
+
+          {/* ── Phone verification (trust-tier 2, optional) ──────── */}
+          {profile && (
+            <div style={{ marginBottom: '16px' }}>
+              <PhoneVerificationCard
+                role="employer"
+                lang={lang}
+                phoneNumber={profile.phone_number}
+                phoneCountryCode={profile.phone_country_code}
+                phoneVerifiedAt={profile.phone_verified_at}
+                lineLinkedAt={profile.line_linked_at}
+                onVerified={async () => {
+                  const refreshed = await fetchEmployerProfile();
+                  if (refreshed?.profile) setProfile(refreshed.profile);
+                }}
+                onLinkLine={async () => {
+                  try {
+                    const resp = await fetch('/api/line/link', {
+                      method: 'POST',
+                      credentials: 'include',
+                    });
+                    const data = await resp.json();
+                    if (data.alreadyLinked) {
+                      const refreshed = await fetchEmployerProfile();
+                      if (refreshed?.profile) setProfile(refreshed.profile);
+                      return;
+                    }
+                    if (data.addFriendUrl) {
+                      window.open(data.addFriendUrl, '_blank');
+                    }
+                  } catch (err) {
+                    console.error('LINE link failed:', err);
+                  }
+                }}
+              />
             </div>
           )}
 
