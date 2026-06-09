@@ -68,12 +68,6 @@ const T = {
 
     q2_title: 'What is your helper\'s nationality?',
     q2_sub: 'Thailand\'s 2009 domestic-worker MOU restricts household-worker permits to Myanmar, Laos and Cambodia nationals. Filipino, Vietnamese, Western and other nationalities cannot legally hold a "domestic worker" work permit.',
-    q2_thai: 'Thai',
-    q2_myanmar: 'Myanmar (Burmese)',
-    q2_laos: 'Laos',
-    q2_cambodia: 'Cambodia',
-    q2_philippines: 'Philippines',
-    q2_other: 'Other',
 
     q3_title: 'What is your helper\'s current status?',
     q3_sub: 'Already-employed helpers can often follow a faster transfer path; brand-new hires take longer.',
@@ -88,7 +82,6 @@ const T = {
     result_disclaimer_title: 'Before you continue',
     result_disclaimer: 'I understand this is general information, not legal advice.',
     result_label_track_mou: 'MOU process (Myanmar / Laos / Cambodia)',
-    result_label_track_non_b: 'Non-B work visa',
     result_estimated_cost: 'Estimated cost',
     result_estimated_time: 'Estimated time',
     result_thb: 'THB',
@@ -99,20 +92,6 @@ const T = {
     myanmar_notice_b1: 'Original Myanmar NIC (national ID card) + copy of the household list (Tabian Baan) are now mandatory for the application.',
     myanmar_notice_b2: 'Workers must hold a valid Certificate of Identity (CI). For permits expiring 31 March 2026, the CI renewal window has been extended to 17 August 2026.',
     myanmar_notice_b3: 'Many Myanmar workers missed the 31 March 2026 renewal deadline and are currently undocumented. Verify your candidate\'s work-permit renewal status before hiring.',
-
-    // Non-B compliance notice — shown on every Non-B track result
-    // (Philippines, Western, Indian, Chinese, etc.). The salary threshold
-    // is the part most families don't know about and that often makes
-    // the engagement economically unviable.
-    nonb_notice_title: '💸 Salary threshold for Non-B work permit',
-    nonb_notice_intro: 'Thailand sets a minimum monthly salary for the work permit to be issued. It varies by the worker\'s nationality:',
-    nonb_notice_tier1: 'US, Canada, EU, Australia, Japan: ≥ 50,000 THB / month',
-    nonb_notice_tier2: 'Hong Kong, Singapore, Malaysia, Korea, Taiwan: ≥ 45,000 THB / month',
-    nonb_notice_tier3: 'Philippines, China, India, Indonesia, Middle East: ≥ 35,000 THB / month',
-    nonb_notice_tier4: 'Cambodia, Laos, Myanmar, Vietnam, Africa: ≥ 25,000 THB / month',
-    nonb_notice_b1: 'If you plan to pay less than this threshold, the WP application will be rejected — even if all other paperwork is correct.',
-    nonb_notice_b2: 'Household domestic work is allowed (not on the 27-prohibited-occupations list). Since April 2024 (Ministerial Regulation No. 15) domestic workers are entitled to minimum wage, an 8-hour day with breaks, overtime, a weekly rest day, and 98 days of maternity leave (45 paid). Still excluded from Social Security.',
-    nonb_notice_b3: 'Online submission via the e-Work Permit system (ewp.doe.go.th) is mandatory for all foreign workers since 13 October 2025 — real-time tracking and a QR-coded permit card.',
 
     // Result: not legally allowed for domestic work
     nla_h2: 'Domestic-worker permits aren\'t available for this nationality.',
@@ -212,12 +191,6 @@ const T = {
 
     q2_title: 'ผู้ช่วยของคุณสัญชาติอะไร?',
     q2_sub: 'MOU แรงงานในบ้านของไทยปี 2552 จำกัดใบอนุญาตทำงานในบ้านเฉพาะคนพม่า ลาว และกัมพูชาเท่านั้น คนฟิลิปปินส์ เวียดนาม ตะวันตก และสัญชาติอื่นๆ ไม่สามารถถือใบอนุญาตทำงานประเภท "แรงงานในบ้าน" ได้ตามกฎหมาย',
-    q2_thai: 'ไทย',
-    q2_myanmar: 'พม่า',
-    q2_laos: 'ลาว',
-    q2_cambodia: 'กัมพูชา',
-    q2_philippines: 'ฟิลิปปินส์',
-    q2_other: 'อื่นๆ',
 
     q3_title: 'สถานะปัจจุบันของผู้ช่วยคุณคืออะไร?',
     q3_sub: 'ผู้ช่วยที่ทำงานอยู่แล้วมักจะใช้เส้นทางการโอนย้ายที่เร็วกว่า การจ้างใหม่ใช้เวลานานกว่า',
@@ -231,7 +204,6 @@ const T = {
     result_disclaimer_title: 'ก่อนคุณดำเนินการต่อ',
     result_disclaimer: 'ฉันเข้าใจว่านี่เป็นข้อมูลทั่วไปไม่ใช่คำแนะนำทางกฎหมาย',
     result_label_track_mou: 'กระบวนการ MOU (พม่า / ลาว / กัมพูชา)',
-    result_label_track_non_b: 'วีซ่าทำงาน Non-B',
     result_estimated_cost: 'ค่าใช้จ่ายโดยประมาณ',
     result_estimated_time: 'เวลาโดยประมาณ',
     result_thb: 'บาท',
@@ -241,17 +213,6 @@ const T = {
     myanmar_notice_b1: 'ต้องใช้บัตรประชาชนพม่าตัวจริง (NIC) พร้อมสำเนาทะเบียนบ้านในการยื่นคำขอใบอนุญาตทำงาน',
     myanmar_notice_b2: 'แรงงานต้องมี Certificate of Identity (CI) ที่ใช้ได้ สำหรับใบอนุญาตที่หมดอายุ 31 มี.ค. 2026 ขยายเวลาต่ออายุ CI ถึง 17 ส.ค. 2026',
     myanmar_notice_b3: 'แรงงานพม่าจำนวนมากพลาดเส้นตายการต่ออายุ 31 มี.ค. 2026 และอยู่ในสถานะไม่ถูกต้อง โปรดตรวจสอบสถานะการต่ออายุของผู้สมัครก่อนตัดสินใจจ้าง',
-
-    // ข้อกำหนด Non-B — แสดงเมื่อ track = Non-B (ฟิลิปปินส์ ตะวันตก ฯลฯ)
-    nonb_notice_title: '💸 เงินเดือนขั้นต่ำสำหรับใบอนุญาตทำงาน Non-B',
-    nonb_notice_intro: 'ประเทศไทยกำหนดเงินเดือนขั้นต่ำต่อเดือนเพื่อออกใบอนุญาตทำงาน โดยขึ้นอยู่กับสัญชาติของผู้ช่วย:',
-    nonb_notice_tier1: 'สหรัฐฯ แคนาดา ยุโรป ออสเตรเลีย ญี่ปุ่น: ≥ 50,000 บาท / เดือน',
-    nonb_notice_tier2: 'ฮ่องกง สิงคโปร์ มาเลเซีย เกาหลี ไต้หวัน: ≥ 45,000 บาท / เดือน',
-    nonb_notice_tier3: 'ฟิลิปปินส์ จีน อินเดีย อินโดนีเซีย ตะวันออกกลาง: ≥ 35,000 บาท / เดือน',
-    nonb_notice_tier4: 'กัมพูชา ลาว พม่า เวียดนาม แอฟริกา: ≥ 25,000 บาท / เดือน',
-    nonb_notice_b1: 'หากคุณจ่ายต่ำกว่านี้ คำขอ WP จะถูกปฏิเสธ แม้เอกสารอื่นจะถูกต้องครบถ้วน',
-    nonb_notice_b2: 'งานในบ้านได้รับอนุญาต (ไม่อยู่ในรายการอาชีพต้องห้าม 27 อาชีพ) ตั้งแต่เมษายน 2567 (กฎกระทรวงฉบับที่ 15) ลูกจ้างในบ้านมีสิทธิรับค่าจ้างขั้นต่ำ ทำงาน 8 ชั่วโมง/วันพร้อมเวลาพัก ค่าล่วงเวลา วันหยุดประจำสัปดาห์ และลาคลอด 98 วัน (จ่ายเงิน 45 วัน) — แต่ยังไม่อยู่ในระบบประกันสังคม',
-    nonb_notice_b3: 'ตั้งแต่ 13 ตุลาคม 2568 การยื่นคำขอผ่านระบบ e-Work Permit ออนไลน์ (ewp.doe.go.th) เป็นข้อบังคับสำหรับแรงงานต่างชาติทุกคน พร้อมติดตามสถานะแบบเรียลไทม์และบัตรอนุญาตทำงานพร้อม QR',
 
     // ผลลัพธ์: ไม่อนุญาตทางกฎหมายสำหรับงานในบ้าน
     nla_h2: 'ใบอนุญาตทำงานประเภทแรงงานในบ้านไม่มีสำหรับสัญชาตินี้',
@@ -798,11 +759,10 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
     ? 'bg-primary text-white hover:bg-primary-container'
     : 'bg-slate-200 text-slate-500 cursor-not-allowed pointer-events-none';
 
-  const trackTitle = result.track === 'mou'
-    ? t.result_label_track_mou
-    : result.track === 'non_b'
-      ? t.result_label_track_non_b
-      : null;
+  // Only the MOU track is in scope for this wizard now — non-MOU3
+  // nationalities short-circuit to the not_legally_allowed flow before
+  // a track is assigned.
+  const trackTitle = result.track === 'mou' ? t.result_label_track_mou : null;
 
   return (
     <div>
@@ -873,15 +833,6 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
           </ul>
         </div>
       )}
-
-      {/* The old Non-B notice block lived here. It was removed when the
-          wizard was scoped strictly to household work — Filipino/Western/
-          Vietnamese helpers can't legally hold a domestic-worker WP under
-          the 2009 MOU, so they now land in the not_legally_allowed flow
-          which has its own copy and CTAs below. The non-B salary-tier
-          information would only be relevant if the wizard expanded to
-          cover non-household roles (English tutor, household manager)
-          where Non-B is a valid track. */}
 
       {/* Agree-to-disclaimer gate (per spec section 2.13) */}
       <label className="flex items-start gap-3 mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 cursor-pointer">
