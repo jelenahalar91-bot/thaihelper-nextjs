@@ -15,7 +15,7 @@
  * Auth: redirects to /login on 401.
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -341,6 +341,12 @@ export default function EmployerDashboard() {
   const [messagesLoading, setMessagesLoading] = useState(false);
   const [msgInput, setMsgInput] = useState('');
   const [sending, setSending] = useState(false);
+  // Synchronous "in-flight send" guard. setSending(true) is async (React
+  // batches state updates), so two Enter presses within the same render
+  // can both see sending === false and both POST. The ref updates
+  // immediately and is the real gate; sending state is just for the UI
+  // (spinner, disabled button).
+  const sendingRef = useRef(false);
   const [errorBanner, setErrorBanner] = useState('');
   const [viewingHelper, setViewingHelper] = useState(null); // helper obj shown in profile modal
   const [resendingVerify, setResendingVerify] = useState(false);
@@ -656,14 +662,13 @@ export default function EmployerDashboard() {
   }
 
   async function handleSendMessage() {
-    // Snapshot + clear msgInput SYNCHRONOUSLY before any await so that
-    // a second Enter / button-click during the in-flight POST sees an
-    // empty input and bails out. Without this, two rapid Enters would
-    // both clear the gating check (msgInput is still populated until
-    // the await resolves) and the server would insert two identical
-    // messages — visible as a duplicate bubble in the chat.
+    // Double-send protection. setSending state is async — two rapid
+    // Enter presses can both see sending === false and both POST.
+    // sendingRef updates synchronously and is the real gate.
+    if (sendingRef.current) return;
     const content = msgInput.trim();
-    if (!content || !selectedConv || sending) return;
+    if (!content || !selectedConv) return;
+    sendingRef.current = true;
     setMsgInput('');
     setSending(true);
     try {
@@ -687,6 +692,7 @@ export default function EmployerDashboard() {
         setErrorBanner(t.err_generic);
       }
     }
+    sendingRef.current = false;
     setSending(false);
   }
 

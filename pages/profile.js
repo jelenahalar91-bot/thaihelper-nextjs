@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -501,6 +501,11 @@ export default function Profile() {
   const [messages, setMessages] = useState([]);
   const [msgInput, setMsgInput] = useState('');
   const [sendingMsg, setSendingMsg] = useState(false);
+  // Synchronous in-flight guard. setSendingMsg(true) is async (React
+  // batches state) so two rapid Enters can both see sendingMsg ===
+  // false and both POST. sendingMsgRef updates immediately and is the
+  // real gate; state is for the UI spinner.
+  const sendingMsgRef = useRef(false);
   const [loadingMsgs, setLoadingMsgs] = useState(false);
   const [msgToast, setMsgToast] = useState(''); // translation-failed / error banner
   const [viewingEmployer, setViewingEmployer] = useState(null); // employer profile modal
@@ -846,14 +851,13 @@ export default function Profile() {
   };
 
   const handleSendMessage = async () => {
-    // Snapshot + clear msgInput SYNCHRONOUSLY before any await so that
-    // a second Enter / button-click during the in-flight POST sees an
-    // empty input and bails out. Without this, two rapid Enters would
-    // both clear the gating check (msgInput is still populated until
-    // the await resolves) and the server would insert two identical
-    // messages — visible as a duplicate bubble in the chat.
+    // Double-send protection. setSendingMsg state is async — two rapid
+    // Enter presses can both see sendingMsg === false and both POST.
+    // sendingMsgRef updates synchronously and is the real gate.
+    if (sendingMsgRef.current) return;
     const content = msgInput.trim();
-    if (!content || !selectedConv || sendingMsg) return;
+    if (!content || !selectedConv) return;
+    sendingMsgRef.current = true;
     setMsgInput('');
     setSendingMsg(true);
     try {
@@ -885,6 +889,7 @@ export default function Profile() {
       }
       setTimeout(() => setMsgToast(''), 6000);
     } finally {
+      sendingMsgRef.current = false;
       setSendingMsg(false);
     }
   };
