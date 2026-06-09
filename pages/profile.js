@@ -71,6 +71,11 @@ import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
 import PushNotificationToggle from '@/components/PushNotificationToggle';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
+// Phone verification flow is built but not deployed yet (waiting on
+// Twilio). PhoneVerificationCard + lib/phone-otp.js + /api/phone/*
+// live on a local feature branch. Re-enable by reinstating this
+// import and the JSX block below once the component ships.
+// import PhoneVerificationCard from '@/components/PhoneVerificationCard';
 
 const T = {
   en: {
@@ -811,12 +816,19 @@ export default function Profile() {
   };
 
   const handleSendMessage = async () => {
-    if (!msgInput.trim() || !selectedConv) return;
+    // Snapshot + clear msgInput SYNCHRONOUSLY before any await so that
+    // a second Enter / button-click during the in-flight POST sees an
+    // empty input and bails out. Without this, two rapid Enters would
+    // both clear the gating check (msgInput is still populated until
+    // the await resolves) and the server would insert two identical
+    // messages — visible as a duplicate bubble in the chat.
+    const content = msgInput.trim();
+    if (!content || !selectedConv || sendingMsg) return;
+    setMsgInput('');
     setSendingMsg(true);
     try {
-      const res = await sendMessage(selectedConv.id, msgInput.trim(), 'helper');
+      const res = await sendMessage(selectedConv.id, content, 'helper');
       setMessages(prev => [...prev, res.message]);
-      setMsgInput('');
 
       // If this was the first message, the conversation won't be in the
       // sidebar yet (empty convs are filtered out). Refresh the list.
@@ -828,6 +840,8 @@ export default function Profile() {
         } catch { /* non-critical */ }
       }
     } catch (err) {
+      // Restore the message so the user doesn't lose what they typed.
+      setMsgInput(content);
       if (err.code === 'message_too_long') {
         setMsgToast(
           (t.msg_too_long || 'Message is too long (max {n} characters).').replace('{n}', err.max || 4000)
@@ -1567,6 +1581,9 @@ export default function Profile() {
 
               {/* ─── PUSH NOTIFICATIONS SECTION ─────────────────────── */}
               <PushNotificationToggle lang={lang} />
+
+              {/* Phone verification slot — re-enable once the Twilio
+                  integration and PhoneVerificationCard ship together. */}
             </>
           )}
 

@@ -656,12 +656,19 @@ export default function EmployerDashboard() {
   }
 
   async function handleSendMessage() {
-    if (!msgInput.trim() || !selectedConv) return;
+    // Snapshot + clear msgInput SYNCHRONOUSLY before any await so that
+    // a second Enter / button-click during the in-flight POST sees an
+    // empty input and bails out. Without this, two rapid Enters would
+    // both clear the gating check (msgInput is still populated until
+    // the await resolves) and the server would insert two identical
+    // messages — visible as a duplicate bubble in the chat.
+    const content = msgInput.trim();
+    if (!content || !selectedConv || sending) return;
+    setMsgInput('');
     setSending(true);
     try {
-      const res = await sendMessage(selectedConv.id, msgInput.trim(), 'employer');
+      const res = await sendMessage(selectedConv.id, content, 'employer');
       setMessages(prev => [...prev, res.message]);
-      setMsgInput('');
 
       // If the conversation isn't in the sidebar yet (first message),
       // refresh the list so it appears
@@ -670,6 +677,8 @@ export default function EmployerDashboard() {
         loadConversations({ silent: true });
       }
     } catch (err) {
+      // Restore the message so the user doesn't lose what they typed.
+      setMsgInput(content);
       if (err.code === 'message_too_long') {
         setErrorBanner((t.err_too_long || 'Message is too long.').replace('{n}', err.max || 4000));
       } else if (err.code === 'email_not_verified') {

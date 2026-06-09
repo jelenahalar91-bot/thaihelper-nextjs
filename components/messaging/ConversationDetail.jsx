@@ -335,7 +335,7 @@ export default function ConversationDetail({
               value={msgInput}
               onChange={e => setMsgInput(e.target.value)}
               onKeyDown={e => {
-                if (e.key === 'Enter' && !e.shiftKey) {
+                if (e.key === 'Enter' && !e.shiftKey && !sending) {
                   e.preventDefault();
                   onSend();
                 }
