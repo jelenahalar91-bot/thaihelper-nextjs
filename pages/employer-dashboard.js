@@ -914,10 +914,43 @@ export default function EmployerDashboard() {
           <h2 style={{
             fontSize: '18px', fontWeight: 700, color: '#1a1a1a',
             margin: '20px 0 16px',
+            display: 'flex', alignItems: 'center',
+            justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap',
           }}>
-            {activeTab === 'browse' ? t.tab_browse
-              : activeTab === 'favorites' ? t.tab_favorites
-              : t.tab_messages}
+            <span>
+              {activeTab === 'browse' ? t.tab_browse
+                : activeTab === 'favorites' ? t.tab_favorites
+                : t.tab_messages}
+            </span>
+            {/* Quick jump back to Browse when the user is deep in
+                Messages / Favorites. Without this they had to find the
+                tab strip again at the top of the screen — frequent
+                friction point flagged by Jelena on 2026-06-09. */}
+            {activeTab !== 'browse' && (
+              <button
+                type="button"
+                onClick={() => { setActiveTab('browse'); setSelectedConv(null); }}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '6px',
+                  padding: '8px 14px', borderRadius: '999px',
+                  border: '1px solid #006a62',
+                  background: 'white', color: '#006a62',
+                  fontSize: '13px', fontWeight: 700,
+                  cursor: 'pointer', font: 'inherit',
+                  transition: 'background 0.15s, transform 0.15s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#e6f5f3';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'white';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                <span aria-hidden>←</span> {t.tab_browse}
+              </button>
+            )}
           </h2>
 
           {/* ── Browse view ────────────────────────────── */}
