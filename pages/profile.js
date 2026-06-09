@@ -1,7 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+
+// Client-only: react-easy-crop touches `window`, and the cropper is only
+// ever needed once the helper picks a file — keep it out of the SSR bundle.
+const PhotoCropModal = dynamic(() => import('@/components/PhotoCropModal'), { ssr: false });
 import { fetchProfile as fetchProfileApi, updateProfile as updateProfileApi } from '@/lib/api/helpers';
 import { CATEGORIES, SKILLS_BY_CATEGORY, RATES, LANGUAGES } from '@/lib/constants/categories';
 import { formatCity, formatAdditionalCities } from '@/lib/constants/cities';
@@ -171,6 +176,11 @@ const T = {
     label_whatsapp: 'WhatsApp',
     label_email: 'Email',
     photo_size_err: 'Photo must be smaller than 5 MB.',
+    crop_title: 'Position your photo',
+    crop_hint: 'Drag and zoom so your face is centred in the circle.',
+    crop_zoom: 'Zoom',
+    crop_cancel: 'Cancel',
+    crop_confirm: 'Use photo',
     not_set: 'Not set',
     yes: 'Yes',
     no: 'No',
@@ -351,6 +361,11 @@ const T = {
     label_whatsapp: 'WhatsApp',
     label_email: 'อีเมล',
     photo_size_err: 'รูปภาพต้องมีขนาดไม่เกิน 5 MB',
+    crop_title: 'จัดตำแหน่งรูปของคุณ',
+    crop_hint: 'เลื่อนและซูมให้ใบหน้าอยู่กลางวงกลม',
+    crop_zoom: 'ซูม',
+    crop_cancel: 'ยกเลิก',
+    crop_confirm: 'ใช้รูปนี้',
     not_set: 'ไม่ได้ระบุ',
     yes: 'ใช่',
     no: 'ไม่',
@@ -458,6 +473,9 @@ export default function Profile() {
   const [saveError, setSaveError] = useState('');
   const [editData, setEditData] = useState({});
   const [photoPreview, setPhotoPreview] = useState('');
+  // Object URL of a freshly-picked file, shown in the crop modal. While
+  // set, the cropper is open; cleared (and revoked) once cropped/cancelled.
+  const [cropSrc, setCropSrc] = useState('');
   // Documents & References
   const [documents, setDocuments] = useState([]);
   const [references, setReferences] = useState([]);
@@ -586,19 +604,31 @@ export default function Profile() {
   const cancelEditing = () => { setEditing(false); setEditData({}); setPhotoPreview(''); setSaveError(''); };
   const handleFieldChange = (field, value) => { setEditData(prev => ({ ...prev, [field]: value })); };
 
-  const handlePhotoChange = async (e) => {
+  // Step 1: pick a file → open the crop modal. We don't upload the raw
+  // file any more; the helper first frames their face (see PhotoCropModal).
+  const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) { alert(t.photo_size_err); e.target.value = ''; return; }
+    setCropSrc(URL.createObjectURL(file));
+    // Reset the input so picking the SAME file again still fires onChange.
+    e.target.value = '';
+  };
 
-    // Show local preview immediately
-    const previewUrl = URL.createObjectURL(file);
+  const closeCropper = () => {
+    if (cropSrc) URL.revokeObjectURL(cropSrc);
+    setCropSrc('');
+  };
+
+  // Step 2: cropper returns a square JPEG blob → preview + upload it.
+  const handleCroppedPhoto = async (blob) => {
+    closeCropper();
+    const previewUrl = URL.createObjectURL(blob);
     setPhotoPreview(previewUrl);
 
-    // Upload to Supabase Storage via API
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', blob, 'profile.jpg');
       const res = await fetch('/api/photo', { method: 'POST', body: formData });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -1063,6 +1093,15 @@ export default function Profile() {
     <>
       <Head><title>{t.page_title}</title><meta name="robots" content="noindex, nofollow" /></Head>
       <style jsx>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+
+      {cropSrc && (
+        <PhotoCropModal
+          src={cropSrc}
+          t={t}
+          onCancel={closeCropper}
+          onConfirm={handleCroppedPhoto}
+        />
+      )}
 
       <div style={{ minHeight: '100vh', background: '#f8f9fa' }}>
         {/* Top Nav – Putzperle style */}

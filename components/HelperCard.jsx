@@ -99,8 +99,13 @@ export default function HelperCard({
       tabIndex={clickable ? 0 : undefined}
       aria-label={clickable ? `${t?.card_view_profile || 'View profile'}: ${displayName}` : undefined}
       className={`bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row ${clickable ? 'cursor-pointer hover:border-[#006a62]/40 focus:outline-none focus:ring-2 focus:ring-[#006a62]/40' : ''}`}>
-      {/* Photo */}
-      <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square">
+      {/* Photo — fixed frame so every card shows the same size image.
+          On mobile it's a full-width 16:9 banner; on desktop a fixed
+          224×224 square. `sm:self-start` stops the photo from stretching
+          to match a tall body (long bios), which was making the frame
+          height vary card-to-card. object-cover + the face-centred crop
+          on upload keep the subject in view at both ratios. */}
+      <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square sm:self-start">
         {showFavBtn && (
           <button
             type="button"
@@ -144,11 +149,28 @@ export default function HelperCard({
             👤
           </div>
         )}
-        {helper.verified && (
-          <span className="absolute top-2 left-2 inline-flex items-center px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
-            ✓ {t.card_verified || 'Verified'}
-          </span>
-        )}
+        {/* Trust badges — stacked top-left. Each badge encodes a
+            specific fact ("we verified this email reaches the helper",
+            "this account has a linked LINE"), never a vouching claim
+            about the person. See PhoneVerificationCard for the
+            self-service flow that produces these. */}
+        <div className="absolute top-2 left-2 flex flex-col gap-1">
+          {helper.phoneVerified && (
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
+              📞 {t.card_phone_verified || 'Phone'}
+            </span>
+          )}
+          {helper.lineVerified && (
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/95 text-[#06C755] text-[10px] font-bold shadow-sm">
+              💬 LINE
+            </span>
+          )}
+          {helper.verified && !helper.phoneVerified && !helper.lineVerified && (
+            <span className="inline-flex items-center px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
+              ✓ {t.card_verified || 'Verified'}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Body */}
@@ -226,7 +248,9 @@ export default function HelperCard({
         </div>
 
         {displayBio && (
-          <p className="text-sm text-gray-600 leading-relaxed">{displayBio}</p>
+          // Clamp on the card so long bios don't make cards wildly uneven
+          // heights — the full text is shown in the profile modal on click.
+          <p className="text-sm text-gray-600 leading-relaxed line-clamp-4">{displayBio}</p>
         )}
 
         <div className="flex flex-wrap gap-1.5 text-sm">
