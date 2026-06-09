@@ -99,13 +99,16 @@ export default function HelperCard({
       tabIndex={clickable ? 0 : undefined}
       aria-label={clickable ? `${t?.card_view_profile || 'View profile'}: ${displayName}` : undefined}
       className={`bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row ${clickable ? 'cursor-pointer hover:border-[#006a62]/40 focus:outline-none focus:ring-2 focus:ring-[#006a62]/40' : ''}`}>
-      {/* Photo — square on mobile, and on desktop a fixed 224px-wide
-          column that fills the whole card height (so there's never an empty
-          gap below it). object-top anchors the crop to the top so full-body
-          photos show the head instead of a belly-level slice the way a short
-          16:9 banner did — a square keeps that without making the mobile
-          card too tall. Card heights are kept even by reserving a consistent
-          bio height below, so the photos stay near-identical in size. */}
+      {/* Photo — square on mobile, fixed 224px-wide column filling the card
+          height on desktop.
+          MOBILE: the wide square over-zooms with object-cover and can crop a
+          tight selfie down to the eyes, so we show the WHOLE photo
+          (object-contain) — the face is never cut — and fill the gaps with a
+          blurred, zoomed copy of the same photo (Instagram-style) so frames
+          still look full and uniform.
+          DESKTOP: the narrow column barely zooms, so object-cover fills it
+          edge-to-edge (the blurred layer sits hidden behind) and keeps the
+          punchy full-bleed look. object-top biases toward the head. */}
       <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-square sm:aspect-auto">
         {showFavBtn && (
           <button
@@ -129,21 +132,43 @@ export default function HelperCard({
           // 2-5 MB Supabase originals. data: URLs and unknown hosts still
           // need the plain <img> escape hatch.
           (helper.photo.startsWith('/') || helper.photo.includes('.supabase.co')) ? (
-            <Image
-              src={helper.photo}
-              alt={displayName}
-              fill
-              sizes="(max-width: 640px) 100vw, 224px"
-              className="object-cover object-top"
-            />
+            <>
+              {/* Blurred fill (same src → one fetch, cached). aria-hidden:
+                  decorative. */}
+              <Image
+                src={helper.photo}
+                alt=""
+                aria-hidden="true"
+                fill
+                sizes="(max-width: 640px) 100vw, 224px"
+                className="object-cover blur-lg scale-110"
+              />
+              <Image
+                src={helper.photo}
+                alt={displayName}
+                fill
+                sizes="(max-width: 640px) 100vw, 224px"
+                className="object-contain sm:object-cover sm:object-top"
+              />
+            </>
           ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={helper.photo}
-              alt={displayName}
-              loading="lazy"
-              className="w-full h-full object-cover object-top"
-            />
+            <>
+              {/* eslint-disable @next/next/no-img-element */}
+              <img
+                src={helper.photo}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover blur-lg scale-110"
+              />
+              <img
+                src={helper.photo}
+                alt={displayName}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-contain sm:object-cover sm:object-top"
+              />
+              {/* eslint-enable @next/next/no-img-element */}
+            </>
           )
         ) : (
           <div className="w-full h-full flex items-center justify-center text-5xl text-gray-300">
