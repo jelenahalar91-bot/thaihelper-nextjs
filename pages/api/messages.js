@@ -41,7 +41,10 @@ const MAX_MESSAGE_LENGTH = 4000;
 async function loadEmployer(supabase, employerRef) {
   const { data } = await supabase
     .from('employer_accounts')
-    .select('employer_ref, preferred_language, access_until, access_tier')
+    // email_verified is the new access gate (since paywall removal on
+    // 2026-06-09 — see lib/access.js). Without selecting it here the
+    // hasActiveAccess check sees undefined and locks every message.
+    .select('employer_ref, preferred_language, access_until, access_tier, email_verified')
     .eq('employer_ref', employerRef)
     .single();
   return data || null;

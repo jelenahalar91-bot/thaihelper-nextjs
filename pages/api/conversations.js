@@ -53,7 +53,10 @@ export default async function handler(req, res) {
   if (isEmployer) {
     const { data } = await supabase
       .from('employer_accounts')
-      .select('employer_ref, first_name, preferred_language, access_until, access_tier')
+      // email_verified is the access gate as of 2026-06-09 (see
+      // lib/access.js); without it loaded here, hasActiveAccess
+      // sees undefined and blocks every conversation start.
+      .select('employer_ref, first_name, preferred_language, access_until, access_tier, email_verified')
       .eq('employer_ref', session.ref)
       .single();
     if (!data) return res.status(401).json({ error: 'Not authenticated' });
