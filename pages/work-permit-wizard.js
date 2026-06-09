@@ -27,6 +27,7 @@ import {
   HELPER_STATUS_OPTIONS,
   VISA_TYPE_OPTIONS,
   DURATION_OPTIONS,
+  MOU_DW_NATIONALITIES,
   getWizardResult,
 } from '@/lib/wizard-logic';
 
@@ -54,7 +55,7 @@ const T = {
     rule_text: 'In Thailand, every non-Thai worker needs a work permit — no exceptions, not even on a tourist, retirement, dependent or education visa. The only people who can work without a WP are Thai nationals. This wizard helps you decide whether the WP process is worth it for THIS candidate, given the cost, timeline, and how long you plan to employ them.',
 
     enforcement_label: '🚨 Active enforcement — May 2026',
-    enforcement_text: 'After a 1 May 2026 raid in Koh Phangan, the Ministry of Labour has launched a nationwide inspection campaign. Penalty for employing a worker without a valid work permit: 10,000–100,000 THB per worker (up to 200,000 THB + 1 year prison for repeat offences, plus a 3-year ban on hiring foreigners). The worker faces 5,000–50,000 THB, deportation and a 2-year re-entry ban. Don\'t rely on "we\'ll formalise later".',
+    enforcement_text: 'After a 1 May 2026 raid in Koh Phangan, the Ministry of Labour has launched a nationwide inspection campaign. Penalty for employing a domestic worker outside the Myanmar/Laos/Cambodia MOU framework — a "reserved occupation breach" — runs 400,000–800,000 THB per worker. Standard violations (a Myanmar/Laos/Cambodia helper without a WP, or working outside the permitted role) are 10,000–100,000 THB per worker. Repeat offences add up to 1 year prison and a 3-year ban on hiring foreigners. The worker faces 5,000–50,000 THB, deportation and a 2-year re-entry ban.',
 
     step_label: 'Step {n} of 5',
     btn_back: '← Back',
@@ -66,7 +67,7 @@ const T = {
     q1_placeholder: '— Select your city —',
 
     q2_title: 'What is your helper\'s nationality?',
-    q2_sub: 'This determines whether the Myanmar / Laos / Cambodia / Vietnam MOU process applies, or the Non-B work-visa track.',
+    q2_sub: 'Thailand\'s 2009 domestic-worker MOU restricts household-worker permits to Myanmar, Laos and Cambodia nationals. Filipino, Vietnamese, Western and other nationalities cannot legally hold a "domestic worker" work permit.',
     q2_thai: 'Thai',
     q2_myanmar: 'Myanmar (Burmese)',
     q2_laos: 'Laos',
@@ -86,8 +87,8 @@ const T = {
     // Results — common
     result_disclaimer_title: 'Before you continue',
     result_disclaimer: 'I understand this is general information, not legal advice.',
-    result_label_track_mou: 'MOU process (Myanmar / Laos / Cambodia / Vietnam)',
-    result_label_track_non_b: 'Non-B work visa (other nationalities)',
+    result_label_track_mou: 'MOU process (Myanmar / Laos / Cambodia)',
+    result_label_track_non_b: 'Non-B work visa',
     result_estimated_cost: 'Estimated cost',
     result_estimated_time: 'Estimated time',
     result_thb: 'THB',
@@ -112,6 +113,20 @@ const T = {
     nonb_notice_b1: 'If you plan to pay less than this threshold, the WP application will be rejected — even if all other paperwork is correct.',
     nonb_notice_b2: 'Household domestic work is allowed (not on the 27-prohibited-occupations list). Since April 2024 (Ministerial Regulation No. 15) domestic workers are entitled to minimum wage, an 8-hour day with breaks, overtime, a weekly rest day, and 98 days of maternity leave (45 paid). Still excluded from Social Security.',
     nonb_notice_b3: 'Online submission via the e-Work Permit system (ewp.doe.go.th) is mandatory for all foreign workers since 13 October 2025 — real-time tracking and a QR-coded permit card.',
+
+    // Result: not legally allowed for domestic work
+    nla_h2: 'Domestic-worker permits aren\'t available for this nationality.',
+    nla_p: 'Under Thailand\'s 2009 MOU, the "domestic worker" work-permit category is reserved for Myanmar, Laos and Cambodia nationals. Vietnamese, Filipino, Indonesian, Western and other workers cannot legally hold a household-worker WP — salary level doesn\'t change this. Employing one anyway is a "reserved occupation breach" with fines up to 800,000 THB per worker plus visa/work-permit cancellation for the employer.',
+    nla_alt_title: 'Legal alternatives:',
+    nla_alt1_h: 'Hire a Thai national',
+    nla_alt1_p: 'No work permit required. Largest pool, fastest to start.',
+    nla_alt1_cta: 'Browse Thai helpers',
+    nla_alt2_h: 'Hire from Myanmar / Laos / Cambodia',
+    nla_alt2_p: 'The only foreign nationalities for which a household-worker WP can actually be issued. Process takes 3–6 months.',
+    nla_alt2_cta: 'Browse MOU helpers',
+    nla_alt3_h: 'Talk to an immigration lawyer',
+    nla_alt3_p: 'If your candidate would genuinely work primarily as e.g. a private English tutor or household manager (not just nominally), a different WP category and visa pathway may apply. This is narrow — get qualified advice before relying on it.',
+    nla_alt3_cta: 'Find experts in your city',
 
     // Result: no WP needed
     no_wp_h2: 'Good news — no work permit needed.',
@@ -184,7 +199,7 @@ const T = {
     rule_text: 'ในประเทศไทย คนต่างชาติทุกคนที่ทำงานต้องมีใบอนุญาตทำงาน ไม่มีข้อยกเว้น แม้จะอยู่ด้วยวีซ่าท่องเที่ยว เกษียณอายุ ผู้ติดตาม หรือนักเรียน เฉพาะคนไทยเท่านั้นที่สามารถทำงานได้โดยไม่ต้องมี WP แบบสอบถามนี้ช่วยคุณตัดสินใจว่ากระบวนการ WP คุ้มค่าสำหรับผู้สมัครคนนี้หรือไม่ โดยพิจารณาจากค่าใช้จ่าย ระยะเวลา และระยะเวลาที่คุณวางแผนจะจ้าง',
 
     enforcement_label: '🚨 การบังคับใช้กฎหมายเข้มข้น — พฤษภาคม 2569',
-    enforcement_text: 'หลังเหตุการณ์บุกค้นที่เกาะพะงัน 1 พ.ค. 2569 กระทรวงแรงงานได้เริ่มแคมเปญตรวจสอบทั่วประเทศ ค่าปรับสำหรับนายจ้างที่จ้างแรงงานไม่มีใบอนุญาตทำงาน: 10,000–100,000 บาท ต่อคน (สูงสุด 200,000 บาท + จำคุก 1 ปี สำหรับผู้กระทำผิดซ้ำ พร้อมห้ามจ้างแรงงานต่างชาติ 3 ปี) ลูกจ้างถูกปรับ 5,000–50,000 บาท พร้อมถูกส่งกลับและห้ามเข้าประเทศ 2 ปี อย่าคิดว่า "ค่อยทำให้ถูกต้องภายหลัง"',
+    enforcement_text: 'หลังเหตุการณ์บุกค้นที่เกาะพะงัน 1 พ.ค. 2569 กระทรวงแรงงานได้เริ่มแคมเปญตรวจสอบทั่วประเทศ ค่าปรับสำหรับนายจ้างที่จ้างแรงงานบ้านนอกกรอบ MOU พม่า/ลาว/กัมพูชา — "การละเมิดอาชีพสงวน" — อยู่ที่ 400,000–800,000 บาท ต่อคน การละเมิดทั่วไป (ลูกจ้าง MOU3 ไม่มี WP หรือทำงานนอกขอบเขตที่อนุญาต) อยู่ที่ 10,000–100,000 บาท ต่อคน ผู้กระทำผิดซ้ำเพิ่มจำคุก 1 ปีและห้ามจ้างแรงงานต่างชาติ 3 ปี ลูกจ้างถูกปรับ 5,000–50,000 บาท ถูกส่งกลับและห้ามเข้าประเทศ 2 ปี',
 
     step_label: 'ขั้นตอนที่ {n} จาก 5',
     btn_back: '← ย้อนกลับ',
@@ -196,7 +211,7 @@ const T = {
     q1_placeholder: '— เลือกเมืองของคุณ —',
 
     q2_title: 'ผู้ช่วยของคุณสัญชาติอะไร?',
-    q2_sub: 'สิ่งนี้กำหนดว่าจะใช้กระบวนการ MOU (พม่า / ลาว / กัมพูชา / เวียดนาม) หรือวีซ่าทำงาน Non-B',
+    q2_sub: 'MOU แรงงานในบ้านของไทยปี 2552 จำกัดใบอนุญาตทำงานในบ้านเฉพาะคนพม่า ลาว และกัมพูชาเท่านั้น คนฟิลิปปินส์ เวียดนาม ตะวันตก และสัญชาติอื่นๆ ไม่สามารถถือใบอนุญาตทำงานประเภท "แรงงานในบ้าน" ได้ตามกฎหมาย',
     q2_thai: 'ไทย',
     q2_myanmar: 'พม่า',
     q2_laos: 'ลาว',
@@ -215,8 +230,8 @@ const T = {
 
     result_disclaimer_title: 'ก่อนคุณดำเนินการต่อ',
     result_disclaimer: 'ฉันเข้าใจว่านี่เป็นข้อมูลทั่วไปไม่ใช่คำแนะนำทางกฎหมาย',
-    result_label_track_mou: 'กระบวนการ MOU (พม่า / ลาว / กัมพูชา / เวียดนาม)',
-    result_label_track_non_b: 'วีซ่าทำงาน Non-B (สัญชาติอื่นๆ)',
+    result_label_track_mou: 'กระบวนการ MOU (พม่า / ลาว / กัมพูชา)',
+    result_label_track_non_b: 'วีซ่าทำงาน Non-B',
     result_estimated_cost: 'ค่าใช้จ่ายโดยประมาณ',
     result_estimated_time: 'เวลาโดยประมาณ',
     result_thb: 'บาท',
@@ -237,6 +252,20 @@ const T = {
     nonb_notice_b1: 'หากคุณจ่ายต่ำกว่านี้ คำขอ WP จะถูกปฏิเสธ แม้เอกสารอื่นจะถูกต้องครบถ้วน',
     nonb_notice_b2: 'งานในบ้านได้รับอนุญาต (ไม่อยู่ในรายการอาชีพต้องห้าม 27 อาชีพ) ตั้งแต่เมษายน 2567 (กฎกระทรวงฉบับที่ 15) ลูกจ้างในบ้านมีสิทธิรับค่าจ้างขั้นต่ำ ทำงาน 8 ชั่วโมง/วันพร้อมเวลาพัก ค่าล่วงเวลา วันหยุดประจำสัปดาห์ และลาคลอด 98 วัน (จ่ายเงิน 45 วัน) — แต่ยังไม่อยู่ในระบบประกันสังคม',
     nonb_notice_b3: 'ตั้งแต่ 13 ตุลาคม 2568 การยื่นคำขอผ่านระบบ e-Work Permit ออนไลน์ (ewp.doe.go.th) เป็นข้อบังคับสำหรับแรงงานต่างชาติทุกคน พร้อมติดตามสถานะแบบเรียลไทม์และบัตรอนุญาตทำงานพร้อม QR',
+
+    // ผลลัพธ์: ไม่อนุญาตทางกฎหมายสำหรับงานในบ้าน
+    nla_h2: 'ใบอนุญาตทำงานประเภทแรงงานในบ้านไม่มีสำหรับสัญชาตินี้',
+    nla_p: 'ภายใต้ MOU ปี 2552 ของไทย ใบอนุญาตทำงานประเภท "แรงงานในบ้าน" สงวนไว้สำหรับคนพม่า ลาว และกัมพูชาเท่านั้น คนเวียดนาม ฟิลิปปินส์ อินโดนีเซีย ตะวันตก และสัญชาติอื่นๆ ไม่สามารถถือ WP แรงงานในบ้านได้ ไม่ว่าจะจ่ายเงินเดือนเท่าไหร่ก็ไม่เปลี่ยน การจ้างถือเป็น "การละเมิดอาชีพสงวน" ค่าปรับสูงสุด 800,000 บาทต่อคน พร้อมเพิกถอน WP/วีซ่าของนายจ้าง',
+    nla_alt_title: 'ทางเลือกที่ถูกกฎหมาย:',
+    nla_alt1_h: 'จ้างคนไทย',
+    nla_alt1_p: 'ไม่ต้องมีใบอนุญาตทำงาน กลุ่มใหญ่ที่สุด เริ่มงานได้เร็วที่สุด',
+    nla_alt1_cta: 'ดูผู้ช่วยคนไทย',
+    nla_alt2_h: 'จ้างจากพม่า / ลาว / กัมพูชา',
+    nla_alt2_p: 'สัญชาติต่างชาติเดียวที่ออก WP แรงงานในบ้านได้จริง กระบวนการใช้เวลา 3–6 เดือน',
+    nla_alt2_cta: 'ดูผู้ช่วย MOU',
+    nla_alt3_h: 'ปรึกษาทนายความตรวจคนเข้าเมือง',
+    nla_alt3_p: 'หากผู้สมัครจะทำงานหลัก เช่น ครูสอนภาษาอังกฤษส่วนตัวหรือผู้จัดการบ้าน (ไม่ใช่เพียงแค่ในนาม) WP ประเภทอื่นและวีซ่าอื่นอาจใช้ได้ ทางเลือกแคบมาก ขอคำปรึกษาผู้เชี่ยวชาญก่อน',
+    nla_alt3_cta: 'หาผู้เชี่ยวชาญในเมืองของคุณ',
 
     no_wp_h2: 'ข่าวดี — ไม่ต้องมีใบอนุญาตทำงาน',
     no_wp_p: 'คนไทยสามารถทำงานในครัวเรือนในประเทศไทยได้โดยไม่ต้องมีใบอนุญาตทำงานแยกต่างหาก คุณสามารถจ้างได้โดยตรงและจ่ายเงินสมทบประกันสังคมหากการจ้างงานเป็นประจำ',
@@ -315,16 +344,29 @@ export default function WorkPermitWizard() {
   const [sessionId] = useState(() => makeSessionId());
   const [analyticsSent, setAnalyticsSent] = useState(false);
 
-  // Skip the visa-type question entirely for Thai nationals (we short-circuit
-  // to the no-WP-needed flow at result time anyway) and for new hires not
-  // yet in Thailand (no current Thai visa).
+  // Nationality short-circuits: Thai (no WP needed) and non-MOU3
+  // (domestic-worker permit category unavailable) both land on the
+  // result panel directly from step 2, skipping helper-status / visa /
+  // duration which don't change the outcome.
+  const isMou3 = MOU_DW_NATIONALITIES.includes(nationality);
+  const skipsToResult = nationality === 'thai' || (nationality && !isMou3);
+
+  // Skip the visa-type question for Thai nationals (handled above) and
+  // for new hires not yet in Thailand (no current Thai visa).
   const showVisaStep = nationality !== 'thai' && helperStatus !== 'new_hire_abroad';
 
-  // Compute the result object only once we've answered all required questions.
+  // Compute the result object once we have enough info. Non-MOU3
+  // nationalities don't need a duration — the legal answer is the same
+  // for any duration.
   const result = useMemo(() => {
-    if (!nationality || !duration) return null;
+    if (!nationality) return null;
+    if (skipsToResult && nationality !== 'thai') {
+      // not_legally_allowed — duration is irrelevant
+      return getWizardResult({ city, nationality, helperStatus, visaType, duration: 'any' });
+    }
+    if (!duration) return null;
     return getWizardResult({ city, nationality, helperStatus, visaType, duration });
-  }, [city, nationality, helperStatus, visaType, duration]);
+  }, [city, nationality, helperStatus, visaType, duration, skipsToResult]);
 
   // Map slug → display name (for analytics — pickEnum expects display names)
   const cityDisplay = useMemo(() => {
@@ -389,14 +431,27 @@ export default function WorkPermitWizard() {
     (step === 5 && !!duration)
   );
 
-  // Advance with smart skip: Thai-national → straight to duration; abroad
-  // hires → skip the visa-type step.
+  // Advance with smart skip:
+  //   • Thai national → straight to duration (we'll route to no_wp_needed)
+  //   • Non-MOU3 nationality → straight to result (not_legally_allowed,
+  //     duration / status / visa don't matter)
+  //   • abroad hire → skip the visa-type step
   const goNext = () => {
     if (step === 2 && nationality === 'thai') {
       // Jump to duration; helperStatus / visaType won't matter.
       setHelperStatus('');
       setVisaType('');
       setStep(5);
+      return;
+    }
+    if (step === 2 && nationality && !isMou3) {
+      // Non-MOU3 → straight to result. Clear downstream state so a
+      // user who backs up and changes nationality doesn't carry stale
+      // helper-status / visa-type / duration into a different flow.
+      setHelperStatus('');
+      setVisaType('');
+      setDuration('');
+      setStep(6);
       return;
     }
     if (step === 3 && !showVisaStep) {
@@ -414,6 +469,11 @@ export default function WorkPermitWizard() {
   const goBack = () => {
     if (step === 5 && nationality === 'thai') { setStep(2); return; }
     if (step === 5 && !showVisaStep) { setStep(3); return; }
+    // From result step: non-MOU3 came straight from q2, others from q5
+    if (step === 6 && nationality && !isMou3 && nationality !== 'thai') {
+      setStep(2);
+      return;
+    }
     if (step === 6) { setStep(5); return; }
     setStep(s => Math.max(1, s - 1));
   };
@@ -753,6 +813,14 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
           <p className="text-base text-on-surface-variant mb-6">{t.no_wp_p}</p>
         </>
       )}
+      {result.flow === 'not_legally_allowed' && (
+        <>
+          <h2 className="text-2xl md:text-3xl font-extrabold font-headline mb-3 text-red-700">{t.nla_h2}</h2>
+          <div className="rounded-2xl border-2 border-red-300 bg-red-50 p-4 md:p-5 mb-6">
+            <p className="text-sm md:text-base text-red-900 leading-relaxed">{t.nla_p}</p>
+          </div>
+        </>
+      )}
       {result.flow === 'not_worth_it' && (
         <>
           <h2 className="text-2xl md:text-3xl font-extrabold font-headline mb-3">{t.nw_h2}</h2>
@@ -806,32 +874,14 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
         </div>
       )}
 
-      {/* Non-B compliance notice. Shown for every Non-B result regardless
-          of nationality. The minimum-salary tiers are the dealbreaker
-          most families don't know about — a Filipino nanny needs ≥35k
-          THB/month for the WP to issue, which often makes the engagement
-          economically unviable vs hiring a Thai or MOU-country helper. */}
-      {result.track === 'non_b' && (
-        <div className="rounded-2xl border-2 border-amber-300 bg-amber-50 p-4 md:p-5 mb-6">
-          <div className="font-bold text-amber-900 mb-2 text-sm md:text-base">
-            {t.nonb_notice_title}
-          </div>
-          <p className="text-sm text-amber-900 leading-relaxed mb-2">
-            {t.nonb_notice_intro}
-          </p>
-          <ul className="text-sm text-amber-900 leading-relaxed mb-3 space-y-1 list-disc pl-5">
-            <li>{t.nonb_notice_tier1}</li>
-            <li>{t.nonb_notice_tier2}</li>
-            <li>{t.nonb_notice_tier3}</li>
-            <li>{t.nonb_notice_tier4}</li>
-          </ul>
-          <ul className="text-sm text-amber-900 leading-relaxed space-y-2 list-disc pl-5 border-t border-amber-200 pt-3">
-            <li>{t.nonb_notice_b1}</li>
-            <li>{t.nonb_notice_b2}</li>
-            <li>{t.nonb_notice_b3}</li>
-          </ul>
-        </div>
-      )}
+      {/* The old Non-B notice block lived here. It was removed when the
+          wizard was scoped strictly to household work — Filipino/Western/
+          Vietnamese helpers can't legally hold a domestic-worker WP under
+          the 2009 MOU, so they now land in the not_legally_allowed flow
+          which has its own copy and CTAs below. The non-B salary-tier
+          information would only be relevant if the wizard expanded to
+          cover non-household roles (English tutor, household manager)
+          where Non-B is a valid track. */}
 
       {/* Agree-to-disclaimer gate (per spec section 2.13) */}
       <label className="flex items-start gap-3 mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 cursor-pointer">
@@ -855,6 +905,30 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
         >
           {t.no_wp_cta_browse}
         </Link>
+      )}
+
+      {result.flow === 'not_legally_allowed' && (
+        <div className="grid gap-3">
+          <div className="text-sm font-bold text-on-background mb-1">{t.nla_alt_title}</div>
+          <Recommendation t={t}
+            title={t.nla_alt1_h} body={t.nla_alt1_p} cta={t.nla_alt1_cta}
+            href={thaiHelpersUrl}
+            disabled={!agree}
+            onClick={() => trackCta('nla_browse_thai')}
+          />
+          <Recommendation t={t}
+            title={t.nla_alt2_h} body={t.nla_alt2_p} cta={t.nla_alt2_cta}
+            href="/helpers?nationality=myanmar,laos,cambodia"
+            disabled={!agree}
+            onClick={() => trackCta('nla_browse_mou3')}
+          />
+          <Recommendation t={t}
+            title={t.nla_alt3_h} body={t.nla_alt3_p} cta={t.nla_alt3_cta}
+            href={directoryUrl()}
+            disabled={!agree}
+            onClick={() => trackCta('nla_directory')}
+          />
+        </div>
       )}
 
       {result.flow === 'not_worth_it' && (
