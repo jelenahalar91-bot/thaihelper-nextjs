@@ -99,13 +99,13 @@ export default function HelperCard({
       tabIndex={clickable ? 0 : undefined}
       aria-label={clickable ? `${t?.card_view_profile || 'View profile'}: ${displayName}` : undefined}
       className={`bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row ${clickable ? 'cursor-pointer hover:border-[#006a62]/40 focus:outline-none focus:ring-2 focus:ring-[#006a62]/40' : ''}`}>
-      {/* Photo — fixed frame so every card shows the same size image.
-          On mobile it's a full-width 16:9 banner; on desktop a fixed
-          224×224 square. `sm:self-start` stops the photo from stretching
-          to match a tall body (long bios), which was making the frame
-          height vary card-to-card. object-cover + the face-centred crop
-          on upload keep the subject in view at both ratios. */}
-      <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square sm:self-start">
+      {/* Photo — full-width 16:9 banner on mobile; on desktop a fixed
+          224px-wide column that fills the whole card height (so there's
+          never an empty gap below it). Card heights are kept even by
+          reserving a consistent bio height below, so these photos end up
+          near-identical in size. object-cover + the face-centred crop on
+          upload keep the subject in view at every ratio. */}
+      <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-auto">
         {showFavBtn && (
           <button
             type="button"
@@ -248,9 +248,11 @@ export default function HelperCard({
         </div>
 
         {displayBio && (
-          // Clamp on the card so long bios don't make cards wildly uneven
-          // heights — the full text is shown in the profile modal on click.
-          <p className="text-sm text-gray-600 leading-relaxed line-clamp-4">{displayBio}</p>
+          // Clamp to 4 lines AND reserve that height on desktop, so cards
+          // stay an even height regardless of bio length — which in turn
+          // keeps the photo column the same size across cards. The full
+          // text is shown in the profile modal on click.
+          <p className="text-sm text-gray-600 leading-relaxed line-clamp-4 sm:min-h-[5.25rem]">{displayBio}</p>
         )}
 
         <div className="flex flex-wrap gap-1.5 text-sm">
