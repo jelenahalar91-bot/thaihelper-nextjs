@@ -488,20 +488,38 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
-      {/* Photo slot — real photo if uploaded, else coloured initial */}
-      <div className="relative bg-[#e6f5f3] flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-square flex items-center justify-center overflow-hidden">
+      {/* Photo slot — real photo if uploaded, else coloured initial.
+          Same framing as the helper card: on mobile show the whole photo
+          (object-contain) over a blurred fill so the face is never cropped
+          out; on desktop fill the column (object-cover) for the full-bleed
+          look. See HelperCard for the full rationale. */}
+      <div className="relative bg-[#e6f5f3] flex-shrink-0 sm:w-56 aspect-square sm:aspect-auto flex items-center justify-center overflow-hidden">
         {e.photo ? (
           e.photo.includes('.supabase.co') ? (
-            <Image
-              src={e.photo}
-              alt={displayName}
-              fill
-              sizes="(max-width: 640px) 100vw, 224px"
-              className="object-cover"
-            />
+            <>
+              <Image
+                src={e.photo}
+                alt=""
+                aria-hidden="true"
+                fill
+                sizes="(max-width: 640px) 100vw, 224px"
+                className="object-cover blur-lg scale-110"
+              />
+              <Image
+                src={e.photo}
+                alt={displayName}
+                fill
+                sizes="(max-width: 640px) 100vw, 224px"
+                className="object-contain sm:object-cover sm:object-top"
+              />
+            </>
           ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={e.photo} alt={displayName} className="w-full h-full object-cover" loading="lazy" />
+            <>
+              {/* eslint-disable @next/next/no-img-element */}
+              <img src={e.photo} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover blur-lg scale-110" loading="lazy" />
+              <img src={e.photo} alt={displayName} className="absolute inset-0 w-full h-full object-contain sm:object-cover sm:object-top" loading="lazy" />
+              {/* eslint-enable @next/next/no-img-element */}
+            </>
           )
         ) : (
           <span className="text-6xl font-bold text-[#006a62]">{initial}</span>
@@ -541,7 +559,9 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
         )}
 
         {e.jobDescription && (
-          <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+          // Reserve a consistent height on desktop so cards — and therefore
+          // the photo column — stay an even size (matches HelperCard).
+          <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 sm:min-h-[3.9rem]">
             {e.jobDescription}
           </p>
         )}

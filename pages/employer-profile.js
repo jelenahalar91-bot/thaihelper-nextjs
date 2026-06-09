@@ -16,8 +16,13 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useLang } from './_app';
+
+// Client-only: the cropper touches `window` and is only needed once a
+// file is picked. Same modal the helper profile uses.
+const PhotoCropModal = dynamic(() => import('@/components/PhotoCropModal'), { ssr: false });
 import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
 import PushNotificationToggle from '@/components/PushNotificationToggle';
@@ -56,6 +61,11 @@ const T = {
     photo_hint: 'JPG, PNG or WEBP · max 5 MB',
     photo_err_size: 'Photo must be smaller than 5 MB.',
     photo_err_type: 'Only JPG, PNG and WEBP allowed.',
+    crop_title: 'Position your photo',
+    crop_hint: 'Drag and zoom so your face is centred in the circle.',
+    crop_zoom: 'Zoom',
+    crop_cancel: 'Cancel',
+    crop_confirm: 'Use photo',
     section_personal: 'Personal Information',
     section_location: 'Where you need help',
     section_preferences: 'What you\'re looking for',
@@ -111,6 +121,11 @@ const T = {
     photo_hint: 'JPG, PNG หรือ WEBP · สูงสุด 5 MB',
     photo_err_size: 'รูปภาพต้องเล็กกว่า 5 MB',
     photo_err_type: 'อนุญาตเฉพาะ JPG, PNG และ WEBP',
+    crop_title: 'จัดตำแหน่งรูปของคุณ',
+    crop_hint: 'เลื่อนและซูมให้ใบหน้าอยู่กลางวงกลม',
+    crop_zoom: 'ซูม',
+    crop_cancel: 'ยกเลิก',
+    crop_confirm: 'ใช้รูปนี้',
     section_personal: 'ข้อมูลส่วนตัว',
     section_location: 'พื้นที่ที่คุณต้องการความช่วยเหลือ',
     section_preferences: 'สิ่งที่คุณกำลังมองหา',
@@ -180,6 +195,8 @@ export default function EmployerProfile() {
   const [errorMsg, setErrorMsg] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  // Object URL of a freshly-picked file shown in the crop modal.
+  const [cropSrc, setCropSrc] = useState('');
   const [editMode, setEditMode] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -332,7 +349,8 @@ export default function EmployerProfile() {
     setSaving(false);
   }
 
-  async function handlePhotoChange(e) {
+  // Step 1: pick a file → open the crop modal (face framing happens there).
+  function handlePhotoChange(e) {
     const file = e.target.files?.[0];
     if (!file) return;
     setErrorMsg('');
@@ -346,6 +364,20 @@ export default function EmployerProfile() {
       return;
     }
 
+    setCropSrc(URL.createObjectURL(file));
+    // Reset the input so selecting the same file again still triggers onChange
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  }
+
+  function closeCropper() {
+    if (cropSrc) URL.revokeObjectURL(cropSrc);
+    setCropSrc('');
+  }
+
+  // Step 2: cropper returns a square JPEG blob → upload it.
+  async function handleCroppedPhoto(blob) {
+    closeCropper();
+    const file = new File([blob], 'profile.jpg', { type: 'image/jpeg' });
     setUploadingPhoto(true);
     const res = await uploadEmployerPhoto(file);
     setUploadingPhoto(false);
@@ -355,8 +387,6 @@ export default function EmployerProfile() {
     } else {
       setErrorMsg(res.error || 'Upload failed');
     }
-    // Reset the input so selecting the same file again still triggers onChange
-    if (fileInputRef.current) fileInputRef.current.value = '';
   }
 
   const initial = useMemo(
@@ -381,6 +411,15 @@ export default function EmployerProfile() {
         <title>{t.page_title}</title>
         <meta name="robots" content="noindex" />
       </Head>
+
+      {cropSrc && (
+        <PhotoCropModal
+          src={cropSrc}
+          t={t}
+          onCancel={closeCropper}
+          onConfirm={handleCroppedPhoto}
+        />
+      )}
 
       <div className={`min-h-screen bg-gray-50 ${lang === 'th' ? 'lang-th' : ''}`}>
         {/* ── NAV ───────────────────────────────────────── */}
