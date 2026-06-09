@@ -24,7 +24,13 @@ import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
 import HelperCard from '@/components/HelperCard';
-import PhoneVerificationCard from '@/components/PhoneVerificationCard';
+// Phone verification flow is built but not deployed yet (waiting on
+// Twilio/Stripe). PhoneVerificationCard, lib/phone-otp.js and the
+// /api/phone/* routes live on a feature branch — see CLAUDE-NOTES.md
+// (or the 2026-06-09 session memory) for the full plan. Re-enable
+// by reinstating this import + the JSX block below once the
+// component ships.
+// import PhoneVerificationCard from '@/components/PhoneVerificationCard';
 import { fetchEmployerProfile } from '@/lib/api/employer-auth-client';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import {
@@ -881,42 +887,8 @@ export default function EmployerDashboard() {
             </div>
           )}
 
-          {/* ── Phone verification (trust-tier 2, optional) ──────── */}
-          {profile && (
-            <div style={{ marginBottom: '16px' }}>
-              <PhoneVerificationCard
-                role="employer"
-                lang={lang}
-                phoneNumber={profile.phone_number}
-                phoneCountryCode={profile.phone_country_code}
-                phoneVerifiedAt={profile.phone_verified_at}
-                lineLinkedAt={profile.line_linked_at}
-                onVerified={async () => {
-                  const refreshed = await fetchEmployerProfile();
-                  if (refreshed?.profile) setProfile(refreshed.profile);
-                }}
-                onLinkLine={async () => {
-                  try {
-                    const resp = await fetch('/api/line/link', {
-                      method: 'POST',
-                      credentials: 'include',
-                    });
-                    const data = await resp.json();
-                    if (data.alreadyLinked) {
-                      const refreshed = await fetchEmployerProfile();
-                      if (refreshed?.profile) setProfile(refreshed.profile);
-                      return;
-                    }
-                    if (data.addFriendUrl) {
-                      window.open(data.addFriendUrl, '_blank');
-                    }
-                  } catch (err) {
-                    console.error('LINE link failed:', err);
-                  }
-                }}
-              />
-            </div>
-          )}
+          {/* Phone verification card slot — re-enable once the Twilio
+              integration and PhoneVerificationCard ship together. */}
 
           {/* ── Error banner ───────────────────────────── */}
           {errorBanner && (
