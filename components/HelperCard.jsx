@@ -99,14 +99,14 @@ export default function HelperCard({
       tabIndex={clickable ? 0 : undefined}
       aria-label={clickable ? `${t?.card_view_profile || 'View profile'}: ${displayName}` : undefined}
       className={`bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row ${clickable ? 'cursor-pointer hover:border-[#006a62]/40 focus:outline-none focus:ring-2 focus:ring-[#006a62]/40' : ''}`}>
-      {/* Photo — portrait 4:5 on mobile, and on desktop a fixed 224px-wide
+      {/* Photo — square on mobile, and on desktop a fixed 224px-wide
           column that fills the whole card height (so there's never an empty
-          gap below it). Portrait + object-top means full-body photos show
-          the head (anchored to the top) instead of a belly-level slice the
-          way a short 16:9 banner did. Card heights are kept even by
-          reserving a consistent bio height below, so the photos stay
-          near-identical in size. */}
-      <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[4/5] sm:aspect-auto">
+          gap below it). object-top anchors the crop to the top so full-body
+          photos show the head instead of a belly-level slice the way a short
+          16:9 banner did — a square keeps that without making the mobile
+          card too tall. Card heights are kept even by reserving a consistent
+          bio height below, so the photos stay near-identical in size. */}
+      <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-square sm:aspect-auto">
         {showFavBtn && (
           <button
             type="button"
