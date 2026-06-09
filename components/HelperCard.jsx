@@ -99,13 +99,14 @@ export default function HelperCard({
       tabIndex={clickable ? 0 : undefined}
       aria-label={clickable ? `${t?.card_view_profile || 'View profile'}: ${displayName}` : undefined}
       className={`bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row ${clickable ? 'cursor-pointer hover:border-[#006a62]/40 focus:outline-none focus:ring-2 focus:ring-[#006a62]/40' : ''}`}>
-      {/* Photo — full-width 16:9 banner on mobile; on desktop a fixed
-          224px-wide column that fills the whole card height (so there's
-          never an empty gap below it). Card heights are kept even by
-          reserving a consistent bio height below, so these photos end up
-          near-identical in size. object-cover + the face-centred crop on
-          upload keep the subject in view at every ratio. */}
-      <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[16/9] sm:aspect-auto">
+      {/* Photo — portrait 4:5 on mobile, and on desktop a fixed 224px-wide
+          column that fills the whole card height (so there's never an empty
+          gap below it). Portrait + object-top means full-body photos show
+          the head (anchored to the top) instead of a belly-level slice the
+          way a short 16:9 banner did. Card heights are kept even by
+          reserving a consistent bio height below, so the photos stay
+          near-identical in size. */}
+      <div className="relative bg-gray-100 overflow-hidden flex-shrink-0 sm:w-56 aspect-[4/5] sm:aspect-auto">
         {showFavBtn && (
           <button
             type="button"
@@ -133,7 +134,7 @@ export default function HelperCard({
               alt={displayName}
               fill
               sizes="(max-width: 640px) 100vw, 224px"
-              className="object-cover"
+              className="object-cover object-top"
             />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
@@ -141,7 +142,7 @@ export default function HelperCard({
               src={helper.photo}
               alt={displayName}
               loading="lazy"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
             />
           )
         ) : (
