@@ -129,28 +129,32 @@ export default function ConversationDetail({
           </svg>
         </button>
 
-        {/* Rate button — quick access to rating form */}
-        {onViewProfile && cp && (
-          <button
-            onClick={() => onViewProfile(cp)}
-            style={{
-              padding: '6px 12px',
-              background: '#fbbf24',
-              border: 'none',
-              borderRadius: '8px',
-              color: '#92400e',
-              fontWeight: 600,
-              fontSize: '12px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            ⭐ Rate
-          </button>
-        )}
+        {/* Rate button — always show to debug */}
+        <button
+          onClick={() => {
+            console.log('Rate clicked, onViewProfile:', typeof onViewProfile, 'cp:', cp);
+            if (typeof onViewProfile === 'function' && cp) {
+              onViewProfile(cp);
+            }
+          }}
+          style={{
+            padding: '6px 12px',
+            background: '#fbbf24',
+            border: 'none',
+            borderRadius: '8px',
+            color: '#92400e',
+            fontWeight: 600,
+            fontSize: '12px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+            whiteSpace: 'nowrap',
+            zIndex: 10,
+          }}
+        >
+          ⭐ Rate
+        </button>
 
         {/* Clickable identity block + Rate button */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
