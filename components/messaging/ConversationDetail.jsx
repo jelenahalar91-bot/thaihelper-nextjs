@@ -129,41 +129,32 @@ export default function ConversationDetail({
           </svg>
         </button>
 
-        {/* Rate button — prominent position in header */}
+        {/* Rate button — TEST with red background to debug visibility */}
         <button
           onClick={() => {
             if (typeof onViewProfile === 'function') {
               onViewProfile(cp);
             }
           }}
-          title="Rate this helper"
           style={{
-            padding: '6px 12px',
-            background: '#fbbf24',
+            padding: '8px 14px',
+            background: '#ef4444',
             border: 'none',
-            borderRadius: '8px',
-            color: '#92400e',
-            fontWeight: 600,
-            fontSize: '12px',
+            borderRadius: '6px',
+            color: 'white',
+            fontWeight: 700,
+            fontSize: '13px',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            gap: '4px',
+            gap: '6px',
             whiteSpace: 'nowrap',
-            transition: 'all 0.15s',
             flexShrink: 0,
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = '#f59e0b';
-            e.currentTarget.style.transform = 'scale(1.05)';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = '#fbbf24';
-            e.currentTarget.style.transform = 'scale(1)';
+            zIndex: 999,
           }}
         >
           <span>⭐</span>
-          <span>Rate</span>
+          <span>RATE</span>
         </button>
 
         {/* Clickable identity block + Rate button */}
