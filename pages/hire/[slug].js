@@ -35,7 +35,7 @@ export async function getStaticProps({ params }) {
     const supabase = getServiceSupabase();
     let query = supabase
       .from('helper_profiles')
-      .select('first_name, last_name, age, date_of_birth, category, city, area, experience, languages, photo_url, bio, bio_en')
+      .select('first_name, last_name, age, date_of_birth, category, city, area, experience, languages, photo_url, bio, bio_en, phone_verified_at, line_linked_at')
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)
       .order('created_at', { ascending: false })
@@ -62,6 +62,9 @@ export async function getStaticProps({ params }) {
       photo: row.photo_url || '',
       bio: row.bio ? row.bio.slice(0, 120) : '',
       bioEn: row.bio_en ? row.bio_en.slice(0, 120) : '',
+      // Trust badges — booleans only; number never exposed publicly.
+      phoneVerified: !!row.phone_verified_at,
+      lineVerified: !!row.line_linked_at,
     }));
   } catch (err) {
     console.error('Failed to fetch helpers for hire page:', err);

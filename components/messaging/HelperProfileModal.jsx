@@ -511,12 +511,27 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
 
                 {/* Inline rating form — only for eligible employers */}
                 {canRate && (
-                  <RateForm
-                    helperRef={helper.ref}
-                    existingRating={myRating}
-                    onSubmitted={loadRatings}
-                    lang={lang}
-                  />
+                  <div style={{
+                    marginTop: '16px',
+                    padding: '16px',
+                    background: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)',
+                    borderRadius: '14px',
+                    border: '2px solid #fcd34d',
+                    boxShadow: '0 2px 8px rgba(245,158,11,0.15)',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                      <span style={{ fontSize: '20px' }}>⭐</span>
+                      <div style={{ fontSize: '14px', fontWeight: 700, color: '#92400e' }}>
+                        {lang === 'th' ? 'ให้คะแนนผู้ช่วยคนนี้' : 'Share your experience'}
+                      </div>
+                    </div>
+                    <RateForm
+                      helperRef={helper.ref}
+                      existingRating={myRating}
+                      onSubmitted={loadRatings}
+                      lang={lang}
+                    />
+                  </div>
                 )}
 
                 {/* Friendly nudge for employers who aren't eligible yet */}

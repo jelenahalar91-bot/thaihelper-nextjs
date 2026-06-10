@@ -211,7 +211,9 @@ export async function getServerSideProps({ req }) {
         'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
         'age, date_of_birth, category, skills, city, area, area_en, additional_cities, ' +
         'experience, languages, rate, education, education_en, certificates, bio, bio_en, ' +
-        'photo_url, created_at, last_login_at, rating_avg, rating_count, status, availability_status, work_permit_status, nationality'
+        'photo_url, created_at, last_login_at, rating_avg, rating_count, status, ' +
+        'availability_status, work_permit_status, nationality, ' +
+        'phone_verified_at, line_linked_at'
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)
@@ -250,6 +252,9 @@ export async function getServerSideProps({ req }) {
       // and the SSR-rendered page agree on what's visible.
       wpStatus: maskWpStatusForPublic(row.work_permit_status),
       nationality: row.nationality === 'prefer_not_say' ? null : (row.nationality || null),
+      // Trust badges — booleans only, number never exposed publicly.
+      phoneVerified: !!row.phone_verified_at,
+      lineVerified: !!row.line_linked_at,
     }));
 
     return {

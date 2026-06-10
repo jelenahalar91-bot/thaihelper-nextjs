@@ -46,7 +46,10 @@ export default async function handler(req, res) {
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, preferred_age_range, ' +
         'job_description, preferred_language, photo_url, notify_on_message, ' +
-        'access_until, access_tier, email_verified, created_at, last_login_at'
+        'access_until, access_tier, email_verified, created_at, last_login_at, ' +
+        // Phone-verification fields (added 2026-06-09).
+        'phone_number, phone_country_code, phone_verified_at, ' +
+        'phone_verified_channel, line_linked_at'
       )
       .eq('employer_ref', ref)
       .single();

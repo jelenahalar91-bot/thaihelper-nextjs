@@ -69,6 +69,14 @@ function toFrontend(row) {
     timestamp: row.created_at || '',
     status: row.status || 'active',
     emailVerified: row.email_verified === true,
+    // Phone-verification fields (added 2026-06-09). Only the booleans
+    // and timestamps are exposed to the client — never the number
+    // itself except to the owner, and never the OTP hash.
+    phoneNumber: row.phone_number || '',
+    phoneCountryCode: row.phone_country_code || '',
+    phoneVerifiedAt: row.phone_verified_at || null,
+    phoneVerifiedChannel: row.phone_verified_channel || null,
+    lineLinkedAt: row.line_linked_at || null,
     // Treat NULL as opted-in (the default) so the toggle shows on in the UI
     // until the user explicitly opts out.
     notifyOnMessage: row.notify_on_message !== false,
