@@ -101,7 +101,7 @@ export default function ConversationDetail({
     }}>
       {/* ── Header ───────────────────────────────────────── */}
       <div style={{
-        display: 'flex', alignItems: 'center', gap: '12px',
+        display: 'flex', alignItems: 'center', gap: '8px',
         padding: '14px 18px',
         background: 'linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%)',
         borderBottom: '1px solid #e5e7eb',
@@ -129,8 +129,45 @@ export default function ConversationDetail({
           </svg>
         </button>
 
+        {/* Rate button — prominent position in header */}
+        <button
+          onClick={() => {
+            if (typeof onViewProfile === 'function') {
+              onViewProfile(cp);
+            }
+          }}
+          title="Rate this helper"
+          style={{
+            padding: '6px 12px',
+            background: '#fbbf24',
+            border: 'none',
+            borderRadius: '8px',
+            color: '#92400e',
+            fontWeight: 600,
+            fontSize: '12px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+            whiteSpace: 'nowrap',
+            transition: 'all 0.15s',
+            flexShrink: 0,
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = '#f59e0b';
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = '#fbbf24';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        >
+          <span>⭐</span>
+          <span>Rate</span>
+        </button>
+
         {/* Clickable identity block + Rate button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
           <button
             onClick={profileClickable ? () => onViewProfile(cp) : undefined}
             disabled={!profileClickable}
@@ -192,43 +229,6 @@ export default function ConversationDetail({
               </div>
             )}
           </div>
-          </button>
-
-          {/* Rate button — quick access to rating form */}
-          <button
-            onClick={() => {
-              if (typeof onViewProfile === 'function') {
-                onViewProfile(cp);
-              }
-            }}
-            title={t?.msg_rate || 'Rate this helper'}
-            style={{
-              padding: '6px 12px',
-              background: '#fbbf24',
-              border: 'none',
-              borderRadius: '8px',
-              color: '#92400e',
-              fontWeight: 600,
-              fontSize: '12px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              whiteSpace: 'nowrap',
-              transition: 'all 0.15s',
-              flexShrink: 0,
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = '#f59e0b';
-              e.currentTarget.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = '#fbbf24';
-              e.currentTarget.style.transform = 'scale(1)';
-            }}
-          >
-            <span>⭐</span>
-            <span>{t?.msg_rate || 'Rate'}</span>
           </button>
         </div>
       </div>
