@@ -818,7 +818,7 @@ function RateForm({ helperRef, existingRating, onSubmitted, lang }) {
   const [comment, setComment] = useState(existingRating?.comment || '');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const MAX = 280;
+  const MAX = 400;
 
   const labels = lang === 'th' ? {
     title: existingRating ? 'แก้ไขรีวิวของคุณ' : 'ให้คะแนนผู้ช่วยคนนี้',
