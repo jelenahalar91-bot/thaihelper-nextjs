@@ -27,6 +27,7 @@ const T = {
     submitting: 'Logging in...',
     error_invalid: "We couldn't find an account with this email and reference number. Please check and try again.",
     error_rate: 'Too many login attempts. Please wait a few minutes and try again.',
+    error_unverified: "Please verify your email first — we've just sent you a fresh verification link. Click it, then log in again.",
     error_generic: 'Something went wrong. Please try again.',
     no_account: "Don't have an account yet?",
     register_helper: 'Register as a Helper',
@@ -69,6 +70,7 @@ const T = {
     submitting: 'กำลังเข้าสู่ระบบ...',
     error_invalid: 'ไม่พบบัญชีที่ตรงกับอีเมลและหมายเลขอ้างอิงนี้ กรุณาตรวจสอบอีกครั้ง',
     error_rate: 'ลองเข้าสู่ระบบหลายครั้งเกินไป กรุณารอสักครู่แล้วลองใหม่',
+    error_unverified: 'กรุณายืนยันอีเมลก่อน — เราเพิ่งส่งลิงก์ยืนยันใหม่ให้คุณแล้ว คลิกลิงก์ในอีเมลแล้วเข้าสู่ระบบอีกครั้ง',
     error_generic: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
     no_account: 'ยังไม่มีบัญชี?',
     register_helper: 'ลงทะเบียนเป็นผู้ช่วย',
@@ -217,7 +219,11 @@ export default function Login() {
         : await login({ email: email.trim(), ref: ref.trim() });
 
       if (!result.success) {
-        const errorMap = { rate_limit: t.error_rate, invalid: t.error_invalid };
+        const errorMap = {
+          rate_limit: t.error_rate,
+          invalid: t.error_invalid,
+          email_not_verified: t.error_unverified,
+        };
         setError(errorMap[result.error] || t.error_generic);
         return;
       }

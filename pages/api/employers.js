@@ -1,8 +1,12 @@
 // GET /api/employers — Public employer browse list
 //
-// Returns email-verified employers from employer_accounts. We no longer
-// surface employer_registrations (legacy quote-request leads) — those
-// users only filled out a "request a quote" form and never consented to
+// Returns ALL employers from employer_accounts, including ones that
+// haven't verified their email yet (since 2026-06-11): jobs should be
+// visible to helpers immediately after signup so the marketplace looks
+// alive and helpers can reach out. Verification is enforced at login
+// instead (see /api/employer-auth). We no longer surface
+// employer_registrations (legacy quote-request leads) — those users
+// only filled out a "request a quote" form and never consented to
 // being listed publicly. Strips sensitive info (email, phone).
 // Shape mirrors /api/helpers for consistency.
 
@@ -46,7 +50,6 @@ export default async function handler(req, res) {
         'child_age_groups, arrangement_preference, preferred_age_range, ' +
         'job_description, photo_url, created_at'
       )
-      .eq('email_verified', true)
       .order('created_at', { ascending: false });
 
     if (accErr) {

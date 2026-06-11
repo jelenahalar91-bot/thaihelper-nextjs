@@ -113,10 +113,11 @@ export default async function handler(req, res) {
   const expiresAt = new Date(now + TOKEN_TTL_MS).toISOString();
 
   for (const target of targets) {
-    // Skip accounts whose email isn't verified — they need to finish
-    // verification first, magic-link login would otherwise let them in
-    // without that step.
-    if (!target.emailVerified) continue;
+    // Helpers must finish email verification before magic-link login.
+    // Employers are exempt (since 2026-06-11): clicking a magic link
+    // sent to their address proves email ownership — magic-login
+    // flips email_verified for them on click.
+    if (!target.emailVerified && target.role !== 'employer') continue;
 
     const token = crypto.randomBytes(32).toString('hex');
 

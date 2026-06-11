@@ -1,8 +1,10 @@
 // POST /api/employer-auth — Login (verify email + employer_ref against Supabase)
 // DELETE /api/employer-auth — Logout (clear employer session cookie)
 
+import crypto from 'crypto';
 import { createToken, setSessionCookie, clearSessionCookie } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
+import { sendEmployerAccountConfirmation } from '../../lib/send-confirmation-email';
 
 // Simple rate limiting (in-memory, resets on redeploy)
 const loginAttempts = new Map();
@@ -49,7 +51,7 @@ export default async function handler(req, res) {
     // Look up employer in Supabase
     const { data: account, error } = await supabase
       .from('employer_accounts')
-      .select('employer_ref, email, first_name, last_name, city, preferred_language')
+      .select('employer_ref, email, first_name, last_name, city, preferred_language, email_verified')
       .eq('email', email.trim().toLowerCase())
       .eq('employer_ref', ref.trim().toUpperCase())
       .single();
@@ -60,6 +62,39 @@ export default async function handler(req, res) {
         ref: ref.trim().toUpperCase(),
       });
       return res.status(401).json({ error: 'Invalid email or reference number.' });
+    }
+
+    // Verification gate (since 2026-06-11): unverified employers are
+    // publicly listed and reachable by helpers, but they must verify
+    // their email before they can log back in. Re-issue a fresh token
+    // and resend the verification email so the path back in is one
+    // click away. The login page maps `email_not_verified` to a
+    // friendly message.
+    if (!account.email_verified) {
+      const verificationToken = crypto.randomBytes(32).toString('hex');
+      const { error: tokenErr } = await supabase
+        .from('employer_accounts')
+        .update({ verification_token: verificationToken })
+        .eq('employer_ref', account.employer_ref);
+
+      if (tokenErr) {
+        console.error('Login verify-gate: token update failed:', tokenErr.message);
+      } else {
+        try {
+          if (process.env.RESEND_API_KEY) {
+            await sendEmployerAccountConfirmation({
+              firstName: account.first_name,
+              email: account.email,
+              ref: account.employer_ref,
+              city: account.city,
+              verificationToken,
+            });
+          }
+        } catch (emailErr) {
+          console.error('Login verify-gate: resend failed:', emailErr);
+        }
+      }
+      return res.status(403).json({ error: 'email_not_verified' });
     }
 
     // Create JWT session token (role=employer)

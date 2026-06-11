@@ -51,8 +51,32 @@ export default async function handler(req, res) {
     .eq(refCol, user_ref)
     .single();
 
-  if (profileErr || !profile || !profile.email_verified) {
+  if (profileErr || !profile) {
     return res.redirect('/login?error=account_unavailable');
+  }
+
+  if (!profile.email_verified) {
+    if (role === 'employer') {
+      // Clicking a link that was emailed to this address proves email
+      // ownership — exactly what verification checks. Flip the bit so
+      // unverified employers (publicly listed since 2026-06-11) have a
+      // one-click path back into their account.
+      const { error: verifyErr } = await supabase
+        .from('employer_accounts')
+        .update({
+          email_verified: true,
+          email_verified_at: new Date().toISOString(),
+          verification_token: null,
+        })
+        .eq('employer_ref', user_ref);
+      if (verifyErr) {
+        console.error('Magic-login: employer auto-verify failed:', verifyErr.message);
+        return res.redirect('/login?error=account_unavailable');
+      }
+    } else {
+      // Helpers still need the explicit verification flow.
+      return res.redirect('/login?error=account_unavailable');
+    }
   }
 
   // Issue the same JWT shape the password flow uses.
