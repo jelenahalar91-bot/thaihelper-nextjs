@@ -576,11 +576,6 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
             <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mb-5">
               {t.hero_sub}
             </p>
-            {isAnonymous && (
-              <div className="inline-block px-4 py-2 rounded-full bg-[#FFF4E5] text-[#A6612A] text-sm font-semibold border border-[#F4A261]/30">
-                {t.launch_banner}
-              </div>
-            )}
           </div>
         </section>
 
