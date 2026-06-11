@@ -12,7 +12,7 @@
 import { getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 
-const MAX_COMMENT = 280;
+const MAX_COMMENT = 400;
 
 // Returns { canRate: boolean, reason: string|null } describing whether
 // `employer_ref` is allowed to rate `helper_ref`. Reason codes:
