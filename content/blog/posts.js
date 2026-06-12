@@ -140,10 +140,11 @@ export const blogPosts = [
     slug: 'nanny-costs-thailand',
     title: 'How Much Does a Nanny Cost in Thailand? Salary Guide 2026',
     description:
-      'Nanny salary guide for Thailand in 2026. Compare costs for full-time, part-time, and live-in nannies in Bangkok, Chiang Mai, Phuket, and more.',
+      'Nanny salary guide for Thailand in 2026. Full-time, part-time, and live-in rates for Bangkok, Phuket, Chiang Mai. Hidden costs, 13th-month bonus, Social Security, and the true total monthly cost.',
     category: 'families',
     date: '2026-04-08',
-    readTime: 6,
+    updated: '2026-06-12',
+    readTime: 9,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80',
     keywords: 'nanny cost Thailand, nanny salary Bangkok, babysitter price Thailand, childcare costs Thailand 2026',
@@ -192,46 +193,100 @@ export const blogPosts = [
       <p>กับ <a href="/helpers">ThaiHelper</a> ไม่มีค่าธรรมเนียมเอเจนซี่ เลือกดูโปรไฟล์พี่เลี้ยงที่ผ่านการยืนยันได้ฟรี เปรียบเทียบประสบการณ์และอัตราค่าจ้าง แล้วติดต่อพี่เลี้ยงได้โดยตรง <a href="/employer-register">สมัครที่นี่</a> เพื่อเริ่มค้นหา</p>
     `,
     content: `
-      <p>One of the first questions expat families ask when moving to Thailand: <strong>how much does a nanny cost?</strong> The good news — childcare in Thailand is significantly more affordable than in Europe, the US, or Australia. Here's what you can expect to pay in 2026.</p>
+      <p>One of the first questions expat families ask when moving to Thailand: <strong>how much does a nanny cost?</strong> Childcare here is significantly more affordable than in Europe, the US, or Australia — but the headline monthly salary is only part of the picture. This guide breaks down 2026 nanny costs by city, by arrangement, and most importantly by <em>true total monthly cost</em> after Social Security, bonuses, and the other items families forget to budget for.</p>
+      <p><em>Last updated: 12 June 2026. Salary figures are sourced from active 2026 listings, recent hires, and direct family-employer conversations in Bangkok, Phuket, and Chiang Mai.</em></p>
 
-      <h2>Average Nanny Salaries by City</h2>
-      <p>Monthly salaries for a full-time nanny (Monday to Saturday):</p>
+      <h2>Quick Answer</h2>
+      <p>In 2026 a full-time nanny in Thailand costs <strong>15,000–25,000 THB per month</strong> in Bangkok and <strong>12,000–18,000 THB</strong> in Chiang Mai. Live-in nannies are 12,000–18,000 cash plus a room and meals. Add roughly <strong>20–35%</strong> for true total cost (Social Security, 13th-month bonus, transport, meals). English-fluent nannies add another <strong>30–50%</strong> to the base.</p>
+      <p>For the full hiring process — interview questions, work-permit rules for foreign nannies, contract template — see our complete guide: <a href="/guide/hire-a-nanny-in-thailand"><strong>How to Hire a Nanny in Thailand</strong></a>.</p>
+
+      <h2>Full-Time Nanny Salary by City (2026, live-out)</h2>
+      <table>
+        <thead><tr><th>City</th><th>Range (THB/month)</th><th>Typical</th></tr></thead>
+        <tbody>
+          <tr><td>Bangkok</td><td>15,000 – 25,000</td><td>20,000</td></tr>
+          <tr><td>Phuket</td><td>15,000 – 22,000</td><td>18,000</td></tr>
+          <tr><td>Pattaya</td><td>13,000 – 20,000</td><td>16,000</td></tr>
+          <tr><td>Koh Samui</td><td>14,000 – 22,000</td><td>17,000</td></tr>
+          <tr><td>Hua Hin</td><td>12,000 – 18,000</td><td>15,000</td></tr>
+          <tr><td>Chiang Mai</td><td>12,000 – 18,000</td><td>14,000</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Bangkok Premium — by Neighbourhood</h2>
+      <p>Inside Bangkok the price varies noticeably by district. Demand-driven hotspots pay more for the same role:</p>
       <ul>
-        <li><strong>Bangkok:</strong> 15,000 – 25,000 THB/month</li>
-        <li><strong>Chiang Mai:</strong> 12,000 – 18,000 THB/month</li>
-        <li><strong>Phuket:</strong> 15,000 – 22,000 THB/month</li>
-        <li><strong>Pattaya:</strong> 13,000 – 20,000 THB/month</li>
-        <li><strong>Koh Samui:</strong> 14,000 – 20,000 THB/month</li>
+        <li><strong>Sukhumvit / Asoke / Thonglor / Phrom Phong</strong> (expat-heavy) — 20,000–28,000 THB. Highest demand, highest rates.</li>
+        <li><strong>Sathorn / Silom / Lumphini</strong> — 18,000–25,000 THB. Business district, lots of dual-income families.</li>
+        <li><strong>Riverside / Ari / Ekkamai</strong> — 17,000–24,000 THB.</li>
+        <li><strong>Bang Na / Ramkhamhaeng / Pinklao</strong> — 14,000–20,000 THB. Out from the centre, supply more abundant.</li>
+        <li><strong>Nonthaburi / Pathum Thani</strong> — 13,000–18,000 THB. Suburban, lowest Bangkok-region rates.</li>
       </ul>
 
-      <h2>What Affects the Price?</h2>
+      <h2>Arrangement Types</h2>
+      <h3>Live-out, full-time (most common)</h3>
+      <p>15,000–25,000 THB cash. Nanny commutes daily. 5–6 days a week, typically 8–10 hours.</p>
+
+      <h3>Live-in, full-time</h3>
+      <p>12,000–20,000 THB cash PLUS a private room and meals. The cash salary is 20–30% lower than live-out because food and accommodation are real value. Total true cost in Bangkok: roughly equivalent to live-out once you account for food + utilities.</p>
+
+      <h3>Part-time (2–3 days/week)</h3>
+      <p>6,000–12,000 THB/month. Common when parents only need help during work hours or for evening babysitting.</p>
+
+      <h3>Babysitting (occasional / evening)</h3>
       <ul>
-        <li><strong>Experience</strong> — A nanny with 5+ years and references will cost more than someone just starting.</li>
-        <li><strong>Language skills</strong> — English-speaking nannies command a premium, especially in Bangkok. Expect 20-40% more.</li>
-        <li><strong>Live-in vs. live-out</strong> — Live-in nannies are often slightly cheaper per month since you provide room and meals.</li>
-        <li><strong>Number of children</strong> — Caring for 2-3 kids may increase the rate by 2,000-5,000 THB.</li>
-        <li><strong>Additional duties</strong> — If the nanny also cooks, cleans, or drives, expect to pay more.</li>
+        <li>Evening babysitter (4–5 hours): 300–600 THB per visit</li>
+        <li>Weekend / full-day: 800–1,500 THB per day</li>
+        <li>Overnight / 24-hour: 1,500–3,000 THB per night</li>
       </ul>
 
-      <h2>Part-Time and Babysitter Rates</h2>
+      <h2>Premium Factors — When Salary Climbs</h2>
       <ul>
-        <li><strong>Part-time nanny (3 days/week):</strong> 6,000 – 12,000 THB/month</li>
-        <li><strong>Evening babysitter:</strong> 300 – 600 THB per evening (4-5 hours)</li>
-        <li><strong>Weekend babysitter:</strong> 500 – 1,000 THB per day</li>
+        <li><strong>Fluent English:</strong> +30–50% on the base. A confident English-speaking nanny in Bangkok now commands <strong>25,000–35,000 THB/month</strong>.</li>
+        <li><strong>5+ years' experience with expat families:</strong> +15–25%. References from previous expat employers carry real weight.</li>
+        <li><strong>Infant / newborn experience:</strong> +20–30%. Specialised skill set.</li>
+        <li><strong>Nursing-assistant or ECCE background:</strong> rare; 30,000+ THB / month.</li>
+        <li><strong>Multiple children</strong> (2–3 kids): +2,000–5,000 THB.</li>
+        <li><strong>Additional duties</strong> — cooking, light cleaning, driving — change the role entirely. A "nanny-housekeeper" hybrid commands 17,000–25,000 THB and a "nanny-driver" combo even more.</li>
+        <li><strong>Mandarin or Japanese fluency:</strong> rare and priced individually, typically 35,000+ THB.</li>
       </ul>
 
-      <h2>Hidden Costs to Consider</h2>
-      <p>Beyond the monthly salary, factor in:</p>
+      <h2>True Total Monthly Cost (the part most families miss)</h2>
+      <p>The headline salary is roughly <strong>70–80%</strong> of what your nanny actually costs you each month. The remaining 20–30% breaks down as:</p>
       <ul>
-        <li>Social security contributions (5% employer share for full-time)</li>
-        <li>Annual bonus (13th month salary is customary but not legally required)</li>
-        <li>Transportation costs if your nanny commutes</li>
-        <li>Meals during work hours</li>
+        <li><strong>Social Security (Section 33):</strong> 5% employer contribution on full-time staff, capped at THB 750/month. Mandatory. In return your nanny gets state-funded medical care, maternity, and pension benefits — and the relationship becomes formally documented.</li>
+        <li><strong>13th-month bonus:</strong> universally expected, paid before Songkran (mid-April) or at Thai New Year. Not legally required, but skipping it is the fastest way to lose a good nanny. Budget one full month's salary divided across the year.</li>
+        <li><strong>Transport allowance</strong> (live-out): 500–2,000 THB/month for nannies with a long commute. Particularly important if you need 7 am drop-offs.</li>
+        <li><strong>Meals during work hours:</strong> often free at the family's table; otherwise a daily food allowance of ~150 THB.</li>
+        <li><strong>Annual leave + paid sick leave:</strong> 6 days minimum by Ministerial Regulation 14 (2012); 10–15 days customary.</li>
+        <li><strong>Songkran / New Year gifts:</strong> typically 500–2,000 THB. Optional but expected.</li>
       </ul>
+      <p><strong>Worked example:</strong> a 20,000-THB Bangkok live-out nanny actually costs roughly 25,000–28,000 THB/month all-in once you account for Social Security, the prorated 13th-month bonus, a transport stipend, and meals. Plan around the higher number, not the salary line.</p>
 
-      <h2>How to Find the Right Nanny at the Right Price</h2>
-      <p>Agencies in Thailand charge 1-3 months' salary as a placement fee. That means you could pay 15,000-75,000 THB before your nanny even starts.</p>
-      <p>With <a href="/helpers">ThaiHelper</a>, there's no agency fee. Browse verified nanny profiles for free, compare experience and rates, and contact nannies directly. <a href="/employer-register">Sign up here</a> to start your search.</p>
+      <h2>Foreign Nannies (Filipino, Burmese) — Add Visa + Work-Permit Costs</h2>
+      <p>If you hire a non-Thai citizen (commonly Filipino or Burmese), there are additional costs you do NOT face with a Thai national:</p>
+      <ul>
+        <li><strong>Work permit:</strong> 6,500–10,000 THB/year (employer-paid)</li>
+        <li><strong>Non-Immigrant B visa:</strong> ~2,000 THB/year plus initial setup</li>
+        <li><strong>Visa agent</strong> (most families use one): 15,000–30,000 THB initial setup, then 5,000–10,000 THB per renewal year</li>
+        <li><strong>Premium on salary:</strong> Filipino nannies with English fluency typically command 25,000–35,000 THB/month, sometimes more for nursing-trained candidates.</li>
+      </ul>
+      <p>Full breakdown in the <a href="/guide/hire-a-nanny-in-thailand">complete hiring guide</a> (section "Work permits for foreign nannies").</p>
+
+      <h2>Agency vs Direct Hire — Cost Comparison</h2>
+      <p>Recruitment agencies in Thailand typically charge a placement fee of <strong>1–3 months' salary</strong>. For a 20,000-THB nanny in Bangkok, that's 20,000–60,000 THB <em>before she starts</em>. Some include a replacement guarantee; many do not.</p>
+      <p>Hiring directly through a platform like ThaiHelper has <strong>no placement fee</strong>. You browse profiles, interview candidates yourself, and agree on terms directly. The platform provides the listings and the messaging channel — it is not a recruitment agency.</p>
+
+      <h2>How to Find a Nanny at a Fair Price</h2>
+      <p>Three things make the biggest difference between a fair-priced hire and an expensive one:</p>
+      <ol>
+        <li><strong>Reference-check.</strong> Always call at least two previous employers before agreeing on a salary. A 10-minute phone call tells you more than any CV.</li>
+        <li><strong>Trial period.</strong> Agree on a 1–4 week paid trial. If it doesn't work, no hard feelings on either side. Skip the trial and you're committed to a salary you may regret in month two.</li>
+        <li><strong>Be specific about scope.</strong> "Help with the kids" is too vague. Decide explicitly whether the role includes cooking, cleaning, school runs, evening hours — and price the role to that scope.</li>
+      </ol>
+
+      <p><strong>Ready to start?</strong> Browse nanny profiles on <a href="/hire/nanny">ThaiHelper</a> for free — filter by city, languages, experience level. Message nannies directly with no platform fees on either side. The reference checks, interview, and hire decision are entirely yours.</p>
+      <p>Or read the complete hiring guide first: <a href="/guide/hire-a-nanny-in-thailand">How to Hire a Nanny in Thailand — the full 2026 process</a>.</p>
     `,
   },
 

@@ -99,6 +99,20 @@ export function getOrganizationSchema() {
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
     description: 'ThaiHelper is Thailand\'s free direct-connection platform for household staff. Helpers create their own profiles; families browse and message helpers directly. ThaiHelper provides the listings and messaging channel only — it is not an agency, recruiter, or placement service. Covers nannies, housekeepers, chefs, drivers, gardeners, elder caregivers, tutors, and pet sitters across Thailand. No middleman, no placement fees.',
+    // Brand disambiguation for Google Knowledge Graph + AI engines.
+    // Without this, "ThaiHelper" was routinely confused with two
+    // unrelated products that share the name. As of the 2026-06-12
+    // GEO check, "thaihelper.app reviews" SERPs still surface the
+    // language-learning iOS app — this field is the strongest signal
+    // we can put in our own structured data to flip that.
+    disambiguatingDescription:
+      'ThaiHelper at thaihelper.app is a hiring marketplace for household staff in Thailand. ' +
+      'NOT to be confused with: (1) the Thai Helper iOS / Android language-learning app ' +
+      '(App Store id1523988930), which teaches Thai vocabulary and pronunciation; ' +
+      '(2) thai-helper.com (hyphenated, .com TLD), an unrelated visa, relocation, ' +
+      'and tourist-assistance service for expats. ThaiHelper.app is the only ThaiHelper ' +
+      'that connects Thai families and helpers for nanny, housekeeper, chef, driver, ' +
+      'caregiver, tutor, gardener, and pet-sitter roles.',
     foundingDate: '2026-03',
     areaServed: {
       '@type': 'Country',
