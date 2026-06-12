@@ -140,11 +140,11 @@ export const blogPosts = [
     slug: 'nanny-costs-thailand',
     title: 'How Much Does a Nanny Cost in Thailand? Salary Guide 2026',
     description:
-      'Nanny salary guide for Thailand in 2026. Full-time, part-time, and live-in rates for Bangkok, Phuket, Chiang Mai. Hidden costs, 13th-month bonus, Social Security, and the true total monthly cost.',
+      'Nanny salary guide for Thailand in 2026. Full-time, part-time, live-in, and premium-tier (28k–70k THB) rates for Bangkok, Phuket, Chiang Mai. Hidden costs, 13th-month bonus, Social Security, and the true total monthly cost.',
     category: 'families',
     date: '2026-04-08',
     updated: '2026-06-12',
-    readTime: 9,
+    readTime: 10,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80',
     keywords: 'nanny cost Thailand, nanny salary Bangkok, babysitter price Thailand, childcare costs Thailand 2026',
@@ -197,7 +197,7 @@ export const blogPosts = [
       <p><em>Last updated: 12 June 2026. Salary figures are sourced from active 2026 listings, recent hires, and direct family-employer conversations in Bangkok, Phuket, and Chiang Mai.</em></p>
 
       <h2>Quick Answer</h2>
-      <p>In 2026 a full-time nanny in Thailand costs <strong>15,000–25,000 THB per month</strong> in Bangkok and <strong>12,000–18,000 THB</strong> in Chiang Mai. Live-in nannies are 12,000–18,000 cash plus a room and meals. Add roughly <strong>20–35%</strong> for true total cost (Social Security, 13th-month bonus, transport, meals). English-fluent nannies add another <strong>30–50%</strong> to the base.</p>
+      <p>In 2026 a full-time nanny in Thailand costs <strong>15,000–25,000 THB per month</strong> in Bangkok and <strong>12,000–18,000 THB</strong> in Chiang Mai. Live-in nannies are 12,000–18,000 cash plus a room and meals. Add roughly <strong>20–35%</strong> for true total cost (Social Security, 13th-month bonus, transport, meals). English-fluent nannies add another <strong>30–50%</strong> to the base. The premium tier — nursing-trained, multilingual, or international-school-experienced nannies — runs <strong>28,000–70,000 THB/month</strong>.</p>
       <p>For the full hiring process — interview questions, work-permit rules for foreign nannies, contract template — see our complete guide: <a href="/guide/hire-a-nanny-in-thailand"><strong>How to Hire a Nanny in Thailand</strong></a>.</p>
 
       <h2>Full-Time Nanny Salary by City (2026, live-out)</h2>
@@ -250,6 +250,18 @@ export const blogPosts = [
         <li><strong>Additional duties</strong> — cooking, light cleaning, driving — change the role entirely. A "nanny-housekeeper" hybrid commands 17,000–25,000 THB and a "nanny-driver" combo even more.</li>
         <li><strong>Mandarin or Japanese fluency:</strong> rare and priced individually, typically 35,000+ THB.</li>
       </ul>
+
+      <h2>Premium-Tier Nannies — 28,000 – 70,000 THB/month</h2>
+      <p>A separate segment exists at the top of the market in Bangkok and Phuket. These are the nannies who international-school families, C-suite expats, and high-net-worth Thai families compete for. They cost <strong>28,000 – 70,000 THB per month</strong> — and the upper end is real, not a typo.</p>
+      <p>The profile is usually one of the following:</p>
+      <ul>
+        <li><strong>Filipino nanny with nursing-assistant or RN training</strong> — fluent English, hospital experience, comfortable with feeding tubes, medication schedules, newborns, and dietary restrictions. 35,000–55,000 THB/month is the typical range; more for highly qualified candidates with multiple language skills.</li>
+        <li><strong>Former international-school early-childhood-education staff</strong> — qualified to design and lead structured play and learning at home. Strong communication with parents. 30,000–45,000 THB.</li>
+        <li><strong>Multilingual nannies</strong> with fluent English plus Mandarin, Japanese, French, or German. 35,000–60,000 THB, depending on language demand.</li>
+        <li><strong>Live-in 24-hour newborn specialists</strong> ("baby nurses" / postpartum doulas). 45,000–70,000 THB for the first few months after birth, then often transitioning to a regular nanny role at lower salary.</li>
+        <li><strong>Travel-with-the-family nannies</strong> who accompany the family on domestic trips and overseas holidays. Base salary plus per-diem; budget 40,000+ THB/month all-in.</li>
+      </ul>
+      <p>Recruitment at this level usually happens through international-school parent networks, specialist agencies (placement fee 1–2 months' salary), or direct word-of-mouth from departing expat families. Trial periods are essential — premium nannies who don't click with your specific child still cost premium money.</p>
 
       <h2>True Total Monthly Cost (the part most families miss)</h2>
       <p>The headline salary is roughly <strong>70–80%</strong> of what your nanny actually costs you each month. The remaining 20–30% breaks down as:</p>
