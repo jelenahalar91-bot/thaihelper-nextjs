@@ -29,8 +29,13 @@ const LOOKING_FOR_OPTIONS = [
 const T = {
   en: {
     page_title: 'Register as an Employer – ThaiHelper',
-    h1: 'Find your perfect helper',
-    sub: 'Create a free account to browse helpers and message them directly.',
+    h1: 'Hire household help',
+    sub: 'For families & businesses. Create a free account to browse helpers and message them directly.',
+    // Catch helpers who land on this form by mistake — most common cause
+    // of mis-classified signups is misreading "What are you looking for?"
+    // as a job-seeker question.
+    wrong_page_q: '🙋 Looking for work as a nanny, driver or other helper?',
+    wrong_page_cta: 'You\'re on the wrong form — register as a helper instead →',
     step_about: 'About you',
     step_needs: 'Your needs',
     step_job: 'The job',
@@ -69,8 +74,8 @@ const T = {
     city_ph: '— Select city —',
     area_label: 'Neighborhood / Area (optional)',
     area_ph: 'e.g. Sukhumvit, Rawai, Nimman…',
-    section_needs: 'What are you looking for?',
-    needs_hint: 'Select everything that applies',
+    section_needs: 'Which helpers do you want to hire?',
+    needs_hint: 'Select every category of helper your household needs',
     section_tasks: 'Specific tasks',
     tasks_hint: 'Tap the duties you actually need help with — this helps us match you with the right helpers.',
     section_schedule: 'When do you need help?',
@@ -80,7 +85,7 @@ const T = {
     section_kids: 'Children\u2019s ages',
     kids_hint: 'Select all age groups your helper will work with.',
     job_label: 'Tell us about the job (optional)',
-    job_ph: 'e.g. Looking for a nanny for our 2-year-old, 3 days a week. Must speak basic English.',
+    job_ph: 'e.g. We need a nanny for our 2-year-old, 3 days a week. Must speak basic English.',
     job_hint: 'Phone numbers and emails will be automatically hidden for privacy.',
     photo_label: 'Profile Photo (optional)',
     photo_hint: 'Helpers are more likely to respond when they can see who they\'re working for.',
@@ -104,8 +109,10 @@ const T = {
   },
   th: {
     page_title: 'ลงทะเบียนนายจ้าง – ThaiHelper',
-    h1: 'ค้นหาผู้ช่วยที่เหมาะกับคุณ',
-    sub: 'สร้างบัญชีฟรีเพื่อเรียกดูผู้ช่วยและส่งข้อความโดยตรง',
+    h1: 'จ้างผู้ช่วยในบ้าน',
+    sub: 'สำหรับครอบครัวและธุรกิจ สร้างบัญชีฟรีเพื่อเรียกดูผู้ช่วยและส่งข้อความโดยตรง',
+    wrong_page_q: '🙋 กำลังหางานเป็นพี่เลี้ยง คนขับรถ หรือผู้ช่วย?',
+    wrong_page_cta: 'หน้านี้สำหรับนายจ้าง — ลงทะเบียนเป็นผู้ช่วยที่นี่ →',
     step_about: 'เกี่ยวกับคุณ',
     step_needs: 'ความต้องการ',
     step_job: 'รายละเอียดงาน',
@@ -144,8 +151,8 @@ const T = {
     city_ph: '— เลือกเมือง —',
     area_label: 'ย่าน (ไม่จำเป็น)',
     area_ph: 'เช่น สุขุมวิท, รวาย, นิมมาน…',
-    section_needs: 'คุณกำลังหาอะไร?',
-    needs_hint: 'เลือกทุกข้อที่เกี่ยวข้อง',
+    section_needs: 'คุณต้องการจ้างผู้ช่วยประเภทไหน?',
+    needs_hint: 'เลือกผู้ช่วยทุกประเภทที่บ้านคุณต้องการ',
     section_tasks: 'งานที่ต้องการ',
     tasks_hint: 'แตะหน้าที่ที่คุณต้องการความช่วยเหลือจริงๆ — ช่วยให้เราจับคู่ผู้ช่วยที่เหมาะกับคุณ',
     section_schedule: 'คุณต้องการเมื่อไหร่?',
@@ -455,6 +462,17 @@ export default function EmployerRegisterPage() {
           <p style={{ fontSize: '16px', color: '#8a7355', maxWidth: '560px', margin: '10px auto 0', lineHeight: 1.5 }}>
             {t.sub}
           </p>
+        </div>
+
+        {/* Wrong-page guard — surfaced for job seekers who landed here
+            by accident (most common signup-confusion failure mode). */}
+        <div style={{ background: '#fff8e5', borderBottom: '1px solid #f2d680' }}>
+          <div style={{ maxWidth: '640px', margin: '0 auto', padding: '12px 16px', fontSize: '14px', lineHeight: 1.5, color: '#5b4a1a', textAlign: 'center' }}>
+            <span style={{ marginRight: '6px' }}>{t.wrong_page_q}</span>
+            <Link href="/register" style={{ color: '#006a62', fontWeight: 700, textDecoration: 'underline' }}>
+              {t.wrong_page_cta}
+            </Link>
+          </div>
         </div>
 
         {/* PROGRESS — section guide (single-page form, scroll-spy only) */}
