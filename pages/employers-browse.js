@@ -175,11 +175,17 @@ export default function EmployersBrowse() {
 
   return (
     <>
+      {/* noindex: GSC flagged this as Soft 404 on 2026-06-10 — the SSR
+          body is only ~20 KB (vs. ~2.5 MB for /helpers) because few families
+          have public listings yet. Page is primarily for logged-in helpers
+          browsing job offers, not for SEO acquisition. Remove the noindex
+          prop once family listings are dense enough to render real content. */}
       <SEOHead
         title="Browse Employers – Find Families Looking for Help"
         description="Browse employer listings in Thailand. See who is looking for nannies, housekeepers, chefs, drivers, gardeners and more."
         path="/employers-browse"
         lang={lang}
+        noindex
         jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Browse Employers', path: '/employers-browse' }])}
       />
 
