@@ -490,7 +490,7 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                             {listing.specialties.split(',').map(s => s.trim()).filter(Boolean).map(slug => {
                               const opt = SPECIALTIES.find(o => o.value === slug);
                               return opt ? (
-                                <span key={slug} className="px-2.5 py-1 rounded-full bg-teal-50 text-teal-800 text-xs font-semibold border border-teal-100">
+                                <span key={slug} className="px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20">
                                   {opt[lang] || opt.en}
                                 </span>
                               ) : null;

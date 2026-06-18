@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { DIRECTORY_TYPES } from '@/lib/constants/directory';
 
 const T = {
   en: {
@@ -61,7 +62,10 @@ const T = {
   },
 };
 
-const TYPES = ['agency', 'company', 'training', 'other'];
+// Mirror the directory taxonomy (Staffing Agency, Service Company, Lawyer,
+// Visa Agent, MOU Agency, Training, Partner, Association) + an 'other'
+// catch-all, so every kind of provider can self-register.
+const TYPE_OPTIONS = [...DIRECTORY_TYPES, { value: 'other', en: 'Other', th: 'อื่นๆ' }];
 
 export default function Partners() {
   const [lang, setLang] = useState('en');
@@ -85,7 +89,7 @@ export default function Partners() {
     }
   }
 
-  const inputCls = 'w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent bg-white';
+  const inputCls = 'w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white';
   const labelCls = 'block text-sm font-medium text-gray-700 mb-1';
 
   return (
@@ -98,7 +102,7 @@ export default function Partners() {
       <header className="border-b border-gray-100 bg-white sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/" className="text-xl font-extrabold text-gray-900">
-            Thai<span className="text-teal-700">Helper</span>
+            Thai<span className="text-primary">Helper</span>
           </Link>
           <div className="flex items-center gap-3">
             <button
@@ -107,7 +111,7 @@ export default function Partners() {
             >
               {lang === 'en' ? 'TH' : 'EN'}
             </button>
-            <Link href="/directory" className="text-sm text-teal-700 font-medium hover:underline">
+            <Link href="/directory" className="text-sm text-primary font-medium hover:underline">
               Directory
             </Link>
           </div>
@@ -141,7 +145,7 @@ export default function Partners() {
               <div className="text-4xl mb-3">✅</div>
               <h2 className="text-lg font-bold text-gray-900 mb-1">{t.success_title}</h2>
               <p className="text-gray-500 text-sm mb-5">{t.success_body}</p>
-              <Link href="/directory" className="inline-block bg-teal-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-teal-800 transition">
+              <Link href="/directory" className="inline-block bg-primary text-white font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-primary-container transition">
                 {t.success_cta}
               </Link>
             </div>
@@ -180,18 +184,18 @@ export default function Partners() {
               <div>
                 <label className={labelCls}>{t.label_type}</label>
                 <div className="flex flex-wrap gap-2">
-                  {TYPES.map((tp) => (
+                  {TYPE_OPTIONS.map((opt) => (
                     <button
-                      key={tp}
+                      key={opt.value}
                       type="button"
-                      onClick={() => setForm({ ...form, type: tp })}
+                      onClick={() => setForm({ ...form, type: opt.value })}
                       className={`px-3 py-1.5 rounded-lg border text-xs font-medium transition ${
-                        form.type === tp
-                          ? 'bg-teal-700 border-teal-700 text-white'
-                          : 'border-gray-200 text-gray-600 hover:border-teal-600 hover:text-teal-700'
+                        form.type === opt.value
+                          ? 'bg-primary border-primary text-white'
+                          : 'border-gray-200 text-gray-600 hover:border-primary hover:text-primary'
                       }`}
                     >
-                      {t[`type_${tp}`]}
+                      {opt[lang] || opt.en}
                     </button>
                   ))}
                 </div>
@@ -202,7 +206,7 @@ export default function Partners() {
               <button
                 type="submit"
                 disabled={status === 'loading' || !form.type}
-                className="w-full bg-teal-700 hover:bg-teal-800 disabled:opacity-40 text-white font-semibold text-sm py-3 rounded-xl transition mt-2"
+                className="w-full bg-primary hover:bg-primary-container disabled:opacity-40 text-white font-semibold text-sm py-3 rounded-xl transition mt-2"
               >
                 {status === 'loading' ? t.submitting : t.submit}
               </button>

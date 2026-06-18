@@ -110,7 +110,11 @@ const T = {
 
     footer_about: 'About', footer_faq: 'FAQ', footer_privacy: 'Privacy', footer_terms: 'Terms',
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
-    footer_list_cta: 'List your company →',
+    footer_list_cta: 'Become a partner →',
+    partner_cta_eyebrow: 'For agencies, companies & service providers',
+    partner_cta_title: 'Run an agency or service company?',
+    partner_cta_sub: 'Get your company listed in this directory — free while we grow. Reach families across Thailand who are looking for professional help.',
+    partner_cta_btn: 'Become a partner →',
   },
   th: {
     page_title: 'รายชื่อผู้เชี่ยวชาญด้านตรวจคนเข้าเมือง – ThaiHelper',
@@ -187,7 +191,11 @@ const T = {
 
     footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย', footer_privacy: 'ความเป็นส่วนตัว', footer_terms: 'ข้อกำหนด',
     footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
-    footer_list_cta: 'ลงรายชื่อบริษัทของคุณ →',
+    footer_list_cta: 'เป็นพันธมิตรกับเรา →',
+    partner_cta_eyebrow: 'สำหรับบริษัทจัดหางาน บริษัทบริการ และผู้ให้บริการ',
+    partner_cta_title: 'เปิดบริษัทจัดหางานหรือบริษัทบริการ?',
+    partner_cta_sub: 'ลงรายชื่อบริษัทของคุณในไดเรกทอรีนี้ — ฟรีในช่วงที่เรากำลังเติบโต เข้าถึงครอบครัวทั่วประเทศไทยที่กำลังมองหาความช่วยเหลือมืออาชีพ',
+    partner_cta_btn: 'เป็นพันธมิตรกับเรา →',
   },
 };
 
@@ -501,6 +509,18 @@ export default function DirectoryIndex({ initialListings = [] }) {
                 </div>
               )}
 
+              {/* Provider-acquisition CTA — funnels agencies/companies to
+                  /partners. After the listings so it doesn't disrupt the
+                  family browse flow. */}
+              <div className="mt-8 rounded-2xl bg-gradient-to-br from-primary to-[#00897f] text-white p-6 md:p-8 text-center">
+                <div className="text-xs font-semibold uppercase tracking-wide text-white/70 mb-2">{t.partner_cta_eyebrow}</div>
+                <h2 className="text-xl md:text-2xl font-extrabold font-headline mb-2">{t.partner_cta_title}</h2>
+                <p className="text-sm md:text-base text-white/90 max-w-xl mx-auto mb-5 leading-relaxed">{t.partner_cta_sub}</p>
+                <Link href="/partners" className="inline-block bg-white text-primary font-bold text-sm px-6 py-3 rounded-full hover:bg-white/90 transition-colors">
+                  {t.partner_cta_btn}
+                </Link>
+              </div>
+
               <LegalDisclaimer lang={lang} />
             </div>
           </section>
@@ -516,7 +536,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
               <Link href="/faq" className="hover:text-primary">{t.footer_faq}</Link>
               <Link href="/privacy" className="hover:text-primary">{t.footer_privacy}</Link>
               <Link href="/terms" className="hover:text-primary">{t.footer_terms}</Link>
-              <Link href="/partners" className="hover:text-primary font-medium text-teal-600">{t.footer_list_cta}</Link>
+              <Link href="/partners" className="hover:text-primary font-medium text-primary">{t.footer_list_cta}</Link>
             </div>
             <p className="text-slate-400 text-xs mt-4">© 2026 ThaiHelper.</p>
           </div>
@@ -594,7 +614,7 @@ function ListingCard({ listing, t, lang, source = 'direct' }) {
           {specialtyList.map(slug => {
             const opt = SPECIALTIES.find(o => o.value === slug);
             return opt ? (
-              <span key={slug} className="px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 text-xs font-semibold border border-teal-100">
+              <span key={slug} className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20">
                 {opt[lang] || opt.en}
               </span>
             ) : null;

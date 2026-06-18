@@ -1,4 +1,5 @@
 import { Resend } from 'resend';
+import { DIRECTORY_TYPES, DIRECTORY_TYPE_VALUES } from '@/lib/constants/directory';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -8,7 +9,9 @@ function esc(v) {
   }[c]));
 }
 
-const VALID_TYPES = ['agency', 'company', 'training', 'other'];
+// Mirror the directory taxonomy so lawyers, visa agents, MOU agencies and
+// associations can self-register too — plus 'other' as a catch-all.
+const VALID_TYPES = [...DIRECTORY_TYPE_VALUES, 'other'];
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
@@ -27,9 +30,7 @@ export default async function handler(req, res) {
   const catList = Array.isArray(categories) ? categories.join(', ') : (categories || '—');
 
   const TYPE_LABELS = {
-    agency: 'Staffing Agency (placement)',
-    company: 'Company / Service Provider (directly employed staff)',
-    training: 'Training / School',
+    ...Object.fromEntries(DIRECTORY_TYPES.map((tp) => [tp.value, tp.en])),
     other: 'Other',
   };
 
