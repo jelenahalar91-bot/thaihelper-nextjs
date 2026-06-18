@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: 'Too many login attempts. Please try again later.' });
   }
 
-  const { email, ref } = req.body;
+  const { email, ref, client } = req.body;
 
   if (!email?.trim() || !ref?.trim()) {
     return res.status(400).json({ error: 'Email and reference number are required.' });
@@ -91,6 +91,9 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       firstName: profile.first_name,
+      // The native app stores the JWT itself (SecureStore) — browsers
+      // never send client:'mobile' and keep using the HttpOnly cookie.
+      ...(client === 'mobile' ? { token, ref: profile.helper_ref } : {}),
     });
   } catch (err) {
     console.error('Auth error:', err);
