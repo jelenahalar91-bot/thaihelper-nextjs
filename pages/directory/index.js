@@ -27,6 +27,7 @@ import {
   DIRECTORY_TYPES,
   SPECIALTIES,
   DIRECTORY_LANGUAGES,
+  NATIONALITIES_PLACED,
   formatDirectoryType,
   formatCsvList,
 } from '@/lib/constants/directory';
@@ -109,6 +110,7 @@ const T = {
 
     footer_about: 'About', footer_faq: 'FAQ', footer_privacy: 'Privacy', footer_terms: 'Terms',
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
+    footer_list_cta: 'List your company →',
   },
   th: {
     page_title: 'รายชื่อผู้เชี่ยวชาญด้านตรวจคนเข้าเมือง – ThaiHelper',
@@ -185,6 +187,7 @@ const T = {
 
     footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย', footer_privacy: 'ความเป็นส่วนตัว', footer_terms: 'ข้อกำหนด',
     footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
+    footer_list_cta: 'ลงรายชื่อบริษัทของคุณ →',
   },
 };
 
@@ -207,11 +210,17 @@ function toPublicListing(row) {
     phone: row.phone || '',
     email: row.email || '',
     website: row.website || '',
+    whatsapp: row.whatsapp || '',
+    lineId: row.line_id || '',
     googleMapsUrl: row.google_maps_url || '',
     description: row.description || '',
     descriptionTh: row.description_th || '',
     specialties: row.specialties || '',
     languagesSpoken: row.languages_spoken || '',
+    nationalitiesPlaced: row.nationalities_placed || '',
+    licenseNumber: row.license_number || '',
+    openingHours: row.opening_hours || '',
+    logoUrl: row.logo_url || '',
     tier: row.tier || 'free',
     verified: row.verified === true,
   };
@@ -507,6 +516,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
               <Link href="/faq" className="hover:text-primary">{t.footer_faq}</Link>
               <Link href="/privacy" className="hover:text-primary">{t.footer_privacy}</Link>
               <Link href="/terms" className="hover:text-primary">{t.footer_terms}</Link>
+              <Link href="/partners" className="hover:text-primary font-medium text-teal-600">{t.footer_list_cta}</Link>
             </div>
             <p className="text-slate-400 text-xs mt-4">© 2026 ThaiHelper.</p>
           </div>
@@ -521,8 +531,6 @@ function ListingCard({ listing, t, lang, source = 'direct' }) {
   const isFeatured = listing.tier === 'featured';
   const isPremium = listing.tier === 'premium';
 
-  // Highlight featured/premium tiers visually so they stand out from the
-  // free baseline. Free listings get the plain card.
   const cardClass = isFeatured
     ? 'rounded-2xl border-2 border-amber-300 bg-gradient-to-br from-amber-50 to-white p-5'
     : isPremium
@@ -534,109 +542,113 @@ function ListingCard({ listing, t, lang, source = 'direct' }) {
   const cityLabel = formatCity(listing.city);
   const typeLabel = formatDirectoryType(listing.type, lang);
 
+  const specialtyList = listing.specialties
+    ? listing.specialties.split(',').map(s => s.trim()).filter(Boolean)
+    : [];
+  const nationalityList = listing.nationalitiesPlaced
+    ? listing.nationalitiesPlaced.split(',').map(s => s.trim()).filter(Boolean)
+    : [];
+
   return (
     <div className={cardClass}>
-      {/* Badges row */}
-      <div className="flex flex-wrap items-center gap-2 mb-2 text-xs">
-        {isFeatured && (
-          <span className="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 font-bold">
-            ⭐ {t.badge_featured}
-          </span>
-        )}
-        {isPremium && (
-          <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold">
-            {t.badge_premium}
-          </span>
-        )}
-        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold">
-          {typeLabel}
-        </span>
-        {listing.verified ? (
-          <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold">
-            ✓ {t.badge_verified}
-          </span>
+      {/* Logo + header */}
+      <div className="flex items-start gap-3 mb-3">
+        {listing.logoUrl ? (
+          <img src={listing.logoUrl} alt={listing.name}
+            className="w-12 h-12 rounded-xl object-contain border border-slate-100 bg-white flex-shrink-0" />
         ) : (
-          <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">
-            {t.badge_unverified}
-          </span>
+          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary text-lg font-extrabold">
+            {listing.name.charAt(0).toUpperCase()}
+          </div>
         )}
-      </div>
-
-      <h3 className="text-lg md:text-xl font-extrabold font-headline mb-1">
-        {displayName}
-      </h3>
-      <div className="text-sm text-slate-500 mb-3">
-        📍 {cityLabel}
-        {listing.citiesServed && (
-          <span> · {t.label_serves}: {formatCsvList(listing.citiesServed, CITY_OPTIONS.map(c => ({ value: c.slug, en: c.name, th: c.name })), lang)}</span>
-        )}
+        <div className="min-w-0 flex-1">
+          {/* Badges */}
+          <div className="flex flex-wrap items-center gap-1.5 mb-1 text-xs">
+            {isFeatured && (
+              <span className="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 font-bold">⭐ {t.badge_featured}</span>
+            )}
+            {isPremium && (
+              <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold">{t.badge_premium}</span>
+            )}
+            <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold">{typeLabel}</span>
+          </div>
+          <h3 className="text-lg font-extrabold font-headline leading-snug">{displayName}</h3>
+          <div className="text-xs text-slate-500 mt-0.5">
+            📍 {cityLabel}
+            {listing.citiesServed && (
+              <span> · {formatCsvList(listing.citiesServed, CITY_OPTIONS.map(c => ({ value: c.slug, en: c.name, th: c.name })), lang)}</span>
+            )}
+          </div>
+        </div>
       </div>
 
       {displayDescription && (
-        <p className="text-sm text-on-surface-variant mb-3 leading-relaxed">
+        <p className="text-sm text-on-surface-variant mb-3 leading-relaxed line-clamp-2">
           {displayDescription}
         </p>
       )}
 
-      <div className="grid sm:grid-cols-2 gap-2 text-xs mb-3">
-        {listing.specialties && (
-          <div>
-            <div className="font-semibold text-slate-600 mb-0.5">{t.label_specialties}</div>
-            <div className="text-slate-700">{formatCsvList(listing.specialties, SPECIALTIES, lang)}</div>
-          </div>
-        )}
-        {listing.languagesSpoken && (
-          <div>
-            <div className="font-semibold text-slate-600 mb-0.5">{t.label_languages}</div>
-            <div className="text-slate-700">{formatCsvList(listing.languagesSpoken, DIRECTORY_LANGUAGES, lang)}</div>
-          </div>
-        )}
-      </div>
+      {/* Specialty pills */}
+      {specialtyList.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {specialtyList.map(slug => {
+            const opt = SPECIALTIES.find(o => o.value === slug);
+            return opt ? (
+              <span key={slug} className="px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 text-xs font-semibold border border-teal-100">
+                {opt[lang] || opt.en}
+              </span>
+            ) : null;
+          })}
+        </div>
+      )}
+
+      {/* Nationality flags */}
+      {nationalityList.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {nationalityList.map(slug => {
+            const nat = NATIONALITIES_PLACED.find(o => o.value === slug);
+            return nat ? (
+              <span key={slug} title={nat[lang] || nat.en}
+                className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-xs">
+                {nat.flag} {nat[lang] || nat.en}
+              </span>
+            ) : null;
+          })}
+        </div>
+      )}
 
       {/* CTAs */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 mt-1">
         {listing.website && (
-          <a
-            href={listing.website}
-            target="_blank"
-            rel="nofollow noopener noreferrer"
+          <a href={listing.website} target="_blank" rel="nofollow noopener noreferrer"
             onClick={() => trackClick(listing.id, 'website', clickSource)}
-            className="px-4 py-2 rounded-full bg-primary text-white text-sm font-bold hover:bg-primary-container transition-colors"
-          >
+            className="px-4 py-2 rounded-full bg-primary text-white text-sm font-bold hover:bg-primary-container transition-colors">
             {t.cta_website}
           </a>
         )}
         {listing.phone && (
-          <a
-            href={`tel:${listing.phone}`}
+          <a href={`tel:${listing.phone}`}
             onClick={() => trackClick(listing.id, 'phone', clickSource)}
-            className="px-4 py-2 rounded-full bg-white border border-primary text-primary text-sm font-bold hover:bg-primary/5 transition-colors"
-          >
+            className="px-4 py-2 rounded-full bg-white border border-primary text-primary text-sm font-bold hover:bg-primary/5 transition-colors">
             {t.cta_phone}
           </a>
         )}
         {listing.email && (
-          <a
-            href={`mailto:${listing.email}`}
+          <a href={`mailto:${listing.email}`}
             onClick={() => trackClick(listing.id, 'email', clickSource)}
-            className="px-4 py-2 rounded-full bg-white border border-slate-300 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors"
-          >
+            className="px-4 py-2 rounded-full bg-white border border-slate-300 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors">
             {t.cta_email}
           </a>
         )}
         <Link
           href={`/directory/${listing.slug}${clickSource !== 'direct' ? `?source=${clickSource}` : ''}`}
           onClick={() => trackClick(listing.id, 'details', clickSource)}
-          className="px-4 py-2 rounded-full text-sm font-semibold text-slate-600 hover:text-primary self-center"
-        >
+          className="px-4 py-2 rounded-full text-sm font-semibold text-slate-600 hover:text-primary self-center">
           {t.cta_view_details}
         </Link>
       </div>
 
-      {/* Per-listing inline disclaimer (per spec section 2.13) */}
-      <p className="text-[11px] text-slate-400 mt-3 leading-snug">
-        {t.listing_disclaimer}
-      </p>
+      <p className="text-[11px] text-slate-400 mt-3 leading-snug">{t.listing_disclaimer}</p>
     </div>
   );
 }

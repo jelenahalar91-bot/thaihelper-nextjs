@@ -21,6 +21,7 @@ import {
   DIRECTORY_TYPES,
   SPECIALTIES,
   DIRECTORY_LANGUAGES,
+  NATIONALITIES_PLACED,
   formatDirectoryType,
   formatCsvList,
 } from '@/lib/constants/directory';
@@ -47,9 +48,22 @@ const T = {
     section_contact: 'Contact',
     section_specialties: 'Specialties',
     section_languages: 'Languages',
+    section_nationalities: 'Nationalities placed',
+    section_hours: 'Opening hours',
+    section_license: 'License',
     section_address: 'Address',
     section_serves: 'Cities served',
     section_others: 'Other experts in {city}',
+    cta_whatsapp: 'WhatsApp',
+    cta_line: 'LINE',
+
+    section_help: 'How we can help you',
+    col_speak: 'We speak',
+    col_hire: 'We help to hire',
+    col_expert: "We're expert in",
+    section_contact_detail: 'Contact details',
+    label_phone: 'Phone',
+    label_email: 'Email',
 
     badge_featured: 'Featured',
     badge_premium: 'Premium',
@@ -87,9 +101,22 @@ const T = {
     section_contact: 'ติดต่อ',
     section_specialties: 'ความเชี่ยวชาญ',
     section_languages: 'ภาษา',
+    section_nationalities: 'สัญชาติที่รับสมัคร',
+    section_hours: 'เวลาทำการ',
+    section_license: 'ใบอนุญาต',
     section_address: 'ที่อยู่',
     section_serves: 'เมืองที่ให้บริการ',
     section_others: 'ผู้เชี่ยวชาญอื่นๆ ใน {city}',
+    cta_whatsapp: 'WhatsApp',
+    cta_line: 'LINE',
+
+    section_help: 'เราช่วยคุณได้อย่างไร',
+    col_speak: 'เราพูด',
+    col_hire: 'เราช่วยจัดหา',
+    col_expert: 'เราเชี่ยวชาญด้าน',
+    section_contact_detail: 'รายละเอียดการติดต่อ',
+    label_phone: 'โทรศัพท์',
+    label_email: 'อีเมล',
 
     badge_featured: 'แนะนำ',
     badge_premium: 'พรีเมียม',
@@ -130,11 +157,17 @@ function toPublicListing(row) {
     phone: row.phone || '',
     email: row.email || '',
     website: row.website || '',
+    whatsapp: row.whatsapp || '',
+    lineId: row.line_id || '',
     googleMapsUrl: row.google_maps_url || '',
     description: row.description || '',
     descriptionTh: row.description_th || '',
     specialties: row.specialties || '',
     languagesSpoken: row.languages_spoken || '',
+    nationalitiesPlaced: row.nationalities_placed || '',
+    licenseNumber: row.license_number || '',
+    openingHours: row.opening_hours || '',
+    logoUrl: row.logo_url || '',
     tier: row.tier || 'free',
     verified: row.verified === true,
   };
@@ -325,143 +358,232 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
               {t.back_link}
             </Link>
 
-            {/* Heading + badges */}
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 md:p-10 mb-6">
-              <div className="flex flex-wrap items-center gap-2 mb-3 text-xs">
-                {listing.tier === 'featured' && (
-                  <span className="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 font-bold">
-                    ⭐ {t.badge_featured}
-                  </span>
-                )}
-                {listing.tier === 'premium' && (
-                  <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold">
-                    {t.badge_premium}
-                  </span>
-                )}
-                <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold">
-                  {typeLabel}
-                </span>
-                {listing.verified ? (
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold">
-                    ✓ {t.badge_verified}
-                  </span>
-                ) : (
-                  <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">
-                    {t.badge_unverified}
-                  </span>
-                )}
-              </div>
+            {/* Main card */}
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden mb-6">
 
-              <h1 className="text-3xl md:text-4xl font-extrabold font-headline mb-2">
-                {displayName}
-              </h1>
-              <div className="text-base text-slate-500 mb-6">📍 {cityLabel}</div>
-
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {listing.website && (
-                  <a
-                    href={listing.website}
-                    target="_blank"
-                    rel="nofollow noopener noreferrer"
-                    onClick={() => trackClick(listing.id, 'website', clickSource)}
-                    className="px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold hover:bg-primary-container transition-colors"
-                  >
-                    {t.cta_website}
-                  </a>
-                )}
-                {listing.phone && (
-                  <a
-                    href={`tel:${listing.phone}`}
-                    onClick={() => trackClick(listing.id, 'phone', clickSource)}
-                    className="px-5 py-2.5 rounded-full bg-white border border-primary text-primary text-sm font-bold hover:bg-primary/5 transition-colors"
-                  >
-                    {t.cta_phone}
-                  </a>
-                )}
-                {listing.email && (
-                  <a
-                    href={`mailto:${listing.email}`}
-                    onClick={() => trackClick(listing.id, 'email', clickSource)}
-                    className="px-5 py-2.5 rounded-full bg-white border border-slate-300 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors"
-                  >
-                    {t.cta_email}
-                  </a>
-                )}
-              </div>
-
-              {/* About */}
-              {displayDescription && (
-                <div className="mb-6">
-                  <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500 mb-2">
-                    {t.section_about}
-                  </h2>
-                  <p className="text-base text-on-surface-variant leading-relaxed whitespace-pre-line">
-                    {displayDescription}
-                  </p>
+              {/* Banner with overlapping circular logo */}
+              <div className="h-24 md:h-32 bg-gradient-to-br from-primary to-[#00897f] relative">
+                <div className="absolute -bottom-10 left-6 md:left-10">
+                  {listing.logoUrl ? (
+                    <img
+                      src={listing.logoUrl}
+                      alt={listing.name}
+                      className="w-24 h-24 rounded-full object-contain border-4 border-white bg-white shadow-md"
+                    />
+                  ) : (
+                    <div className="w-24 h-24 rounded-full bg-primary/10 border-4 border-white shadow-md flex items-center justify-center text-primary text-4xl font-extrabold">
+                      {listing.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
 
-              {/* Two-column meta */}
-              <div className="grid sm:grid-cols-2 gap-x-8 gap-y-5 text-sm">
-                {listing.specialties && (
-                  <div>
-                    <div className="font-bold uppercase tracking-wide text-xs text-slate-500 mb-1">
-                      {t.section_specialties}
-                    </div>
-                    <div className="text-slate-700">
-                      {formatCsvList(listing.specialties, SPECIALTIES, lang)}
-                    </div>
-                  </div>
-                )}
-                {listing.languagesSpoken && (
-                  <div>
-                    <div className="font-bold uppercase tracking-wide text-xs text-slate-500 mb-1">
-                      {t.section_languages}
-                    </div>
-                    <div className="text-slate-700">
-                      {formatCsvList(listing.languagesSpoken, DIRECTORY_LANGUAGES, lang)}
-                    </div>
-                  </div>
-                )}
-                {listing.address && (
-                  <div className="sm:col-span-2">
-                    <div className="font-bold uppercase tracking-wide text-xs text-slate-500 mb-1">
-                      {t.section_address}
-                    </div>
-                    <div className="text-slate-700 whitespace-pre-line">{listing.address}</div>
-                    {listing.googleMapsUrl && (
-                      <a
-                        href={listing.googleMapsUrl}
-                        target="_blank"
-                        rel="nofollow noopener noreferrer"
-                        onClick={() => trackClick(listing.id, 'maps', clickSource)}
-                        className="text-xs text-primary hover:underline mt-1 inline-block"
-                      >
-                        {t.cta_directions}
-                      </a>
+              <div className="p-6 md:p-10 pt-14 md:pt-16">
+
+                {/* Header */}
+                <div className="mb-5">
+                  <div className="flex flex-wrap items-center gap-1.5 mb-1.5 text-xs">
+                    {listing.tier === 'featured' && (
+                      <span className="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 font-bold">⭐ {t.badge_featured}</span>
                     )}
+                    {listing.tier === 'premium' && (
+                      <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold">{t.badge_premium}</span>
+                    )}
+                    <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold">{typeLabel}</span>
+                  </div>
+                  <h1 className="text-2xl md:text-3xl font-extrabold font-headline leading-tight">
+                    {displayName}
+                  </h1>
+                  <div className="text-sm text-slate-500 mt-1">📍 {cityLabel}</div>
+                </div>
+
+                {/* CTAs */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {listing.website && (
+                    <a href={listing.website} target="_blank" rel="nofollow noopener noreferrer"
+                      onClick={() => trackClick(listing.id, 'website', clickSource)}
+                      className="px-5 py-2.5 rounded-full bg-primary text-white text-sm font-bold hover:bg-primary-container transition-colors">
+                      {t.cta_website}
+                    </a>
+                  )}
+                  {listing.phone && (
+                    <a href={`tel:${listing.phone}`}
+                      onClick={() => trackClick(listing.id, 'phone', clickSource)}
+                      className="px-5 py-2.5 rounded-full bg-white border border-primary text-primary text-sm font-bold hover:bg-primary/5 transition-colors">
+                      {t.cta_phone}
+                    </a>
+                  )}
+                  {listing.whatsapp && (
+                    <a href={`https://wa.me/${listing.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="nofollow noopener noreferrer"
+                      onClick={() => trackClick(listing.id, 'whatsapp', clickSource)}
+                      className="px-5 py-2.5 rounded-full bg-[#25D366] text-white text-sm font-bold hover:opacity-90 transition-opacity">
+                      {t.cta_whatsapp}
+                    </a>
+                  )}
+                  {listing.lineId && (
+                    <a href={`https://line.me/R/ti/p/${listing.lineId.replace(/^@/, '')}`} target="_blank" rel="nofollow noopener noreferrer"
+                      onClick={() => trackClick(listing.id, 'line', clickSource)}
+                      className="px-5 py-2.5 rounded-full bg-[#06C755] text-white text-sm font-bold hover:opacity-90 transition-opacity">
+                      {t.cta_line}
+                    </a>
+                  )}
+                  {listing.email && (
+                    <a href={`mailto:${listing.email}`}
+                      onClick={() => trackClick(listing.id, 'email', clickSource)}
+                      className="px-5 py-2.5 rounded-full bg-white border border-slate-300 text-slate-700 text-sm font-bold hover:bg-slate-50 transition-colors">
+                      {t.cta_email}
+                    </a>
+                  )}
+                </div>
+
+                {/* About */}
+                {displayDescription && (
+                  <div className="mb-6">
+                    <h2 className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">{t.section_about}</h2>
+                    <p className="text-base text-on-surface-variant leading-relaxed whitespace-pre-line">{displayDescription}</p>
                   </div>
                 )}
-                {listing.citiesServed && (
-                  <div className="sm:col-span-2">
-                    <div className="font-bold uppercase tracking-wide text-xs text-slate-500 mb-1">
-                      {t.section_serves}
-                    </div>
-                    <div className="text-slate-700">
-                      {formatCsvList(
-                        listing.citiesServed,
-                        CITY_OPTIONS.map(c => ({ value: c.slug, en: c.name, th: c.name })),
-                        lang
+
+                {/* How we can help — capability columns */}
+                {(listing.languagesSpoken || listing.nationalitiesPlaced || listing.specialties) && (
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 md:p-6 mb-6">
+                    <h2 className="text-sm font-bold text-on-surface mb-4">{t.section_help}</h2>
+                    <div className="grid sm:grid-cols-3 gap-5">
+
+                      {listing.languagesSpoken && (
+                        <div>
+                          <div className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">{t.col_speak}</div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {listing.languagesSpoken.split(',').map(s => s.trim()).filter(Boolean).map(slug => {
+                              const opt = DIRECTORY_LANGUAGES.find(o => o.value === slug);
+                              return opt ? (
+                                <span key={slug} className="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold">
+                                  {opt[lang] || opt.en}
+                                </span>
+                              ) : null;
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {listing.nationalitiesPlaced && (
+                        <div>
+                          <div className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">{t.col_hire}</div>
+                          <div className="flex flex-wrap gap-2">
+                            {listing.nationalitiesPlaced.split(',').map(s => s.trim()).filter(Boolean).map(slug => {
+                              const nat = NATIONALITIES_PLACED.find(o => o.value === slug);
+                              return nat ? (
+                                <span key={slug} className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold">
+                                  <span>{nat.flag}</span>
+                                  <span>{nat[lang] || nat.en}</span>
+                                </span>
+                              ) : null;
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {listing.specialties && (
+                        <div>
+                          <div className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">{t.col_expert}</div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {listing.specialties.split(',').map(s => s.trim()).filter(Boolean).map(slug => {
+                              const opt = SPECIALTIES.find(o => o.value === slug);
+                              return opt ? (
+                                <span key={slug} className="px-2.5 py-1 rounded-full bg-teal-50 text-teal-800 text-xs font-semibold border border-teal-100">
+                                  {opt[lang] || opt.en}
+                                </span>
+                              ) : null;
+                            })}
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>
                 )}
-              </div>
 
-              <p className="text-xs text-slate-400 mt-6 leading-snug">
-                {t.listing_disclaimer}
-              </p>
+                {/* Contact details — structured rows */}
+                <div className="rounded-2xl border border-slate-200 p-5 md:p-6 mb-6">
+                  <h2 className="text-sm font-bold text-on-surface mb-4">{t.section_contact_detail}</h2>
+                  <dl className="grid sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+
+                    {listing.address && (
+                      <div className="sm:col-span-2">
+                        <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.section_address}</dt>
+                        <dd className="text-slate-700 whitespace-pre-line">
+                          {listing.address}
+                          {listing.googleMapsUrl && (
+                            <a href={listing.googleMapsUrl} target="_blank" rel="nofollow noopener noreferrer"
+                              onClick={() => trackClick(listing.id, 'maps', clickSource)}
+                              className="block text-xs text-primary hover:underline mt-1">
+                              {t.cta_directions}
+                            </a>
+                          )}
+                        </dd>
+                      </div>
+                    )}
+
+                    {listing.phone && (
+                      <div>
+                        <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.label_phone}</dt>
+                        <dd><a href={`tel:${listing.phone}`} className="text-slate-700 hover:text-primary">{listing.phone}</a></dd>
+                      </div>
+                    )}
+
+                    {listing.whatsapp && (
+                      <div>
+                        <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.cta_whatsapp}</dt>
+                        <dd>
+                          <a href={`https://wa.me/${listing.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="nofollow noopener noreferrer"
+                            className="text-slate-700 hover:text-primary">{listing.whatsapp}</a>
+                        </dd>
+                      </div>
+                    )}
+
+                    {listing.lineId && (
+                      <div>
+                        <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.cta_line}</dt>
+                        <dd>
+                          <a href={`https://line.me/R/ti/p/${listing.lineId.replace(/^@/, '')}`} target="_blank" rel="nofollow noopener noreferrer"
+                            className="text-slate-700 hover:text-primary">{listing.lineId}</a>
+                        </dd>
+                      </div>
+                    )}
+
+                    {listing.email && (
+                      <div>
+                        <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.label_email}</dt>
+                        <dd><a href={`mailto:${listing.email}`} className="text-slate-700 hover:text-primary break-all">{listing.email}</a></dd>
+                      </div>
+                    )}
+
+                    {listing.openingHours && (
+                      <div>
+                        <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.section_hours}</dt>
+                        <dd className="text-slate-700 whitespace-pre-line">{listing.openingHours}</dd>
+                      </div>
+                    )}
+
+                    {listing.licenseNumber && (
+                      <div>
+                        <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.section_license}</dt>
+                        <dd className="font-mono text-slate-700 font-semibold">{listing.licenseNumber}</dd>
+                      </div>
+                    )}
+
+                    {listing.citiesServed && (
+                      <div className="sm:col-span-2">
+                        <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.section_serves}</dt>
+                        <dd className="text-slate-700">
+                          {formatCsvList(listing.citiesServed, CITY_OPTIONS.map(c => ({ value: c.slug, en: c.name, th: c.name })), lang)}
+                        </dd>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+
+                <p className="text-xs text-slate-400 leading-snug">{t.listing_disclaimer}</p>
+              </div>
             </div>
 
             {/* Other experts in this city */}
