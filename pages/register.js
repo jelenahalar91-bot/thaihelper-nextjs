@@ -598,6 +598,32 @@ export default function Register() {
           <p>{t.hero_p}</p>
         </div>
 
+        {/* What-this-is guard — positive and ALWAYS bilingual, mirrors the
+            employer page. Reassures helpers they're in the right place and
+            quietly redirects employers who landed here by mistake. Thai font
+            is inline because body.lang-th only applies in full Thai mode. */}
+        <div style={{ padding: '16px 16px 0' }}>
+          <div style={{
+            maxWidth: '640px', margin: '0 auto', background: '#ffffff',
+            border: '2px solid #006a62', borderRadius: '16px', padding: '16px 18px',
+            boxShadow: '0 6px 20px rgba(0,106,98,0.15)', display: 'flex',
+            alignItems: 'center', gap: '14px', flexWrap: 'wrap',
+          }}>
+            <div style={{ fontSize: '30px', lineHeight: 1, flexShrink: 0 }}>👋</div>
+            <div style={{ flex: 1, minWidth: '230px' }}>
+              <div style={{ fontWeight: 800, color: 'var(--navy)', fontSize: '15px', lineHeight: 1.4 }}>
+                Here you create your free helper account, so families &amp; individuals can contact you — or you can apply for a job.
+              </div>
+              <div style={{ fontFamily: "var(--font-thai), 'Sarabun', sans-serif", fontWeight: 700, color: '#006a62', fontSize: '15px', lineHeight: 1.55, marginTop: '6px' }}>
+                ที่นี่คุณสร้างบัญชีผู้ช่วยฟรี เพื่อให้ครอบครัวและบุคคลทั่วไปติดต่อคุณได้ — หรือคุณสามารถสมัครงานได้
+              </div>
+              <Link href="/employer-register" style={{ display: 'inline-block', marginTop: '8px', color: '#8a6d1a', fontWeight: 700, fontSize: '13.5px', textDecoration: 'underline' }}>
+                Want to hire a helper instead? · ต้องการจ้างผู้ช่วย? →
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* PROGRESS */}
         <div className="progress-wrap">
           <div className="progress-inner">

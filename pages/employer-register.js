@@ -464,13 +464,35 @@ export default function EmployerRegisterPage() {
           </p>
         </div>
 
-        {/* Wrong-page guard — surfaced for job seekers who landed here
-            by accident (most common signup-confusion failure mode). */}
-        <div style={{ background: '#fff8e5', borderBottom: '1px solid #f2d680' }}>
-          <div style={{ maxWidth: '640px', margin: '0 auto', padding: '12px 16px', fontSize: '14px', lineHeight: 1.5, color: '#5b4a1a', textAlign: 'center' }}>
-            <span style={{ marginRight: '6px' }}>{t.wrong_page_q}</span>
-            <Link href="/register" style={{ color: '#006a62', fontWeight: 700, textDecoration: 'underline' }}>
-              {t.wrong_page_cta}
+        {/* Wrong-page guard — high-contrast and ALWAYS bilingual. Most
+            mis-registrations are Thai job seekers, and localeDetection is
+            off (next.config) so they usually see the English page — showing
+            Thai here too catches them regardless of the active locale.
+            Thai font is set inline because body.lang-th only applies when
+            the whole page is in Thai mode. */}
+        <div style={{ padding: '16px 16px 0' }}>
+          <div style={{
+            maxWidth: '640px', margin: '0 auto', background: '#ffffff',
+            border: '2px solid #006a62', borderRadius: '16px', padding: '16px 18px',
+            boxShadow: '0 6px 20px rgba(0,106,98,0.15)', display: 'flex',
+            alignItems: 'center', gap: '14px', flexWrap: 'wrap',
+          }}>
+            <div style={{ fontSize: '30px', lineHeight: 1, flexShrink: 0 }}>🙋</div>
+            <div style={{ flex: 1, minWidth: '230px' }}>
+              <div style={{ fontWeight: 800, color: 'var(--navy)', fontSize: '15px', lineHeight: 1.4 }}>
+                Want to work as a nanny, maid, driver or caregiver? This page is for families &amp; individuals who need help and want to <u>post a job</u> — it is not a job application.
+              </div>
+              <div style={{ fontFamily: "var(--font-thai), 'Sarabun', sans-serif", fontWeight: 700, color: '#006a62', fontSize: '15px', lineHeight: 1.55, marginTop: '6px' }}>
+                ต้องการทำงานเป็นพี่เลี้ยง แม่บ้าน คนขับรถ หรือผู้ดูแลใช่ไหม? หน้านี้สำหรับครอบครัวและบุคคลที่ต้องการความช่วยเหลือและต้องการลงประกาศหาผู้ช่วย — ไม่ใช่หน้าสำหรับสมัครงาน
+              </div>
+            </div>
+            <Link href="/register" style={{
+              background: '#006a62', color: '#fff', fontWeight: 700, fontSize: '14px',
+              padding: '12px 20px', borderRadius: '12px', textDecoration: 'none',
+              whiteSpace: 'nowrap', textAlign: 'center', flexShrink: 0, lineHeight: 1.45,
+            }}>
+              Find work →<br />
+              <span style={{ fontFamily: "var(--font-thai), 'Sarabun', sans-serif", fontSize: '13px', fontWeight: 600, opacity: 0.95 }}>หางาน · เป็นผู้ช่วย</span>
             </Link>
           </div>
         </div>
@@ -816,11 +838,28 @@ export default function EmployerRegisterPage() {
               {/* Cloudflare Turnstile CAPTCHA */}
               <Turnstile onToken={handleTurnstileToken} />
 
+              {/* Last-chance bilingual reminder, right before submit, to catch
+                  job seekers who filled in the form by mistake. */}
+              <div style={{
+                background: '#f0faf8', border: '1px solid #b8e0da', borderRadius: '12px',
+                padding: '12px 14px', marginTop: '20px', fontSize: '13.5px', lineHeight: 1.55,
+                color: '#0a4a44', textAlign: 'center',
+              }}>
+                <strong>This account is for posting a job and hiring a helper.</strong>{' '}
+                <span style={{ fontFamily: "var(--font-thai), 'Sarabun', sans-serif" }}>
+                  บัญชีนี้สำหรับลงประกาศงานและจ้างผู้ช่วย
+                </span>
+                <br />
+                <Link href="/register" style={{ color: '#006a62', fontWeight: 700, textDecoration: 'underline', whiteSpace: 'nowrap' }}>
+                  Looking for work instead? · หางาน? →
+                </Link>
+              </div>
+
               <button
                 type="submit"
                 className="btn-next"
                 disabled={submitting}
-                style={{ width: '100%', marginTop: '20px', background: '#001b3d' }}
+                style={{ width: '100%', marginTop: '16px', background: '#001b3d' }}
               >
                 {submitting ? t.submitting : t.submit}
               </button>
