@@ -1,4 +1,4 @@
--- Helper Ratings (1-5 stars + optional 280-char comment)
+-- Helper Ratings (1-5 stars + optional 400-char comment)
 --
 -- Families rate helpers after they've messaged with each other.
 -- Eligibility (both sides exchanged at least one message) is enforced
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS helper_ratings (
   employer_ref TEXT NOT NULL,
   employer_first_name TEXT,
   stars SMALLINT NOT NULL CHECK (stars BETWEEN 1 AND 5),
-  comment TEXT CHECK (comment IS NULL OR char_length(comment) <= 280),
+  comment TEXT CHECK (comment IS NULL OR char_length(comment) <= 400),
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now(),
   UNIQUE (helper_ref, employer_ref)
