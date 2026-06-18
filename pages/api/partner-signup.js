@@ -16,18 +16,13 @@ const VALID_TYPES = [...DIRECTORY_TYPE_VALUES, 'other'];
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const {
-    companyName, contactName, email, phone, website,
-    type, cities, categories, description,
-  } = req.body || {};
+  const { companyName, contactName, email, phone, type } = req.body || {};
 
   if (!companyName || !email) {
     return res.status(400).json({ error: 'Company name and email are required.' });
   }
 
   const safeType = VALID_TYPES.includes(type) ? type : 'other';
-  const citiesList = Array.isArray(cities) ? cities.join(', ') : (cities || '—');
-  const catList = Array.isArray(categories) ? categories.join(', ') : (categories || '—');
 
   const TYPE_LABELS = {
     ...Object.fromEntries(DIRECTORY_TYPES.map((tp) => [tp.value, tp.en])),
@@ -62,26 +57,9 @@ export default async function handler(req, res) {
           <td style="padding:7px 0;font-size:14px;color:#1a1a1a;">${esc(phone || '—')}</td>
         </tr>
         <tr>
-          <td style="padding:7px 0;font-size:13px;color:#999;vertical-align:top;">Website</td>
-          <td style="padding:7px 0;font-size:14px;color:#1a1a1a;">${esc(website || '—')}</td>
-        </tr>
-        <tr>
           <td style="padding:7px 0;font-size:13px;color:#999;vertical-align:top;">Type</td>
           <td style="padding:7px 0;font-size:14px;color:#1a1a1a;">${esc(TYPE_LABELS[safeType])}</td>
         </tr>
-        <tr>
-          <td style="padding:7px 0;font-size:13px;color:#999;vertical-align:top;">Cities</td>
-          <td style="padding:7px 0;font-size:14px;color:#1a1a1a;">${esc(citiesList)}</td>
-        </tr>
-        <tr>
-          <td style="padding:7px 0;font-size:13px;color:#999;vertical-align:top;">Categories</td>
-          <td style="padding:7px 0;font-size:14px;color:#1a1a1a;">${esc(catList)}</td>
-        </tr>
-        ${description ? `
-        <tr>
-          <td style="padding:7px 0;font-size:13px;color:#999;vertical-align:top;">Description</td>
-          <td style="padding:7px 0;font-size:14px;color:#555;line-height:1.5;">${esc(description)}</td>
-        </tr>` : ''}
       </table>
     </div>
   </div>
