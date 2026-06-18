@@ -32,6 +32,8 @@ const T = {
     label_phone: 'Phone / LINE',
     label_type: 'Type *',
     ph_company: 'Your company name',
+    ph_contact: 'e.g. Somchai Jaidee',
+    ph_phone: '+66 2-xxx-xxxx or @lineID',
     submit: 'Send',
     submitting: 'Sending...',
     success_title: 'Thanks for your interest!',
@@ -68,6 +70,8 @@ const T = {
     label_phone: 'โทรศัพท์ / LINE',
     label_type: 'ประเภท *',
     ph_company: 'ชื่อบริษัทของคุณ',
+    ph_contact: 'เช่น สมชาย ใจดี',
+    ph_phone: '+66 2-xxx-xxxx หรือ @lineID',
     submit: 'ส่ง',
     submitting: 'กำลังส่ง...',
     success_title: 'ขอบคุณสำหรับความสนใจ!',
@@ -207,7 +211,7 @@ export default function Partners() {
                     <label className={labelCls}>{t.label_contact}</label>
                     <input className={inputCls} value={form.contactName}
                       onChange={(e) => setForm({ ...form, contactName: e.target.value })}
-                      placeholder="e.g. Somchai Jaidee" />
+                      placeholder={t.ph_contact} />
                   </div>
 
                   <div>
@@ -221,7 +225,7 @@ export default function Partners() {
                     <label className={labelCls}>{t.label_phone}</label>
                     <input className={inputCls} value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      placeholder="+66 2-xxx-xxxx or @lineID" />
+                      placeholder={t.ph_phone} />
                   </div>
 
                   <div>
