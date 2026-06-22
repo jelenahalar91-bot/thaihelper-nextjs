@@ -88,10 +88,10 @@ const T = {
 
     // Myanmar-specific 2026 compliance notice — shown on every MOU result
     // where the helper is Myanmar.
-    myanmar_notice_title: '📌 New 2026 requirements for Myanmar workers',
-    myanmar_notice_b1: 'Original Myanmar NIC (national ID card) + copy of the household list (Tabian Baan) are now mandatory for the application.',
-    myanmar_notice_b2: 'Workers must hold a valid Certificate of Identity (CI). For permits expiring 31 March 2026, the CI renewal window has been extended to 17 August 2026.',
-    myanmar_notice_b3: 'Many Myanmar workers missed the 31 March 2026 renewal deadline and are currently undocumented. Verify your candidate\'s work-permit renewal status before hiring.',
+    myanmar_notice_title: '📌 2026 status notes for Myanmar workers',
+    myanmar_notice_b1: 'Myanmar-side: the Myanmar embassy and consulate processes have tightened since 2024. Workers typically need a valid Myanmar passport, CI (Certificate of Identity) or PJ (Passport for Job), plus their original Myanmar NRC and Myanmar household register for embassy/CI steps. Since Jan 2026, junta pre-departure approvals are causing delays. This is a Myanmar-side requirement — not a Thai DoE checklist.',
+    myanmar_notice_b2: 'CI center extension: Myanmar\'s CI service centers in Thailand stay open until 17 Aug 2026, but only for workers already in the Cabinet-Sep-2024 renewal pipeline whose permits expired 31 Mar 2026 and who still need to complete the CI step. This is not a blanket Thai work-permit deadline extension.',
+    myanmar_notice_b3: 'The Thai-side renewal deadline of 31 March 2026 has passed without further extension. Approximately 375,000 of 890,000 CLMV workers had not completed renewal at Feb 2026. Verify your candidate\'s WP status carefully before hiring — workers who missed the deadline are currently undocumented in Thailand.',
 
     // Result: not legally allowed for domestic work
     nla_h2: 'Domestic-worker permits aren\'t available for this nationality.',
@@ -208,11 +208,11 @@ const T = {
     result_estimated_time: 'เวลาโดยประมาณ',
     result_thb: 'บาท',
 
-    // ข้อกำหนดใหม่ปี 2026 เฉพาะแรงงานพม่า — แสดงเมื่อสัญชาติ = พม่า + MOU
-    myanmar_notice_title: '📌 ข้อกำหนดใหม่ปี 2026 สำหรับแรงงานพม่า',
-    myanmar_notice_b1: 'ต้องใช้บัตรประชาชนพม่าตัวจริง (NIC) พร้อมสำเนาทะเบียนบ้านในการยื่นคำขอใบอนุญาตทำงาน',
-    myanmar_notice_b2: 'แรงงานต้องมี Certificate of Identity (CI) ที่ใช้ได้ สำหรับใบอนุญาตที่หมดอายุ 31 มี.ค. 2026 ขยายเวลาต่ออายุ CI ถึง 17 ส.ค. 2026',
-    myanmar_notice_b3: 'แรงงานพม่าจำนวนมากพลาดเส้นตายการต่ออายุ 31 มี.ค. 2026 และอยู่ในสถานะไม่ถูกต้อง โปรดตรวจสอบสถานะการต่ออายุของผู้สมัครก่อนตัดสินใจจ้าง',
+    // ข้อกำหนดปี 2026 เฉพาะแรงงานพม่า — แสดงเมื่อสัญชาติ = พม่า + MOU
+    myanmar_notice_title: '📌 สถานะปี 2026 สำหรับแรงงานพม่า',
+    myanmar_notice_b1: 'ฝั่งพม่า: ขั้นตอนที่สถานทูตและสถานกงสุลพม่าเข้มงวดขึ้นตั้งแต่ปี 2024 แรงงานต้องมีหนังสือเดินทางพม่า CI หรือ PJ ที่ใช้ได้ พร้อม NRC ตัวจริงและสำเนาทะเบียนบ้านพม่า (Form 10) สำหรับขั้นตอนสถานทูต/CI ตั้งแต่ ม.ค. 2569 มีความล่าช้าจากการอนุมัติก่อนเดินทางของรัฐบาลทหารพม่า เป็นข้อกำหนดฝั่งพม่า ไม่ใช่ของกรมการจัดหางานไทย',
+    myanmar_notice_b2: 'ขยายเวลาศูนย์ CI: ศูนย์บริการ CI ของพม่าในไทยเปิดถึง 17 ส.ค. 2569 เฉพาะแรงงานที่อยู่ในกลุ่ม มติคณะรัฐมนตรี ก.ย. 2567 ซึ่ง WP หมดอายุ 31 มี.ค. 2569 และยังต้องดำเนินการ CI ไม่ใช่การขยายเส้นตาย WP ฝั่งไทยทั่วไป',
+    myanmar_notice_b3: 'เส้นตายต่ออายุฝั่งไทย 31 มี.ค. 2569 หมดอายุแล้วโดยไม่มีการขยายเพิ่ม ประมาณ 375,000 จาก 890,000 แรงงาน CLMV ยังไม่ได้ต่ออายุ ณ ก.พ. 2569 โปรดตรวจสอบสถานะ WP ของผู้สมัครอย่างละเอียดก่อนตัดสินใจจ้าง — แรงงานที่พลาดเส้นตายอยู่ในสถานะไม่ถูกต้องในประเทศไทย',
 
     // ผลลัพธ์: ไม่อนุญาตทางกฎหมายสำหรับงานในบ้าน
     nla_h2: 'ใบอนุญาตทำงานประเภทแรงงานในบ้านไม่มีสำหรับสัญชาตินี้',
