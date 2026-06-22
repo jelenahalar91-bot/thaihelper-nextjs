@@ -210,7 +210,12 @@ export async function getStaticProps({ params }) {
       console.error('Directory detail SSG error:', error);
       return { notFound: true, revalidate: 60 };
     }
-    if (!row) return { notFound: true, revalidate: 300 };
+    if (!row) {
+      // 308 to /directory instead of hard 404 — fixes GSC reporting the
+      // literal "/directory/[slug]" template URL that AI crawlers pick up
+      // from __NEXT_DATA__. Same approach as /blog/[slug].
+      return { redirect: { destination: '/directory', permanent: true } };
+    }
 
     const listing = toPublicListing(row);
 

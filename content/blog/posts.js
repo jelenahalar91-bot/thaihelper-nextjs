@@ -1394,6 +1394,12 @@ export const blogPosts = [
     content_th: `
       <p>ข้อตกลงเป็นลายลักษณ์อักษรที่ชัดเจนช่วยปกป้องทั้งคุณและผู้ช่วยของคุณ แม้ว่าการตกลงด้วยวาจาจะเป็นเรื่องปกติในประเทศไทย แต่การเขียนทุกอย่างเป็นลายลักษณ์อักษรช่วยป้องกันความเข้าใจผิดและแสดงถึงความเป็นมืออาชีพ นี่คือสิ่งที่ควรระบุ — พร้อมแบบฟอร์มฟรีที่คุณสามารถปรับแต่งได้</p>
 
+      <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
+        <p style="margin:0 0 10px;font-weight:700;color:#006a62;">📄 ดาวน์โหลดแบบฟอร์มสัญญาพร้อมใช้</p>
+        <p style="margin:0 0 14px;font-size:14px;color:#475569;">สองภาษา (อังกฤษ + ไทย) เป็นไปตามพระราชบัญญัติคุ้มครองแรงงาน เปิดใน Word / Google Docs / Pages ได้เลย ฟรี ไม่ต้องใช้อีเมล</p>
+        <a href="/contract-template" style="display:inline-block;background:#006a62;color:white;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;font-size:14px;">ดาวน์โหลดแบบฟอร์มสัญญา →</a>
+      </div>
+
       <h2>ทำไมต้องมีข้อตกลงเป็นลายลักษณ์อักษร</h2>
       <ul>
         <li><strong>ความชัดเจน</strong> — ทั้งสองฝ่ายรู้แน่ชัดว่าคาดหวังอะไร</li>
@@ -1524,6 +1530,12 @@ export const blogPosts = [
     `,
     content: `
       <p>A clear written agreement protects both you and your helper. While verbal agreements are common in Thailand, putting everything in writing prevents misunderstandings and shows professionalism. Here's what to include — and a free template you can customize.</p>
+
+      <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
+        <p style="margin:0 0 10px;font-weight:700;color:#006a62;">📄 Skip the copy-paste — download the ready-to-fill template</p>
+        <p style="margin:0 0 14px;font-size:14px;color:#475569;">Bilingual (English + Thai), Labour-Protection-Act-compliant, opens in Word / Google Docs / Pages. Free, no email required.</p>
+        <a href="/contract-template" style="display:inline-block;background:#006a62;color:white;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;font-size:14px;">Download the contract template →</a>
+      </div>
 
       <h2>Why You Need a Written Agreement</h2>
       <ul>
