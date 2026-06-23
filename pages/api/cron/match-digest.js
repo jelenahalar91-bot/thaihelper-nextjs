@@ -85,7 +85,7 @@ export default async function handler(req, res) {
     .from('employer_accounts')
     .select(
       'employer_ref, first_name, email, city, looking_for, notify_on_message, ' +
-      'line_user_id, notify_via_line, last_match_notification_at'
+      'search_status, line_user_id, notify_via_line, last_match_notification_at'
     )
     .eq('email_verified', true)
     .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${cooldownCutoff}`)
@@ -97,6 +97,9 @@ export default async function handler(req, res) {
   } else {
     for (const emp of empCandidates || []) {
       if (!emp.email && !emp.line_user_id) continue;
+      // Respect paused/hidden — those employers opted out of new-match
+      // alerts. NULL (pre-migration) counts as actively searching.
+      if (emp.search_status === 'paused' || emp.search_status === 'hidden') continue;
       const wanted = parseLookingFor(emp.looking_for);
       if (wanted.length === 0) continue;
 

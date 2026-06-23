@@ -22,7 +22,11 @@ const EDITABLE_FIELDS = [
   'job_description',
   'preferred_language',
   'notify_on_message',
+  'search_status',
 ];
+
+// Employer hiring status — see scripts/supabase-employer-search-status.sql.
+const SEARCH_STATUS_VALUES = ['searching', 'paused', 'hidden'];
 
 // Fields that may arrive as either an array (from chip toggles) or a CSV
 // string. We normalise both into a comma-separated string for storage so
@@ -46,6 +50,7 @@ export default async function handler(req, res) {
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, preferred_age_range, ' +
         'job_description, preferred_language, photo_url, notify_on_message, ' +
+        'search_status, ' +
         'access_until, access_tier, email_verified, created_at, last_login_at, ' +
         // Phone-verification fields (added 2026-06-09).
         'phone_number, phone_country_code, phone_verified_at, ' +
@@ -79,6 +84,16 @@ export default async function handler(req, res) {
     if ('arrangement_preference' in patch && patch.arrangement_preference) {
       if (!ARRANGEMENT_VALUES.includes(patch.arrangement_preference)) {
         patch.arrangement_preference = null;
+      }
+    }
+
+    // Whitelist search status (matches DB CHECK constraint). An invalid
+    // value would otherwise hit the constraint and 500 the whole update,
+    // so we reject it up front rather than silently nulling — null isn't
+    // allowed by the NOT NULL column.
+    if ('search_status' in patch) {
+      if (!SEARCH_STATUS_VALUES.includes(patch.search_status)) {
+        return res.status(400).json({ error: 'Invalid search_status' });
       }
     }
 

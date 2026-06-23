@@ -29,6 +29,7 @@ function toPublicCard(row) {
     photo: row.photo_url || '',
     arrangementPreference: row.arrangement_preference || null,
     preferredAgeRange: row.preferred_age_range || null,
+    searchStatus: row.search_status || 'searching',
     source: 'account',
     createdAt: row.created_at || null,
   };
@@ -48,7 +49,7 @@ export default async function handler(req, res) {
         'employer_ref, first_name, last_name, city, area, ' +
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, preferred_age_range, ' +
-        'job_description, photo_url, created_at'
+        'job_description, photo_url, search_status, created_at'
       )
       .order('created_at', { ascending: false });
 
@@ -57,7 +58,12 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to load employers' });
     }
 
-    const employers = (accounts || []).map(toPublicCard);
+    // Drop employers who set themselves to 'hidden'. Filtered in JS (not
+    // the query) so pre-migration rows with search_status = NULL are kept
+    // — a Postgres `.neq('search_status','hidden')` would exclude NULLs.
+    const employers = (accounts || [])
+      .filter((row) => row.search_status !== 'hidden')
+      .map(toPublicCard);
 
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
     return res.status(200).json({ employers });
