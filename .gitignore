@@ -57,5 +57,14 @@ scripts/send-*.js
 scripts/find-*.js
 scripts/dedupe-*.js
 scripts/list-*.js
+scripts/notify-*.js
 check-messaging*.js
 messaging-detailed-report.js
+
+# Destructive admin/ops scripts — they hard-delete production rows or
+# flip verification flags. Useful locally, but they should never live in
+# the public repo where a fresh clone hands anyone a ready-made
+# delete-helper tool. Kept on disk (git rm --cached), ignored from here.
+scripts/delete-*.js
+scripts/flip-*.js
+scripts/audit-employer-signups.js
