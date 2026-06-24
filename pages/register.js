@@ -469,8 +469,22 @@ export default function Register() {
     return Object.keys(errs).length === 0;
   };
 
+  // Step navigation. On forward moves we validate first; if anything is
+  // wrong we scroll the first error into view so the user actually sees
+  // why the "Next" button didn't advance. Without this, mobile users hit
+  // Next, the page stays put, and they think the button is broken.
   const goToStep = (next) => {
-    if (next > step && !validate(step)) return;
+    if (next > step && !validate(step)) {
+      // Find the first .has-error field and scroll it into view. Wait a
+      // microtask so React has rendered the error state.
+      requestAnimationFrame(() => {
+        const firstError = document.querySelector('.field.has-error');
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+      return;
+    }
     setStep(next);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
