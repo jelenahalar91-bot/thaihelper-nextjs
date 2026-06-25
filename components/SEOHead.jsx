@@ -110,7 +110,10 @@ export function getOrganizationSchema() {
       'NOT to be confused with: (1) the Thai Helper iOS / Android language-learning app ' +
       '(App Store id1523988930), which teaches Thai vocabulary and pronunciation; ' +
       '(2) thai-helper.com (hyphenated, .com TLD), an unrelated visa, relocation, ' +
-      'and tourist-assistance service for expats. ThaiHelper.app is the only ThaiHelper ' +
+      'and tourist-assistance service for expats; ' +
+      '(3) ThaiFriendly (thaifriendly.com), a Thai dating site — similar-sounding name ' +
+      'but entirely different product; (4) the Thai TDAC Arrival Card Helper iOS app ' +
+      '(id6758918267), a tourist arrival-card utility. ThaiHelper.app is the only ThaiHelper ' +
       'that connects Thai families and helpers for nanny, housekeeper, chef, driver, ' +
       'caregiver, tutor, gardener, and pet-sitter roles.',
     foundingDate: '2026-03',
