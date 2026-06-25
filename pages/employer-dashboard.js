@@ -706,7 +706,12 @@ export default function EmployerDashboard() {
     setSending(true);
     try {
       const res = await sendMessage(selectedConv.id, content, 'employer');
-      setMessages(prev => [...prev, res.message]);
+      // Dedupe by ID: a slow send lets the 10s message poll fetch this
+      // same row (already inserted server-side) before the POST resolves,
+      // so it may already be in state. Without this guard it shows twice.
+      setMessages(prev =>
+        prev.some(m => m.id === res.message.id) ? prev : [...prev, res.message]
+      );
 
       // If the conversation isn't in the sidebar yet (first message),
       // refresh the list so it appears

@@ -862,7 +862,12 @@ export default function Profile() {
     setSendingMsg(true);
     try {
       const res = await sendMessage(selectedConv.id, content, 'helper');
-      setMessages(prev => [...prev, res.message]);
+      // Dedupe by ID: a slow send lets the 10s message poll fetch this
+      // same row (already inserted server-side) before the POST resolves,
+      // so it may already be in state. Without this guard it shows twice.
+      setMessages(prev =>
+        prev.some(m => m.id === res.message.id) ? prev : [...prev, res.message]
+      );
 
       // If this was the first message, the conversation won't be in the
       // sidebar yet (empty convs are filtered out). Refresh the list.
