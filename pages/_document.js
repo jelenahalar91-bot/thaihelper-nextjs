@@ -33,6 +33,11 @@ class MyDocument extends Document {
 
           {/* Google Search Console verified via HTML file (public/google*.html) */}
 
+          {/* Trustpilot domain verification — paste the token from
+              business.trustpilot.com after claiming thaihelper.app,
+              then uncomment. See marketing/backlink-pack-2026-06-25.md */}
+          {/* <meta name="trustpilot-one-time-domain-verification-id" content="TODO-TRUSTPILOT-TOKEN" /> */}
+
           {/* Geo meta tags for local SEO */}
           <meta name="geo.region" content="TH" />
           <meta name="geo.placename" content="Thailand" />

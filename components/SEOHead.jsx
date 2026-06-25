@@ -128,8 +128,14 @@ export function getOrganizationSchema() {
       availableLanguage: ['English', 'Thai'],
       url: `${SITE_URL}/about`,
     },
+    // sameAs is the strongest E-A-T / Knowledge-Graph signal we have.
+    // Add Trustpilot + Google Business Profile URLs here once Jelena
+    // claims them — see marketing/backlink-pack-2026-06-25.md and
+    // marketing_gbp_trustpilot_plan_2026-06-25.md in memory.
     sameAs: [
       'https://line.me/R/ti/p/@097ymfte',
+      // TODO: 'https://www.trustpilot.com/review/thaihelper.app',
+      // TODO: 'https://www.google.com/maps/place/?q=place_id:TODO-GBP-PLACE-ID',
     ],
   };
 }

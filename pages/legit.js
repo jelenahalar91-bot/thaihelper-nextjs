@@ -351,6 +351,20 @@ export default function Legit() {
                     </div>
                   </div>
                 ))}
+                {/* Trustpilot link — uncomment after claiming the profile.
+                    See marketing/backlink-pack-2026-06-25.md
+                <a
+                  href="https://www.trustpilot.com/review/thaihelper.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-primary/40 transition-colors"
+                >
+                  <div className="w-9 h-9 shrink-0 rounded-full bg-[#00B67A] text-white font-bold flex items-center justify-center">★</div>
+                  <div>
+                    <h3 className="font-bold text-on-background mb-1">Read reviews on Trustpilot →</h3>
+                    <p className="text-sm text-on-surface-variant leading-relaxed">Independent third-party reviews from real ThaiHelper families.</p>
+                  </div>
+                </a> */}
               </div>
             </div>
           </section>
