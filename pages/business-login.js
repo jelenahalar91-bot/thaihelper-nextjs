@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import { useLang } from './_app';
 
 export default function BusinessLogin() {
@@ -43,7 +44,7 @@ export default function BusinessLogin() {
       <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
         <div className="w-full max-w-md">
           <div className="mb-6 text-center">
-            <Link href="/" className="text-2xl font-bold font-headline text-navy">Thai<span className="text-primary">Helper</span></Link>
+            <BrandWordmark size="lg" />
           </div>
           <form onSubmit={submit} className="rounded-2xl border border-gray-200 bg-white p-7 sm:p-8">
             <h1 className="text-xl font-extrabold text-navy">{th ? 'เข้าสู่ระบบบริษัท' : 'Company login'}</h1>

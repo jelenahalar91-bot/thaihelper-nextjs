@@ -81,6 +81,10 @@ export default async function handler(req, res) {
   // Email the company its private onboarding link.
   const inviteToken = await createInviteToken(account.id);
   const onboardUrl = `${BASE_URL}/business-onboarding?t=${encodeURIComponent(inviteToken)}`;
+  // Each language button carries its own ?lang= so the onboarding page opens
+  // in the language the recipient clicked — a Thai-only reader gets Thai.
+  const onboardUrlEn = `${onboardUrl}&lang=en`;
+  const onboardUrlTh = `${onboardUrl}&lang=th`;
   const greetName = account.contact_name ? esc(account.contact_name) : 'there';
 
   const inviteHtml = `
@@ -95,7 +99,7 @@ export default async function handler(req, res) {
         Good news — <strong>${esc(account.company_name)}</strong> has been approved for the ThaiHelper Expert Directory. Click below to set your password and fill in your profile (logo, description, contact details and more):
       </p>
       <div style="margin:22px 0;">
-        <a href="${onboardUrl}" style="display:inline-block;background:#006a62;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 28px;border-radius:8px;">
+        <a href="${onboardUrlEn}" style="display:inline-block;background:#006a62;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 28px;border-radius:8px;">
           Set up my listing →
         </a>
       </div>
@@ -108,7 +112,7 @@ export default async function handler(req, res) {
         ข่าวดี — <strong>${esc(account.company_name)}</strong> ได้รับการอนุมัติให้ลงใน ThaiHelper Expert Directory แล้ว คลิกปุ่มด้านล่างเพื่อตั้งรหัสผ่านและกรอกข้อมูลโปรไฟล์ของคุณ (โลโก้ รายละเอียด ข้อมูลติดต่อ และอื่นๆ)
       </p>
       <div style="margin:22px 0;">
-        <a href="${onboardUrl}" style="display:inline-block;background:#006a62;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 28px;border-radius:8px;">
+        <a href="${onboardUrlTh}" style="display:inline-block;background:#006a62;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 28px;border-radius:8px;">
           ตั้งค่ารายชื่อของฉัน →
         </a>
       </div>
@@ -130,12 +134,12 @@ export default async function handler(req, res) {
       text:
         `Hi ${account.contact_name || 'there'},\n\n` +
         `Good news — ${account.company_name} has been approved for the ThaiHelper Expert Directory.\n\n` +
-        `Set up your listing (choose a password and fill in your details):\n${onboardUrl}\n\n` +
+        `Set up your listing (choose a password and fill in your details):\n${onboardUrlEn}\n\n` +
         `This private link is just for you and expires in 30 days.\n\n` +
         `— — —\n\n` +
         `สวัสดีค่ะ/ครับ\n\n` +
         `ข่าวดี — ${account.company_name} ได้รับการอนุมัติให้ลงใน ThaiHelper Expert Directory แล้ว\n\n` +
-        `ตั้งค่ารายชื่อของคุณ (ตั้งรหัสผ่านและกรอกข้อมูล):\n${onboardUrl}\n\n` +
+        `ตั้งค่ารายชื่อของคุณ (ตั้งรหัสผ่านและกรอกข้อมูล):\n${onboardUrlTh}\n\n` +
         `ลิงก์นี้สำหรับคุณเท่านั้น และหมดอายุใน 30 วัน\n\n— The ThaiHelper Team`,
     });
   } catch (err) {
