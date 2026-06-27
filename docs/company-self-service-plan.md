@@ -1,6 +1,18 @@
 # Company Self-Service — Implementation Plan
 
-**Status:** Planned, not started · **Created:** 2026-06-18
+**Status:** Stage 2 BUILT 2026-06-27 (invite-gated, password-based) — pending SQL migration + end-to-end test, not yet committed/deployed · **Created:** 2026-06-18
+
+> ## Stage 2 as built (2026-06-27) — differs from the original sketch below
+> Jelena chose an **invite-gated, password** flow (not passwordless ref):
+> 1. Company applies at `/partners` → `company_accounts` row, status `requested` + admin email with a one-click **Approve** link.
+> 2. Admin clicks Approve (`/api/company-approve`) → status `invited`, company gets an email with a private onboarding link.
+> 3. `/business-onboarding?t=…` → company sets its own **password** + fills listing → listing goes **live** (`status='active'`, admin already vetted the company), auto-logged-in.
+> 4. `/business-login` (email + password) → `/business-dashboard` to edit listing + upload logo.
+>
+> **Files:** SQL `scripts/supabase-company-accounts.sql` · auth `lib/auth.js` (cookie `th_biz_session`, role `company`) · `lib/company-invite.js` (approve/invite tokens) · `lib/company-listing.js` (field sanitiser) · APIs `company-approve|company-onboard|company-auth|company-listing|company-photo` + rewritten `partner-signup` · pages `business-onboarding|business-dashboard|business-login` · `components/CompanyListingForm.jsx`. New dep: `bcryptjs`.
+> **TODO before deploy:** run the SQL in Supabase, then test apply→approve→onboard→login→edit, then commit + deploy.
+
+**Original plan — Created:** 2026-06-18
 **Decision so far:** No "verified" badge for self-registration (see *Badge policy* below). Build only when the trigger conditions below are met.
 
 ## Goal
