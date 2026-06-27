@@ -73,7 +73,7 @@ export default function BusinessOnboarding() {
       </Head>
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="mx-auto max-w-2xl px-4">
-          <Link href="/" className="text-xl font-extrabold text-navy">Thai<span className="text-primary">Helper</span></Link>
+          <Link href="/" className="text-xl font-bold font-headline text-navy">Thai<span className="text-primary">Helper</span></Link>
 
           {loading && <p className="mt-10 text-center text-gray-500">Loading…</p>}
 
