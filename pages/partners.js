@@ -23,7 +23,7 @@ const T = {
 
     meta_title: 'List Your Company · ThaiHelper',
     meta_desc: 'Get listed on ThaiHelper — reach families looking for household staff across Thailand.',
-    hero_title: 'Get your company listed on ThaiHelper',
+    hero_title: 'Get your company listed on',
     hero_sub: 'We list staffing agencies, service companies, immigration lawyers, visa agents and more in our Expert Directory — so families who need professional support can find you.',
     form_title: 'Register your interest',
     label_company: 'Company name *',
@@ -63,7 +63,7 @@ const T = {
 
     meta_title: 'ลงทะเบียนบริษัทของคุณ · ThaiHelper',
     meta_desc: 'ลงรายชื่อบนไทยเฮลเปอร์ — เข้าถึงครอบครัวที่ต้องการพนักงานดูแลบ้านทั่วประเทศไทย',
-    hero_title: 'ลงรายชื่อบริษัทของคุณบน ThaiHelper',
+    hero_title: 'ลงรายชื่อบริษัทของคุณบน',
     hero_sub: 'เราลงรายชื่อบริษัทจัดหาแรงงาน บริษัทบริการ ทนายความตรวจคนเข้าเมือง ตัวแทนวีซ่า และอื่นๆ ใน Expert Directory เพื่อให้ครอบครัวที่ต้องการความช่วยเหลือมืออาชีพค้นหาคุณเจอ',
     form_title: 'ลงทะเบียนความสนใจ',
     label_company: 'ชื่อบริษัท *',
@@ -177,7 +177,8 @@ export default function Partners() {
           {/* HERO — full width, centred, on-brand teal tint */}
           <div className="bg-gradient-to-b from-[#E8F7F5] to-background px-4 py-10 md:py-16 text-center">
             <h1 className="text-3xl md:text-4xl font-extrabold font-headline text-[#1B3A4B] max-w-2xl mx-auto leading-tight">
-              {t.hero_title}
+              {t.hero_title}{' '}
+              <span className="whitespace-nowrap">Thai<span className="text-primary">Helper</span></span>
             </h1>
             <p className="text-base md:text-lg text-on-surface-variant max-w-xl mx-auto mt-3 leading-relaxed">
               {t.hero_sub}
