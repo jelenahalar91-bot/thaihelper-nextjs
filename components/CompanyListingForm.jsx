@@ -24,6 +24,10 @@ function csvToggle(csv, v) {
   return list.join(',');
 }
 
+// Cities as chips (value=slug) so companies can only pick valid cities —
+// free text led to typos that broke the directory's city filter.
+const CITY_CHIP_OPTIONS = CITY_OPTIONS.map(c => ({ value: c.slug, en: c.name, th: c.name }));
+
 const inputCls =
   'w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary';
 const labelCls = 'block text-sm font-semibold text-navy mb-1';
@@ -102,9 +106,10 @@ export default function CompanyListingForm({ value, onChange, lang = 'en' }) {
 
       <Field
         label={th ? 'พื้นที่ให้บริการ' : 'Cities served'}
-        hint={th ? 'คั่นด้วยจุลภาค เช่น bangkok,phuket' : 'Comma-separated slugs, e.g. bangkok,phuket'}
+        hint={th ? 'แตะเมืองทั้งหมดที่คุณให้บริการ' : 'Tap all the cities you serve'}
       >
-        <input className={inputCls} value={v.citiesServed || ''} onChange={set('citiesServed')} />
+        <ChipGroup options={CITY_CHIP_OPTIONS} value={v.citiesServed} lang={lang}
+          onToggle={(val) => onChange('citiesServed', csvToggle(v.citiesServed, val))} />
       </Field>
 
       <Field label={th ? 'ที่อยู่' : 'Address'}>
