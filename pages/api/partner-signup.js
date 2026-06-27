@@ -204,6 +204,11 @@ export default async function handler(req, res) {
       to: process.env.ADMIN_EMAIL || 'support@thaihelper.app',
       subject: `New partner application: ${companyName}`,
       html,
+      text:
+        `New partner application: ${companyName}\n` +
+        `Contact: ${contactName || '—'}\nEmail: ${cleanEmail}\n` +
+        `Phone: ${phone || '—'}\nType: ${TYPE_LABELS[safeType]}\n\n` +
+        (approveUrl ? `Approve & send access link:\n${approveUrl}` : 'Account record could not be created — handle this application manually.'),
     });
   } catch (err) {
     console.error('partner-signup admin email error', err);
@@ -218,6 +223,11 @@ export default async function handler(req, res) {
       to: cleanEmail,
       subject: 'Thanks for applying to ThaiHelper',
       html: confirmationHtml,
+      text:
+        `Hi ${contactName || 'there'},\n\n` +
+        `Thanks for applying to list ${companyName} in the ThaiHelper Expert Directory. ` +
+        `We review every company by hand — once approved, we'll email you a private link to set up your profile (logo, details and photos). ` +
+        `You'll hear from us within a few days.\n\n— The ThaiHelper Team`,
     });
   } catch (err) {
     console.error('partner-signup confirmation email error', err);
