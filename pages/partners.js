@@ -40,6 +40,8 @@ const T = {
     success_body: "We've received your details and will be in touch within a few days to get your company listed.",
     success_cta: 'Browse the Expert Directory',
     error: 'Something went wrong. Please email support@thaihelper.app.',
+    login_existing: 'Already approved?',
+    login_cta: 'Company login →',
 
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
     footer_privacy: 'Privacy',
@@ -77,6 +79,8 @@ const T = {
     success_title: 'ขอบคุณสำหรับความสนใจ!',
     success_body: 'เราได้รับข้อมูลของคุณแล้ว และจะติดต่อกลับภายในไม่กี่วันเพื่อนำบริษัทของคุณขึ้นรายชื่อ',
     success_cta: 'ดู Expert Directory',
+    login_existing: 'ได้รับอนุมัติแล้ว?',
+    login_cta: 'เข้าสู่ระบบบริษัท →',
     error: 'เกิดข้อผิดพลาด กรุณาส่งอีเมลมาที่ support@thaihelper.app',
 
     footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
@@ -260,6 +264,11 @@ export default function Partners() {
                 </form>
               )}
             </div>
+
+            <p className="mt-5 text-center text-sm text-slate-500">
+              {t.login_existing}{' '}
+              <Link href="/business-login" className="font-semibold text-primary hover:underline">{t.login_cta}</Link>
+            </p>
           </div>
         </main>
 
