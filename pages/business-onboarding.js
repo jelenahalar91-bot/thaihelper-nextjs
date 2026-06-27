@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import { useLang } from './_app';
 import CompanyListingForm from '@/components/CompanyListingForm';
 
@@ -14,7 +15,7 @@ const EMPTY = {
 
 export default function BusinessOnboarding() {
   const router = useRouter();
-  const { lang } = useLang();
+  const { lang, setLang } = useLang();
   const th = lang === 'th';
   const token = typeof router.query.t === 'string' ? router.query.t : '';
 
@@ -25,6 +26,14 @@ export default function BusinessOnboarding() {
   const [confirm, setConfirm] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  // Honour the ?lang= hint from the invite link so a recipient who clicked
+  // the Thai button lands on the Thai version (the email sends lang=th / en).
+  useEffect(() => {
+    if (!router.isReady) return;
+    const q = router.query.lang;
+    if ((q === 'th' || q === 'en') && q !== lang) setLang(q);
+  }, [router.isReady, router.query.lang]);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -73,7 +82,7 @@ export default function BusinessOnboarding() {
       </Head>
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="mx-auto max-w-2xl px-4">
-          <Link href="/" className="text-xl font-bold font-headline text-navy">Thai<span className="text-primary">Helper</span></Link>
+          <BrandWordmark size="sm" />
 
           {loading && <p className="mt-10 text-center text-gray-500">Loading…</p>}
 
