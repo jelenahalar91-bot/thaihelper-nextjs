@@ -105,8 +105,14 @@ export default async function handler(req, res) {
 
       <p style="font-size:14px;color:#1a1a1a;line-height:1.7;margin:0 0 14px;">
         สวัสดีค่ะ/ครับ<br>
-        ข่าวดี — <strong>${esc(account.company_name)}</strong> ได้รับการอนุมัติให้ลงใน ThaiHelper Expert Directory แล้ว คลิกด้านบนเพื่อตั้งรหัสผ่านและกรอกข้อมูลโปรไฟล์ของคุณ (โลโก้ รายละเอียด ข้อมูลติดต่อ และอื่นๆ) ลิงก์นี้หมดอายุใน 30 วัน
+        ข่าวดี — <strong>${esc(account.company_name)}</strong> ได้รับการอนุมัติให้ลงใน ThaiHelper Expert Directory แล้ว คลิกปุ่มด้านล่างเพื่อตั้งรหัสผ่านและกรอกข้อมูลโปรไฟล์ของคุณ (โลโก้ รายละเอียด ข้อมูลติดต่อ และอื่นๆ)
       </p>
+      <div style="margin:22px 0;">
+        <a href="${onboardUrl}" style="display:inline-block;background:#006a62;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:14px 28px;border-radius:8px;">
+          ตั้งค่ารายชื่อของฉัน →
+        </a>
+      </div>
+      <p style="font-size:12px;color:#999;line-height:1.5;margin:0 0 20px;">ลิงก์ส่วนตัวนี้สำหรับคุณเท่านั้น และหมดอายุใน 30 วัน</p>
 
       <p style="font-size:13px;color:#888;margin:8px 0 0;">— The ThaiHelper Team</p>
     </div>
@@ -119,13 +125,18 @@ export default async function handler(req, res) {
     await resend.emails.send({
       from: fromAddr,
       to: account.email,
-      subject: 'You\'re approved — set up your ThaiHelper listing',
+      subject: 'You\'re approved — set up your ThaiHelper listing / คุณได้รับอนุมัติแล้ว — ตั้งค่ารายชื่อของคุณ',
       html: inviteHtml,
       text:
         `Hi ${account.contact_name || 'there'},\n\n` +
         `Good news — ${account.company_name} has been approved for the ThaiHelper Expert Directory.\n\n` +
         `Set up your listing (choose a password and fill in your details):\n${onboardUrl}\n\n` +
-        `This private link is just for you and expires in 30 days.\n\n— The ThaiHelper Team`,
+        `This private link is just for you and expires in 30 days.\n\n` +
+        `— — —\n\n` +
+        `สวัสดีค่ะ/ครับ\n\n` +
+        `ข่าวดี — ${account.company_name} ได้รับการอนุมัติให้ลงใน ThaiHelper Expert Directory แล้ว\n\n` +
+        `ตั้งค่ารายชื่อของคุณ (ตั้งรหัสผ่านและกรอกข้อมูล):\n${onboardUrl}\n\n` +
+        `ลิงก์นี้สำหรับคุณเท่านั้น และหมดอายุใน 30 วัน\n\n— The ThaiHelper Team`,
     });
   } catch (err) {
     console.error('company-approve invite email error', err);
