@@ -121,6 +121,11 @@ export default async function handler(req, res) {
       to: account.email,
       subject: 'You\'re approved — set up your ThaiHelper listing',
       html: inviteHtml,
+      text:
+        `Hi ${account.contact_name || 'there'},\n\n` +
+        `Good news — ${account.company_name} has been approved for the ThaiHelper Expert Directory.\n\n` +
+        `Set up your listing (choose a password and fill in your details):\n${onboardUrl}\n\n` +
+        `This private link is just for you and expires in 30 days.\n\n— The ThaiHelper Team`,
     });
   } catch (err) {
     console.error('company-approve invite email error', err);
