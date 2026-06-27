@@ -81,7 +81,7 @@ export default function BusinessDashboard() {
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="mx-auto max-w-2xl px-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="text-xl font-extrabold text-navy">Thai<span className="text-primary">Helper</span></Link>
+            <Link href="/" className="text-xl font-bold font-headline text-navy">Thai<span className="text-primary">Helper</span></Link>
             <button onClick={logout} className="text-sm font-semibold text-gray-500 hover:text-gray-800">
               {th ? 'ออกจากระบบ' : 'Log out'}
             </button>
