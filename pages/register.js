@@ -31,6 +31,14 @@ const T = {
     step3_dot:       'Contact',
     step1_title:     'Tell us about yourself',
     step1_sub:       'First, the basics — what you do and where you work.',
+    acct_label:      'Are you registering as an individual or a company?',
+    acct_individual:     "I'm an individual",
+    acct_individual_sub: 'I offer my own services (nanny, driver, housekeeper…)',
+    acct_company:        "We're a company / agency",
+    acct_company_sub:    'We provide staff or services as a business',
+    company_card_title:  'Companies & agencies go in our Directory',
+    company_card_body:   "Helper profiles here are for individuals offering their own work. If you're a company or agency providing staff or services, get listed in our Expert Directory instead — families looking for professional providers will find you there.",
+    company_card_cta:    'List your company →',
     cat_label:       'Service Category',
     cat_ph:          '— Select your main service —',
     cat_nanny:       'Nanny & Babysitter',
@@ -163,6 +171,14 @@ const T = {
     step3_dot:       'ติดต่อ',
     step1_title:     'แนะนำตัวเอง',
     step1_sub:       'เริ่มต้นด้วยพื้นฐาน — คุณทำอะไรและทำงานที่ไหน',
+    acct_label:      'คุณลงทะเบียนในฐานะบุคคลทั่วไปหรือบริษัท?',
+    acct_individual:     'ฉันเป็นบุคคลทั่วไป',
+    acct_individual_sub: 'ฉันให้บริการด้วยตัวเอง (พี่เลี้ยง, คนขับรถ, แม่บ้าน…)',
+    acct_company:        'เราเป็นบริษัท / เอเจนซี่',
+    acct_company_sub:    'เราให้บริการพนักงานหรือบริการในนามธุรกิจ',
+    company_card_title:  'บริษัทและเอเจนซี่ลงในไดเรกทอรีของเรา',
+    company_card_body:   'โปรไฟล์ผู้ช่วยที่นี่สำหรับบุคคลที่ให้บริการด้วยตัวเอง หากคุณเป็นบริษัทหรือเอเจนซี่ที่จัดหาพนักงานหรือให้บริการ กรุณาลงรายชื่อใน Expert Directory ของเราแทน — ครอบครัวที่มองหาผู้ให้บริการมืออาชีพจะค้นพบคุณที่นั่น',
+    company_card_cta:    'ลงรายชื่อบริษัทของคุณ →',
     cat_label:       'ประเภทบริการ',
     cat_ph:          '— เลือกบริการหลักของคุณ —',
     cat_nanny:       'พี่เลี้ยงเด็ก',
@@ -343,6 +359,10 @@ export default function Register() {
   const [submitting, setSubmitting] = useState(false);
 
   // Form fields
+  // Individual vs company gate — companies belong in the Expert Directory
+  // (/partners), not the individual helper list. 'company' swaps the form
+  // for a redirect card. Default keeps the normal individual flow untouched.
+  const [accountType, setAccountType] = useState('individual');
   const [categories,  setCategories]  = useState([]); // array of slugs — multi-select
   const [skills,      setSkills]      = useState([]);
   const [dob,         setDob]         = useState(''); // YYYY-MM-DD
@@ -699,6 +719,64 @@ export default function Register() {
                 <h2 className="step-title">{t.step1_title}</h2>
                 <p className="step-sub">{t.step1_sub}</p>
 
+                {/* Individual vs company gate. Companies that pick "company"
+                    get redirected to the Expert Directory signup instead of
+                    filling out an individual helper profile. */}
+                <div className="field">
+                  <label>{t.acct_label}</label>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '8px' }}>
+                    {[
+                      { value: 'individual', title: t.acct_individual, sub: t.acct_individual_sub },
+                      { value: 'company',    title: t.acct_company,    sub: t.acct_company_sub },
+                    ].map(opt => {
+                      const selected = accountType === opt.value;
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setAccountType(opt.value)}
+                          style={{
+                            textAlign: 'left',
+                            padding: '12px 14px',
+                            borderRadius: '12px',
+                            border: `1.5px solid ${selected ? '#006a62' : '#e5e7eb'}`,
+                            background: selected ? '#e6f5f3' : 'white',
+                            cursor: 'pointer',
+                            transition: 'all 0.15s',
+                          }}
+                        >
+                          <div style={{ fontWeight: 700, fontSize: '14px', color: selected ? '#006a62' : '#1f2937' }}>{opt.title}</div>
+                          <div style={{ fontSize: '12.5px', color: 'var(--gray-500)', marginTop: '3px', lineHeight: 1.4 }}>{opt.sub}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Company → redirect card. Replaces the individual form. */}
+                {accountType === 'company' && (
+                  <div style={{
+                    background: '#fffdf5', border: '2px solid #F4A261', borderRadius: '16px',
+                    padding: '20px 22px', marginTop: '4px',
+                  }}>
+                    <div style={{ fontSize: '28px', lineHeight: 1, marginBottom: '8px' }}>🏢</div>
+                    <div style={{ fontWeight: 800, color: 'var(--navy)', fontSize: '16px', marginBottom: '8px' }}>
+                      {t.company_card_title}
+                    </div>
+                    <p style={{ fontSize: '14px', color: '#4b5563', lineHeight: 1.55, margin: '0 0 16px' }}>
+                      {t.company_card_body}
+                    </p>
+                    <Link href="/partners" style={{
+                      display: 'inline-block', padding: '12px 24px', borderRadius: '10px',
+                      background: '#F4A261', color: '#3b2600', fontWeight: 700,
+                      textDecoration: 'none', fontSize: '15px',
+                    }}>
+                      {t.company_card_cta}
+                    </Link>
+                  </div>
+                )}
+
+                {accountType === 'individual' && (<>
                 {/* Category — multi-select chips. Pick everything you do. */}
                 <div className={`field ${errors.category ? 'has-error' : ''}`}>
                   <label>{t.cat_label} <span className="req">*</span></label>
@@ -864,6 +942,7 @@ export default function Register() {
                 <div className="btn-row" style={{ justifyContent: 'flex-end' }}>
                   <button className="btn-next" onClick={() => goToStep(2)}>{t.btn_next1}</button>
                 </div>
+                </>)}
               </div>
             )}
 
