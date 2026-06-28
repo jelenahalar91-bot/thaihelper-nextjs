@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import { useRouter } from 'next/router';
 import { login } from '@/lib/api/auth-client';
 import { fetchProfile as fetchProfileApi } from '@/lib/api/helpers';
@@ -247,7 +248,7 @@ export default function Login() {
       <div className="register-body">
         {/* Nav */}
         <nav className="register-nav">
-          <Link href="/" className="brand">Thai<span>Helper</span></Link>
+          <BrandWordmark />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
             <MobileMenu

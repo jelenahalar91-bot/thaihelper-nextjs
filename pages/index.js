@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import Image from 'next/image';
 import SEOHead, { getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
@@ -129,33 +130,46 @@ const T = {
 // Sample profiles for the landing-page preview. Shape mirrors the live
 // helper data on /helpers so the shared <HelperCard> component can render
 // both without adapters.
+// `city`/`additionalCities` use the underscore slugs from lib/constants/cities
+// so formatCity() renders them correctly. `activeMinAgo` is turned into a live
+// "last active" timestamp at render time (client-only, see Home) so the
+// relative label stays fresh without a hydration mismatch.
 const PROFILES = [
   {
     photo:'/images/profiles/maria.jpg',
     name:'Maria S.', age:32, verified:true,
     category_en:'👶 Nanny & Babysitter', category_th:'👶 พี่เลี้ยงเด็ก',
-    city:'Phuket', area:'Rawai',
+    city:'phuket', area:'Rawai', additionalCities:'phuket,krabi',
     bio_en:'Loving nanny with 5 years caring for infants and toddlers. Experienced with school runs and overnight care.',
     bio_th:'พี่เลี้ยงใจดี ดูแลทารกและเด็กเล็กมา 5 ปี รับส่งโรงเรียนและดูแลกลางคืนได้',
     experience:5, languages:'English, Filipino',
+    availabilityStatus:'available', wpStatus:'valid_wp',
+    ratingAvg:4.9, ratingCount:12,
+    phoneVerified:false, lineVerified:true, activeMinAgo:120,
   },
   {
     photo:'/images/profiles/sunisa.jpg',
     name:'Sunisa K.', age:41, verified:true,
     category_en:'🏠 Housekeeper & Cleaner', category_th:'🏠 แม่บ้าน',
-    city:'Bangkok', area:'Sukhumvit',
+    city:'bangkok', area:'Sukhumvit', additionalCities:'bangkok,nonthaburi',
     bio_en:'Reliable housekeeper. 8 years with expat families. Cleaning, laundry, light cooking.',
     bio_th:'แม่บ้านที่ไว้ใจได้ ทำงานกับครอบครัวต่างชาติ 8 ปี ทำความสะอาด ซักรีด ทำอาหารง่ายๆ',
     experience:8, languages:'Thai, English',
+    availabilityStatus:'open_to_offers', wpStatus:'thai_national',
+    ratingAvg:5.0, ratingCount:8,
+    phoneVerified:false, lineVerified:false, activeMinAgo:1440,
   },
   {
     photo:'/images/profiles/ana.jpg',
     name:'Ana R.', age:29, verified:true,
     category_en:'👨‍🍳 Private Chef & Cook', category_th:'👨‍🍳 พ่อครัวส่วนตัว',
-    city:'Phuket', area:'Kata',
+    city:'phuket', area:'Kata', additionalCities:'phuket,koh_samui',
     bio_en:'Private chef specialising in Thai and Western cuisine. Trained in pastry and weekly meal prep.',
     bio_th:'พ่อครัวส่วนตัว ชำนาญอาหารไทยและตะวันตก ทำขนมอบและเตรียมอาหารรายสัปดาห์',
     experience:3, languages:'English, Thai, Filipino',
+    availabilityStatus:'available', wpStatus:'valid_wp',
+    ratingAvg:4.8, ratingCount:5,
+    phoneVerified:false, lineVerified:true, activeMinAgo:35,
   },
 ];
 
@@ -170,6 +184,10 @@ export default function Home() {
   // floor we want to never go below visually — if the API is slow or
   // failing, we still show "80+".
   const [totalHelpers, setTotalHelpers] = useState(80);
+  // Set after mount only — drives the sample cards' "last active" labels.
+  // Kept null on the server/first render to avoid a hydration mismatch.
+  const [previewNow, setPreviewNow] = useState(null);
+  useEffect(() => { setPreviewNow(Date.now()); }, []);
   useEffect(() => {
     let cancelled = false;
     fetch('/api/recent-helpers')
@@ -230,7 +248,7 @@ export default function Home() {
         {/* NAV */}
         <nav className="fixed top-9 md:top-11 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
           <div className="flex items-center gap-3 shrink-0">
-            <Link href="/" className="text-xl md:text-2xl font-bold font-headline"><span>Thai</span><span style={{color:"#006a62"}}>Helper</span></Link>
+            <BrandWordmark />
             <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-primary text-white text-[10px] font-bold tracking-wide uppercase">
               {lang === 'en' ? 'For Helpers' : 'ผู้ช่วย'}
             </span>
@@ -276,7 +294,7 @@ export default function Home() {
                   <span className="text-xs font-bold tracking-[0.25em] uppercase text-gold">{lang === 'en' ? 'Get Hired Directly.' : 'หางานโดยตรง'}</span>
                 </div>
                 {/* Main headline */}
-                <h1 className="font-extrabold font-headline leading-[1.0] text-on-background mb-3 uppercase" style={{fontSize:'clamp(2.8rem,6vw,5rem)'}}>
+                <h1 className="font-extrabold font-headline leading-[1.0] text-on-background mb-3 uppercase" style={{fontSize:'clamp(2.4rem,5.5vw,4.5rem)'}}>
                   {lang === 'en' ? (
                     <>Your Next <span className="text-primary">Job</span><br />starts here.</>
                   ) : (
@@ -284,7 +302,7 @@ export default function Home() {
                   )}
                 </h1>
                 {/* "No fees" line with gold shimmer */}
-                <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.5rem,3vw,2.2rem)'}}>
+                <p className="font-extrabold font-headline mb-6 hero-gold-line" style={{fontSize:'clamp(1.3rem,2.8vw,2rem)'}}>
                   {lang === 'en' ? 'No fees, no middlemen.' : 'ไม่มีค่าธรรมเนียม ไม่มีคนกลาง'}
                 </p>
                 {/* 3 Steps — clear and simple */}
@@ -441,13 +459,27 @@ export default function Home() {
                       categoryLabel: p[`category_${lang}`] || p.category_en,
                       city: p.city,
                       area: p.area,
+                      additionalCities: p.additionalCities,
                       bio: p[`bio_${lang}`] || p.bio_en,
                       experience: p.experience,
                       languages: p.languages,
+                      availabilityStatus: p.availabilityStatus,
+                      wpStatus: p.wpStatus,
+                      ratingAvg: p.ratingAvg,
+                      ratingCount: p.ratingCount,
+                      phoneVerified: p.phoneVerified,
+                      lineVerified: p.lineVerified,
+                      // Client-only timestamp (previewNow is null on the server
+                      // and first client render) so the "last active" label
+                      // stays current without a hydration mismatch.
+                      lastActiveAt: previewNow
+                        ? new Date(previewNow - p.activeMinAgo * 60000).toISOString()
+                        : undefined,
                     }}
                     t={{
                       card_exp: t.preview_exp,
                       card_verified: (t.preview_badge || '').replace(/^✓\s*/, ''),
+                      card_phone_verified: lang === 'th' ? 'โทร' : 'Phone',
                       card_signin: t.preview_signin,
                       card_signin_btn: t.preview_signin_btn,
                     }}
@@ -566,7 +598,7 @@ export default function Home() {
                 <h2 className="text-4xl md:text-5xl font-extrabold font-headline text-on-primary mb-8">{t.cta_title}</h2>
                 <p className="text-on-primary/80 text-lg mb-12 max-w-2xl mx-auto">{t.cta_sub}</p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                  <Link className="px-10 py-5 bg-white text-primary font-bold rounded-2xl text-lg hover:shadow-xl hover:scale-105 transition-all" href="/signup">{t.cta_btn1}</Link>
+                  <Link className="px-10 py-5 bg-white text-primary font-bold rounded-xl text-lg hover:shadow-xl hover:scale-105 transition-all" href="/signup">{t.cta_btn1}</Link>
                 </div>
               </div>
             </div>
@@ -579,7 +611,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto py-12 px-8">
             <div className="flex flex-col md:flex-row justify-between items-start gap-8">
               <div className="max-w-xs shrink-0">
-                <div className="text-xl font-bold text-on-background mb-4 font-headline">Thai<span style={{color:"#006a62"}}>Helper</span></div>
+                <BrandWordmark href={null} size="sm" className="mb-4" />
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">{t.footer_desc}</p>
                 <div className="flex gap-4">
                   <a aria-label="Email support" className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="mailto:support@thaihelper.app">
@@ -594,28 +626,28 @@ export default function Home() {
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_product}</h4>
                   <ul className="space-y-3">
-                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="#benefits">{t.footer_find}</a></li>
-                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="#categories">{t.footer_hire}</a></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_employers}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/work-permit-wizard">{t.footer_wizard}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/directory">{t.footer_directory}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/blog">{t.nav_blog}</Link></li>
+                    <li><a className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="#benefits">{t.footer_find}</a></li>
+                    <li><a className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="#categories">{t.footer_hire}</a></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/employers">{t.footer_employers}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/work-permit-wizard">{t.footer_wizard}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/directory">{t.footer_directory}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/blog">{t.nav_blog}</Link></li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_company}</h4>
                   <ul className="space-y-3">
-                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
-                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="https://lin.ee/U7B1KX6" target="_blank" rel="noopener noreferrer">{t.footer_line}</a></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/about">{t.footer_about}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/faq">{t.footer_faq}</Link></li>
+                    <li><a className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
+                    <li><a className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="https://lin.ee/U7B1KX6" target="_blank" rel="noopener noreferrer">{t.footer_line}</a></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/about">{t.footer_about}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/faq">{t.footer_faq}</Link></li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_legal}</h4>
                   <ul className="space-y-3">
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/privacy">{t.footer_privacy}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/terms">{t.footer_terms}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/privacy">{t.footer_privacy}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/terms">{t.footer_terms}</Link></li>
                   </ul>
                 </div>
               </div>

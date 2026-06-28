@@ -10,6 +10,7 @@ import {
   roleLabel, cityLabel, entryInitials, FALLBACK_HELPERS,
 } from '@/lib/recent-helpers-display';
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import Image from 'next/image';
 import {
   UserPlus, MessageCircle, PartyPopper,
@@ -518,7 +519,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
         <nav className="fixed top-9 md:top-11 left-0 w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 bg-white/90 backdrop-blur-md z-50 shadow-sm">
           <div className="flex items-center gap-3 shrink-0">
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-xl md:text-2xl font-bold font-headline"><span>Thai</span><span style={{color:"#006a62"}}>Helper</span></span>
+              <BrandWordmark href={null} />
             </Link>
             <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-[#001b3d] text-white text-[10px] font-bold tracking-wide uppercase">
               {lang === 'en' ? 'For Families' : 'สำหรับครอบครัว'}
@@ -931,7 +932,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
               <div className="relative z-10">
                 <h2 className="text-3xl md:text-4xl font-extrabold font-headline text-on-primary mb-6">{t.cta_title}</h2>
                 <p className="text-on-primary/80 text-lg mb-10 max-w-2xl mx-auto">{t.cta_sub}</p>
-                <Link className="px-10 py-5 bg-white text-primary font-bold rounded-2xl text-lg hover:shadow-xl hover:scale-105 transition-all inline-block" href="/register">{t.cta_btn}</Link>
+                <Link className="px-10 py-5 bg-white text-primary font-bold rounded-xl text-lg hover:shadow-xl hover:scale-105 transition-all inline-block" href="/register">{t.cta_btn}</Link>
               </div>
             </div>
           </section>
@@ -943,7 +944,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
           <div className="max-w-7xl mx-auto py-12 px-8">
             <div className="flex flex-col md:flex-row justify-between items-start gap-8">
               <div className="max-w-xs shrink-0">
-                <div className="text-xl font-bold text-on-background mb-4 font-headline">Thai<span style={{color:"#006a62"}}>Helper</span></div>
+                <BrandWordmark href={null} size="sm" className="mb-4" />
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">{t.footer_desc}</p>
                 <div className="flex gap-4">
                   <a aria-label="Email support" className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 hover:bg-primary hover:text-white transition-all" href="mailto:support@thaihelper.app">
@@ -956,26 +957,26 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_product}</h4>
                   <ul className="space-y-3">
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/">{t.footer_fp1}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/employers">{t.footer_fp2}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/#how-it-works">{t.footer_fp3}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/work-permit-wizard">{t.footer_fp4}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/directory">{t.footer_fp5}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/">{t.footer_fp1}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/employers">{t.footer_fp2}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/#how-it-works">{t.footer_fp3}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/work-permit-wizard">{t.footer_fp4}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/directory">{t.footer_fp5}</Link></li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_company}</h4>
                   <ul className="space-y-3">
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/about">{t.footer_fc1}</Link></li>
-                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="mailto:support@thaihelper.app">{t.footer_fc2}</a></li>
-                    <li><a className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="https://lin.ee/U7B1KX6" target="_blank" rel="noopener noreferrer">{t.footer_line}</a></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/about">{t.footer_fc1}</Link></li>
+                    <li><a className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="mailto:support@thaihelper.app">{t.footer_fc2}</a></li>
+                    <li><a className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="https://lin.ee/U7B1KX6" target="_blank" rel="noopener noreferrer">{t.footer_line}</a></li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_legal}</h4>
                   <ul className="space-y-3">
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/privacy">{t.footer_fl1}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm whitespace-nowrap" href="/terms">{t.footer_fl2}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/privacy">{t.footer_fl1}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/terms">{t.footer_fl2}</Link></li>
                   </ul>
                 </div>
               </div>

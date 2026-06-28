@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import Image from 'next/image';
 import { ArrowLeft, Clock, Calendar, User } from 'lucide-react';
 import SEOHead, { getBlogPostingSchema, getBreadcrumbSchema, getSpeakableSchema } from '@/components/SEOHead';
@@ -259,9 +260,7 @@ export default function BlogPost({ post }) {
           <div className="max-w-7xl mx-auto py-12 px-8">
             <div className="flex flex-col md:flex-row justify-between items-start gap-8">
               <div className="max-w-xs shrink-0">
-                <div className="text-xl font-bold text-on-background mb-4 font-headline">
-                  Thai<span style={{ color: '#006a62' }}>Helper</span>
-                </div>
+                <BrandWordmark href={null} size="sm" className="mb-4" />
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">
                   A free platform connecting independent service providers with families in Thailand.
                 </p>
@@ -276,24 +275,24 @@ export default function BlogPost({ post }) {
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">Product</h4>
                   <ul className="space-y-3">
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/helpers">Browse Helpers</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/employers">For Families</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm font-medium text-primary" href="/blog">Blog</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/helpers">Browse Helpers</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/employers">For Families</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm font-medium text-primary" href="/blog">Blog</Link></li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">Company</h4>
                   <ul className="space-y-3">
-                    <li><a className="text-slate-500 hover:text-teal-500 text-sm" href="mailto:support@thaihelper.app">Contact Us</a></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/about">About Us</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/faq">FAQ</Link></li>
+                    <li><a className="text-slate-500 hover:text-primary text-sm" href="mailto:support@thaihelper.app">Contact Us</a></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/about">About Us</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/faq">FAQ</Link></li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">Legal</h4>
                   <ul className="space-y-3">
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/privacy">Privacy Policy</Link></li>
-                    <li><Link className="text-slate-500 hover:text-teal-500 text-sm" href="/terms">Terms of Service</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/privacy">Privacy Policy</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/terms">Terms of Service</Link></li>
                   </ul>
                 </div>
               </div>

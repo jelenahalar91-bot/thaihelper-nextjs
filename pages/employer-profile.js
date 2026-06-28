@@ -427,9 +427,9 @@ export default function EmployerProfile() {
           <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between w-full">
             <button
               onClick={() => router.push('/employer-dashboard')}
-              className="text-xl md:text-2xl font-bold"
+              className="text-xl md:text-2xl font-bold font-headline text-navy"
             >
-              Thai<span style={{color:'#006a62'}}>Helper</span>
+              Thai<span className="text-primary">Helper</span>
             </button>
 
             <div className="flex items-center gap-2 md:gap-3">
@@ -514,7 +514,7 @@ export default function EmployerProfile() {
 
               {/* Name + meta */}
               <div className="flex-1 text-center sm:text-left">
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                <h1 className="text-2xl md:text-3xl font-bold font-headline text-gray-900">
                   {form.first_name} {form.last_name}
                 </h1>
                 <div className="text-sm text-gray-500 mt-1">
@@ -921,7 +921,7 @@ function Section({ title, children, id }) {
       id={id}
       className="bg-white rounded-2xl border border-gray-200 p-5 md:p-7 mb-4 scroll-mt-24"
     >
-      <h2 className="text-base md:text-lg font-bold text-gray-900 mb-4">{title}</h2>
+      <h2 className="text-base md:text-lg font-bold font-headline text-gray-900 mb-4">{title}</h2>
       {children}
     </section>
   );

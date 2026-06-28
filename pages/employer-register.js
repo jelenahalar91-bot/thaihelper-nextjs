@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Turnstile from '@/components/Turnstile';
@@ -370,7 +371,7 @@ export default function EmployerRegisterPage() {
         <Head><title>{t.success_h1}</title></Head>
         <div className="register-body">
           <nav className="register-nav">
-            <Link href="/" className="brand">Thai<span>Helper</span></Link>
+            <BrandWordmark />
           </nav>
           <div className="register-container">
             <div className="card" style={{ padding: '48px 40px', maxWidth: '520px', width: '100%', textAlign: 'center' }}>
@@ -435,7 +436,7 @@ export default function EmployerRegisterPage() {
 
       <div className="register-body">
         <nav className="register-nav">
-          <Link href="/" className="brand">Thai<span>Helper</span></Link>
+          <BrandWordmark />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
             <MobileMenu

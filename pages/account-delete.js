@@ -3,6 +3,7 @@
 
 import Head from 'next/head';
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import { useLang } from './_app';
 
 const T = {
@@ -103,9 +104,7 @@ export default function AccountDelete() {
         }}>
           <div style={{ marginBottom: '24px' }}>
             <Link href="/" style={{ textDecoration: 'none' }}>
-              <span style={{ fontSize: '22px', fontWeight: 800, color: '#1a1a1a' }}>
-                Thai<span style={{ color: '#006a62' }}>Helper</span>
-              </span>
+              <BrandWordmark href={null} size="lg" />
             </Link>
           </div>
 

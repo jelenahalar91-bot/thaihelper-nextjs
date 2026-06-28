@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
@@ -978,7 +979,7 @@ export default function Profile() {
       <>
         <Head><title>{t.page_title}</title><meta name="robots" content="noindex, nofollow" /></Head>
         <div className="register-body">
-          <nav className="register-nav"><Link href="/" className="brand">Thai<span>Helper</span></Link></nav>
+          <nav className="register-nav"><BrandWordmark /></nav>
           <div className="register-container" style={{ maxWidth: '480px', marginLeft: 'auto', marginRight: 'auto' }}>
             <div className="card" style={{ padding: '40px 32px', textAlign: 'center' }}>
               <div style={{ marginBottom: '16px', color: '#006a62', display: 'flex', justifyContent: 'center' }}><IconLock /></div>
@@ -1000,7 +1001,7 @@ export default function Profile() {
       <>
         <Head><title>{t.page_title}</title><meta name="robots" content="noindex, nofollow" /></Head>
         <div className="register-body">
-          <nav className="register-nav"><Link href="/" className="brand">Thai<span>Helper</span></Link></nav>
+          <nav className="register-nav"><BrandWordmark /></nav>
           <div className="register-container" style={{ maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto' }}>
             <div className="card" style={{ padding: '60px 32px', textAlign: 'center' }}>
               <div style={{ margin: '0 auto 16px', width: '40px', height: '40px', border: '3px solid #e5e7eb', borderTop: '3px solid #006a62', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
@@ -1123,7 +1124,7 @@ export default function Profile() {
         }}>
           <button
             onClick={() => { setActiveTab('dashboard'); if (editing) cancelEditing(); }}
-            style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 800, background: 'none', border: 'none', cursor: 'pointer', color: '#1a1a1a', padding: 0, letterSpacing: '-0.5px' }}
+            style={{ fontSize: isMobile ? '22px' : '26px', fontWeight: 800, background: 'none', border: 'none', cursor: 'pointer', color: '#1B3A4B', padding: 0, letterSpacing: '-0.5px', fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
             Thai<span style={{ color: '#006a62' }}>Helper</span>
           </button>

@@ -828,9 +828,9 @@ export default function EmployerDashboard() {
             {/* Logo → also acts as "back to browse" */}
             <button
               onClick={() => { setActiveTab('browse'); setSelectedConv(null); }}
-              className="text-xl md:text-2xl font-bold"
+              className="text-xl md:text-2xl font-bold font-headline text-navy"
             >
-              Thai<span style={{color:'#006a62'}}>Helper</span>
+              Thai<span className="text-primary">Helper</span>
             </button>
 
             <div className="flex items-center gap-2 md:gap-3">

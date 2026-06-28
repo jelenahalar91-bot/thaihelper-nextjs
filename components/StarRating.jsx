@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useId } from 'react';
 
 // Shared star-rating primitives.
 //
@@ -16,7 +16,10 @@ import { useState } from 'react';
 function StarIcon({ filled = 1, size = 16, color = '#F4A261' }) {
   // `filled` is 0..1 — 0 = empty outline, 1 = solid, anything in between
   // gets a clipPath so we can render half/partial stars for averages.
-  const id = `star-clip-${Math.random().toString(36).slice(2, 9)}`;
+  // useId() gives a stable, SSR-safe unique id (Math.random would differ
+  // between server and client and trip a hydration mismatch). Strip the
+  // colons React adds so the id is safe inside url(#…).
+  const id = `star-clip-${useId().replace(/:/g, '')}`;
   return (
     <svg
       width={size}

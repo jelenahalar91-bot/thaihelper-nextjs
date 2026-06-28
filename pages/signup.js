@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu } from '@/components/MobileMenu';
@@ -51,7 +52,7 @@ export default function SignupChooserPage() {
 
       <div className="register-body">
         <nav className="register-nav">
-          <Link href="/" className="brand">Thai<span>Helper</span></Link>
+          <BrandWordmark />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <LangSwitcher value={lang} onChange={changeLang} languages={['en', 'th']} />
             <MobileMenu
@@ -90,7 +91,7 @@ export default function SignupChooserPage() {
                 <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-xl" style={{ background: '#fdf0e0', color: '#b86a1f' }}>
                   <Users size={28} strokeWidth={2} />
                 </div>
-                <h2 className="mb-2 text-xl font-bold" style={{ color: 'var(--navy)' }}>{t.family_title}</h2>
+                <h2 className="mb-2 text-xl font-bold font-headline" style={{ color: 'var(--navy)' }}>{t.family_title}</h2>
                 <p className="mb-5 flex-grow text-[15px] leading-relaxed text-gray-500">{t.family_desc}</p>
                 <span className="inline-flex items-center gap-1.5 text-[15px] font-semibold" style={{ color: '#b86a1f' }}>
                   {t.cta} <ArrowRight size={16} />
@@ -104,7 +105,7 @@ export default function SignupChooserPage() {
                 <div className="mb-4 inline-flex h-14 w-14 items-center justify-center rounded-xl" style={{ background: '#e6f5f3', color: '#006a62' }}>
                   <Briefcase size={28} strokeWidth={2} />
                 </div>
-                <h2 className="mb-2 text-xl font-bold" style={{ color: 'var(--navy)' }}>{t.helper_title}</h2>
+                <h2 className="mb-2 text-xl font-bold font-headline" style={{ color: 'var(--navy)' }}>{t.helper_title}</h2>
                 <p className="mb-5 flex-grow text-[15px] leading-relaxed text-gray-500">{t.helper_desc}</p>
                 <span className="inline-flex items-center gap-1.5 text-[15px] font-semibold" style={{ color: '#006a62' }}>
                   {t.cta} <ArrowRight size={16} />
