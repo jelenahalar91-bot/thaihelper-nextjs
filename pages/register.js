@@ -5,8 +5,9 @@ import { MobileMenu } from '@/components/MobileMenu';
 import Turnstile from '@/components/Turnstile';
 import { useLang } from './_app';
 import Link from 'next/link';
+import BrandWordmark from '@/components/BrandWordmark';
 import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/helpers';
-import { CITY_OPTIONS, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
+import { CITY_OPTIONS, THAI_PROVINCES, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS } from '@/lib/constants/nationalities';
 import { suggestEmail } from '@/lib/email-typo';
@@ -68,15 +69,12 @@ const T = {
     lname_error:     'Please enter your last name.',
     city_label:      'Your Location',
     city_ph:         '— Where are you based? —',
-    city_other:      '📍 Other in Thailand',
     city_error:      'Please select your city.',
+    city_group_popular: 'Popular',
+    city_group_all:     'All provinces (A–Z)',
     area_label:      'Neighborhood / Area',
     area_ph:         'e.g. Rawai, Sukhumvit, Nimman...',
     area_hint:       'Optional — helps families nearby find you faster.',
-    area_other_label:'City or Province',
-    area_other_ph:   'e.g. Nakhon Pathom, Chumphon...',
-    area_other_hint: 'Please type the name of your city or province.',
-    area_other_error:'Please type your city or province.',
     extra_cities_label: 'Also available in',
     extra_cities_hint:  `Optional — pick up to ${MAX_ADDITIONAL_CITIES} other locations where you can work.`,
     extra_cities_max:   `You can select up to ${MAX_ADDITIONAL_CITIES} additional locations.`,
@@ -208,11 +206,8 @@ const T = {
     lname_error:     'กรุณากรอกนามสกุลของคุณ',
     city_label:      'ที่อยู่ปัจจุบัน',
     city_ph:         '— คุณอยู่ที่ไหน? —',
-    city_other:      '📍 ที่อื่นในไทย',
-    area_other_label:'เมืองหรือจังหวัด',
-    area_other_ph:   'เช่น นครปฐม, ชุมพร...',
-    area_other_hint: 'กรุณาพิมพ์ชื่อเมืองหรือจังหวัดของคุณ',
-    area_other_error:'กรุณาพิมพ์ชื่อเมืองหรือจังหวัดของคุณ',
+    city_group_popular: 'ยอดนิยม',
+    city_group_all:     'ทุกจังหวัด (ก–ฮ)',
     city_error:      'กรุณาเลือกเมืองของคุณ',
     area_label:      'ย่าน / พื้นที่',
     area_ph:         'เช่น ราไวย์, สุขุมวิท, นิมมาน...',
@@ -461,7 +456,6 @@ export default function Register() {
       if (!firstname.trim())     errs.firstname = t.fname_error;
       if (!lastname.trim())      errs.lastname  = t.lname_error;
       if (!city)                 errs.city      = t.city_error;
-      if (city === 'other' && !area.trim()) errs.area = t.area_other_error;
     }
     if (stepNum === 2) {
       if (!experience)           errs.experience  = t.exp_error;
@@ -606,7 +600,7 @@ export default function Register() {
 
         {/* NAV */}
         <nav>
-          <Link className="nav-brand" href="/">Thai<span>Helper</span></Link>
+          <BrandWordmark />
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <LangSwitcher />
             <Link className="nav-back hidden sm:inline" href="/">{t.nav_back}</Link>
@@ -870,39 +864,49 @@ export default function Register() {
                   <div className="field-error">{errors.dob}</div>
                 </div>
 
-                {/* City */}
+                {/* City — a complete, Thailand-only list. The popular
+                    shortlist sits at the top; every other province follows
+                    A–Z. There is intentionally no free-text "other" option:
+                    it previously let people type a country (e.g.
+                    "Philippines") into what is meant to be a Thai location. */}
                 <div className={`field ${errors.city ? 'has-error' : ''}`}>
                   <label>{t.city_label} <span className="req">*</span></label>
                   <select value={city} onChange={e => { setCity(e.target.value); setErrors(ev => ({...ev, city:'', area:''})); }}>
                     <option value="">{t.city_ph}</option>
-                    {CITY_OPTIONS.map(c => (
-                      <option key={c.slug} value={c.slug}>📍 {c.name}</option>
-                    ))}
-                    <option value="other">{t.city_other}</option>
+                    <optgroup label={t.city_group_popular}>
+                      {CITY_OPTIONS.map(c => (
+                        <option key={c.slug} value={c.slug}>📍 {c.name}</option>
+                      ))}
+                    </optgroup>
+                    <optgroup label={t.city_group_all}>
+                      {THAI_PROVINCES
+                        .filter(p => !CITY_OPTIONS.some(c => c.slug === p.slug))
+                        .map(p => (
+                          <option key={p.slug} value={p.slug}>{p.name}</option>
+                        ))}
+                    </optgroup>
                   </select>
                   <div className="field-error">{errors.city}</div>
                 </div>
 
-                {/* Area / Neighborhood (required as free-text City when "other") */}
-                <div className={`field ${errors.area ? 'has-error' : ''}`}>
-                  <label>
-                    {city === 'other' ? t.area_other_label : t.area_label}
-                    {city === 'other' && <span className="req"> *</span>}
-                  </label>
+                {/* Area / Neighborhood — optional free text, just a finer
+                    locality within the chosen city/province. Never the city
+                    itself anymore. */}
+                <div className="field">
+                  <label>{t.area_label}</label>
                   <input
                     type="text"
                     value={area}
-                    placeholder={city === 'other' ? t.area_other_ph : t.area_ph}
+                    placeholder={t.area_ph}
                     maxLength={60}
-                    onChange={e => { setArea(e.target.value); setErrors(ev => ({...ev, area:''})); }}
+                    onChange={e => { setArea(e.target.value); }}
                   />
-                  <div className="field-hint">{city === 'other' ? t.area_other_hint : t.area_hint}</div>
-                  <div className="field-error">{errors.area}</div>
+                  <div className="field-hint">{t.area_hint}</div>
                 </div>
 
                 {/* Additional cities — optional. Hidden until a primary city
-                    is picked; "other" skips this since it's free-text already. */}
-                {city && city !== 'other' && (
+                    is picked. */}
+                {city && (
                   <div className="field">
                     <label>{t.extra_cities_label}</label>
                     <p className="field-hint" style={{ marginBottom: '10px' }}>

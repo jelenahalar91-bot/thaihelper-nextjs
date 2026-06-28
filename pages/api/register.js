@@ -16,6 +16,7 @@ import {
 } from '../../lib/line';
 import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
 import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/constants/nationalities';
+import { VALID_CITY_SLUGS } from '../../lib/constants/cities';
 
 // LINE link tokens expire in 30 minutes — long enough to add the bot and
 // send the link message, short enough to limit abuse.
@@ -64,6 +65,14 @@ export default async function handler(req, res) {
   // Validate required fields
   if (!first_name?.trim() || !last_name?.trim() || !email?.trim() || !city || !category) {
     return res.status(400).json({ error: 'Missing required fields: first name, last name, email, city, and category are required.' });
+  }
+
+  // City must be a real Thailand location. The form only offers Thai
+  // provinces, but this is the actual gate — a scripted POST could still
+  // send a free-text country ("Philippines"), which is exactly how junk
+  // locations got in before. Reject anything outside the known slug set.
+  if (!VALID_CITY_SLUGS.has(String(city).trim().toLowerCase())) {
+    return res.status(400).json({ error: 'Please choose a valid city in Thailand.' });
   }
 
   // Work permit status is optional. Reject unknown values rather than
