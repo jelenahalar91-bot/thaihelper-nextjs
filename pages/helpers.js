@@ -222,6 +222,22 @@ export async function getServerSideProps({ req }) {
 
     if (error) throw error;
 
+    // Presence-only quality signals (uploaded certificates + references),
+    // pulled in two cheap ref-only queries and folded into each card.
+    // Mirrors /api/helpers. Non-fatal on failure — cards just lose badges.
+    const certSet = new Set();
+    const refCounts = new Map();
+    try {
+      const [{ data: certDocs }, { data: refs }] = await Promise.all([
+        supabase.from('documents').select('helper_ref').eq('file_type', 'certificate'),
+        supabase.from('helper_references').select('helper_ref'),
+      ]);
+      for (const d of certDocs || []) certSet.add(d.helper_ref);
+      for (const r of refs || []) refCounts.set(r.helper_ref, (refCounts.get(r.helper_ref) || 0) + 1);
+    } catch (trustErr) {
+      console.warn('SSR helpers: trust-signal fetch failed:', trustErr.message);
+    }
+
     const helpers = (data || []).map((row) => ({
       ref: row.helper_ref,
       firstName: row.first_name,
@@ -256,6 +272,9 @@ export async function getServerSideProps({ req }) {
       // Trust badges — booleans only, number never exposed publicly.
       phoneVerified: !!row.phone_verified_at,
       lineVerified: !!row.line_linked_at,
+      // Quality signals — presence only (content stays gated).
+      hasCertificates: certSet.has(row.helper_ref),
+      referenceCount: refCounts.get(row.helper_ref) || 0,
     }));
 
     return {
