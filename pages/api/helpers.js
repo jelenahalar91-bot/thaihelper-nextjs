@@ -10,7 +10,10 @@ import { maskWpStatusForPublic } from '../../lib/constants/work-permit';
 
 // Map a helper_profiles row to a public-safe card shape.
 // IMPORTANT: never expose whatsapp / has_whatsapp / phone / email here.
-function toPublicCard(row) {
+// `trust` carries presence-only signals derived from related tables
+// (uploaded certificate documents, references) — booleans/counts, never
+// the underlying content (which stays gated behind the employer paywall).
+function toPublicCard(row, trust = {}) {
   return {
     ref: row.helper_ref,
     firstName: row.first_name,
@@ -51,6 +54,12 @@ function toPublicCard(row) {
     // signalling "we verified this helper's number reaches them".
     phoneVerified: !!row.phone_verified_at,
     lineVerified: !!row.line_linked_at,
+    // Quality signals — presence only. "Has uploaded certificates" and
+    // "has references" let families see proof-of-qualification at a glance
+    // in the browse list; the documents/reference content itself stays
+    // behind the employer-only endpoints.
+    hasCertificates: !!trust.hasCertificates,
+    referenceCount: trust.referenceCount || 0,
   };
 }
 
@@ -80,7 +89,26 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to load helpers' });
     }
 
-    const helpers = (data || []).map(toPublicCard);
+    // Pull presence-only trust signals from related tables in two cheap
+    // ref-only queries, then fold them into each card. Failures here are
+    // non-fatal — the list still renders, just without the badges.
+    const certSet = new Set();
+    const refCounts = new Map();
+    try {
+      const [{ data: certDocs }, { data: refs }] = await Promise.all([
+        supabase.from('documents').select('helper_ref').eq('file_type', 'certificate'),
+        supabase.from('helper_references').select('helper_ref'),
+      ]);
+      for (const d of certDocs || []) certSet.add(d.helper_ref);
+      for (const r of refs || []) refCounts.set(r.helper_ref, (refCounts.get(r.helper_ref) || 0) + 1);
+    } catch (trustErr) {
+      console.warn('Helpers list: trust-signal fetch failed:', trustErr.message);
+    }
+
+    const helpers = (data || []).map((row) => toPublicCard(row, {
+      hasCertificates: certSet.has(row.helper_ref),
+      referenceCount: refCounts.get(row.helper_ref) || 0,
+    }));
 
     // Cache publicly for 60s at the edge — browse list doesn't need to be realtime
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');

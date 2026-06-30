@@ -225,6 +225,25 @@ export default function HelperCard({
               <StarRatingDisplay avg={helper.ratingAvg} count={helper.ratingCount} size="sm" lang={lang} />
             </div>
           )}
+          {/* Quality chips — visible proof-of-qualification. These are the
+              "verified & open" answer to invitation-only competitors: the
+              family sees who has documents/references right in the list. */}
+          {(helper.hasCertificates || helper.referenceCount > 0) && (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {helper.hasCertificates && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
+                  📄 {lang === 'th' ? 'มีใบรับรอง' : 'Certificates'}
+                </span>
+              )}
+              {helper.referenceCount > 0 && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-semibold">
+                  👥 {lang === 'th'
+                    ? `${helper.referenceCount} ผู้อ้างอิง`
+                    : `${helper.referenceCount} ${helper.referenceCount === 1 ? 'reference' : 'references'}`}
+                </span>
+              )}
+            </div>
+          )}
           <div className="text-sm text-gray-500 mt-1">
             📍 {(() => {
               // City should be a slug ("bangkok") that formatCity maps to
