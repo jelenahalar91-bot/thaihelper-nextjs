@@ -13,8 +13,13 @@
  */
 
 import { useEffect } from 'react';
+import { useLang } from '../../pages/_app';
 
 export default function EmployerProfileModal({ employer, onClose, t }) {
+  const { lang } = useLang();
+  // English viewers get the stored translation (falls back to the original
+  // when it's already English); Thai viewers always see the original.
+  const jobDesc = lang === 'th' ? employer.jobDescription : (employer.jobDescriptionEn || employer.jobDescription);
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
@@ -156,13 +161,13 @@ export default function EmployerProfileModal({ employer, onClose, t }) {
               </InfoRow>
             )}
             {employer.preferredAgeRange && (
-              <InfoRow icon="📅" label={t?.browse_card_age_pref || 'Preferred age'} last={!employer.jobDescription}>
+              <InfoRow icon="📅" label={t?.browse_card_age_pref || 'Preferred age'} last={!jobDesc}>
                 {employer.preferredAgeRange}
               </InfoRow>
             )}
           </div>
 
-          {employer.jobDescription && (
+          {jobDesc && (
             <div style={{ marginBottom: '16px' }}>
               <h3 style={{
                 fontSize: '12px', fontWeight: 800, color: '#9ca3af',
@@ -181,7 +186,7 @@ export default function EmployerProfileModal({ employer, onClose, t }) {
                   fontSize: '14px', lineHeight: 1.65, color: '#374151', margin: 0,
                   whiteSpace: 'pre-wrap',
                 }}>
-                  {employer.jobDescription}
+                  {jobDesc}
                 </p>
               </div>
             </div>

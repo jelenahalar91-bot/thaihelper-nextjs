@@ -12,6 +12,7 @@ import {
 } from '../../lib/send-confirmation-email';
 import { verifyTurnstile } from '../../lib/turnstile';
 import { formatAttributionString } from '../../lib/utm';
+import { translateForeignText } from '../../lib/translate';
 
 function generateRef() {
   // crypto.randomBytes is cryptographically secure — Math.random() is
@@ -91,6 +92,12 @@ export default async function handler(req, res) {
     .replace(/(\+?\d[\d\s\-().]{7,}\d)/g, '[phone hidden]')
     .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '[email hidden]');
 
+  // Store an English translation alongside the original so English-reading
+  // helpers can read Thai job posts (mirrors helper bio_en). Returns null
+  // when the text is already English or the Translate API is unavailable —
+  // the UI then falls back to the original.
+  const jobDescriptionEn = await translateForeignText(sanitizedJobDesc);
+
   const supabase = getServiceSupabase();
   const ref = generateRef();
   const verificationToken = crypto.randomBytes(32).toString('hex');
@@ -116,6 +123,7 @@ export default async function handler(req, res) {
         arrangement_preference: safeArrangement,
         preferred_age_range: preferredAgeRange || null,
         job_description: sanitizedJobDesc || null,
+        job_description_en: jobDescriptionEn || null,
         preferred_language: preferredLanguage || 'en',
         access_until: promo.access_until,
         access_tier: promo.access_tier,

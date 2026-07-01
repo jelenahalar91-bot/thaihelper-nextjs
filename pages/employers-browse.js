@@ -490,6 +490,9 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
   const timeLabel     = formatSlugList(e.scheduleTime, SCHEDULE_TIMES, lang);
   const durationLabel = e.duration ? formatSlugList(e.duration, DURATIONS, lang) : '';
   const childLabel    = formatSlugList(e.childAgeGroups, CHILD_AGE_GROUPS, lang);
+  // English viewers get the stored translation (falls back to the original
+  // when it's already English); Thai viewers always see the original.
+  const jobDesc = lang === 'th' ? e.jobDescription : (e.jobDescriptionEn || e.jobDescription);
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">
@@ -563,11 +566,11 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
           </div>
         )}
 
-        {e.jobDescription && (
+        {jobDesc && (
           // Reserve a consistent height on desktop so cards — and therefore
           // the photo column — stay an even size (matches HelperCard).
           <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 sm:min-h-[3.9rem]">
-            {e.jobDescription}
+            {jobDesc}
           </p>
         )}
 

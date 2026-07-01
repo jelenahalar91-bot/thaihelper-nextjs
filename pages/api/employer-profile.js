@@ -4,6 +4,7 @@
 import { getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { notifyHelpersOfNewEmployer } from '../../lib/match-notifications';
+import { translateForeignText } from '../../lib/translate';
 
 const EDITABLE_FIELDS = [
   'first_name',
@@ -105,11 +106,18 @@ export default async function handler(req, res) {
       }
     }
 
-    // Sanitize job description
-    if ('job_description' in patch && patch.job_description) {
-      patch.job_description = patch.job_description
-        .replace(/(\+?\d[\d\s\-().]{7,}\d)/g, '[phone hidden]')
-        .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '[email hidden]');
+    // Sanitize job description, then refresh its English translation so the
+    // English UI stays in sync when an employer edits their post. Null when
+    // the (sanitized) text is already English or the field is cleared.
+    if ('job_description' in patch) {
+      if (patch.job_description) {
+        patch.job_description = patch.job_description
+          .replace(/(\+?\d[\d\s\-().]{7,}\d)/g, '[phone hidden]')
+          .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '[email hidden]');
+        patch.job_description_en = (await translateForeignText(patch.job_description)) || null;
+      } else {
+        patch.job_description_en = null;
+      }
     }
 
     patch.updated_at = new Date().toISOString();
