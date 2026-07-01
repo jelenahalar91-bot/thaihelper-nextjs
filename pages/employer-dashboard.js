@@ -111,6 +111,9 @@ const T = {
     msg_send: 'Send',
     msg_show_original: 'Show original',
     msg_show_translated: 'Show translated',
+    msg_video_call_btn: 'Video call',
+    msg_request_video_call: 'Request a video call — completely optional',
+    msg_join_video_call: 'Join video call',
     msg_locked_cta: 'Verify your email to unlock',
     msg_send_locked: 'Please verify your email to send messages and read full conversations.',
     err_start_locked: 'Please verify your email to message helpers.',
@@ -213,6 +216,9 @@ const T = {
     msg_send: 'ส่ง',
     msg_show_original: 'แสดงต้นฉบับ',
     msg_show_translated: 'แสดงคำแปล',
+    msg_video_call_btn: 'วิดีโอคอล',
+    msg_request_video_call: 'ขอวิดีโอคอล — ไม่บังคับ',
+    msg_join_video_call: 'เข้าร่วมวิดีโอคอล',
     msg_locked_cta: 'ยืนยันอีเมลเพื่อปลดล็อก',
     msg_send_locked: 'กรุณายืนยันอีเมลเพื่อส่งข้อความและอ่านบทสนทนาแบบเต็ม',
     err_start_locked: 'กรุณายืนยันอีเมลเพื่อส่งข้อความหาผู้ช่วย',
@@ -734,6 +740,35 @@ export default function EmployerDashboard() {
     setSending(false);
   }
 
+  // Drops a Jitsi Meet link into the chat. Jitsi's public instance needs
+  // no account and no API key — either side just opens the link in their
+  // browser. Entirely optional: this only sends a message the helper is
+  // free to ignore, it never schedules or requires anything.
+  async function handleRequestVideoCall() {
+    if (sendingRef.current || !selectedConv) return;
+    const roomId = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID().replace(/-/g, '').slice(0, 12)
+      : Math.random().toString(36).slice(2, 14);
+    const roomUrl = `https://meet.jit.si/ThaiHelper-${roomId}`;
+    const content =
+      `📹 Video call invite\n\nTap the link below to join — works right in your browser, no app or account needed.\n\n${roomUrl}`;
+
+    sendingRef.current = true;
+    setSending(true);
+    try {
+      const res = await sendMessage(selectedConv.id, content, 'employer');
+      setMessages(prev =>
+        prev.some(m => m.id === res.message.id) ? prev : [...prev, res.message]
+      );
+      const inList = conversations.some(c => c.id === selectedConv.id);
+      if (!inList) loadConversations({ silent: true });
+    } catch (err) {
+      setErrorBanner(t.err_generic);
+    }
+    sendingRef.current = false;
+    setSending(false);
+  }
+
   async function handleResendVerify() {
     setResendingVerify(true);
     setResendVerifyResult(null);
@@ -1139,6 +1174,7 @@ export default function EmployerDashboard() {
                   onBack={() => { setSelectedConv(null); setMessages([]); }}
                   onUpgrade={handleUpgrade}
                   onViewProfile={handleViewHelperProfile}
+                  onRequestVideoCall={handleRequestVideoCall}
                   t={t}
                 />
               )}

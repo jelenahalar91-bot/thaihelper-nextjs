@@ -224,6 +224,7 @@ const T = {
     msg_send: 'Send',
     msg_show_original: 'Show original',
     msg_show_translated: 'Show translated',
+    msg_join_video_call: 'Join video call',
     msg_unread: 'unread',
     msg_translation_failed: '',
     msg_too_long: 'Message is too long (max {n} characters).',
@@ -409,6 +410,7 @@ const T = {
     msg_send: 'ส่ง',
     msg_show_original: 'แสดงต้นฉบับ',
     msg_show_translated: 'แสดงคำแปล',
+    msg_join_video_call: 'เข้าร่วมวิดีโอคอล',
     msg_unread: 'ยังไม่ได้อ่าน',
     msg_translation_failed: '',
     msg_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
@@ -2681,6 +2683,9 @@ function BrowseEmployersTab({
 
 function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, lang = 'en' }) {
   const e = employer;
+  // English viewers get the stored translation (falls back to the original
+  // when it's already English); Thai viewers always see the original.
+  const jobDesc = lang === 'th' ? e.jobDescription : (e.jobDescriptionEn || e.jobDescription);
   return (
     <div style={{
       background: 'white', borderRadius: '16px',
@@ -2745,14 +2750,14 @@ function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, la
           </div>
 
           {/* Job description snippet */}
-          {e.jobDescription && (
+          {jobDesc && (
             <p style={{
               fontSize: '14px', color: '#555', lineHeight: 1.5,
               margin: '0 0 10px',
               overflow: 'hidden', display: '-webkit-box',
               WebkitLineClamp: 3, WebkitBoxOrient: 'vertical',
             }}>
-              {e.jobDescription}
+              {jobDesc}
             </p>
           )}
 

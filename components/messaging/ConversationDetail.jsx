@@ -33,6 +33,10 @@ export default function ConversationDetail({
   // crash; safe to drop in a future cleanup pass.
   onUpgrade,
   onViewProfile,
+  // Optional: renders a "📹 Video call" button in the header. Only
+  // meaningful for employers — voluntary, nothing forces either side
+  // to use it. Omit (or pass nothing) to hide the button entirely.
+  onRequestVideoCall,
   // Verify-required state (overrides input with a verify banner)
   verifyRequired = false,
   onResendVerify,
@@ -221,6 +225,34 @@ export default function ConversationDetail({
           </div>
           </button>
         </div>
+
+        {/* Video-call request — employer-only, entirely optional. Neither
+            side is ever required to use it; it just drops a Jitsi link
+            into the chat that either party can ignore. */}
+        {currentRole === 'employer' && typeof onRequestVideoCall === 'function' && canSend && !verifyRequired && (
+          <button
+            type="button"
+            onClick={onRequestVideoCall}
+            title={t.msg_request_video_call || 'Request a video call'}
+            style={{
+              padding: '6px 12px',
+              background: 'rgba(0,106,98,0.08)',
+              border: '1px solid rgba(0,106,98,0.25)',
+              borderRadius: '8px',
+              color: '#006a62',
+              fontWeight: 600,
+              fontSize: '12px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+            }}
+          >
+            📹 {t.msg_video_call_btn || 'Video call'}
+          </button>
+        )}
       </div>
 
       {/* ── Messages ─────────────────────────────────────── */}
