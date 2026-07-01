@@ -167,10 +167,21 @@ export default async function handler(req, res) {
     }
 
     // Create user_preferences row (for documents, references, etc.)
+    //
+    // preferred_language here drives which language incoming chat messages
+    // get auto-translated INTO (see /api/messages.js). The column defaults
+    // to 'en' in the schema, which is wrong for a helper who can't actually
+    // read English — an employer's English message would never get
+    // translated for them (source === target === 'en', so the translation
+    // step is skipped). We derive a sensible default from the languages the
+    // helper picked at signup: if they didn't select English, assume they
+    // need messages translated into Thai.
+    const helperPreferredLanguage =
+      String(languages || '').toLowerCase().includes('english') ? 'en' : 'th';
     await supabase
       .from('user_preferences')
       .upsert(
-        { helper_ref: ref, email: cleanEmail },
+        { helper_ref: ref, email: cleanEmail, preferred_language: helperPreferredLanguage },
         { onConflict: 'helper_ref' }
       );
 
