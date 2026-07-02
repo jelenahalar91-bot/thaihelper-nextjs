@@ -863,20 +863,25 @@ export default function EmployerDashboard() {
       <div className={`min-h-screen bg-gray-50 ${lang === 'th' ? 'lang-th' : ''}`}>
         {/* ── NAV ───────────────────────────────────────── */}
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
-          <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between w-full">
+          <div className="max-w-6xl mx-auto px-3 md:px-6 py-3 flex items-center justify-between w-full">
             {/* Logo → also acts as "back to browse" */}
             <button
               onClick={() => { setActiveTab('browse'); setSelectedConv(null); }}
-              className="text-xl md:text-2xl font-bold font-headline text-navy"
+              className="text-lg sm:text-xl md:text-2xl font-bold font-headline text-navy flex-shrink-0"
             >
               Thai<span className="text-primary">Helper</span>
             </button>
 
-            <div className="flex items-center gap-2 md:gap-3">
+            {/* Icon group — 5 tappable targets (browse, favorites, messages,
+                language, avatar) squeezed into one row was overflowing on
+                narrow phones (~375px viewports): buttons touched with no
+                breathing room. Tightened gaps + padding below the sm
+                breakpoint rather than dropping any of them. */}
+            <div className="flex items-center gap-0.5 sm:gap-2 md:gap-3">
               {/* Browse Helpers button — easy way to search for new helpers */}
               <button
                 onClick={() => { setActiveTab('browse'); setSelectedConv(null); }}
-                className={`relative p-2.5 rounded-lg transition-colors ${
+                className={`relative p-1.5 sm:p-2.5 rounded-lg transition-colors ${
                   activeTab === 'browse'
                     ? 'bg-[#006a62] text-white'
                     : 'text-gray-700 hover:bg-gray-100'
@@ -884,7 +889,7 @@ export default function EmployerDashboard() {
                 title={t.tab_browse}
                 aria-label={t.tab_browse}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" className="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" />
                   <path d="m21 21-4.35-4.35" />
                 </svg>
@@ -893,7 +898,7 @@ export default function EmployerDashboard() {
               {/* Favorites icon with count badge */}
               <button
                 onClick={() => { setActiveTab('favorites'); setSelectedConv(null); }}
-                className={`relative p-2.5 rounded-lg transition-colors ${
+                className={`relative p-1.5 sm:p-2.5 rounded-lg transition-colors ${
                   activeTab === 'favorites'
                     ? 'bg-[#006a62] text-white'
                     : 'text-gray-700 hover:bg-gray-100'
@@ -901,7 +906,7 @@ export default function EmployerDashboard() {
                 title={t.tab_favorites}
                 aria-label={t.tab_favorites}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill={activeTab === 'favorites' ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" className="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill={activeTab === 'favorites' ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                 </svg>
                 {favorites.size > 0 && (
@@ -914,7 +919,7 @@ export default function EmployerDashboard() {
               {/* Messages icon with unread badge */}
               <button
                 onClick={() => { setActiveTab('messages'); setSelectedConv(null); }}
-                className={`relative p-2.5 rounded-lg transition-colors ${
+                className={`relative p-1.5 sm:p-2.5 rounded-lg transition-colors ${
                   activeTab === 'messages'
                     ? 'bg-[#006a62] text-white'
                     : 'text-gray-700 hover:bg-gray-100'
@@ -922,7 +927,7 @@ export default function EmployerDashboard() {
                 title={t.tab_messages}
                 aria-label={t.tab_messages}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" className="sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                 </svg>
                 {totalUnread > 0 && (

@@ -65,7 +65,7 @@ export default function EmployerProfileMenu({ profile, lang = 'en', current }) {
       {/* Avatar trigger */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="relative w-11 h-11 rounded-full overflow-hidden bg-[#e6f5f3] border-2 border-[#006a62] flex items-center justify-center hover:opacity-80 transition-opacity"
+        className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden bg-[#e6f5f3] border-2 border-[#006a62] flex items-center justify-center hover:opacity-80 transition-opacity flex-shrink-0"
         aria-label="Profile menu"
       >
         {profile?.photo_url ? (
