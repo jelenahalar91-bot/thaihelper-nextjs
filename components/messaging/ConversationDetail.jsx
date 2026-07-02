@@ -133,40 +133,19 @@ export default function ConversationDetail({
           </svg>
         </button>
 
-        {/* Rate button — always show to debug */}
-        <button
-          onClick={() => {
-            console.log('Rate clicked, onViewProfile:', typeof onViewProfile, 'cp:', cp);
-            if (typeof onViewProfile === 'function' && cp) {
-              onViewProfile(cp);
-            }
-          }}
-          style={{
-            padding: '6px 12px',
-            background: '#fbbf24',
-            border: 'none',
-            borderRadius: '8px',
-            color: '#92400e',
-            fontWeight: 600,
-            fontSize: '12px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            whiteSpace: 'nowrap',
-            zIndex: 10,
-          }}
-        >
-          ⭐ Rate
-        </button>
-
-        {/* Clickable identity block + Rate button */}
+        {/* Clickable identity block — avatar + name + subtitle. This is
+            also where rating happens (opens the same profile modal with
+            the star-rating input), so a separate "Rate" button is
+            redundant — it used to sit here and, combined with the video
+            call button, crowded out the name on mobile down to a single
+            truncated letter. Removed 2026-07-01 after user-reported
+            mobile UX feedback. */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
           <button
             onClick={profileClickable ? () => onViewProfile(cp) : undefined}
             disabled={!profileClickable}
+            className="flex items-center gap-2 sm:gap-3"
             style={{
-              display: 'flex', alignItems: 'center', gap: '12px',
               background: 'none', border: 'none',
               padding: '6px 10px',
               margin: '-6px -10px',
@@ -181,16 +160,18 @@ export default function ConversationDetail({
             }}
             onMouseLeave={e => { e.currentTarget.style.background = 'none'; }}
           >
-          <div style={{
-            position: 'relative',
-            width: '44px', height: '44px', borderRadius: '50%',
-            background: 'linear-gradient(135deg, #e6f5f3 0%, #d1fae5 100%)',
-            border: '2px solid #006a62',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '17px', color: '#006a62',
-            fontWeight: 700, overflow: 'hidden',
-            flexShrink: 0,
-          }}>
+          <div
+            className="w-9 h-9 sm:w-11 sm:h-11 text-sm sm:text-[17px]"
+            style={{
+              position: 'relative',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #e6f5f3 0%, #d1fae5 100%)',
+              border: '2px solid #006a62',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#006a62',
+              fontWeight: 700, overflow: 'hidden',
+              flexShrink: 0,
+            }}>
             {cp.photo ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -201,11 +182,13 @@ export default function ConversationDetail({
             ) : initial}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{
-              fontSize: '16px', fontWeight: 700, color: '#1a1a1a',
-              display: 'flex', alignItems: 'center', gap: '6px',
-              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-            }}>
+            <div
+              className="text-sm sm:text-base"
+              style={{
+                fontWeight: 700, color: '#1a1a1a',
+                display: 'flex', alignItems: 'center', gap: '6px',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+              }}>
               {displayName}
               {profileClickable && (
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#006a62" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
@@ -214,11 +197,13 @@ export default function ConversationDetail({
               )}
             </div>
             {subtitle && (
-              <div style={{
-                fontSize: '13px', color: '#006a62', fontWeight: 500,
-                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                marginTop: '1px',
-              }}>
+              <div
+                className="hidden sm:block"
+                style={{
+                  fontSize: '13px', color: '#006a62', fontWeight: 500,
+                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                  marginTop: '1px',
+                }}>
                 {subtitle}
               </div>
             )}
@@ -228,14 +213,18 @@ export default function ConversationDetail({
 
         {/* Video-call request — employer-only, entirely optional. Neither
             side is ever required to use it; it just drops a Jitsi link
-            into the chat that either party can ignore. */}
+            into the chat that either party can ignore.
+            Icon-only on mobile (text label was pushing the counterparty's
+            name down to a single truncated letter — see the identity-block
+            comment above); the label appears from the sm breakpoint up. */}
         {currentRole === 'employer' && typeof onRequestVideoCall === 'function' && canSend && !verifyRequired && (
           <button
             type="button"
             onClick={onRequestVideoCall}
             title={t.msg_request_video_call || 'Request a video call'}
+            aria-label={t.msg_video_call_btn || 'Video call'}
+            className="px-2.5 sm:px-3 py-2"
             style={{
-              padding: '6px 12px',
               background: 'rgba(0,106,98,0.08)',
               border: '1px solid rgba(0,106,98,0.25)',
               borderRadius: '8px',
@@ -250,7 +239,8 @@ export default function ConversationDetail({
               flexShrink: 0,
             }}
           >
-            📹 {t.msg_video_call_btn || 'Video call'}
+            <span aria-hidden="true">📹</span>
+            <span className="hidden sm:inline">{t.msg_video_call_btn || 'Video call'}</span>
           </button>
         )}
       </div>

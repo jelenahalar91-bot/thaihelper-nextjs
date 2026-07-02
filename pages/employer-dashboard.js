@@ -751,7 +751,11 @@ export default function EmployerDashboard() {
       : Math.random().toString(36).slice(2, 14);
     const roomUrl = `https://meet.jit.si/ThaiHelper-${roomId}`;
     const content =
-      `📹 Video call invite\n\nTap the link below to join — works right in your browser, no app or account needed.\n\n${roomUrl}`;
+      // "no app or account" would read as "no ThaiHelper account" inside a
+      // ThaiHelper chat (confusing — you obviously need one to be reading
+      // this). The reassurance is really about Jitsi itself: no separate
+      // download, opens straight in the browser. Say that plainly instead.
+      `📹 Video call invite\n\nTap the button below to join — it opens right in your browser, nothing to install.\n\n${roomUrl}`;
 
     sendingRef.current = true;
     setSending(true);
