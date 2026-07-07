@@ -26,6 +26,7 @@ import {
 } from '../../lib/constants/categories';
 import { formatCity, formatAdditionalCities } from '../../lib/constants/cities';
 import { relativeTime } from '../../lib/recent-helpers-display';
+import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '../../lib/utils';
 import { StarRatingDisplay, StarRatingInput } from '../StarRating';
 
 // ─── Label helpers ──────────────────────────────────────────────────────────
@@ -304,7 +305,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
               boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
             }}>
               {helper.photo ? (
-                helper.photo.includes('.supabase.co') ? (
+                (!SUPABASE_IMAGE_OPTIMIZER_DISABLED && helper.photo.includes('.supabase.co')) ? (
                   <Image
                     src={helper.photo}
                     alt={displayName}

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useLang } from '../pages/_app';
 import { formatCity, formatAdditionalCities } from '../lib/constants/cities';
 import { relativeTime } from '../lib/recent-helpers-display';
+import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '../lib/utils';
 import AvailabilityPill from './AvailabilityPill';
 import { StarRatingDisplay } from './StarRating';
 
@@ -130,8 +131,9 @@ export default function HelperCard({
           // Both local (/images/...) and Supabase Storage URLs go through
           // next/image so Vercel's CDN serves compressed WebPs instead of
           // 2-5 MB Supabase originals. data: URLs and unknown hosts still
-          // need the plain <img> escape hatch.
-          (helper.photo.startsWith('/') || helper.photo.includes('.supabase.co')) ? (
+          // need the plain <img> escape hatch. Supabase URLs are excluded
+          // while SUPABASE_IMAGE_OPTIMIZER_DISABLED is set — see lib/utils.js.
+          (helper.photo.startsWith('/') || (!SUPABASE_IMAGE_OPTIMIZER_DISABLED && helper.photo.includes('.supabase.co'))) ? (
             <>
               {/* Blurred fill (same src → one fetch, cached). aria-hidden:
                   decorative. */}

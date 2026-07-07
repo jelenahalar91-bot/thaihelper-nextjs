@@ -10,6 +10,7 @@ import { CITIES } from '@/lib/constants/cities';
 import { CATEGORIES, SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugList } from '@/lib/constants/employer';
 import { relativeTime } from '@/lib/recent-helpers-display';
+import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '@/lib/utils';
 
 // Render an employer's "looking for" CSV (e.g. "nanny, housekeeper") as
 // readable labels in the current UI language.
@@ -503,7 +504,7 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
           look. See HelperCard for the full rationale. */}
       <div className="relative bg-[#e6f5f3] flex-shrink-0 sm:w-56 aspect-square sm:aspect-auto flex items-center justify-center overflow-hidden">
         {e.photo ? (
-          e.photo.includes('.supabase.co') ? (
+          (!SUPABASE_IMAGE_OPTIMIZER_DISABLED && e.photo.includes('.supabase.co')) ? (
             <>
               <Image
                 src={e.photo}

@@ -6,6 +6,7 @@ import SEOHead, { getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/c
 import LangSwitcher from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
+import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '@/lib/utils';
 import { useLang } from './_app';
 import {
   roleLabel, cityLabel, relativeTime, entryInitials, FALLBACK_HELPERS,
@@ -357,7 +358,7 @@ export default function Home() {
                             // instead of the 2-5 MB raw upload — savings are
                             // huge at scale even though the rendered size is
                             // small. Plain <img> fallback for unknown hosts.
-                            entry.photo.includes('.supabase.co') ? (
+                            (!SUPABASE_IMAGE_OPTIMIZER_DISABLED && entry.photo.includes('.supabase.co')) ? (
                               <Image className="w-10 h-10 rounded-full object-cover flex-shrink-0 border border-gray-100" src={entry.photo} alt="" width={40} height={40} />
                             ) : (
                               // eslint-disable-next-line @next/next/no-img-element

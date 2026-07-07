@@ -5,6 +5,7 @@ import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import HelperCard from '@/components/HelperCard';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { CATEGORIES } from '@/lib/constants/categories';
+import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '@/lib/utils';
 import { useLang } from './_app';
 import {
   roleLabel, cityLabel, entryInitials, FALLBACK_HELPERS,
@@ -626,7 +627,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                       {entry.photo ? (
                         // Route Supabase photos through next/image so Vercel
                         // CDN serves a 40×40 WebP instead of the raw upload.
-                        entry.photo.includes('.supabase.co') ? (
+                        (!SUPABASE_IMAGE_OPTIMIZER_DISABLED && entry.photo.includes('.supabase.co')) ? (
                           <Image className="w-10 h-10 rounded-lg object-cover flex-shrink-0" src={entry.photo} alt="" width={40} height={40} />
                         ) : (
                           // eslint-disable-next-line @next/next/no-img-element
