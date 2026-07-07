@@ -98,7 +98,7 @@ const T = {
     hero_badge: '100% free for everyone',
     // Work permit banner (just below hero)
     wp_label: 'Work Permits & Visas',
-    wp_title: 'Need a work permit for your nanny?',
+    wp_title: 'Need a work permit for your helper?',
     wp_p: 'Take our 2-minute wizard to find out whether you really need a WP, what it costs, and how long it takes — or jump straight to a vetted lawyer in your city.',
     wp_cta_wizard: 'Start the Wizard →',
     wp_cta_directory: 'Find an Expert',
@@ -232,7 +232,7 @@ const T = {
     hero_browse: 'ดูโปรไฟล์ผู้ช่วย — ไม่ต้องสมัคร',
     hero_badge: 'ฟรี 100% สำหรับทุกคน',
     wp_label: 'ใบอนุญาตทำงานและวีซ่า',
-    wp_title: 'ต้องการใบอนุญาตทำงานสำหรับพี่เลี้ยงของคุณ?',
+    wp_title: 'ต้องการใบอนุญาตทำงานสำหรับผู้ช่วยของคุณ?',
     wp_p: 'ทำแบบสอบถาม 2 นาทีของเรา เพื่อดูว่าคุณจำเป็นต้องมี WP หรือไม่ ค่าใช้จ่ายเท่าไหร่ และใช้เวลานานแค่ไหน หรือไปหาทนายความที่เชื่อถือได้ในเมืองของคุณได้เลย',
     wp_cta_wizard: 'เริ่มแบบสอบถาม →',
     wp_cta_directory: 'หาผู้เชี่ยวชาญ',
