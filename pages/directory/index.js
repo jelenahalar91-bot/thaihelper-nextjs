@@ -109,6 +109,7 @@ const T = {
     listing_disclaimer: 'Listing provided for informational purposes. ThaiHelper does not endorse this provider.',
 
     footer_about: 'About', footer_faq: 'FAQ', footer_privacy: 'Privacy', footer_terms: 'Terms',
+    footer_login: 'Company login',
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
     footer_list_cta: 'Become a partner →',
     partner_cta_eyebrow: 'For agencies, companies & service providers',
@@ -190,6 +191,7 @@ const T = {
     listing_disclaimer: 'รายชื่อจัดทำเพื่อเป็นข้อมูลเท่านั้น ThaiHelper ไม่ได้รับรองผู้ให้บริการรายนี้',
 
     footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย', footer_privacy: 'ความเป็นส่วนตัว', footer_terms: 'ข้อกำหนด',
+    footer_login: 'เข้าสู่ระบบบริษัท',
     footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
     footer_list_cta: 'เป็นพันธมิตรกับเรา →',
     partner_cta_eyebrow: 'สำหรับบริษัทจัดหางาน บริษัทบริการ และผู้ให้บริการ',
@@ -537,6 +539,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
               <Link href="/privacy" className="hover:text-primary">{t.footer_privacy}</Link>
               <Link href="/terms" className="hover:text-primary">{t.footer_terms}</Link>
               <Link href="/partners" className="hover:text-primary font-medium text-primary">{t.footer_list_cta}</Link>
+              <Link href="/business-login" className="hover:text-primary font-medium text-primary">{t.footer_login}</Link>
             </div>
             <p className="text-slate-400 text-xs mt-4">© 2026 ThaiHelper.</p>
           </div>

@@ -45,6 +45,7 @@ const T = {
 
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
     footer_privacy: 'Privacy',
+    footer_login: 'Company login',
     footer_terms: 'Terms',
   },
   th: {
@@ -85,6 +86,7 @@ const T = {
 
     footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
     footer_privacy: 'ความเป็นส่วนตัว',
+    footer_login: 'เข้าสู่ระบบบริษัท',
     footer_terms: 'ข้อกำหนด',
   },
 };
@@ -277,6 +279,7 @@ export default function Partners() {
           <div className="max-w-7xl mx-auto py-10 px-6 text-center">
             <p className="text-slate-400 text-xs leading-relaxed max-w-3xl mx-auto mb-2">{t.footer_desc}</p>
             <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-slate-500 mt-3">
+              <Link href="/business-login" className="font-medium text-primary hover:underline">{t.footer_login}</Link>
               <Link href="/privacy" className="hover:text-primary">{t.footer_privacy}</Link>
               <Link href="/terms" className="hover:text-primary">{t.footer_terms}</Link>
             </div>
