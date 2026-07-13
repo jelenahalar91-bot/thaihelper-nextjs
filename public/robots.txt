@@ -10,6 +10,14 @@ Disallow: /employer-login
 Disallow: /employer-dashboard
 Disallow: /employer-profile
 
+# /helpers filter URLs — Google was crawling every ?city=…&category=…
+# combination and stacking them as "Alternative page with proper canonical
+# tag" (206 URLs on 2026-07-13). Wastes crawl budget on filter variants
+# that all canonical to /helpers anyway. The dedicated /hire/<city>-<cat>
+# landing pages are the real SEO surface — those stay indexable.
+Disallow: /helpers?
+Disallow: /th/helpers?
+
 # ─── AI training crawlers — BLOCKED ─────────────────────────────────────
 # These bots crawl the entire site systematically to build training
 # corpora for LLMs. They drive ZERO direct traffic to us — only

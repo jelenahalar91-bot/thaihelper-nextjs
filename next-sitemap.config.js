@@ -45,6 +45,39 @@ module.exports = {
     '/th/*',
   ],
 
+  // Directory listing pages come from Supabase, not from Next.js static
+  // routes, so next-sitemap can't discover them automatically. Pull the
+  // published slugs at build time and emit one <loc> per listing.
+  additionalPaths: async (config) => {
+    try {
+      // Lazy-require Supabase only when this runs (build environment).
+      // Falls back gracefully if the env vars aren't set locally.
+      const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      if (!url || !key) return [];
+      const { createClient } = require('@supabase/supabase-js');
+      const supabase = createClient(url, key);
+      const { data, error } = await supabase
+        .from('directory_listings')
+        .select('slug')
+        .eq('status', 'active');
+      if (error || !data) return [];
+      const lastmod = new Date().toISOString();
+      return data
+        .filter((row) => row.slug)
+        .map((row) => ({
+          loc: `/directory/${row.slug}`,
+          changefreq: 'weekly',
+          priority: 0.7,
+          lastmod,
+          alternateRefs: config.alternateRefs,
+        }));
+    } catch (err) {
+      console.error('additionalPaths (directory) failed:', err);
+      return [];
+    }
+  },
+
   // Custom priority per page — tells Google what matters most.
   // alternateRefs must be passed through manually: next-sitemap drops
   // the top-level alternateRefs when a custom transform is provided.
@@ -55,6 +88,12 @@ module.exports = {
     if (path === '/th' || path.startsWith('/th/')) {
       return null;
     }
+    // /employers-browse got noindex on 2026-06-16 (GSC Soft 404).
+    // Keep it out of the sitemap so we don't send Google mixed signals
+    // ("visit this URL, but by the way it's noindex").
+    if (path === '/employers-browse') {
+      return null;
+    }
     const lastmod = new Date().toISOString();
     const alternateRefs = config.alternateRefs;
     // Homepage = highest priority
@@ -62,7 +101,7 @@ module.exports = {
       return { loc: path, changefreq: 'daily', priority: 1.0, lastmod, alternateRefs };
     }
     // High-value SEO pages
-    if (['/helpers', '/register', '/employers', '/employers-browse'].includes(path)) {
+    if (['/helpers', '/register', '/employers'].includes(path)) {
       return { loc: path, changefreq: 'daily', priority: 0.9, lastmod, alternateRefs };
     }
     // City/category landing pages (SEO gold)
