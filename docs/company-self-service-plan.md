@@ -1,6 +1,6 @@
 # Company Self-Service — Implementation Plan
 
-**Status:** Stage 2 BUILT 2026-06-27 (invite-gated, password-based) — pending SQL migration + end-to-end test, not yet committed/deployed · **Created:** 2026-06-18
+**Status:** Stage 2 LIVE + end-to-end verified 2026-07-13 (invite-gated, password-based). First real company application received 2026-07-13 (a registered Thai cleaning หจก). · **Created:** 2026-06-18
 
 > ## Stage 2 as built (2026-06-27) — differs from the original sketch below
 > Jelena chose an **invite-gated, password** flow (not passwordless ref):
@@ -10,7 +10,7 @@
 > 4. `/business-login` (email + password) → `/business-dashboard` to edit listing + upload logo.
 >
 > **Files:** SQL `scripts/supabase-company-accounts.sql` · auth `lib/auth.js` (cookie `th_biz_session`, role `company`) · `lib/company-invite.js` (approve/invite tokens) · `lib/company-listing.js` (field sanitiser) · APIs `company-approve|company-onboard|company-auth|company-listing|company-photo` + rewritten `partner-signup` · pages `business-onboarding|business-dashboard|business-login` · `components/CompanyListingForm.jsx`. New dep: `bcryptjs`.
-> **TODO before deploy:** run the SQL in Supabase, then test apply→approve→onboard→login→edit, then commit + deploy.
+> **Done:** SQL migration applied in prod, committed + deployed. E2E verified 2026-07-13 via a throwaway test company (12/12 checks: apply→approve→onboard→password+listing live→login→dashboard→appears in directory API), test data cleaned up. Safe for real companies to use.
 
 **Original plan — Created:** 2026-06-18
 **Decision so far:** No "verified" badge for self-registration (see *Badge policy* below). Build only when the trigger conditions below are met.
