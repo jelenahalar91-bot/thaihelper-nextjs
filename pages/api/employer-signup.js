@@ -61,6 +61,7 @@ export default async function handler(req, res) {
     duration,
     childAgeGroups,
     arrangementPreference,
+    startTiming,
     preferredAgeRange,
     jobDescription,
     preferredLanguage,
@@ -78,6 +79,13 @@ export default async function handler(req, res) {
   const ARRANGEMENT_VALUES = ['live_in', 'live_out', 'either'];
   const safeArrangement = ARRANGEMENT_VALUES.includes(arrangementPreference)
     ? arrangementPreference
+    : null;
+
+  // Whitelist start timing — must match the CHECK constraint (see
+  // scripts/supabase-employer-start-timing.sql).
+  const START_TIMING_VALUES = ['immediate', 'within_2_weeks', 'within_1_month', 'flexible'];
+  const safeStartTiming = START_TIMING_VALUES.includes(startTiming)
+    ? startTiming
     : null;
 
   // Validate required fields
@@ -121,6 +129,7 @@ export default async function handler(req, res) {
         duration: duration || null,
         child_age_groups: Array.isArray(childAgeGroups) ? (childAgeGroups.join(', ') || null) : (childAgeGroups || null),
         arrangement_preference: safeArrangement,
+        start_timing: safeStartTiming,
         preferred_age_range: preferredAgeRange || null,
         job_description: sanitizedJobDesc || null,
         job_description_en: jobDescriptionEn || null,

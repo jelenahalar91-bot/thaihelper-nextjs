@@ -27,6 +27,17 @@ function formatLookingFor(csv, lang) {
     .join(', ');
 }
 
+// Labels for employer_accounts.start_timing — see
+// scripts/supabase-employer-start-timing.sql. Shown as a badge on the job
+// card so helpers can judge how urgent a family's search is, independent
+// of when the account itself was created.
+const START_TIMING_LABELS = {
+  immediate:       { en: 'Looking to start immediately',  th: 'ต้องการเริ่มงานทันที' },
+  within_2_weeks:  { en: 'Looking to start within 2 weeks', th: 'ต้องการเริ่มภายใน 2 สัปดาห์' },
+  within_1_month:  { en: 'Looking to start within 1 month', th: 'ต้องการเริ่มภายใน 1 เดือน' },
+  flexible:        { en: 'Flexible start date',            th: 'วันเริ่มงานยืดหยุ่น' },
+};
+
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
   en: {
@@ -592,12 +603,27 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
           )}
           {e.createdAt && (() => {
             const postedLabel = lang === 'th' ? 'ลงประกาศเมื่อ' : 'Posted';
+            // Only show "Updated" when it's genuinely later than "Posted"
+            // (more than an hour apart) — every fresh signup has
+            // updated_at ≈ created_at from the same INSERT, and showing
+            // "Updated just now" right next to "Posted just now" is noise,
+            // not a freshness signal.
+            const updatedMs = e.updatedAt ? new Date(e.updatedAt).getTime() : 0;
+            const createdMs = new Date(e.createdAt).getTime();
+            const showUpdated = updatedMs && (updatedMs - createdMs) > 60 * 60 * 1000;
+            const updatedLabel = lang === 'th' ? 'อัปเดตเมื่อ' : 'Updated';
             return (
               <div className="text-xs text-gray-400 mt-1">
                 🕐 {postedLabel} {relativeTime(e.createdAt, lang)}
+                {showUpdated && <> · {updatedLabel} {relativeTime(e.updatedAt, lang)}</>}
               </div>
             );
           })()}
+          {e.startTiming && (
+            <div className="inline-flex items-center gap-1 mt-2 px-2.5 py-1 rounded-full bg-[#fff4e5] text-[#A6612A] text-xs font-semibold">
+              ⏱ {START_TIMING_LABELS[e.startTiming]?.[lang === 'th' ? 'th' : 'en'] || e.startTiming}
+            </div>
+          )}
         </div>
 
         {skillsLabel && (

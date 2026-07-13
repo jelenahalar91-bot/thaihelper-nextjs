@@ -86,6 +86,12 @@ const T = {
     arr_live_out: 'Live-out',
     arr_either: 'Either is fine',
     arr_unset: 'No preference',
+    label_start_timing: 'When do you need help to start?',
+    start_immediate: 'Immediately',
+    start_within_2_weeks: 'Within 2 weeks',
+    start_within_1_month: 'Within 1 month',
+    start_flexible: 'Flexible / later',
+    start_unset: 'Not specified',
     label_age_pref: 'Preferred helper age',
     age_any: 'Any age',
     label_looking_for: 'Helper types',
@@ -146,6 +152,12 @@ const T = {
     arr_live_out: 'มาเช้าเย็นกลับ',
     arr_either: 'ทั้งสองแบบก็ได้',
     arr_unset: 'ไม่ระบุ',
+    label_start_timing: 'ต้องการให้เริ่มงานเมื่อไหร่?',
+    start_immediate: 'ทันที',
+    start_within_2_weeks: 'ภายใน 2 สัปดาห์',
+    start_within_1_month: 'ภายใน 1 เดือน',
+    start_flexible: 'ยืดหยุ่น / ภายหลัง',
+    start_unset: 'ไม่ระบุ',
     label_age_pref: 'อายุของผู้ช่วยที่ต้องการ',
     age_any: 'ทุกช่วงอายุ',
     label_looking_for: 'ประเภทผู้ช่วย',
@@ -208,6 +220,7 @@ export default function EmployerProfile() {
       city: p.city || '',
       area: p.area || '',
       arrangement_preference: p.arrangement_preference || '',
+      start_timing: p.start_timing || '',
       preferred_age_range: p.preferred_age_range || '',
       looking_for: lookingForToArray(p.looking_for),
       needed_skills: lookingForToArray(p.needed_skills),
@@ -333,6 +346,7 @@ export default function EmployerProfile() {
         ...form,
         // Send empty arrangement as null so the CHECK constraint accepts it
         arrangement_preference: form.arrangement_preference || null,
+        start_timing: form.start_timing || null,
         preferred_age_range: form.preferred_age_range || null,
       });
       if (res?.success) {
@@ -732,6 +746,33 @@ export default function EmployerProfile() {
                   </div>
                 </div>
 
+                {/* Start timing — see scripts/supabase-employer-start-timing.sql */}
+                <div className="mb-5">
+                  <Label>{t.label_start_timing}</Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
+                    {[
+                      { v: '',                label: t.start_unset },
+                      { v: 'immediate',       label: t.start_immediate },
+                      { v: 'within_2_weeks',  label: t.start_within_2_weeks },
+                      { v: 'within_1_month',  label: t.start_within_1_month },
+                      { v: 'flexible',        label: t.start_flexible },
+                    ].map(opt => (
+                      <button
+                        key={opt.v}
+                        type="button"
+                        onClick={() => update('start_timing', opt.v)}
+                        className={`inline-flex items-center justify-center px-3 py-2.5 rounded-xl text-sm font-semibold border transition-all ${
+                          form.start_timing === opt.v
+                            ? 'bg-[#006a62] text-white border-[#006a62] shadow-sm'
+                            : 'bg-white text-gray-700 border-gray-200 hover:border-[#006a62] hover:bg-[#e6f5f3]'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Age range */}
                 <Field label={t.label_age_pref}>
                   <select
@@ -818,6 +859,21 @@ export default function EmployerProfile() {
                     selected={form.arrangement_preference}
                     lang={lang}
                     empty={t.arr_unset}
+                  />
+                </div>
+
+                <div className="mb-5">
+                  <Label>{t.label_start_timing}</Label>
+                  <ViewChips
+                    options={[
+                      { value: 'immediate',       label: t.start_immediate },
+                      { value: 'within_2_weeks',  label: t.start_within_2_weeks },
+                      { value: 'within_1_month',  label: t.start_within_1_month },
+                      { value: 'flexible',        label: t.start_flexible },
+                    ]}
+                    selected={form.start_timing}
+                    lang={lang}
+                    empty={t.start_unset}
                   />
                 </div>
 

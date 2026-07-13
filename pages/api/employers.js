@@ -29,10 +29,12 @@ function toPublicCard(row) {
     jobDescriptionEn: row.job_description_en || '',
     photo: row.photo_url || '',
     arrangementPreference: row.arrangement_preference || null,
+    startTiming: row.start_timing || null,
     preferredAgeRange: row.preferred_age_range || null,
     searchStatus: row.search_status || 'searching',
     source: 'account',
     createdAt: row.created_at || null,
+    updatedAt: row.updated_at || null,
     lastActiveAt: row.last_login_at || null,
   };
 }
@@ -50,8 +52,8 @@ export default async function handler(req, res) {
       .select(
         'employer_ref, first_name, last_name, city, area, ' +
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
-        'child_age_groups, arrangement_preference, preferred_age_range, ' +
-        'job_description, job_description_en, photo_url, search_status, created_at, ' +
+        'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
+        'job_description, job_description_en, photo_url, search_status, created_at, updated_at, ' +
         'last_login_at'
       )
       .order('created_at', { ascending: false });

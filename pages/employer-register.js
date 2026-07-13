@@ -51,6 +51,12 @@ const T = {
     arr_live_out_desc: 'Comes daily, goes home',
     arr_either: 'Either is fine',
     arr_either_desc: 'No strong preference',
+    start_timing_label: 'When do you need help to start? (optional)',
+    start_timing_hint: 'Helps helpers judge how urgent your search is.',
+    start_immediate: 'Immediately',
+    start_within_2_weeks: 'Within 2 weeks',
+    start_within_1_month: 'Within 1 month',
+    start_flexible: 'Flexible / later',
     age_pref_label: 'Preferred helper age (optional)',
     age_any: 'Any age',
     age_20_30: '20 – 30 years',
@@ -128,6 +134,12 @@ const T = {
     arr_live_out_desc: 'มาทำงานและกลับบ้านทุกวัน',
     arr_either: 'แบบใดก็ได้',
     arr_either_desc: 'ไม่มีข้อกำหนด',
+    start_timing_label: 'ต้องการให้เริ่มงานเมื่อไหร่? (ไม่จำเป็น)',
+    start_timing_hint: 'ช่วยให้ผู้ช่วยเข้าใจว่าคุณต้องการด่วนแค่ไหน',
+    start_immediate: 'ทันที',
+    start_within_2_weeks: 'ภายใน 2 สัปดาห์',
+    start_within_1_month: 'ภายใน 1 เดือน',
+    start_flexible: 'ยืดหยุ่น / ภายหลัง',
     age_pref_label: 'อายุผู้ช่วยที่ต้องการ (ไม่จำเป็น)',
     age_any: 'ทุกช่วงอายุ',
     age_20_30: '20 – 30 ปี',
@@ -206,6 +218,7 @@ export default function EmployerRegisterPage() {
   const [duration, setDuration] = useState('');
   const [childAgeGroups, setChildAgeGroups] = useState([]);
   const [arrangementPreference, setArrangementPreference] = useState('');
+  const [startTiming, setStartTiming] = useState('');
   const [preferredAgeRange, setPreferredAgeRange] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [photoFile, setPhotoFile] = useState(null);
@@ -331,6 +344,7 @@ export default function EmployerRegisterPage() {
         duration: duration || null,
         childAgeGroups: showChildAges ? childAgeGroups : [],
         arrangementPreference: arrangementPreference || null,
+        startTiming: startTiming || null,
         preferredAgeRange: preferredAgeRange || null,
         jobDescription: jobDescription.trim(),
         turnstileToken,
@@ -471,29 +485,30 @@ export default function EmployerRegisterPage() {
             Thai here too catches them regardless of the active locale.
             Thai font is set inline because body.lang-th only applies when
             the whole page is in Thai mode. */}
-        <div style={{ padding: '16px 16px 0' }}>
+        <div style={{ padding: 'clamp(10px, 3vw, 16px) 16px 0' }}>
           <div style={{
             maxWidth: '640px', margin: '0 auto', background: '#ffffff',
-            border: '2px solid #006a62', borderRadius: '16px', padding: '16px 18px',
+            border: '2px solid #006a62', borderRadius: '16px',
+            padding: 'clamp(10px, 3vw, 16px) clamp(12px, 3.5vw, 18px)',
             boxShadow: '0 6px 20px rgba(0,106,98,0.15)', display: 'flex',
-            alignItems: 'center', gap: '14px', flexWrap: 'wrap',
+            alignItems: 'center', gap: 'clamp(8px, 2.5vw, 14px)', flexWrap: 'wrap',
           }}>
-            <div style={{ fontSize: '30px', lineHeight: 1, flexShrink: 0 }}>🙋</div>
-            <div style={{ flex: 1, minWidth: '230px' }}>
-              <div style={{ fontWeight: 800, color: 'var(--navy)', fontSize: '15px', lineHeight: 1.4 }}>
+            <div style={{ fontSize: 'clamp(20px, 5vw, 30px)', lineHeight: 1, flexShrink: 0 }}>🙋</div>
+            <div style={{ flex: 1, minWidth: 'clamp(160px, 42vw, 230px)' }}>
+              <div style={{ fontWeight: 800, color: 'var(--navy)', fontSize: 'clamp(13px, 3.2vw, 15px)', lineHeight: 1.35 }}>
                 Want to work as a nanny, maid, driver or caregiver? This page is for families &amp; individuals who need help and want to <u>post a job</u> — it is not a job application.
               </div>
-              <div style={{ fontFamily: "var(--font-thai), 'Sarabun', sans-serif", fontWeight: 700, color: '#006a62', fontSize: '15px', lineHeight: 1.55, marginTop: '6px' }}>
+              <div style={{ fontFamily: "var(--font-thai), 'Sarabun', sans-serif", fontWeight: 700, color: '#006a62', fontSize: 'clamp(13px, 3.2vw, 15px)', lineHeight: 1.5, marginTop: '6px' }}>
                 ต้องการทำงานเป็นพี่เลี้ยง แม่บ้าน คนขับรถ หรือผู้ดูแลใช่ไหม? หน้านี้สำหรับครอบครัวและบุคคลที่ต้องการความช่วยเหลือและต้องการลงประกาศหาผู้ช่วย — ไม่ใช่หน้าสำหรับสมัครงาน
               </div>
             </div>
             <Link href="/register" style={{
-              background: '#006a62', color: '#fff', fontWeight: 700, fontSize: '14px',
-              padding: '12px 20px', borderRadius: '12px', textDecoration: 'none',
-              whiteSpace: 'nowrap', textAlign: 'center', flexShrink: 0, lineHeight: 1.45,
+              background: '#006a62', color: '#fff', fontWeight: 700, fontSize: 'clamp(12px, 3vw, 14px)',
+              padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 20px)', borderRadius: '12px', textDecoration: 'none',
+              whiteSpace: 'nowrap', textAlign: 'center', flexShrink: 0, lineHeight: 1.4,
             }}>
               Find work →<br />
-              <span style={{ fontFamily: "var(--font-thai), 'Sarabun', sans-serif", fontSize: '13px', fontWeight: 600, opacity: 0.95 }}>หางาน · เป็นผู้ช่วย</span>
+              <span style={{ fontFamily: "var(--font-thai), 'Sarabun', sans-serif", fontSize: 'clamp(11px, 2.6vw, 13px)', fontWeight: 600, opacity: 0.95 }}>หางาน · เป็นผู้ช่วย</span>
             </Link>
           </div>
         </div>
@@ -805,6 +820,44 @@ export default function EmployerRegisterPage() {
                         </div>
                         <div style={{ fontSize: '12px', color: selected ? '#001b3d' : 'var(--gray-400)', lineHeight: 1.3 }}>
                           {opt.desc}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="field">
+                <label>{t.start_timing_label}</label>
+                <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '-4px', marginBottom: '10px' }}>
+                  {t.start_timing_hint}
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px' }}>
+                  {[
+                    { value: 'immediate',       label: t.start_immediate },
+                    { value: 'within_2_weeks',  label: t.start_within_2_weeks },
+                    { value: 'within_1_month',  label: t.start_within_1_month },
+                    { value: 'flexible',        label: t.start_flexible },
+                  ].map(opt => {
+                    const selected = startTiming === opt.value;
+                    return (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setStartTiming(prev => prev === opt.value ? '' : opt.value)}
+                        style={{
+                          padding: '14px 12px',
+                          borderRadius: '12px',
+                          border: `1.5px solid ${selected ? '#001b3d' : 'var(--gray-200, #e5e7eb)'}`,
+                          background: selected ? '#eef1f6' : 'white',
+                          color: selected ? '#001b3d' : 'var(--gray-600, #4b5563)',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          transition: 'all 0.15s',
+                        }}
+                      >
+                        <div style={{ fontSize: '15px', fontWeight: selected ? 700 : 600 }}>
+                          {opt.label}
                         </div>
                       </button>
                     );

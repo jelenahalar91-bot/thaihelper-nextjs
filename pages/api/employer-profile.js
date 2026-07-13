@@ -19,6 +19,7 @@ const EDITABLE_FIELDS = [
   'duration',
   'child_age_groups',
   'arrangement_preference',
+  'start_timing',
   'preferred_age_range',
   'job_description',
   'preferred_language',
@@ -36,6 +37,9 @@ const ARRAY_OR_CSV_FIELDS = ['looking_for', 'needed_skills', 'schedule_days', 's
 
 const ARRANGEMENT_VALUES = ['live_in', 'live_out', 'either'];
 
+// See scripts/supabase-employer-start-timing.sql.
+const START_TIMING_VALUES = ['immediate', 'within_2_weeks', 'within_1_month', 'flexible'];
+
 export default async function handler(req, res) {
   const session = await getEmployerSession(req);
   if (!session) return res.status(401).json({ error: 'Not authenticated' });
@@ -49,7 +53,7 @@ export default async function handler(req, res) {
       .select(
         'employer_ref, first_name, last_name, email, phone, city, area, ' +
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
-        'child_age_groups, arrangement_preference, preferred_age_range, ' +
+        'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
         'job_description, preferred_language, photo_url, notify_on_message, ' +
         'search_status, ' +
         'access_until, access_tier, email_verified, created_at, last_login_at, ' +
@@ -85,6 +89,13 @@ export default async function handler(req, res) {
     if ('arrangement_preference' in patch && patch.arrangement_preference) {
       if (!ARRANGEMENT_VALUES.includes(patch.arrangement_preference)) {
         patch.arrangement_preference = null;
+      }
+    }
+
+    // Whitelist start timing (matches DB CHECK constraint)
+    if ('start_timing' in patch && patch.start_timing) {
+      if (!START_TIMING_VALUES.includes(patch.start_timing)) {
+        patch.start_timing = null;
       }
     }
 
