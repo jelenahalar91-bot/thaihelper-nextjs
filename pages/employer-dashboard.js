@@ -92,6 +92,7 @@ const T = {
     filter_area_ph: 'Search by area...',
     filter_reset: 'Reset',
     sort_label: 'Sort by',
+    sort_active: 'Recently active',
     sort_newest: 'Newest',
     sort_experience: 'Most experience',
     sort_alphabetical: 'A–Z',
@@ -197,6 +198,7 @@ const T = {
     filter_area_ph: 'ค้นหาตามย่าน...',
     filter_reset: 'รีเซ็ต',
     sort_label: 'เรียงตาม',
+    sort_active: 'ใช้งานล่าสุด',
     sort_newest: 'ใหม่ล่าสุด',
     sort_experience: 'ประสบการณ์มากที่สุด',
     sort_alphabetical: 'ก–ฮ',
@@ -348,7 +350,7 @@ export default function EmployerDashboard() {
   const [filterAgeRange, setFilterAgeRange] = useState(''); // '' | '18-25' | '25-35' | '35-45' | '45-55' | '55+'
   const [filterMinExp, setFilterMinExp] = useState(''); // '' | '1' | '3' | '5' | '10'
   const [filterLanguages, setFilterLanguages] = useState([]); // ['english', 'thai', ...]
-  const [sortBy, setSortBy] = useState('newest'); // 'newest' | 'experience' | 'alphabetical' | 'youngest' | 'oldest'
+  const [sortBy, setSortBy] = useState('active'); // 'active' | 'newest' | 'experience' | 'alphabetical' | 'youngest' | 'oldest'
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [startingConv, setStartingConv] = useState(null); // helper_ref currently being opened
 
@@ -584,6 +586,9 @@ export default function EmployerDashboard() {
       return Number.isNaN(a) ? Infinity : a;
     };
     const parseDate = (h) => new Date(h.createdAt || 0).getTime();
+    // Helpers who never logged back in (lastActiveAt null) sort to the
+    // very bottom of "active" — treated as epoch-0, not "just joined".
+    const parseActive = (h) => new Date(h.lastActiveAt || 0).getTime();
 
     const sorted = [...filtered];
     switch (sortBy) {
@@ -600,8 +605,11 @@ export default function EmployerDashboard() {
         sorted.sort((a, b) => parseAge(b) - parseAge(a));
         break;
       case 'newest':
-      default:
         sorted.sort((a, b) => parseDate(b) - parseDate(a));
+        break;
+      case 'active':
+      default:
+        sorted.sort((a, b) => parseActive(b) - parseActive(a));
         break;
     }
     return sorted;
@@ -1430,6 +1438,7 @@ function BrowseTab({
                   cursor: 'pointer',
                 }}
               >
+                <option value="active">{t.sort_active || 'Recently active'}</option>
                 <option value="newest">{t.sort_newest || 'Newest'}</option>
                 <option value="experience">{t.sort_experience || 'Most experience'}</option>
                 <option value="alphabetical">{t.sort_alphabetical || 'A–Z'}</option>

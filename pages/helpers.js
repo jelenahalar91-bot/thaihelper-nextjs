@@ -48,6 +48,9 @@ const T = {
     filter_cat:     'All Categories',
     filter_area_ph: 'Search by area...',
     filter_reset:   'Reset filters',
+    sort_label:     'Sort by',
+    sort_active:    'Recently active',
+    sort_newest:    'Newest',
     results:        'helpers found',
     no_results:     'No helpers found',
     no_results_sub: 'Try adjusting your filters or check back soon — new helpers register every day.',
@@ -97,6 +100,9 @@ const T = {
     filter_cat:     'ทุกประเภท',
     filter_area_ph: 'ค้นหาตามย่าน...',
     filter_reset:   'ล้างตัวกรอง',
+    sort_label:     'เรียงตาม',
+    sort_active:    'ใช้งานล่าสุด',
+    sort_newest:    'ใหม่ล่าสุด',
     results:        'ผู้ช่วยที่พบ',
     no_results:     'ไม่พบผู้ช่วย',
     no_results_sub: 'ลองปรับตัวกรอง หรือกลับมาดูอีกครั้ง — มีผู้ช่วยใหม่ลงทะเบียนทุกวัน',
@@ -304,6 +310,10 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
   const [filterLanguages, setFilterLanguages] = useState([]);
   const [filterWp, setFilterWp] = useState('');
   const [filterNationality, setFilterNationality] = useState('');
+  // Default 'active' so helpers who log in regularly rank above ones who
+  // registered once and never came back — inactive accounts sink instead
+  // of camping at the top just because they signed up recently.
+  const [sortBy, setSortBy] = useState('active'); // 'active' | 'newest'
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Only fetch client-side if SSR didn't provide data (fallback)
@@ -474,6 +484,20 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     return true;
   }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality]);
 
+  // Sorted view — 'active' (default) ranks recent logins first and pushes
+  // helpers who never come back to the bottom (missing lastActiveAt = the
+  // oldest possible timestamp, not "just joined"). 'newest' sorts by
+  // registration date instead, for anyone who specifically wants that.
+  const sorted = useMemo(() => {
+    const arr = [...filtered];
+    if (sortBy === 'newest') {
+      arr.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+    } else {
+      arr.sort((a, b) => new Date(b.lastActiveAt || 0).getTime() - new Date(a.lastActiveAt || 0).getTime());
+    }
+    return arr;
+  }, [filtered, sortBy]);
+
   const resetFilters = () => {
     setFilterCity('');
     setFilterCat('');
@@ -632,6 +656,22 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                   {t.results}
                 </div>
 
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto' }}>
+                  <select
+                    value={sortBy}
+                    onChange={e => setSortBy(e.target.value)}
+                    aria-label={t.sort_label}
+                    style={{
+                      padding: '7px 10px', borderRadius: '8px',
+                      border: '1px solid #e5e7eb', background: 'white',
+                      fontSize: '13px', color: '#374151', fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <option value="active">{t.sort_active}</option>
+                    <option value="newest">{t.sort_newest}</option>
+                  </select>
+
                 <button
                   className="browse-sidebar-mobile-btn"
                   onClick={() => setMobileFiltersOpen(true)}
@@ -666,6 +706,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                     </span>
                   )}
                 </button>
+                </div>
               </div>
 
               {loading ? (
@@ -687,7 +728,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  {filtered.map(h => (
+                  {sorted.map(h => (
                     <HelperCard
                       key={h.ref}
                       helper={{ ...h, categoryLabel: categoryWithEmoji(h.category) }}

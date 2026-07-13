@@ -49,6 +49,9 @@ const T = {
     filter_area_label: 'Area',
     filter_area_ph: 'Search by area...',
     filter_reset:   'Reset filters',
+    sort_label:     'Sort by',
+    sort_active:    'Recently active',
+    sort_newest:    'Newest',
     results:        'jobs found',
     no_results:     'No jobs found',
     no_results_sub: 'Check back soon — new jobs are posted every day.',
@@ -90,6 +93,9 @@ const T = {
     filter_area_label: 'ย่าน',
     filter_area_ph: 'ค้นหาตามย่าน...',
     filter_reset:   'ล้างตัวกรอง',
+    sort_label:     'เรียงตาม',
+    sort_active:    'ใช้งานล่าสุด',
+    sort_newest:    'ใหม่ล่าสุด',
     results:        'งานที่พบ',
     no_results:     'ไม่พบงาน',
     no_results_sub: 'กลับมาดูอีกครั้ง — มีงานใหม่ประกาศทุกวัน',
@@ -123,6 +129,9 @@ export default function EmployersBrowse() {
   const [filterLooking, setFilterLooking] = useState('');
   const [filterArea, setFilterArea] = useState('');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  // Default 'active' so families who log in regularly rank above ones who
+  // signed up once and never came back.
+  const [sortBy, setSortBy] = useState('active'); // 'active' | 'newest'
 
   useEffect(() => {
     (async () => {
@@ -144,6 +153,19 @@ export default function EmployersBrowse() {
     if (filterArea && !e.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
     return true;
   }), [employers, filterCity, filterLooking, filterArea]);
+
+  // Sorted view — 'active' (default) ranks recent logins first; missing
+  // lastActiveAt sorts as the oldest possible timestamp, not "just joined",
+  // so families who never come back sink instead of camping at the top.
+  const sorted = useMemo(() => {
+    const arr = [...filtered];
+    if (sortBy === 'newest') {
+      arr.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+    } else {
+      arr.sort((a, b) => new Date(b.lastActiveAt || 0).getTime() - new Date(a.lastActiveAt || 0).getTime());
+    }
+    return arr;
+  }, [filtered, sortBy]);
 
   const activeFilterCount =
     (filterCity ? 1 : 0) + (filterLooking ? 1 : 0) + (filterArea ? 1 : 0);
@@ -273,6 +295,22 @@ export default function EmployersBrowse() {
                   {t.results}
                 </div>
 
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto' }}>
+                  <select
+                    value={sortBy}
+                    onChange={e => setSortBy(e.target.value)}
+                    aria-label={t.sort_label}
+                    style={{
+                      padding: '7px 10px', borderRadius: '8px',
+                      border: '1px solid #e5e7eb', background: 'white',
+                      fontSize: '13px', color: '#374151', fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <option value="active">{t.sort_active}</option>
+                    <option value="newest">{t.sort_newest}</option>
+                  </select>
+
                 <button
                   className="empb-mobile-btn"
                   onClick={() => setMobileFiltersOpen(true)}
@@ -299,6 +337,7 @@ export default function EmployersBrowse() {
                     </span>
                   )}
                 </button>
+                </div>
               </div>
 
               {loading ? (
@@ -320,7 +359,7 @@ export default function EmployersBrowse() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  {filtered.map((emp, i) => (
+                  {sorted.map((emp, i) => (
                     <PublicEmployerCard
                       key={emp.ref || `reg-${i}`}
                       employer={emp}
