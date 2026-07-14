@@ -155,6 +155,12 @@ export default async function handler(req, res) {
         source: formatAttributionString(attribution),
         email_verified: false,
         verification_token: verificationToken,
+        // Someone actively registering IS an activity moment — see the
+        // matching comment in pages/api/employer-signup.js. Without this,
+        // every fresh helper signup showed last_login_at = NULL because
+        // the success screen never makes a follow-up authenticated
+        // request that would let lib/auth.js's session-touch fix fire.
+        last_login_at: new Date().toISOString(),
       });
 
     if (insertError) {

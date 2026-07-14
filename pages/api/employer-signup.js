@@ -139,6 +139,16 @@ export default async function handler(req, res) {
         source: formatAttributionString(attribution),
         email_verified: false,
         verification_token: verificationToken,
+        // Someone actively filling out this form IS an activity moment —
+        // without this, "Recently active" on /employers-browse showed
+        // NULL for every fresh signup (confirmed 2026-07-14: all 10 most
+        // recent employer registrations, down to 7h old, had
+        // last_login_at = NULL) because the post-signup success screen
+        // is rendered from the signup response itself and never makes a
+        // follow-up authenticated request — lib/auth.js's session-touch
+        // fix (same commit history) only fires on THAT, so it never got
+        // a chance to run for brand-new accounts.
+        last_login_at: new Date().toISOString(),
       })
       .select('employer_ref, first_name, email, city, access_until, access_tier')
       .single();
