@@ -138,13 +138,13 @@ export const blogPosts = [
 
   {
     slug: 'nanny-costs-thailand',
-    title: 'How Much Does a Nanny Cost in Thailand? Salary Guide 2026',
+    title: 'Nanny Cost Thailand 2026: Full Salary Guide (Bangkok, Phuket, Chiang Mai)',
     description:
-      'Nanny salary guide for Thailand in 2026. Full-time, part-time, live-in, and premium-tier (28k–70k THB) rates for Bangkok, Phuket, Chiang Mai. Hidden costs, 13th-month bonus, Social Security, and the true total monthly cost.',
+      'How much does a nanny cost in Thailand in 2026? Full-time 15–25k THB, part-time 4–8k, live-in 12–18k, premium-tier 28–70k. Salary breakdown by city, hidden costs, 13th-month bonus, Social Security, and true total monthly cost.',
     category: 'families',
     date: '2026-04-08',
-    updated: '2026-06-12',
-    readTime: 10,
+    updated: '2026-07-14',
+    readTime: 12,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80',
     keywords: 'nanny cost Thailand, nanny salary Bangkok, babysitter price Thailand, childcare costs Thailand 2026',
@@ -194,10 +194,18 @@ export const blogPosts = [
     `,
     content: `
       <p>One of the first questions expat families ask when moving to Thailand: <strong>how much does a nanny cost?</strong> Childcare here is significantly more affordable than in Europe, the US, or Australia — but the headline monthly salary is only part of the picture. This guide breaks down 2026 nanny costs by city, by arrangement, and most importantly by <em>true total monthly cost</em> after Social Security, bonuses, and the other items families forget to budget for.</p>
-      <p><em>Last updated: 12 June 2026. Salary figures are sourced from active 2026 listings, recent hires, and direct family-employer conversations in Bangkok, Phuket, and Chiang Mai.</em></p>
+      <p><em>Last updated: 14 July 2026. Salary figures are sourced from 552+ active nanny profiles on ThaiHelper, 2026 job listings, and direct family-employer conversations in Bangkok, Phuket, and Chiang Mai.</em></p>
 
       <h2>Quick Answer</h2>
       <p>In 2026 a full-time nanny in Thailand costs <strong>15,000–25,000 THB per month</strong> in Bangkok and <strong>12,000–18,000 THB</strong> in Chiang Mai. Live-in nannies are 12,000–18,000 cash plus a room and meals. Add roughly <strong>20–35%</strong> for true total cost (Social Security, 13th-month bonus, transport, meals). English-fluent nannies add another <strong>30–50%</strong> to the base. The premium tier — nursing-trained, multilingual, or international-school-experienced nannies — runs <strong>28,000–70,000 THB/month</strong>.</p>
+
+      <h2>Q3 2026 update — what's changed since April</h2>
+      <p>Three shifts we're seeing on the platform between April and mid-July 2026:</p>
+      <ul>
+        <li><strong>Bangkok base up ~5–8%.</strong> Central Sukhumvit and Sathorn full-time salaries are trending toward the upper end of the 15–25k band; live-out at 22–25k is now normal for experienced English-speaking nannies.</li>
+        <li><strong>Newborn / infant specialists command a clear premium.</strong> Nannies with maternity-nurse (pi liang dek on) or NICU background are asking 30k–45k for full-time, up from 25–35k earlier in the year.</li>
+        <li><strong>Live-in is quietly rising too.</strong> The old "live-in is 20–30% below live-out" rule is now closer to 15–20% — families are offering more cash because the pool of live-in candidates is smaller than families realise.</li>
+      </ul>
       <p>For the full hiring process — interview questions, work-permit rules for foreign nannies, contract template — see our complete guide: <a href="/guide/hire-a-nanny-in-thailand"><strong>How to Hire a Nanny in Thailand</strong></a>.</p>
 
       <h2>Full-Time Nanny Salary by City (2026, live-out)</h2>
@@ -1383,6 +1391,11 @@ export const blogPosts = [
     title: 'Free Employment Contract Template for Household Helpers in Thailand',
     description:
       'Download our free bilingual (Thai & English) employment contract template for hiring a maid, nanny, cook, or driver in Thailand. Covers salary, duties, leave, and termination.',
+    // This post and /contract-template hold the same content (the post
+    // was the original, the page is the lead-magnet). Point the canonical
+    // at the dedicated page so Google consolidates ranking signal there —
+    // the page is the URL we want reviewed + linked externally.
+    canonicalUrl: 'https://thaihelper.app/contract-template',
     category: 'families',
     date: '2026-04-14',
     readTime: 6,

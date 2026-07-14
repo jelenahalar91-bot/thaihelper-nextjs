@@ -23,6 +23,7 @@ export default function SEOHead({
   lang = 'en',
   jsonLd,
   noindex = false,
+  canonicalOverride,
 }) {
   // path may or may not start with "/" — normalise.
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
@@ -30,7 +31,13 @@ export default function SEOHead({
   // /foo and /th/foo into one document.
   const enUrl = `${SITE_URL}${cleanPath === '/' ? '' : cleanPath}` || SITE_URL;
   const thUrl = `${SITE_URL}/th${cleanPath === '/' ? '' : cleanPath}`;
-  const canonicalUrl = lang === 'th' ? thUrl : enUrl;
+  // canonicalOverride lets a page point at a DIFFERENT canonical URL —
+  // used when two pages hold near-identical content (e.g. the old
+  // /blog/employment-contract-template-thailand post pointing at the
+  // dedicated /contract-template page) so Google consolidates the SEO
+  // signal on the preferred URL.
+  const canonicalUrl = canonicalOverride
+    || (lang === 'th' ? thUrl : enUrl);
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
 
   return (

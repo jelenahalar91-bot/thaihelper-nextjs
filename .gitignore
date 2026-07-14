@@ -68,3 +68,6 @@ messaging-detailed-report.js
 scripts/delete-*.js
 scripts/flip-*.js
 scripts/audit-employer-signups.js
+
+# One-off feedback blast — the send log has PII (recipient emails)
+scripts/.feedback-blast-sent.jsonl

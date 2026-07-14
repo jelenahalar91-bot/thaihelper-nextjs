@@ -51,6 +51,7 @@ export default function BlogPost({ post }) {
         description={post.description}
         path={`/blog/${post.slug}`}
         lang={lang}
+        canonicalOverride={post.canonicalUrl}
         jsonLd={[
           getBlogPostingSchema(post),
           getBreadcrumbSchema(breadcrumbs),
