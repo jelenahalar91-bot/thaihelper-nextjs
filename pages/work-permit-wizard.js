@@ -91,7 +91,7 @@ const T = {
     myanmar_notice_title: '📌 2026 status notes for Myanmar workers',
     myanmar_notice_b1: 'Myanmar-side: the Myanmar embassy and consulate processes have tightened since 2024. Workers typically need a valid Myanmar passport, CI (Certificate of Identity) or PJ (Passport for Job), plus their original Myanmar NRC and Myanmar household register for embassy/CI steps. Since Jan 2026, junta pre-departure approvals are causing delays. This is a Myanmar-side requirement — not a Thai DoE checklist.',
     myanmar_notice_b2: 'CI center extension: Myanmar\'s CI service centers in Thailand stay open until 17 Aug 2026, but only for workers already in the Cabinet-Sep-2024 renewal pipeline whose permits expired 31 Mar 2026 and who still need to complete the CI step. This is not a blanket Thai work-permit deadline extension.',
-    myanmar_notice_b3: 'The Thai-side renewal deadline of 31 March 2026 has passed without further extension. Approximately 375,000 of 890,000 CLMV workers had not completed renewal at Feb 2026. Verify your candidate\'s WP status carefully before hiring — workers who missed the deadline are currently undocumented in Thailand.',
+    myanmar_notice_b3: 'Two-part status: (a) Workers who missed the 31 Mar 2026 renewal submission deadline (~375k of 890k CLMV workers per MOL) are currently undocumented — verify your candidate\'s WP status carefully before hiring. (b) Workers who DID renew successfully now have their temporary stay + work authorization extended to 11 December 2027 (Cabinet resolution 14 July 2026), plus a 60-day window (previously 30) to find a new employer if they leave a job.',
 
     // Result: not legally allowed for domestic work
     nla_h2: 'Domestic-worker permits aren\'t available for this nationality.',
@@ -212,7 +212,7 @@ const T = {
     myanmar_notice_title: '📌 สถานะปี 2026 สำหรับแรงงานพม่า',
     myanmar_notice_b1: 'ฝั่งพม่า: ขั้นตอนที่สถานทูตและสถานกงสุลพม่าเข้มงวดขึ้นตั้งแต่ปี 2024 แรงงานต้องมีหนังสือเดินทางพม่า CI หรือ PJ ที่ใช้ได้ พร้อม NRC ตัวจริงและสำเนาทะเบียนบ้านพม่า (Form 10) สำหรับขั้นตอนสถานทูต/CI ตั้งแต่ ม.ค. 2569 มีความล่าช้าจากการอนุมัติก่อนเดินทางของรัฐบาลทหารพม่า เป็นข้อกำหนดฝั่งพม่า ไม่ใช่ของกรมการจัดหางานไทย',
     myanmar_notice_b2: 'ขยายเวลาศูนย์ CI: ศูนย์บริการ CI ของพม่าในไทยเปิดถึง 17 ส.ค. 2569 เฉพาะแรงงานที่อยู่ในกลุ่ม มติคณะรัฐมนตรี ก.ย. 2567 ซึ่ง WP หมดอายุ 31 มี.ค. 2569 และยังต้องดำเนินการ CI ไม่ใช่การขยายเส้นตาย WP ฝั่งไทยทั่วไป',
-    myanmar_notice_b3: 'เส้นตายต่ออายุฝั่งไทย 31 มี.ค. 2569 หมดอายุแล้วโดยไม่มีการขยายเพิ่ม ประมาณ 375,000 จาก 890,000 แรงงาน CLMV ยังไม่ได้ต่ออายุ ณ ก.พ. 2569 โปรดตรวจสอบสถานะ WP ของผู้สมัครอย่างละเอียดก่อนตัดสินใจจ้าง — แรงงานที่พลาดเส้นตายอยู่ในสถานะไม่ถูกต้องในประเทศไทย',
+    myanmar_notice_b3: 'สถานะสองส่วน: (ก) แรงงานที่พลาดเส้นตายยื่นต่ออายุ 31 มี.ค. 2569 (ประมาณ 375,000 จาก 890,000 คน CLMV ตามข้อมูลกระทรวงแรงงาน) ปัจจุบันอยู่ในสถานะไม่ถูกต้อง — โปรดตรวจสอบสถานะ WP ของผู้สมัครก่อนตัดสินใจจ้าง (ข) แรงงานที่ต่ออายุสำเร็จได้รับการขยายเวลาพำนักและใบอนุญาตทำงานถึง 11 ธ.ค. 2570 (มติคณะรัฐมนตรี 14 ก.ค. 2569) พร้อมช่วงเวลา 60 วัน (เพิ่มจาก 30 วัน) เพื่อหางานใหม่หากลาออกจากงานเดิม',
 
     // ผลลัพธ์: ไม่อนุญาตทางกฎหมายสำหรับงานในบ้าน
     nla_h2: 'ใบอนุญาตทำงานประเภทแรงงานในบ้านไม่มีสำหรับสัญชาตินี้',
