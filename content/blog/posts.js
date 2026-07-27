@@ -2913,6 +2913,94 @@ export const blogPosts = [
       <p><a href="/employer-register">Create your free family account</a> and browse verified Phuket staff profiles directly. No middleman, no agency fees.</p>
     `,
   },
+
+  // ─── SOCIAL PROOF / TRUSTPILOT BACKLINK POST ──────────────────────────
+  // Purpose: create a dofollow backlink from indexed content to our
+  // Trustpilot profile so Google finally crawls and indexes it. The
+  // sameAs schema signal alone has not been enough after 13 days.
+  {
+    slug: 'thaihelper-reviews-real-users-2026',
+    title: 'What Families and Helpers Are Saying About ThaiHelper — 2026 Reviews',
+    description:
+      'Real Trustpilot reviews from families and helpers using ThaiHelper in 2026. Honest feedback, including a helper who confused us with an app. TrustScore 3.8 across 5 verified reviews.',
+    category: 'families',
+    date: '2026-07-27',
+    updated: '2026-07-27',
+    readTime: 5,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=800&q=80',
+    keywords: 'thaihelper reviews, thaihelper.app reviews, is thaihelper legit, trustpilot thaihelper, thai nanny platform reviews, real user reviews thailand household staff',
+    content: `
+      <p>Three months into ThaiHelper's public run we started asking every helper and every family on the platform a simple question: <em>how is this actually working for you?</em> Over 600 got the email. Many replied. And a handful took the extra two minutes to leave a public review on Trustpilot.</p>
+
+      <p>Here is what they said — the good, the mixed, and the misunderstandings — with the full profile linked at the end.</p>
+
+      <h2>Why we asked publicly</h2>
+      <p>ThaiHelper is a direct-connection platform — no agency in the middle, no placement fees on either side. That model only works if people genuinely trust it. We wanted a public, third-party place where a nanny in Chiang Mai or a family in Bangkok could hear from other real users before signing up. Trustpilot is that place.</p>
+
+      <h2>The reviews so far</h2>
+
+      <h3>⭐⭐⭐⭐⭐ "A trusted platform for finding jobs in Thailand" — EG, helper (Bangkok)</h3>
+      <p>"ThaiHelper has been a great help to me, especially for anyone looking for full-time or part-time jobs in Thailand. The platform helps connect job seekers and employers in a safe and reliable way. I appreciate that job opportunities are sent directly to my email inbox, making it easy to stay updated. Everything I've experienced has been legitimate."</p>
+
+      <h3>⭐⭐⭐⭐⭐ "Wonderful experience" — Akasa, helper</h3>
+      <p>"The team was professional, reliable, friendly, and always willing to help. From start to finish, everything was handled smoothly. It's refreshing to work with a company that genuinely cares about its customers."</p>
+
+      <h3>⭐⭐⭐⭐⭐ "Nothing is as easy as you think" — Louang, helper</h3>
+      <p>"It works well to a certain extent. I stay in contact with my family constantly. I'm still working part-time. I think I'll expand to apply for jobs in different provinces. I'm happy and satisfied with it and will invite my friends to use it too."</p>
+
+      <h3>⭐⭐⭐⭐ "Happy to have the option" — Dirk, family (Germany)</h3>
+      <p>"I can't say much about it yet because I haven't needed it, but I registered and looked around anyway, in case I might need it someday. I'm very happy to have the option to use it."</p>
+
+      <h3>⭐⭐ "Can't download the app" — Kitsitorn, helper</h3>
+      <p>The one lower-star review turned out to be a misunderstanding: Kitsitorn thought ThaiHelper is a phone app and couldn't download it on her iPhone. It's not — ThaiHelper is a <strong>website</strong> that works on every phone, tablet and computer through Safari, Chrome, or any browser. There's nothing to install. We're building native iOS and Android apps for later this year, but right now the website is where everything happens.</p>
+
+      <p>We replied to her review publicly with the fix. If you're on this page for the same reason: open <a href="/">thaihelper.app</a> directly in your phone's browser and you're in.</p>
+
+      <h2>The full profile</h2>
+      <p>All five reviews, our public replies to each of them, and the current TrustScore are on our verified Trustpilot profile:</p>
+      <p style="text-align:center;margin:24px 0;">
+        <a href="https://www.trustpilot.com/review/thaihelper.app" style="display:inline-block;background:#00B67A;color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">
+          ★ Read all reviews on Trustpilot →
+        </a>
+      </p>
+      <p style="text-align:center;font-size:14px;color:#666;">TrustScore 3.8 · 5 reviews · <a href="https://www.trustpilot.com/review/thaihelper.app">trustpilot.com/review/thaihelper.app</a></p>
+
+      <h2>Want to add your own review?</h2>
+      <p>If ThaiHelper worked for you — as a family or as a helper — a two-minute review helps other Thai families and helpers find us instead of paying a month of salary to an agency. Write in Thai, English, or any language you like:</p>
+      <p style="text-align:center;margin:20px 0;">
+        <a href="https://www.trustpilot.com/evaluate/thaihelper.app" style="display:inline-block;background:#006a62;color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;">Leave a review</a>
+      </p>
+
+      <h2>Not sure if ThaiHelper is right for you?</h2>
+      <p>Everything about who we are, what we do, and what we deliberately don't do (no ID checks, no background checks — see <a href="/legit">our transparent trust page</a>) is public. Or just have a look at the current <a href="/helpers">helper directory</a> — no login needed to browse.</p>
+    `,
+    content_th: `
+      <p>สามเดือนหลังจาก ThaiHelper เปิดให้ใช้บริการ เราเริ่มถามผู้ช่วยและครอบครัวทุกคนบนแพลตฟอร์มด้วยคำถามง่ายๆ ว่า <em>สำหรับคุณ ระบบนี้ใช้งานได้ดีแค่ไหน?</em> อีเมลถูกส่งไปมากกว่า 600 ฉบับ หลายคนตอบกลับ และบางส่วนใช้เวลาอีก 2 นาทีเขียนรีวิวสาธารณะบน Trustpilot</p>
+
+      <p>นี่คือสิ่งที่พวกเขาพูด — ทั้งด้านดี ผสม และความเข้าใจผิด — พร้อมลิงก์โปรไฟล์เต็มที่ท้ายบทความ</p>
+
+      <h2>ทำไมเราถามในที่สาธารณะ</h2>
+      <p>ThaiHelper เป็นแพลตฟอร์มเชื่อมต่อโดยตรง — ไม่มีนายหน้าอยู่ตรงกลาง ไม่มีค่าธรรมเนียมทั้งสองฝ่าย รูปแบบนี้จะทำงานได้ก็ต่อเมื่อผู้คนไว้ใจอย่างแท้จริง เราต้องการที่สาธารณะจากบุคคลที่สาม ที่พี่เลี้ยงในเชียงใหม่หรือครอบครัวในกรุงเทพจะได้ยินจากผู้ใช้งานจริงคนอื่นก่อนสมัคร Trustpilot คือที่นั่น</p>
+
+      <h2>รีวิวจนถึงตอนนี้</h2>
+      <p>เรามีรีวิว 5 อันบน Trustpilot คะแนน 3.8 จาก 5 ดาว — ส่วนใหญ่ 5 ดาว จากทั้งผู้ช่วยและครอบครัว รวมถึงหนึ่งรีวิว 2 ดาวจากผู้ใช้ที่เข้าใจผิดว่า ThaiHelper เป็นแอปพลิเคชัน (ThaiHelper คือ <strong>เว็บไซต์</strong> ใช้ได้บนโทรศัพท์ทุกรุ่นผ่านเบราว์เซอร์ ไม่ต้องดาวน์โหลด)</p>
+
+      <p style="text-align:center;margin:24px 0;">
+        <a href="https://www.trustpilot.com/review/thaihelper.app" style="display:inline-block;background:#00B67A;color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">
+          ★ อ่านรีวิวทั้งหมดบน Trustpilot →
+        </a>
+      </p>
+
+      <h2>อยากเพิ่มรีวิวของคุณ?</h2>
+      <p>ถ้า ThaiHelper ใช้งานได้ดีสำหรับคุณ — ในฐานะครอบครัวหรือผู้ช่วย — รีวิว 2 นาทีของคุณช่วยให้ครอบครัวและผู้ช่วยไทยคนอื่นเจอเรา แทนที่จะจ่ายเงินเดือน 1 เดือนให้บริษัทจัดหา เขียนภาษาไทย อังกฤษ หรือภาษาไหนก็ได้ที่คุณสบายใจ:</p>
+      <p style="text-align:center;margin:20px 0;">
+        <a href="https://www.trustpilot.com/evaluate/thaihelper.app" style="display:inline-block;background:#006a62;color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;">เขียนรีวิว</a>
+      </p>
+    `,
+    title_th: 'ครอบครัวและผู้ช่วยพูดถึง ThaiHelper อย่างไร — รีวิว 2026',
+    description_th: 'รีวิว Trustpilot จริงจากครอบครัวและผู้ช่วยที่ใช้ ThaiHelper ในปี 2026 คะแนน 3.8/5 จาก 5 รีวิวที่ผ่านการยืนยัน',
+  },
 ];
 
 export function getPostBySlug(slug) {
