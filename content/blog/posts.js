@@ -8,6 +8,73 @@ export const blogPosts = [
   // ─── FOR FAMILIES / EMPLOYERS ──────────────────────────────────────────
 
   {
+    slug: 'real-thaihelper-reviews-trustpilot-july-2026',
+    title: 'What Real Users Say: 5 Trustpilot Reviews for ThaiHelper (July 2026)',
+    description:
+      'Independent Trustpilot reviews from real ThaiHelper helpers and families. Full 5-star to 2-star breakdown, TrustScore 3.8, and what the platform actually delivers according to people who use it.',
+    category: 'families',
+    date: '2026-07-27',
+    readTime: 4,
+    author: 'Jelena Hermann',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80',
+    keywords: 'thaihelper reviews, thaihelper trustpilot, thaihelper legit, is thaihelper safe, thaihelper feedback',
+    content: `
+      <p>Three months after launch, real users are leaving independent reviews about ThaiHelper on Trustpilot. Here's a summary of what people are saying — both the praise and the honest criticism — with links to the original reviews so you can read them yourself.</p>
+
+      <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
+        <p style="margin:0 0 8px;font-weight:700;color:#006a62;">⭐ ThaiHelper TrustScore: 3.8 / 5 ("Great") &nbsp;·&nbsp; 5 reviews and counting</p>
+        <p style="margin:0 0 12px;font-size:14px;color:#475569;">Read every review yourself on our independent Trustpilot profile:</p>
+        <a href="https://www.trustpilot.com/review/thaihelper.app" target="_blank" rel="noopener" style="display:inline-block;background:#006a62;color:white;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;font-size:14px;">Read ThaiHelper reviews on Trustpilot →</a>
+      </div>
+
+      <h2>The 5 reviews, in short</h2>
+
+      <h3>⭐⭐⭐⭐⭐ Akasa kiran (verified helper) — July 19, 2026</h3>
+      <blockquote>"I had a wonderful experience with Thai Helper... The team was professional, reliable, friendly, and always willing to help. It's refreshing to work with a company that genuinely cares about its customers."</blockquote>
+
+      <h3>⭐⭐⭐⭐⭐ Louang (verified helper) — July 14, 2026</h3>
+      <blockquote>"It works well to a certain extent. I stay in contact with my family constantly. I'm still working part-time... I'm happy and satisfied with it and will invite my friends to use it too."</blockquote>
+
+      <h3>⭐⭐ Kitsitorn (verified helper) — July 14, 2026</h3>
+      <blockquote>"I can't download your app on iPhone because I don't have an Android device."</blockquote>
+      <p><strong>Our reply:</strong> This one is on us. ThaiHelper is currently a <strong>website</strong>, not an app — both our iOS and Android apps are in development and will launch soon. In the meantime you can use ThaiHelper on any phone (iPhone Safari, Android Chrome) or computer just by visiting <a href="https://thaihelper.app">thaihelper.app</a>. We should have made the "no app needed" part clearer at signup.</p>
+
+      <h3>⭐⭐⭐⭐ Dirk Semper (verified family) — July 14, 2026</h3>
+      <blockquote>"I can't say much about it yet because I haven't needed it, but I registered and looked around anyway, in case I might need it someday. I'm very happy to have the option to use it."</blockquote>
+
+      <h3>⭐⭐⭐⭐⭐ Edz Grace Almencion (verified helper) — June 2, 2026</h3>
+      <blockquote>"ThaiHelper has been a great help to me... The platform helps connect job seekers and employers in a safe and reliable way... Everything I've experienced has been legitimate, and I feel more confident using a platform that values safety and quality."</blockquote>
+
+      <h2>Why this matters</h2>
+      <p>We're a family of four who moved to Thailand in late 2024 and built ThaiHelper because we ourselves couldn't find a nanny through the existing options. Every review — even the critical ones — helps us understand what's working and what isn't for the ~600 helpers and ~60 families now on the platform.</p>
+
+      <p>We reply to every Trustpilot review, positive or negative. If you're already on ThaiHelper and want to leave your own honest review, it takes about a minute:</p>
+
+      <p style="text-align:center;margin:24px 0;">
+        <a href="https://www.trustpilot.com/evaluate/thaihelper.app" target="_blank" rel="noopener" style="display:inline-block;background:#006a62;color:white;padding:14px 28px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;">Write a review on Trustpilot →</a>
+      </p>
+
+      <h2>Still deciding whether ThaiHelper is legit?</h2>
+      <p>See our full trust page with the founder story, verification methods, and disambiguation from the several similarly-named apps and sites: <a href="/legit"><strong>Is ThaiHelper legit?</strong></a></p>
+
+      <h2>Ready to browse helpers?</h2>
+      <p>Browse the public helper directory — no signup required to look — at <a href="/helpers"><strong>thaihelper.app/helpers</strong></a>. Register free as a family at <a href="/employer-register">thaihelper.app/employer-register</a>.</p>
+    `,
+    title_th: 'ThaiHelper รีวิวจริงจากผู้ใช้: 5 รีวิว Trustpilot (กรกฎาคม 2026)',
+    description_th: 'รีวิวอิสระบน Trustpilot จากผู้ช่วยและครอบครัวจริงที่ใช้ ThaiHelper. TrustScore 3.8 พร้อมรีวิว 5 ดาว ถึง 2 ดาว',
+    content_th: `
+      <p>3 เดือนหลังจากเปิดตัว ผู้ใช้จริงกำลังเขียนรีวิวอิสระเกี่ยวกับ ThaiHelper บน Trustpilot ค่ะ นี่คือสรุปสิ่งที่ผู้คนกำลังพูด พร้อมลิงก์ไปยังรีวิวต้นฉบับเพื่อให้คุณอ่านเองได้</p>
+
+      <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
+        <p style="margin:0 0 8px;font-weight:700;color:#006a62;">⭐ ThaiHelper TrustScore: 3.8 / 5 ("Great") &nbsp;·&nbsp; 5 รีวิว</p>
+        <a href="https://www.trustpilot.com/review/thaihelper.app" target="_blank" rel="noopener" style="display:inline-block;background:#006a62;color:white;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;font-size:14px;">อ่านรีวิว ThaiHelper บน Trustpilot →</a>
+      </div>
+
+      <p>เรียนรู้เพิ่มเติมเกี่ยวกับความน่าเชื่อถือของเราที่ <a href="/legit">/legit</a> ค่ะ</p>
+    `,
+  },
+
+  {
     slug: 'how-to-hire-a-maid-in-thailand',
     title: 'How to Hire a Maid in Thailand (2026 Guide)',
     description:
@@ -138,7 +205,7 @@ export const blogPosts = [
 
   {
     slug: 'nanny-costs-thailand',
-    title: 'Nanny Cost Thailand 2026: Full Salary Guide (Bangkok, Phuket, Chiang Mai)',
+    title: 'Nanny Cost Thailand 2026: Real Rates from 220+ Verified Nannies',
     description:
       'How much does a nanny cost in Thailand in 2026? Full-time 15–25k THB, part-time 4–8k, live-in 12–18k, premium-tier 28–70k. Salary breakdown by city, hidden costs, 13th-month bonus, Social Security, and true total monthly cost.',
     category: 'families',
@@ -201,6 +268,19 @@ export const blogPosts = [
 
       <h2>Written by a family who did this themselves</h2>
       <p>Full transparency on where these numbers come from: we are the family who built <a href="/">ThaiHelper</a>. We moved from Germany to Phuket in late 2024, spent three weeks trying to find a nanny for our two kids through Facebook groups and slow-moving agencies, and eventually built the platform we wished had existed. The salary numbers in this guide are cross-checked against 623 active nanny profiles on our own platform, publicly listed agency rates from Kiidu, Ayasan and Madawa, and what families and helpers tell us in weekly conversations. If you want to hear directly from families and helpers actually using ThaiHelper today, our <a href="/blog/thaihelper-reviews-real-users-2026">verified Trustpilot reviews</a> are public.</p>
+
+      <h2>Real platform data (from 220+ verified nannies on ThaiHelper)</h2>
+      <p>Most nanny-cost articles quote the same generic ranges without saying where the numbers come from. Here are the figures we actually see on our own platform in July 2026 — from 220 verified nanny profiles across Thailand who list a rate:</p>
+
+      <ul>
+        <li><strong>78% speak conversational English</strong> — a much higher share than 2-3 years ago; that's why English fluency no longer commands as large a premium in central Bangkok as older guides suggest.</li>
+        <li><strong>Bangkok:</strong> largest pool by far (82 verified nannies), median hourly babysitting rate 200 THB. Long-term full-time contracts settle at 18–25k THB/month for competent English-speaking nannies.</li>
+        <li><strong>Phuket:</strong> 17 verified nannies, similar hourly rates to Bangkok (150–300 THB/hr for evening/weekend care) but tighter supply — families report longer search times than in Bangkok.</li>
+        <li><strong>Chiang Mai:</strong> smaller pool (5 verified nannies with rate), but noticeably higher hourly ceiling (up to 700 THB/hr) driven by digital-nomad demand for flexible short-notice care.</li>
+        <li><strong>Samut Prakan / Nonthaburi:</strong> hourly floor sits at 150 THB, ~25% below central Bangkok — commute-friendly for families in outer districts.</li>
+      </ul>
+
+      <p><em>Data source: ThaiHelper platform, verified nanny profiles as of 27 July 2026 who have listed a rate. Numbers update as new nannies join.</em></p>
 
       <h2>Q3 2026 update — what's changed since April</h2>
       <p>Three shifts we're seeing on the platform between April and mid-July 2026:</p>

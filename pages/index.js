@@ -411,6 +411,21 @@ export default function Home() {
                   <>เป็นหนึ่งใน<span className="font-bold text-gold">ผู้ช่วยที่ผ่านการยืนยัน</span>กลุ่มแรก</>
                 )}
               </p>
+              {/* Trustpilot signal — dofollow so Google discovers our profile. */}
+              <p className="mt-3 text-xs text-on-surface-variant">
+                <a
+                  href="https://www.trustpilot.com/review/thaihelper.app"
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex items-center gap-1.5 hover:text-primary transition-colors"
+                >
+                  <span className="text-[#00B67A] font-bold">★★★★</span>
+                  <span className="text-[#00B67A]/60 font-bold">★</span>
+                  <span className="font-semibold">3.8 / 5</span>
+                  <span>·</span>
+                  <span>{lang === 'en' ? 'Reviews on Trustpilot' : 'รีวิวบน Trustpilot'}</span>
+                </a>
+              </p>
             </div>
           </div>
 
