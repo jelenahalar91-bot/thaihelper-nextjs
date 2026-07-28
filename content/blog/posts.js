@@ -143,8 +143,8 @@ export const blogPosts = [
       'How much does a nanny cost in Thailand in 2026? Full-time 15–25k THB, part-time 4–8k, live-in 12–18k, premium-tier 28–70k. Salary breakdown by city, hidden costs, 13th-month bonus, Social Security, and true total monthly cost.',
     category: 'families',
     date: '2026-04-08',
-    updated: '2026-07-14',
-    readTime: 12,
+    updated: '2026-07-28',
+    readTime: 13,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80',
     keywords: 'nanny cost Thailand, nanny salary Bangkok, babysitter price Thailand, childcare costs Thailand 2026',
@@ -198,6 +198,9 @@ export const blogPosts = [
 
       <h2>Quick Answer</h2>
       <p>In 2026 a full-time nanny in Thailand costs <strong>15,000–25,000 THB per month</strong> in Bangkok and <strong>12,000–18,000 THB</strong> in Chiang Mai. Live-in nannies are 12,000–18,000 cash plus a room and meals. Add roughly <strong>20–35%</strong> for true total cost (Social Security, 13th-month bonus, transport, meals). English-fluent nannies add another <strong>30–50%</strong> to the base. The premium tier — nursing-trained, multilingual, or international-school-experienced nannies — runs <strong>28,000–70,000 THB/month</strong>.</p>
+
+      <h2>Written by a family who did this themselves</h2>
+      <p>Full transparency on where these numbers come from: we are the family who built <a href="/">ThaiHelper</a>. We moved from Germany to Phuket in late 2024, spent three weeks trying to find a nanny for our two kids through Facebook groups and slow-moving agencies, and eventually built the platform we wished had existed. The salary numbers in this guide are cross-checked against 623 active nanny profiles on our own platform, publicly listed agency rates from Kiidu, Ayasan and Madawa, and what families and helpers tell us in weekly conversations. If you want to hear directly from families and helpers actually using ThaiHelper today, our <a href="/blog/thaihelper-reviews-real-users-2026">verified Trustpilot reviews</a> are public.</p>
 
       <h2>Q3 2026 update — what's changed since April</h2>
       <p>Three shifts we're seeing on the platform between April and mid-July 2026:</p>
@@ -304,6 +307,16 @@ export const blogPosts = [
         <li><strong>Trial period.</strong> Agree on a 1–4 week paid trial. If it doesn't work, no hard feelings on either side. Skip the trial and you're committed to a salary you may regret in month two.</li>
         <li><strong>Be specific about scope.</strong> "Help with the kids" is too vague. Decide explicitly whether the role includes cooking, cleaning, school runs, evening hours — and price the role to that scope.</li>
       </ol>
+
+      <h2>What families and helpers say about hiring on ThaiHelper</h2>
+      <p>These salary ranges are not theoretical. Below is what real families and helpers who have used ThaiHelper have said publicly in verified <a href="https://www.trustpilot.com/review/thaihelper.app">Trustpilot reviews</a> (current TrustScore 3.8 across 5 reviews):</p>
+      <blockquote style="border-left:3px solid #006a62;padding:8px 16px;margin:16px 0;color:#333;font-style:italic;">
+        "ThaiHelper has been a great help to me… it helps connect job seekers and employers in a safe and reliable way. Everything I've experienced has been legitimate." <br /><strong style="font-style:normal;">— EG, helper (Bangkok)</strong>
+      </blockquote>
+      <blockquote style="border-left:3px solid #006a62;padding:8px 16px;margin:16px 0;color:#333;font-style:italic;">
+        "The team was professional, reliable, friendly, and always willing to help. From start to finish, everything was handled smoothly." <br /><strong style="font-style:normal;">— Akasa, helper</strong>
+      </blockquote>
+      <p>Read all reviews and our public replies at <a href="/blog/thaihelper-reviews-real-users-2026">our 2026 review summary</a>, or add your own on <a href="https://www.trustpilot.com/evaluate/thaihelper.app">Trustpilot</a>.</p>
 
       <p><strong>Ready to start?</strong> Browse nanny profiles on <a href="/hire/nanny">ThaiHelper</a> for free — filter by city, languages, experience level. Message nannies directly with no platform fees on either side. The reference checks, interview, and hire decision are entirely yours.</p>
       <p>Or read the complete hiring guide first: <a href="/guide/hire-a-nanny-in-thailand">How to Hire a Nanny in Thailand — the full 2026 process</a>.</p>

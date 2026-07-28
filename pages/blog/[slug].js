@@ -178,8 +178,11 @@ export default function BlogPost({ post }) {
             dangerouslySetInnerHTML={{ __html: (lang === 'th' && post.content_th) || post.content }}
           />
 
-          {/* Salary Calculator (only on calculator post) */}
-          {post.slug === 'thailand-helper-salary-calculator' && (
+          {/* Salary Calculator — on the calculator post and on the
+              nanny-costs post (interactive element ExpatDen and other
+              cost-guides don't have, boosts time-on-page + returns). */}
+          {(post.slug === 'thailand-helper-salary-calculator'
+            || post.slug === 'nanny-costs-thailand') && (
             <div className="px-2 sm:px-4">
               <SalaryCalculator />
             </div>
