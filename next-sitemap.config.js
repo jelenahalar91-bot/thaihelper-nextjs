@@ -45,37 +45,65 @@ module.exports = {
     '/th/*',
   ],
 
-  // Directory listing pages come from Supabase, not from Next.js static
-  // routes, so next-sitemap can't discover them automatically. Pull the
-  // published slugs at build time and emit one <loc> per listing.
+  // Pages that next-sitemap can't discover on its own:
+  //   • /directory/<slug>  — slugs live in Supabase (`directory_listings`).
+  //   • /blog/<slug>       — new blog posts sometimes miss the sitemap
+  //     because a stand-alone `next-sitemap` run (no full `next build`)
+  //     works from the previous build output. Parsing content/blog/posts.js
+  //     directly ensures every published post shows up on first commit.
   additionalPaths: async (config) => {
+    const lastmod = new Date().toISOString();
+    const paths = [];
+
+    // 1) Directory listings from Supabase (skips silently if env vars missing).
     try {
-      // Lazy-require Supabase only when this runs (build environment).
-      // Falls back gracefully if the env vars aren't set locally.
       const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
       const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-      if (!url || !key) return [];
-      const { createClient } = require('@supabase/supabase-js');
-      const supabase = createClient(url, key);
-      const { data, error } = await supabase
-        .from('directory_listings')
-        .select('slug')
-        .eq('status', 'active');
-      if (error || !data) return [];
-      const lastmod = new Date().toISOString();
-      return data
-        .filter((row) => row.slug)
-        .map((row) => ({
-          loc: `/directory/${row.slug}`,
-          changefreq: 'weekly',
-          priority: 0.7,
-          lastmod,
-          alternateRefs: config.alternateRefs,
-        }));
+      if (url && key) {
+        const { createClient } = require('@supabase/supabase-js');
+        const supabase = createClient(url, key);
+        const { data, error } = await supabase
+          .from('directory_listings')
+          .select('slug')
+          .eq('status', 'active');
+        if (!error && data) {
+          for (const row of data) {
+            if (!row.slug) continue;
+            paths.push({
+              loc: `/directory/${row.slug}`,
+              changefreq: 'weekly',
+              priority: 0.7,
+              lastmod,
+              alternateRefs: config.alternateRefs,
+            });
+          }
+        }
+      }
     } catch (err) {
       console.error('additionalPaths (directory) failed:', err);
-      return [];
     }
+
+    // 2) Blog posts from content/blog/posts.js. Regex-extract slugs from the
+    //    ES-module source instead of importing (this config is CommonJS).
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      const src = fs.readFileSync(path.join(__dirname, 'content/blog/posts.js'), 'utf8');
+      const slugMatches = src.matchAll(/^\s*slug:\s*['"]([a-z0-9-]+)['"]/gm);
+      for (const m of slugMatches) {
+        paths.push({
+          loc: `/blog/${m[1]}`,
+          changefreq: 'monthly',
+          priority: 0.8,
+          lastmod,
+          alternateRefs: config.alternateRefs,
+        });
+      }
+    } catch (err) {
+      console.error('additionalPaths (blog) failed:', err);
+    }
+
+    return paths;
   },
 
   // Custom priority per page — tells Google what matters most.

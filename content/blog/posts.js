@@ -16,7 +16,8 @@ export const blogPosts = [
     date: '2026-07-27',
     readTime: 4,
     author: 'Jelena Hermann',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80',
+    // Unique image — was a duplicate of /blog/how-to-create-helper-profile-that-gets-hired.
+    image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?w=800&q=80',
     keywords: 'thaihelper reviews, thaihelper trustpilot, thaihelper legit, is thaihelper safe, thaihelper feedback',
     content: `
       <p>Three months after launch, real users are leaving independent reviews about ThaiHelper on Trustpilot. Here's a summary of what people are saying — both the praise and the honest criticism — with links to the original reviews so you can read them yourself.</p>
@@ -3021,7 +3022,8 @@ export const blogPosts = [
     updated: '2026-07-27',
     readTime: 5,
     author: 'ThaiHelper Team',
-    image: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?w=800&q=80',
+    // Unique image — was a duplicate of /blog/hiring-helper-without-agency-thailand.
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80',
     keywords: 'thaihelper reviews, thaihelper.app reviews, is thaihelper legit, trustpilot thaihelper, thai nanny platform reviews, real user reviews thailand household staff',
     content: `
       <p>Three months into ThaiHelper's public run we started asking every helper and every family on the platform a simple question: <em>how is this actually working for you?</em> Over 600 got the email. Many replied. And a handful took the extra two minutes to leave a public review on Trustpilot.</p>
