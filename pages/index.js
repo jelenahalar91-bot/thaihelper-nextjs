@@ -174,22 +174,31 @@ const PROFILES = [
   },
 ];
 
-export default function Home() {
+export default function Home({ initialRecentHelpers = null, initialTotalHelpers = null }) {
   const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
 
-  // Recently joined panel — fetch real signups from Supabase, fall back
-  // to placeholder data if the request fails or returns nothing.
-  const [recentHelpers, setRecentHelpers] = useState(FALLBACK_HELPERS);
+  // Recently joined panel — seeded on the server (getServerSideProps) so the
+  // real signups show on first paint. Falls back to placeholder data if the
+  // server seed came back empty.
+  const [recentHelpers, setRecentHelpers] = useState(
+    initialRecentHelpers && initialRecentHelpers.length > 0 ? initialRecentHelpers : FALLBACK_HELPERS
+  );
   // Total verified-helper count for the "80+ registered" stat. 80 is the
-  // floor we want to never go below visually — if the API is slow or
-  // failing, we still show "80+".
-  const [totalHelpers, setTotalHelpers] = useState(80);
+  // floor we want to never go below visually — if the seed is missing or
+  // below the floor, we still show "80+".
+  const [totalHelpers, setTotalHelpers] = useState(
+    initialTotalHelpers && initialTotalHelpers > 80 ? initialTotalHelpers : 80
+  );
   // Set after mount only — drives the sample cards' "last active" labels.
   // Kept null on the server/first render to avoid a hydration mismatch.
   const [previewNow, setPreviewNow] = useState(null);
   useEffect(() => { setPreviewNow(Date.now()); }, []);
   useEffect(() => {
+    // The server already seeded real signups (see getServerSideProps) — skip
+    // the client fetch to avoid a redundant request + swap. Only fetch when
+    // the seed was empty (e.g. the SSR query failed and we're on fallback).
+    if (initialRecentHelpers && initialRecentHelpers.length > 0) return;
     let cancelled = false;
     fetch('/api/recent-helpers')
       .then((r) => (r.ok ? r.json() : null))
@@ -206,7 +215,7 @@ export default function Home() {
         // Keep fallback silently
       });
     return () => { cancelled = true; };
-  }, []);
+  }, [initialRecentHelpers]);
 
   // FAQ data for structured data — these target common AI queries
   const homeFaqs = [
@@ -762,5 +771,44 @@ export async function getServerSideProps({ req }) {
       },
     };
   }
-  return { props: {} };
+
+  // Seed the "Recently joined" panel + total count server-side so it shows
+  // real signups on first paint (no fallback→real swap). Mirrors
+  // /api/recent-helpers (limit 4). Non-fatal — falls back to placeholder data.
+  let initialRecentHelpers = [];
+  let initialTotalHelpers = null;
+  try {
+    const { getServiceSupabase } = await import('@/lib/supabase');
+    const supabase = getServiceSupabase();
+    const [recentResult, countResult] = await Promise.all([
+      supabase
+        .from('helper_profiles')
+        .select('first_name, last_name, category, city, photo_url, created_at, availability_status')
+        .or('status.eq.active,status.is.null')
+        .eq('email_verified', true)
+        .order('created_at', { ascending: false })
+        .limit(4),
+      supabase
+        .from('helper_profiles')
+        .select('helper_ref', { count: 'exact', head: true })
+        .or('status.eq.active,status.is.null')
+        .eq('email_verified', true),
+    ]);
+    if (!recentResult.error) {
+      initialRecentHelpers = (recentResult.data || []).map((row) => ({
+        firstName: row.first_name || '',
+        lastInitial: row.last_name ? row.last_name.charAt(0) + '.' : '',
+        category: row.category || '',
+        city: row.city || '',
+        photo: row.photo_url || null,
+        createdAt: row.created_at || null,
+        availabilityStatus: row.availability_status || 'available',
+      }));
+    }
+    if (!countResult.error) initialTotalHelpers = countResult.count ?? null;
+  } catch (err) {
+    console.error('SSR recent-helpers seed failed:', err.message);
+  }
+
+  return { props: { initialRecentHelpers, initialTotalHelpers } };
 }

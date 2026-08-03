@@ -130,11 +130,11 @@ const T = {
   },
 };
 
-export default function EmployersBrowse() {
+export default function EmployersBrowse({ initialEmployers = [] }) {
   const { lang } = useLang();
   const t = T[lang] || T.en;
-  const [employers, setEmployers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [employers, setEmployers] = useState(initialEmployers);
+  const [loading, setLoading] = useState(initialEmployers.length === 0);
 
   const [filterCity, setFilterCity] = useState('');
   const [filterLooking, setFilterLooking] = useState('');
@@ -145,6 +145,11 @@ export default function EmployersBrowse() {
   const [sortBy, setSortBy] = useState('active'); // 'active' | 'newest'
 
   useEffect(() => {
+    // The server already rendered the list (see getServerSideProps), so the
+    // page paints jobs immediately — skip the client fetch to avoid a
+    // needless refetch + loading flash. Only fetch client-side if SSR came
+    // back empty (e.g. the SSR query failed and fell back to []).
+    if (initialEmployers.length > 0) return;
     (async () => {
       setLoading(true);
       try {
@@ -156,7 +161,7 @@ export default function EmployersBrowse() {
       }
       setLoading(false);
     })();
-  }, []);
+  }, [initialEmployers]);
 
   const filtered = useMemo(() => employers.filter(e => {
     if (filterCity && e.city?.toLowerCase() !== filterCity.toLowerCase()) return false;
@@ -792,4 +797,59 @@ function FG({ label, children }) {
       {children}
     </div>
   );
+}
+
+// Render the job list on the server so helpers see jobs immediately with no
+// loading spinner (the page previously fetched client-side after mount).
+// Mirrors the /api/employers query + card shape; the client skips its own
+// fetch when this returns a non-empty list (see the useEffect above).
+export async function getServerSideProps() {
+  try {
+    const { getServiceSupabase } = await import('@/lib/supabase');
+    const supabase = getServiceSupabase();
+    const { data, error } = await supabase
+      .from('employer_accounts')
+      .select(
+        'employer_ref, first_name, last_name, city, area, ' +
+        'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
+        'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
+        'job_description, job_description_en, photo_url, search_status, created_at, updated_at, ' +
+        'last_login_at'
+      )
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+
+    const initialEmployers = (data || [])
+      .filter((row) => row.search_status !== 'hidden')
+      .map((row) => ({
+        ref: row.employer_ref || null,
+        firstName: row.first_name || '',
+        lastName: row.last_name ? row.last_name.charAt(0) + '.' : '',
+        city: row.city || '',
+        area: row.area || '',
+        lookingFor: row.looking_for || '',
+        neededSkills: row.needed_skills || '',
+        scheduleDays: row.schedule_days || '',
+        scheduleTime: row.schedule_time || '',
+        duration: row.duration || '',
+        childAgeGroups: row.child_age_groups || '',
+        jobDescription: row.job_description || '',
+        jobDescriptionEn: row.job_description_en || '',
+        photo: row.photo_url || '',
+        arrangementPreference: row.arrangement_preference || null,
+        startTiming: row.start_timing || null,
+        preferredAgeRange: row.preferred_age_range || null,
+        searchStatus: row.search_status || 'searching',
+        source: 'account',
+        createdAt: row.created_at || null,
+        updatedAt: row.updated_at || null,
+        lastActiveAt: row.last_login_at || null,
+      }));
+
+    return { props: { initialEmployers } };
+  } catch (err) {
+    console.error('SSR employers-browse fetch failed:', err.message);
+    // Non-fatal: fall back to the client-side fetch (initialEmployers = []).
+    return { props: { initialEmployers: [] } };
+  }
 }
