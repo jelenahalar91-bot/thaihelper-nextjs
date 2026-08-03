@@ -42,7 +42,7 @@ export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
             margin: 0,
             fontSize: '15px',
             lineHeight: 1.5,
-            filter: 'blur(3px)',
+            filter: 'blur(3px)', overflowWrap: 'anywhere',
             userSelect: 'none',
             pointerEvents: 'none',
           }}>
@@ -110,7 +110,7 @@ export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
         color: isOwn ? 'white' : '#333',
       }}>
         {textWithoutLink && (
-          <p style={{ margin: videoCallUrl ? '0 0 10px' : 0, fontSize: '15px', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
+          <p style={{ margin: videoCallUrl ? '0 0 10px' : 0, fontSize: '15px', lineHeight: 1.5, whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
             {textWithoutLink}
           </p>
         )}

@@ -702,7 +702,7 @@ export default function Register() {
                 <div className="success-share">
                   <p>{t.success_share}</p>
                   <a className="share-btn share-wa" href="https://wa.me/?text=I+just+signed+up+on+ThaiHelper%21" target="_blank" rel="noreferrer">💬 Share on WhatsApp</a>
-                  <a className="share-btn share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fthaihelper.com" target="_blank" rel="noreferrer">📘 Share on Facebook</a>
+                  <a className="share-btn share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.thaihelper.app" target="_blank" rel="noreferrer">📘 Share on Facebook</a>
                 </div>
               </div>
             )}

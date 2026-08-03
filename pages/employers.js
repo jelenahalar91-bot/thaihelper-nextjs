@@ -836,7 +836,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
               lang={lang}
               footerCta={
                 <Link
-                  href="/employer-signup"
+                  href="/employer-register"
                   className="block w-full text-center px-4 py-3 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
                 >
                   🔒 Register to message {viewingHelper.firstName}
@@ -958,26 +958,26 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_product}</h4>
                   <ul className="space-y-3">
-                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/">{t.footer_fp1}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/employers">{t.footer_fp2}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/#how-it-works">{t.footer_fp3}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/work-permit-wizard">{t.footer_fp4}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/directory">{t.footer_fp5}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/">{t.footer_fp1}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/employers">{t.footer_fp2}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/#how-it-works">{t.footer_fp3}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/work-permit-wizard">{t.footer_fp4}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/directory">{t.footer_fp5}</Link></li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_company}</h4>
                   <ul className="space-y-3">
-                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/about">{t.footer_fc1}</Link></li>
-                    <li><a className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="mailto:support@thaihelper.app">{t.footer_fc2}</a></li>
-                    <li><a className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="https://lin.ee/U7B1KX6" target="_blank" rel="noopener noreferrer">{t.footer_line}</a></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/about">{t.footer_fc1}</Link></li>
+                    <li><a className="text-slate-500 hover:text-primary text-sm" href="mailto:support@thaihelper.app">{t.footer_fc2}</a></li>
+                    <li><a className="text-slate-500 hover:text-primary text-sm" href="https://lin.ee/U7B1KX6" target="_blank" rel="noopener noreferrer">{t.footer_line}</a></li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_legal}</h4>
                   <ul className="space-y-3">
-                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/privacy">{t.footer_fl1}</Link></li>
-                    <li><Link className="text-slate-500 hover:text-primary text-sm whitespace-nowrap" href="/terms">{t.footer_fl2}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/privacy">{t.footer_fl1}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/terms">{t.footer_fl2}</Link></li>
                   </ul>
                 </div>
               </div>
