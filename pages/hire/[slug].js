@@ -12,21 +12,29 @@ import { CITIES_DATA } from '@/lib/constants/cities';
 
 export async function getStaticPaths() {
   const pages = getAllHirePages();
-  // With Next.js i18n + fallback: false we MUST emit a path per locale
-  // explicitly. Without the explicit `locale` field, /th/hire/* would
-  // 404 — Next assigns each path to the default locale only.
+  // With Next.js i18n we MUST emit a path per locale explicitly. Without
+  // the explicit `locale` field, /th/hire/* would 404 — Next assigns
+  // each path to the default locale only.
   const locales = ['en', 'th'];
   return {
     paths: pages.flatMap((p) =>
       locales.map((locale) => ({ params: { slug: p.slug }, locale })),
     ),
-    fallback: false,
+    // 'blocking' lets us redirect unknown slugs in getStaticProps instead
+    // of returning a hard 404. Fixes GSC reporting /hire/[slug] (the
+    // literal Next.js route template, picked up by AI crawlers from
+    // __NEXT_DATA__). Same approach as /blog/[slug] and /directory/[slug].
+    fallback: 'blocking',
   };
 }
 
 export async function getStaticProps({ params }) {
   const page = getHirePageBySlug(params.slug);
-  if (!page) return { notFound: true };
+  if (!page) {
+    return {
+      redirect: { destination: '/helpers', permanent: true },
+    };
+  }
 
   // Fetch real helpers matching this page's city/category
   let matchingHelpers = [];
@@ -368,6 +376,45 @@ export default function HirePage({ page, matchingHelpers = [] }) {
             </Link>
           </div>
         </section>
+
+        {/* City-specific context — unique-per-city content for SEO.
+            The description + areas were already computed in
+            lib/seo/hire-pages.js but never rendered, so every city page
+            was thin-content on its truly unique differentiator. */}
+        {page.city && (page.cityDescription || (page.areas && page.areas.length > 0)) && (
+          <section className="max-w-5xl mx-auto px-4 pb-10">
+            {page.cityDescription && isEn && (
+              <p className="text-base text-gray-700 max-w-3xl mb-6 leading-relaxed">
+                <span className="font-semibold text-[#001b3d]">About {page.cityEn}:</span>{' '}
+                {page.cityDescription}
+              </p>
+            )}
+            {page.areas && page.areas.length > 0 && (
+              <div>
+                <h2 className="text-xl font-bold font-headline text-[#001b3d] mb-3">
+                  {isEn
+                    ? `Popular ${page.cityEn} areas where helpers work`
+                    : `พื้นที่ยอดนิยมใน${page.cityTh}ที่ผู้ช่วยทำงาน`}
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {page.areas.map((area) => (
+                    <span
+                      key={area}
+                      className="bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm font-medium"
+                    >
+                      {area}
+                    </span>
+                  ))}
+                </div>
+                {isEn && (
+                  <p className="text-sm text-gray-500 mt-3">
+                    Helpers on ThaiHelper specify their preferred working areas — filter by neighborhood to find someone near you.
+                  </p>
+                )}
+              </div>
+            )}
+          </section>
+        )}
 
         {/* Real helpers from database — unique content per page for SEO */}
         {matchingHelpers.length > 0 && (
