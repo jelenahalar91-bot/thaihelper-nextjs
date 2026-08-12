@@ -684,14 +684,20 @@ export default function Home({ initialRecentHelpers = null, initialTotalHelpers 
               </h4>
               <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
                 {[
+                  // Bangkok cluster (4) — matches Phuket cluster (4) for symmetric topic authority.
                   { label: 'Nanny Bangkok', href: '/hire/nanny-bangkok' },
-                  { label: 'Housekeeper Phuket', href: '/hire/housekeeper-phuket' },
+                  { label: 'Housekeeper Bangkok', href: '/hire/housekeeper-bangkok' },
                   { label: 'Driver Bangkok', href: '/hire/driver-bangkok' },
+                  { label: 'Tutor Bangkok', href: '/hire/tutor-bangkok' },
+                  // Phuket cluster (4) — was 2, expanded to close autoritäts-gap
+                  // that cost /hire/phuket its ranking (was #5, dropped to #8).
+                  { label: 'Nanny Phuket', href: '/hire/nanny-phuket' },
+                  { label: 'Housekeeper Phuket', href: '/hire/housekeeper-phuket' },
+                  { label: 'Chef Phuket', href: '/hire/chef-phuket' },
+                  { label: 'Driver Phuket', href: '/hire/driver-phuket' },
+                  // Other cities (1 each) — balanced long-tail coverage.
                   { label: 'Chef Koh Samui', href: '/hire/chef-koh-samui' },
                   { label: 'Caregiver Chiang Mai', href: '/hire/caregiver-chiang-mai' },
-                  { label: 'Tutor Bangkok', href: '/hire/tutor-bangkok' },
-                  { label: 'Nanny Phuket', href: '/hire/nanny-phuket' },
-                  { label: 'Housekeeper Bangkok', href: '/hire/housekeeper-bangkok' },
                   { label: 'Gardener Hua Hin', href: '/hire/gardener-hua-hin' },
                   { label: 'Driver Pattaya', href: '/hire/driver-pattaya' },
                   { label: 'Housekeeper Krabi', href: '/hire/housekeeper-krabi' },
