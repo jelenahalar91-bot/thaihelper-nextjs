@@ -77,6 +77,7 @@ import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
 import PushNotificationToggle from '@/components/PushNotificationToggle';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
+import AndroidAppBanner from '@/components/AndroidAppBanner';
 // Phone verification flow is built but not deployed yet (waiting on
 // Twilio). PhoneVerificationCard + lib/phone-otp.js + /api/phone/*
 // live on a local feature branch. Re-enable by reinstating this
@@ -1279,6 +1280,11 @@ export default function Profile() {
           {/* Push notifications opt-in — shown at the very top whenever the
               user hasn't decided yet. Self-hides after grant or "Later". */}
           <PushNotificationBanner lang={lang} />
+
+          {/* Android app install CTA — only shows on Android devices for
+              helpers whose email is on the Play Store closed-test whitelist.
+              Dismissible for 7 days. */}
+          <AndroidAppBanner lang={lang} email={profile?.email} />
 
           {/* ─── DASHBOARD TAB ──────────────────────────────────────────── */}
           {activeTab === 'dashboard' && (
