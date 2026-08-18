@@ -363,10 +363,18 @@ export default async function handler(req, res) {
       if (recipientRef && notifyOptedIn) {
         const senderName = session.firstName || 'Someone';
         const preview = trimmed.length > 120 ? `${trimmed.slice(0, 117)}…` : trimmed;
-        const titleByLang = {
-          en: `New message from ${senderName}`,
-          th: `ข้อความใหม่จาก ${senderName}`,
-        };
+        // Video-call invites get an urgent, explicit title — they're the
+        // one message type where the recipient should react right away.
+        const isVideoCallInvite = /https:\/\/meet\.jit\.si\/ThaiHelper-[A-Za-z0-9]+/.test(trimmed);
+        const titleByLang = isVideoCallInvite
+          ? {
+              en: `📹 Video call invite from ${senderName}`,
+              th: `📹 ${senderName} เชิญคุณเข้าร่วมวิดีโอคอล`,
+            }
+          : {
+              en: `New message from ${senderName}`,
+              th: `ข้อความใหม่จาก ${senderName}`,
+            };
         await sendPushToUser(recipientRole, recipientRef, {
           title: titleByLang[recipientLang] || titleByLang.en,
           body: preview,
