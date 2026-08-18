@@ -9,10 +9,12 @@
  * or unrecognised so existing rows pre-migration still render.
  */
 
+// "Looking for work" instead of "Available": families read "Available" as
+// "online right now / instantly bookable" — the status means job-seeking.
 const LABELS = {
-  available:      { en: 'Available',      th: 'พร้อมรับงาน' },
-  open_to_offers: { en: 'Open to offers', th: 'เปิดรับข้อเสนอ' },
-  working:        { en: 'Working',        th: 'มีงานแล้ว' },
+  available:      { en: 'Looking for work', th: 'กำลังหางาน' },
+  open_to_offers: { en: 'Open to offers',   th: 'เปิดรับข้อเสนอ' },
+  working:        { en: 'Working',          th: 'มีงานแล้ว' },
 };
 
 // Soft pill styles using brand colour tokens with low-alpha backgrounds.
