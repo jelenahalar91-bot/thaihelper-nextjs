@@ -41,7 +41,7 @@ const FAQS = [
   },
   {
     question: 'Is ThaiHelper the same as ThaiFriendly?',
-    answer: 'No. ThaiFriendly is a Thai dating app, unrelated to ThaiHelper. The names sound similar but the products are completely different — ThaiHelper is a hiring marketplace for household staff in Thailand.',
+    answer: 'No — this is the most common confusion, so worth being crystal clear: ThaiFriendly (thaifriendly.com) is a Thai dating and relationships platform for singles, active since around 2010, based on user profiles for romantic matching. ThaiHelper.app is a hiring marketplace for household staff in Thailand — nannies, housekeepers, drivers, chefs, caregivers — launched April 2026. Different company, different owners, different purpose, different users. The only thing the two share is a similar-sounding brand name. If you\'re looking for a nanny or a maid, you\'re in the right place; if you\'re looking for a date, ThaiFriendly is the other platform.',
   },
   {
     question: 'What happens if I have a bad experience with a helper I hired?',
@@ -81,8 +81,25 @@ const T = {
     trust5_h: 'A real family behind it',
     trust5_p: 'ThaiHelper is built and operated by a family of four who moved to Thailand in December 2024. Read the founder story on the About page. We are not a faceless company.',
 
-    confusion_title: 'Easy to confuse — but these are NOT us',
-    confusion_intro: 'Several unrelated products have similar names. To be clear about what ThaiHelper.app is and is not:',
+    vs_tf_title: 'ThaiHelper vs ThaiFriendly — clearing up the biggest confusion',
+    vs_tf_intro: 'The names sound similar and Google sometimes conflates the two. To be unambiguous: ThaiHelper.app and ThaiFriendly.com are unrelated products from different companies with different purposes. Here is the clean side-by-side comparison.',
+    vs_tf_attr: 'Attribute',
+    vs_tf_us: 'ThaiHelper.app',
+    vs_tf_them: 'ThaiFriendly.com',
+    vs_tf_rows: [
+      { k: 'What it is',      us: 'Hiring marketplace for household staff',                                them: 'Dating and relationships platform for singles' },
+      { k: 'Users',           us: 'Families looking for a nanny, housekeeper, driver, chef, caregiver',   them: 'Adults looking for romantic partners in Thailand' },
+      { k: 'Domain',          us: 'thaihelper.app (no hyphen, .app TLD)',                                  them: 'thaifriendly.com (.com TLD)' },
+      { k: 'Categories',      us: 'Nanny, housekeeper, driver, chef, tutor, caregiver, gardener, pet sitter', them: 'Personal profiles, chat, matches' },
+      { k: 'Audience',        us: 'Family-oriented — kids, elderly, home life',                            them: 'Adult dating, 18+' },
+      { k: 'Price',           us: 'Free for everyone, no fees',                                            them: 'Freemium with paid tiers' },
+      { k: 'Launched',        us: 'April 2026',                                                            them: 'Around 2010' },
+      { k: 'Company',         us: 'Independent, run by a family living in Thailand',                       them: 'Different, unrelated company' },
+    ],
+    vs_tf_bottom: 'We are not affiliated with ThaiFriendly in any way, do not share owners, employees, servers, user data or code. If you were searching for a domestic-staff platform and landed here — you are in the right place.',
+
+    confusion_title: 'Other names that get confused with us',
+    confusion_intro: 'A few more unrelated products with similar-sounding names. To be clear about what ThaiHelper.app is and is not:',
     confusion1_h: 'Not the language-learning app',
     confusion1_p: 'The "Thai Helper" iOS / Android app (App Store id1523988930) is a phrase-book and pronunciation tool for learning the Thai language. Different product, different company.',
     confusion2_h: 'Not thai-helper.com',
@@ -147,8 +164,25 @@ const T = {
     trust5_h: 'ครอบครัวจริงอยู่เบื้องหลัง',
     trust5_p: 'ThaiHelper สร้างและดำเนินงานโดยครอบครัวสี่คนที่ย้ายมาประเทศไทยในเดือนธันวาคม 2024 อ่านเรื่องราวผู้ก่อตั้งที่หน้าเกี่ยวกับเรา เราไม่ใช่บริษัทไร้ตัวตน',
 
-    confusion_title: 'ง่ายต่อการสับสน — แต่สิ่งเหล่านี้ไม่ใช่เรา',
-    confusion_intro: 'มีหลายผลิตภัณฑ์ที่ไม่เกี่ยวข้องกันแต่มีชื่อคล้ายกัน เพื่อความชัดเจน:',
+    vs_tf_title: 'ThaiHelper กับ ThaiFriendly — ความสับสนที่พบบ่อยที่สุด',
+    vs_tf_intro: 'ชื่อคล้ายกันและบางครั้ง Google ก็สับสนสองแพลตฟอร์มนี้ เพื่อความชัดเจน: ThaiHelper.app และ ThaiFriendly.com เป็นผลิตภัณฑ์ที่ไม่เกี่ยวข้องกัน จากบริษัทต่างกัน และมีวัตถุประสงค์ต่างกัน',
+    vs_tf_attr: 'คุณสมบัติ',
+    vs_tf_us: 'ThaiHelper.app',
+    vs_tf_them: 'ThaiFriendly.com',
+    vs_tf_rows: [
+      { k: 'คืออะไร',           us: 'แพลตฟอร์มจ้างงานผู้ช่วยในบ้าน',                             them: 'แพลตฟอร์มหาคู่และความสัมพันธ์สำหรับคนโสด' },
+      { k: 'ผู้ใช้',              us: 'ครอบครัวที่ต้องการพี่เลี้ยง แม่บ้าน คนขับ พ่อครัว ผู้ดูแล',        them: 'ผู้ใหญ่ที่มองหาคู่ในประเทศไทย' },
+      { k: 'โดเมน',             us: 'thaihelper.app (ไม่มียัติภังค์, .app)',                            them: 'thaifriendly.com (.com)' },
+      { k: 'หมวดหมู่',           us: 'พี่เลี้ยง แม่บ้าน คนขับ พ่อครัว ครูสอนพิเศษ ผู้ดูแล คนสวน คนดูแลสัตว์', them: 'โปรไฟล์ส่วนตัว แชท จับคู่' },
+      { k: 'กลุ่มเป้าหมาย',      us: 'ครอบครัว — เด็ก ผู้สูงอายุ งานบ้าน',                             them: 'ผู้ใหญ่หาคู่, 18+' },
+      { k: 'ราคา',              us: 'ฟรีสำหรับทุกคน ไม่มีค่าธรรมเนียม',                              them: 'Freemium มีแพ็คเกจแบบเสียเงิน' },
+      { k: 'เปิดตัว',            us: 'เมษายน 2026',                                                    them: 'ประมาณปี 2010' },
+      { k: 'บริษัท',             us: 'อิสระ ดำเนินงานโดยครอบครัวที่อาศัยอยู่ในประเทศไทย',                 them: 'บริษัทต่างหาก ไม่เกี่ยวข้อง' },
+    ],
+    vs_tf_bottom: 'เราไม่มีส่วนเกี่ยวข้องกับ ThaiFriendly ในทางใดๆ ไม่มีเจ้าของ พนักงาน เซิร์ฟเวอร์ ข้อมูลผู้ใช้ หรือโค้ดร่วมกัน หากคุณกำลังค้นหาแพลตฟอร์มจัดหาพนักงานในบ้านและมาถึงหน้านี้ คุณมาถูกที่แล้ว',
+
+    confusion_title: 'ชื่ออื่นๆ ที่สับสนกับเรา',
+    confusion_intro: 'มีผลิตภัณฑ์อื่นๆ อีกที่มีชื่อคล้ายกันแต่ไม่เกี่ยวข้อง เพื่อความชัดเจน:',
     confusion1_h: 'ไม่ใช่แอปเรียนภาษา',
     confusion1_p: 'แอป "Thai Helper" บน iOS / Android (App Store id1523988930) เป็นเครื่องมือเรียนคำศัพท์และการออกเสียงภาษาไทย ผลิตภัณฑ์คนละแบบ บริษัทคนละบริษัท',
     confusion2_h: 'ไม่ใช่ thai-helper.com',
@@ -303,7 +337,48 @@ export default function Legit() {
             </div>
           </section>
 
-          {/* NOT-US SECTION */}
+          {/* THAIHELPER vs THAIFRIENDLY — dedicated comparison to break
+              Google's brand confusion (wondermamas.com/thaifriendly-review
+              ranks #1 on "is thaihelper legit" as of 2026-08-18). A clear
+              side-by-side table gives Google's LLM an unambiguous semantic
+              trennung for the two brands. */}
+          <section className="px-6 py-16 bg-white">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center gap-3 mb-3">
+                <ShieldCheck className="w-6 h-6 text-primary" />
+                <h2 className="text-2xl md:text-3xl font-extrabold font-headline">
+                  {t.vs_tf_title}
+                </h2>
+              </div>
+              <p className="text-on-surface-variant mb-8 max-w-2xl">{t.vs_tf_intro}</p>
+
+              <div className="overflow-x-auto rounded-2xl border border-slate-200 shadow-sm">
+                <table className="w-full text-sm md:text-base">
+                  <thead className="bg-slate-50">
+                    <tr>
+                      <th className="text-left px-4 py-3 font-bold text-on-background w-1/4">{t.vs_tf_attr}</th>
+                      <th className="text-left px-4 py-3 font-bold text-primary">{t.vs_tf_us}</th>
+                      <th className="text-left px-4 py-3 font-bold text-slate-500">{t.vs_tf_them}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {t.vs_tf_rows.map((row, i) => (
+                      <tr key={i} className={i % 2 ? 'bg-slate-50/50' : 'bg-white'}>
+                        <td className="px-4 py-3 font-semibold text-on-background align-top">{row.k}</td>
+                        <td className="px-4 py-3 text-on-surface-variant align-top">{row.us}</td>
+                        <td className="px-4 py-3 text-on-surface-variant align-top">{row.them}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-sm text-on-surface-variant mt-5 max-w-3xl leading-relaxed">{t.vs_tf_bottom}</p>
+            </div>
+          </section>
+
+          {/* NOT-US SECTION — remaining brand confusions (Language app,
+              thai-helper.com, TDAC). ThaiFriendly gets its own bigger
+              section above because it's Google's #1 mixup for our brand. */}
           <section className="px-6 py-16">
             <div className="max-w-4xl mx-auto">
               <div className="flex items-center gap-3 mb-3">
@@ -313,11 +388,10 @@ export default function Legit() {
                 </h2>
               </div>
               <p className="text-on-surface-variant mb-8 max-w-2xl">{t.confusion_intro}</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[
                   { h: t.confusion1_h, p: t.confusion1_p },
                   { h: t.confusion2_h, p: t.confusion2_p },
-                  { h: t.confusion3_h, p: t.confusion3_p },
                   { h: t.confusion4_h, p: t.confusion4_p },
                 ].map((c, i) => (
                   <div key={i} className="bg-amber-50/50 border border-amber-200/60 rounded-xl p-5">
