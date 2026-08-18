@@ -28,7 +28,7 @@ const VALID_TYPES = [...DIRECTORY_TYPE_VALUES, 'other'];
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { companyName, contactName, email, phone, type } = req.body || {};
+  const { companyName, contactName, email, phone, website, type } = req.body || {};
 
   if (!companyName || !email) {
     return res.status(400).json({ error: 'Company name and email are required.' });
@@ -150,6 +150,10 @@ export default async function handler(req, res) {
         <tr>
           <td style="padding:7px 0;font-size:13px;color:#999;vertical-align:top;">Phone / LINE</td>
           <td style="padding:7px 0;font-size:14px;color:#1a1a1a;">${esc(phone || '—')}</td>
+        </tr>
+        <tr>
+          <td style="padding:7px 0;font-size:13px;color:#999;vertical-align:top;">Website / Link</td>
+          <td style="padding:7px 0;font-size:14px;color:#1a1a1a;">${website ? `<a href="${esc(website)}" style="color:#006a62;">${esc(website)}</a>` : '—'}</td>
         </tr>
         <tr>
           <td style="padding:7px 0;font-size:13px;color:#999;vertical-align:top;">Type</td>

@@ -31,6 +31,9 @@ const T = {
     label_email: 'Email address *',
     label_phone: 'Phone / LINE',
     label_type: 'Type *',
+    label_link: 'Website or Facebook',
+    ph_link: 'https://facebook.com/yourpage or your website',
+    hint_link: 'Optional, but it helps us verify your business faster.',
     ph_company: 'Your company name',
     ph_contact: 'e.g. Somchai Jaidee',
     ph_phone: '+66 2-xxx-xxxx or @lineID',
@@ -72,6 +75,9 @@ const T = {
     label_email: 'อีเมล *',
     label_phone: 'โทรศัพท์ / LINE',
     label_type: 'ประเภท *',
+    label_link: 'เว็บไซต์ หรือ Facebook',
+    ph_link: 'https://facebook.com/... หรือเว็บไซต์ของคุณ',
+    hint_link: 'ไม่บังคับ แต่ช่วยให้เรายืนยันธุรกิจของคุณได้เร็วขึ้น',
     ph_company: 'ชื่อบริษัทของคุณ',
     ph_contact: 'เช่น สมชาย ใจดี',
     ph_phone: '+66 2-xxx-xxxx หรือ @lineID',
@@ -100,7 +106,7 @@ export default function Partners() {
   const { lang } = useLang();
   const t = T[lang] || T.en;
 
-  const [form, setForm] = useState({ companyName: '', contactName: '', email: '', phone: '', type: '' });
+  const [form, setForm] = useState({ companyName: '', contactName: '', email: '', phone: '', website: '', type: '' });
   const [status, setStatus] = useState('idle');
 
   async function handleSubmit(e) {
@@ -233,6 +239,14 @@ export default function Partners() {
                     <input className={inputCls} value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       placeholder={t.ph_phone} />
+                  </div>
+
+                  <div>
+                    <label className={labelCls}>{t.label_link}</label>
+                    <input className={inputCls} value={form.website}
+                      onChange={(e) => setForm({ ...form, website: e.target.value })}
+                      placeholder={t.ph_link} />
+                    <p className="mt-1 text-xs text-slate-400">{t.hint_link}</p>
                   </div>
 
                   <div>
