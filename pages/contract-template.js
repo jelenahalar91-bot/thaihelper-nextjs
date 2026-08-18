@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
 import { FileText, Download, Printer, ChevronRight, Languages } from 'lucide-react';
-import SEOHead, { getBreadcrumbSchema, getOrganizationSchema, getFAQSchema } from '@/components/SEOHead';
+import SEOHead, { getBreadcrumbSchema, getFAQSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { useLang } from './_app';
@@ -356,7 +356,6 @@ export default function ContractTemplate() {
             { name: 'Home', path: '/' },
             { name: 'Contract Template', path: '/contract-template' },
           ]),
-          getOrganizationSchema(),
           getFAQSchema(FAQS),
         ]}
       />

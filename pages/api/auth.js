@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: 'Too many login attempts. Please try again later.' });
   }
 
-  const { email, ref, client } = req.body;
+  const { email, ref, client } = req.body || {};
 
   if (!email?.trim() || !ref?.trim()) {
     return res.status(400).json({ error: 'Email and reference number are required.' });

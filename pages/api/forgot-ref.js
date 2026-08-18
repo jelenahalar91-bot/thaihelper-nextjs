@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: 'Too many attempts. Please wait.' });
   }
 
-  const { email } = req.body;
+  const { email } = req.body || {};
   if (!email?.trim()) {
     return res.status(400).json({ error: 'Email is required.' });
   }

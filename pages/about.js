@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
-import SEOHead, { getBreadcrumbSchema, getOrganizationSchema, getSpeakableSchema } from '@/components/SEOHead';
+import SEOHead, { getBreadcrumbSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { useLang } from './_app';
@@ -129,7 +129,6 @@ export default function About() {
             { name: 'Home', path: '/' },
             { name: 'About', path: '/about' },
           ]),
-          getOrganizationSchema(),
           getSpeakableSchema('/about'),
         ]}
       />

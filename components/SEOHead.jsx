@@ -24,7 +24,16 @@ export default function SEOHead({
   jsonLd,
   noindex = false,
   canonicalOverride,
+  ogImage,
 }) {
+  // Per-page share image (blog/guide/city pages pass their own). Accepts an
+  // absolute URL or a site-relative path; falls back to the generic image.
+  const ogImageUrl = ogImage
+    ? (/^https?:\/\//.test(ogImage) ? ogImage : `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`)
+    : DEFAULT_OG_IMAGE;
+  // We only know the exact dimensions of the default image, so only assert
+  // them for that one — custom images let the platform infer their size.
+  const isDefaultOg = ogImageUrl === DEFAULT_OG_IMAGE;
   // path may or may not start with "/" — normalise.
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   // The canonical URL must reflect the locale so Google doesn't fold
@@ -55,18 +64,25 @@ export default function SEOHead({
 
       {/* hreflang alternates — tells search engines about the EN/TH pair.
          x-default points at the EN version since that's the marketplace
-         default and what we want non-Thai-speaking users to see first. */}
-      <link rel="alternate" hrefLang="en" href={enUrl} />
-      <link rel="alternate" hrefLang="th" href={thUrl} />
-      <link rel="alternate" hrefLang="x-default" href={enUrl} />
+         default and what we want non-Thai-speaking users to see first.
+         Suppressed when canonicalOverride is set: the canonical points at a
+         DIFFERENT url, so emitting en/th alternates for THIS url would
+         contradict it (the hreflang cluster must agree with the canonical). */}
+      {!canonicalOverride && (
+        <>
+          <link rel="alternate" hrefLang="en" href={enUrl} />
+          <link rel="alternate" hrefLang="th" href={thUrl} />
+          <link rel="alternate" hrefLang="x-default" href={enUrl} />
+        </>
+      )}
 
       {/* Open Graph */}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:image" content={DEFAULT_OG_IMAGE} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
+      <meta property="og:image" content={ogImageUrl} />
+      {isDefaultOg && <meta property="og:image:width" content="1200" />}
+      {isDefaultOg && <meta property="og:image:height" content="630" />}
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:locale" content={lang === 'th' ? 'th_TH' : 'en_US'} />
@@ -75,7 +91,7 @@ export default function SEOHead({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={DEFAULT_OG_IMAGE} />
+      <meta name="twitter:image" content={ogImageUrl} />
 
       {/* JSON-LD Structured Data */}
       {(() => {
@@ -228,12 +244,14 @@ export function getFAQSchema(faqs) {
 /**
  * BlogPosting schema for blog articles
  */
-export function getBlogPostingSchema({ title, description, slug, date, readTime }) {
+export function getBlogPostingSchema({ title, description, slug, date, readTime, image, lang }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: title,
     description,
+    ...(image ? { image: /^https?:\/\//.test(image) ? image : `${SITE_URL}${image}` } : {}),
+    inLanguage: lang === 'th' ? 'th' : 'en',
     url: `${SITE_URL}/blog/${slug}`,
     datePublished: date,
     dateModified: date,

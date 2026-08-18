@@ -176,7 +176,7 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: 'email_not_verified' });
     }
 
-    const { conversation_id, content } = req.body;
+    const { conversation_id, content } = req.body || {};
     const trimmed = typeof content === 'string' ? content.trim() : '';
     if (!conversation_id || !trimmed) {
       return res.status(400).json({ error: 'conversation_id and content required' });
@@ -386,7 +386,7 @@ export default async function handler(req, res) {
 
   // ─── PUT — Mark incoming messages as read ─────────────────────────────
   if (req.method === 'PUT') {
-    const { conversation_id } = req.body;
+    const { conversation_id } = req.body || {};
     if (!conversation_id) {
       return res.status(400).json({ error: 'conversation_id required' });
     }

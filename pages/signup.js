@@ -44,6 +44,7 @@ export default function SignupChooserPage() {
         description="Sign up for free on ThaiHelper as a family looking to hire household help, or as a helper looking for work."
         path="/signup"
         lang={lang}
+        noindex={true}
         jsonLd={getBreadcrumbSchema([
           { name: 'Home', path: '/' },
           { name: 'Sign up', path: '/signup' },

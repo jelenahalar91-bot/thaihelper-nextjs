@@ -202,7 +202,7 @@ export default async function handler(req, res) {
         });
       }
 
-      const { helper_ref } = req.body;
+      const { helper_ref } = req.body || {};
       if (!helper_ref) {
         return res.status(400).json({ error: 'helper_ref required' });
       }
@@ -244,7 +244,7 @@ export default async function handler(req, res) {
       return res.status(201).json({ conversation_id: created.id, existed: false });
     } else {
       // ── Helper → Employer flow (new) ──
-      const { employer_ref } = req.body;
+      const { employer_ref } = req.body || {};
       if (!employer_ref) {
         return res.status(400).json({ error: 'employer_ref required' });
       }

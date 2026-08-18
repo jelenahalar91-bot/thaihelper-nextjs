@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Head from 'next/head';
+import SEOHead from '@/components/SEOHead';
 import Link from 'next/link';
 import { useLang } from '@/pages/_app';
 import LangSwitcher from '@/components/LangSwitcher';
@@ -139,10 +139,12 @@ export default function Partners() {
 
   return (
     <>
-      <Head>
-        <title>{t.meta_title}</title>
-        <meta name="description" content={t.meta_desc} />
-      </Head>
+      <SEOHead
+        title={t.meta_title}
+        description={t.meta_desc}
+        path="/partners"
+        lang={lang}
+      />
 
       <div className={`min-h-screen bg-background text-on-background font-sans ${lang === 'th' ? 'lang-th' : ''}`}>
         {/* Audience switch */}

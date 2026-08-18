@@ -35,7 +35,7 @@ export async function getStaticProps({ params }) {
  * heavily than BlogPosting; the dateModified is set so re-edits ping
  * the freshness signal.
  */
-function getGuideArticleSchema(guide) {
+function getGuideArticleSchema(guide, lang) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -60,7 +60,7 @@ function getGuideArticleSchema(guide) {
     wordCount: guide.readTime * 200,
     timeRequired: `PT${guide.readTime}M`,
     keywords: guide.keywords,
-    inLanguage: 'en',
+    inLanguage: lang === 'th' ? 'th' : 'en',
   };
 }
 
@@ -83,8 +83,9 @@ export default function GuidePage({ guide }) {
         description={guide.description}
         path={`/guide/${guide.slug}`}
         lang={lang}
+        ogImage={guide.image}
         jsonLd={[
-          getGuideArticleSchema(guide),
+          getGuideArticleSchema(guide, lang),
           getFAQSchema(guide.faqs || []),
           getBreadcrumbSchema(breadcrumbs),
           // Speakable: introduction paragraph + h2 headings. Reads

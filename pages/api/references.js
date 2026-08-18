@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
   // ADD
   if (req.method === 'POST') {
-    const { reference_name, relationship, contact_info, reference_text } = req.body;
+    const { reference_name, relationship, contact_info, reference_text } = req.body || {};
 
     if (!reference_name?.trim()) {
       return res.status(400).json({ error: 'Reference name is required' });
@@ -59,7 +59,7 @@ export default async function handler(req, res) {
 
   // UPDATE
   if (req.method === 'PUT') {
-    const { id, reference_name, relationship, contact_info, reference_text } = req.body;
+    const { id, reference_name, relationship, contact_info, reference_text } = req.body || {};
 
     if (!id) return res.status(400).json({ error: 'Reference ID required' });
 

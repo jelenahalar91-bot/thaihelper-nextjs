@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
   // UPDATE settings
   if (req.method === 'PUT') {
-    const { preferred_language } = req.body;
+    const { preferred_language } = req.body || {};
     const validLangs = ['en', 'th'];
 
     if (!validLangs.includes(preferred_language)) {

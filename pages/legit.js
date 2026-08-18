@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
 import { ShieldCheck, Mail, Users, Eye, AlertTriangle, CheckCircle2 } from 'lucide-react';
-import SEOHead, { getBreadcrumbSchema, getOrganizationSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
+import SEOHead, { getBreadcrumbSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { useLang } from './_app';
@@ -233,7 +233,6 @@ export default function Legit() {
             { name: 'Home', path: '/' },
             { name: 'Is ThaiHelper Legit?', path: '/legit' },
           ]),
-          getOrganizationSchema(),
           getFAQSchema(FAQS),
           getSpeakableSchema('/legit'),
         ]}

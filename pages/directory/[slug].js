@@ -299,7 +299,7 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
     <>
       <SEOHead
         title={`${listing.name} – ${typeLabel} in ${cityLabel} | ThaiHelper`}
-        description={(listing.description || `${typeLabel} in ${cityLabel}, Thailand.`).slice(0, 160)}
+        description={(listing.description || `${listing.name} — ${typeLabel} in ${cityLabel}, Thailand.`).slice(0, 160)}
         path={`/directory/${listing.slug}`}
         lang={lang}
         jsonLd={[breadcrumb, businessSchema]}

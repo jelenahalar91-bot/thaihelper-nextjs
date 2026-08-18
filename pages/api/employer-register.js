@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { firstName, lastName, email, city, area, helperTypes, jobDescription } = req.body;
+  const { firstName, lastName, email, city, area, helperTypes, jobDescription } = req.body || {};
 
   // Validate required fields
   if (!firstName || !lastName || !email || !city || !helperTypes?.length) {
