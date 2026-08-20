@@ -757,7 +757,10 @@ export default function EmployerDashboard() {
     const roomId = (typeof crypto !== 'undefined' && crypto.randomUUID)
       ? crypto.randomUUID().replace(/-/g, '').slice(0, 12)
       : Math.random().toString(36).slice(2, 14);
-    const roomUrl = `https://meet.jit.si/ThaiHelper-${roomId}`;
+    // meet.ffmuc.net instead of meet.jit.si: Jitsi's own public instance now
+    // requires a logged-in moderator to start a room, so two anonymous users
+    // wait forever. Freifunk München's instance allows anonymous rooms.
+    const roomUrl = `https://meet.ffmuc.net/ThaiHelper-${roomId}`;
     const content =
       // "no app or account" would read as "no ThaiHelper account" inside a
       // ThaiHelper chat (confusing — you obviously need one to be reading

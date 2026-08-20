@@ -365,7 +365,7 @@ export default async function handler(req, res) {
         const preview = trimmed.length > 120 ? `${trimmed.slice(0, 117)}…` : trimmed;
         // Video-call invites get an urgent, explicit title — they're the
         // one message type where the recipient should react right away.
-        const isVideoCallInvite = /https:\/\/meet\.jit\.si\/ThaiHelper-[A-Za-z0-9]+/.test(trimmed);
+        const isVideoCallInvite = /https:\/\/meet\.(?:jit\.si|ffmuc\.net)\/ThaiHelper-[A-Za-z0-9]+/.test(trimmed);
         const titleByLang = isVideoCallInvite
           ? {
               en: `📹 Video call invite from ${senderName}`,
