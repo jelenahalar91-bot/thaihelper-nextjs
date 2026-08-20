@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { Resend } from 'resend';
 import { DIRECTORY_TYPES, DIRECTORY_TYPE_VALUES } from '@/lib/constants/directory';
+import { verifyTurnstile } from '@/lib/turnstile';
 import { getServiceSupabase } from '@/lib/supabase';
 import { createApproveToken } from '@/lib/company-invite';
 
@@ -28,7 +29,13 @@ const VALID_TYPES = [...DIRECTORY_TYPE_VALUES, 'other'];
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { companyName, contactName, email, phone, website, type } = req.body || {};
+  const { companyName, contactName, email, phone, website, type, turnstileToken } = req.body || {};
+
+  // Bot/spam guard — same CAPTCHA the register/employer-signup forms use.
+  const captcha = await verifyTurnstile(turnstileToken);
+  if (!captcha.success) {
+    return res.status(403).json({ error: captcha.error });
+  }
 
   if (!companyName || !email) {
     return res.status(400).json({ error: 'Company name and email are required.' });

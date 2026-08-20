@@ -5,6 +5,7 @@ import { useLang } from '@/pages/_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { DIRECTORY_TYPES } from '@/lib/constants/directory';
+import Turnstile from '@/components/Turnstile';
 
 const T = {
   en: {
@@ -108,6 +109,7 @@ export default function Partners() {
 
   const [form, setForm] = useState({ companyName: '', contactName: '', email: '', phone: '', website: '', type: '' });
   const [status, setStatus] = useState('idle');
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -116,7 +118,7 @@ export default function Partners() {
       const res = await fetch('/api/partner-signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, turnstileToken }),
       });
       setStatus(res.ok ? 'success' : 'error');
     } catch {
@@ -270,6 +272,8 @@ export default function Partners() {
                       ))}
                     </div>
                   </div>
+
+                  <Turnstile onToken={setTurnstileToken} />
 
                   {status === 'error' && <p className="text-red-600 text-xs">{t.error}</p>}
 
