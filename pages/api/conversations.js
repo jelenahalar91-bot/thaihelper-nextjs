@@ -80,21 +80,69 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to load conversations' });
     }
 
-    // Enrich each conversation with unread count, counterparty info,
-    // and a masked last-message preview.
+    // --- Batch the per-conversation lookups to avoid a 3N+1 query storm ---
+    // (counterparty profiles + unread counts in ONE query each instead of one
+    //  per conversation). The last-message preview stays per-conversation.
+    const otherPartyType = isEmployer ? 'helper' : 'employer';
+    const convIds = (conversations || []).map((c) => c.id);
+    const counterRefs = [...new Set(
+      (conversations || []).map((c) => (isEmployer ? c.helper_ref : c.employer_id)).filter(Boolean)
+    )];
+
+    // Counterparty profiles, one .in() query → Map keyed by ref.
+    const cpMap = new Map();
+    if (counterRefs.length) {
+      if (isEmployer) {
+        const { data: hs } = await supabase
+          .from('helper_profiles')
+          .select('helper_ref, first_name, last_name, photo_url, category, city')
+          .in('helper_ref', counterRefs);
+        for (const h of hs || []) {
+          cpMap.set(h.helper_ref, {
+            ref: h.helper_ref,
+            firstName: h.first_name,
+            lastName: h.last_name ? h.last_name.charAt(0) + '.' : '',
+            photo: h.photo_url || null,
+            category: h.category,
+            city: h.city,
+          });
+        }
+      } else {
+        const { data: es } = await supabase
+          .from('employer_accounts')
+          .select('employer_ref, first_name, last_name, city')
+          .in('employer_ref', counterRefs);
+        for (const e of es || []) {
+          cpMap.set(e.employer_ref, {
+            ref: e.employer_ref,
+            firstName: e.first_name,
+            lastName: e.last_name ? e.last_name.charAt(0) + '.' : '',
+            photo: null,
+            city: e.city,
+          });
+        }
+      }
+    }
+
+    // Unread counts from the other party, one query → tally per conversation.
+    const unreadMap = new Map();
+    if (convIds.length) {
+      const { data: unreadRows } = await supabase
+        .from('messages')
+        .select('conversation_id')
+        .in('conversation_id', convIds)
+        .eq('is_read', false)
+        .eq('sender_type', otherPartyType);
+      for (const m of unreadRows || []) {
+        unreadMap.set(m.conversation_id, (unreadMap.get(m.conversation_id) || 0) + 1);
+      }
+    }
+
     const enriched = await Promise.all(
       (conversations || []).map(async (conv) => {
-        const otherPartyType = isEmployer ? 'helper' : 'employer';
+        const count = unreadMap.get(conv.id) || 0;
 
-        // Count unread messages from the other party
-        const { count } = await supabase
-          .from('messages')
-          .select('id', { count: 'exact', head: true })
-          .eq('conversation_id', conv.id)
-          .eq('is_read', false)
-          .eq('sender_type', otherPartyType);
-
-        // Last message for preview
+        // Last message for preview (cheap single-row query, left per-conv).
         const { data: lastMsg } = await supabase
           .from('messages')
           .select('content_original, content_translated, sender_type, created_at')
@@ -103,46 +151,16 @@ export default async function handler(req, res) {
           .limit(1)
           .maybeSingle();
 
-        // Load counterparty info (for avatar / name in the sidebar)
-        let counterparty = null;
-        if (isEmployer) {
-          const { data: h } = await supabase
-            .from('helper_profiles')
-            .select('helper_ref, first_name, last_name, photo_url, category, city')
-            .eq('helper_ref', conv.helper_ref)
-            .maybeSingle();
-          if (h) {
-            counterparty = {
-              ref: h.helper_ref,
-              firstName: h.first_name,
-              lastName: h.last_name ? h.last_name.charAt(0) + '.' : '',
-              photo: h.photo_url || null,
-              category: h.category,
-              city: h.city,
-            };
-          }
-        } else {
-          const { data: e } = await supabase
-            .from('employer_accounts')
-            .select('employer_ref, first_name, last_name, city')
-            .eq('employer_ref', conv.employer_id)
-            .maybeSingle();
-          if (e) {
-            counterparty = {
-              ref: e.employer_ref,
-              firstName: e.first_name,
-              lastName: e.last_name ? e.last_name.charAt(0) + '.' : '',
-              photo: null,
-              city: e.city,
-            };
-          } else {
-            counterparty = {
-              ref: conv.employer_id,
-              firstName: conv.employer_name || 'Employer',
-              lastName: '',
-              photo: null,
-            };
-          }
+        // Counterparty from the batched map; fall back to the denormalised
+        // employer_name on the conversation row if the account is missing.
+        let counterparty = cpMap.get(isEmployer ? conv.helper_ref : conv.employer_id) || null;
+        if (!counterparty && !isEmployer) {
+          counterparty = {
+            ref: conv.employer_id,
+            firstName: conv.employer_name || 'Employer',
+            lastName: '',
+            photo: null,
+          };
         }
 
         // Paywall-aware last message preview

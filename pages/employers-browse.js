@@ -857,7 +857,11 @@ function FG({ label, children }) {
 // loading spinner (the page previously fetched client-side after mount).
 // Mirrors the /api/employers query + card shape; the client skips its own
 // fetch when this returns a non-empty list (see the useEffect above).
-export async function getServerSideProps() {
+export async function getServerSideProps({ res }) {
+  // Edge-cache the job list for 60s (this page is public, has no per-user
+  // content, and is a Facebook-shortlink target = burst traffic). Cuts the
+  // Supabase round-trip on repeated hits.
+  res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
     const supabase = getServiceSupabase();
