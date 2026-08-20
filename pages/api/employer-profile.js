@@ -1,10 +1,12 @@
 // GET  /api/employer-profile — Get the current employer's profile
 // PUT  /api/employer-profile — Update the current employer's profile
+// DELETE /api/employer-profile — Permanently delete the employer account
 
-import { getEmployerSession } from '../../lib/auth';
+import { getEmployerSession, clearSessionCookie } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { notifyHelpersOfNewEmployer } from '../../lib/match-notifications';
 import { translateForeignText } from '../../lib/translate';
+import { looksLikeFullAddress } from '../../lib/address-guard';
 
 const EDITABLE_FIELDS = [
   'first_name',
@@ -83,6 +85,14 @@ export default async function handler(req, res) {
         patch[field] =
           typeof value === 'string' ? value.trim() || null : value;
       }
+    }
+
+    // "Area" is shown publicly and unauthenticated on /employers-browse
+    // cards — reject full street addresses (house number + moo/soi) rather
+    // than storing them, since that's an exact-home-location leak, not a
+    // neighbourhood name.
+    if ('area' in patch && looksLikeFullAddress(patch.area)) {
+      return res.status(400).json({ error: 'area_full_address' });
     }
 
     // Whitelist arrangement preference (matches DB CHECK constraint)
@@ -176,6 +186,44 @@ export default async function handler(req, res) {
     }
 
     return res.status(200).json({ success: true });
+  }
+
+  // DELETE — Permanently delete the employer account and all related data.
+  // Required by App Store guideline 5.1.1(v); irreversible by design.
+  if (req.method === 'DELETE') {
+    try {
+      const ref = session.ref;
+
+      const { data: convs } = await supabase
+        .from('conversations')
+        .select('id')
+        .eq('employer_id', ref);
+      const convIds = (convs || []).map((c) => c.id);
+      if (convIds.length > 0) {
+        await supabase.from('messages').delete().in('conversation_id', convIds);
+        await supabase.from('conversations').delete().in('id', convIds);
+      }
+
+      await supabase.from('helper_ratings').delete().eq('employer_ref', ref);
+      await supabase.from('helper_favorites').delete().eq('employer_ref', ref);
+      await supabase.from('push_subscriptions').delete()
+        .eq('user_role', 'employer').eq('user_ref', ref);
+
+      const { error } = await supabase
+        .from('employer_accounts')
+        .delete()
+        .eq('employer_ref', ref);
+      if (error) {
+        console.error('Employer account deletion failed:', error.message);
+        return res.status(500).json({ error: 'Failed to delete account' });
+      }
+
+      clearSessionCookie(res, 'employer');
+      return res.status(200).json({ success: true });
+    } catch (err) {
+      console.error('Employer account deletion error:', err);
+      return res.status(500).json({ error: 'Failed to delete account' });
+    }
   }
 
   return res.status(405).json({ error: 'Method not allowed' });

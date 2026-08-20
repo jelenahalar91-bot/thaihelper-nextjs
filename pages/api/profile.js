@@ -1,13 +1,15 @@
 // GET /api/profile — Fetch helper profile from Supabase
 // PUT /api/profile — Update helper profile in Supabase
+// DELETE /api/profile — Permanently delete the helper account + data
 
-import { getSession } from '../../lib/auth';
+import { getSession, clearSessionCookie } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { translateForeignText } from '../../lib/translate';
 import { getDisplayAge } from '../../lib/age';
 import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
 import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/constants/nationalities';
 import { notifyEmployersOfNewHelper } from '../../lib/match-notifications';
+import { looksLikeFullAddress } from '../../lib/address-guard';
 
 // Strip phone numbers and email addresses from free-text fields. Mirrors the
 // sanitizer used on registration (pages/api/register.js) so helpers can't
@@ -144,7 +146,7 @@ export default async function handler(req, res) {
   // PUT — Update profile
   if (req.method === 'PUT') {
     try {
-      const incoming = req.body;
+      const incoming = req.body || {};
 
       // Reject unknown work_permit_status values rather than letting the
       // DB CHECK constraint fail with a 500. Empty string is treated as
@@ -208,6 +210,14 @@ export default async function handler(req, res) {
             updates[dbKey] = value;
           }
         }
+      }
+
+      // "Area" is shown publicly and unauthenticated on /helpers cards —
+      // reject full street addresses (house number + moo/soi) rather than
+      // storing them, since that's an exact-home-location leak, not a
+      // neighbourhood name.
+      if ('area' in updates && looksLikeFullAddress(updates.area)) {
+        return res.status(400).json({ error: 'area_full_address' });
       }
 
       if (Object.keys(updates).length === 0) {
@@ -286,6 +296,49 @@ export default async function handler(req, res) {
     } catch (err) {
       console.error('Profile update error:', err);
       return res.status(500).json({ error: 'Failed to update profile' });
+    }
+  }
+
+  // DELETE — Permanently delete the helper's account and all related data.
+  // Required by App Store guideline 5.1.1(v); irreversible by design. The
+  // native app double-confirms before calling this.
+  if (req.method === 'DELETE') {
+    try {
+      const ref = session.ref;
+
+      // Messages hang off conversations, so collect those ids first.
+      const { data: convs } = await supabase
+        .from('conversations')
+        .select('id')
+        .eq('helper_ref', ref);
+      const convIds = (convs || []).map((c) => c.id);
+      if (convIds.length > 0) {
+        await supabase.from('messages').delete().in('conversation_id', convIds);
+        await supabase.from('conversations').delete().in('id', convIds);
+      }
+
+      await supabase.from('helper_ratings').delete().eq('helper_ref', ref);
+      await supabase.from('helper_favorites').delete().eq('helper_ref', ref);
+      await supabase.from('push_subscriptions').delete()
+        .eq('user_role', 'helper').eq('user_ref', ref);
+      await supabase.from('documents').delete().eq('helper_ref', ref);
+      await supabase.from('helper_references').delete().eq('helper_ref', ref);
+      await supabase.from('user_preferences').delete().eq('helper_ref', ref);
+
+      const { error } = await supabase
+        .from('helper_profiles')
+        .delete()
+        .eq('helper_ref', ref);
+      if (error) {
+        console.error('Account deletion failed:', error.message);
+        return res.status(500).json({ error: 'Failed to delete account' });
+      }
+
+      clearSessionCookie(res);
+      return res.status(200).json({ success: true });
+    } catch (err) {
+      console.error('Account deletion error:', err);
+      return res.status(500).json({ error: 'Failed to delete account' });
     }
   }
 
