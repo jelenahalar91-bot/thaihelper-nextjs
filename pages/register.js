@@ -148,7 +148,9 @@ const T = {
     submit_label:    'Create My Free Profile ✓',
     submitting:      'Submitting...',
     submit_error:    'Something went wrong. Please try again or contact hello@thaihelper.com',
+    captcha_error:   'Please complete the "I\'m human" check, then try again.',
     duplicate_email: 'An account with this email already exists. Please log in instead.',
+    area_full_address: 'Please enter a general area or neighbourhood (e.g. "Sukhumvit"), not your full home address. You can share your exact address privately once you\'re in touch with a family.',
     photo_size_err:  'Photo must be smaller than 5 MB.',
     success_h2:      'Welcome to ThaiHelper! 🎉',
     success_p1:      '✉️ We sent a verification link to your email. Please click it to activate your profile.',
@@ -285,7 +287,9 @@ const T = {
     submit_label:    'สร้างโปรไฟล์ฟรีของฉัน ✓',
     submitting:      'กำลังบันทึก...',
     submit_error:    'เกิดข้อผิดพลาด กรุณาลองใหม่หรือติดต่อ hello@thaihelper.com',
+    captcha_error:   'กรุณายืนยัน "ฉันไม่ใช่โปรแกรมอัตโนมัติ" แล้วลองใหม่',
     duplicate_email: 'อีเมลนี้มีบัญชีอยู่แล้ว กรุณาเข้าสู่ระบบแทน',
+    area_full_address: 'กรุณากรอกเขต/ย่านทั่วไป (เช่น "สุขุมวิท") แทนที่จะเป็นที่อยู่บ้านเต็มรูปแบบ คุณสามารถแจ้งที่อยู่ที่ชัดเจนแบบส่วนตัวได้เมื่อได้ติดต่อกับครอบครัวแล้ว',
     photo_size_err:  'รูปภาพต้องมีขนาดไม่เกิน 5 MB',
     success_h2:      'ยินดีต้อนรับสู่ ThaiHelper! 🎉',
     success_p1:      '✉️ เราส่งลิงก์ยืนยันไปที่อีเมลของคุณแล้ว กรุณาคลิกเพื่อเปิดใช้งานโปรไฟล์',
@@ -560,7 +564,13 @@ export default function Register() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error('Submit error:', err);
-      setSubmitError(err.message === 'duplicate_email' ? t.duplicate_email : t.submit_error);
+      const knownErrors = { duplicate_email: t.duplicate_email, area_full_address: t.area_full_address };
+      let msg = knownErrors[err.message];
+      // CAPTCHA errors come back as "CAPTCHA verification failed" / "Missing
+      // CAPTCHA token" etc. — tell the user to redo it instead of a vague
+      // "something went wrong".
+      if (!msg && /captcha/i.test(err.message || '')) msg = t.captcha_error;
+      setSubmitError(msg || t.submit_error);
     } finally {
       setSubmitting(false);
     }

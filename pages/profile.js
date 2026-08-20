@@ -704,6 +704,8 @@ export default function Profile() {
     } catch (err) {
       console.error('Availability toggle failed:', err);
       setProfile(prev => prev ? { ...prev, availabilityStatus: previous } : prev);
+      setMsgToast(t.error_save);
+      setTimeout(() => setMsgToast(''), 5000);
     } finally {
       setAvailSaving(false);
     }
@@ -726,8 +728,10 @@ export default function Profile() {
       setTimeout(() => setNotifySaved(false), 2000);
     } catch (err) {
       console.error('Notify toggle failed:', err);
-      // Roll back
+      // Roll back + tell the user it didn't stick
       setProfile(prev => prev ? { ...prev, notifyOnMessage: !nextValue } : prev);
+      setMsgToast(t.error_save);
+      setTimeout(() => setMsgToast(''), 5000);
     } finally {
       setNotifySaving(false);
     }

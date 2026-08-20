@@ -14,7 +14,7 @@
 
 import crypto from 'crypto';
 import { getServiceSupabase } from '../../../lib/supabase';
-import { sendMagicLoginEmail } from '../../../lib/send-confirmation-email';
+import { sendMagicLoginEmail, sendHelperConfirmation } from '../../../lib/send-confirmation-email';
 import { verifyTurnstile } from '../../../lib/turnstile';
 import { checkRateLimit } from '../../../lib/rate-limit';
 
@@ -117,7 +117,29 @@ export default async function handler(req, res) {
     // Employers are exempt (since 2026-06-11): clicking a magic link
     // sent to their address proves email ownership — magic-login
     // flips email_verified for them on click.
-    if (!target.emailVerified && target.role !== 'employer') continue;
+    if (!target.emailVerified && target.role !== 'employer') {
+      // Don't silently do nothing — that leaves the helper staring at a
+      // "we sent you an email" screen with no email ever arriving (a dead
+      // end). Resend the verification email instead so they have an
+      // actionable next step. Still anti-enumeration: the HTTP response is
+      // the same generic success either way.
+      try {
+        const vToken = crypto.randomBytes(32).toString('hex');
+        await supabase
+          .from('helper_profiles')
+          .update({ verification_token: vToken })
+          .eq('helper_ref', target.userRef);
+        await sendHelperConfirmation({
+          firstName: target.firstName,
+          email: normalizedEmail,
+          ref: target.userRef,
+          verificationToken: vToken,
+        });
+      } catch (resendErr) {
+        console.error('Magic-link: verification resend failed:', resendErr.message);
+      }
+      continue;
+    }
 
     const token = crypto.randomBytes(32).toString('hex');
 

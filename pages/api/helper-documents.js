@@ -11,6 +11,7 @@
 
 import { getAnySession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
+import { checkRateLimit } from '../../lib/rate-limit';
 
 const BUCKET = 'helper-documents';
 // Signed URLs expire after 30 minutes — enough for viewing in the modal
@@ -25,6 +26,21 @@ export default async function handler(req, res) {
   if (!session) return res.status(401).json({ error: 'Not authenticated' });
   if (session.role !== 'employer') {
     return res.status(403).json({ error: 'Forbidden — employer access only' });
+  }
+
+  // Helper refs are public (they appear in /api/helpers), and certificate
+  // images can contain PII. Certificates are intentionally visible to any
+  // verified employer, but rate-limit per account so this endpoint can't be
+  // scripted to harvest every helper's certificates in bulk — normal use
+  // (viewing a handful of profiles) stays well under the cap.
+  const ratedOk = await checkRateLimit({
+    bucket: 'helper-docs',
+    key: session.ref,
+    max: 60,
+    windowMs: 60 * 60 * 1000,
+  });
+  if (!ratedOk) {
+    return res.status(429).json({ error: 'Too many requests. Please slow down.' });
   }
 
   const { ref } = req.query;
