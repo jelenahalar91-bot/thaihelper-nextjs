@@ -5,22 +5,9 @@ import crypto from 'crypto';
 import { createToken, setSessionCookie, clearSessionCookie } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { sendEmployerAccountConfirmation } from '../../lib/send-confirmation-email';
+import { checkRateLimit } from '../../lib/rate-limit';
 
-// Simple rate limiting (in-memory, resets on redeploy)
-const loginAttempts = new Map();
-const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
-const MAX_ATTEMPTS = 10;
-
-function checkRateLimit(ip) {
-  const now = Date.now();
-  const record = loginAttempts.get(ip);
-  if (!record || now - record.firstAttempt > RATE_LIMIT_WINDOW) {
-    loginAttempts.set(ip, { count: 1, firstAttempt: now });
-    return true;
-  }
-  record.count++;
-  return record.count <= MAX_ATTEMPTS;
-}
+const RATE_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 
 export default async function handler(req, res) {
   // Logout
@@ -33,16 +20,23 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Rate limiting
-  const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
-  if (!checkRateLimit(ip)) {
-    return res.status(429).json({ error: 'Too many login attempts. Please try again later.' });
-  }
-
   const { email, ref, client } = req.body || {};
 
   if (!email?.trim() || !ref?.trim()) {
     return res.status(400).json({ error: 'Email and reference number are required.' });
+  }
+
+  // Persistent (Supabase-backed) rate limiting — see /api/auth for why the
+  // in-memory Map didn't actually throttle on Vercel. Throttle by IP and by
+  // target email.
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+    || req.socket?.remoteAddress || null;
+  const [ipOk, emailOk] = await Promise.all([
+    checkRateLimit({ bucket: 'emp-login-ip', key: ip, max: 30, windowMs: RATE_WINDOW_MS }),
+    checkRateLimit({ bucket: 'emp-login-email', key: email.trim().toLowerCase(), max: 10, windowMs: RATE_WINDOW_MS }),
+  ]);
+  if (!ipOk || !emailOk) {
+    return res.status(429).json({ error: 'Too many login attempts. Please try again later.' });
   }
 
   try {

@@ -4,33 +4,14 @@
 
 import { getServiceSupabase } from '../../lib/supabase';
 import { Resend } from 'resend';
+import { checkRateLimit } from '../../lib/rate-limit';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-// Simple rate limiting
-const attempts = new Map();
 const WINDOW = 15 * 60 * 1000;
-const MAX = 5;
-
-function checkRate(ip) {
-  const now = Date.now();
-  const r = attempts.get(ip);
-  if (!r || now - r.first > WINDOW) {
-    attempts.set(ip, { count: 1, first: now });
-    return true;
-  }
-  r.count++;
-  return r.count <= MAX;
-}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
-  if (!checkRate(ip)) {
-    return res.status(429).json({ error: 'Too many attempts. Please wait.' });
   }
 
   const { email } = req.body || {};
@@ -39,6 +20,19 @@ export default async function handler(req, res) {
   }
 
   const normalizedEmail = email.trim().toLowerCase();
+
+  // Persistent rate limiting — this sends an email each call, so throttle by
+  // IP AND by target email to prevent inbox-bombing a registered victim
+  // (the in-memory Map didn't throttle across serverless instances).
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+    || req.socket?.remoteAddress || null;
+  const [ipOk, emailOk] = await Promise.all([
+    checkRateLimit({ bucket: 'forgot-ref-ip', key: ip, max: 8, windowMs: WINDOW }),
+    checkRateLimit({ bucket: 'forgot-ref-email', key: normalizedEmail, max: 3, windowMs: WINDOW }),
+  ]);
+  if (!ipOk || !emailOk) {
+    return res.status(429).json({ error: 'Too many attempts. Please wait.' });
+  }
   const supabase = getServiceSupabase();
 
   // Check both helper and employer tables

@@ -6,6 +6,7 @@ import BrandWordmark from '@/components/BrandWordmark';
 import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { fetchEmployers } from '@/lib/api/employers';
+import { startConversationAsHelper } from '@/lib/api/messages';
 import { CITIES } from '@/lib/constants/cities';
 import { CATEGORIES, SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugList } from '@/lib/constants/employer';
@@ -71,6 +72,9 @@ const T = {
     card_age_pref:  'Preferred age',
     card_cta:       'Register as Helper to Apply',
     card_signin:    'Sign in to apply',
+    card_message_family: 'Message this family',
+    card_applying:  'Starting…',
+    card_apply_error: 'Could not start the conversation. Please try again.',
     card_tasks:     'Tasks',
     live_in:        'Live-in',
     live_out:       'Live-out',
@@ -115,6 +119,9 @@ const T = {
     card_age_pref:  'อายุที่ต้องการ',
     card_cta:       'ลงทะเบียนเป็นผู้ช่วยเพื่อสมัคร',
     card_signin:    'เข้าสู่ระบบเพื่อสมัคร',
+    card_message_family: 'ส่งข้อความหาครอบครัวนี้',
+    card_applying:  'กำลังเริ่ม…',
+    card_apply_error: 'ไม่สามารถเริ่มการสนทนาได้ กรุณาลองใหม่',
     card_tasks:     'งาน',
     live_in:        'อยู่ประจำ',
     live_out:       'ไป-กลับ',
@@ -143,6 +150,34 @@ export default function EmployersBrowse({ initialEmployers = [] }) {
   // Default 'active' so families who log in regularly rank above ones who
   // signed up once and never came back.
   const [sortBy, setSortBy] = useState('active'); // 'active' | 'newest'
+
+  // Is the visitor a logged-in helper? The page is public/anonymous, so we
+  // check client-side. When true, the card CTA becomes a real "Message this
+  // family" action instead of the "Register to apply" link (which dead-ended
+  // logged-in helpers into a re-registration loop).
+  const [viewerIsHelper, setViewerIsHelper] = useState(false);
+  const [applyingRef, setApplyingRef] = useState(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/profile')
+      .then((r) => { if (!cancelled && r.ok) setViewerIsHelper(true); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
+  async function applyAsHelper(employerRef) {
+    if (!employerRef || applyingRef) return;
+    setApplyingRef(employerRef);
+    try {
+      await startConversationAsHelper(employerRef);
+      // Conversation created — land the helper in their messages.
+      window.location.href = '/profile';
+    } catch (err) {
+      console.error('Apply (start conversation) failed:', err);
+      alert(t.card_apply_error);
+      setApplyingRef(null);
+    }
+  }
 
   useEffect(() => {
     // The server already rendered the list (see getServerSideProps), so the
@@ -382,6 +417,9 @@ export default function EmployersBrowse({ initialEmployers = [] }) {
                       t={t}
                       lang={lang}
                       arrangementLabel={arrangementLabel}
+                      viewerIsHelper={viewerIsHelper}
+                      onApply={applyAsHelper}
+                      applying={applyingRef === emp.ref}
                     />
                   ))}
                 </div>
@@ -529,7 +567,7 @@ export default function EmployersBrowse({ initialEmployers = [] }) {
 // Mirrors HelperCard layout (components/HelperCard.jsx) so /helpers and
 // /employers-browse feel like two views of the same product. Falls back
 // to a coloured initial tile when no photo is present.
-function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
+function PublicEmployerCard({ employer, t, arrangementLabel, lang, viewerIsHelper, onApply, applying }) {
   const e = employer;
   const initial = (e.firstName || '?').charAt(0).toUpperCase();
   const displayName = [e.firstName, e.lastName].filter(Boolean).join(' ');
@@ -678,17 +716,33 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang }) {
           )}
         </div>
 
-        {/* CTA */}
+        {/* CTA — a logged-in helper gets a real "message this family" action
+            (starts the conversation, then lands in their dashboard). Everyone
+            else gets the register-to-apply link. This avoids sending an
+            already-registered helper back into the signup form. */}
         <div className="mt-auto pt-3 border-t border-gray-100">
-          <div className="text-sm text-gray-500 text-center mb-2">
-            🔒 {t.card_signin || 'Sign in to apply'}
-          </div>
-          <Link
-            href="/register"
-            className="block w-full text-center px-4 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
-          >
-            {t.card_cta}
-          </Link>
+          {viewerIsHelper ? (
+            <button
+              type="button"
+              onClick={() => onApply(e.ref)}
+              disabled={applying || !e.ref}
+              className="block w-full text-center px-4 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors disabled:opacity-60 disabled:cursor-wait"
+            >
+              {applying ? t.card_applying : `💬 ${t.card_message_family}`}
+            </button>
+          ) : (
+            <>
+              <div className="text-sm text-gray-500 text-center mb-2">
+                🔒 {t.card_signin || 'Sign in to apply'}
+              </div>
+              <Link
+                href="/register"
+                className="block w-full text-center px-4 py-2.5 rounded-lg bg-[#006a62] text-white text-sm font-bold hover:bg-[#004d47] transition-colors"
+              >
+                {t.card_cta}
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>
