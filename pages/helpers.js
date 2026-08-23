@@ -15,6 +15,11 @@ import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 import { WP_FILTER_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_FILTER_OPTIONS } from '@/lib/constants/nationalities';
 
+// How many helper cards to render at once. Used both for the server-rendered
+// first page (keeps initial HTML small) and as the client-side "reveal" step
+// for the windowed list, so the DOM never holds hundreds of cards at once.
+const SSR_INITIAL_PAGE = 48;
+
 // ─── TRANSLATIONS ──────────────────────────────────────────────────────────────
 const T = {
   en: {
@@ -48,6 +53,7 @@ const T = {
     filter_cat:     'All Categories',
     filter_area_ph: 'Search by area...',
     filter_reset:   'Reset filters',
+    load_more:      'Show more helpers',
     sort_label:     'Sort by',
     sort_active:    'Recently active',
     sort_newest:    'Newest',
@@ -100,6 +106,7 @@ const T = {
     filter_cat:     'ทุกประเภท',
     filter_area_ph: 'ค้นหาตามย่าน...',
     filter_reset:   'ล้างตัวกรอง',
+    load_more:      'แสดงผู้ช่วยเพิ่มเติม',
     sort_label:     'เรียงตาม',
     sort_active:    'ใช้งานล่าสุด',
     sort_newest:    'ใหม่ล่าสุด',
@@ -224,19 +231,25 @@ export async function getServerSideProps({ req }) {
       )
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      // Only SSR the first page so the initial HTML stays small and TTFB
+      // doesn't scale with the total helper count. The client fetches the
+      // full list (for filtering) from /api/helpers right after mount, and
+      // the render is windowed — see the component below.
+      .limit(SSR_INITIAL_PAGE);
 
     if (error) throw error;
 
     // Presence-only quality signals (uploaded certificates + references),
-    // pulled in two cheap ref-only queries and folded into each card.
-    // Mirrors /api/helpers. Non-fatal on failure — cards just lose badges.
+    // scoped to just the SSR'd page. Non-fatal on failure — cards just lose
+    // badges.
+    const pageRefs = (data || []).map((r) => r.helper_ref);
     const certSet = new Set();
     const refCounts = new Map();
     try {
       const [{ data: certDocs }, { data: refs }] = await Promise.all([
-        supabase.from('documents').select('helper_ref').eq('file_type', 'certificate'),
-        supabase.from('helper_references').select('helper_ref'),
+        supabase.from('documents').select('helper_ref').eq('file_type', 'certificate').in('helper_ref', pageRefs),
+        supabase.from('helper_references').select('helper_ref').in('helper_ref', pageRefs),
       ]);
       for (const d of certDocs || []) certSet.add(d.helper_ref);
       for (const r of refs || []) refCounts.set(r.helper_ref, (refCounts.get(r.helper_ref) || 0) + 1);
@@ -314,23 +327,35 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
   // registered once and never came back — inactive accounts sink instead
   // of camping at the top just because they signed up recently.
   const [sortBy, setSortBy] = useState('active'); // 'active' | 'newest'
+  // Windowed rendering: only this many cards are in the DOM at once; the
+  // "Show more" button reveals another page. Reset whenever the filter/sort
+  // result set changes so a new filter always starts from the top.
+  const [visibleCount, setVisibleCount] = useState(SSR_INITIAL_PAGE);
+  useEffect(() => {
+    setVisibleCount(SSR_INITIAL_PAGE);
+  }, [filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality, sortBy]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  // Only fetch client-side if SSR didn't provide data (fallback)
+  // The server rendered only the first page (see SSR_INITIAL_PAGE) for a fast,
+  // small first paint. Fetch the FULL list once on mount so client-side
+  // filtering/sorting can work across every helper — silently replacing the
+  // seed when we already have SSR data (no spinner, no flash).
   useEffect(() => {
-    if (initialHelpers.length > 0) return;
+    let cancelled = false;
+    const hadInitial = initialHelpers.length > 0;
     (async () => {
-      setLoading(true);
+      if (!hadInitial) setLoading(true);
       try {
         const data = await fetchHelpersApi();
-        setHelpers(data.helpers || []);
+        if (!cancelled && data?.helpers) setHelpers(data.helpers);
       } catch (err) {
         console.error('Failed to load helpers:', err);
-        setHelpers([]);
+        if (!cancelled && !hadInitial) setHelpers([]);
       }
-      setLoading(false);
+      if (!cancelled && !hadInitial) setLoading(false);
     })();
-  }, [initialHelpers]);
+    return () => { cancelled = true; };
+  }, []);
 
   // ─── Favorites (employer-only) ────────────────────────────────────────
   // `favorites` is a Set of helper_ref strings. `isEmployer` is null while
@@ -728,7 +753,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  {sorted.map(h => (
+                  {sorted.slice(0, visibleCount).map(h => (
                     <HelperCard
                       key={h.ref}
                       helper={{ ...h, categoryLabel: categoryWithEmoji(h.category) }}
@@ -739,6 +764,17 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                       onViewProfile={setViewingHelper}
                     />
                   ))}
+                  {sorted.length > visibleCount && (
+                    <div className="flex justify-center pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setVisibleCount((c) => c + SSR_INITIAL_PAGE)}
+                        className="px-6 py-3 rounded-lg border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-colors"
+                      >
+                        {t.load_more} ({Math.min(visibleCount, sorted.length)}/{sorted.length})
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
