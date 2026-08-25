@@ -34,7 +34,7 @@ import {
 } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
-import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS } from '@/lib/constants/employer';
+import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
 
 const LOOKING_FOR_OPTIONS = [
   { value: 'nanny',       iconKey: 'baby',   en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
@@ -104,6 +104,10 @@ const T = {
     label_child_ages: 'Children\u2019s ages',
     label_job_desc: 'About the job (optional)',
     job_hint: 'Phone numbers and emails will be hidden automatically.',
+    job_per_cat_hint: 'You\'re looking for more than one kind of help — describe each job separately so helpers immediately see which role fits them.',
+    job_no_categories: 'Select your helper types above first — you\'ll then get one description box per job.',
+    job_legacy_label: 'Your previous description',
+    job_legacy_hint: 'Copy the matching parts into the job boxes below. After saving, helpers will see one clear description per job.',
     save: 'Save changes',
     saving: 'Saving...',
     logout: 'Log out',
@@ -170,6 +174,10 @@ const T = {
     label_child_ages: 'ช่วงอายุของเด็ก',
     label_job_desc: 'เกี่ยวกับงาน (ถ้ามี)',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนอัตโนมัติ',
+    job_per_cat_hint: 'คุณกำลังมองหาผู้ช่วยมากกว่าหนึ่งประเภท — อธิบายแต่ละงานแยกกัน เพื่อให้ผู้ช่วยเห็นทันทีว่างานไหนเหมาะกับตน',
+    job_no_categories: 'กรุณาเลือกประเภทผู้ช่วยด้านบนก่อน — จากนั้นจะมีช่องอธิบายงานแยกตามแต่ละประเภท',
+    job_legacy_label: 'รายละเอียดงานเดิมของคุณ',
+    job_legacy_hint: 'คัดลอกส่วนที่เกี่ยวข้องไปใส่ในช่องของแต่ละงานด้านล่าง หลังบันทึกแล้ว ผู้ช่วยจะเห็นรายละเอียดที่ชัดเจนของแต่ละงาน',
     save: 'บันทึก',
     saving: 'กำลังบันทึก...',
     logout: 'ออกจากระบบ',
@@ -213,6 +221,24 @@ export default function EmployerProfile() {
   const fileInputRef = useRef(null);
 
   function buildFormFromProfile(p) {
+    // Per-category job texts ({ nanny: "…" }) from the job_details JSONB
+    // column. Single-category profiles that only have the legacy flat
+    // job_description get it seeded into their one box, so saving migrates
+    // them without retyping. Multi-category profiles instead get the legacy
+    // text shown as a copy-from hint (see the job section below) — we can't
+    // know which category the old text belongs to.
+    const lookingArr = lookingForToArray(p.looking_for);
+    const jobTexts = {};
+    if (p.job_details && typeof p.job_details === 'object') {
+      for (const [cat, entry] of Object.entries(p.job_details)) {
+        const text = typeof entry?.text === 'string' ? entry.text : '';
+        if (text.trim()) jobTexts[cat] = text;
+      }
+    }
+    if (Object.keys(jobTexts).length === 0 && p.job_description && lookingArr.length === 1) {
+      jobTexts[lookingArr[0]] = p.job_description;
+    }
+
     return {
       first_name: p.first_name || '',
       last_name: p.last_name || '',
@@ -228,7 +254,7 @@ export default function EmployerProfile() {
       schedule_time: lookingForToArray(p.schedule_time),
       duration: p.duration || '',
       child_age_groups: lookingForToArray(p.child_age_groups),
-      job_description: p.job_description || '',
+      job_details: jobTexts,
       preferred_language: p.preferred_language || 'en',
       notify_on_message: p.notify_on_message !== false,
     };
@@ -312,7 +338,12 @@ export default function EmployerProfile() {
       // as on registration. Otherwise legacy slugs persist invisibly.
       const allowed = new Set(nextLooking.flatMap(c => (SKILLS_BY_CATEGORY[c] || []).map(s => s.value)));
       const nextSkills = (prev.needed_skills || []).filter(s => allowed.has(s));
-      return { ...prev, looking_for: nextLooking, needed_skills: nextSkills };
+      // Same for per-category job texts — a deselected category's box
+      // disappears from the form, so its text must not be saved invisibly.
+      const nextJobDetails = Object.fromEntries(
+        Object.entries(prev.job_details || {}).filter(([cat]) => set.has(cat))
+      );
+      return { ...prev, looking_for: nextLooking, needed_skills: nextSkills, job_details: nextJobDetails };
     });
   }
 
@@ -342,17 +373,37 @@ export default function EmployerProfile() {
     setSaving(true);
     setErrorMsg('');
     try {
-      const res = await updateEmployerProfile({
+      const payload = {
         ...form,
         // Send empty arrangement as null so the CHECK constraint accepts it
         arrangement_preference: form.arrangement_preference || null,
         start_timing: form.start_timing || null,
         preferred_age_range: form.preferred_age_range || null,
-      });
+      };
+      // Only send job_details when the user wrote something or already had
+      // per-category texts stored — otherwise saving an unrelated edit
+      // (e.g. a new phone number) would wipe a legacy job_description.
+      const hasJobTexts = Object.values(form.job_details).some(v => v && v.trim());
+      const hadJobDetails = !!(profile?.job_details && Object.keys(profile.job_details).length > 0);
+      if (!hasJobTexts && !hadJobDetails) delete payload.job_details;
+
+      const res = await updateEmployerProfile(payload);
       if (res?.success) {
         setSavedMsg(t.saved);
         // Snapshot the new values so a future Cancel returns to them.
-        setProfile(prev => prev ? { ...prev, ...form } : prev);
+        // job_details is stored as { cat: { text } } on the profile but
+        // edited as { cat: "text" } in the form — normalise before merging.
+        const savedJobDetails = {};
+        for (const [cat, text] of Object.entries(form.job_details)) {
+          if (text && text.trim()) savedJobDetails[cat] = { text: text.trim() };
+        }
+        setProfile(prev => prev ? {
+          ...prev,
+          ...form,
+          job_details: 'job_details' in payload
+            ? (Object.keys(savedJobDetails).length ? savedJobDetails : null)
+            : prev.job_details,
+        } : prev);
         setEditMode(false);
       } else {
         setErrorMsg('Save failed');
@@ -884,24 +935,91 @@ export default function EmployerProfile() {
             )}
           </Section>
 
-          {/* ── Job description ──────────────────────── */}
+          {/* ── Job descriptions — one box per selected category ───────
+              A family looking for a babysitter AND a housekeeper has two
+              different jobs to offer; one shared textarea buried the
+              childcare details under the household ones. */}
           <Section title={t.section_job}>
             {editMode ? (
-              <Field label={t.label_job_desc} hint={t.job_hint}>
-                <textarea
-                  value={form.job_description}
-                  onChange={e => update('job_description', e.target.value)}
-                  rows={5}
-                  className={`${inputClass} resize-y font-sans`}
-                />
-              </Field>
-            ) : (
-              <ViewField label={t.label_job_desc}>
-                {form.job_description
-                  ? <span className="whitespace-pre-wrap">{form.job_description}</span>
-                  : null}
-              </ViewField>
-            )}
+              form.looking_for.length === 0 ? (
+                <div className="text-sm text-gray-500">{t.job_no_categories}</div>
+              ) : (
+                <>
+                  {form.looking_for.length > 1 && (
+                    <div className="text-sm text-gray-500 mb-4">{t.job_per_cat_hint}</div>
+                  )}
+
+                  {/* Legacy flat description for multi-category profiles:
+                      shown once as copy-from material until the per-category
+                      boxes are saved for the first time. */}
+                  {profile.job_description &&
+                    !(profile.job_details && Object.keys(profile.job_details).length > 0) &&
+                    form.looking_for.length > 1 && (
+                    <div className="mb-5 p-4 rounded-xl bg-amber-50 border border-amber-200">
+                      <div className="text-xs font-bold text-amber-700 uppercase tracking-wide mb-1">
+                        {t.job_legacy_label}
+                      </div>
+                      <div className="text-sm text-gray-700 whitespace-pre-wrap mb-2">
+                        {profile.job_description}
+                      </div>
+                      <div className="text-xs text-amber-700">{t.job_legacy_hint}</div>
+                    </div>
+                  )}
+
+                  <div className="space-y-5">
+                    {LOOKING_FOR_OPTIONS.filter(o => form.looking_for.includes(o.value)).map(opt => (
+                      <div key={opt.value}>
+                        <label className="flex items-center gap-2 text-sm font-bold text-[#006a62] mb-1.5">
+                          <LineIcon name={opt.iconKey} />
+                          {opt[lang] || opt.en}
+                        </label>
+                        <textarea
+                          value={form.job_details[opt.value] || ''}
+                          onChange={e => update('job_details', { ...form.job_details, [opt.value]: e.target.value })}
+                          rows={4}
+                          placeholder={JOB_DESCRIPTION_EXAMPLES[opt.value]?.[lang] || JOB_DESCRIPTION_EXAMPLES[opt.value]?.en || ''}
+                          className={`${inputClass} resize-y font-sans`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-sm text-gray-500 mt-3">{t.job_hint}</div>
+                </>
+              )
+            ) : (() => {
+              // View mode: the family's own texts, always the original
+              // (untranslated) version.
+              const viewEntries = LOOKING_FOR_OPTIONS
+                .filter(o => profile.job_details?.[o.value]?.text)
+                .map(o => ({
+                  value: o.value,
+                  iconKey: o.iconKey,
+                  label: o[lang] || o.en,
+                  text: profile.job_details[o.value].text,
+                }));
+              if (viewEntries.length === 0) {
+                return (
+                  <ViewField label={t.label_job_desc}>
+                    {profile.job_description
+                      ? <span className="whitespace-pre-wrap">{profile.job_description}</span>
+                      : null}
+                  </ViewField>
+                );
+              }
+              return (
+                <div className="space-y-5">
+                  {viewEntries.map(entry => (
+                    <div key={entry.value}>
+                      <div className="flex items-center gap-2 text-sm font-bold text-[#006a62] mb-1">
+                        <LineIcon name={entry.iconKey} />
+                        {entry.label}
+                      </div>
+                      <div className="text-sm text-gray-900 whitespace-pre-wrap">{entry.text}</div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
           </Section>
 
           {/* ── Email notifications ──────────────────── */}

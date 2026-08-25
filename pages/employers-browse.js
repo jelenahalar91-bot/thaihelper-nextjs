@@ -9,7 +9,7 @@ import { fetchEmployers } from '@/lib/api/employers';
 import { startConversationAsHelper } from '@/lib/api/messages';
 import { CITIES } from '@/lib/constants/cities';
 import { CATEGORIES, SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
-import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugList } from '@/lib/constants/employer';
+import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugList, jobDetailEntries } from '@/lib/constants/employer';
 import { relativeTime } from '@/lib/recent-helpers-display';
 import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '@/lib/utils';
 
@@ -584,8 +584,11 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang, viewerIsHelpe
   const timeLabel     = formatSlugList(e.scheduleTime, SCHEDULE_TIMES, lang);
   const durationLabel = e.duration ? formatSlugList(e.duration, DURATIONS, lang) : '';
   const childLabel    = formatSlugList(e.childAgeGroups, CHILD_AGE_GROUPS, lang);
-  // English viewers get the stored translation (falls back to the original
-  // when it's already English); Thai viewers always see the original.
+  // Per-category job blocks when the family described each job separately;
+  // otherwise fall back to the legacy single description. English viewers
+  // get the stored translation (falls back to the original when it's
+  // already English); Thai viewers always see the original.
+  const jobEntries = jobDetailEntries(e.jobDetails, lang);
   const jobDesc = lang === 'th' ? e.jobDescription : (e.jobDescriptionEn || e.jobDescription);
 
   return (
@@ -675,13 +678,26 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang, viewerIsHelpe
           </div>
         )}
 
-        {jobDesc && (
+        {jobEntries.length > 0 ? (
+          // One block per job — a family looking for e.g. a nanny AND a
+          // housekeeper reads as two distinct jobs, not one vague post.
+          <div className="space-y-2 sm:min-h-[3.9rem]">
+            {jobEntries.map((entry) => (
+              <div key={entry.category} className="text-sm leading-relaxed line-clamp-2">
+                <span className="font-semibold text-gray-800">
+                  {entry.emoji} {entry.label}:
+                </span>{' '}
+                <span className="text-gray-600">{entry.text}</span>
+              </div>
+            ))}
+          </div>
+        ) : jobDesc ? (
           // Reserve a consistent height on desktop so cards — and therefore
           // the photo column — stay an even size (matches HelperCard).
           <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 sm:min-h-[3.9rem]">
             {jobDesc}
           </p>
-        )}
+        ) : null}
 
         <div className="flex flex-wrap gap-1.5 text-sm">
           {e.arrangementPreference && (
@@ -871,7 +887,7 @@ export async function getServerSideProps({ res }) {
         'employer_ref, first_name, last_name, city, area, ' +
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
-        'job_description, job_description_en, photo_url, search_status, created_at, updated_at, ' +
+        'job_description, job_description_en, job_details, photo_url, search_status, created_at, updated_at, ' +
         'last_login_at'
       )
       .order('created_at', { ascending: false });
@@ -893,6 +909,7 @@ export async function getServerSideProps({ res }) {
         childAgeGroups: row.child_age_groups || '',
         jobDescription: row.job_description || '',
         jobDescriptionEn: row.job_description_en || '',
+        jobDetails: row.job_details || null,
         photo: row.photo_url || '',
         arrangementPreference: row.arrangement_preference || null,
         startTiming: row.start_timing || null,

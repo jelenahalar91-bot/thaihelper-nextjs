@@ -27,6 +27,7 @@ function toPublicCard(row) {
     childAgeGroups: row.child_age_groups || '',
     jobDescription: row.job_description || '',
     jobDescriptionEn: row.job_description_en || '',
+    jobDetails: row.job_details || null,
     photo: row.photo_url || '',
     arrangementPreference: row.arrangement_preference || null,
     startTiming: row.start_timing || null,
@@ -53,7 +54,7 @@ export default async function handler(req, res) {
         'employer_ref, first_name, last_name, city, area, ' +
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
-        'job_description, job_description_en, photo_url, search_status, created_at, updated_at, ' +
+        'job_description, job_description_en, job_details, photo_url, search_status, created_at, updated_at, ' +
         'last_login_at'
       )
       .order('created_at', { ascending: false });

@@ -7,6 +7,7 @@ import { getServiceSupabase } from '../../lib/supabase';
 import { notifyHelpersOfNewEmployer } from '../../lib/match-notifications';
 import { translateForeignText } from '../../lib/translate';
 import { looksLikeFullAddress } from '../../lib/address-guard';
+import { buildJobDetailsPatch } from '../../lib/employer-job-details';
 
 const EDITABLE_FIELDS = [
   'first_name',
@@ -56,7 +57,7 @@ export default async function handler(req, res) {
         'employer_ref, first_name, last_name, email, phone, city, area, ' +
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
-        'job_description, preferred_language, photo_url, notify_on_message, ' +
+        'job_description, job_details, preferred_language, photo_url, notify_on_message, ' +
         'search_status, ' +
         'access_until, access_tier, email_verified, created_at, last_login_at, ' +
         // Phone-verification fields (added 2026-06-09).
@@ -139,6 +140,15 @@ export default async function handler(req, res) {
       } else {
         patch.job_description_en = null;
       }
+    }
+
+    // Per-category job descriptions ({ nanny: "text", … }). Sanitised,
+    // translated and flattened into the legacy job_description pair by
+    // buildJobDetailsPatch — applied after the block above so job_details
+    // wins if a client ever sends both.
+    if ('job_details' in body) {
+      const jobPatch = await buildJobDetailsPatch(body.job_details);
+      if (jobPatch) Object.assign(patch, jobPatch);
     }
 
     patch.updated_at = new Date().toISOString();

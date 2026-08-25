@@ -14,12 +14,16 @@
 
 import { useEffect } from 'react';
 import { useLang } from '../../pages/_app';
+import { jobDetailEntries } from '../../lib/constants/employer';
 
 export default function EmployerProfileModal({ employer, onClose, t }) {
   const { lang } = useLang();
+  // Per-category job blocks when available, else the legacy single text.
   // English viewers get the stored translation (falls back to the original
   // when it's already English); Thai viewers always see the original.
+  const jobEntries = jobDetailEntries(employer.jobDetails, lang);
   const jobDesc = lang === 'th' ? employer.jobDescription : (employer.jobDescriptionEn || employer.jobDescription);
+  const hasJobInfo = jobEntries.length > 0 || !!jobDesc;
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
@@ -161,34 +165,64 @@ export default function EmployerProfileModal({ employer, onClose, t }) {
               </InfoRow>
             )}
             {employer.preferredAgeRange && (
-              <InfoRow icon="📅" label={t?.browse_card_age_pref || 'Preferred age'} last={!jobDesc}>
+              <InfoRow icon="📅" label={t?.browse_card_age_pref || 'Preferred age'} last={!hasJobInfo}>
                 {employer.preferredAgeRange}
               </InfoRow>
             )}
           </div>
 
-          {jobDesc && (
+          {hasJobInfo && (
             <div style={{ marginBottom: '16px' }}>
               <h3 style={{
                 fontSize: '12px', fontWeight: 800, color: '#9ca3af',
                 textTransform: 'uppercase', letterSpacing: '0.6px',
                 margin: '0 0 8px', padding: '0 4px',
               }}>
-                {t?.emp_profile_description || 'Job Description'}
+                {jobEntries.length > 1
+                  ? (t?.emp_profile_jobs || 'Jobs')
+                  : (t?.emp_profile_description || 'Job Description')}
               </h3>
-              <div style={{
-                background: 'white',
-                borderRadius: '14px',
-                padding: '16px 18px',
-                border: '1px solid #e5e7eb',
-              }}>
-                <p style={{
-                  fontSize: '14px', lineHeight: 1.65, color: '#374151', margin: 0,
-                  whiteSpace: 'pre-wrap',
+              {jobEntries.length > 0 ? (
+                // One card per job so a family looking for several kinds of
+                // help reads as several concrete jobs, not one mixed text.
+                <div style={{ display: 'grid', gap: '10px' }}>
+                  {jobEntries.map((entry) => (
+                    <div key={entry.category} style={{
+                      background: 'white',
+                      borderRadius: '14px',
+                      padding: '14px 18px',
+                      border: '1px solid #e5e7eb',
+                    }}>
+                      <div style={{
+                        fontSize: '13px', fontWeight: 800, color: '#006a62',
+                        marginBottom: '6px',
+                      }}>
+                        {entry.emoji} {entry.label}
+                      </div>
+                      <p style={{
+                        fontSize: '14px', lineHeight: 1.65, color: '#374151', margin: 0,
+                        whiteSpace: 'pre-wrap',
+                      }}>
+                        {entry.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{
+                  background: 'white',
+                  borderRadius: '14px',
+                  padding: '16px 18px',
+                  border: '1px solid #e5e7eb',
                 }}>
-                  {jobDesc}
-                </p>
-              </div>
+                  <p style={{
+                    fontSize: '14px', lineHeight: 1.65, color: '#374151', margin: 0,
+                    whiteSpace: 'pre-wrap',
+                  }}>
+                    {jobDesc}
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>

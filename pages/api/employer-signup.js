@@ -13,6 +13,8 @@ import {
 import { verifyTurnstile } from '../../lib/turnstile';
 import { formatAttributionString } from '../../lib/utm';
 import { translateForeignText } from '../../lib/translate';
+import { looksLikeFullAddress } from '../../lib/address-guard';
+import { buildJobDetailsPatch } from '../../lib/employer-job-details';
 
 function generateRef() {
   // crypto.randomBytes is cryptographically secure — Math.random() is
@@ -64,10 +66,11 @@ export default async function handler(req, res) {
     startTiming,
     preferredAgeRange,
     jobDescription,
+    jobDetails,
     preferredLanguage,
     turnstileToken,
     attribution,
-  } = req.body;
+  } = req.body || {};
 
   // Verify Turnstile CAPTCHA
   const captcha = await verifyTurnstile(turnstileToken);
@@ -95,6 +98,20 @@ export default async function handler(req, res) {
     });
   }
 
+  // "Area" is shown publicly and unauthenticated on /employers-browse cards
+  // — reject full street addresses (house number + moo/soi) here rather
+  // than storing them, since that's an exact-home-location leak, not a
+  // neighbourhood name.
+  if (looksLikeFullAddress(area)) {
+    return res.status(400).json({ error: 'area_full_address' });
+  }
+
+  // Per-category job descriptions ({ nanny: "text", … }) — sanitised,
+  // translated and flattened into the legacy job_description pair by
+  // buildJobDetailsPatch. Preferred over the single jobDescription below.
+  const jobDetailsPatch = await buildJobDetailsPatch(jobDetails);
+  const hasJobDetails = !!jobDetailsPatch?.job_details;
+
   // Sanitize job description: strip phone numbers and emails for privacy
   const sanitizedJobDesc = (jobDescription || '')
     .replace(/(\+?\d[\d\s\-().]{7,}\d)/g, '[phone hidden]')
@@ -103,8 +120,9 @@ export default async function handler(req, res) {
   // Store an English translation alongside the original so English-reading
   // helpers can read Thai job posts (mirrors helper bio_en). Returns null
   // when the text is already English or the Translate API is unavailable —
-  // the UI then falls back to the original.
-  const jobDescriptionEn = await translateForeignText(sanitizedJobDesc);
+  // the UI then falls back to the original. Skipped when per-category
+  // texts were sent — they carry their own translations.
+  const jobDescriptionEn = hasJobDetails ? null : await translateForeignText(sanitizedJobDesc);
 
   const supabase = getServiceSupabase();
   const ref = generateRef();
@@ -131,8 +149,9 @@ export default async function handler(req, res) {
         arrangement_preference: safeArrangement,
         start_timing: safeStartTiming,
         preferred_age_range: preferredAgeRange || null,
-        job_description: sanitizedJobDesc || null,
-        job_description_en: jobDescriptionEn || null,
+        job_description: hasJobDetails ? jobDetailsPatch.job_description : (sanitizedJobDesc || null),
+        job_description_en: hasJobDetails ? jobDetailsPatch.job_description_en : (jobDescriptionEn || null),
+        job_details: hasJobDetails ? jobDetailsPatch.job_details : null,
         preferred_language: preferredLanguage || 'en',
         access_until: promo.access_until,
         access_tier: promo.access_tier,

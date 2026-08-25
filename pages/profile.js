@@ -72,6 +72,7 @@ import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES, CITY_OPTIONS, MAX_ADDITIONAL_CITIES, parseAdditionalCities } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS, WP_PUBLIC_BADGES, formatWpStatus } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS, formatNationality } from '@/lib/constants/nationalities';
+import { jobDetailEntries } from '@/lib/constants/employer';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
@@ -274,6 +275,7 @@ const T = {
     browse_either: 'Either',
     emp_profile_title: 'Employer',
     emp_profile_description: 'Job Description',
+    emp_profile_jobs: 'Jobs',
     profile_location: 'Location',
   },
   th: {
@@ -460,6 +462,7 @@ const T = {
     browse_either: 'ทั้งสองแบบ',
     emp_profile_title: 'นายจ้าง',
     emp_profile_description: 'รายละเอียดงาน',
+    emp_profile_jobs: 'งานที่เปิดรับ',
     profile_location: 'สถานที่',
   },
 };
@@ -2693,8 +2696,11 @@ function BrowseEmployersTab({
 
 function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, lang = 'en' }) {
   const e = employer;
-  // English viewers get the stored translation (falls back to the original
-  // when it's already English); Thai viewers always see the original.
+  // Per-category job blocks when the family described each job separately;
+  // otherwise the legacy single description. English viewers get the stored
+  // translation (falls back to the original when it's already English);
+  // Thai viewers always see the original.
+  const jobEntries = jobDetailEntries(e.jobDetails, lang);
   const jobDesc = lang === 'th' ? e.jobDescription : (e.jobDescriptionEn || e.jobDescription);
   return (
     <div style={{
@@ -2759,8 +2765,24 @@ function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, la
             )}
           </div>
 
-          {/* Job description snippet */}
-          {jobDesc && (
+          {/* Job description snippet — one labelled line per job when the
+              family described each category separately */}
+          {jobEntries.length > 0 ? (
+            <div style={{ margin: '0 0 10px', display: 'grid', gap: '4px' }}>
+              {jobEntries.map((entry) => (
+                <div key={entry.category} style={{
+                  fontSize: '14px', color: '#555', lineHeight: 1.5,
+                  overflow: 'hidden', display: '-webkit-box',
+                  WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+                }}>
+                  <span style={{ fontWeight: 700, color: '#374151' }}>
+                    {entry.emoji} {entry.label}:
+                  </span>{' '}
+                  {entry.text}
+                </div>
+              ))}
+            </div>
+          ) : jobDesc ? (
             <p style={{
               fontSize: '14px', color: '#555', lineHeight: 1.5,
               margin: '0 0 10px',
@@ -2769,7 +2791,7 @@ function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, la
             }}>
               {jobDesc}
             </p>
-          )}
+          ) : null}
 
           {/* CTA */}
           {onMessage && (

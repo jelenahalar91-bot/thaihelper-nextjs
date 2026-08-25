@@ -8,7 +8,7 @@ import Turnstile from '@/components/Turnstile';
 import { employerSignup, uploadEmployerPhoto } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
-import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS } from '@/lib/constants/employer';
+import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu } from '@/components/MobileMenu';
 import { useLang } from '@/pages/_app';
@@ -92,8 +92,10 @@ const T = {
     section_kids: 'Children\u2019s ages',
     kids_hint: 'Select all age groups your helper will work with.',
     job_label: 'Tell us about the job (optional)',
+    job_label_multi: 'Tell us about the jobs (optional)',
     job_ph: 'e.g. We need a nanny for our 2-year-old, 3 days a week. Must speak basic English.',
     job_hint: 'Phone numbers and emails will be automatically hidden for privacy.',
+    job_multi_hint: 'You\'re looking for more than one kind of help — describe each job separately so helpers immediately see which role fits them.',
     photo_label: 'Profile Photo (optional)',
     photo_hint: 'Helpers are more likely to respond when they can see who they\'re working for.',
     photo_selected: 'Photo selected!',
@@ -177,8 +179,10 @@ const T = {
     section_kids: 'ช่วงอายุของเด็ก',
     kids_hint: 'เลือกช่วงอายุของเด็กที่ผู้ช่วยจะดูแล',
     job_label: 'บอกเราเกี่ยวกับงาน (ไม่จำเป็น)',
+    job_label_multi: 'บอกเราเกี่ยวกับงานแต่ละงาน (ไม่จำเป็น)',
     job_ph: 'เช่น ต้องการพี่เลี้ยงเด็กอายุ 2 ขวบ 3 วันต่อสัปดาห์',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนโดยอัตโนมัติเพื่อความเป็นส่วนตัว',
+    job_multi_hint: 'คุณกำลังมองหาผู้ช่วยมากกว่าหนึ่งประเภท — อธิบายแต่ละงานแยกกัน เพื่อให้ผู้ช่วยเห็นทันทีว่างานไหนเหมาะกับตน',
     photo_label: 'รูปโปรไฟล์ (ไม่จำเป็น)',
     photo_hint: 'ผู้ช่วยมีแนวโน้มตอบกลับมากขึ้นเมื่อเห็นว่าจะทำงานให้ใคร',
     photo_selected: 'เลือกรูปแล้ว!',
@@ -225,6 +229,10 @@ export default function EmployerRegisterPage() {
   const [startTiming, setStartTiming] = useState('');
   const [preferredAgeRange, setPreferredAgeRange] = useState('');
   const [jobDescription, setJobDescription] = useState('');
+  // Per-category job texts ({ nanny: "…" }) — used instead of the single
+  // jobDescription as soon as at least one category is selected, so a
+  // family hiring e.g. a babysitter AND a housekeeper describes each job.
+  const [jobDetails, setJobDetails] = useState({});
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState('');
 
@@ -271,6 +279,11 @@ export default function EmployerRegisterPage() {
       // hidden from the chip UI.
       const allowed = new Set(next.flatMap(c => (SKILLS_BY_CATEGORY[c] || []).map(s => s.value)));
       setNeededSkills(curr => curr.filter(s => allowed.has(s)));
+      // Same for per-category job texts — a deselected category's textarea
+      // disappears, so its text must not be submitted invisibly.
+      setJobDetails(curr => Object.fromEntries(
+        Object.entries(curr).filter(([cat]) => next.includes(cat))
+      ));
       return next;
     });
   };
@@ -351,6 +364,7 @@ export default function EmployerRegisterPage() {
         startTiming: startTiming || null,
         preferredAgeRange: preferredAgeRange || null,
         jobDescription: jobDescription.trim(),
+        jobDetails,
         turnstileToken,
       });
 
@@ -889,17 +903,47 @@ export default function EmployerRegisterPage() {
               </div>
 
               <div ref={jobRef} data-step="3" style={{ scrollMarginTop: '76px' }} />
-              <div className="field">
-                <label>{t.job_label}</label>
-                <textarea
-                  value={jobDescription}
-                  onChange={e => setJobDescription(e.target.value)}
-                  placeholder={t.job_ph}
-                  rows={4}
-                  style={{ resize: 'vertical' }}
-                />
-                <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.job_hint}</p>
-              </div>
+              {/* One description box per selected category, each with an
+                  example placeholder showing what detail helps helpers
+                  decide. Falls back to the single generic textarea while
+                  no category is selected yet. */}
+              {lookingFor.length === 0 ? (
+                <div className="field">
+                  <label>{t.job_label}</label>
+                  <textarea
+                    value={jobDescription}
+                    onChange={e => setJobDescription(e.target.value)}
+                    placeholder={t.job_ph}
+                    rows={4}
+                    style={{ resize: 'vertical' }}
+                  />
+                  <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.job_hint}</p>
+                </div>
+              ) : (
+                <div className="field">
+                  <label>{lookingFor.length > 1 ? t.job_label_multi : t.job_label}</label>
+                  {lookingFor.length > 1 && (
+                    <p style={{ fontSize: '13px', color: 'var(--gray-500)', margin: '0 0 12px' }}>
+                      {t.job_multi_hint}
+                    </p>
+                  )}
+                  {LOOKING_FOR_OPTIONS.filter(o => lookingFor.includes(o.value)).map(opt => (
+                    <div key={opt.value} style={{ marginBottom: '14px' }}>
+                      <div style={{ fontSize: '14px', fontWeight: 700, color: '#006a62', marginBottom: '6px' }}>
+                        {opt[lang] || opt.en}
+                      </div>
+                      <textarea
+                        value={jobDetails[opt.value] || ''}
+                        onChange={e => setJobDetails(prev => ({ ...prev, [opt.value]: e.target.value }))}
+                        placeholder={JOB_DESCRIPTION_EXAMPLES[opt.value]?.[lang] || JOB_DESCRIPTION_EXAMPLES[opt.value]?.en || ''}
+                        rows={3}
+                        style={{ resize: 'vertical', minHeight: '80px' }}
+                      />
+                    </div>
+                  ))}
+                  <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.job_hint}</p>
+                </div>
+              )}
 
               {/* Cloudflare Turnstile CAPTCHA */}
               <Turnstile onToken={handleTurnstileToken} />
