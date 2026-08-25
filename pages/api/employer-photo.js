@@ -8,6 +8,7 @@ import { getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import Busboy from 'busboy';
 import { bufferMatchesMime } from '../../lib/file-magic';
+import { shrinkImage } from '../../lib/image-resize';
 
 export const config = { api: { bodyParser: false } };
 
@@ -70,6 +71,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'File contents do not match the declared image type.' });
     }
 
+    const storeBuffer = await shrinkImage(fileBuffer, mimeType);
     const ext = mimeType.split('/')[1] === 'jpeg' ? 'jpg' : mimeType.split('/')[1];
     const storagePath = `employer/${ref}/profile-photo.${ext}`;
 
@@ -78,7 +80,7 @@ export default async function handler(req, res) {
     // so a failed upload can't leave the employer with no photo.
     const { error: uploadError } = await supabase.storage
       .from(BUCKET)
-      .upload(storagePath, fileBuffer, {
+      .upload(storagePath, storeBuffer, {
         contentType: mimeType,
         upsert: true,
       });

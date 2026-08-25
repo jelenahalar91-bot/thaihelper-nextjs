@@ -5,6 +5,7 @@ import { getSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import Busboy from 'busboy';
 import { bufferMatchesMime } from '../../lib/file-magic';
+import { shrinkImage } from '../../lib/image-resize';
 
 export const config = { api: { bodyParser: false } };
 
@@ -66,6 +67,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'File contents do not match the declared image type.' });
     }
 
+    // Downscale/recompress AFTER the magic-byte check (validate the real
+    // original, then store the smaller version).
+    const storeBuffer = await shrinkImage(fileBuffer, mimeType);
+
     const ext = mimeType.split('/')[1] === 'jpeg' ? 'jpg' : mimeType.split('/')[1];
     const storagePath = `${ref}/profile-photo.${ext}`;
 
@@ -77,7 +82,7 @@ export default async function handler(req, res) {
     // was left with nothing.
     const { error: uploadError } = await supabase.storage
       .from(BUCKET)
-      .upload(storagePath, fileBuffer, {
+      .upload(storagePath, storeBuffer, {
         contentType: mimeType,
         upsert: true,
       });

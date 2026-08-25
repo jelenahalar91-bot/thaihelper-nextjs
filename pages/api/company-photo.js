@@ -7,6 +7,7 @@ import { getCompanySession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import Busboy from 'busboy';
 import { bufferMatchesMime } from '../../lib/file-magic';
+import { shrinkImage } from '../../lib/image-resize';
 
 export const config = { api: { bodyParser: false } };
 
@@ -81,12 +82,13 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'File contents do not match the declared image type.' });
     }
 
+    const storeBuffer = await shrinkImage(fileBuffer, mimeType);
     const ext = mimeType.split('/')[1] === 'jpeg' ? 'jpg' : mimeType.split('/')[1];
     const storagePath = `company/${ref}/logo.${ext}`;
 
     const { error: uploadError } = await supabase.storage
       .from(BUCKET)
-      .upload(storagePath, fileBuffer, { contentType: mimeType, upsert: true });
+      .upload(storagePath, storeBuffer, { contentType: mimeType, upsert: true });
 
     if (uploadError) {
       console.error('Company logo upload error:', uploadError);
