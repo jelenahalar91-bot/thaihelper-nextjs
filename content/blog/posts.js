@@ -47,7 +47,7 @@ export const blogPosts = [
       <blockquote>"ThaiHelper has been a great help to me... The platform helps connect job seekers and employers in a safe and reliable way... Everything I've experienced has been legitimate, and I feel more confident using a platform that values safety and quality."</blockquote>
 
       <h2>Why this matters</h2>
-      <p>We're a family of four who moved to Thailand in late 2024 and built ThaiHelper because we ourselves couldn't find a nanny through the existing options. Every review — even the critical ones — helps us understand what's working and what isn't for the ~600 helpers and ~60 families now on the platform.</p>
+      <p>We're a family of four who moved to Thailand in late 2024 and built ThaiHelper because we ourselves couldn't find a nanny through the existing options. Every review — even the critical ones — helps us understand what's working and what isn't for the 800+ helpers and 100+ families now on the platform.</p>
 
       <p>We reply to every Trustpilot review, positive or negative. If you're already on ThaiHelper and want to leave your own honest review, it takes about a minute:</p>
 
@@ -206,12 +206,12 @@ export const blogPosts = [
 
   {
     slug: 'nanny-costs-thailand',
-    title: 'Nanny Cost Thailand 2026: Real Rates from 220+ Verified Nannies',
+    title: 'Nanny Cost Thailand 2026: Real Rates from 285+ Verified Nannies',
     description:
       'How much does a nanny cost in Thailand in 2026? Full-time 15–25k THB, part-time 4–8k, live-in 12–18k, premium-tier 28–70k. Salary breakdown by city, hidden costs, 13th-month bonus, Social Security, and true total monthly cost.',
     category: 'families',
     date: '2026-04-08',
-    updated: '2026-07-28',
+    updated: '2026-08-25',
     readTime: 13,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80',
@@ -262,29 +262,29 @@ export const blogPosts = [
     `,
     content: `
       <p>One of the first questions expat families ask when moving to Thailand: <strong>how much does a nanny cost?</strong> Childcare here is significantly more affordable than in Europe, the US, or Australia — but the headline monthly salary is only part of the picture. This guide breaks down 2026 nanny costs by city, by arrangement, and most importantly by <em>true total monthly cost</em> after Social Security, bonuses, and the other items families forget to budget for.</p>
-      <p><em>Last updated: 14 July 2026. Salary figures are sourced from 552+ active nanny profiles on ThaiHelper, 2026 job listings, and direct family-employer conversations in Bangkok, Phuket, and Chiang Mai.</em></p>
+      <p><em>Last updated: 25 August 2026. Salary figures are sourced from 285+ verified nanny profiles on ThaiHelper (part of 800+ verified helpers on the platform), 2026 job listings, and direct family-employer conversations in Bangkok, Phuket, and Chiang Mai.</em></p>
 
       <h2>Quick Answer</h2>
       <p>In 2026 a full-time nanny in Thailand costs <strong>15,000–25,000 THB per month</strong> in Bangkok and <strong>12,000–18,000 THB</strong> in Chiang Mai. Live-in nannies are 12,000–18,000 cash plus a room and meals. Add roughly <strong>20–35%</strong> for true total cost (Social Security, 13th-month bonus, transport, meals). English-fluent nannies add another <strong>30–50%</strong> to the base. The premium tier — nursing-trained, multilingual, or international-school-experienced nannies — runs <strong>28,000–70,000 THB/month</strong>.</p>
 
       <h2>Written by a family who did this themselves</h2>
-      <p>Full transparency on where these numbers come from: we are the family who built <a href="/">ThaiHelper</a>. We moved from Germany to Phuket in late 2024, spent three weeks trying to find a nanny for our two kids through Facebook groups and slow-moving agencies, and eventually built the platform we wished had existed. The salary numbers in this guide are cross-checked against 623 active nanny profiles on our own platform, publicly listed agency rates from Kiidu, Ayasan and Madawa, and what families and helpers tell us in weekly conversations. If you want to hear directly from families and helpers actually using ThaiHelper today, our <a href="/blog/thaihelper-reviews-real-users-2026">verified Trustpilot reviews</a> are public.</p>
+      <p>Full transparency on where these numbers come from: we are the family who built <a href="/">ThaiHelper</a>. We moved from Germany to Phuket in late 2024, spent three weeks trying to find a nanny for our two kids through Facebook groups and slow-moving agencies, and eventually built the platform we wished had existed. The salary numbers in this guide are cross-checked against 285+ verified nanny profiles on our own platform (part of 800+ helpers total, serving 100+ families), publicly listed rates from Kiidu, Ayasan and Madawa, and what families and helpers tell us in weekly conversations. If you want to hear directly from families and helpers actually using ThaiHelper today, our <a href="/blog/thaihelper-reviews-real-users-2026">verified Trustpilot reviews</a> are public.</p>
 
-      <h2>Real platform data (from 220+ verified nannies on ThaiHelper)</h2>
-      <p>Most nanny-cost articles quote the same generic ranges without saying where the numbers come from. Here are the figures we actually see on our own platform in July 2026 — from 220 verified nanny profiles across Thailand who list a rate:</p>
+      <h2>Real platform data (from 285+ verified nannies on ThaiHelper)</h2>
+      <p>Most nanny-cost articles quote the same generic ranges without saying where the numbers come from. Here are the figures we actually see on our own platform in August 2026 — from 285 verified nanny profiles across Thailand:</p>
 
       <ul>
         <li><strong>78% speak conversational English</strong> — a much higher share than 2-3 years ago; that's why English fluency no longer commands as large a premium in central Bangkok as older guides suggest.</li>
-        <li><strong>Bangkok:</strong> largest pool by far (82 verified nannies), median hourly babysitting rate 200 THB. Long-term full-time contracts settle at 18–25k THB/month for competent English-speaking nannies.</li>
-        <li><strong>Phuket:</strong> 17 verified nannies, similar hourly rates to Bangkok (150–300 THB/hr for evening/weekend care) but tighter supply — families report longer search times than in Bangkok.</li>
-        <li><strong>Chiang Mai:</strong> smaller pool (5 verified nannies with rate), but noticeably higher hourly ceiling (up to 700 THB/hr) driven by digital-nomad demand for flexible short-notice care.</li>
-        <li><strong>Samut Prakan / Nonthaburi:</strong> hourly floor sits at 150 THB, ~25% below central Bangkok — commute-friendly for families in outer districts.</li>
+        <li><strong>Bangkok:</strong> by far the largest pool (135 verified nannies), median hourly babysitting rate 200 THB. Long-term full-time contracts settle at 18–25k THB/month for competent English-speaking nannies.</li>
+        <li><strong>Phuket:</strong> 27 verified nannies (up from 17 in July — supply is growing fast), similar hourly rates to Bangkok (150–300 THB/hr for evening/weekend care) but families still report longer search times than in central Bangkok.</li>
+        <li><strong>Chiang Mai:</strong> 15 verified nannies (tripled since Q2 2026), with a noticeably higher hourly ceiling (up to 700 THB/hr) driven by digital-nomad demand for flexible short-notice care.</li>
+        <li><strong>Samut Prakan / Nonthaburi:</strong> 20+ combined verified nannies. Hourly floor sits at 150 THB, ~25% below central Bangkok — commute-friendly for families in outer districts.</li>
       </ul>
 
-      <p><em>Data source: ThaiHelper platform, verified nanny profiles as of 27 July 2026 who have listed a rate. Numbers update as new nannies join.</em></p>
+      <p><em>Data source: ThaiHelper platform, verified nanny profiles as of 25 August 2026. Numbers update as new nannies join.</em></p>
 
-      <h2>Q3 2026 update — what's changed since April</h2>
-      <p>Three shifts we're seeing on the platform between April and mid-July 2026:</p>
+      <h2>Q3 2026 update — what's changed since Q2</h2>
+      <p>Three shifts we're seeing on the platform between April and late August 2026 (as the nanny pool grew from 220 to 285+ verified profiles):</p>
       <ul>
         <li><strong>Bangkok base up ~5–8%.</strong> Central Sukhumvit and Sathorn full-time salaries are trending toward the upper end of the 15–25k band; live-out at 22–25k is now normal for experienced English-speaking nannies.</li>
         <li><strong>Newborn / infant specialists command a clear premium.</strong> Nannies with maternity-nurse (pi liang dek on) or NICU background are asking 30k–45k for full-time, up from 25–35k earlier in the year.</li>
@@ -2297,11 +2297,12 @@ export const blogPosts = [
 
   {
     slug: 'essential-skills-housekeeper-thailand',
-    title: '10 Essential Skills Every Housekeeper Should Master in Thailand',
-    description: 'The top 10 skills that make housekeepers highly hireable in Thailand. Learn what families look for and how to upskill to earn more.',
+    title: 'Housekeeper Salary Thailand 2026 + 10 Essential Skills That Boost Your Pay',
+    description: 'What housekeepers actually earn per month in Thailand in 2026, plus the top 10 skills that boost your salary. Real data from 250+ verified housekeepers on ThaiHelper.',
     category: 'helpers',
     date: '2026-04-16',
-    readTime: 7,
+    updated: '2026-08-25',
+    readTime: 8,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1558877385-81a1c7e67d72?w=800&q=80',
     keywords: 'housekeeper skills Thailand, maid training Thailand, what families want housekeeper, become a housekeeper Thailand',
@@ -2343,7 +2344,21 @@ export const blogPosts = [
       <p>เพิ่มทักษะเหล่านี้ในโปรไฟล์ของคุณและดึงดูดครอบครัวที่ดีขึ้น <a href="/register">สมัครฟรี</a></p>
     `,
     content: `
-      <p>The right skills set you apart — and earn you more. Here are the top 10 skills Thai families (both local and expat) look for in housekeepers in 2026.</p>
+      <p>The right skills set you apart — and earn you more. Here are the top 10 skills Thai families (both local and expat) look for in housekeepers in 2026 — and, most importantly, what those skills translate into per month.</p>
+      <p><em>Updated 25 August 2026. Salary ranges are cross-checked against 250+ verified housekeeper profiles currently on ThaiHelper (part of 800+ helpers total).</em></p>
+
+      <h2>Housekeeper Salary in Thailand — What You Can Expect per Month</h2>
+      <p>The real number depends on your city, your skills, and whether you live in. As of August 2026 the median monthly full-time salary on ThaiHelper looks like this:</p>
+      <table>
+        <thead><tr><th>City</th><th>Full-time live-out (THB/mo)</th><th>Full-time live-in (THB/mo)</th></tr></thead>
+        <tbody>
+          <tr><td>Bangkok</td><td>15,000 – 22,000</td><td>13,000 – 18,000 + room + meals</td></tr>
+          <tr><td>Phuket</td><td>14,000 – 22,000</td><td>12,000 – 18,000 + room + meals</td></tr>
+          <tr><td>Chiang Mai</td><td>11,000 – 17,000</td><td>10,000 – 14,000 + room + meals</td></tr>
+          <tr><td>Pattaya / Hua Hin / Koh Samui</td><td>13,000 – 20,000</td><td>11,000 – 16,000 + room + meals</td></tr>
+        </tbody>
+      </table>
+      <p>Part-time (2–3 days/week) generally pays 6,000–10,000 THB/month. Daily/deep-clean visits average 500–1,000 THB per 4-hour session in Bangkok. The 10 skills below are what pushes you toward the top end of each range — not the bottom.</p>
 
       <h2>1. Deep Cleaning</h2>
       <p>Surface cleaning isn't enough. Learn to clean under furniture, behind appliances, inside ovens, and along baseboards. Families notice — and pay for — thorough work.</p>
@@ -2540,9 +2555,10 @@ export const blogPosts = [
   {
     slug: 'private-chef-thailand-cost-guide',
     title: 'Private Chef in Thailand: Costs, Benefits & How to Hire',
-    description: 'Thinking about a private chef in Thailand? Learn real costs, what chefs can do for your family, and how to hire directly with no agency fees.',
+    description: 'Thinking about a private chef in Thailand? Learn real costs, what chefs can do for your family, and how to hire directly with no middleman fees.',
     category: 'families',
     date: '2026-04-16',
+    updated: '2026-08-25',
     readTime: 8,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80',
@@ -2575,6 +2591,7 @@ export const blogPosts = [
     `,
     content: `
       <p>A private chef used to be reserved for the wealthy. In Thailand — especially in Bangkok, Phuket, and Koh Samui — having a <strong>private chef</strong> is increasingly accessible to middle- and upper-middle-class families.</p>
+      <p><em>Updated August 2026. Rate ranges cross-checked against 130+ verified chef profiles currently on ThaiHelper across Bangkok, Phuket, and Koh Samui.</em></p>
 
       <h2>Private Chef Rates in Thailand</h2>
       <ul>
@@ -2894,10 +2911,11 @@ export const blogPosts = [
 
   {
     slug: 'household-staff-phuket-guide',
-    title: 'Complete Guide to Hiring Household Staff in Phuket',
-    description: 'Moving to or living in Phuket? Complete guide to hiring nannies, housekeepers, villa managers, drivers, and chefs. Includes costs, areas, and legal tips.',
+    title: 'Complete Guide to Hiring Household Staff in Phuket (Updated 2026)',
+    description: 'Moving to or living in Phuket? Complete guide to hiring nannies, housekeepers, villa managers, drivers, and chefs. Real 2026 rates, best areas by role, seasonal considerations.',
     category: 'families',
     date: '2026-04-16',
+    updated: '2026-08-25',
     readTime: 9,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=800&q=80',
@@ -2930,6 +2948,7 @@ export const blogPosts = [
     `,
     content: `
       <p>Phuket is paradise for expat families and long-term visitors. Hiring <strong>household staff in Phuket</strong> is slightly different from Bangkok — there's a strong villa culture, seasonal demand patterns, and a large expat community. This guide covers everything you need to know.</p>
+      <p><em>Updated 25 August 2026. ThaiHelper currently has 55+ verified helpers in Phuket alone (27 nannies, plus villa housekeepers, chefs, drivers, and villa managers) — one of the fastest-growing pools on the platform since Q2.</em></p>
 
       <h2>Types of Staff Needed in Phuket</h2>
       <ul>

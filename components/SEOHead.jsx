@@ -244,7 +244,7 @@ export function getFAQSchema(faqs) {
 /**
  * BlogPosting schema for blog articles
  */
-export function getBlogPostingSchema({ title, description, slug, date, readTime, image, lang }) {
+export function getBlogPostingSchema({ title, description, slug, date, updated, readTime, image, lang }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -254,7 +254,7 @@ export function getBlogPostingSchema({ title, description, slug, date, readTime,
     inLanguage: lang === 'th' ? 'th' : 'en',
     url: `${SITE_URL}/blog/${slug}`,
     datePublished: date,
-    dateModified: date,
+    dateModified: updated || date,
     author: {
       '@type': 'Organization',
       name: 'ThaiHelper',
