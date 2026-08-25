@@ -258,10 +258,14 @@ export default async function handler(req, res) {
       .update({ last_message_at: new Date().toISOString() })
       .eq('id', conversation_id);
 
-    // Send email notification to recipient (non-blocking — don't fail the request).
+    // Notifications (email + push) run AFTER the response goes out — they
+    // took 1-3s and made every send feel slow in the apps. On Vercel,
+    // waitUntil keeps the function alive until they finish; in local dev the
+    // promise just runs on its own.
     // We gate on the recipient's `notify_on_message` flag so opted-out users
     // don't get any more notifications, and we include a signed one-click
     // unsubscribe URL in every email + RFC 8058 List-Unsubscribe headers.
+    const notifyRecipient = async () => {
     try {
       if (process.env.RESEND_API_KEY) {
         let recipientEmail = null;
@@ -384,6 +388,17 @@ export default async function handler(req, res) {
       }
     } catch (pushErr) {
       console.error('Push notification failed (non-critical):', pushErr.message);
+    }
+    };
+
+    const notifyPromise = notifyRecipient();
+    try {
+      // Only available on Vercel's runtime — guarantees the deferred work
+      // completes after the response. Locally the promise runs best-effort.
+      const { waitUntil } = require('@vercel/functions');
+      waitUntil(notifyPromise);
+    } catch {
+      /* not on Vercel — fine */
     }
 
     return res.status(201).json({
