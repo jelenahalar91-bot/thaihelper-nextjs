@@ -15,13 +15,15 @@ const NONLATIN = /[฀-๿一-鿿぀-ヿ]/;
 // Strip everything except digits, +, -, . from the free-text experience
 // field. Most legit values are numbers like "5" or "10+"; some users
 // typed Thai ("30+ปี") or full sentences (which we hide entirely by
-// returning empty).
+// returning empty). A sentence with digits scattered through it (e.g. "...with
+// 34 years old. I have 3 pool villas...") also survives the character strip
+// as junk like "34.3.-.." — so the result has to match a plausible
+// year-count shape, not just contain a digit.
 function cleanExperience(exp) {
   if (!exp) return '';
   const cleaned = String(exp).replace(/[^\d+\-.]/g, '').trim();
-  // If after cleaning we have something other than a single digit or 0,
-  // it's plausibly a year count. Otherwise hide.
-  return /\d/.test(cleaned) ? cleaned : '';
+  const isPlausible = /^\d{1,3}(\.\d{1,2})?\+?$/.test(cleaned) || /^\d{1,3}-\d{1,3}$/.test(cleaned);
+  return isPlausible ? cleaned : '';
 }
 
 /**
