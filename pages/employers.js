@@ -94,6 +94,7 @@ const T = {
     hero_shimmer: 'No middlemen, no fees.',
     hero_p: 'Browse verified nannies, housekeepers, chefs, drivers and more in your city. Create a free account and start messaging helpers today.',
     hero_cta: 'Create Free Account',
+    hero_app: 'Get instant alerts when someone messages you.',
     hero_launch_banner: '🎉 Free for families — message any helper directly, no fees, no commission.',
     hero_browse: 'Browse Helper Profiles — No account needed',
     hero_badge: '100% free for everyone',
@@ -230,6 +231,7 @@ const T = {
     hero_shimmer: 'ไม่มีคนกลาง ไม่มีค่าธรรมเนียม',
     hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ สร้างบัญชีฟรีและเริ่มส่งข้อความหาผู้ช่วยได้วันนี้',
     hero_cta: 'สร้างบัญชีฟรี',
+    hero_app: 'รับการแจ้งเตือนทันทีเมื่อมีคนส่งข้อความถึงคุณ',
     hero_launch_banner: '🎉 ฟรีสำหรับครอบครัว — ส่งข้อความถึงผู้ช่วยได้โดยตรง ไม่มีค่าธรรมเนียม',
     hero_browse: 'ดูโปรไฟล์ผู้ช่วย — ไม่ต้องสมัคร',
     hero_badge: 'ฟรี 100% สำหรับทุกคน',
@@ -600,6 +602,12 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                 )}
                 <div>
                   <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all inline-block" href="/signup">{t.hero_cta}</Link>
+                </div>
+                {/* App badge under the primary CTA — smaller on purpose so
+                    signup stays the first action. */}
+                <div className="mt-6 flex items-center gap-3">
+                  <AppStoreBadge lang={lang} />
+                  <p className="text-sm text-slate-500 leading-snug max-w-[210px]">{t.hero_app}</p>
                 </div>
               </div>
 

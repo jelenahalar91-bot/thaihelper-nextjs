@@ -54,6 +54,11 @@ export default function SEOHead({
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      {/* Apple Smart App Banner — iOS Safari renders a native install strip at
+          the top of the page for iPhone visitors only. Desktop and Android
+          see nothing, so it costs no layout anywhere else, and it shows
+          "OPEN" instead of "GET" once the app is installed. */}
+      <meta name="apple-itunes-app" content="app-id=6801794164" />
       <link rel="canonical" href={canonicalUrl} />
 
       {noindex && <meta name="robots" content="noindex, nofollow" />}
