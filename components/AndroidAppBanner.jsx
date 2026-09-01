@@ -1,56 +1,46 @@
 /**
  * AndroidAppBanner — CTA on the helper dashboard inviting Android users to
- * install the closed-test app from the Play Store. Visible only when ALL
- * of these are true:
+ * install the app from the Play Store. Visible when ALL of these are true:
  *   - Device is Android (user agent check)
  *   - Not already inside the native app (Capacitor bridge / TWA referrer)
- *   - Helper's email is on the Play Store closed-test whitelist
- *     (non-whitelisted helpers would hit 'not eligible' — bad UX)
  *   - User hasn't dismissed the banner in the last 7 days
  *
- * Goal: drive test-installs from active helpers so we clear Google's
- * 12+ active-tester threshold and unlock production access.
+ * The app left closed testing and is publicly listed (verified 2026-09-01),
+ * so the former beta-tester whitelist gate is gone — every Android visitor
+ * can install. iPhone visitors get Apple's native Smart App Banner instead
+ * (see the apple-itunes-app meta tag in SEOHead).
  */
 
 import { useEffect, useState } from 'react';
-import { isBetaTester } from '@/lib/beta-tester-emails';
 
-const PLAY_STORE_TEST_URL = 'https://play.google.com/apps/testing/app.thaihelper.mobile';
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=app.thaihelper.mobile';
 
 const COPY = {
   en: {
-    title: 'New: ThaiHelper Android App',
-    body: 'Get instant push notifications for new messages. Help us test — takes 2 minutes to install.',
+    title: 'The ThaiHelper app is here',
+    body: 'Get an instant notification the moment a family messages you. Free, and it installs in seconds.',
     cta: 'Install now',
     later: 'Later',
-    steps: 'Tap the link → Play Store opens → Join test → Install',
+    steps: 'Tap install → Play Store opens → Install',
   },
   th: {
-    title: 'ใหม่: แอป ThaiHelper สำหรับ Android',
-    body: 'รับการแจ้งเตือนทันทีเมื่อมีข้อความใหม่ ช่วยเราทดสอบ — ใช้เวลาแค่ 2 นาที',
+    title: 'แอป ThaiHelper มาแล้ว',
+    body: 'รับการแจ้งเตือนทันทีเมื่อมีครอบครัวส่งข้อความถึงคุณ ใช้งานฟรี ติดตั้งได้ในไม่กี่วินาที',
     cta: 'ติดตั้งเลย',
     later: 'ภายหลัง',
-    steps: 'กดลิงก์ → เปิด Play Store → เข้าร่วมทดสอบ → ติดตั้ง',
+    steps: 'กดติดตั้ง → เปิด Play Store → ติดตั้ง',
   },
 };
 
 const DISMISS_KEY = 'th_android_app_banner_dismissed_at';
 const DISMISS_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
-export default function AndroidAppBanner({ lang = 'en', email }) {
+export default function AndroidAppBanner({ lang = 'en' }) {
   const t = COPY[lang] || COPY.en;
   const [state, setState] = useState('checking');
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
-    // Whitelist gate — if we don't know the email or it's not on the
-    // closed-test list, silently hide. No point advertising an install
-    // the user would be blocked from completing.
-    if (!isBetaTester(email)) {
-      setState('hidden');
-      return;
-    }
 
     const ua = navigator.userAgent || '';
     if (!/android/i.test(ua)) { setState('hidden'); return; }
@@ -72,11 +62,11 @@ export default function AndroidAppBanner({ lang = 'en', email }) {
     } catch {}
 
     setState('shown');
-  }, [email]);
+  }, []);
 
   function handleInstall() {
     try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch {}
-    window.open(PLAY_STORE_TEST_URL, '_blank', 'noopener,noreferrer');
+    window.open(PLAY_STORE_URL, '_blank', 'noopener,noreferrer');
   }
 
   function handleLater() {

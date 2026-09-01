@@ -10,8 +10,8 @@
  * to keep its aspect ratio and clear space, hence the fixed height + the
  * untouched SVG.
  *
- * Android is still in Play Store closed testing (see AndroidAppBanner);
- * once it ships publicly this component gets a Play badge sibling.
+ * Android ships from the Play Store as "ThaiHelper – Nannies & Maids"
+ * (app.thaihelper.mobile); Android visitors get AndroidAppBanner instead.
  */
 
 export const APP_STORE_URL = 'https://apps.apple.com/app/thaihelper-app/id6801794164';

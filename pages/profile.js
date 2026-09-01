@@ -1291,7 +1291,7 @@ export default function Profile() {
           {/* Android app install CTA — only shows on Android devices for
               helpers whose email is on the Play Store closed-test whitelist.
               Dismissible for 7 days. */}
-          <AndroidAppBanner lang={lang} email={profile?.email} />
+          <AndroidAppBanner lang={lang} />
 
           {/* ─── DASHBOARD TAB ──────────────────────────────────────────── */}
           {activeTab === 'dashboard' && (
