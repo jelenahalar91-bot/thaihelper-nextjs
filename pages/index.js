@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
-import AppStoreBadge from '@/components/AppStoreBadge';
+import AppBadges from '@/components/AppBadges';
 import Image from 'next/image';
 import SEOHead, { getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
@@ -66,7 +66,7 @@ const T = {
     cta_sub:'Create your free profile and let families find you.',
     cta_btn1:'Register Now – Free',cta_btn2:'Learn More',
     footer_desc:'A free platform connecting independent service providers with families in Thailand.',
-    footer_app: 'Get the iPhone app',
+    footer_app: 'Get the free app',
     footer_disclaimer:'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
     footer_product:'Product',footer_company:'Company',footer_legal:'Legal',
     footer_find:'Benefits',footer_hire:'Categories',footer_pricing:'Pricing',footer_employers:'For Families',footer_wizard:'Work Permit Wizard',footer_directory:'Expert Directory',
@@ -124,7 +124,7 @@ const T = {
     cta_sub:'สร้างโปรไฟล์ฟรีและให้ครอบครัวที่กำลังมองหาผู้ช่วยที่ไว้วางใจได้ค้นพบคุณ',
     cta_btn1:'สมัครเลย – ฟรี',cta_btn2:'เรียนรู้เพิ่มเติม',
     footer_desc:'แพลตฟอร์มฟรีที่เชื่อมต่อผู้ให้บริการอิสระกับครอบครัวในประเทศไทย',
-    footer_app: 'รับแอป iPhone',
+    footer_app: 'รับแอปฟรี',
     footer_disclaimer:'ThaiHelper.app ใช้งานฟรี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
     footer_product:'ผลิตภัณฑ์',footer_company:'บริษัท',footer_legal:'กฎหมาย',
     footer_find:'สิทธิประโยชน์',footer_hire:'ประเภทงาน',footer_pricing:'ราคา',footer_employers:'สำหรับครอบครัว',footer_wizard:'ตัวช่วยใบอนุญาตทำงาน',footer_directory:'รายชื่อผู้เชี่ยวชาญ',
@@ -343,7 +343,7 @@ export default function Home({ initialRecentHelpers = null, initialTotalHelpers 
                     registering is still the first action we want, but the app
                     is the thing that keeps helpers coming back (push). */}
                 <div className="mt-6 flex items-center gap-3">
-                  <AppStoreBadge lang={lang} />
+                  <AppBadges lang={lang} />
                   <p className="text-sm text-slate-500 leading-snug max-w-[210px]">{t.hero_app}</p>
                 </div>
               </div>
@@ -663,7 +663,7 @@ export default function Home({ initialRecentHelpers = null, initialTotalHelpers 
                     this is our cheapest install channel. */}
                 <div className="mt-6">
                   <p className="text-slate-500 text-xs mb-2 font-semibold uppercase tracking-wider">{t.footer_app}</p>
-                  <AppStoreBadge lang={lang} />
+                  <AppBadges lang={lang} />
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">

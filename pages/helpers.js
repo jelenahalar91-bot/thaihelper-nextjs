@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
-import AppStoreBadge from '@/components/AppStoreBadge';
+import AppBadges from '@/components/AppBadges';
 import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
@@ -71,7 +71,7 @@ const T = {
     cta_sub:        'Create your free profile and let families find you.',
     cta_btn:        'Register Now — Free →',
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
-    footer_app: 'Get the iPhone app',
+    footer_app: 'Get the free app',
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
@@ -125,7 +125,7 @@ const T = {
     cta_sub:        'สร้างโปรไฟล์ฟรีเพื่อให้ครอบครัวค้นหาคุณ',
     cta_btn:        'ลงทะเบียนฟรี →',
     footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
-    footer_app: 'รับแอป iPhone',
+    footer_app: 'รับแอปฟรี',
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
     footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_line: 'LINE', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการใช้งาน',
@@ -896,7 +896,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                     this is our cheapest install channel. */}
                 <div className="mt-6">
                   <p className="text-slate-500 text-xs mb-2 font-semibold uppercase tracking-wider">{t.footer_app}</p>
-                  <AppStoreBadge lang={lang} />
+                  <AppBadges lang={lang} />
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">

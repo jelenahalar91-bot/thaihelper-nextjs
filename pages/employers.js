@@ -12,7 +12,7 @@ import {
 } from '@/lib/recent-helpers-display';
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
-import AppStoreBadge from '@/components/AppStoreBadge';
+import AppBadges from '@/components/AppBadges';
 import Image from 'next/image';
 import {
   UserPlus, MessageCircle, PartyPopper,
@@ -201,7 +201,7 @@ const T = {
     cta_btn: 'Share with Helpers',
     // Footer
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff. Direct connections, no middlemen.',
-    footer_app: 'Get the iPhone app',
+    footer_app: 'Get the free app',
     footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
     footer_product: 'Product',
     footer_fp1: 'For Helpers',
@@ -325,7 +325,7 @@ const T = {
     cta_sub: 'บอกพี่เลี้ยง แม่บ้าน หรือคนขับของคุณเกี่ยวกับ ThaiHelper พวกเขาสามารถลงทะเบียนฟรี',
     cta_btn: 'แชร์กับผู้ช่วย',
     footer_desc: 'ThaiHelper เชื่อมต่อครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานดูแลบ้านที่ไว้ใจได้ เชื่อมต่อโดยตรง ไม่มีคนกลาง',
-    footer_app: 'รับแอป iPhone',
+    footer_app: 'รับแอปฟรี',
     footer_disclaimer: 'ThaiHelper.app ใช้งานฟรี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
     footer_product: 'ผลิตภัณฑ์', footer_fp1: 'สำหรับผู้ช่วย', footer_fp2: 'สำหรับครอบครัว', footer_fp3: 'วิธีการใช้งาน', footer_fp4: 'ตัวช่วยใบอนุญาตทำงาน', footer_fp5: 'รายชื่อผู้เชี่ยวชาญ',
     footer_company: 'บริษัท', footer_fc1: 'เกี่ยวกับเรา', footer_fc2: 'ติดต่อ', footer_line: 'LINE',
@@ -606,7 +606,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                 {/* App badge under the primary CTA — smaller on purpose so
                     signup stays the first action. */}
                 <div className="mt-6 flex items-center gap-3">
-                  <AppStoreBadge lang={lang} />
+                  <AppBadges lang={lang} />
                   <p className="text-sm text-slate-500 leading-snug max-w-[210px]">{t.hero_app}</p>
                 </div>
               </div>
@@ -969,7 +969,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                     this is our cheapest install channel. */}
                 <div className="mt-6">
                   <p className="text-slate-500 text-xs mb-2 font-semibold uppercase tracking-wider">{t.footer_app}</p>
-                  <AppStoreBadge lang={lang} />
+                  <AppBadges lang={lang} />
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
