@@ -5,7 +5,7 @@
 import { getSession, clearSessionCookie } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { translateForeignText } from '../../lib/translate';
-import { getDisplayAge } from '../../lib/age';
+import { getDisplayAge, validateDob } from '../../lib/age';
 import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
 import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/constants/nationalities';
 import { notifyEmployersOfNewHelper } from '../../lib/match-notifications';
@@ -178,6 +178,19 @@ export default async function handler(req, res) {
         && !NATIONALITY_VALUES.includes(incoming.nationality)
       ) {
         return res.status(400).json({ error: 'Invalid nationality' });
+      }
+
+      // Age gate — same rule as registration. Editing the DOB must not be a
+      // way around the 18+ requirement (the form check is browser-side only).
+      if (incoming.dateOfBirth !== undefined && incoming.dateOfBirth !== '') {
+        const dobCheck = validateDob(incoming.dateOfBirth);
+        if (!dobCheck.ok) {
+          return res.status(400).json({
+            error: dobCheck.reason === 'too_young'
+              ? 'You must be at least 18 years old.'
+              : 'Please enter a valid date of birth.',
+          });
+        }
       }
 
       // If the helper switched to "thai" and didn't already have a WP

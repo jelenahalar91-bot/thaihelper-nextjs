@@ -17,6 +17,8 @@ import {
 import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
 import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/constants/nationalities';
 import { VALID_CITY_SLUGS } from '../../lib/constants/cities';
+import { looksLikeFullAddress } from '../../lib/address-guard';
+import { validateDob } from '../../lib/age';
 
 // LINE link tokens expire in 30 minutes — long enough to add the bot and
 // send the link message, short enough to limit abuse.
@@ -54,7 +56,7 @@ export default async function handler(req, res) {
     notify_via_line, notify_via_whatsapp,
     work_permit_status, nationality,
     turnstileToken, attribution,
-  } = req.body;
+  } = req.body || {};
 
   // Verify Turnstile CAPTCHA
   const captcha = await verifyTurnstile(turnstileToken);
@@ -73,6 +75,25 @@ export default async function handler(req, res) {
   // locations got in before. Reject anything outside the known slug set.
   if (!VALID_CITY_SLUGS.has(String(city).trim().toLowerCase())) {
     return res.status(400).json({ error: 'Please choose a valid city in Thailand.' });
+  }
+
+  // "Area" is shown publicly and unauthenticated on /helpers cards — reject
+  // full street addresses (house number + moo/soi) here rather than storing
+  // them, since that's an exact-home-location leak, not a neighbourhood name.
+  if (looksLikeFullAddress(area)) {
+    return res.status(400).json({ error: 'area_full_address' });
+  }
+
+  // Age gate. The form already validates this, but that check lives in the
+  // browser — a scripted POST could register a minor, and our terms (and
+  // Thai labour law) require adults. Server side is the actual gate.
+  const dobCheck = validateDob(date_of_birth);
+  if (!dobCheck.ok) {
+    return res.status(400).json({
+      error: dobCheck.reason === 'too_young'
+        ? 'You must be at least 18 years old to register.'
+        : 'Please enter a valid date of birth.',
+    });
   }
 
   // Work permit status is optional. Reject unknown values rather than
