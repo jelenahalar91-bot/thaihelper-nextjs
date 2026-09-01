@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AppStoreBadge from './AppStoreBadge';
 
 /**
  * Site-wide SEO footer with internal links to top /hire/ city + category pages.
@@ -121,6 +122,21 @@ export default function SEOFooter({ lang = 'en' }) {
               </li>
             </ul>
           </div>
+        </div>
+
+        {/* iOS app — live since Aug 2026. Sitewide placement because every
+            page already has organic traffic; this is our cheapest install
+            channel. */}
+        <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center gap-3 sm:gap-5 mb-6">
+          <p className="text-sm text-white font-semibold">
+            {isEn ? 'ThaiHelper for iPhone' : 'ThaiHelper สำหรับ iPhone'}
+          </p>
+          <p className="text-xs flex-1 text-center sm:text-left">
+            {isEn
+              ? 'Message helpers on the go and get notified the moment someone replies.'
+              : 'ส่งข้อความถึงผู้ช่วยได้ทุกที่ และรับการแจ้งเตือนทันทีเมื่อมีคนตอบกลับ'}
+          </p>
+          <AppStoreBadge lang={lang} />
         </div>
 
         {/* Bottom strip */}

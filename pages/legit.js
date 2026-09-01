@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AppStoreBadge from '@/components/AppStoreBadge';
 import BrandWordmark from '@/components/BrandWordmark';
 import { ShieldCheck, Mail, Users, Eye, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import SEOHead, { getBreadcrumbSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
@@ -33,7 +34,7 @@ const FAQS = [
   },
   {
     question: 'Is ThaiHelper the same as the "Thai Helper" language-learning app?',
-    answer: 'No. The "Thai Helper" app on the Apple App Store (id1523988930) and Google Play is a phrase-book and pronunciation tool for learning the Thai language — a completely different product run by a different company. ThaiHelper.app (this site) is a hiring marketplace for household staff in Thailand.',
+    answer: 'No. The "Thai Helper" app on the Apple App Store (id1523988930) and Google Play is a phrase-book and pronunciation tool for learning the Thai language — a completely different product run by a different company. ThaiHelper.app (this site) is a hiring marketplace for household staff in Thailand. Our own official iOS app is called "ThaiHelper App" (App Store id6801794164, published by Jelena Hermann) — that is the only mobile app operated by us.',
   },
   {
     question: 'Is ThaiHelper the same as thai-helper.com?',
@@ -101,7 +102,7 @@ const T = {
     confusion_title: 'Other names that get confused with us',
     confusion_intro: 'A few more unrelated products with similar-sounding names. To be clear about what ThaiHelper.app is and is not:',
     confusion1_h: 'Not the language-learning app',
-    confusion1_p: 'The "Thai Helper" iOS / Android app (App Store id1523988930) is a phrase-book and pronunciation tool for learning the Thai language. Different product, different company.',
+    confusion1_p: 'The "Thai Helper" iOS / Android app (App Store id1523988930) is a phrase-book and pronunciation tool for learning the Thai language. Different product, different company. Our official app is "ThaiHelper App" (id6801794164) — see the download link above.',
     confusion2_h: 'Not thai-helper.com',
     confusion2_p: 'thai-helper.com (hyphenated, .com TLD) is a visa, relocation and tourist-assistance service. Unrelated to thaihelper.app.',
     confusion3_h: 'Not ThaiFriendly',
@@ -109,6 +110,8 @@ const T = {
     confusion4_h: 'Not the TDAC Arrival Card Helper',
     confusion4_p: 'The "Thai TDAC Arrival Card Helper" app (id6758918267) helps tourists fill in the arrival card. Unrelated.',
 
+    app_title: 'Our official iPhone app',
+    app_p: 'ThaiHelper App on the App Store, published by Jelena Hermann (app id 6801794164). This is the only mobile app we operate — it is free and shows the same helper profiles as this website.',
     how_title: 'How to verify us yourself',
     how1_h: 'Browse the public helper list',
     how1_p: 'Go to thaihelper.app/helpers — you will see real helper profiles with photos, cities, skills and experience. None of this is fake.',
@@ -184,7 +187,7 @@ const T = {
     confusion_title: 'ชื่ออื่นๆ ที่สับสนกับเรา',
     confusion_intro: 'มีผลิตภัณฑ์อื่นๆ อีกที่มีชื่อคล้ายกันแต่ไม่เกี่ยวข้อง เพื่อความชัดเจน:',
     confusion1_h: 'ไม่ใช่แอปเรียนภาษา',
-    confusion1_p: 'แอป "Thai Helper" บน iOS / Android (App Store id1523988930) เป็นเครื่องมือเรียนคำศัพท์และการออกเสียงภาษาไทย ผลิตภัณฑ์คนละแบบ บริษัทคนละบริษัท',
+    confusion1_p: 'แอป "Thai Helper" บน iOS / Android (App Store id1523988930) เป็นเครื่องมือเรียนคำศัพท์และการออกเสียงภาษาไทย ผลิตภัณฑ์คนละแบบ บริษัทคนละบริษัท แอปอย่างเป็นทางการของเราชื่อ "ThaiHelper App" (id6801794164) — ดูลิงก์ดาวน์โหลดด้านบน',
     confusion2_h: 'ไม่ใช่ thai-helper.com',
     confusion2_p: 'thai-helper.com (มียัติภังค์, .com TLD) เป็นบริการวีซ่า ย้ายถิ่น และช่วยเหลือนักท่องเที่ยว ไม่เกี่ยวข้องกับ thaihelper.app',
     confusion3_h: 'ไม่ใช่ ThaiFriendly',
@@ -192,6 +195,8 @@ const T = {
     confusion4_h: 'ไม่ใช่ TDAC Arrival Card Helper',
     confusion4_p: 'แอป "Thai TDAC Arrival Card Helper" (id6758918267) ช่วยนักท่องเที่ยวกรอกบัตรขาเข้า ไม่เกี่ยวข้อง',
 
+    app_title: 'แอป iPhone อย่างเป็นทางการของเรา',
+    app_p: 'ThaiHelper App บน App Store เผยแพร่โดย Jelena Hermann (app id 6801794164) นี่คือแอปมือถือเดียวที่เราดูแล ใช้งานฟรี และแสดงโปรไฟล์ผู้ช่วยชุดเดียวกับเว็บไซต์นี้',
     how_title: 'วิธีตรวจสอบเราด้วยตัวคุณเอง',
     how1_h: 'เรียกดูรายชื่อผู้ช่วยสาธารณะ',
     how1_p: 'ไปที่ thaihelper.app/helpers คุณจะเห็นโปรไฟล์ผู้ช่วยจริงพร้อมรูปภาพ เมือง ทักษะ และประสบการณ์',
@@ -399,6 +404,23 @@ export default function Legit() {
                   </div>
                 ))}
               </div>
+            </div>
+          </section>
+
+          {/* OFFICIAL APP — doubles as a trust signal (named publisher) and
+              as the answer to the brand confusion with the "Thai Helper"
+              phrase-book app that outranks us on some queries. */}
+          <section className="px-6 py-12 bg-white border-y border-slate-200">
+            <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+              <div className="flex-1">
+                <h2 className="text-xl md:text-2xl font-extrabold font-headline mb-2">
+                  {t.app_title}
+                </h2>
+                <p className="text-sm text-on-surface-variant leading-relaxed">
+                  {t.app_p}
+                </p>
+              </div>
+              <AppStoreBadge lang={lang} className="shrink-0" />
             </div>
           </section>
 
