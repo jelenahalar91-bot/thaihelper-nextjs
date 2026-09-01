@@ -2124,6 +2124,220 @@ export const guides = [
       },
     ],
   },
+  {
+    slug: 'hire-a-filipino-nanny-in-thailand',
+    title: 'How to Hire a Filipino Nanny in Thailand — The Complete 2026 Guide',
+    description:
+      'Filipino nanny salaries, work-permit and Non-Immigrant B visa rules, where to find English-speaking Filipino nannies in Bangkok, Phuket, Chiang Mai. Direct-hire process, interview questions, and the legal pitfalls to avoid in 2026.',
+    date: '2026-09-01',
+    updated: '2026-09-01',
+    readTime: 12,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200&q=80',
+    keywords:
+      'filipino nanny bangkok, filipino nanny thailand, english speaking nanny bangkok, hire filipina helper thailand, filipino housekeeper phuket, work permit filipino nanny thailand, non-immigrant b visa nanny, filipino yaya bangkok',
+    sections: [
+      {
+        id: 'overview',
+        h2: 'What you\'ll learn in this guide',
+        html: `
+          <p>Filipino nannies — often called <em>yayas</em> in the Philippines — are the most requested profile among English-speaking expat families in Bangkok, Phuket, and Chiang Mai. The combination of fluent English, warm childcare culture, and a large expat Filipino community in Thailand makes them a strong fit for international families. But hiring a Filipino nanny is legally different from hiring a Thai nanny: she is a foreign national in Thailand, which means <strong>visa status and work-permit rules matter</strong>. Getting this wrong risks fines, deportation for the nanny, and problems for the sponsoring family.</p>
+          <p>This guide walks through the full picture: realistic 2026 salary ranges (Filipino nannies cost more than Thai nannies, and there are reasons), the Non-Immigrant B visa and work-permit process, where families actually find Filipino nannies in Thailand (with the trade-offs of each channel), what to ask in interviews, and the common mistakes that turn a good hire into a legal or financial problem.</p>
+          <p>Written for families hiring directly — no agency in the middle — but the visa and salary information applies regardless of how you find your candidate.</p>
+          <p><em>Last updated: 1 September 2026. Salary figures reflect rates current in mid-2026 in Bangkok, Phuket, Chiang Mai, and Pattaya. Legal references are to the Thai Ministry of Labour and Immigration Bureau rules in force as of 2026. This guide is not legal advice — for individual cases involving work permits or visa transitions, consult a Thai immigration lawyer.</em></p>
+        `,
+      },
+      {
+        id: 'why-filipino',
+        h2: 'Why families choose Filipino nannies specifically',
+        html: `
+          <p>The strong preference for Filipino nannies among expat families in Thailand is not accidental. There are three concrete reasons:</p>
+          <ul>
+            <li><strong>Fluent English.</strong> English is the primary language of instruction in Philippine schools and universities. Most Filipino nannies over the age of about 25 can hold a full conversation with your kids in English, not just short phrases — a level Thai nannies rarely reach without expensive tutoring.</li>
+            <li><strong>Childcare-first culture.</strong> In the Philippines, being a yaya is a long-standing profession (often multi-generational within families) with clear conventions around child safety, feeding, and daily routine. Many candidates have 5–15 years' experience by their late twenties.</li>
+            <li><strong>Community network in Thailand.</strong> There are established Filipino communities in Bangkok (Sukhumvit, On Nut, Bang Na), Phuket (Rawai, Chalong), Chiang Mai, and Pattaya. This means Sunday off, church attendance, and a peer network — which strongly reduces turnover.</li>
+          </ul>
+          <p>The trade-offs are also real: Filipino nannies cost roughly <strong>50–100 % more</strong> than Thai nannies with similar experience, the legal setup (visa + work permit) is more complex, and repatriation logistics matter if the arrangement ends.</p>
+        `,
+      },
+      {
+        id: 'cost',
+        h2: 'How much does a Filipino nanny in Thailand cost?',
+        html: `
+          <p>Filipino nannies almost always earn more than Thai nannies for the same role. The premium reflects the language skill (English fluency is the single biggest driver), childcare experience, and — for many families — the visibility of paying legally, which adds work-permit and visa costs on top of salary.</p>
+
+          <h3>Typical monthly salary ranges (2026)</h3>
+          <table>
+            <thead><tr><th>City</th><th>Live-out (THB/mo)</th><th>Live-in (THB/mo, + room + food)</th></tr></thead>
+            <tbody>
+              <tr><td>Bangkok</td><td>28,000 – 45,000</td><td>25,000 – 40,000</td></tr>
+              <tr><td>Phuket</td><td>25,000 – 40,000</td><td>22,000 – 35,000</td></tr>
+              <tr><td>Chiang Mai</td><td>22,000 – 35,000</td><td>20,000 – 30,000</td></tr>
+              <tr><td>Pattaya</td><td>22,000 – 35,000</td><td>20,000 – 30,000</td></tr>
+              <tr><td>Koh Samui / Hua Hin</td><td>22,000 – 38,000</td><td>20,000 – 32,000</td></tr>
+            </tbody>
+          </table>
+          <p>For comparison, a Thai nanny with similar experience in Bangkok typically earns <strong>15,000–25,000 THB/month</strong>. So the Filipino premium is real: expect to pay roughly 1.5–2× the Thai rate.</p>
+
+          <h3>Premium factors that push salary above the typical range</h3>
+          <ul>
+            <li><strong>Newborn / infant experience</strong> with references: +20–30 %.</li>
+            <li><strong>Formal early-childhood-education background</strong> (a college degree in the Philippines with early-childhood or nursing focus): can push to 45,000–55,000 THB in Bangkok.</li>
+            <li><strong>Willingness to travel</strong> with the family (domestic Thailand trips or overseas): usually a travel stipend plus per-diem on top of base.</li>
+            <li><strong>Additional languages</strong> beyond English (Mandarin especially): +10–20 %.</li>
+          </ul>
+
+          <h3>The hidden costs beyond salary</h3>
+          <p>When budgeting for a Filipino nanny, families frequently forget the legal-status costs. Realistic annual add-ons:</p>
+          <ul>
+            <li><strong>Work permit</strong> — about 3,000–6,000 THB per year (government fee; not counting lawyer or agent fees to file).</li>
+            <li><strong>Non-Immigrant B visa renewal</strong> — about 2,000–5,000 THB per year plus the annual 90-day report cycle.</li>
+            <li><strong>Insurance</strong> — Thai law requires accident/health coverage for foreign workers. Realistic budget 8,000–15,000 THB/year for a private policy with meaningful coverage.</li>
+            <li><strong>Round-trip flight home once a year</strong> — many Filipino nannies expect this as part of the package. Bangkok–Manila is typically 8,000–15,000 THB.</li>
+            <li><strong>Sunday off / rest day allowance</strong> if you want to be competitive with other expat families in your neighborhood.</li>
+          </ul>
+          <p>Total "true cost" for a Bangkok family hiring legally is often <strong>1.25–1.4×</strong> the headline salary once these are included.</p>
+        `,
+      },
+      {
+        id: 'legal',
+        h2: 'The Non-Immigrant B visa and work permit — the part that matters',
+        html: `
+          <p>This is the section families most often skim and later regret. A Filipino national working as a nanny in Thailand is a <strong>foreign worker</strong>. Thai law requires that foreign workers hold both (1) an appropriate visa and (2) a work permit issued by the Ministry of Labour.</p>
+
+          <h3>The legal path in plain English</h3>
+          <ol>
+            <li><strong>Visa:</strong> The correct visa for someone working as a nanny is the <strong>Non-Immigrant B (Business)</strong> visa. This is typically applied for at a Thai embassy or consulate outside Thailand (many families arrange it in Manila, Vientiane, or Penang). Tourist and Visa-Exempt entries do not allow work.</li>
+            <li><strong>Employer setup:</strong> Under Thai law, an individual family cannot easily sponsor a work permit on their own — the sponsor typically needs to be a registered Thai company. In practice, families work through an established household-staffing arrangement, or the nanny is sponsored by a licensed household-services entity that then places her with the family.</li>
+            <li><strong>Work permit application:</strong> Filed with the Ministry of Labour after the Non-Immigrant B is issued. Requires medical certificate, employment contract, sponsor documentation, and government fees (see cost section above).</li>
+            <li><strong>Annual maintenance:</strong> 90-day reporting to Immigration, annual work-permit renewal, visa renewal. Missing any of these can trigger overstay fines that quickly reach 20,000 THB or more.</li>
+          </ol>
+
+          <h3>What most families do wrong</h3>
+          <ul>
+            <li><strong>Hiring on a tourist stamp.</strong> The nanny arrives visa-exempt or on a 60-day tourist visa and starts working. Common, illegal, and if reported, results in deportation and blacklisting of the nanny. The family typically pays a fine but suffers no lasting consequence — <em>the worker bears the risk</em>. Ethically and practically the wrong call.</li>
+            <li><strong>"Border runs" as a work-permit substitute.</strong> Some families ask the nanny to exit and re-enter every 60 days to stay legal on tourist entries. This is not a work-permit substitute — the nanny is still working illegally between border runs.</li>
+            <li><strong>Marriage / student visa workarounds.</strong> Occasionally families ask the nanny to enroll in a language school to hold an ED visa. An ED visa <em>also</em> does not permit work; enforcement is uneven but the arrangement is illegal.</li>
+          </ul>
+
+          <p><strong>Practical guidance:</strong> If you want to hire a Filipino nanny long-term, plan the visa and work-permit path from day one, budget for it, and speak to a Thai immigration lawyer for your specific situation. If you cannot commit to the legal path, hire a Thai nanny (who does not need any of this) instead. It is a better outcome for everyone.</p>
+          <p>ThaiHelper is a direct-connection platform: we surface real, English-speaking Filipino candidates already based in Thailand, many with existing legal status. But the employment relationship — including visa and work-permit compliance — is between the family and the nanny, and any legal setup is the family's responsibility.</p>
+        `,
+      },
+      {
+        id: 'where-to-find',
+        h2: 'Where to find Filipino nannies in Thailand — realistic channels',
+        html: `
+          <p>The visible options for finding a Filipino nanny in Thailand fall into four categories, each with real trade-offs.</p>
+
+          <h3>1. Direct-hire platforms (ThaiHelper and similar)</h3>
+          <p>You browse candidate profiles, message directly, and agree on terms. No agency fee, no commission on salary, no placement charge. Turnaround is fast — a first conversation typically the same day. On ThaiHelper you can filter for Filipino nationality, English fluency, live-in vs live-out, and city. Trade-off: you do the interview and reference checks yourself; nothing is pre-vetted beyond the email-verification step. Best if you want a specific candidate profile and value keeping the full salary going to the nanny rather than a commission.</p>
+
+          <h3>2. Traditional agencies</h3>
+          <p>Bangkok has several household-staffing agencies with rosters of Filipino candidates. They typically charge either a placement fee (equivalent to 1–2 months' salary) or a monthly service fee that stays on top of the salary. Some agencies handle work-permit paperwork as part of the deal, which is genuinely valuable if you don't want to navigate that yourself. Best if you want turnkey and are willing to pay for it.</p>
+
+          <h3>3. Filipino community channels</h3>
+          <p>Facebook groups for Filipinos in Bangkok, Phuket, and Chiang Mai frequently have posts from candidates and referrals. The Filipino church communities on Sukhumvit and in Rawai are strong hubs — word-of-mouth referrals through them are often the highest-quality leads, but require you to have a way in. Best if you already know Filipino families in your neighborhood.</p>
+
+          <h3>4. Word-of-mouth from other expat families</h3>
+          <p>Ask other families in your building, your children's international school, or your expat parents' group. When a Filipino nanny leaves one family (family moves overseas, kids age out, etc.), a warm referral to a new family is common. High trust, but often depends on timing you can't control.</p>
+
+          <p>Most families end up using two channels in parallel — for example a direct-hire platform to see the actual candidate pool plus a WhatsApp thread with other expat parents for word-of-mouth referrals.</p>
+        `,
+      },
+      {
+        id: 'interview',
+        h2: 'The interview — what actually matters',
+        html: `
+          <p>For Filipino nanny interviews, the useful questions cluster around three areas: <strong>experience</strong>, <strong>practical fit</strong>, and <strong>legal status now</strong>.</p>
+
+          <h3>On experience</h3>
+          <ul>
+            <li>How many families have you worked for in Thailand, and how long with each? (Short tenures at multiple families is a signal to probe why.)</li>
+            <li>What were the ages of the children? (Newborn, toddler, and school-age each need different skills.)</li>
+            <li>Can we speak to one previous employer? A phone call in English is enough — you're checking honesty and warmth, not credentials.</li>
+            <li>Describe a typical day with the last child you cared for. Vague answers are a signal; specific routines are a signal in the other direction.</li>
+          </ul>
+
+          <h3>On practical fit</h3>
+          <ul>
+            <li>Sunday off — is that a hard requirement? For most Filipino nannies it is (church community), and being upfront about it before hiring avoids a common conflict.</li>
+            <li>Cooking — Filipino nannies often cook Filipino food beautifully but may not cook Thai food or Western food. Clarify what your kids eat.</li>
+            <li>Live-in room — if live-in, walk through what the room is. What families think of as "a room" and what a nanny needs to feel comfortable long-term don't always match.</li>
+            <li>Phone use, social media, TV during work hours — set expectations before hiring, not after.</li>
+          </ul>
+
+          <h3>On legal status</h3>
+          <ul>
+            <li>What visa are you on right now, and when does it expire?</li>
+            <li>Do you have a current work permit, and who is the sponsor?</li>
+            <li>If she does not have a work permit: are you willing to be sponsored through a proper legal arrangement, and are you comfortable with the paperwork?</li>
+          </ul>
+          <p>The last set of questions is uncomfortable to ask but far worse to skip. If the answers don't line up cleanly, get lawyer advice before hiring.</p>
+        `,
+      },
+      {
+        id: 'mistakes',
+        h2: 'Common mistakes families make',
+        html: `
+          <ul>
+            <li><strong>Skipping the legal setup because "everyone does it."</strong> True that illegal hiring is widespread. Also true that when things go wrong — a workplace injury, a dispute, an immigration check on the building — the nanny takes the fall and the family loses her overnight. The correct legal setup costs 15,000–30,000 THB/year total; that is a small fraction of what a good nanny is worth to a working family.</li>
+            <li><strong>Under-paying because the Facebook post said "budget 15,000."</strong> That number is realistic for a Thai nanny, not for a Filipino nanny with 5+ years of experience and fluent English. Under-pay and she'll take a competing offer within three months.</li>
+            <li><strong>Not committing to Sunday off.</strong> The single most common cause of Filipino nanny turnover in Bangkok is families who think Sunday off is negotiable. It usually isn't.</li>
+            <li><strong>Live-in room that isn't really a room.</strong> A curtained-off corner of the utility room or a bed in the kitchen destroys retention. Even a small dedicated room with a door and a window is fine.</li>
+            <li><strong>Not agreeing on a written contract.</strong> The Thai Labour Protection Act (specifically the domestic-work sections) sets a floor for hours, rest days, and termination — write those in explicitly. A one-page contract in English and Tagalog, both sides signed, prevents 80 % of the classic disputes.</li>
+            <li><strong>Assuming she'll travel with you without asking.</strong> Domestic trips are usually fine with per-diem; overseas is a bigger ask (visa, family logistics in the Philippines). Ask before the summer vacation is a week away.</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'next-steps',
+        h2: 'Next steps',
+        html: `
+          <p>If you're ready to start reviewing candidates:</p>
+          <ul>
+            <li>Browse Filipino nanny profiles in your city on ThaiHelper — filter by nationality, city, and English fluency. Start at <a href="/hire/nanny-bangkok">/hire/nanny-bangkok</a>, <a href="/hire/nanny-phuket">/hire/nanny-phuket</a>, or <a href="/hire/nanny">/hire/nanny</a> for a country-wide view.</li>
+            <li>Read the <a href="/guide/hire-a-nanny-in-thailand">general nanny hiring guide</a> for the parts that apply regardless of nationality (salary structure, contract template, interview format).</li>
+            <li>Download our free bilingual <a href="/contract-template">nanny employment contract template</a> (English + Thai; adjust for a Tagalog version if useful).</li>
+            <li>For visa and work-permit questions specific to your family's situation, speak to a Thai immigration lawyer — do not rely on Facebook advice for this part.</li>
+          </ul>
+          <p>Hiring a good Filipino nanny is one of the single highest-leverage decisions an expat family in Thailand can make. Done right — real interview, correct legal path, fair salary, written contract — the arrangement often lasts 3–5 years and becomes part of the family.</p>
+        `,
+      },
+    ],
+    faqs: [
+      {
+        question: 'How much does a Filipino nanny in Bangkok cost in 2026?',
+        answer:
+          'A live-out full-time Filipino nanny in Bangkok typically earns 28,000–45,000 THB per month in 2026, depending on experience, English fluency, and specialised skills like newborn or infant care. Live-in arrangements are usually 25,000–40,000 THB plus a private room and food. Both figures are roughly 1.5–2× what a Thai nanny with similar experience earns, and the legal costs (Non-Immigrant B visa, work permit, insurance, annual flight home) add roughly 25–40 % on top of the headline salary.',
+      },
+      {
+        question: 'Do Filipino nannies in Thailand need a work permit?',
+        answer:
+          'Yes. A Filipino national working as a nanny in Thailand is a foreign worker and legally requires both an appropriate visa (typically Non-Immigrant B) and a work permit from the Thai Ministry of Labour. Working on a tourist visa, visa-exempt entry, or ED (student) visa is illegal, and enforcement — while uneven — carries fines, deportation, and blacklisting for the nanny. Families should plan and budget for the legal setup from day one or hire a Thai nanny instead.',
+      },
+      {
+        question: 'Can a family in Thailand sponsor a Filipino nanny\'s work permit directly?',
+        answer:
+          'In practice, work-permit sponsorship in Thailand typically requires a registered Thai company as the sponsor — individual families cannot easily sponsor directly. Most legal Filipino nanny arrangements go through a household-services company or through a lawyer-arranged structure. For your specific situation, consult a Thai immigration lawyer; the details change often and depend on the family\'s and nanny\'s current status.',
+      },
+      {
+        question: 'Where can I find English-speaking Filipino nannies in Bangkok, Phuket, or Chiang Mai?',
+        answer:
+          'The four visible channels are direct-hire platforms (like ThaiHelper, where you can filter by Filipino nationality and city), traditional household-staffing agencies (turnkey but 1–2 months\' salary as placement fee), Filipino community Facebook groups and church networks in Sukhumvit / On Nut / Rawai / Chalong / Chiang Mai, and word-of-mouth referrals from other expat families. Most families end up using two channels in parallel — a direct platform to see the actual candidate pool plus warm referrals from other parents.',
+      },
+      {
+        question: 'Why do Filipino nannies cost more than Thai nannies?',
+        answer:
+          'Three main reasons: fluent English (the single biggest driver — English is the primary language of instruction in Philippine schools), childcare-first cultural background (being a yaya is a long-standing profession with clear conventions around child safety and routine), and higher legal-status costs on the family side (Non-Immigrant B visa, work-permit, insurance, annual flight home). The premium is typically 50–100 % over a Thai nanny with similar experience.',
+      },
+      {
+        question: 'What should I definitely put in a Filipino nanny contract?',
+        answer:
+          'The essentials: base salary, live-in vs live-out arrangement, exact hours and rest days (Sunday off is standard for Filipino nannies and should be written down), duties (childcare only vs childcare + light housework), overtime rate, notice period on both sides, whether travel is expected, whether an annual flight home is included, and any bonuses (13th-month is common). A one-page contract in English (and optionally Tagalog) signed by both sides prevents most classic disputes. Free bilingual template at /contract-template.',
+      },
+    ],
+  },
 ];
 
 export function getGuideBySlug(slug) {

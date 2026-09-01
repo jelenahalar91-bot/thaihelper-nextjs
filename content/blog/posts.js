@@ -9,9 +9,9 @@ export const blogPosts = [
 
   {
     slug: 'real-thaihelper-reviews-trustpilot-july-2026',
-    title: 'What Real Users Say: 5 Trustpilot Reviews for ThaiHelper (July 2026)',
+    title: 'What Real Users Say: 6 Trustpilot Reviews for ThaiHelper (2026)',
     description:
-      'Independent Trustpilot reviews from real ThaiHelper helpers and families. Full 5-star to 2-star breakdown, TrustScore 3.8, and what the platform actually delivers according to people who use it.',
+      'Independent Trustpilot reviews from real ThaiHelper helpers and families. Full 5-star to 2-star breakdown, TrustScore 3.9, and what the platform actually delivers according to people who use it.',
     category: 'families',
     date: '2026-07-27',
     readTime: 4,
@@ -23,12 +23,16 @@ export const blogPosts = [
       <p>Three months after launch, real users are leaving independent reviews about ThaiHelper on Trustpilot. Here's a summary of what people are saying — both the praise and the honest criticism — with links to the original reviews so you can read them yourself.</p>
 
       <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
-        <p style="margin:0 0 8px;font-weight:700;color:#006a62;">⭐ ThaiHelper TrustScore: 3.8 / 5 ("Great") &nbsp;·&nbsp; 5 reviews and counting</p>
+        <p style="margin:0 0 8px;font-weight:700;color:#006a62;">⭐ ThaiHelper TrustScore: 3.9 / 5 ("Great") &nbsp;·&nbsp; 6 reviews and counting</p>
         <p style="margin:0 0 12px;font-size:14px;color:#475569;">Read every review yourself on our independent Trustpilot profile:</p>
         <a href="https://www.trustpilot.com/review/thaihelper.app" target="_blank" rel="noopener" style="display:inline-block;background:#006a62;color:white;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;font-size:14px;">Read ThaiHelper reviews on Trustpilot →</a>
       </div>
 
-      <h2>The 5 reviews, in short</h2>
+      <h2>The reviews, in short</h2>
+
+      <h3>⭐⭐⭐⭐⭐ Anna Provata (verified family) — August 18, 2026</h3>
+      <blockquote>"Reliable."</blockquote>
+      <p>A one-word review that packs a punch. Anna joined ThaiHelper as a family in Chiang Mai and has been actively contacting helpers — this review came in the same day we asked warm families for honest feedback. Short, direct, exactly what a family looking for household staff wants to hear.</p>
 
       <h3>⭐⭐⭐⭐⭐ Akasa kiran (verified helper) — July 19, 2026</h3>
       <blockquote>"I had a wonderful experience with Thai Helper... The team was professional, reliable, friendly, and always willing to help. It's refreshing to work with a company that genuinely cares about its customers."</blockquote>
@@ -61,13 +65,13 @@ export const blogPosts = [
       <h2>Ready to browse helpers?</h2>
       <p>Browse the public helper directory — no signup required to look — at <a href="/helpers"><strong>thaihelper.app/helpers</strong></a>. Register free as a family at <a href="/employer-register">thaihelper.app/employer-register</a>.</p>
     `,
-    title_th: 'ThaiHelper รีวิวจริงจากผู้ใช้: 5 รีวิว Trustpilot (กรกฎาคม 2026)',
-    description_th: 'รีวิวอิสระบน Trustpilot จากผู้ช่วยและครอบครัวจริงที่ใช้ ThaiHelper. TrustScore 3.8 พร้อมรีวิว 5 ดาว ถึง 2 ดาว',
+    title_th: 'ThaiHelper รีวิวจริงจากผู้ใช้: 6 รีวิว Trustpilot (2026)',
+    description_th: 'รีวิวอิสระบน Trustpilot จากผู้ช่วยและครอบครัวจริงที่ใช้ ThaiHelper. TrustScore 3.9 พร้อมรีวิว 5 ดาว ถึง 2 ดาว',
     content_th: `
       <p>3 เดือนหลังจากเปิดตัว ผู้ใช้จริงกำลังเขียนรีวิวอิสระเกี่ยวกับ ThaiHelper บน Trustpilot ค่ะ นี่คือสรุปสิ่งที่ผู้คนกำลังพูด พร้อมลิงก์ไปยังรีวิวต้นฉบับเพื่อให้คุณอ่านเองได้</p>
 
       <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
-        <p style="margin:0 0 8px;font-weight:700;color:#006a62;">⭐ ThaiHelper TrustScore: 3.8 / 5 ("Great") &nbsp;·&nbsp; 5 รีวิว</p>
+        <p style="margin:0 0 8px;font-weight:700;color:#006a62;">⭐ ThaiHelper TrustScore: 3.9 / 5 ("Great") &nbsp;·&nbsp; 6 รีวิว</p>
         <a href="https://www.trustpilot.com/review/thaihelper.app" target="_blank" rel="noopener" style="display:inline-block;background:#006a62;color:white;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;font-size:14px;">อ่านรีวิว ThaiHelper บน Trustpilot →</a>
       </div>
 
@@ -390,7 +394,7 @@ export const blogPosts = [
       </ol>
 
       <h2>What families and helpers say about hiring on ThaiHelper</h2>
-      <p>These salary ranges are not theoretical. Below is what real families and helpers who have used ThaiHelper have said publicly in verified <a href="https://www.trustpilot.com/review/thaihelper.app">Trustpilot reviews</a> (current TrustScore 3.8 across 5 reviews):</p>
+      <p>These salary ranges are not theoretical. Below is what real families and helpers who have used ThaiHelper have said publicly in verified <a href="https://www.trustpilot.com/review/thaihelper.app">Trustpilot reviews</a> (current TrustScore 3.9 across 6 reviews):</p>
       <blockquote style="border-left:3px solid #006a62;padding:8px 16px;margin:16px 0;color:#333;font-style:italic;">
         "ThaiHelper has been a great help to me… it helps connect job seekers and employers in a safe and reliable way. Everything I've experienced has been legitimate." <br /><strong style="font-style:normal;">— EG, helper (Bangkok)</strong>
       </blockquote>
@@ -3035,7 +3039,7 @@ export const blogPosts = [
     slug: 'thaihelper-reviews-real-users-2026',
     title: 'What Families and Helpers Are Saying About ThaiHelper — 2026 Reviews',
     description:
-      'Real Trustpilot reviews from families and helpers using ThaiHelper in 2026. Honest feedback, including a helper who confused us with an app. TrustScore 3.8 across 5 verified reviews.',
+      'Real Trustpilot reviews from families and helpers using ThaiHelper in 2026. Honest feedback, including a helper who confused us with an app. TrustScore 3.9 across 6 verified reviews.',
     category: 'families',
     date: '2026-07-27',
     updated: '2026-07-27',
@@ -3072,13 +3076,13 @@ export const blogPosts = [
       <p>We replied to her review publicly with the fix. If you're on this page for the same reason: open <a href="/">thaihelper.app</a> directly in your phone's browser and you're in.</p>
 
       <h2>The full profile</h2>
-      <p>All five reviews, our public replies to each of them, and the current TrustScore are on our verified Trustpilot profile:</p>
+      <p>All six reviews (including the newest one that came in the day we asked warm families for honest feedback), our public replies, and the current TrustScore are on our verified Trustpilot profile:</p>
       <p style="text-align:center;margin:24px 0;">
         <a href="https://www.trustpilot.com/review/thaihelper.app" style="display:inline-block;background:#00B67A;color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">
           ★ Read all reviews on Trustpilot →
         </a>
       </p>
-      <p style="text-align:center;font-size:14px;color:#666;">TrustScore 3.8 · 5 reviews · <a href="https://www.trustpilot.com/review/thaihelper.app">trustpilot.com/review/thaihelper.app</a></p>
+      <p style="text-align:center;font-size:14px;color:#666;">TrustScore 3.9 · 6 reviews · <a href="https://www.trustpilot.com/review/thaihelper.app">trustpilot.com/review/thaihelper.app</a></p>
 
       <h2>Want to add your own review?</h2>
       <p>If ThaiHelper worked for you — as a family or as a helper — a two-minute review helps other Thai families and helpers find us instead of paying a month of salary to an agency. Write in Thai, English, or any language you like:</p>
@@ -3098,7 +3102,7 @@ export const blogPosts = [
       <p>ThaiHelper เป็นแพลตฟอร์มเชื่อมต่อโดยตรง — ไม่มีนายหน้าอยู่ตรงกลาง ไม่มีค่าธรรมเนียมทั้งสองฝ่าย รูปแบบนี้จะทำงานได้ก็ต่อเมื่อผู้คนไว้ใจอย่างแท้จริง เราต้องการที่สาธารณะจากบุคคลที่สาม ที่พี่เลี้ยงในเชียงใหม่หรือครอบครัวในกรุงเทพจะได้ยินจากผู้ใช้งานจริงคนอื่นก่อนสมัคร Trustpilot คือที่นั่น</p>
 
       <h2>รีวิวจนถึงตอนนี้</h2>
-      <p>เรามีรีวิว 5 อันบน Trustpilot คะแนน 3.8 จาก 5 ดาว — ส่วนใหญ่ 5 ดาว จากทั้งผู้ช่วยและครอบครัว รวมถึงหนึ่งรีวิว 2 ดาวจากผู้ใช้ที่เข้าใจผิดว่า ThaiHelper เป็นแอปพลิเคชัน (ThaiHelper คือ <strong>เว็บไซต์</strong> ใช้ได้บนโทรศัพท์ทุกรุ่นผ่านเบราว์เซอร์ ไม่ต้องดาวน์โหลด)</p>
+      <p>เรามีรีวิว 6 อันบน Trustpilot คะแนน 3.9 จาก 5 ดาว — ส่วนใหญ่ 5 ดาว จากทั้งผู้ช่วยและครอบครัว รวมถึงหนึ่งรีวิว 2 ดาวจากผู้ใช้ที่เข้าใจผิดว่า ThaiHelper เป็นแอปพลิเคชัน (ThaiHelper คือ <strong>เว็บไซต์</strong> ใช้ได้บนโทรศัพท์ทุกรุ่นผ่านเบราว์เซอร์ ไม่ต้องดาวน์โหลด)</p>
 
       <p style="text-align:center;margin:24px 0;">
         <a href="https://www.trustpilot.com/review/thaihelper.app" style="display:inline-block;background:#00B67A;color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">
@@ -3113,7 +3117,7 @@ export const blogPosts = [
       </p>
     `,
     title_th: 'ครอบครัวและผู้ช่วยพูดถึง ThaiHelper อย่างไร — รีวิว 2026',
-    description_th: 'รีวิว Trustpilot จริงจากครอบครัวและผู้ช่วยที่ใช้ ThaiHelper ในปี 2026 คะแนน 3.8/5 จาก 5 รีวิวที่ผ่านการยืนยัน',
+    description_th: 'รีวิว Trustpilot จริงจากครอบครัวและผู้ช่วยที่ใช้ ThaiHelper ในปี 2026 คะแนน 3.9/5 จาก 6 รีวิวที่ผ่านการยืนยัน',
   },
 ];
 
