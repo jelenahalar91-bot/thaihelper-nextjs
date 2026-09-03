@@ -95,7 +95,6 @@ const T = {
     hero_p: 'Browse verified nannies, housekeepers, chefs, drivers and more in your city. Create a free account and start messaging helpers today.',
     hero_cta: 'Create Free Account',
     hero_app: 'Get instant alerts when someone messages you.',
-    hero_launch_banner: '🎉 Free for families — message any helper directly, no fees, no commission.',
     hero_browse: 'Browse Helper Profiles — No account needed',
     hero_badge: '100% free for everyone',
     // Work permit banner (just below hero)
@@ -232,7 +231,6 @@ const T = {
     hero_p: 'ค้นหาพี่เลี้ยง แม่บ้าน พ่อครัว คนขับรถ และอื่นๆ สร้างบัญชีฟรีและเริ่มส่งข้อความหาผู้ช่วยได้วันนี้',
     hero_cta: 'สร้างบัญชีฟรี',
     hero_app: 'รับการแจ้งเตือนทันทีเมื่อมีคนส่งข้อความถึงคุณ',
-    hero_launch_banner: '🎉 ฟรีสำหรับครอบครัว — ส่งข้อความถึงผู้ช่วยได้โดยตรง ไม่มีค่าธรรมเนียม',
     hero_browse: 'ดูโปรไฟล์ผู้ช่วย — ไม่ต้องสมัคร',
     hero_badge: 'ฟรี 100% สำหรับทุกคน',
     wp_label: 'ใบอนุญาตทำงานและวีซ่า',
@@ -372,18 +370,7 @@ const PROFILES = [
 // Featured Helpers carousel so the employer landing shows real, live
 // people instead of stock images. If the fetch fails, we just render an
 // empty array — the section is hidden by the JSX guard below.
-export async function getServerSideProps({ req }) {
-  // Detect anonymous visitor — same logic as /helpers. The launch
-  // banner is a conversion tool aimed at not-yet-registered families;
-  // logged-in users already get the value and don't need to see the
-  // "free for families" framing again.
-  let isAnonymous = true;
-  try {
-    const { getAnySession } = await import('@/lib/auth');
-    const session = await getAnySession(req);
-    if (session) isAnonymous = false;
-  } catch {}
-
+export async function getServerSideProps() {
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
     const { getDisplayAge } = await import('@/lib/age');
@@ -445,10 +432,10 @@ export async function getServerSideProps({ req }) {
         photo: row.photo_url || '',
       }));
 
-    return { props: { featuredHelpers, isAnonymous } };
+    return { props: { featuredHelpers } };
   } catch (err) {
     console.error('Failed to fetch featured helpers:', err);
-    return { props: { featuredHelpers: [], isAnonymous } };
+    return { props: { featuredHelpers: [] } };
   }
 }
 
@@ -463,7 +450,7 @@ function getCategoryLabel(slugCsv, lang) {
     .join(' · ');
 }
 
-export default function Employers({ featuredHelpers = [], isAnonymous = true }) {
+export default function Employers({ featuredHelpers = [] }) {
   const { lang, setLang: changeLang } = useLang();
   const t = T[lang];
   const [viewingHelper, setViewingHelper] = useState(null);
@@ -595,11 +582,6 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                 <p className="text-lg md:text-xl max-w-xl mb-6 leading-relaxed text-on-surface-variant">
                   {t.hero_p}
                 </p>
-                {isAnonymous && (
-                  <div className="inline-block mb-6 px-4 py-2 rounded-full bg-[#FFF4E5] text-[#A6612A] text-sm font-semibold border border-[#F4A261]/30">
-                    {t.hero_launch_banner}
-                  </div>
-                )}
                 <div>
                   <Link className="px-8 py-4 rounded-xl bg-[#001b3d] text-white font-bold text-lg shadow-xl shadow-[#001b3d]/20 hover:bg-[#002d5f] hover:scale-[1.02] transition-all inline-block" href="/signup">{t.hero_cta}</Link>
                 </div>
@@ -628,7 +610,7 @@ export default function Employers({ featuredHelpers = [], isAnonymous = true }) 
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 flex-1 content-around">
+                <div className="grid grid-cols-2 gap-2.5 flex-1 content-start">
                   {recentHelpers.slice(0, 8).map((entry, i) => (
                     <Link
                       key={i}
