@@ -24,13 +24,7 @@ import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
 import HelperCard from '@/components/HelperCard';
-// Phone verification flow is built but not deployed yet (waiting on
-// Twilio/Stripe). PhoneVerificationCard, lib/phone-otp.js and the
-// /api/phone/* routes live on a feature branch — see CLAUDE-NOTES.md
-// (or the 2026-06-09 session memory) for the full plan. Re-enable
-// by reinstating this import + the JSX block below once the
-// component ships.
-// import PhoneVerificationCard from '@/components/PhoneVerificationCard';
+import PhoneVerificationCard from '@/components/PhoneVerificationCard';
 import { fetchEmployerProfile, updateEmployerProfile } from '@/lib/api/employer-auth-client';
 import { SEARCH_STATUS_VALUES, SEARCH_STATUS_LABELS } from '@/components/EmployerStatusPill';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
@@ -1059,8 +1053,23 @@ export default function EmployerDashboard() {
             </div>
           </div>
 
-          {/* Phone verification card slot — re-enable once the Twilio
-              integration and PhoneVerificationCard ship together. */}
+          {/* Verifying a phone raises this family's outreach ceiling
+              (see lib/spam-signals.js) — it is not required to use the site.
+              Hidden until SMS is configured, so nobody meets a dead button. */}
+          {process.env.NEXT_PUBLIC_PHONE_VERIFICATION_ENABLED === 'true' && (
+          <PhoneVerificationCard
+            role="employer"
+            phoneVerifiedAt={profile?.phone_verified_at}
+            phoneNumber={profile?.phone_number}
+            phoneCountryCode={profile?.phone_country_code}
+            lineLinkedAt={profile?.line_linked_at}
+            lang={lang}
+            onVerified={async () => {
+              const r = await fetchEmployerProfile();
+              if (r?.success) setProfile(r.profile);
+            }}
+          />
+          )}
 
           {/* ── Error banner ───────────────────────────── */}
           {errorBanner && (

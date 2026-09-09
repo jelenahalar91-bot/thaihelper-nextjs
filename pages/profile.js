@@ -79,11 +79,7 @@ import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
 import PushNotificationToggle from '@/components/PushNotificationToggle';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
 import AndroidAppBanner from '@/components/AndroidAppBanner';
-// Phone verification flow is built but not deployed yet (waiting on
-// Twilio). PhoneVerificationCard + lib/phone-otp.js + /api/phone/*
-// live on a local feature branch. Re-enable by reinstating this
-// import and the JSX block below once the component ships.
-// import PhoneVerificationCard from '@/components/PhoneVerificationCard';
+import PhoneVerificationCard from '@/components/PhoneVerificationCard';
 
 const T = {
   en: {
@@ -1693,8 +1689,19 @@ export default function Profile() {
               {/* ─── PUSH NOTIFICATIONS SECTION ─────────────────────── */}
               <PushNotificationToggle lang={lang} />
 
-              {/* Phone verification slot — re-enable once the Twilio
-                  integration and PhoneVerificationCard ship together. */}
+              {/* Optional — a verified number raises the outreach ceiling
+                  (see lib/spam-signals.js) and reassures families.
+                  Hidden until SMS is configured, so nobody meets a dead button. */}
+              {process.env.NEXT_PUBLIC_PHONE_VERIFICATION_ENABLED === 'true' && (
+              <PhoneVerificationCard
+                role="helper"
+                phoneVerifiedAt={profile?.phoneVerifiedAt}
+                phoneNumber={profile?.phoneNumber}
+                phoneCountryCode={profile?.phoneCountryCode}
+                lang={lang}
+                onVerified={fetchProfile}
+              />
+              )}
             </>
           )}
 

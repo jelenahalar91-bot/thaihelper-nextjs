@@ -63,12 +63,25 @@ function getTwilio() {
   }
 }
 
+// True only outside production. The dev fallback below prints the OTP to
+// the server log, so it must never be reachable on a deployed site: doing so
+// would tell every caller "code sent", send nothing, and leave the code
+// sitting in the platform logs.
+const IS_PRODUCTION =
+  process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production';
+
 async function sendSms({ to, body }) {
-  // Dev-mode: skip Twilio, log to console. Lets you build and test
-  // the entire flow before a Twilio account is set up.
-  if (DEV_LOG || !TWILIO_ACCOUNT_SID) {
+  // Dev-mode: skip Twilio, log to console. Lets you build and test the
+  // entire flow before a Twilio account is set up — local only.
+  if (!IS_PRODUCTION && (DEV_LOG || !TWILIO_ACCOUNT_SID)) {
     console.log(`[phone/send-otp] DEV — would send to ${to}: ${body}`);
     return { sid: 'DEV-DRYRUN' };
+  }
+
+  // Production with no Twilio configured: fail loudly rather than
+  // pretending the SMS went out.
+  if (!TWILIO_ACCOUNT_SID) {
+    throw new Error('twilio_not_configured');
   }
 
   const client = getTwilio();

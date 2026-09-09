@@ -18,7 +18,9 @@ import {
   OUTREACH_WINDOW_DAYS,
   OUTREACH_ALERT,
   OUTREACH_BLOCK,
+  OUTREACH_UNVERIFIED_BLOCK,
   OUTREACH_DAILY_BLOCK,
+  outreachCapFor,
 } from '../../lib/spam-signals';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -34,16 +36,17 @@ const OUTREACH_BUCKET = 'conversation-start';
  * Returns true when the caller may proceed. When it returns false the caller
  * must not create anything; the admin has already been alerted.
  */
-async function allowNewConversation(session) {
+async function allowNewConversation(session, phoneVerified) {
   const key = session.ref;
   const windowMs = OUTREACH_WINDOW_DAYS * DAY_MS;
+  const cap = outreachCapFor(phoneVerified);
 
   const [inWindow, today] = await Promise.all([
     countRateLimit({ bucket: OUTREACH_BUCKET, key, windowMs }),
     countRateLimit({ bucket: OUTREACH_BUCKET, key, windowMs: DAY_MS }),
   ]);
 
-  const blocked = inWindow >= OUTREACH_BLOCK || today >= OUTREACH_DAILY_BLOCK;
+  const blocked = inWindow >= cap || today >= OUTREACH_DAILY_BLOCK;
 
   // One alert per account per day, whether it ends in a block or not.
   if (blocked || inWindow + 1 >= OUTREACH_ALERT) {
@@ -61,8 +64,13 @@ async function allowNewConversation(session) {
           `${OUTREACH_WINDOW_DAYS} days, ${today} of them in the last 24 hours.`,
           '',
           blocked
-            ? `This attempt was BLOCKED (limits: ${OUTREACH_BLOCK} per ${OUTREACH_WINDOW_DAYS}d, ${OUTREACH_DAILY_BLOCK} per day).`
-            : `Still allowed — alert threshold is ${OUTREACH_ALERT}, block is ${OUTREACH_BLOCK}.`,
+            ? `This attempt was BLOCKED (limits: ${cap} per ${OUTREACH_WINDOW_DAYS}d, ${OUTREACH_DAILY_BLOCK} per day).`
+            : `Still allowed — alert threshold is ${OUTREACH_ALERT}, block is ${cap}.`,
+          phoneVerified
+            ? 'Phone: verified.'
+            : cap === OUTREACH_BLOCK
+              ? 'Phone: not verified, but SMS is not configured yet, so the full cap applies.'
+              : `Phone: NOT verified — that is why the cap is ${OUTREACH_UNVERIFIED_BLOCK} rather than ${OUTREACH_BLOCK}.`,
           '',
           'A busy legitimate recruiter does reach the alert threshold — the',
           'highest honest account on record opened 33 in 30 days. Check before',
@@ -124,7 +132,7 @@ export default async function handler(req, res) {
       // email_verified is the access gate as of 2026-06-09 (see
       // lib/access.js); without it loaded here, hasActiveAccess
       // sees undefined and blocks every conversation start.
-      .select('employer_ref, first_name, preferred_language, access_until, access_tier, email_verified, status')
+      .select('employer_ref, first_name, preferred_language, access_until, access_tier, email_verified, status, phone_verified_at')
       .eq('employer_ref', session.ref)
       .single();
     if (!data) return res.status(401).json({ error: 'Not authenticated' });
@@ -318,7 +326,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ conversation_id: existing.id, existed: true });
       }
 
-      if (!(await allowNewConversation(session))) {
+      if (!(await allowNewConversation(session, !!employer.phone_verified_at))) {
         return res.status(429).json({ error: 'outreach_limit' });
       }
 
@@ -345,7 +353,7 @@ export default async function handler(req, res) {
       // gated at all, so a suspended helper could still open new chats.
       const { data: senderHelper } = await supabase
         .from('helper_profiles')
-        .select('status')
+        .select('status, phone_verified_at')
         .eq('helper_ref', session.ref)
         .single();
       if (senderHelper?.status === 'suspended') {
@@ -377,7 +385,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ conversation_id: existing.id, existed: true });
       }
 
-      if (!(await allowNewConversation(session))) {
+      if (!(await allowNewConversation(session, !!senderHelper?.phone_verified_at))) {
         return res.status(429).json({ error: 'outreach_limit' });
       }
 
