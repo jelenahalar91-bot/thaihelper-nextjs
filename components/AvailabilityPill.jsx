@@ -3,10 +3,15 @@
  *   - 'available'       — actively looking for work (teal)
  *   - 'open_to_offers'  — has a job but interested in offers (gold)
  *   - 'working'         — has a job, doesn't want to be contacted (navy)
+ *   - 'hidden'          — profile taken offline by the helper (grey)
  *
  * Used on helper cards, the "Recently joined" panel, and the helper's
  * own profile dashboard. Defaults to 'available' when status is missing
  * or unrecognised so existing rows pre-migration still render.
+ *
+ * Note: a 'hidden' helper is filtered out of every public list before it
+ * reaches a family, so that pill is only ever seen by the helper on their
+ * own dashboard. Mirrors EmployerStatusPill's 'hidden' on the family side.
  */
 
 // "Looking for work" instead of "Available": families read "Available" as
@@ -15,6 +20,7 @@ const LABELS = {
   available:      { en: 'Looking for work', th: 'กำลังหางาน' },
   open_to_offers: { en: 'Open to offers',   th: 'เปิดรับข้อเสนอ' },
   working:        { en: 'Working',          th: 'มีงานแล้ว' },
+  hidden:         { en: 'Hidden',           th: 'ซ่อนโปรไฟล์' },
 };
 
 // Soft pill styles using brand colour tokens with low-alpha backgrounds.
@@ -23,6 +29,7 @@ const STYLES = {
   available:      'bg-primary/10 text-primary',
   open_to_offers: 'bg-gold/15 text-[#A6612A]',
   working:        'bg-on-background/10 text-on-background/75',
+  hidden:         'bg-on-background/10 text-on-background/60',
 };
 
 export default function AvailabilityPill({ status, lang = 'en', size = 'md', className = '' }) {

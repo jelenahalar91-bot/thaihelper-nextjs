@@ -119,6 +119,7 @@ const T = {
     msg_send_locked: 'Please verify your email to send messages and read full conversations.',
     err_start_locked: 'Please verify your email to message helpers.',
     err_generic: 'Something went wrong. Please try again.',
+    err_helper_unavailable: 'This helper has taken their profile offline and isn’t accepting messages right now.',
     msg_delete_error: 'Could not delete the conversation. Please try again.',
     err_translation_failed: '',
     err_too_long: 'Message is too long (max {n} characters).',
@@ -225,6 +226,7 @@ const T = {
     msg_send_locked: 'กรุณายืนยันอีเมลเพื่อส่งข้อความและอ่านบทสนทนาแบบเต็ม',
     err_start_locked: 'กรุณายืนยันอีเมลเพื่อส่งข้อความหาผู้ช่วย',
     err_generic: 'เกิดข้อผิดพลาด กรุณาลองอีกครั้ง',
+    err_helper_unavailable: 'ผู้ช่วยคนนี้ได้ซ่อนโปรไฟล์ไว้ และตอนนี้ยังไม่รับข้อความ',
     msg_delete_error: 'ไม่สามารถลบการสนทนาได้ กรุณาลองอีกครั้ง',
     err_translation_failed: '',
     err_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
@@ -678,6 +680,8 @@ export default function EmployerDashboard() {
       if (err.code === 'email_not_verified') {
         setErrorBanner(t.msg_verify_required_body);
         setActiveTab('messages');
+      } else if (err.code === 'helper_unavailable') {
+        setErrorBanner(t.err_helper_unavailable);
       } else {
         console.error('Start conversation error:', err);
         setErrorBanner(t.err_generic);

@@ -27,6 +27,9 @@ export default async function handler(req, res) {
         .from('helper_profiles')
         .select('first_name, last_name, category, city, photo_url, created_at, availability_status')
         .or('status.eq.active,status.is.null')
+        // Helpers who took their profile offline. NULL is pre-migration
+        // data and counts as visible, hence the .or() rather than .neq().
+        .or('availability_status.neq.hidden,availability_status.is.null')
         .eq('email_verified', true)
         .order('created_at', { ascending: false })
         .limit(limit),
@@ -34,6 +37,7 @@ export default async function handler(req, res) {
         .from('helper_profiles')
         .select('helper_ref', { count: 'exact', head: true })
         .or('status.eq.active,status.is.null')
+        .or('availability_status.neq.hidden,availability_status.is.null')
         .eq('email_verified', true),
     ]);
 

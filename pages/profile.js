@@ -99,6 +99,14 @@ const T = {
     menu_profile: 'Profile',
     menu_settings: 'Settings',
     menu_directory: 'Expert Directory',
+    // Availability toggle
+    avail_title: 'Your availability',
+    avail_subtitle: 'Tell families whether they can contact you about work.',
+    avail_hint_available: 'Families can see your profile and message you about jobs.',
+    avail_hint_open_to_offers: 'Still listed, badged “Open to offers” — families can message you.',
+    avail_hint_working: 'Still listed, badged “Working” — families can still message you.',
+    avail_hint_hidden: 'Your profile is hidden from families. No new messages and no emails. Switch back to “Looking for work” whenever you need a job again.',
+    avail_hidden_banner: 'Your profile is hidden — families can’t see you or message you, and we won’t email you. Your account and your messages stay saved. Tap “Looking for work” above to go back online any time.',
     notify_title: 'Email notifications',
     notify_label: 'Email me when I receive a new message',
     notify_hint: 'We\'ll email you when an employer writes to you. Unsubscribe any time from the link in every email.',
@@ -289,6 +297,13 @@ const T = {
     menu_profile: 'โปรไฟล์',
     menu_settings: 'ตั้งค่า',
     menu_directory: 'รายชื่อผู้เชี่ยวชาญ',
+    avail_title: 'สถานะของคุณในขณะนี้',
+    avail_subtitle: 'บอกครอบครัวว่าตอนนี้ติดต่อคุณเรื่องงานได้หรือไม่',
+    avail_hint_available: 'ครอบครัวเห็นโปรไฟล์ของคุณและส่งข้อความเรื่องงานถึงคุณได้',
+    avail_hint_open_to_offers: 'ยังแสดงอยู่พร้อมป้าย “เปิดรับข้อเสนอ” ครอบครัวยังส่งข้อความถึงคุณได้',
+    avail_hint_working: 'ยังแสดงอยู่พร้อมป้าย “มีงานแล้ว” ครอบครัวยังส่งข้อความถึงคุณได้',
+    avail_hint_hidden: 'โปรไฟล์ของคุณถูกซ่อนจากครอบครัวแล้ว จะไม่มีข้อความใหม่และไม่มีอีเมลถึงคุณ เมื่อต้องการหางานอีกครั้ง กดปุ่ม “กำลังหางาน” ได้ทุกเมื่อ',
+    avail_hidden_banner: 'โปรไฟล์ของคุณถูกซ่อนอยู่ — ครอบครัวจะไม่เห็นคุณ ส่งข้อความถึงคุณไม่ได้ และเราจะไม่ส่งอีเมลหาคุณ บัญชีและข้อความของคุณยังถูกเก็บไว้ทั้งหมด เมื่ออยากหางานอีกครั้ง เพียงกด “กำลังหางาน” ด้านบน',
     notify_title: 'การแจ้งเตือนทางอีเมล',
     notify_label: 'ส่งอีเมลหาฉันเมื่อได้รับข้อความใหม่',
     notify_hint: 'เราจะส่งอีเมลเมื่อมีนายจ้างส่งข้อความถึงคุณ ยกเลิกได้ทุกเมื่อจากลิงก์ในทุกอีเมล',
@@ -693,8 +708,9 @@ export default function Profile() {
   };
 
   // ─── Availability status quick toggle ─────────────────────────────────
-  // 3-way toggle (available / open_to_offers / working). Saves immediately
-  // on click — no edit form, no save button.
+  // 4-way toggle (available / open_to_offers / working / hidden). Saves
+  // immediately on click — no edit form, no save button. 'hidden' takes the
+  // profile offline without deleting anything; see AvailabilityPill.
   const [availSaving, setAvailSaving] = useState(false);
   const handleAvailabilityChange = async (nextValue) => {
     if (availSaving) return;
@@ -1333,19 +1349,20 @@ export default function Profile() {
               <div style={{ marginBottom: '20px', background: 'white', borderRadius: '16px', border: '1px solid #E2ECF0', padding: isMobile ? '16px' : '20px' }}>
                 <div style={{ marginBottom: '12px' }}>
                   <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: '#1B3A4B', marginBottom: '4px' }}>
-                    {lang === 'th' ? 'สถานะของคุณในขณะนี้' : 'Your availability'}
+                    {t.avail_title}
                   </div>
                   <div style={{ fontSize: '13px', color: '#6B8999' }}>
-                    {lang === 'th' ? 'เลือกว่าครอบครัวสามารถติดต่อคุณได้หรือไม่' : 'Tell families whether they can contact you about work.'}
+                    {t.avail_subtitle}
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '8px' }}>
                   {AVAILABILITY_VALUES.map((s) => {
                     const isActive = (p.availabilityStatus || 'available') === s;
                     const palette = {
                       available:      { active: '#006a62', text: '#006a62', soft: 'rgba(0,106,98,0.08)' },
                       open_to_offers: { active: '#F4A261', text: '#A6612A', soft: 'rgba(244,162,97,0.12)' },
                       working:        { active: '#1B3A4B', text: '#1B3A4B', soft: 'rgba(27,58,75,0.08)' },
+                      hidden:         { active: '#6B8999', text: '#6B8999', soft: 'rgba(107,137,153,0.10)' },
                     }[s];
                     return (
                       <button
@@ -1375,6 +1392,25 @@ export default function Profile() {
                     );
                   })}
                 </div>
+                {/* One-line hint describing what the active status does. */}
+                <div style={{ marginTop: '10px', fontSize: '12.5px', color: '#6B8999', lineHeight: 1.5 }}>
+                  {t[`avail_hint_${p.availabilityStatus || 'available'}`]}
+                </div>
+                {/* Hidden is easy to forget about — say so plainly, and make
+                    clear the account itself is still there. */}
+                {p.availabilityStatus === 'hidden' && (
+                  <div style={{
+                    display: 'flex', gap: '10px', alignItems: 'flex-start',
+                    marginTop: '12px', padding: '12px 14px',
+                    background: '#F1F5F7', border: '1px solid #D8E3E8',
+                    borderRadius: '12px',
+                  }}>
+                    <span style={{ fontSize: '18px', lineHeight: 1.3 }} aria-hidden>🔒</span>
+                    <p style={{ margin: 0, fontSize: '13px', color: '#1B3A4B', lineHeight: 1.55 }}>
+                      {t.avail_hidden_banner}
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Stats row – real metrics */}

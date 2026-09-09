@@ -105,10 +105,15 @@ export default async function handler(req, res) {
       console.warn('Helpers list: trust-signal fetch failed:', trustErr.message);
     }
 
-    const helpers = (data || []).map((row) => toPublicCard(row, {
-      hasCertificates: certSet.has(row.helper_ref),
-      referenceCount: refCounts.get(row.helper_ref) || 0,
-    }));
+    // Helpers who took their profile offline ('hidden') are dropped here
+    // rather than in the query, so pre-migration rows with a NULL status
+    // are kept — a Postgres .neq() would exclude them.
+    const helpers = (data || [])
+      .filter((row) => row.availability_status !== 'hidden')
+      .map((row) => toPublicCard(row, {
+        hasCertificates: certSet.has(row.helper_ref),
+        referenceCount: refCounts.get(row.helper_ref) || 0,
+      }));
 
     // Cache publicly for 60s at the edge — browse list doesn't need to be realtime
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');

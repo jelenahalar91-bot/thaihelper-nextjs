@@ -111,11 +111,12 @@ export default async function handler(req, res) {
       // weeks ago but verified yesterday is still surfaced in the digest.
       const { data: helpers, error: hErr } = await supabase
         .from('helper_profiles')
-        .select('helper_ref, first_name, city, category, email_verified, status')
+        .select('helper_ref, first_name, city, category, email_verified, status, availability_status')
         .eq('city', emp.city)
         .eq('email_verified', true)
         .gt('email_verified_at', since)
         .or('status.eq.active,status.is.null')
+        .or('availability_status.neq.hidden,availability_status.is.null')
         .limit(20);
 
       if (hErr) {
@@ -189,12 +190,15 @@ export default async function handler(req, res) {
     .from('helper_profiles')
     .select(
       'helper_ref, first_name, email, city, category, notify_on_message, ' +
-      'line_user_id, notify_via_line, last_match_notification_at, status'
+      'line_user_id, notify_via_line, last_match_notification_at, status, ' +
+      'availability_status'
     )
     .eq('email_verified', true)
     .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${cooldownCutoff}`)
     .neq('city', 'other')
     .or('status.eq.active,status.is.null')
+    // Helpers who hid their profile don't want match mail at all.
+    .or('availability_status.neq.hidden,availability_status.is.null')
     .limit(MAX_RECIPIENTS_PER_RUN);
 
   if (hlpErr) {

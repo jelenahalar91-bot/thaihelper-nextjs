@@ -161,7 +161,7 @@ export default async function handler(req, res) {
       }
 
       // Same shape for availability_status.
-      const AVAILABILITY_VALUES = ['available', 'open_to_offers', 'working'];
+      const AVAILABILITY_VALUES = ['available', 'open_to_offers', 'working', 'hidden'];
       if (
         incoming.availabilityStatus !== undefined
         && incoming.availabilityStatus !== null
@@ -267,7 +267,7 @@ export default async function handler(req, res) {
       if ('city' in updates || 'category' in updates) {
         const { data } = await supabase
           .from('helper_profiles')
-          .select('city, category, first_name, email_verified')
+          .select('city, category, first_name, email_verified, availability_status')
           .eq('helper_ref', session.ref)
           .eq('email', session.email)
           .single();
@@ -298,6 +298,7 @@ export default async function handler(req, res) {
               first_name: prev.first_name || '',
               city:     updates.city     ?? prev.city,
               category: updates.category ?? prev.category,
+              availability_status: updates.availability_status ?? prev.availability_status,
             });
           } catch (err) {
             console.error('Match re-trigger on helper profile update failed:', err.message);

@@ -810,6 +810,9 @@ export async function getServerSideProps({ req }) {
         .from('helper_profiles')
         .select('first_name, last_name, category, city, photo_url, created_at, availability_status')
         .or('status.eq.active,status.is.null')
+        // Mirrors /api/recent-helpers — helpers who hid their profile
+        // are out; NULL is pre-migration data and stays visible.
+        .or('availability_status.neq.hidden,availability_status.is.null')
         .eq('email_verified', true)
         .order('created_at', { ascending: false })
         .limit(4),
@@ -817,6 +820,7 @@ export async function getServerSideProps({ req }) {
         .from('helper_profiles')
         .select('helper_ref', { count: 'exact', head: true })
         .or('status.eq.active,status.is.null')
+        .or('availability_status.neq.hidden,availability_status.is.null')
         .eq('email_verified', true),
     ]);
     if (!recentResult.error) {

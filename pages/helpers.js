@@ -260,44 +260,46 @@ export async function getServerSideProps({ req }) {
       console.warn('SSR helpers: trust-signal fetch failed:', trustErr.message);
     }
 
-    const helpers = (data || []).map((row) => ({
-      ref: row.helper_ref,
-      firstName: row.first_name,
-      lastName: row.last_name ? row.last_name.charAt(0) + '.' : '',
-      age: getDisplayAge(row) || null,
-      category: row.category || '',
-      skills: row.skills || '',
-      city: row.city || '',
-      area: row.area || '',
-      areaEn: row.area_en || '',
-      availabilityStatus: row.availability_status || 'available',
-      additionalCities: row.additional_cities || '',
-      experience: row.experience || '',
-      languages: row.languages || '',
-      rate: row.rate || '',
-      education: row.education || '',
-      educationEn: row.education_en || '',
-      certificates: row.certificates || '',
-      bio: row.bio || '',
-      bioEn: row.bio_en || '',
-      photo: row.photo_url || '',
-      createdAt: row.created_at || null,
-      lastActiveAt: row.last_login_at || null,
-      ratingAvg: row.rating_avg != null ? Number(row.rating_avg) : null,
-      ratingCount: row.rating_count || 0,
-      hasWhatsApp: !!row.whatsapp,
-      hasEmail: !!row.email,
-      // Mirror the public masking from /api/helpers so the URL filter
-      // and the SSR-rendered page agree on what's visible.
-      wpStatus: maskWpStatusForPublic(row.work_permit_status),
-      nationality: row.nationality === 'prefer_not_say' ? null : (row.nationality || null),
-      // Trust badges — booleans only, number never exposed publicly.
-      phoneVerified: !!row.phone_verified_at,
-      lineVerified: !!row.line_linked_at,
-      // Quality signals — presence only (content stays gated).
-      hasCertificates: certSet.has(row.helper_ref),
-      referenceCount: refCounts.get(row.helper_ref) || 0,
-    }));
+    const helpers = (data || [])
+      .filter((row) => row.availability_status !== 'hidden')
+      .map((row) => ({
+        ref: row.helper_ref,
+        firstName: row.first_name,
+        lastName: row.last_name ? row.last_name.charAt(0) + '.' : '',
+        age: getDisplayAge(row) || null,
+        category: row.category || '',
+        skills: row.skills || '',
+        city: row.city || '',
+        area: row.area || '',
+        areaEn: row.area_en || '',
+        availabilityStatus: row.availability_status || 'available',
+        additionalCities: row.additional_cities || '',
+        experience: row.experience || '',
+        languages: row.languages || '',
+        rate: row.rate || '',
+        education: row.education || '',
+        educationEn: row.education_en || '',
+        certificates: row.certificates || '',
+        bio: row.bio || '',
+        bioEn: row.bio_en || '',
+        photo: row.photo_url || '',
+        createdAt: row.created_at || null,
+        lastActiveAt: row.last_login_at || null,
+        ratingAvg: row.rating_avg != null ? Number(row.rating_avg) : null,
+        ratingCount: row.rating_count || 0,
+        hasWhatsApp: !!row.whatsapp,
+        hasEmail: !!row.email,
+        // Mirror the public masking from /api/helpers so the URL filter
+        // and the SSR-rendered page agree on what's visible.
+        wpStatus: maskWpStatusForPublic(row.work_permit_status),
+        nationality: row.nationality === 'prefer_not_say' ? null : (row.nationality || null),
+        // Trust badges — booleans only, number never exposed publicly.
+        phoneVerified: !!row.phone_verified_at,
+        lineVerified: !!row.line_linked_at,
+        // Quality signals — presence only (content stays gated).
+        hasCertificates: certSet.has(row.helper_ref),
+        referenceCount: refCounts.get(row.helper_ref) || 0,
+      }));
 
     return {
       props: {

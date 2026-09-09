@@ -293,7 +293,7 @@ export default async function handler(req, res) {
           // Sender is employer → recipient is helper
           const { data: hlp } = await supabase
             .from('helper_profiles')
-            .select('first_name, email, notify_on_message, helper_ref')
+            .select('first_name, email, notify_on_message, helper_ref, availability_status')
             .eq('helper_ref', conv.helper_ref)
             .single();
           if (hlp) {
@@ -301,7 +301,10 @@ export default async function handler(req, res) {
             recipientName = hlp.first_name;
             recipientRole = 'helper';
             recipientRef = hlp.helper_ref;
-            notifyOptedIn = hlp.notify_on_message !== false;
+            // A hidden profile is a full opt-out: no new-message emails
+            // either, whatever the notify_on_message flag says.
+            notifyOptedIn = hlp.notify_on_message !== false
+              && hlp.availability_status !== 'hidden';
           }
         }
 
@@ -348,13 +351,14 @@ export default async function handler(req, res) {
         // Helper preferred_language lives in user_preferences, not helper_profiles
         const { data: hlp } = await supabase
           .from('helper_profiles')
-          .select('helper_ref, notify_on_message')
+          .select('helper_ref, notify_on_message, availability_status')
           .eq('helper_ref', conv.helper_ref)
           .single();
         if (hlp) {
           recipientRole = 'helper';
           recipientRef = hlp.helper_ref;
-          notifyOptedIn = hlp.notify_on_message !== false;
+          notifyOptedIn = hlp.notify_on_message !== false
+            && hlp.availability_status !== 'hidden';
           const { data: prefs } = await supabase
             .from('user_preferences')
             .select('preferred_language')

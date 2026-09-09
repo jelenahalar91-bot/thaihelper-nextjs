@@ -227,10 +227,17 @@ export default async function handler(req, res) {
 
       const { data: helper } = await supabase
         .from('helper_profiles')
-        .select('helper_ref, first_name')
+        .select('helper_ref, first_name, availability_status')
         .eq('helper_ref', helper_ref)
         .single();
       if (!helper) return res.status(404).json({ error: 'Helper not found' });
+
+      // The helper took their profile offline. They're already filtered out
+      // of the browse list, but a favourite or an old link can still reach
+      // here — don't start a conversation they'd never want.
+      if (helper.availability_status === 'hidden') {
+        return res.status(403).json({ error: 'helper_unavailable' });
+      }
 
       const { data: existing } = await supabase
         .from('conversations')

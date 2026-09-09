@@ -129,7 +129,7 @@ export default async function handler(req, res) {
         if (!hlp) {
           const { data } = await supabase
             .from('helper_profiles')
-            .select('first_name, email, notify_on_message, helper_ref')
+            .select('first_name, email, notify_on_message, helper_ref, availability_status')
             .eq('helper_ref', conv.helper_ref)
             .maybeSingle();
           hlp = data || null;
@@ -140,7 +140,9 @@ export default async function handler(req, res) {
           recipientName = hlp.first_name;
           recipientRole = 'helper';
           recipientRef = hlp.helper_ref;
-          notifyOptedIn = hlp.notify_on_message !== false;
+          // A hidden profile means "stop contacting me" — no reminders.
+          notifyOptedIn = hlp.notify_on_message !== false
+            && hlp.availability_status !== 'hidden';
         }
       }
 

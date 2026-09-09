@@ -45,6 +45,7 @@ export async function getStaticProps({ params }) {
       .from('helper_profiles')
       .select('first_name, last_name, age, date_of_birth, category, city, area, experience, languages, photo_url, bio, bio_en, phone_verified_at, line_linked_at')
       .or('status.eq.active,status.is.null')
+      .or('availability_status.neq.hidden,availability_status.is.null')
       .eq('email_verified', true)
       .order('created_at', { ascending: false })
       .limit(6);

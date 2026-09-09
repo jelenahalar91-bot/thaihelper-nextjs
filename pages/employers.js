@@ -386,6 +386,7 @@ export async function getServerSideProps() {
         'bio, bio_en, photo_url, created_at'
       )
       .or('status.eq.active,status.is.null')
+      .or('availability_status.neq.hidden,availability_status.is.null')
       .eq('email_verified', true)
       .not('photo_url', 'is', null)
       .not('bio', 'is', null)
