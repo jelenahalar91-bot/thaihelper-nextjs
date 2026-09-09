@@ -624,11 +624,12 @@ export const blogPosts = [
 
   {
     slug: 'expat-guide-domestic-help-bangkok',
-    title: 'Expat Guide: Finding Reliable Domestic Help in Bangkok',
+    title: 'Expat Guide: Finding Reliable Domestic Help in Bangkok (2026)',
     description:
-      'New to Bangkok? This expat guide covers everything about finding maids, nannies, cooks, and drivers in Bangkok — from neighborhoods to pricing to cultural tips.',
+      'New to Bangkok? Expat guide to finding maids, nannies, cooks, and drivers — real 2026 rates, neighborhood-by-neighborhood availability, and cultural tips. Data from 400+ verified helpers in Bangkok.',
     category: 'families',
     date: '2026-03-28',
+    updated: '2026-09-09',
     readTime: 9,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=800&q=80',
@@ -681,6 +682,7 @@ export const blogPosts = [
     `,
     content: `
       <p>Bangkok is one of the most popular expat destinations in the world — and one of the best places to find affordable, skilled household help. Whether you need a nanny for your toddler, a housekeeper for your condo, or a private cook for dinner parties, this guide has you covered.</p>
+      <p><em>Updated 9 September 2026. All availability and pricing below is cross-checked against 412 verified helpers currently listed in Bangkok on ThaiHelper — 150 nannies, 136 housekeepers, 97 drivers, 111 elder-care specialists, 99 tutors, 60 chefs, and 109 pet-sitters.</em></p>
 
       <h2>Types of Household Help Available in Bangkok</h2>
       <ul>
@@ -2004,10 +2006,11 @@ export const blogPosts = [
 
   {
     slug: 'filipino-helpers-thailand-guide',
-    title: 'Complete Guide for Filipino Helpers Working in Thailand',
-    description: 'Everything Filipino nannies, housekeepers, and caregivers need to know about working in Thailand — visas, pay, cultural tips, and how to find English-speaking families.',
+    title: 'Complete Guide for Filipino Helpers Working in Thailand (2026)',
+    description: 'Everything Filipino nannies, housekeepers, tutors, and caregivers need to know about working in Thailand in 2026 — visas, real pay rates, cultural tips, and how to find English-speaking families directly.',
     category: 'helpers',
     date: '2026-04-16',
+    updated: '2026-09-09',
     readTime: 9,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&q=80',
@@ -2038,6 +2041,7 @@ export const blogPosts = [
     `,
     content: `
       <p>Filipino helpers are in high demand in Thailand, especially in expat families. Your <strong>English skills</strong>, childcare experience, and strong work ethic make you a top choice in Bangkok, Phuket, and other international hubs.</p>
+      <p><em>Updated 9 September 2026. ThaiHelper currently has 86 verified Filipino helpers across Thailand — 43 in Bangkok, 9 in Phuket, and the rest across Chonburi, Nonthaburi, Koh Samui, and other expat hubs. Category breakdown: 46 tutors, 41 housekeepers, 25 nannies, 23 elder-care specialists, 23 pet-sitters (helpers often list multiple categories).</em></p>
 
       <h2>Why Families Want Filipino Helpers</h2>
       <ul>
@@ -2098,11 +2102,12 @@ export const blogPosts = [
 
   {
     slug: 'english-speaking-nanny-demand-thailand',
-    title: 'Why English-Speaking Nannies Are in High Demand in Thailand',
-    description: 'Learn why English-speaking nannies earn more in Thailand, which cities have the most demand, and how to improve your English to grow your career.',
+    title: 'English-Speaking Nannies in Thailand 2026: Real Rates + Where Demand Is Highest',
+    description: 'Real 2026 pay rates for English-speaking nannies in Thailand — Bangkok, Phuket, Chiang Mai. Data from 252 English-speaking nannies (81% of the ThaiHelper pool) plus tips to improve your English.',
     category: 'helpers',
     date: '2026-04-16',
-    readTime: 6,
+    updated: '2026-09-09',
+    readTime: 7,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=800&q=80',
     keywords: 'English speaking nanny Thailand, expat nanny Bangkok, international family nanny, bilingual nanny Thailand',
@@ -2137,6 +2142,7 @@ export const blogPosts = [
     `,
     content: `
       <p>If you're a nanny in Thailand who speaks English, you have a huge career advantage. <strong>Expat and international families</strong> are willing to pay significantly more for nannies who can communicate with their children in English.</p>
+      <p><em>Updated 9 September 2026. Real data from ThaiHelper: 252 of our 312 verified nannies list English as a language (81%). In Bangkok that ratio is even higher — 127 of 150 verified nannies (85%) speak English. The premium is very real.</em></p>
 
       <h2>The Pay Difference</h2>
       <ul>
@@ -2434,9 +2440,10 @@ export const blogPosts = [
   {
     slug: 'hire-driver-bangkok-guide',
     title: 'How to Hire a Private Driver in Bangkok (2026 Guide)',
-    description: 'Complete guide to hiring a private driver or chauffeur in Bangkok. Learn about costs, legal requirements, where to find trusted drivers, and contract tips.',
+    description: 'Complete guide to hiring a private driver or chauffeur in Bangkok. Real 2026 costs, legal requirements, and where to find trusted drivers directly — no middleman fees.',
     category: 'families',
     date: '2026-04-16',
+    updated: '2026-09-09',
     readTime: 8,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&q=80',
@@ -2474,6 +2481,7 @@ export const blogPosts = [
     `,
     content: `
       <p>Bangkok traffic can be stressful — and a huge time-sink. Hiring a <strong>private driver</strong> gives you back time and peace of mind. Whether you're a Thai family needing school runs or an expat juggling meetings across the city, a good driver is worth every baht.</p>
+      <p><em>Updated 9 September 2026. Rates cross-checked against 97 verified drivers currently listed in Bangkok on ThaiHelper (part of 277 drivers across Thailand, and 900+ verified helpers total).</em></p>
 
       <h2>How Much Does a Driver Cost in Bangkok?</h2>
       <ul>
