@@ -71,3 +71,9 @@ scripts/audit-employer-signups.js
 
 # One-off feedback blast — the send log has PII (recipient emails)
 scripts/.feedback-blast-sent.jsonl
+
+# Multi-job announcement blast — send log has PII (recipient emails)
+scripts/.multijob-announcement-sent.jsonl
+
+# Moderation audit log — contains account PII
+scripts/.suspended-accounts.jsonl

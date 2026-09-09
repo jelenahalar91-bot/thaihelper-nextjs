@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     // Look up helper in Supabase
     const { data: profile, error } = await supabase
       .from('helper_profiles')
-      .select('helper_ref, email, first_name')
+      .select('helper_ref, email, first_name, status')
       .eq('email', email.trim().toLowerCase())
       .eq('helper_ref', ref.trim().toUpperCase())
       .single();
@@ -52,6 +52,10 @@ export default async function handler(req, res) {
     if (error || !profile) {
       console.log('Auth lookup: not found', { email: email.trim().toLowerCase(), ref: ref.trim().toUpperCase() });
       return res.status(401).json({ error: 'Invalid email or reference number.' });
+    }
+
+    if (profile.status === 'suspended') {
+      return res.status(403).json({ error: 'account_suspended' });
     }
 
     // Create JWT session token

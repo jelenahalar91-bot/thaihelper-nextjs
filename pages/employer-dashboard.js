@@ -146,6 +146,8 @@ const T = {
     msg_contact_blocked: 'For your safety, please don\'t share phone numbers, emails, or links in messages. Keep the conversation here — both sides are protected this way.',
     msg_verify_required_title: 'Verify your email to start messaging',
     msg_verify_required_body: 'Your job is already visible to helpers. To send messages and read replies, please verify your email first.',
+    err_contact_spam: 'For safety, contact details can only be shared in a limited number of chats. Please contact support if you need this raised.',
+    err_outreach_limit: 'You have started a lot of new chats recently. To keep everyone safe, please continue in your existing conversations for now. Contact support if you need this raised.',
     msg_verify_resend: 'Resend verification email',
     msg_verify_resent: 'Verification email sent — please check your inbox.',
     msg_verify_resend_error: 'Could not resend the email. Please try again later.',
@@ -253,6 +255,8 @@ const T = {
     msg_contact_blocked: 'เพื่อความปลอดภัยของคุณ กรุณาอย่าแชร์เบอร์โทร อีเมล หรือลิงก์ในข้อความ การสนทนาควรอยู่ที่นี่ ทั้งสองฝ่ายจะได้รับการคุ้มครอง',
     msg_verify_required_title: 'ยืนยันอีเมลเพื่อเริ่มส่งข้อความ',
     msg_verify_required_body: 'ประกาศของคุณแสดงให้ผู้ช่วยเห็นแล้ว หากต้องการส่งข้อความและอ่านข้อความตอบกลับ กรุณายืนยันอีเมลก่อน',
+    err_contact_spam: 'เพื่อความปลอดภัย สามารถแบ่งปันข้อมูลติดต่อได้ในจำนวนแชทที่จำกัด หากต้องการเพิ่มวงเงิน กรุณาติดต่อทีมงาน',
+    err_outreach_limit: 'คุณเริ่มแชทใหม่จำนวนมากในช่วงนี้ เพื่อความปลอดภัยของทุกคน กรุณาสนทนาต่อในแชทที่มีอยู่ก่อน หากต้องการเพิ่มวงเงิน กรุณาติดต่อทีมงาน',
     msg_verify_resend: 'ส่งอีเมลยืนยันอีกครั้ง',
     msg_verify_resent: 'ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ',
     msg_verify_resend_error: 'ส่งอีเมลไม่สำเร็จ กรุณาลองอีกครั้งภายหลัง',
@@ -682,6 +686,8 @@ export default function EmployerDashboard() {
         setActiveTab('messages');
       } else if (err.code === 'helper_unavailable') {
         setErrorBanner(t.err_helper_unavailable);
+      } else if (err.code === 'outreach_limit') {
+        setErrorBanner(t.err_outreach_limit);
       } else {
         console.error('Start conversation error:', err);
         setErrorBanner(t.err_generic);
@@ -744,6 +750,8 @@ export default function EmployerDashboard() {
         setErrorBanner((t.err_too_long || 'Message is too long.').replace('{n}', err.max || 4000));
       } else if (err.code === 'email_not_verified') {
         setErrorBanner(t.msg_verify_required_body);
+      } else if (err.code === 'contact_sharing_limit') {
+        setErrorBanner(t.err_contact_spam);
       } else {
         setErrorBanner(t.err_generic);
       }

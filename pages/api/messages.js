@@ -21,15 +21,53 @@ import {
 import { sendNewMessageNotification } from '../../lib/send-confirmation-email';
 import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../lib/unsubscribe';
 import { sendPushToUser } from '../../lib/web-push';
-// PII filter intentionally not imported. We removed the server-side
-// block on phone numbers, emails, and contact-app links on 2026-06-08
-// after repositioning ThaiHelper as a direct-connection platform
-// rather than a marketplace that enforces on-platform communication.
-// The paywall (free employers cannot POST messages, see line ~146
-// payment_required) is the real anti-off-platform-jumping gate; once
-// a family has paid, sharing a phone or LINE-ID is fine and explicitly
-// supported. lib/messaging-filter.js is kept around as a utility for
-// potential future spam-detection analytics, just not enforced here.
+import { checkRateLimit } from '../../lib/rate-limit';
+import {
+  contactSpread,
+  CONTACT_SPREAD_ALERT,
+  CONTACT_SPREAD_BLOCK,
+  CONTACT_SPREAD_WINDOW_DAYS,
+} from '../../lib/spam-signals';
+// Contact info in messages is still NOT blocked on content — sharing a phone
+// number or LINE ID is the point of a direct-connection platform (server-side
+// block removed 2026-06-08 with the repositioning).
+//
+// That decision came with a guardrail which no longer exists: the paywall was
+// what stopped a stranger from messaging everyone, and it was removed on
+// 2026-06-09 (access is now just email_verified, see lib/access.js). Free,
+// unlimited, unfiltered messaging is how EMP-B4MUCP pushed a LINE handoff into
+// 111 conversations before a helper reported it on 2026-09-08.
+//
+// lib/messaging-filter.js is therefore used again — but as a spam SIGNAL, not
+// as a content gate: see lib/spam-signals.js. Ordinary contact sharing passes
+// untouched; the same handoff repeated across dozens of conversations does not.
+
+// Tell the admin inbox that someone is spraying contact details across many
+// conversations. Same destination as /api/report-content — moderation is
+// manual and mail-driven for now.
+async function notifyAdminOfContactSpread({ senderRef, senderType, spread, blocked, sample }) {
+  const { Resend } = await import('resend');
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  await resend.emails.send({
+    from: 'ThaiHelper <noreply@thaihelper.app>',
+    to: process.env.ADMIN_EMAIL,
+    subject: `\u{1F6A8} Contact spam: ${senderType} ${senderRef} (${spread} conversations)`,
+    text: [
+      `${senderRef} (${senderType}) has shared contact details in ${spread} distinct`,
+      `conversations in the last ${CONTACT_SPREAD_WINDOW_DAYS} days.`,
+      '',
+      blocked
+        ? `This message was BLOCKED (limit ${CONTACT_SPREAD_BLOCK}).`
+        : `Sending still allowed — alert threshold is ${CONTACT_SPREAD_ALERT}, block is ${CONTACT_SPREAD_BLOCK}.`,
+      '',
+      'Latest message:',
+      sample,
+      '',
+      'Legitimate broadcast recruiters do reach the alert threshold. Check the',
+      'account before acting: node scripts/suspend-employer.js ' + senderRef + ' --dry-run',
+    ].join('\n'),
+  });
+}
 
 const MESSAGES_PER_PAGE = 50;
 // Max characters per message. Generous enough for long Thai replies but
@@ -44,7 +82,7 @@ async function loadEmployer(supabase, employerRef) {
     // email_verified is the new access gate (since paywall removal on
     // 2026-06-09 — see lib/access.js). Without selecting it here the
     // hasActiveAccess check sees undefined and locks every message.
-    .select('employer_ref, preferred_language, access_until, access_tier, email_verified')
+    .select('employer_ref, preferred_language, access_until, access_tier, email_verified, status')
     .eq('employer_ref', employerRef)
     .single();
   return data || null;
@@ -169,9 +207,12 @@ export default async function handler(req, res) {
     const senderRefCol = isEmployer ? 'employer_ref' : 'helper_ref';
     const { data: senderRow } = await supabase
       .from(senderTable)
-      .select('email_verified')
+      .select('email_verified, status')
       .eq(senderRefCol, session.ref)
       .single();
+    if (senderRow?.status === 'suspended') {
+      return res.status(403).json({ error: 'account_suspended' });
+    }
     if (!senderRow?.email_verified) {
       return res.status(403).json({ error: 'email_not_verified' });
     }
@@ -188,12 +229,41 @@ export default async function handler(req, res) {
       });
     }
     // Note: PII (phone numbers, emails, LINE / WhatsApp / Telegram
-    // handles) is intentionally NOT blocked here. Paid families and
-    // helpers are free to share contact info directly in chat — that
-    // matches the direct-connection-platform positioning.
+    // handles) is intentionally NOT blocked here. Families and helpers
+    // are free to share contact info directly in chat — that matches the
+    // direct-connection-platform positioning. What IS caught, below, is
+    // the same handoff being pushed at dozens of different people; see
+    // lib/spam-signals.js.
 
     const conv = await loadConversation(supabase, conversation_id, session);
     if (!conv) return res.status(404).json({ error: 'Conversation not found' });
+
+    // Anti-spam: contact info is fine, spraying it at everyone is not.
+    // Costs nothing for messages without contact info — contactSpread()
+    // returns 0 without touching the DB in that case.
+    const spread = await contactSpread(supabase, session.ref, trimmed, conversation_id);
+    if (spread >= CONTACT_SPREAD_ALERT) {
+      // Alert first, so a blocked sender still produces exactly one mail.
+      const fresh = await checkRateLimit({
+        bucket: 'contact-spread-alert',
+        key: session.ref,
+        max: 1,
+        windowMs: 24 * 60 * 60 * 1000,
+      });
+      if (fresh && process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
+        notifyAdminOfContactSpread({
+          senderRef: session.ref,
+          senderType: session.role,
+          spread,
+          blocked: spread >= CONTACT_SPREAD_BLOCK,
+          sample: trimmed.slice(0, 300),
+        }).catch((e) => console.error('Spam alert failed:', e.message));
+      }
+      if (spread >= CONTACT_SPREAD_BLOCK) {
+        console.warn(`[spam] blocked ${session.ref}: contact info in ${spread} conversations`);
+        return res.status(403).json({ error: 'contact_sharing_limit' });
+      }
+    }
 
     // Determine target language based on who the recipient is.
     // Helper -> Employer: translate to employer.preferred_language

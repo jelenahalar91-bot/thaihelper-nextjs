@@ -12,6 +12,74 @@ import {
   buildMessagePreview,
   getAccessStatus,
 } from '../../lib/access';
+import { countRateLimit, recordRateLimit } from '../../lib/rate-limit';
+import {
+  notifyAdminOfSpamSignal,
+  OUTREACH_WINDOW_DAYS,
+  OUTREACH_ALERT,
+  OUTREACH_BLOCK,
+  OUTREACH_DAILY_BLOCK,
+} from '../../lib/spam-signals';
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+const OUTREACH_BUCKET = 'conversation-start';
+
+/**
+ * Bound how many new conversations one account may open.
+ *
+ * Counted only where a conversation is really created — reopening an existing
+ * chat returns early above and costs nothing, so an employer clicking through
+ * their inbox is never charged for it.
+ *
+ * Returns true when the caller may proceed. When it returns false the caller
+ * must not create anything; the admin has already been alerted.
+ */
+async function allowNewConversation(session) {
+  const key = session.ref;
+  const windowMs = OUTREACH_WINDOW_DAYS * DAY_MS;
+
+  const [inWindow, today] = await Promise.all([
+    countRateLimit({ bucket: OUTREACH_BUCKET, key, windowMs }),
+    countRateLimit({ bucket: OUTREACH_BUCKET, key, windowMs: DAY_MS }),
+  ]);
+
+  const blocked = inWindow >= OUTREACH_BLOCK || today >= OUTREACH_DAILY_BLOCK;
+
+  // One alert per account per day, whether it ends in a block or not.
+  if (blocked || inWindow + 1 >= OUTREACH_ALERT) {
+    const fresh = await countRateLimit({
+      bucket: 'outreach-alert',
+      key,
+      windowMs: DAY_MS,
+    });
+    if (fresh === 0) {
+      await recordRateLimit({ bucket: 'outreach-alert', key });
+      notifyAdminOfSpamSignal({
+        subject: `\u{1F6A8} Outreach volume: ${session.role} ${key} (${inWindow} in ${OUTREACH_WINDOW_DAYS}d)`,
+        lines: [
+          `${key} (${session.role}) has opened ${inWindow} conversations in the last`,
+          `${OUTREACH_WINDOW_DAYS} days, ${today} of them in the last 24 hours.`,
+          '',
+          blocked
+            ? `This attempt was BLOCKED (limits: ${OUTREACH_BLOCK} per ${OUTREACH_WINDOW_DAYS}d, ${OUTREACH_DAILY_BLOCK} per day).`
+            : `Still allowed — alert threshold is ${OUTREACH_ALERT}, block is ${OUTREACH_BLOCK}.`,
+          '',
+          'A busy legitimate recruiter does reach the alert threshold — the',
+          'highest honest account on record opened 33 in 30 days. Check before',
+          `acting: node scripts/suspend-employer.js ${key} --dry-run`,
+        ],
+      });
+    }
+  }
+
+  if (blocked) {
+    console.warn(`[spam] blocked new conversation from ${key}: ${inWindow} in ${OUTREACH_WINDOW_DAYS}d, ${today} today`);
+    return false;
+  }
+
+  await recordRateLimit({ bucket: OUTREACH_BUCKET, key });
+  return true;
+}
 
 export default async function handler(req, res) {
   // The caller can pin which side it expects via ?role=employer or
@@ -56,7 +124,7 @@ export default async function handler(req, res) {
       // email_verified is the access gate as of 2026-06-09 (see
       // lib/access.js); without it loaded here, hasActiveAccess
       // sees undefined and blocks every conversation start.
-      .select('employer_ref, first_name, preferred_language, access_until, access_tier, email_verified')
+      .select('employer_ref, first_name, preferred_language, access_until, access_tier, email_verified, status')
       .eq('employer_ref', session.ref)
       .single();
     if (!data) return res.status(401).json({ error: 'Not authenticated' });
@@ -250,6 +318,10 @@ export default async function handler(req, res) {
         return res.status(200).json({ conversation_id: existing.id, existed: true });
       }
 
+      if (!(await allowNewConversation(session))) {
+        return res.status(429).json({ error: 'outreach_limit' });
+      }
+
       const { data: created, error: convErr } = await supabase
         .from('conversations')
         .insert({
@@ -269,6 +341,17 @@ export default async function handler(req, res) {
       return res.status(201).json({ conversation_id: created.id, existed: false });
     } else {
       // ── Helper → Employer flow (new) ──
+      // Employers are gated by employerHasAccess above; helpers were not
+      // gated at all, so a suspended helper could still open new chats.
+      const { data: senderHelper } = await supabase
+        .from('helper_profiles')
+        .select('status')
+        .eq('helper_ref', session.ref)
+        .single();
+      if (senderHelper?.status === 'suspended') {
+        return res.status(403).json({ error: 'account_suspended' });
+      }
+
       const { employer_ref } = req.body || {};
       if (!employer_ref) {
         return res.status(400).json({ error: 'employer_ref required' });
@@ -292,6 +375,10 @@ export default async function handler(req, res) {
 
       if (existing) {
         return res.status(200).json({ conversation_id: existing.id, existed: true });
+      }
+
+      if (!(await allowNewConversation(session))) {
+        return res.status(429).json({ error: 'outreach_limit' });
       }
 
       const { data: created, error: convErr } = await supabase

@@ -45,7 +45,7 @@ export default async function handler(req, res) {
     // Look up employer in Supabase
     const { data: account, error } = await supabase
       .from('employer_accounts')
-      .select('employer_ref, email, first_name, last_name, city, preferred_language, email_verified')
+      .select('employer_ref, email, first_name, last_name, city, preferred_language, email_verified, status')
       .eq('email', email.trim().toLowerCase())
       .eq('employer_ref', ref.trim().toUpperCase())
       .single();
@@ -56,6 +56,12 @@ export default async function handler(req, res) {
         ref: ref.trim().toUpperCase(),
       });
       return res.status(401).json({ error: 'Invalid email or reference number.' });
+    }
+
+    // Suspended accounts stop here — before the verification gate below,
+    // which would otherwise mail a suspended user a fresh way back in.
+    if (account.status === 'suspended') {
+      return res.status(403).json({ error: 'account_suspended' });
     }
 
     // Verification gate (since 2026-06-11): unverified employers are
