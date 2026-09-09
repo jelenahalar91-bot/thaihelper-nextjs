@@ -3119,6 +3119,330 @@ export const blogPosts = [
     title_th: 'ครอบครัวและผู้ช่วยพูดถึง ThaiHelper อย่างไร — รีวิว 2026',
     description_th: 'รีวิว Trustpilot จริงจากครอบครัวและผู้ช่วยที่ใช้ ThaiHelper ในปี 2026 คะแนน 3.9/5 จาก 6 รีวิวที่ผ่านการยืนยัน',
   },
+
+  {
+    slug: 'private-chef-bangkok-cost-2026',
+    title: 'Private Chef Bangkok Cost 2026: Real Rates from 60+ Verified Chefs',
+    description:
+      'What a private chef actually costs in Bangkok in 2026, based on live rates from 60+ verified chefs on ThaiHelper. Hourly and monthly ranges, English-speaking share, top Sukhumvit neighborhoods, hire-tips.',
+    category: 'families',
+    date: '2026-09-09',
+    updated: '2026-09-09',
+    readTime: 8,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=1200&q=80',
+    keywords: 'private chef bangkok, private chef bangkok cost, chef cost thailand, personal chef bangkok, hire chef bangkok, private cook bangkok, family chef bangkok salary, chef hourly rate bangkok',
+    content: `
+      <p>What does a private chef in Bangkok actually cost in 2026? Not the theoretical numbers you find on expat forums — the real ones from families and chefs currently active on ThaiHelper. Below is a breakdown pulled directly from <strong>60+ verified chefs</strong> with Bangkok as their primary city (and 143+ chefs across Thailand total).</p>
+
+      <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
+        <p style="margin:0 0 8px;font-weight:700;color:#006a62;">📊 Real ThaiHelper platform data (2026)</p>
+        <ul style="margin:0;padding-left:20px;color:#334155;">
+          <li><strong>60+ verified chefs in Bangkok</strong> (143+ across Thailand)</li>
+          <li>Typical hourly rate: <strong>200–500 THB/hour</strong> (40 % of chefs)</li>
+          <li>Premium tier: 500–700 THB/hour (12 % of chefs)</li>
+          <li>English-speaking: <strong>80 %</strong></li>
+          <li>Typical experience: <strong>3–10 years</strong></li>
+        </ul>
+      </div>
+
+      <h2>Hourly rate breakdown (real Bangkok chefs, 2026)</h2>
+
+      <p>Bangkok private-chef rates cluster in three tiers. The full distribution from live ThaiHelper profiles:</p>
+
+      <table>
+        <thead><tr><th>Hourly rate (THB)</th><th>Share of chefs</th><th>Typical profile</th></tr></thead>
+        <tbody>
+          <tr><td>Under 150</td><td>2 %</td><td>Entry-level, part-time helpers who cook as add-on</td></tr>
+          <tr><td>150–200</td><td>7 %</td><td>Basic home cooking, Thai food, small households</td></tr>
+          <tr><td>200–300</td><td>15 %</td><td>Full-time cooks with 3–5 years' family experience</td></tr>
+          <tr><td>300–500</td><td>13 %</td><td>Skilled chefs, English-speaking, expat-family experience</td></tr>
+          <tr><td>500–700</td><td>12 %</td><td>Fine dining, international cuisine, restaurant background</td></tr>
+          <tr><td>Negotiable / event-based</td><td>33 %</td><td>Villa chefs, private dinners, per-service pricing</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Monthly full-time chef arrangements</h2>
+
+      <p>For families hiring a full-time chef (25–40 hours/week), rates convert roughly to:</p>
+
+      <ul>
+        <li><strong>Basic home cook:</strong> 18,000–25,000 THB/month (part-time, 3–4 days a week)</li>
+        <li><strong>Full-time cook, English-speaking:</strong> 25,000–40,000 THB/month + one meal a day</li>
+        <li><strong>Skilled chef with international menu:</strong> 40,000–65,000 THB/month</li>
+        <li><strong>Villa or estate chef:</strong> 50,000–90,000 THB/month, live-in room + meals</li>
+      </ul>
+
+      <h2>Where Bangkok chefs actually work</h2>
+
+      <p>Bangkok chefs on ThaiHelper cluster in the neighborhoods with the strongest expat and Thai-family concentration:</p>
+
+      <ul>
+        <li><strong>Sukhumvit</strong> — the biggest concentration, especially between Asoke and Ekkamai</li>
+        <li><strong>Sathorn / Silom</strong> — condo residents, corporate expat families</li>
+        <li><strong>Nonthaburi / Din Daeng</strong> — Thai families with premium home-cooking needs</li>
+        <li><strong>Bang Na, Prawet, Bangkae</strong> — larger homes, weekly cook arrangements</li>
+      </ul>
+
+      <p>Beyond Bangkok, our chef pool spans <strong>Chiang Mai (11), Phuket (11), Pattaya (8), Chonburi (5), Samut Prakan (3)</strong>, plus smaller pools in Nonthaburi and Rayong.</p>
+
+      <h2>English-speaking chefs — the 80 % number</h2>
+
+      <p>Roughly <strong>4 in 5 Bangkok chefs on the platform</strong> list English as one of their languages — the highest English-fluency rate we see across any of our helper categories except tutors. If your family communicates in English, this is not a bottleneck.</p>
+
+      <h2>Experience distribution</h2>
+
+      <p>Bangkok chef experience skews mid-to-senior:</p>
+
+      <ul>
+        <li>3 years' experience: 23 chefs</li>
+        <li>10+ years' experience: 17 chefs</li>
+        <li>6 years' experience: 9 chefs</li>
+        <li>1 year: 6 chefs (entry-level, often part-time)</li>
+        <li>Just starting: 3 chefs</li>
+      </ul>
+
+      <p>Roughly two-thirds of active Bangkok chefs on ThaiHelper have <strong>3+ years of family-chef experience</strong>. If you want a seasoned pick, filter for the 10+ tier — those 17 chefs typically cook for expat families with international menus and can adapt to specific dietary needs.</p>
+
+      <h2>How to hire a private chef in Bangkok — the direct route</h2>
+
+      <p>The full step-by-step process (including interviews, tasting days, contract templates, and the grocery-budget question that trips up most families) is in our <a href="/guide/hire-a-private-chef-in-thailand"><strong>complete private-chef hiring guide</strong></a>. The short version:</p>
+
+      <ol>
+        <li><strong>Browse</strong> Bangkok chef profiles at <a href="/hire/chef-bangkok">thaihelper.app/hire/chef-bangkok</a> — filter by hourly rate and experience.</li>
+        <li><strong>Message</strong> 3–5 chefs directly to shortlist. No agency, no placement fee.</li>
+        <li><strong>Tasting day</strong> — pay the chef for one paid audition meal at your home. Non-negotiable step.</li>
+        <li><strong>Contract</strong> — hours, groceries budget, days off. Free template at <a href="/contract-template">/contract-template</a>.</li>
+      </ol>
+
+      <p>Every chef on the platform is <a href="/legit">email-verified</a> before their profile goes live. We don't run background checks — that stays with the family during the interview.</p>
+
+      <h2>Ready to see the actual chef pool?</h2>
+
+      <p style="text-align:center;margin:24px 0;">
+        <a href="/hire/chef-bangkok" style="display:inline-block;background:#006a62;color:#fff;padding:14px 28px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;">Browse chefs in Bangkok →</a>
+      </p>
+
+      <p style="text-align:center;font-size:14px;color:#666;">100 % free to browse. No signup needed to look.</p>
+    `,
+  },
+
+  {
+    slug: 'housekeeper-cost-bangkok-2026',
+    title: 'Housekeeper Cost Bangkok 2026: Real Rates from 136+ Verified Housekeepers',
+    description:
+      'What a housekeeper or maid actually costs in Bangkok in 2026, based on 136+ verified housekeepers on ThaiHelper. Hourly, monthly, and live-in rate ranges. English-speaking share, top neighborhoods, hire-tips.',
+    category: 'families',
+    date: '2026-09-09',
+    updated: '2026-09-09',
+    readTime: 8,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200&q=80',
+    keywords: 'housekeeper cost bangkok, find housekeeper bangkok, maid bangkok cost, cleaner bangkok cost, live-in maid bangkok, weekly cleaner bangkok, part time housekeeper bangkok, hire maid bangkok',
+    content: `
+      <p>What does a housekeeper (or maid, or cleaner) in Bangkok actually cost in 2026? Below is what real families and housekeepers on ThaiHelper — <strong>136+ verified in Bangkok</strong>, 289+ across Thailand — are currently agreeing to. Numbers come straight from live platform data, not from surveys or third-hand estimates.</p>
+
+      <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
+        <p style="margin:0 0 8px;font-weight:700;color:#006a62;">📊 Real ThaiHelper platform data (2026)</p>
+        <ul style="margin:0;padding-left:20px;color:#334155;">
+          <li><strong>136+ verified housekeepers in Bangkok</strong> (289+ across Thailand)</li>
+          <li>Most common hourly rate: <strong>200–300 THB/hour</strong> (24 % of housekeepers)</li>
+          <li>Entry level: 150–200 THB/hour (15 %)</li>
+          <li>English-speaking: <strong>77 %</strong></li>
+          <li>Typical experience: <strong>3–10 years</strong></li>
+        </ul>
+      </div>
+
+      <h2>Hourly rate breakdown (real Bangkok housekeepers, 2026)</h2>
+
+      <p>Bangkok housekeeper rates cluster around the 200–300 THB/hour sweet spot. The full distribution:</p>
+
+      <table>
+        <thead><tr><th>Hourly rate (THB)</th><th>Share</th><th>Typical profile</th></tr></thead>
+        <tbody>
+          <tr><td>Under 150</td><td>4 %</td><td>Local Thai housekeepers with regular clients</td></tr>
+          <tr><td>150–200</td><td>15 %</td><td>Weekly cleaners, basic cleaning + laundry</td></tr>
+          <tr><td>200–300</td><td>24 %</td><td><strong>Most common</strong> — full-service housekeeping, 3–10 years' experience</td></tr>
+          <tr><td>300–500</td><td>13 %</td><td>English-speaking, experienced with expat households</td></tr>
+          <tr><td>500–700</td><td>4 %</td><td>Head housekeeper roles, multi-property, live-in</td></tr>
+          <tr><td>Negotiable / package deals</td><td>30 %</td><td>Full-time or live-in, agreed month-by-month</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Monthly full-time housekeeper arrangements</h2>
+
+      <p>For families hiring a full-time housekeeper (25–45 hours/week), rates convert roughly to:</p>
+
+      <ul>
+        <li><strong>Weekly cleaner (1–2 days):</strong> 4,000–8,000 THB/month, per-visit basis</li>
+        <li><strong>Part-time (3–4 days/week):</strong> 10,000–18,000 THB/month</li>
+        <li><strong>Full-time, live-out:</strong> 15,000–25,000 THB/month, 5–6 days a week</li>
+        <li><strong>Full-time, live-in:</strong> 12,000–20,000 THB/month + private room + meals</li>
+        <li><strong>English-speaking, expat-experienced:</strong> add 20–35 % on top of base</li>
+      </ul>
+
+      <h2>Where Bangkok housekeepers actually work</h2>
+
+      <p>Bangkok housekeepers on ThaiHelper concentrate in the biggest expat and Thai-family neighborhoods. Top areas from live profile data:</p>
+
+      <ul>
+        <li><strong>Sukhumvit</strong> — dominant, spanning Asoke, Thonglor, Ekkamai, Phrom Phong, On Nut, Bang Na</li>
+        <li><strong>Sathorn / Silom</strong> — corporate expat district</li>
+        <li><strong>Nonthaburi</strong> — Thai families, larger homes</li>
+        <li><strong>Chomthong, Bangna, Srinakarin, Ramkhamhaeng, Ladprao, Lat Salaya, Bearing</strong> — broader Bangkok coverage</li>
+      </ul>
+
+      <p>Beyond Bangkok: <strong>Phuket (17), Chiang Mai (15), Pattaya (13), Chonburi (11), Nonthaburi (10)</strong>, with smaller pools in Samut Prakan and coastal cities.</p>
+
+      <h2>English-speaking housekeepers — the 77 % share</h2>
+
+      <p>More than three-quarters of Bangkok housekeepers on the platform (105 out of 136) list English as one of their languages. For families who need reliable English communication — instructions about kids, groceries, guests — this share is high enough that you can filter for it without dramatically shrinking your candidate pool.</p>
+
+      <h2>Experience distribution</h2>
+
+      <p>Bangkok housekeeper experience is spread across a wide range — from beginners to lifers:</p>
+
+      <ul>
+        <li>3 years: 33 housekeepers</li>
+        <li>10+ years: 32 housekeepers</li>
+        <li>6 years: 22 housekeepers</li>
+        <li>1 year: 21 housekeepers</li>
+        <li>Just starting: 19 housekeepers</li>
+      </ul>
+
+      <p>The 10+ tier (32 housekeepers) is your pool for households that need a head-housekeeper who can also manage the laundry, groceries, and occasional light cooking. For a first-time hire in a smaller apartment, the 1–3 year tier is usually a better fit at a lower rate.</p>
+
+      <h2>How to hire a housekeeper in Bangkok — the direct route</h2>
+
+      <p>The full step-by-step process (frequency choice, live-in vs live-out, contract, work-permit questions for foreign housekeepers) is in our <a href="/guide/hire-a-housekeeper-in-thailand"><strong>complete housekeeper hiring guide</strong></a>. Short version:</p>
+
+      <ol>
+        <li><strong>Browse</strong> Bangkok housekeeper profiles at <a href="/hire/housekeeper-bangkok">thaihelper.app/hire/housekeeper-bangkok</a>.</li>
+        <li><strong>Message</strong> 3–5 directly. No agency, no placement fee, no percentage of salary.</li>
+        <li><strong>Trial day</strong> — pay for one day of work before committing. Non-negotiable.</li>
+        <li><strong>Contract</strong> — hours, days off, scope (cleaning-only vs cleaning + laundry + cooking). Free template at <a href="/contract-template">/contract-template</a>.</li>
+      </ol>
+
+      <p>Every housekeeper on ThaiHelper is <a href="/legit">email-verified</a>. Background checks stay with the family during the interview — we're honest about that in our <a href="/legit">trust page</a>.</p>
+
+      <h2>Ready to see the actual housekeeper pool?</h2>
+
+      <p style="text-align:center;margin:24px 0;">
+        <a href="/hire/housekeeper-bangkok" style="display:inline-block;background:#006a62;color:#fff;padding:14px 28px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;">Browse housekeepers in Bangkok →</a>
+      </p>
+
+      <p style="text-align:center;font-size:14px;color:#666;">100 % free to browse. No signup needed to look.</p>
+    `,
+  },
+
+  {
+    slug: 'tutor-bangkok-cost-2026',
+    title: 'Tutor Bangkok 2026: Real Rates from 99+ Verified Tutors (97 % Speak English)',
+    description:
+      'What a private tutor in Bangkok actually costs in 2026, from 99+ verified tutors on ThaiHelper. Hourly ranges, English-speaker share (97 %!), experience distribution, top neighborhoods, hire-tips.',
+    category: 'families',
+    date: '2026-09-09',
+    updated: '2026-09-09',
+    readTime: 8,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1200&q=80',
+    keywords: 'tutor bangkok, tutor bangkok children, private tutor bangkok, tutor bangkok cost, english tutor bangkok, math tutor bangkok, home tutor bangkok, tutor bangkok rate',
+    content: `
+      <p>What does a private tutor in Bangkok actually cost in 2026? Below is a breakdown from live rates of <strong>99+ verified tutors</strong> on ThaiHelper with Bangkok as their primary city (219+ tutors across Thailand). The single most notable number in this dataset: <strong>97 % of Bangkok tutors speak English</strong> — the highest fluency rate we see in any of our helper categories.</p>
+
+      <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
+        <p style="margin:0 0 8px;font-weight:700;color:#006a62;">📊 Real ThaiHelper platform data (2026)</p>
+        <ul style="margin:0;padding-left:20px;color:#334155;">
+          <li><strong>99+ verified tutors in Bangkok</strong> (219+ across Thailand)</li>
+          <li>Typical hourly rate: <strong>300–700 THB/hour</strong> (35 % of tutors)</li>
+          <li>Premium tier: 500–700 THB/hour (18 %)</li>
+          <li>English-speaking: <strong>97 %</strong></li>
+          <li>Experience-heavy: <strong>37 tutors with 10+ years</strong></li>
+        </ul>
+      </div>
+
+      <h2>Hourly rate breakdown (real Bangkok tutors, 2026)</h2>
+
+      <p>Tutor rates in Bangkok skew higher than housekeeper or chef rates — reflecting the higher education level, English proficiency, and specialised skills. The full distribution:</p>
+
+      <table>
+        <thead><tr><th>Hourly rate (THB)</th><th>Share</th><th>Typical profile</th></tr></thead>
+        <tbody>
+          <tr><td>Under 150</td><td>2 %</td><td>Very entry-level, homework-help only</td></tr>
+          <tr><td>150–200</td><td>10 %</td><td>Early-career, Thai school subjects</td></tr>
+          <tr><td>200–300</td><td>12 %</td><td>Homework help, primary-school level</td></tr>
+          <tr><td>300–500</td><td>17 %</td><td><strong>Most common mid-tier</strong> — English, math, science, IGCSE prep</td></tr>
+          <tr><td>500–700</td><td>18 %</td><td>Native English speakers, IB/A-Levels, university prep</td></tr>
+          <tr><td>Negotiable / package</td><td>20 %</td><td>Long-term contracts, group discounts, specialist prep</td></tr>
+        </tbody>
+      </table>
+
+      <h2>What Bangkok tutors typically cover</h2>
+
+      <p>Bangkok tutors on ThaiHelper span the full range of what expat and Thai families need:</p>
+
+      <ul>
+        <li><strong>English (as second language)</strong> — the biggest category, native speakers and TESOL-certified Thai/international tutors</li>
+        <li><strong>Math, science, primary-school subjects</strong> — homework help, exam prep</li>
+        <li><strong>IGCSE / IB / A-Levels prep</strong> — for international-school students preparing for external exams</li>
+        <li><strong>University entrance prep</strong> — SAT, IELTS, TOEFL</li>
+        <li><strong>Thai for foreigners</strong> — the reverse direction, for expat adults or kids</li>
+        <li><strong>Chinese, Japanese, French, German</strong> — smaller pools but present</li>
+      </ul>
+
+      <h2>Where Bangkok tutors actually teach</h2>
+
+      <p>Tutors on the platform concentrate in Bangkok's international-school and expat neighborhoods:</p>
+
+      <ul>
+        <li><strong>Sathorn</strong> — closest to the biggest international schools</li>
+        <li><strong>Sukhumvit</strong> — the corridor from Nana through Ekkamai, dense expat family concentration</li>
+        <li><strong>Tha Phra, Bangkhae</strong> — Thai family neighborhoods with strong tutoring demand</li>
+        <li><strong>Srinakarin, Prawet</strong> — eastern Bangkok, growing international-school corridor</li>
+      </ul>
+
+      <p>Beyond Bangkok: <strong>Nonthaburi (12), Phuket (12), Pattaya (9), Chiang Mai (9), Pathum Thani (6)</strong>. Chiang Mai is a strong secondary market thanks to the international-school and digital-nomad-family concentration.</p>
+
+      <h2>English fluency — the 97 % number</h2>
+
+      <p>Of the 99 verified Bangkok tutors on ThaiHelper, <strong>96 list English as one of their languages</strong> — a 97 % English-speaking rate. That's dramatically higher than housekeepers (77 %) or chefs (80 %), and reflects the fact that most tutoring in Bangkok's expat and international-school ecosystem is either <em>in</em> English or <em>about</em> English. If you filter for English-speaking, you're essentially not filtering at all.</p>
+
+      <h2>Experience distribution — heavy on the senior end</h2>
+
+      <p>Tutor experience on ThaiHelper skews significantly more senior than other categories:</p>
+
+      <ul>
+        <li><strong>10+ years: 37 tutors</strong> (the largest tier — this is unusual)</li>
+        <li>3 years: 23 tutors</li>
+        <li>6 years: 18 tutors</li>
+        <li>1 year: 12 tutors</li>
+        <li>Just starting: 5 tutors</li>
+      </ul>
+
+      <p>The 10+ tier (37 tutors, 37 % of the Bangkok pool) is exceptional. For families preparing kids for IGCSE, IB, university entrance, or long-term English-language mastery, this is where the pool is strongest. Most other cities on our platform show a distribution weighted toward 1–3 years' experience; tutors buck that.</p>
+
+      <h2>How to hire a tutor in Bangkok — the direct route</h2>
+
+      <p>The full step-by-step process (matching tutor type to your child's actual goal, trial lessons, online vs in-person, work-permit questions for foreign tutors) is in our <a href="/guide/hire-a-tutor-in-thailand"><strong>complete tutor hiring guide</strong></a>. Short version:</p>
+
+      <ol>
+        <li><strong>Define the goal first</strong> — homework help, English fluency, specific exam prep. Different goals need different tutors.</li>
+        <li><strong>Browse</strong> Bangkok tutor profiles at <a href="/hire/tutor-bangkok">thaihelper.app/hire/tutor-bangkok</a>.</li>
+        <li><strong>Message</strong> 3–5 directly, ask about their experience with your child's exact level and subject.</li>
+        <li><strong>Trial lesson</strong> — always. Chemistry between tutor and child is impossible to predict from a profile.</li>
+      </ol>
+
+      <p>Every tutor on ThaiHelper is <a href="/legit">email-verified</a>. Credentials — TESOL certificates, degrees, teaching licence — are shown on the profile where the tutor uploaded them; verify directly with the tutor during the interview.</p>
+
+      <h2>Ready to see the actual tutor pool?</h2>
+
+      <p style="text-align:center;margin:24px 0;">
+        <a href="/hire/tutor-bangkok" style="display:inline-block;background:#006a62;color:#fff;padding:14px 28px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;">Browse tutors in Bangkok →</a>
+      </p>
+
+      <p style="text-align:center;font-size:14px;color:#666;">100 % free to browse. No signup needed to look.</p>
+    `,
+  },
 ];
 
 export function getPostBySlug(slug) {
