@@ -77,3 +77,9 @@ scripts/.multijob-announcement-sent.jsonl
 
 # Moderation audit log — contains account PII
 scripts/.suspended-accounts.jsonl
+
+# Scam-warning blast — send log has PII (recipient emails)
+scripts/.scam-warning-sent.jsonl
+
+# Unsent reply drafts — contain the reporter's email address
+scripts/.drafts-*.md
