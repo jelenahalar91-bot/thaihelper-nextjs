@@ -26,10 +26,21 @@
  * The original values are appended to scripts/.suspended-accounts.jsonl before
  * anything is written, and --restore replays them.
  *
+ * Since 2026-09-11 a suspension also blocks the contact handles the account was
+ * pushing (lib/contact-blocklist.js). Suspending the login alone did not stop
+ * EMP-B4MUCP: the same person re-registered the next day with a fresh Gmail
+ * address and kept sending the same LINE ID. Blocking the handle is what makes
+ * the suspension survive re-registration. --restore lifts those again.
+ *
  * Usage:
  *   node scripts/suspend-employer.js EMP-XXXXXX --reason "mass off-platform spam"
  *   node scripts/suspend-employer.js EMP-XXXXXX --restore
  *   node scripts/suspend-employer.js EMP-XXXXXX --dry-run
+ *
+ *   --include-single   also block handles seen in only ONE conversation. Off by
+ *                      default: scammers ask helpers to send their own link, and
+ *                      an echoed handle would otherwise blocklist an innocent
+ *                      helper's LINE ID platform-wide.
  */
 const fs = require('fs');
 const path = require('path');
@@ -55,15 +66,20 @@ const args = process.argv.slice(2);
 const ref = (args.find((a) => !a.startsWith('--')) || '').toUpperCase();
 const restore = args.includes('--restore');
 const dryRun = args.includes('--dry-run');
+const includeSingle = args.includes('--include-single');
 const reason = (() => {
   const i = args.indexOf('--reason');
   return i >= 0 ? args[i + 1] || '' : '';
 })();
 
 if (!/^EMP-[A-Z0-9]+$/.test(ref)) {
-  console.error('Usage: node scripts/suspend-employer.js EMP-XXXXXX [--reason "..."] [--restore] [--dry-run]');
+  console.error('Usage: node scripts/suspend-employer.js EMP-XXXXXX [--reason "..."] [--restore] [--dry-run] [--include-single]');
   process.exit(1);
 }
+
+// Lazy-require so .env is loaded first, and so the same module the send path
+// uses is the one that decides what a handle looks like.
+const { harvestHandles, releaseHandles } = require('../lib/contact-blocklist');
 
 function readLog() {
   if (!fs.existsSync(LOG)) return [];
@@ -81,6 +97,14 @@ async function main() {
   if (!before) { console.error(`No employer ${ref}.`); process.exit(1); }
 
   console.log('Current state:', JSON.stringify(before, null, 2));
+
+  // Suspending an already-suspended account would record the suspended row as
+  // the "before" state and destroy the restore path. Use
+  // scripts/backfill-blocked-contacts.js to (re)harvest its handles instead.
+  if (!restore && before.status === 'suspended') {
+    console.error(`\n${ref} is already suspended — refusing, so the restore record stays intact.`);
+    process.exit(1);
+  }
 
   let patch;
   if (restore) {
@@ -105,7 +129,19 @@ async function main() {
   }
 
   console.log('Patch:', JSON.stringify(patch, null, 2));
-  if (dryRun) { console.log('\n--dry-run: nothing written.'); return; }
+
+  if (dryRun) {
+    if (restore) {
+      console.log('\nWould unblock every contact handle harvested from this account.');
+    } else {
+      const would = await harvestHandles(supabase, ref, reason || null, { includeSingle, dryRun: true });
+      console.log(would.length
+        ? `\nWould block ${would.length} contact handle(s):\n${would.map((h) => `  ${h.handle}  (${h.spread} conversations)`).join('\n')}`
+        : '\nWould block no contact handles.');
+    }
+    console.log('\n--dry-run: nothing written.');
+    return;
+  }
 
   // Record BEFORE writing, so a crash mid-write still leaves a restore path.
   fs.appendFileSync(LOG, JSON.stringify({
@@ -123,6 +159,30 @@ async function main() {
 
   if (updErr) { console.error('Update failed:', updErr.message); process.exit(1); }
   console.log(`\n${restore ? 'Restored' : 'Suspended'} ${ref}. Recorded in ${path.basename(LOG)}.`);
+
+  // Contact blocklist. A failure here must not leave the caller thinking the
+  // account is unsuspended — it is; report and exit non-zero so it gets redone.
+  try {
+    if (restore) {
+      const lifted = await releaseHandles(supabase, ref);
+      console.log(lifted.length
+        ? `Unblocked ${lifted.length} handle(s): ${lifted.join(', ')}`
+        : 'No blocked handles to lift.');
+    } else {
+      const blocked = await harvestHandles(supabase, ref, reason || null, { includeSingle });
+      if (!blocked.length) {
+        console.log(includeSingle
+          ? 'No contact handles found in this account\'s messages.'
+          : 'No handle reached 2+ conversations — nothing blocked (--include-single to force).');
+      } else {
+        console.log(`Blocked ${blocked.length} contact handle(s):`);
+        for (const h of blocked) console.log(`  ${h.handle}  (${h.spread} conversations)`);
+      }
+    }
+  } catch (e) {
+    console.error(`\nAccount is ${restore ? 'restored' : 'suspended'}, but the blocklist step failed: ${e.message}`);
+    process.exit(1);
+  }
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

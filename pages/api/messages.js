@@ -27,7 +27,9 @@ import {
   CONTACT_SPREAD_ALERT,
   CONTACT_SPREAD_BLOCK,
   CONTACT_SPREAD_WINDOW_DAYS,
+  notifyAdminOfSpamSignal,
 } from '../../lib/spam-signals';
+import { blockedHandlesIn } from '../../lib/contact-blocklist';
 // Contact info in messages is still NOT blocked on content — sharing a phone
 // number or LINE ID is the point of a direct-connection platform (server-side
 // block removed 2026-06-08 with the repositioning).
@@ -237,6 +239,43 @@ export default async function handler(req, res) {
 
     const conv = await loadConversation(supabase, conversation_id, session);
     if (!conv) return res.status(404).json({ error: 'Conversation not found' });
+
+    // Anti-scam: a contact handle belonging to a suspended account is refused
+    // no matter who sends it. The volume signals below count per account, so a
+    // scammer who re-registers starts them all at zero — the handle is the one
+    // identity that survives that, and blocking it is what makes the suspension
+    // actually cost something. See lib/contact-blocklist.js.
+    //
+    // Not always a scammer: a helper who copied the wrong link out of her LINE
+    // app hits this too. She is exactly who it protects — the link still leads
+    // to the scammer — so the message says what to check and accuses nobody.
+    const blocked = await blockedHandlesIn(supabase, trimmed);
+    if (blocked.length) {
+      console.warn(`[blocklist] refused ${session.ref}: ${blocked.join(', ')}`);
+      const fresh = await checkRateLimit({
+        bucket: 'blocked-contact-alert',
+        key: session.ref,
+        max: 1,
+        windowMs: 24 * 60 * 60 * 1000,
+      });
+      if (fresh) {
+        notifyAdminOfSpamSignal({
+          subject: `\u{1F6AB} Blocked contact handle: ${session.role} ${session.ref}`,
+          lines: [
+            `${session.ref} (${session.role}) tried to send a contact handle that`,
+            'belongs to a suspended account:',
+            '',
+            ...blocked.map((h) => `  ${h}`),
+            '',
+            'The message was refused. Check whether this account is running the',
+            'same scam, or is a victim who copied the wrong link.',
+            '',
+            `Message: ${trimmed.slice(0, 300)}`,
+          ],
+        }).catch((e) => console.error('Blocklist alert failed:', e.message));
+      }
+      return res.status(403).json({ error: 'blocked_contact' });
+    }
 
     // Anti-spam: contact info is fine, spraying it at everyone is not.
     // Costs nothing for messages without contact info — contactSpread()

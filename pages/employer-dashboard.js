@@ -141,6 +141,7 @@ const T = {
     msg_verify_required_title: 'Verify your email to start messaging',
     msg_verify_required_body: 'Your job is already visible to helpers. To send messages and read replies, please verify your email first.',
     err_contact_spam: 'For safety, contact details can only be shared in a limited number of chats. Please contact support if you need this raised.',
+    err_blocked_contact: 'This contact detail belongs to an account we blocked for scam activity, so your message was not sent. If you meant to share your own LINE or phone number, please check you copied the right one.',
     err_outreach_limit: 'You have started a lot of new chats recently. To keep everyone safe, please continue in your existing conversations for now. Contact support if you need this raised.',
     msg_verify_resend: 'Resend verification email',
     msg_verify_resent: 'Verification email sent — please check your inbox.',
@@ -250,6 +251,7 @@ const T = {
     msg_verify_required_title: 'ยืนยันอีเมลเพื่อเริ่มส่งข้อความ',
     msg_verify_required_body: 'ประกาศของคุณแสดงให้ผู้ช่วยเห็นแล้ว หากต้องการส่งข้อความและอ่านข้อความตอบกลับ กรุณายืนยันอีเมลก่อน',
     err_contact_spam: 'เพื่อความปลอดภัย สามารถแบ่งปันข้อมูลติดต่อได้ในจำนวนแชทที่จำกัด หากต้องการเพิ่มวงเงิน กรุณาติดต่อทีมงาน',
+    err_blocked_contact: 'ข้อมูลติดต่อนี้เป็นของบัญชีที่เราระงับไปเนื่องจากพฤติกรรมหลอกลวง ระบบจึงไม่ได้ส่งข้อความของคุณ หากคุณต้องการแชร์ LINE หรือเบอร์โทรของคุณเอง กรุณาตรวจสอบว่าคัดลอกมาถูกต้อง',
     err_outreach_limit: 'คุณเริ่มแชทใหม่จำนวนมากในช่วงนี้ เพื่อความปลอดภัยของทุกคน กรุณาสนทนาต่อในแชทที่มีอยู่ก่อน หากต้องการเพิ่มวงเงิน กรุณาติดต่อทีมงาน',
     msg_verify_resend: 'ส่งอีเมลยืนยันอีกครั้ง',
     msg_verify_resent: 'ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ',
@@ -744,6 +746,8 @@ export default function EmployerDashboard() {
         setErrorBanner((t.err_too_long || 'Message is too long.').replace('{n}', err.max || 4000));
       } else if (err.code === 'email_not_verified') {
         setErrorBanner(t.msg_verify_required_body);
+      } else if (err.code === 'blocked_contact') {
+        setErrorBanner(t.err_blocked_contact);
       } else if (err.code === 'contact_sharing_limit') {
         setErrorBanner(t.err_contact_spam);
       } else {
