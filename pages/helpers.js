@@ -51,6 +51,9 @@ const T = {
     filter_lang_label:  'Languages',
     filter_nat_label:   'Nationality',
     filter_wp_label:    'Work Permit',
+    filter_rating_label:'Rating',
+    filter_rating_any:  'Any rating',
+    filter_rating_rated:'Rated',
     filter_city:    'All Cities',
     filter_cat:     'All Categories',
     filter_area_ph: 'Search by area...',
@@ -59,6 +62,7 @@ const T = {
     sort_label:     'Sort by',
     sort_active:    'Recently active',
     sort_newest:    'Newest',
+    sort_rating:    'Top rated',
     results:        'helpers found',
     no_results:     'No helpers found',
     no_results_sub: 'Try adjusting your filters or check back soon — new helpers register every day.',
@@ -105,6 +109,9 @@ const T = {
     filter_lang_label:  'ภาษา',
     filter_nat_label:   'สัญชาติ',
     filter_wp_label:    'ใบอนุญาตทำงาน',
+    filter_rating_label:'คะแนนรีวิว',
+    filter_rating_any:  'ทุกคะแนน',
+    filter_rating_rated:'มีรีวิว',
     filter_city:    'ทุกจังหวัด',
     filter_cat:     'ทุกประเภท',
     filter_area_ph: 'ค้นหาตามย่าน...',
@@ -113,6 +120,7 @@ const T = {
     sort_label:     'เรียงตาม',
     sort_active:    'ใช้งานล่าสุด',
     sort_newest:    'ใหม่ล่าสุด',
+    sort_rating:    'คะแนนสูงสุด',
     results:        'ผู้ช่วยที่พบ',
     no_results:     'ไม่พบผู้ช่วย',
     no_results_sub: 'ลองปรับตัวกรอง หรือกลับมาดูอีกครั้ง — มีผู้ช่วยใหม่ลงทะเบียนทุกวัน',
@@ -203,6 +211,15 @@ const EXP_OPTIONS = [
   { value: '3',  label: '3+' },
   { value: '5',  label: '5+' },
   { value: '10', label: '10+' },
+];
+
+// Rating filter — 'rated' means "has at least one review" (useful while
+// most helpers are still unrated); the numeric values are minimum averages.
+const RATING_OPTIONS = [
+  { value: 'rated', labelKey: 'filter_rating_rated' },
+  { value: '3',     label: '3+' },
+  { value: '4',     label: '4+' },
+  { value: '4.5',   label: '4.5+' },
 ];
 
 // ─── Server-side data fetch — fixes Soft 404 for Googlebot ──────────────────
@@ -329,6 +346,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
   const [filterLanguages, setFilterLanguages] = useState([]);
   const [filterWp, setFilterWp] = useState('');
   const [filterNationality, setFilterNationality] = useState('');
+  const [filterMinRating, setFilterMinRating] = useState(''); // '' | 'rated' | '3' | '4' | '4.5'
   // Default 'active' so helpers who log in regularly rank above ones who
   // registered once and never came back — inactive accounts sink instead
   // of camping at the top just because they signed up recently.
@@ -339,7 +357,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
   const [visibleCount, setVisibleCount] = useState(SSR_INITIAL_PAGE);
   useEffect(() => {
     setVisibleCount(SSR_INITIAL_PAGE);
-  }, [filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality, sortBy]);
+  }, [filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality, filterMinRating, sortBy]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // The server rendered only the first page (see SSR_INITIAL_PAGE) for a fast,
@@ -512,8 +530,15 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     // set are excluded when a specific value is selected.
     if (filterNationality && h.nationality !== filterNationality) return false;
 
+    // Rating filter — unrated helpers are excluded as soon as any rating
+    // filter is active ('rated' = has at least one review, numbers = min avg).
+    if (filterMinRating) {
+      if (!h.ratingCount || h.ratingAvg == null) return false;
+      if (filterMinRating !== 'rated' && h.ratingAvg < parseFloat(filterMinRating)) return false;
+    }
+
     return true;
-  }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality]);
+  }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality, filterMinRating]);
 
   // Sorted view — 'active' (default) ranks recent logins first and pushes
   // helpers who never come back to the bottom (missing lastActiveAt = the
@@ -523,6 +548,16 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     const arr = [...filtered];
     if (sortBy === 'newest') {
       arr.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+    } else if (sortBy === 'rating') {
+      // Best average first; unrated helpers go last. Ties break on review
+      // count (4.8 from 10 families beats 4.8 from one), then recency.
+      arr.sort((a, b) => {
+        const aAvg = a.ratingCount ? (a.ratingAvg ?? -1) : -1;
+        const bAvg = b.ratingCount ? (b.ratingAvg ?? -1) : -1;
+        if (bAvg !== aAvg) return bAvg - aAvg;
+        if ((b.ratingCount || 0) !== (a.ratingCount || 0)) return (b.ratingCount || 0) - (a.ratingCount || 0);
+        return new Date(b.lastActiveAt || 0).getTime() - new Date(a.lastActiveAt || 0).getTime();
+      });
     } else {
       arr.sort((a, b) => new Date(b.lastActiveAt || 0).getTime() - new Date(a.lastActiveAt || 0).getTime());
     }
@@ -538,6 +573,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     setFilterLanguages([]);
     setFilterWp('');
     setFilterNationality('');
+    setFilterMinRating('');
   };
 
   const toggleLanguage = (lng) => {
@@ -546,10 +582,20 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     );
   };
 
+  // Ratings only become public once a helper has MIN_PUBLIC_REVIEWS of them
+  // (lib/rating-visibility.js), so right now every card comes back with
+  // ratingCount 0. A rating filter against that returns zero results for
+  // every option, which reads as broken rather than as empty. The control
+  // appears by itself the moment the first helper qualifies.
+  const hasRatedHelpers = useMemo(
+    () => helpers.some(h => (h.ratingCount || 0) > 0),
+    [helpers]
+  );
+
   const activeFilterCount =
     (filterCity ? 1 : 0) + (filterCat ? 1 : 0) + (filterArea ? 1 : 0) +
     (filterAgeRange ? 1 : 0) + (filterMinExp ? 1 : 0) + filterLanguages.length +
-    (filterWp ? 1 : 0) + (filterNationality ? 1 : 0);
+    (filterWp ? 1 : 0) + (filterNationality ? 1 : 0) + (filterMinRating ? 1 : 0);
 
   // Point the canonical URL at the matching /hire/ landing page when the
   // user has filtered to a single city / category / city+category combo.
@@ -674,6 +720,8 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                 filterLanguages={filterLanguages} toggleLanguage={toggleLanguage}
                 filterWp={filterWp} setFilterWp={setFilterWp}
                 filterNationality={filterNationality} setFilterNationality={setFilterNationality}
+                filterMinRating={filterMinRating} setFilterMinRating={setFilterMinRating}
+                hasRatedHelpers={hasRatedHelpers}
                 activeFilterCount={activeFilterCount}
                 onResetFilters={resetFilters}
               />
@@ -704,6 +752,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                   >
                     <option value="active">{t.sort_active}</option>
                     <option value="newest">{t.sort_newest}</option>
+                    {hasRatedHelpers && <option value="rating">{t.sort_rating}</option>}
                   </select>
 
                 <button
@@ -840,6 +889,8 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                     filterLanguages={filterLanguages} toggleLanguage={toggleLanguage}
                     filterWp={filterWp} setFilterWp={setFilterWp}
                     filterNationality={filterNationality} setFilterNationality={setFilterNationality}
+                    filterMinRating={filterMinRating} setFilterMinRating={setFilterMinRating}
+                    hasRatedHelpers={hasRatedHelpers}
                     activeFilterCount={activeFilterCount}
                     onResetFilters={resetFilters}
                   />
@@ -971,6 +1022,8 @@ function FilterSidebar({
   filterLanguages, toggleLanguage,
   filterWp, setFilterWp,
   filterNationality, setFilterNationality,
+  filterMinRating, setFilterMinRating,
+  hasRatedHelpers,
   activeFilterCount, onResetFilters,
 }) {
   return (
@@ -1101,6 +1154,24 @@ function FilterSidebar({
           ))}
         </div>
       </FilterGroup>
+
+      {/* Rating — only once at least one helper has a public rating */}
+      {hasRatedHelpers && (
+      <FilterGroup label={t.filter_rating_label}>
+        <div style={chipRowStyle}>
+          {RATING_OPTIONS.map(opt => (
+            <ChipButton
+              key={opt.value}
+              active={filterMinRating === opt.value}
+              onClick={() => setFilterMinRating(filterMinRating === opt.value ? '' : opt.value)}
+            >
+              <span style={{ marginRight: '3px', color: '#f4a261' }}>★</span>
+              {opt.labelKey ? t[opt.labelKey] : opt.label}
+            </ChipButton>
+          ))}
+        </div>
+      </FilterGroup>
+      )}
 
       {/* Nationality */}
       <FilterGroup label={t.filter_nat_label}>
