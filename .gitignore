@@ -83,3 +83,6 @@ scripts/.scam-warning-sent.jsonl
 
 # Unsent reply drafts — contain the reporter's email address
 scripts/.drafts-*.md
+
+# Harassment follow-ups — send log has PII (recipient emails)
+scripts/.harassment-followup-sent.jsonl
