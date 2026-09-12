@@ -14,6 +14,10 @@ import {
 } from '../../lib/access';
 import { countRateLimit, recordRateLimit } from '../../lib/rate-limit';
 import {
+  deletedColumnFor,
+  restoreConversationFor,
+} from '../../lib/conversation-visibility';
+import {
   notifyAdminOfSpamSignal,
   OUTREACH_WINDOW_DAYS,
   OUTREACH_ALERT,
@@ -145,10 +149,13 @@ export default async function handler(req, res) {
     const filterColumn = isEmployer ? 'employer_id' : 'helper_ref';
     const filterValue = session.ref;
 
+    // Deleting a conversation hides it from the deleter only (see the
+    // DELETE branch below), so the list filters on this side's marker.
     const { data: conversations, error } = await supabase
       .from('conversations')
       .select('id, helper_ref, employer_id, employer_name, last_message_at, created_at')
       .eq(filterColumn, filterValue)
+      .is(deletedColumnFor(session.role), null)
       .order('last_message_at', { ascending: false });
 
     if (error) {
@@ -323,6 +330,8 @@ export default async function handler(req, res) {
         .maybeSingle();
 
       if (existing) {
+        // Reopening a chat they had hidden brings it back to their list.
+        await restoreConversationFor(supabase, existing.id, 'employer');
         return res.status(200).json({ conversation_id: existing.id, existed: true });
       }
 
@@ -382,6 +391,8 @@ export default async function handler(req, res) {
         .maybeSingle();
 
       if (existing) {
+        // Reopening a chat they had hidden brings it back to their list.
+        await restoreConversationFor(supabase, existing.id, 'helper');
         return res.status(200).json({ conversation_id: existing.id, existed: true });
       }
 
@@ -409,7 +420,19 @@ export default async function handler(req, res) {
     }
   }
 
-  // ─── DELETE — Remove a conversation and all its messages ────────────
+  // ─── DELETE — Hide a conversation from the caller's own list ────────
+  //
+  // This used to hard-delete the conversation and every message in it, for
+  // both sides at once. That is what let EMP-572KZV post a review accusing a
+  // helper of theft and then remove the thread that disproved it: the rating
+  // row survives a conversation delete, so the accusation outlived its own
+  // evidence (see scripts/supabase-conversation-soft-delete.sql).
+  //
+  // Deleting the rating alongside would only move the abuse: either side can
+  // delete a conversation, so a helper could erase an honest bad review by
+  // deleting the thread behind it. Hiding per side fixes both — the deleter
+  // gets their inbox cleaned, the messages stay where moderation (and
+  // /api/ratings' eligibility check) can still see them.
   if (req.method === 'DELETE') {
     const { conversation_id } = req.query;
     if (!conversation_id) {
@@ -429,21 +452,9 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Conversation not found' });
     }
 
-    // Delete all messages first (FK constraint)
-    const { error: msgErr } = await supabase
-      .from('messages')
-      .delete()
-      .eq('conversation_id', conversation_id);
-
-    if (msgErr) {
-      console.error('Messages delete error:', msgErr);
-      return res.status(500).json({ error: 'Failed to delete messages' });
-    }
-
-    // Delete the conversation
     const { error: convErr } = await supabase
       .from('conversations')
-      .delete()
+      .update({ [deletedColumnFor(session.role)]: new Date().toISOString() })
       .eq('id', conversation_id);
 
     if (convErr) {

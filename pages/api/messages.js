@@ -361,10 +361,18 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to send message' });
     }
 
-    // Bump conversation last_message_at
+    // Bump conversation last_message_at, and un-hide the thread for both
+    // sides. Deleting a conversation only hides it from the deleter
+    // (lib/conversation-visibility.js); a thread carrying a message nobody
+    // has read yet belongs in both inboxes, or the message lands somewhere
+    // the recipient can no longer see it.
     await supabase
       .from('conversations')
-      .update({ last_message_at: new Date().toISOString() })
+      .update({
+        last_message_at: new Date().toISOString(),
+        deleted_by_helper_at: null,
+        deleted_by_employer_at: null,
+      })
       .eq('id', conversation_id);
 
     // Notifications (email + push) run AFTER the response goes out — they

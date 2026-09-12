@@ -19,6 +19,12 @@ const MAX_COMMENT = 400;
 //   'not_messaged'      — no conversation, or only one side has spoken
 //   null                — eligible
 async function checkEligibility(supabase, employer_ref, helper_ref) {
+  // Deliberately counts conversations either side has hidden
+  // (lib/conversation-visibility.js). Eligibility is about whether the two
+  // actually talked, and that stays true once it happened — if hiding a
+  // thread revoked it, a helper could drop an honest review by deleting the
+  // conversation behind it, and a family could strip their own review of the
+  // evidence backing it.
   const { data: convs } = await supabase
     .from('conversations')
     .select('id')
