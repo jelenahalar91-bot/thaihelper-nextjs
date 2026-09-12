@@ -7,6 +7,7 @@
 import { getServiceSupabase } from '../../lib/supabase';
 import { getDisplayAge } from '../../lib/age';
 import { maskWpStatusForPublic } from '../../lib/constants/work-permit';
+import { publicRating } from '../../lib/rating-visibility';
 
 // Map a helper_profiles row to a public-safe card shape.
 // IMPORTANT: never expose whatsapp / has_whatsapp / phone / email here.
@@ -37,8 +38,9 @@ function toPublicCard(row, trust = {}) {
     photo: row.photo_url || '',
     createdAt: row.created_at || null,
     lastActiveAt: row.last_login_at || null,
-    ratingAvg: row.rating_avg != null ? Number(row.rating_avg) : null,
-    ratingCount: row.rating_count || 0,
+    // Hidden below MIN_PUBLIC_REVIEWS — one review must not be a whole
+    // reputation. See lib/rating-visibility.js.
+    ...publicRating(row.rating_avg, row.rating_count),
     // Signal to the UI whether contact info exists (without revealing it)
     hasWhatsApp: !!row.whatsapp,
     hasEmail: !!row.email,

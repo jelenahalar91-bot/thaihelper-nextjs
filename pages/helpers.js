@@ -15,6 +15,7 @@ import { getAllHireSlugs } from '@/lib/seo/hire-pages';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 import { WP_FILTER_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_FILTER_OPTIONS } from '@/lib/constants/nationalities';
+import { publicRating } from '@/lib/rating-visibility';
 
 // How many helper cards to render at once. Used both for the server-rendered
 // first page (keeps initial HTML small) and as the client-side "reveal" step
@@ -285,8 +286,8 @@ export async function getServerSideProps({ req }) {
         photo: row.photo_url || '',
         createdAt: row.created_at || null,
         lastActiveAt: row.last_login_at || null,
-        ratingAvg: row.rating_avg != null ? Number(row.rating_avg) : null,
-        ratingCount: row.rating_count || 0,
+        // Same gate as /api/helpers — this page builds its own card shape.
+        ...publicRating(row.rating_avg, row.rating_count),
         hasWhatsApp: !!row.whatsapp,
         hasEmail: !!row.email,
         // Mirror the public masking from /api/helpers so the URL filter

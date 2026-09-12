@@ -2,21 +2,49 @@
 // POST   /api/ratings { helperRef, stars, comment? }   → employer only, upsert own rating
 // DELETE /api/ratings?helper=REF                       → employer only, remove own rating
 //
-// Eligibility rule: a family can only rate a helper if a conversation
-// exists between them AND both sides have sent at least one message
-// in it. This prevents drive-by spam ratings + retaliation reviews.
+// Eligibility rule: a family can only rate a helper after a real exchange —
+// MIN_MESSAGES_PER_SIDE each way, spread over MIN_CONVERSATION_SPAN_MS. See
+// the constants below for why those numbers, and what they do not prove.
+//
+// Nothing is public until MIN_PUBLIC_REVIEWS reviews exist
+// (lib/rating-visibility.js): one review must not be a whole reputation.
 //
 // employer_first_name is snapshotted on each upsert so reviews keep
 // rendering a name even if the family later deletes their account.
 
 import { getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
+import { MIN_PUBLIC_REVIEWS } from '../../lib/rating-visibility';
+import { sendNewRatingNotification } from '../../lib/send-confirmation-email';
 
 const MAX_COMMENT = 400;
+
+// What has to have happened before a family may review a helper.
+//
+// Until 2026-09-12 one message from each side was enough. EMP-572KZV messaged
+// a helper, she replied, and that made him eligible to publish "she is a
+// scammer, I caught her stealing money from my daughters money box". Two
+// messages is not a working relationship; it is an introduction.
+//
+// Calibrated against the message corpus rather than picked by feel (the same
+// rule as the spam thresholds): of 1,330 conversations, 337 clear the old
+// 1+1 bar, 120 clear 3+3, and 66 clear 3+3 spread over a day. Tightening to
+// 3+3/24h therefore removes ~80% of the drive-by surface — and costs close to
+// nothing in real reviews, because in 3.5 months exactly 3 reviews were ever
+// written, 2 of them by this one man.
+//
+// Neither number can prove a job happened; nothing in the schema can, since
+// hiring occurs off-platform. They raise the price of a drive-by accusation
+// from four clicks to a sustained exchange over a day, which is what the
+// abuse case actually needed.
+const MIN_MESSAGES_PER_SIDE = 3;
+const MIN_CONVERSATION_SPAN_MS = 24 * 60 * 60 * 1000;
 
 // Returns { canRate: boolean, reason: string|null } describing whether
 // `employer_ref` is allowed to rate `helper_ref`. Reason codes:
 //   'not_messaged'      — no conversation, or only one side has spoken
+//   'too_few_messages'  — talked, but not enough either way
+//   'too_recent'        — the whole exchange fits inside one day
 //   null                — eligible
 async function checkEligibility(supabase, employer_ref, helper_ref) {
   // Deliberately counts conversations either side has hidden
@@ -37,19 +65,65 @@ async function checkEligibility(supabase, employer_ref, helper_ref) {
 
   const convIds = convs.map(c => c.id);
 
-  // Both sides must have sent at least one message. We don't care
-  // about order or volume — one each is enough.
-  const { data: senders } = await supabase
+  const { data: msgs } = await supabase
     .from('messages')
-    .select('sender_type')
+    .select('sender_type, created_at')
     .in('conversation_id', convIds);
 
-  const types = new Set((senders || []).map(m => m.sender_type));
-  if (!types.has('helper') || !types.has('employer')) {
+  const rows = msgs || [];
+  const fromEmployer = rows.filter(m => m.sender_type === 'employer').length;
+  const fromHelper = rows.filter(m => m.sender_type === 'helper').length;
+
+  if (fromEmployer === 0 || fromHelper === 0) {
     return { canRate: false, reason: 'not_messaged' };
+  }
+  if (fromEmployer < MIN_MESSAGES_PER_SIDE || fromHelper < MIN_MESSAGES_PER_SIDE) {
+    return { canRate: false, reason: 'too_few_messages' };
+  }
+
+  const times = rows.map(m => new Date(m.created_at).getTime()).filter(t => !Number.isNaN(t));
+  const span = times.length ? Math.max(...times) - Math.min(...times) : 0;
+  if (span < MIN_CONVERSATION_SPAN_MS) {
+    return { canRate: false, reason: 'too_recent' };
   }
 
   return { canRate: true, reason: null };
+}
+
+/**
+ * Email the helper that a rating landed, and tell them how to dispute it.
+ *
+ * Reads the live review count so the mail can say whether the review is
+ * actually on their profile yet (see lib/rating-visibility.js) — being told
+ * "you were rated 1 star" without "and nobody can see it yet" would frighten
+ * people for no reason.
+ */
+async function notifyHelperOfRating(supabase, helper_ref, employerName, stars, comment) {
+  const [{ data: helper }, { count }] = await Promise.all([
+    supabase
+      .from('helper_profiles')
+      .select('first_name, email, notify_on_message')
+      .eq('helper_ref', helper_ref)
+      .single(),
+    supabase
+      .from('helper_ratings')
+      .select('*', { count: 'exact', head: true })
+      .eq('helper_ref', helper_ref),
+  ]);
+
+  // notify_on_message is the helper's "leave me alone" switch. A review about
+  // you is not marketing, but it is still their choice to be emailed.
+  if (!helper?.email || helper.notify_on_message === false) return;
+
+  await sendNewRatingNotification({
+    recipientName: helper.first_name,
+    recipientEmail: helper.email,
+    employerName,
+    stars,
+    comment,
+    isPublic: (count || 0) >= MIN_PUBLIC_REVIEWS,
+    minPublicReviews: MIN_PUBLIC_REVIEWS,
+  });
 }
 
 export default async function handler(req, res) {
@@ -72,7 +146,15 @@ export default async function handler(req, res) {
     }
 
     const rows = data || [];
-    const reviews = rows.map(r => ({
+
+    // Below MIN_PUBLIC_REVIEWS nothing is shown — not the average, not the
+    // reviews themselves. Hiding only the average would leave a lone "she is
+    // a scammer" sitting on the profile, which is the actual damage. The rows
+    // are kept and keep counting; all of them appear together once the third
+    // arrives. The author still gets myRating below, or a saved review would
+    // look like it had failed. See lib/rating-visibility.js.
+    const isPublic = rows.length >= MIN_PUBLIC_REVIEWS;
+    const reviews = !isPublic ? [] : rows.map(r => ({
       stars: r.stars,
       comment: r.comment || '',
       employerFirstName: r.employer_first_name || 'Anonymous',
@@ -109,6 +191,10 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 'private, max-age=60');
     return res.status(200).json({
       reviews,
+      // How many more are needed before any become public, so the UI can say
+      // "not enough reviews yet" rather than "no reviews".
+      pendingReviewCount: isPublic ? 0 : rows.length,
+      minPublicReviews: MIN_PUBLIC_REVIEWS,
       canRate,
       cannotRateReason,
       myRating,
@@ -186,6 +272,13 @@ export default async function handler(req, res) {
       console.error('Rating upsert error:', error);
       return res.status(500).json({ error: 'Failed to save rating' });
     }
+
+    // Tell the helper. Fire-and-forget: a mail failure must not fail the
+    // rating, and the family should not wait on Resend. Before this the
+    // subject of a review had no way of learning it existed — which is how a
+    // false accusation of theft sat on a profile for two weeks.
+    notifyHelperOfRating(supabase, cleanHelperRef, firstName, numStars, cleanComment)
+      .catch(err => console.error('Rating notification failed:', err.message));
 
     return res.status(200).json({
       success: true,

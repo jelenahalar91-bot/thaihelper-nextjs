@@ -95,6 +95,23 @@ const REL_LABELS = {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
+// Why an employer cannot rate yet, in their own words. Each of these is a
+// state the server can return from checkEligibility — see /api/ratings.
+const RATE_NUDGE = {
+  not_messaged: {
+    en: 'You can leave a rating once you and the helper have messaged each other.',
+    th: 'คุณจะให้คะแนนได้เมื่อคุณกับผู้ช่วยได้ส่งข้อความถึงกันแล้ว',
+  },
+  too_few_messages: {
+    en: 'You can leave a rating once you have really talked — a few messages each way.',
+    th: 'คุณจะให้คะแนนได้เมื่อได้พูดคุยกันจริง ๆ คือมีข้อความหลายข้อความจากทั้งสองฝ่าย',
+  },
+  too_recent: {
+    en: 'You can leave a rating a day after your conversation starts.',
+    th: 'คุณจะให้คะแนนได้หนึ่งวันหลังจากเริ่มการสนทนา',
+  },
+};
+
 export default function HelperProfileModal({ helper, onClose, t, lang = 'en', footerCta = null }) {
   const [references, setReferences] = useState([]);
   const [refsLoading, setRefsLoading] = useState(true);
@@ -117,6 +134,10 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
   const [cannotRateReason, setCannotRateReason] = useState(null);
   const [myRating, setMyRating] = useState(null);
   const [ratingsLoading, setRatingsLoading] = useState(true);
+  // Reviews exist but are still below the public threshold. The API sends
+  // the count and the threshold so this copy never drifts from the server.
+  const [pendingReviewCount, setPendingReviewCount] = useState(0);
+  const [minPublicReviews, setMinPublicReviews] = useState(3);
   // Aggregate computed from the local reviews so the modal stays in
   // sync after submit (helper.ratingAvg/Count come from props and are
   // stale once we POST a new rating). Falls back to prop values on first
@@ -136,6 +157,8 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
         setCanRate(!!data.canRate);
         setCannotRateReason(data.cannotRateReason || null);
         setMyRating(data.myRating || null);
+        setPendingReviewCount(data.pendingReviewCount || 0);
+        if (data.minPublicReviews) setMinPublicReviews(data.minPublicReviews);
       }
     } catch (err) {
       console.error('Failed to load ratings:', err);
@@ -484,10 +507,11 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
             ) : null}
           </Section>
 
-          {/* Reviews — families who messaged with this helper can leave
-              1-5 star ratings + optional comment. Eligibility comes from
-              /api/ratings (true iff a conversation exists with messages
-              from both sides). */}
+          {/* Reviews — families who have really talked with this helper can
+              leave 1-5 star ratings + optional comment. Eligibility and
+              visibility both come from /api/ratings: it returns an empty
+              list until the helper has minPublicReviews reviews, so one
+              angry family cannot be someone's whole reputation. */}
           <Section title={lang === 'th' ? 'รีวิว' : 'Reviews'}>
             {ratingsLoading ? (
               <p style={{ fontSize: '13px', color: '#9ca3af', margin: 0 }}>Loading...</p>
@@ -498,9 +522,13 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
                     fontSize: '13px', color: '#9ca3af', margin: 0,
                     fontStyle: 'italic',
                   }}>
-                    {lang === 'th'
-                      ? 'ยังไม่มีรีวิว — เป็นครอบครัวแรกที่ให้คะแนน'
-                      : 'No reviews yet — be the first family to rate.'}
+                    {pendingReviewCount > 0
+                      ? (lang === 'th'
+                          ? `รีวิวจะแสดงเมื่อมีครบ ${minPublicReviews} รายการ เพื่อไม่ให้ความเห็นเดียวตัดสินคนคนหนึ่ง`
+                          : `Reviews appear once there are ${minPublicReviews}, so that no single opinion decides someone's reputation.`)
+                      : (lang === 'th'
+                          ? 'ยังไม่มีรีวิว — เป็นครอบครัวแรกที่ให้คะแนน'
+                          : 'No reviews yet — be the first family to rate.')}
                   </p>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -536,14 +564,12 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
                 )}
 
                 {/* Friendly nudge for employers who aren't eligible yet */}
-                {!canRate && cannotRateReason === 'not_messaged' && (
+                {!canRate && RATE_NUDGE[cannotRateReason] && (
                   <p style={{
                     fontSize: '12px', color: '#9ca3af', marginTop: '14px',
                     fontStyle: 'italic',
                   }}>
-                    {lang === 'th'
-                      ? 'คุณจะให้คะแนนได้หลังจากที่ทั้งคู่ส่งข้อความกันแล้ว'
-                      : 'You can leave a rating after both you and the helper have exchanged messages.'}
+                    {RATE_NUDGE[cannotRateReason][lang === 'th' ? 'th' : 'en']}
                   </p>
                 )}
               </>

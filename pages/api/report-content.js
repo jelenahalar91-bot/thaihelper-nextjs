@@ -1,4 +1,4 @@
-// POST /api/report-content — Report a profile or conversation.
+// POST /api/report-content — Report a profile, conversation or rating.
 //
 // App Store guideline 1.2 requires a reporting mechanism for user-generated
 // content. Reports go straight to the admin inbox (no new DB table needed);
@@ -25,7 +25,7 @@ function checkRate(key) {
   return r.count <= MAX;
 }
 
-const TARGET_TYPES = new Set(['helper', 'employer', 'conversation']);
+const TARGET_TYPES = new Set(['helper', 'employer', 'conversation', 'rating']);
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
