@@ -14,8 +14,9 @@
  *   parent page can open a profile modal.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MessageBubble from './MessageBubble';
+import { sharesContactDetails } from '../../lib/contact-warning';
 
 export default function ConversationDetail({
   conversation,
@@ -83,6 +84,29 @@ export default function ConversationDetail({
       });
     }
   }, [messages, currentRole]);
+
+  // Asking once, before the contact details leave the app. MessageBubble
+  // warns after the fact, which reaches the recipient; this reaches the
+  // sender while it is still their decision. It is a confirmation, not a
+  // block — "Send anyway" is right there, and sharing contact details has
+  // always been allowed.
+  const [confirmOffPlatform, setConfirmOffPlatform] = useState(false);
+
+  const requestSend = () => {
+    if (!confirmOffPlatform && sharesContactDetails(msgInput)) {
+      setConfirmOffPlatform(true);
+      return;
+    }
+    setConfirmOffPlatform(false);
+    onSend();
+  };
+
+  // Editing the text after being asked can well mean removing the number,
+  // so the question is asked again against whatever now stands.
+  const handleInputChange = (value) => {
+    if (confirmOffPlatform) setConfirmOffPlatform(false);
+    setMsgInput(value);
+  };
 
   const cp = conversation.counterparty || {};
   const displayName =
@@ -369,6 +393,53 @@ export default function ConversationDetail({
               </div>
             </div>
           )}
+          {confirmOffPlatform && (
+            <div style={{
+              margin: '0 16px',
+              padding: '12px 14px',
+              borderRadius: '12px',
+              borderLeft: '3px solid #F4A261',
+              background: '#fff8f0',
+              color: '#7a5330',
+              fontSize: '13px',
+              lineHeight: 1.5,
+            }}>
+              <strong style={{ color: '#8a4b12' }}>
+                {t.msg_offplatform_confirm_title || 'You are sharing contact details'}
+              </strong>
+              <div style={{ margin: '4px 0 10px' }}>
+                {t.msg_offplatform_confirm_body
+                  || 'We cannot see or check what happens outside ThaiHelper, and this is how scams start. You can keep talking here instead.'}
+              </div>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <button
+                  type="button"
+                  onClick={requestSend}
+                  disabled={sending}
+                  style={{
+                    padding: '8px 14px', borderRadius: '999px',
+                    border: '1.5px solid #d8a06a', background: 'transparent',
+                    color: '#8a4b12', fontSize: '13px', fontWeight: 600,
+                    cursor: sending ? 'wait' : 'pointer',
+                  }}
+                >
+                  {t.msg_offplatform_confirm_send || 'Send anyway'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setConfirmOffPlatform(false)}
+                  style={{
+                    padding: '8px 14px', borderRadius: '999px',
+                    border: 'none', background: '#006a62',
+                    color: 'white', fontSize: '13px', fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {t.msg_offplatform_confirm_cancel || 'Keep it in the chat'}
+                </button>
+              </div>
+            </div>
+          )}
           <div style={{
             display: 'flex', gap: '10px', padding: '14px 16px',
             alignItems: 'center',
@@ -384,11 +455,11 @@ export default function ConversationDetail({
             <input
               type="text"
               value={msgInput}
-              onChange={e => setMsgInput(e.target.value)}
+              onChange={e => handleInputChange(e.target.value)}
               onKeyDown={e => {
                 if (e.key === 'Enter' && !e.shiftKey && !sending) {
                   e.preventDefault();
-                  onSend();
+                  requestSend();
                 }
               }}
               placeholder={t.msg_placeholder}
@@ -401,7 +472,7 @@ export default function ConversationDetail({
               }}
             />
             <button
-              onClick={onSend}
+              onClick={requestSend}
               disabled={sending || !msgInput.trim()}
               aria-label={t.msg_send}
               style={{
