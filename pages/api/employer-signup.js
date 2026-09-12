@@ -15,6 +15,7 @@ import { formatAttributionString } from '../../lib/utm';
 import { translateForeignText } from '../../lib/translate';
 import { looksLikeFullAddress } from '../../lib/address-guard';
 import { buildJobDetailsPatch } from '../../lib/employer-job-details';
+import { missingJobDescriptions } from '../../lib/constants/employer';
 
 function generateRef() {
   // crypto.randomBytes is cryptographically secure — Math.random() is
@@ -95,6 +96,24 @@ export default async function handler(req, res) {
   if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !city) {
     return res.status(400).json({
       error: 'First name, last name, email and city are required.',
+    });
+  }
+
+  // At least one category, and a real description for each one. Chips alone
+  // ("nanny", "weekdays") leave helpers applying blind, which is why both are
+  // required rather than optional — see JOB_DESCRIPTION_MIN_LENGTH.
+  const categories = Array.isArray(lookingFor)
+    ? lookingFor.filter(Boolean)
+    : String(lookingFor || '').split(',').map((s) => s.trim()).filter(Boolean);
+  if (categories.length === 0) {
+    return res.status(400).json({ error: 'looking_for_required' });
+  }
+
+  const missingDescriptions = missingJobDescriptions(categories, jobDetails, jobDescription);
+  if (missingDescriptions.length > 0) {
+    return res.status(400).json({
+      error: 'job_description_required',
+      missing: missingDescriptions,
     });
   }
 

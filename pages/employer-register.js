@@ -8,7 +8,16 @@ import Turnstile from '@/components/Turnstile';
 import { employerSignup, uploadEmployerPhoto } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
-import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
+import {
+  SCHEDULE_DAYS,
+  SCHEDULE_TIMES,
+  DURATIONS,
+  CHILD_AGE_GROUPS,
+  JOB_DESCRIPTION_EXAMPLES,
+  JOB_DESCRIPTION_HINTS,
+  JOB_DESCRIPTION_MIN_LENGTH,
+  missingJobDescriptions,
+} from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu } from '@/components/MobileMenu';
 import { useLang } from '@/pages/_app';
@@ -82,7 +91,7 @@ const T = {
     area_label: 'Neighborhood / Area (optional)',
     area_ph: 'e.g. Sukhumvit, Rawai, Nimman…',
     section_needs: 'Which helpers do you want to hire?',
-    needs_hint: 'Select every category of helper your household needs',
+    needs_hint: 'Select every category of helper your household needs — at least one is required.',
     section_tasks: 'Specific tasks',
     tasks_hint: 'Tap the duties you actually need help with — this helps us match you with the right helpers.',
     section_schedule: 'When do you need help?',
@@ -91,11 +100,18 @@ const T = {
     duration_label: 'How long',
     section_kids: 'Children\u2019s ages',
     kids_hint: 'Select all age groups your helper will work with.',
-    job_label: 'Tell us about the job (optional)',
-    job_label_multi: 'Tell us about the jobs (optional)',
+    job_label: 'Tell us about the job',
+    job_label_multi: 'Tell us about the jobs',
+    job_required_badge: 'Required',
+    job_required_hint: 'Helpers decide whether to apply from this text. Ticked boxes alone don\u2019t tell them the hours, the ages or the household \u2014 so a short description of each job is required.',
+    job_no_categories: 'Select which helpers you want to hire above \u2014 you\u2019ll then get one description box per job.',
+    job_hints_title: 'Please include:',
+    job_chars_left: (n) => `${n} more character${n === 1 ? '' : 's'} needed`,
     job_ph: 'e.g. We need a nanny for our 2-year-old, 3 days a week. Must speak basic English.',
     job_hint: 'Phone numbers and emails will be automatically hidden for privacy.',
     job_multi_hint: 'You\'re looking for more than one kind of help — describe each job separately so helpers immediately see which role fits them.',
+    error_no_category: 'Please select at least one type of helper you are looking for.',
+    error_job_missing: 'Please describe every job you are posting \u2014 helpers need to know what the work actually is before they apply.',
     photo_label: 'Profile Photo (optional)',
     photo_hint: 'Helpers are more likely to respond when they can see who they\'re working for.',
     photo_selected: 'Photo selected!',
@@ -169,7 +185,7 @@ const T = {
     area_label: 'ย่าน (ไม่จำเป็น)',
     area_ph: 'เช่น สุขุมวิท, รวาย, นิมมาน…',
     section_needs: 'คุณต้องการจ้างผู้ช่วยประเภทไหน?',
-    needs_hint: 'เลือกผู้ช่วยทุกประเภทที่บ้านคุณต้องการ',
+    needs_hint: 'เลือกผู้ช่วยทุกประเภทที่บ้านคุณต้องการ — ต้องเลือกอย่างน้อย 1 ประเภท',
     section_tasks: 'งานที่ต้องการ',
     tasks_hint: 'แตะหน้าที่ที่คุณต้องการความช่วยเหลือจริงๆ — ช่วยให้เราจับคู่ผู้ช่วยที่เหมาะกับคุณ',
     section_schedule: 'คุณต้องการเมื่อไหร่?',
@@ -178,8 +194,13 @@ const T = {
     duration_label: 'ระยะเวลา',
     section_kids: 'ช่วงอายุของเด็ก',
     kids_hint: 'เลือกช่วงอายุของเด็กที่ผู้ช่วยจะดูแล',
-    job_label: 'บอกเราเกี่ยวกับงาน (ไม่จำเป็น)',
-    job_label_multi: 'บอกเราเกี่ยวกับงานแต่ละงาน (ไม่จำเป็น)',
+    job_label: 'บอกเราเกี่ยวกับงาน',
+    job_label_multi: 'บอกเราเกี่ยวกับงานแต่ละงาน',
+    job_required_badge: 'จำเป็น',
+    job_required_hint: 'ผู้ช่วยตัดสินใจสมัครงานจากข้อความนี้ การติ๊กตัวเลือกเพียงอย่างเดียวไม่บอกเวลาทำงาน อายุเด็ก หรือลักษณะบ้าน — จึงต้องเขียนอธิบายแต่ละงานสั้น ๆ',
+    job_no_categories: 'กรุณาเลือกประเภทผู้ช่วยที่ต้องการจ้างด้านบนก่อน — จากนั้นจะมีช่องอธิบายงานแยกตามแต่ละประเภท',
+    job_hints_title: 'กรุณาระบุ:',
+    job_chars_left: (n) => `ต้องพิมพ์เพิ่มอีก ${n} ตัวอักษร`,
     job_ph: 'เช่น ต้องการพี่เลี้ยงเด็กอายุ 2 ขวบ 3 วันต่อสัปดาห์',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนโดยอัตโนมัติเพื่อความเป็นส่วนตัว',
     job_multi_hint: 'คุณกำลังมองหาผู้ช่วยมากกว่าหนึ่งประเภท — อธิบายแต่ละงานแยกกัน เพื่อให้ผู้ช่วยเห็นทันทีว่างานไหนเหมาะกับตน',
@@ -194,6 +215,8 @@ const T = {
     error_generic: 'เกิดข้อผิดพลาด กรุณาลองใหม่',
     error_captcha: 'กรุณายืนยัน "ฉันไม่ใช่โปรแกรมอัตโนมัติ" แล้วลองใหม่',
     error_area_address: 'กรุณากรอกเขต/ย่านทั่วไป (เช่น "สุขุมวิท") แทนที่จะเป็นที่อยู่บ้านเต็มรูปแบบ คุณสามารถแจ้งที่อยู่ที่ชัดเจนแบบส่วนตัวได้เมื่อได้ติดต่อกับผู้ช่วยแล้ว',
+    error_no_category: 'กรุณาเลือกประเภทผู้ช่วยที่คุณต้องการอย่างน้อย 1 ประเภท',
+    error_job_missing: 'กรุณาอธิบายทุกงานที่คุณลงประกาศ — ผู้ช่วยต้องรู้ว่างานคืออะไรก่อนจะสมัคร',
     have_account: 'มีบัญชีอยู่แล้ว?',
     login_link: 'เข้าสู่ระบบ',
     terms_notice: 'โดยการสร้างบัญชี คุณยอมรับ',
@@ -228,16 +251,18 @@ export default function EmployerRegisterPage() {
   const [arrangementPreference, setArrangementPreference] = useState('');
   const [startTiming, setStartTiming] = useState('');
   const [preferredAgeRange, setPreferredAgeRange] = useState('');
-  const [jobDescription, setJobDescription] = useState('');
-  // Per-category job texts ({ nanny: "…" }) — used instead of the single
-  // jobDescription as soon as at least one category is selected, so a
-  // family hiring e.g. a babysitter AND a housekeeper describes each job.
+  // Per-category job texts ({ nanny: "…" }) — one required box per selected
+  // category, so a family hiring e.g. a babysitter AND a housekeeper
+  // describes each job instead of leaving helpers to guess.
   const [jobDetails, setJobDetails] = useState({});
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState('');
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  // Categories whose description box is still empty or too short after a
+  // submit attempt — used to outline the offending boxes in red.
+  const [missingJobs, setMissingJobs] = useState([]);
   const [successRef, setSuccessRef] = useState(null);
   const [turnstileToken, setTurnstileToken] = useState('');
   const handleTurnstileToken = useCallback((token) => setTurnstileToken(token), []);
@@ -334,6 +359,23 @@ export default function EmployerRegisterPage() {
       return;
     }
 
+    // A job post nobody can read is worthless to helpers: the categories and
+    // one real description per category are required, so catch both here
+    // (the API rejects them too) and jump the user to the offending section.
+    if (lookingFor.length === 0) {
+      setError(t.error_no_category);
+      scrollToStep(needsRef);
+      return;
+    }
+
+    const missing = missingJobDescriptions(lookingFor, jobDetails);
+    setMissingJobs(missing);
+    if (missing.length > 0) {
+      setError(t.error_job_missing);
+      scrollToStep(jobRef);
+      return;
+    }
+
     // Hard-block on confident email typos (e.g. gmail.co, hotmail.con).
     // The yellow "Did you mean ..." hint is already shown on blur; here we
     // refuse to submit until the user either accepts the suggestion or
@@ -363,7 +405,6 @@ export default function EmployerRegisterPage() {
         arrangementPreference: arrangementPreference || null,
         startTiming: startTiming || null,
         preferredAgeRange: preferredAgeRange || null,
-        jobDescription: jobDescription.trim(),
         jobDetails,
         turnstileToken,
       });
@@ -374,6 +415,8 @@ export default function EmployerRegisterPage() {
           invalid_input: t.error_invalid,
           area_full_address: t.error_area_address,
           captcha: t.error_captcha,
+          looking_for_required: t.error_no_category,
+          job_description_required: t.error_job_missing,
         };
         setError(errorMap[result.error] || t.error_generic);
         return;
@@ -909,38 +952,81 @@ export default function EmployerRegisterPage() {
                   no category is selected yet. */}
               {lookingFor.length === 0 ? (
                 <div className="field">
-                  <label>{t.job_label}</label>
-                  <textarea
-                    value={jobDescription}
-                    onChange={e => setJobDescription(e.target.value)}
-                    placeholder={t.job_ph}
-                    rows={4}
-                    style={{ resize: 'vertical' }}
-                  />
-                  <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.job_hint}</p>
+                  <label>
+                    {t.job_label} <RequiredBadge label={t.job_required_badge} />
+                  </label>
+                  <div style={{
+                    background: '#fff8e1', border: '1px solid #f3d9a4', borderRadius: '12px',
+                    padding: '14px 16px', fontSize: '14px', color: '#6b5320', lineHeight: 1.5,
+                  }}>
+                    {t.job_no_categories}
+                  </div>
                 </div>
               ) : (
                 <div className="field">
-                  <label>{lookingFor.length > 1 ? t.job_label_multi : t.job_label}</label>
-                  {lookingFor.length > 1 && (
-                    <p style={{ fontSize: '13px', color: 'var(--gray-500)', margin: '0 0 12px' }}>
-                      {t.job_multi_hint}
-                    </p>
-                  )}
-                  {LOOKING_FOR_OPTIONS.filter(o => lookingFor.includes(o.value)).map(opt => (
-                    <div key={opt.value} style={{ marginBottom: '14px' }}>
-                      <div style={{ fontSize: '14px', fontWeight: 700, color: '#006a62', marginBottom: '6px' }}>
-                        {opt[lang] || opt.en}
+                  <label>
+                    {lookingFor.length > 1 ? t.job_label_multi : t.job_label}{' '}
+                    <RequiredBadge label={t.job_required_badge} />
+                  </label>
+                  <p style={{ fontSize: '13px', color: 'var(--gray-500)', margin: '0 0 12px' }}>
+                    {lookingFor.length > 1 ? t.job_multi_hint : t.job_required_hint}
+                  </p>
+                  {LOOKING_FOR_OPTIONS.filter(o => lookingFor.includes(o.value)).map(opt => {
+                    const text = jobDetails[opt.value] || '';
+                    const remaining = JOB_DESCRIPTION_MIN_LENGTH - text.trim().length;
+                    const flagged = missingJobs.includes(opt.value);
+                    const hints = JOB_DESCRIPTION_HINTS[opt.value]?.[lang]
+                      || JOB_DESCRIPTION_HINTS[opt.value]?.en
+                      || [];
+                    return (
+                      <div key={opt.value} style={{ marginBottom: '18px' }}>
+                        <div style={{ fontSize: '14px', fontWeight: 700, color: '#006a62', marginBottom: '6px' }}>
+                          {opt[lang] || opt.en}
+                        </div>
+                        {hints.length > 0 && (
+                          <div style={{
+                            background: '#f4faf9', border: '1px solid #d9ece8', borderRadius: '10px',
+                            padding: '10px 14px', marginBottom: '8px',
+                          }}>
+                            <div style={{ fontSize: '12px', fontWeight: 700, color: '#0a4a44', marginBottom: '4px' }}>
+                              {t.job_hints_title}
+                            </div>
+                            <ul style={{ margin: 0, paddingLeft: '18px', listStyleType: 'disc', fontSize: '13px', color: '#3d6b65', lineHeight: 1.6 }}>
+                              {hints.map(h => <li key={h}>{h}</li>)}
+                            </ul>
+                          </div>
+                        )}
+                        <textarea
+                          value={text}
+                          onChange={e => {
+                            const value = e.target.value;
+                            setJobDetails(prev => ({ ...prev, [opt.value]: value }));
+                            // Clear the red outline as soon as the box is long
+                            // enough, so the fix is visible immediately.
+                            if (flagged && value.trim().length >= JOB_DESCRIPTION_MIN_LENGTH) {
+                              setMissingJobs(prev => prev.filter(c => c !== opt.value));
+                            }
+                          }}
+                          placeholder={JOB_DESCRIPTION_EXAMPLES[opt.value]?.[lang] || JOB_DESCRIPTION_EXAMPLES[opt.value]?.en || ''}
+                          rows={3}
+                          style={{
+                            resize: 'vertical',
+                            minHeight: '80px',
+                            ...(flagged ? { borderColor: '#dc2626', background: '#fff7f7' } : {}),
+                          }}
+                        />
+                        {remaining > 0 && (
+                          <p style={{
+                            fontSize: '12px',
+                            color: flagged ? '#dc2626' : 'var(--gray-400)',
+                            margin: '4px 0 0',
+                          }}>
+                            {t.job_chars_left(remaining)}
+                          </p>
+                        )}
                       </div>
-                      <textarea
-                        value={jobDetails[opt.value] || ''}
-                        onChange={e => setJobDetails(prev => ({ ...prev, [opt.value]: e.target.value }))}
-                        placeholder={JOB_DESCRIPTION_EXAMPLES[opt.value]?.[lang] || JOB_DESCRIPTION_EXAMPLES[opt.value]?.en || ''}
-                        rows={3}
-                        style={{ resize: 'vertical', minHeight: '80px' }}
-                      />
-                    </div>
-                  ))}
+                    );
+                  })}
                   <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.job_hint}</p>
                 </div>
               )}
@@ -994,6 +1080,28 @@ export default function EmployerRegisterPage() {
         </div>
       </div>
     </>
+  );
+}
+
+// Small "Required" pill shown next to a label, so a family scanning the form
+// can tell at a glance which fields they cannot skip.
+function RequiredBadge({ label }) {
+  return (
+    <span style={{
+      display: 'inline-block',
+      marginLeft: '6px',
+      padding: '2px 8px',
+      borderRadius: '999px',
+      background: '#fdeaea',
+      color: '#b3261e',
+      fontSize: '11px',
+      fontWeight: 700,
+      textTransform: 'uppercase',
+      letterSpacing: '0.4px',
+      verticalAlign: 'middle',
+    }}>
+      {label}
+    </span>
   );
 }
 

@@ -34,7 +34,16 @@ import {
 } from '@/lib/api/employer-auth-client';
 import { CITIES } from '@/lib/constants/cities';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
-import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
+import {
+  SCHEDULE_DAYS,
+  SCHEDULE_TIMES,
+  DURATIONS,
+  CHILD_AGE_GROUPS,
+  JOB_DESCRIPTION_EXAMPLES,
+  JOB_DESCRIPTION_HINTS,
+  JOB_DESCRIPTION_MIN_LENGTH,
+  missingJobDescriptions,
+} from '@/lib/constants/employer';
 
 const LOOKING_FOR_OPTIONS = [
   { value: 'nanny',       iconKey: 'baby',   en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
@@ -102,7 +111,13 @@ const T = {
     label_schedule_time: 'Time of day',
     label_duration: 'How long',
     label_child_ages: 'Children\u2019s ages',
-    label_job_desc: 'About the job (optional)',
+    label_job_desc: 'About the job',
+    job_required_badge: 'Required',
+    job_required_hint: 'Helpers decide whether to apply from this text \u2014 so each job you post needs a short description of its own.',
+    job_hints_title: 'Please include:',
+    job_chars_left: (n) => `${n} more character${n === 1 ? '' : 's'} needed`,
+    job_missing_error: 'Please describe every job you are posting \u2014 helpers need to know what the work actually is before they apply.',
+    job_category_error: 'Please select at least one type of helper you are looking for.',
     job_hint: 'Phone numbers and emails will be hidden automatically.',
     job_per_cat_hint: 'You\'re looking for more than one kind of help — describe each job separately so helpers immediately see which role fits them.',
     job_no_categories: 'Select your helper types above first — you\'ll then get one description box per job.',
@@ -172,7 +187,13 @@ const T = {
     label_schedule_time: 'ช่วงเวลา',
     label_duration: 'ระยะเวลา',
     label_child_ages: 'ช่วงอายุของเด็ก',
-    label_job_desc: 'เกี่ยวกับงาน (ถ้ามี)',
+    label_job_desc: 'เกี่ยวกับงาน',
+    job_required_badge: 'จำเป็น',
+    job_required_hint: 'ผู้ช่วยตัดสินใจสมัครงานจากข้อความนี้ — งานแต่ละงานที่คุณลงประกาศจึงต้องมีคำอธิบายสั้น ๆ ของตัวเอง',
+    job_hints_title: 'กรุณาระบุ:',
+    job_chars_left: (n) => `ต้องพิมพ์เพิ่มอีก ${n} ตัวอักษร`,
+    job_missing_error: 'กรุณาอธิบายทุกงานที่คุณลงประกาศ — ผู้ช่วยต้องรู้ว่างานคืออะไรก่อนจะสมัคร',
+    job_category_error: 'กรุณาเลือกประเภทผู้ช่วยที่คุณต้องการอย่างน้อย 1 ประเภท',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนอัตโนมัติ',
     job_per_cat_hint: 'คุณกำลังมองหาผู้ช่วยมากกว่าหนึ่งประเภท — อธิบายแต่ละงานแยกกัน เพื่อให้ผู้ช่วยเห็นทันทีว่างานไหนเหมาะกับตน',
     job_no_categories: 'กรุณาเลือกประเภทผู้ช่วยด้านบนก่อน — จากนั้นจะมีช่องอธิบายงานแยกตามแต่ละประเภท',
@@ -218,6 +239,9 @@ export default function EmployerProfile() {
   // Object URL of a freshly-picked file shown in the crop modal.
   const [cropSrc, setCropSrc] = useState('');
   const [editMode, setEditMode] = useState(false);
+  // Categories whose description box is empty or too short after a save
+  // attempt — outlined in red so the family sees which job is missing text.
+  const [missingJobs, setMissingJobs] = useState([]);
   const fileInputRef = useRef(null);
 
   function buildFormFromProfile(p) {
@@ -264,12 +288,14 @@ export default function EmployerProfile() {
     setEditMode(true);
     setErrorMsg('');
     setSavedMsg('');
+    setMissingJobs([]);
   }
 
   function handleCancel() {
     if (profile) setForm(buildFormFromProfile(profile));
     setEditMode(false);
     setErrorMsg('');
+    setMissingJobs([]);
   }
 
   // Mount: load profile
@@ -324,6 +350,26 @@ export default function EmployerProfile() {
     return () => window.removeEventListener('hashchange', scrollToHash);
   }, [form]);
 
+  // #job is the link we send families whose post has no description (the
+  // dashboard banner and the reminder email both point here): open the
+  // editor straight away and mark the empty boxes, instead of showing a
+  // read-only view of the gap. Runs once, so typing can clear the marks.
+  const jobHashHandled = useRef(false);
+  useEffect(() => {
+    if (!profile || jobHashHandled.current) return;
+    if (typeof window === 'undefined') return;
+    if (window.location.hash !== '#job') return;
+    jobHashHandled.current = true;
+    setEditMode(true);
+    setMissingJobs(missingJobDescriptions(
+      lookingForToArray(profile.looking_for),
+      profile.job_details,
+      profile.job_details && Object.keys(profile.job_details).length > 0
+        ? ''
+        : (profile.job_description || ''),
+    ));
+  }, [profile]);
+
   function update(field, value) {
     setForm(prev => ({ ...prev, [field]: value }));
   }
@@ -370,8 +416,30 @@ export default function EmployerProfile() {
   const showChildAges = (form?.looking_for || []).some(c => c === 'nanny' || c === 'tutor');
 
   async function handleSave() {
-    setSaving(true);
     setErrorMsg('');
+
+    // Every job posted needs a real description — helpers can't judge a post
+    // that only has chips ticked. Checked here so the family sees exactly
+    // which box is short; /api/employer-profile enforces the same rule.
+    if ((form.looking_for || []).length === 0) {
+      setErrorMsg(t.job_category_error);
+      return;
+    }
+    const missing = missingJobDescriptions(
+      form.looking_for,
+      form.job_details,
+      // A legacy flat description still counts until they split it up.
+      profile?.job_details && Object.keys(profile.job_details).length > 0
+        ? ''
+        : (profile?.job_description || ''),
+    );
+    setMissingJobs(missing);
+    if (missing.length > 0) {
+      setErrorMsg(t.job_missing_error);
+      return;
+    }
+
+    setSaving(true);
     try {
       const payload = {
         ...form,
@@ -405,6 +473,11 @@ export default function EmployerProfile() {
             : prev.job_details,
         } : prev);
         setEditMode(false);
+      } else if (res?.error === 'job_description_required') {
+        setMissingJobs(res.missing || []);
+        setErrorMsg(t.job_missing_error);
+      } else if (res?.error === 'looking_for_required') {
+        setErrorMsg(t.job_category_error);
       } else {
         setErrorMsg('Save failed');
       }
@@ -939,15 +1012,15 @@ export default function EmployerProfile() {
               A family looking for a babysitter AND a housekeeper has two
               different jobs to offer; one shared textarea buried the
               childcare details under the household ones. */}
-          <Section title={t.section_job}>
+          <Section id="job" title={t.section_job}>
             {editMode ? (
               form.looking_for.length === 0 ? (
                 <div className="text-sm text-gray-500">{t.job_no_categories}</div>
               ) : (
                 <>
-                  {form.looking_for.length > 1 && (
-                    <div className="text-sm text-gray-500 mb-4">{t.job_per_cat_hint}</div>
-                  )}
+                  <div className="text-sm text-gray-500 mb-4">
+                    {form.looking_for.length > 1 ? t.job_per_cat_hint : t.job_required_hint}
+                  </div>
 
                   {/* Legacy flat description for multi-category profiles:
                       shown once as copy-from material until the per-category
@@ -967,21 +1040,52 @@ export default function EmployerProfile() {
                   )}
 
                   <div className="space-y-5">
-                    {LOOKING_FOR_OPTIONS.filter(o => form.looking_for.includes(o.value)).map(opt => (
-                      <div key={opt.value}>
-                        <label className="flex items-center gap-2 text-sm font-bold text-[#006a62] mb-1.5">
-                          <LineIcon name={opt.iconKey} />
-                          {opt[lang] || opt.en}
-                        </label>
-                        <textarea
-                          value={form.job_details[opt.value] || ''}
-                          onChange={e => update('job_details', { ...form.job_details, [opt.value]: e.target.value })}
-                          rows={4}
-                          placeholder={JOB_DESCRIPTION_EXAMPLES[opt.value]?.[lang] || JOB_DESCRIPTION_EXAMPLES[opt.value]?.en || ''}
-                          className={`${inputClass} resize-y font-sans`}
-                        />
-                      </div>
-                    ))}
+                    {LOOKING_FOR_OPTIONS.filter(o => form.looking_for.includes(o.value)).map(opt => {
+                      const text = form.job_details[opt.value] || '';
+                      const remaining = JOB_DESCRIPTION_MIN_LENGTH - text.trim().length;
+                      const flagged = missingJobs.includes(opt.value);
+                      const hints = JOB_DESCRIPTION_HINTS[opt.value]?.[lang]
+                        || JOB_DESCRIPTION_HINTS[opt.value]?.en
+                        || [];
+                      return (
+                        <div key={opt.value}>
+                          <label className="flex items-center gap-2 text-sm font-bold text-[#006a62] mb-1.5">
+                            <LineIcon name={opt.iconKey} />
+                            {opt[lang] || opt.en}
+                            <span className="px-2 py-0.5 rounded-full bg-red-50 text-[#b3261e] text-[10px] font-bold uppercase tracking-wide">
+                              {t.job_required_badge}
+                            </span>
+                          </label>
+                          {hints.length > 0 && (
+                            <div className="mb-2 rounded-xl bg-[#f4faf9] border border-[#d9ece8] px-3.5 py-2.5">
+                              <div className="text-xs font-bold text-[#0a4a44] mb-1">{t.job_hints_title}</div>
+                              <ul className="list-disc pl-4 text-[13px] leading-relaxed text-[#3d6b65]">
+                                {hints.map(h => <li key={h}>{h}</li>)}
+                              </ul>
+                            </div>
+                          )}
+                          <textarea
+                            value={text}
+                            onChange={e => {
+                              const value = e.target.value;
+                              update('job_details', { ...form.job_details, [opt.value]: value });
+                              // Drop the red outline as soon as the box is long enough.
+                              if (flagged && value.trim().length >= JOB_DESCRIPTION_MIN_LENGTH) {
+                                setMissingJobs(prev => prev.filter(c => c !== opt.value));
+                              }
+                            }}
+                            rows={4}
+                            placeholder={JOB_DESCRIPTION_EXAMPLES[opt.value]?.[lang] || JOB_DESCRIPTION_EXAMPLES[opt.value]?.en || ''}
+                            className={`${inputClass} resize-y font-sans ${flagged ? 'border-red-500 bg-red-50/40' : ''}`}
+                          />
+                          {remaining > 0 && (
+                            <div className={`text-xs mt-1 ${flagged ? 'text-red-600' : 'text-gray-400'}`}>
+                              {t.job_chars_left(remaining)}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                   <div className="text-sm text-gray-500 mt-3">{t.job_hint}</div>
                 </>

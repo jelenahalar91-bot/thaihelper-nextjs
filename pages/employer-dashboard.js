@@ -27,6 +27,7 @@ import HelperCard from '@/components/HelperCard';
 import PhoneVerificationCard from '@/components/PhoneVerificationCard';
 import { fetchEmployerProfile, updateEmployerProfile } from '@/lib/api/employer-auth-client';
 import { SEARCH_STATUS_VALUES, SEARCH_STATUS_LABELS } from '@/components/EmployerStatusPill';
+import { missingJobDescriptions } from '@/lib/constants/employer';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import {
   fetchConversations,
@@ -153,6 +154,9 @@ const T = {
     msg_verify_resent: 'Verification email sent — please check your inbox.',
     msg_verify_resend_error: 'Could not resend the email. Please try again later.',
     verify_banner: 'Please check your email and click the verification link — you need it to send messages and to log in next time.',
+    job_missing_title: 'Your job post has no description yet',
+    job_missing_text: 'Helpers only see which boxes you ticked, not what the job actually is — the hours, the ages, the household. Add a short description for each job so they know what they are applying for.',
+    job_missing_cta: 'Add job description \u2192',
     status_title: 'Your hiring status',
     status_subtitle: 'Control whether helpers can find and contact you.',
     status_hint_searching: 'You’re visible to helpers and will get emails when matching helpers join.',
@@ -269,6 +273,9 @@ const T = {
     msg_verify_resent: 'ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ',
     msg_verify_resend_error: 'ส่งอีเมลไม่สำเร็จ กรุณาลองอีกครั้งภายหลัง',
     verify_banner: 'กรุณาตรวจสอบอีเมลและคลิกลิงก์ยืนยัน — จำเป็นสำหรับการส่งข้อความและการเข้าสู่ระบบครั้งถัดไป',
+    job_missing_title: 'ประกาศงานของคุณยังไม่มีคำอธิบาย',
+    job_missing_text: 'ผู้ช่วยเห็นเพียงตัวเลือกที่คุณติ๊กไว้ แต่ไม่รู้ว่างานคืออะไร — เวลาทำงาน อายุเด็ก หรือลักษณะบ้าน กรุณาเขียนคำอธิบายสั้น ๆ ของแต่ละงาน เพื่อให้ผู้ช่วยรู้ว่ากำลังสมัครงานอะไร',
+    job_missing_cta: 'เพิ่มคำอธิบายงาน \u2192',
     status_title: 'สถานะการหาผู้ช่วย',
     status_subtitle: 'กำหนดว่าผู้ช่วยจะค้นหาและติดต่อคุณได้หรือไม่',
     status_hint_searching: 'คุณแสดงต่อผู้ช่วยและจะได้รับอีเมลเมื่อมีผู้ช่วยที่ตรงกับความต้องการสมัครเข้ามา',
@@ -1014,6 +1021,42 @@ export default function EmployerDashboard() {
               <p style={{ flex: 1, margin: 0, fontSize: '14px', color: '#92400e', lineHeight: 1.5 }}>
                 {t.verify_banner || 'Please check your email and click the verification link to activate your account.'}
               </p>
+            </div>
+          )}
+
+          {/* ── Missing job description warning ─────────── */}
+          {/* The single most common gap in live employer profiles: categories
+              ticked, description empty. Helpers then apply blind, so the post
+              barely works — surface it on every dashboard visit until it's
+              filled in (the reminder email links to the same anchor). */}
+          {profile && missingJobDescriptions(
+            profile.looking_for,
+            profile.job_details,
+            profile.job_details && Object.keys(profile.job_details).length > 0
+              ? ''
+              : (profile.job_description || ''),
+          ).length > 0 && (
+            <div style={{
+              display: 'flex', gap: '12px', alignItems: 'flex-start',
+              background: '#fdeaea', border: '1px solid #e79d97',
+              borderRadius: '12px', padding: '14px 18px',
+              marginBottom: '16px', flexWrap: 'wrap',
+            }}>
+              <span style={{ fontSize: '22px' }}>📝</span>
+              <div style={{ flex: 1, minWidth: '220px' }}>
+                <p style={{ margin: '0 0 4px', fontSize: '14px', fontWeight: 700, color: '#8c1d18' }}>
+                  {t.job_missing_title}
+                </p>
+                <p style={{ margin: '0 0 8px', fontSize: '14px', color: '#8c1d18', lineHeight: 1.5 }}>
+                  {t.job_missing_text}
+                </p>
+                <Link
+                  href="/employer-profile#job"
+                  style={{ fontSize: '14px', fontWeight: 700, color: '#8c1d18', textDecoration: 'underline' }}
+                >
+                  {t.job_missing_cta}
+                </Link>
+              </div>
             </div>
           )}
 

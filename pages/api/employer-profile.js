@@ -8,6 +8,7 @@ import { notifyHelpersOfNewEmployer } from '../../lib/match-notifications';
 import { translateForeignText } from '../../lib/translate';
 import { looksLikeFullAddress } from '../../lib/address-guard';
 import { buildJobDetailsPatch } from '../../lib/employer-job-details';
+import { missingJobDescriptions } from '../../lib/constants/employer';
 
 const EDITABLE_FIELDS = [
   'first_name',
@@ -155,15 +156,49 @@ export default async function handler(req, res) {
 
     // Read previous city/looking_for so we can detect material changes after
     // the update and re-fire the match notifier (existing helpers in the
-    // employer's new city / new categories should hear about them).
+    // employer's new city / new categories should hear about them). The same
+    // row also tells us which descriptions already exist, which the
+    // required-field check below needs when the client sends only part of
+    // the profile.
+    const needsJobCheck =
+      'job_details' in body || 'looking_for' in patch || 'job_description' in patch;
     let prev = null;
-    if ('city' in patch || 'looking_for' in patch) {
+    if ('city' in patch || 'looking_for' in patch || needsJobCheck) {
       const { data } = await supabase
         .from('employer_accounts')
-        .select('city, looking_for, first_name, email_verified')
+        .select('city, looking_for, first_name, email_verified, job_details, job_description')
         .eq('employer_ref', ref)
         .single();
       prev = data || null;
+    }
+
+    // A job post without a description is what this whole change is about:
+    // helpers can't tell what the job is, so every selected category needs
+    // real text. Only enforced when this request actually touches the
+    // categories or their descriptions — the dashboard's "pause search"
+    // toggle and notification switches must keep working untouched.
+    if (needsJobCheck) {
+      const effectiveCategories =
+        'looking_for' in patch ? patch.looking_for : prev?.looking_for;
+      const effectiveTexts =
+        'job_details' in body ? body.job_details : prev?.job_details;
+      // Only the flat legacy text can stand in for the per-category boxes,
+      // and a job_details payload replaces it wholesale.
+      const effectiveFlat = 'job_details' in body
+        ? ''
+        : ('job_description' in patch ? (patch.job_description || '') : (prev?.job_description || ''));
+
+      const categoryCount = Array.isArray(effectiveCategories)
+        ? effectiveCategories.filter(Boolean).length
+        : String(effectiveCategories || '').split(',').filter((c) => c.trim()).length;
+      if (categoryCount === 0) {
+        return res.status(400).json({ error: 'looking_for_required' });
+      }
+
+      const missing = missingJobDescriptions(effectiveCategories, effectiveTexts, effectiveFlat);
+      if (missing.length > 0) {
+        return res.status(400).json({ error: 'job_description_required', missing });
+      }
     }
 
     const { error } = await supabase
