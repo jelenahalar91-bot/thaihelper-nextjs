@@ -175,25 +175,30 @@ export const guides = [
       },
       {
         id: 'work-permit',
-        h2: 'Work permits for foreign nannies (Filipino, Burmese, and others)',
+        h2: 'Work permits for foreign nannies — what is actually possible',
         html: `
-          <p>This section matters only if you hire a non-Thai citizen. Thai nationals working in private households do <strong>not</strong> need a work permit. Foreign nationals do.</p>
+          <p>This section matters only if you hire a non-Thai citizen. Thai nationals working in private households do <strong>not</strong> need a work permit. For everyone else the rules are considerably narrower than most families expect, and narrower than a lot of advice circulating in expat groups.</p>
 
-          <h3>The basic rule</h3>
-          <p>A foreign citizen working in Thailand needs <strong>two documents</strong>: a Non-Immigrant Visa (type "B" for general employment, or the LTR / SMART visa categories for dependents and specialists) and a Work Permit issued by the Ministry of Labour. The two are linked: you cannot have a valid work permit without a valid visa.</p>
+          <h3>The rule that decides everything</h3>
+          <p>Household work sits in the group of occupations that the Ministry of Labour's notification of 1 April 2020 (under the Royal Decree on Foreign Workers Management B.E. 2560) opens to foreigners <strong>only through a government-to-government labour MOU</strong>. Thailand has household-work MOUs with exactly three countries: <strong>Myanmar, Laos and Cambodia</strong>. A Burmese, Lao or Cambodian helper on an MOU work permit is fully legal and entirely routine — several hundred thousand migrant workers are employed in Thailand this way.</p>
 
-          <h3>Process and cost</h3>
+          <h3>Nationalities outside that list</h3>
+          <p>There is no Thailand&ndash;Philippines MOU for domestic workers. Vietnam sits inside the wider CLMV labour framework, but for fishery and construction &mdash; not household work. So for Filipino, Vietnamese, Indian, Nepali and Western candidates, <strong>a private family cannot obtain a domestic-worker permit at all</strong>.</p>
+          <p>The Non-Immigrant B route that gets suggested a lot online does not fill this gap. It requires the employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A household is not that, and no visa agent can turn one into it.</p>
+          <p>Narrow exceptions do exist &mdash; diplomatic households, BOI-promoted employers, and genuinely skilled roles such as a private tutor, governess or household manager sponsored by a registered Thai employer, where the role matches the permit category in substance and not only on paper. Those need qualified legal advice rather than a template.</p>
+
+          <h3>One task is closed to every foreigner</h3>
+          <p><strong>Driving</strong> is on List 1 of the 2020 notification: reserved for Thai nationals, with no permit of any kind available &mdash; MOU or otherwise. If the role includes school runs or errands behind the wheel, that part has to go to a Thai national, whatever other paperwork your candidate holds.</p>
+
+          <h3>What the MOU route actually costs</h3>
           <ul>
-            <li><strong>Processing time:</strong> typically 7–30 working days once paperwork is complete.</li>
-            <li><strong>Annual cost (employer-paid):</strong> 6,500–10,000 THB per year for the work permit itself, plus visa fees of about 2,000 THB per year for renewal. Initial processing may cost more.</li>
-            <li><strong>Employer requirements:</strong> Strictly, the employer needs to be a registered Thai company with paid-up capital of 2 million baht to hire one foreigner under standard rules. <strong>Household employment is treated more flexibly</strong> in practice — many families work with a licensed visa agent who handles this — but check the current rules with a Thai immigration lawyer before signing a contract.</li>
-            <li><strong>Prohibited occupations:</strong> Some occupations are reserved for Thai citizens. Domestic work for a single private household is generally permitted for foreigners; commercial cleaning is not.</li>
+            <li><strong>All-in cost:</strong> roughly 15,000&ndash;50,000 THB. The low end is an in-country renewal through a licensed agency; the high end is a first-time import from Myanmar including passport, CI, embassy steps and travel.</li>
+            <li><strong>Timeline:</strong> 3&ndash;6 months end to end for a new import. Thai-side processing is now 1&ndash;3 weeks through the e-Work Permit system; the bottleneck sits on the sending country's side.</li>
+            <li><strong>Who pays:</strong> the employer, in practice.</li>
           </ul>
 
-          <h3>In practice</h3>
-          <p>Most expat families hiring Filipino, Burmese, or other foreign nannies use a visa agent (cost: 15,000–30,000 THB for the initial setup, around 5,000–10,000 THB annually for renewals). The agent handles the Non-Immigrant B application, work-permit filing, 90-day reporting, and renewals. This is by far the most common arrangement and removes a lot of administrative friction.</p>
-
-          <p>Working a foreign nanny <strong>without</strong> a valid work permit is illegal and exposes both employer and employee to fines, deportation, and (for the employer) future visa issues in Thailand. Even if you only hire informally for a few hours a week, get the paperwork right.</p>
+          <p>Employing a foreign helper without valid permission is an offence for the <em>employer</em>, not only for the worker: 10,000&ndash;100,000 THB per worker under the Royal Decree, multiplied by the number of workers found, with heavier penalties and a three-year hiring ban for repeat offences. The worker faces 5,000&ndash;50,000 THB, deportation and a two-year bar on reapplying. Nationwide inspections were stepped up in May 2026, so this is not a theoretical risk.</p>
+          <p>For a straight answer on one specific candidate, the <a href="/work-permit-wizard">Work Permit Wizard</a> walks through it in five questions.</p>
         `,
       },
       {
@@ -276,7 +281,7 @@ export const guides = [
       {
         question: 'Do nannies in Thailand need a work permit?',
         answer:
-          'Thai citizens working as nannies do NOT need a work permit. Foreign nannies (Filipino, Burmese, Lao, etc.) DO need a Non-Immigrant B visa plus a work permit. The process takes 7–30 working days and costs the employer 6,500–10,000 THB per year for the permit. Most expat families use a licensed visa agent for the paperwork.',
+          'Thai citizens working as nannies do NOT need a work permit. For foreign nannies it depends on nationality. Myanmar, Lao and Cambodian candidates can be employed by a family through Thailand’s bilateral labour MOUs — all-in cost roughly 15,000–50,000 THB, 3–6 months for a new import. For Filipino, Vietnamese, Indian and Western candidates there is no domestic-worker permit a private household can obtain: Thailand has no household-work MOU with those countries, and a family cannot sponsor a Non-Immigrant B visa, which requires a registered Thai company with 2 million THB of paid-up capital.',
       },
       {
         question: 'What is the difference between live-in and live-out nannies?',
@@ -456,25 +461,34 @@ export const guides = [
       },
       {
         id: 'work-permit',
-        h2: 'Foreign housekeepers (Burmese, Filipino, Lao) and work permits',
+        h2: 'Foreign housekeepers and work permits — who can legally be hired',
         html: `
-          <p>If you hire a Thai citizen as a housekeeper, no work permit is needed. If you hire a non-Thai citizen, both a Non-Immigrant B visa and a Work Permit are required.</p>
+          <p>If you hire a Thai citizen as a housekeeper, no work permit is needed. If you hire a non-Thai citizen, whether a permit is even available depends entirely on her nationality.</p>
 
-          <h3>Common scenarios in Thailand</h3>
+          <h3>The rule that decides everything</h3>
+          <p>Household work sits in the group of occupations that the Ministry of Labour's notification of 1 April 2020 (under the Royal Decree on Foreign Workers Management B.E. 2560) opens to foreigners <strong>only through a government-to-government labour MOU</strong>. Thailand has household-work MOUs with exactly three countries: <strong>Myanmar, Laos and Cambodia</strong>. A Burmese, Lao or Cambodian helper on an MOU work permit is fully legal and entirely routine — several hundred thousand migrant workers are employed in Thailand this way.</p>
+
+          <p><strong>Burmese housekeepers</strong> are by far the largest non-Thai group in this profession, particularly in Bangkok and Phuket. Many are already documented as migrant workers; some are not, and the difference matters to you as the employer. <strong>Lao and Cambodian housekeepers</strong> are common in border-region cities and parts of Bangkok, and fall under the same MOU route.</p>
+
+          <h3>Nationalities outside that list</h3>
+          <p>There is no Thailand&ndash;Philippines MOU for domestic workers. Vietnam sits inside the wider CLMV labour framework, but for fishery and construction &mdash; not household work. So for Filipino, Vietnamese, Indian, Nepali and Western candidates, <strong>a private family cannot obtain a domestic-worker permit at all</strong>.</p>
+          <p>The Non-Immigrant B route that gets suggested a lot online does not fill this gap. It requires the employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A household is not that, and no visa agent can turn one into it.</p>
+          <p>Narrow exceptions do exist &mdash; diplomatic households, BOI-promoted employers, and genuinely skilled roles such as a private tutor, governess or household manager sponsored by a registered Thai employer, where the role matches the permit category in substance and not only on paper. Those need qualified legal advice rather than a template.</p>
+
+          <p>This is why you will see Filipino candidates presented for housekeeping and childcare roles even though no permit exists for them. It is a real gap in the market, not a loophole, and the legal exposure of hiring into it sits with the family.</p>
+
+          <h3>One task is closed to every foreigner</h3>
+          <p><strong>Driving</strong> is on List 1 of the 2020 notification: reserved for Thai nationals, with no permit of any kind available &mdash; MOU or otherwise. If the role includes school runs or errands behind the wheel, that part has to go to a Thai national, whatever other paperwork your candidate holds.</p>
+
+          <h3>What the MOU route actually costs</h3>
           <ul>
-            <li><strong>Burmese housekeepers</strong> are the largest non-Thai group in this profession, particularly in Bangkok and Phuket. Many are already documented as migrant workers; some are not.</li>
-            <li><strong>Filipino housekeepers</strong> are less common in domestic work (they trend toward nannying and English tutoring) but do exist, particularly with expat families.</li>
-            <li><strong>Lao and Cambodian housekeepers</strong> are common in border-region cities and parts of Bangkok.</li>
+            <li><strong>All-in cost:</strong> roughly 15,000&ndash;50,000 THB. The low end is an in-country renewal through a licensed agency; the high end is a first-time import from Myanmar including passport, CI, embassy steps and travel.</li>
+            <li><strong>Timeline:</strong> 3&ndash;6 months end to end for a new import. Thai-side processing is now 1&ndash;3 weeks through the e-Work Permit system; the bottleneck sits on the sending country's side.</li>
+            <li><strong>Who pays:</strong> the employer, in practice.</li>
           </ul>
 
-          <h3>What the paperwork costs</h3>
-          <ul>
-            <li><strong>Work permit:</strong> 6,500–10,000 THB per year (employer-paid), 7–30 working-day processing time.</li>
-            <li><strong>Non-Immigrant B visa:</strong> ~2,000 THB per year, plus initial setup.</li>
-            <li><strong>Visa agent (most families use one):</strong> 15,000–30,000 THB initial setup, 5,000–10,000 THB per renewal year.</li>
-          </ul>
-
-          <p>Hiring an undocumented foreign worker is illegal in Thailand and exposes the <em>employer</em> to fines and immigration consequences (not just the worker). For Burmese workers without papers, there are periodic registration windows for migrant workers — your visa agent will know which one applies. Don't try to navigate this without one.</p>
+          <p>Employing a foreign helper without valid permission is an offence for the <em>employer</em>, not only for the worker: 10,000&ndash;100,000 THB per worker under the Royal Decree, multiplied by the number of workers found, with heavier penalties and a three-year hiring ban for repeat offences. The worker faces 5,000&ndash;50,000 THB, deportation and a two-year bar on reapplying. Nationwide inspections were stepped up in May 2026, so this is not a theoretical risk.</p>
+          <p>For a straight answer on one specific candidate, the <a href="/work-permit-wizard">Work Permit Wizard</a> walks through it in five questions.</p>
         `,
       },
       {
@@ -560,7 +574,7 @@ export const guides = [
       {
         question: 'Do housekeepers in Thailand need a work permit?',
         answer:
-          'Thai citizens do NOT need a work permit for domestic work. Foreign citizens (Burmese, Filipino, Lao, Cambodian) DO need both a Non-Immigrant B visa and a Work Permit. Employer pays 6,500–10,000 THB per year for the permit. Most families use a licensed visa agent for the paperwork (15,000–30,000 THB initial setup, 5,000–10,000 THB per renewal).',
+          'Thai citizens do NOT need a work permit for domestic work. Burmese, Lao and Cambodian citizens can be employed through Thailand’s bilateral labour MOUs, which is the only route that exists for household work — roughly 15,000–50,000 THB all-in and 3–6 months for a first-time import. Filipino, Vietnamese and Western citizens cannot be issued a domestic-worker permit by a private family at all, because Thailand has no household-work MOU with those countries.',
       },
       {
         question: 'Is the 13th-month bonus required by law for housekeepers in Thailand?',
@@ -745,28 +759,42 @@ export const guides = [
       },
       {
         id: 'work-permit',
-        h2: 'Foreign caregivers (Filipino, Burmese) and work permits',
+        h2: 'Foreign caregivers and work permits — the honest picture',
         html: `
-          <p>Filipino caregivers are the largest non-Thai group in higher-tier elder care in Thailand, particularly in Bangkok and Phuket. Many have formal nursing or caregiver training from the Philippines and fluent English — both of which command real premiums. Burmese caregivers are also common, more typically at companion and personal-care levels.</p>
+          <p>Elder care is where the gap between what families want and what the law allows is widest. Filipino caregivers are highly visible in higher-tier home care in Bangkok and Phuket — many have formal nursing or caregiver training and fluent English — but the legal route for a private family to employ one does not exist. It is worth understanding why before you build a care plan around it.</p>
 
-          <h3>What's required</h3>
-          <p>A foreign citizen needs a <strong>Non-Immigrant B visa</strong> and a <strong>Work Permit</strong> from the Ministry of Labour. Both are tied to the employer and the address.</p>
+          <h3>The rule that decides everything</h3>
+          <p>Household work sits in the group of occupations that the Ministry of Labour's notification of 1 April 2020 (under the Royal Decree on Foreign Workers Management B.E. 2560) opens to foreigners <strong>only through a government-to-government labour MOU</strong>. Thailand has household-work MOUs with exactly three countries: <strong>Myanmar, Laos and Cambodia</strong>. A Burmese, Lao or Cambodian helper on an MOU work permit is fully legal and entirely routine — several hundred thousand migrant workers are employed in Thailand this way.</p>
 
-          <h3>Cost and timing</h3>
+          <p>Burmese caregivers are common at companion and personal-care levels and can be employed through this route.</p>
+
+          <h3>Nationalities outside that list</h3>
+          <p>There is no Thailand&ndash;Philippines MOU for domestic workers. Vietnam sits inside the wider CLMV labour framework, but for fishery and construction &mdash; not household work. So for Filipino, Vietnamese, Indian, Nepali and Western candidates, <strong>a private family cannot obtain a domestic-worker permit at all</strong>.</p>
+          <p>The Non-Immigrant B route that gets suggested a lot online does not fill this gap. It requires the employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A household is not that, and no visa agent can turn one into it.</p>
+          <p>Narrow exceptions do exist &mdash; diplomatic households, BOI-promoted employers, and genuinely skilled roles such as a private tutor, governess or household manager sponsored by a registered Thai employer, where the role matches the permit category in substance and not only on paper. Those need qualified legal advice rather than a template.</p>
+
+          <p>Nursing-level care adds a second layer: clinical tasks such as medication administration, wound care or tube feeding touch Thai professional-licensing rules, which are separate from immigration law and are not solved by a work permit. If the care need is genuinely clinical, a licensed home-nursing provider or a hospital home-care programme is the route that holds up.</p>
+
+          <h3>One task is closed to every foreigner</h3>
+          <p><strong>Driving</strong> is on List 1 of the 2020 notification: reserved for Thai nationals, with no permit of any kind available &mdash; MOU or otherwise. If the role includes school runs or errands behind the wheel, that part has to go to a Thai national, whatever other paperwork your candidate holds.</p>
+
+          <h3>What the MOU route actually costs</h3>
           <ul>
-            <li><strong>Work permit:</strong> 6,500 – 10,000 THB per year (employer-paid)</li>
-            <li><strong>Non-Immigrant B visa:</strong> ~2,000 THB/year plus initial setup</li>
-            <li><strong>Visa agent:</strong> most families use one — 15,000 – 30,000 THB initial setup, 5,000 – 10,000 THB per renewal year</li>
-            <li><strong>Processing:</strong> 7 – 30 working days once paperwork is complete</li>
+            <li><strong>All-in cost:</strong> roughly 15,000&ndash;50,000 THB. The low end is an in-country renewal through a licensed agency; the high end is a first-time import from Myanmar including passport, CI, embassy steps and travel.</li>
+            <li><strong>Timeline:</strong> 3&ndash;6 months end to end for a new import. Thai-side processing is now 1&ndash;3 weeks through the e-Work Permit system; the bottleneck sits on the sending country's side.</li>
+            <li><strong>Who pays:</strong> the employer, in practice.</li>
           </ul>
 
-          <h3>Tips specific to caregiver hires</h3>
+          <h3>Practical guidance for caregiver hires</h3>
           <ul>
-            <li>Filipino caregivers often arrive with experience caring for elderly in Hong Kong, Singapore, or the Gulf. Ask specifically about that — long stints abroad mean adaptability and proven retention.</li>
-            <li>A nursing-trained Filipino caregiver on a work permit is the closest thing to professional home nursing in Thailand at a household price. Worth budgeting for if the care level genuinely needs it.</li>
-            <li>Do <strong>not</strong> hire an undocumented foreign worker for medical-tier care. If something goes wrong, the legal exposure for both you and the worker is significant.</li>
-            <li>If you go through a specialist home-care agency that places Filipino caregivers, they typically handle the work-permit paperwork themselves and recharge you the cost.</li>
+            <li>Match the legal route to the care level before you shortlist anyone. Reorganising a care arrangement after a parent has settled with a caregiver is hard on everybody.</li>
+            <li>For companion and personal-care tiers, Thai and Burmese candidates cover the need well, and the Burmese route is straightforwardly legal.</li>
+            <li>If English fluency is the driver, consider splitting the role: a Thai or Burmese caregiver for hands-on care, plus a separate English-speaking tutor or companion arrangement that stands on its own legal footing.</li>
+            <li>Do not solve a medical-tier need with an undocumented hire. If something goes wrong, the exposure for both you and the worker is serious.</li>
           </ul>
+
+          <p>Employing a foreign helper without valid permission is an offence for the <em>employer</em>, not only for the worker: 10,000&ndash;100,000 THB per worker under the Royal Decree, multiplied by the number of workers found, with heavier penalties and a three-year hiring ban for repeat offences. The worker faces 5,000&ndash;50,000 THB, deportation and a two-year bar on reapplying. Nationwide inspections were stepped up in May 2026, so this is not a theoretical risk.</p>
+          <p>For a straight answer on one specific candidate, the <a href="/work-permit-wizard">Work Permit Wizard</a> walks through it in five questions.</p>
         `,
       },
       {
@@ -852,7 +880,7 @@ export const guides = [
       {
         question: 'Are Filipino caregivers in Thailand allowed to work without a work permit?',
         answer:
-          'No. Any non-Thai citizen working in Thailand needs both a Non-Immigrant B visa and a Work Permit. Filipino caregivers are common in elder care because many have formal nursing or caregiver training and fluent English, but they all need full paperwork. The employer pays the work-permit fee (6,500–10,000 THB/year). Most families use a licensed visa agent (15,000–30,000 THB initial setup) and never deal with the paperwork directly.',
+          'No, and the problem goes further than paperwork. Household work is open to foreigners only through Thailand’s labour MOUs, which cover Myanmar, Laos and Cambodia — not the Philippines. So a private family cannot obtain a work permit for a Filipino caregiver at all, and the Non-Immigrant B route needs a registered Thai company as the employer, not a household. Filipino caregivers are visible in the market because demand for their nursing training and English is real, but families should understand that hiring into that gap carries the legal exposure, not the caregiver alone.',
       },
       {
         question: 'Is home care or a nursing home cheaper in Thailand?',
@@ -1076,24 +1104,31 @@ export const guides = [
           <p>This section matters more for tutoring than for any other helper category, because most expat families specifically want native English speakers and most native English speakers in Thailand are not Thai citizens.</p>
 
           <h3>The basic rule</h3>
-          <p>Any non-Thai citizen working in Thailand — including teaching one student in your home for one hour a week — needs a <strong>Non-Immigrant B visa</strong> and a <strong>Work Permit</strong> issued by the Ministry of Labour. Tutoring is not exempt.</p>
+          <p>Any non-Thai citizen working in Thailand — including teaching one student in your home for one hour a week — needs a valid visa and a <strong>work permit</strong> issued by the Ministry of Labour. Tutoring is not exempt, and no visa category carries an implicit right to do a bit of teaching on the side.</p>
+
+          <h3>The part most families get wrong: who the employer is</h3>
+          <p>A work permit is issued against a specific employer, and a private household cannot be that employer for this kind of role. The Non-Immigrant B route requires a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. So “we will just sort out a work permit for our tutor” is not something a family can do on its own, however willing everyone is and whichever agent is asked.</p>
+          <p>Teaching is at least a category where a lawful route exists — unlike household work for most nationalities — but it runs through an employing entity: a school, a language centre, or a tutoring company that employs the tutor and assigns them to you.</p>
 
           <h3>Where most expat tutors actually sit</h3>
           <ul>
-            <li><strong>Full-time school teachers moonlighting</strong> — their visa and work permit are tied to the school. Technically, after-hours tutoring at someone else's home requires an extension to cover the second employer. Most do it without; many schools turn a blind eye but it is technically a permit violation.</li>
-            <li><strong>Married to a Thai citizen (Non-O visa) and working with a permit covering "education"</strong> — fully legal. Ask for the permit.</li>
-            <li><strong>Retired in Thailand on a retirement visa</strong> — not permitted to work. Tutoring is work. They legally cannot.</li>
-            <li><strong>On a tourist or education visa</strong> — not permitted to work. Many do; the legal risk sits with them and with you.</li>
-            <li><strong>Digital nomads claiming to teach "online from outside Thailand"</strong> — grey area. If the student is in Thailand and the tutor is physically in Thailand, it's working in Thailand regardless of where the company is registered.</li>
+            <li><strong>Full-time school teachers taking private students</strong> — their visa and permit are tied to the school. Tutoring at a third party's home needs the permit extended to cover that second employer. Most do not have that, and it is a permit violation rather than a grey area.</li>
+            <li><strong>Employed by a tutoring company or language centre</strong> — the company holds the permit and places the tutor with families. This is the cleanest arrangement available to a household, and worth asking about explicitly.</li>
+            <li><strong>Married to a Thai citizen, on a Non-O with a work permit covering education</strong> — lawful for the work the permit describes. Ask to see it.</li>
+            <li><strong>Retired on a retirement visa</strong> — not permitted to work at all. Tutoring is work.</li>
+            <li><strong>On a tourist or education visa</strong> — not permitted to work. Many do; the risk sits with them and, as employer, with you.</li>
+            <li><strong>Teaching “online from outside Thailand”</strong> — if the tutor is physically in Thailand and the student is in Thailand, it is work performed in Thailand regardless of where the platform is registered.</li>
           </ul>
 
           <h3>What this means in practice</h3>
           <ul>
-            <li>For one-off or short-term tutoring (a few months) with a foreigner already living in Thailand, almost all families don't worry about the work-permit detail. The enforcement risk is low. The legal risk sits primarily with the tutor.</li>
-            <li>For a long-term, high-value engagement (full-time homeschool tutor, intensive multi-year exam prep), arrange the work permit properly. Use a visa agent. Budget 15,000–30,000 THB initial setup + 5,000–10,000 THB annual renewal.</li>
-            <li>If you ever want to claim the tutoring cost against business income (some expats do via small Thai companies), you need the documentation to be clean — the tutor on a permit covering the work, invoices, the lot.</li>
-            <li>Hiring an undocumented foreigner explicitly aware they can't legally work is the highest-risk version. If something goes wrong (your child's accident during a lesson, neighbour complaint, immigration sweep) the legal exposure attaches to the employer too.</li>
+            <li>Enforcement is no longer the afterthought it once was. The nationwide inspection drive the Labour Ministry ordered in May 2026 began with an unlicensed school — teaching-adjacent work without permits is exactly what is being looked at.</li>
+            <li>For a long-term, high-value engagement (full-time homeschool tutor, multi-year exam prep), route it through an employer that can lawfully hold the permit rather than trying to paper over a direct arrangement.</li>
+            <li>A Thai or Filipino tutor employed through a licensed centre often costs less than a direct-hire native speaker once the arrangement is properly set up, and it is the version that survives scrutiny.</li>
+            <li>Hiring someone you know cannot lawfully work is the highest-risk version. If something goes wrong — an accident during a lesson, a complaint, an immigration sweep — the exposure attaches to the employer too.</li>
           </ul>
+
+          <p>The <a href="/work-permit-wizard">Work Permit Wizard</a> covers the household side of this in five questions.</p>
         `,
       },
       {
@@ -1147,7 +1182,7 @@ export const guides = [
       {
         question: 'Do foreign tutors in Thailand need a work permit?',
         answer:
-          'Yes. Any non-Thai citizen working in Thailand, including one-on-one tutoring in a private home, requires a Non-Immigrant B visa and a Work Permit. In practice, short-term tutoring with a foreigner already living in Thailand is often arranged informally and enforcement is low. For long-term, high-value arrangements (full-time homeschool, multi-year exam prep), arrange the permit properly via a visa agent: 15,000–30,000 THB initial setup, 5,000–10,000 THB annual renewal.',
+          'Yes. Any non-Thai citizen working in Thailand, including one-on-one tutoring in a private home, needs a valid visa and a Work Permit. The part families miss is who can hold that permit: it is issued against a specific employer, and a private household does not qualify — the Non-Immigrant B route requires a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. So the lawful arrangement is a tutor employed by a school, language centre or tutoring company that assigns them to you, not a permit a family files for directly. Short-term informal tutoring is widespread, but the nationwide inspection drive the Labour Ministry ordered in May 2026 started with an unlicensed school, so low enforcement is no longer a safe assumption.',
       },
       {
         question: 'Is online tutoring as effective as in-person in Thailand?',
@@ -1382,19 +1417,24 @@ export const guides = [
       },
       {
         id: 'work-permit',
-        h2: 'Work permits — almost always a non-issue, but check',
+        h2: 'Work permits — why your driver has to be a Thai national',
         html: `
-          <p>The overwhelming majority of personal drivers in Thailand are Thai citizens. No work permit is required for them; a current Thai driving licence is the only legal document that matters at hire.</p>
+          <p>The overwhelming majority of personal drivers in Thailand are Thai citizens, and there is a hard legal reason for that, not just a market one. For a Thai driver no work permit is required; a current Thai driving licence is the only document that matters at hire.</p>
 
-          <h3>The rare foreign-driver case</h3>
-          <p>Driving for hire is on the list of professions <strong>reserved for Thai citizens</strong> under the Foreign Employment Act. A foreign citizen cannot be hired as a personal driver in Thailand. Some expats arrange for a spouse or trusted foreign friend to drive informally — legally this is grey but not commercial driving and is generally not enforced. A foreign-citizen "driver" hired under a work permit covering a different role (e.g. personal-assistant role that happens to include driving) is technically a workaround that depends on how the work permit is written. If a foreign person is going to be driving you regularly, get advice from a Thai immigration lawyer about how the role is described.</p>
+          <h3>Driving is closed to foreigners — completely</h3>
+          <p><strong>Driving a motor vehicle</strong> sits on List 1 of the Ministry of Labour's notification of 1 April 2020, the list of occupations absolutely reserved for Thai nationals. The only carve-outs are international aircraft piloting and forklift operation. “Absolutely” is the operative word: there is no permit, no visa category and no MOU that opens it. A Burmese helper with a valid MOU work permit for household work still cannot legally drive for you.</p>
+          <p>This also rules out the workarounds that circulate in expat groups. Writing the role up as “personal assistant” on a work permit does not make the driving lawful — a work permit authorises the work actually performed, and the prohibited occupation stays prohibited however the job title is phrased. If a foreign helper you employ will regularly be behind the wheel, that is the part to restructure, not to document creatively.</p>
+          <p>A spouse or friend driving you privately, with no employment relationship and no payment, is a different situation and not what this list addresses. Anything that amounts to employing someone to drive is not.</p>
 
-          <h3>What you do need to verify at hire (Thai driver)</h3>
+          <h3>The practical consequence when you hire</h3>
+          <p>If your household needs both driving and, say, housekeeping or childcare, and your preferred candidate is not Thai, split the role. Driving goes to a Thai national; the rest can follow whichever route fits your candidate's nationality. Families who try to keep it as one job are the ones who end up exposed in an inspection.</p>
+
+          <h3>What to verify at hire (Thai driver)</h3>
           <ul>
-            <li><strong>Valid Thai driving licence</strong> — photograph both sides, note the expiry, set a reminder to follow up before it expires</li>
-            <li><strong>Licence category appropriate to your vehicle</strong> — most car drivers are fine with the basic category; check if you have a larger vehicle (van, 7-seater on some classifications)</li>
-            <li><strong>No restrictions on the licence</strong> (e.g. "daytime only" — rare but exists)</li>
-            <li><strong>For executive / livery drivers:</strong> a "Public" category (รับจ้าง) Thai licence is sometimes required if the driver will drive a vehicle registered as commercial. Most personal-driver arrangements use private vehicles and a standard licence.</li>
+            <li><strong>Valid Thai driving licence</strong> — photograph both sides, note the expiry, set a reminder well before it lapses</li>
+            <li><strong>Licence category appropriate to your vehicle</strong> — most car drivers are fine on the basic category; check separately for a van or larger 7-seater</li>
+            <li><strong>No restrictions on the licence</strong> (for example “daytime only” — rare, but it exists)</li>
+            <li><strong>For executive / livery drivers:</strong> a “public” category (รับจ้าง) Thai licence is sometimes required where the vehicle is registered as commercial. Most personal-driver arrangements use a private vehicle and a standard licence.</li>
           </ul>
         `,
       },
@@ -1456,7 +1496,7 @@ export const guides = [
       {
         question: 'Do foreigners need a work permit to drive for a private family in Thailand?',
         answer:
-          'A foreign citizen cannot be hired as a personal driver in Thailand — driving for hire is on the list of professions reserved for Thai citizens under the Foreign Employment Act. The overwhelming majority of personal drivers are Thai citizens; no work permit is needed but a valid Thai driving licence is. A foreign citizen driving informally for a family (e.g. a spouse, friend) is a grey area and generally not enforced, but is not a commercial-driving arrangement.',
+          'No, because no permit exists for it. Driving a motor vehicle is on List 1 of the Ministry of Labour\u2019s 2020 notification — absolutely reserved for Thai nationals, with the only carve-outs being international aircraft piloting and forklift operation. There is no visa category, work permit or MOU that opens it, so a Burmese helper holding a valid household work permit still cannot lawfully drive for you, and re-describing the job as \u201cpersonal assistant\u201d does not help: a permit authorises the work actually performed. For a Thai driver no work permit is needed, only a valid Thai driving licence. A spouse or friend driving you privately with no employment relationship is a different situation and not what this list addresses.',
       },
       {
         question: 'What hours can I reasonably expect from a full-time driver?',
@@ -1850,18 +1890,22 @@ export const guides = [
         id: 'work-permit',
         h2: 'Foreign chefs and work permits',
         html: `
-          <p>"Cookery" is an occupation that <strong>is permitted</strong> for foreigners under Thai law — unlike driving or hairdressing, foreign chefs are not blocked by the Foreign Employment Act. But the work permit must still be properly arranged.</p>
+          <p>Cookery is <strong>not</strong> on the list of occupations reserved for Thai nationals. Unlike driving, a foreign chef is not blocked outright by Thai law. But the permit still has to be issued to a lawful employer, and that is where private arrangements come unstuck.</p>
+
+          <h3>Who can hold the permit</h3>
+          <p>A work permit attaches to an employer, and a household is not one for this purpose. The Non-Immigrant B route needs a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A family that already runs a Thai company can employ a chef through it; a family that does not cannot create the arrangement by paying an agent to file paperwork.</p>
+          <p>Worth separating from the household-work question: a foreign chef employed by a restaurant or hotel is ordinary, lawful employment. The constraint here is specific to a private family being the employer.</p>
 
           <h3>Common foreign-chef setups</h3>
           <ul>
-            <li><strong>Hotel or restaurant chef moonlighting privately:</strong> their existing work permit covers the hotel; private side work technically needs an extension. Many do private dinners "off the books"; the legal risk is on the chef.</li>
-            <li><strong>Foreign chef on a marriage / parent visa:</strong> if they have a work permit covering "food preparation" or "culinary services", fully legal to cook privately.</li>
-            <li><strong>Full-time private chef directly employed by a family:</strong> this is unusual but works if the family runs a small Thai company that employs the chef on a Non-Immigrant B visa. Most families who want a full-time foreign chef do this. Budget: 15,000–30,000 THB initial setup, 5,000–10,000 THB annual renewal.</li>
-            <li><strong>"Consulting chef" structures</strong> where the chef provides occasional services from outside Thailand: legal grey area; depends on physical presence and frequency.</li>
+            <li><strong>Hotel or restaurant chef cooking privately on the side:</strong> their permit covers the hotel, not your dining room. Extending it to a second employer is the lawful version; most private dinners happen without that, and the risk sits with the chef.</li>
+            <li><strong>Foreign chef on a marriage or parent visa:</strong> lawful to cook privately if they hold a work permit that actually covers culinary work. Ask to see it rather than assuming the visa is enough — a Non-O is not a work authorisation by itself.</li>
+            <li><strong>Full-time private chef employed through a family's Thai company:</strong> this works where the company genuinely exists and meets the capital and staffing requirements. Budget 15,000–30,000 THB for initial setup and 5,000–10,000 THB per renewal year on top of the company's own compliance costs.</li>
+            <li><strong>Chef from Myanmar, Laos or Cambodia:</strong> cooking within a household falls under the domestic-worker MOU route, which is the one pathway open to a family directly. Roughly 15,000–50,000 THB all-in, 3–6 months for a first-time import.</li>
           </ul>
 
           <h3>What to do for a long-term hire</h3>
-          <p>For a one-off dinner with a foreign chef who lives in Thailand, almost no family worries about the work-permit question. For a full-time engagement at 60,000+ THB/month: get the permit. Use a visa agent. The legal exposure on a recurring relationship is genuine, and the cost of doing it properly is small relative to the chef's salary.</p>
+          <p>For a one-off dinner, few families think about any of this. For a recurring, full-time engagement, decide the legal route before the salary negotiation, because it determines which candidates are actually available to you. The <a href="/work-permit-wizard">Work Permit Wizard</a> covers the household-employment side.</p>
         `,
       },
       {
@@ -1910,7 +1954,7 @@ export const guides = [
       {
         question: 'Can foreigners legally work as private chefs in Thailand?',
         answer:
-          'Yes — cookery is not on the list of professions reserved for Thai citizens, unlike driving or hairdressing. But a foreign chef still needs both a Non-Immigrant B visa and a Work Permit. Most families employing a foreign chef full-time do so through a small Thai company (15,000–30,000 THB initial setup, 5,000–10,000 THB annual renewal). One-off dinners with a foreign chef already living in Thailand are common; the formal work-permit detail matters most for long-term arrangements.',
+          'Yes — cookery is not on the list of occupations reserved for Thai citizens, unlike driving. But a foreign chef still needs a valid visa and a Work Permit issued to a lawful employer, and a household is not one. Families who employ a foreign chef full-time do it through a Thai company that genuinely meets the 2-million-THB paid-up capital and four-Thai-employees requirements (15,000–30,000 THB initial setup, 5,000–10,000 THB annual renewal on top of the company\u2019s own compliance costs). For a chef from Myanmar, Laos or Cambodia, cooking within a household falls under the domestic-worker MOU route instead — roughly 15,000–50,000 THB all-in and the one pathway a family can use directly.',
       },
       {
         question: 'How does a tasting day work and what should I look for?',
@@ -2128,7 +2172,7 @@ export const guides = [
     slug: 'hire-a-filipino-nanny-in-thailand',
     title: 'How to Hire a Filipino Nanny in Thailand — The Complete 2026 Guide',
     description:
-      'Filipino nanny salaries, work-permit and Non-Immigrant B visa rules, where to find English-speaking Filipino nannies in Bangkok, Phuket, Chiang Mai. Direct-hire process, interview questions, and the legal pitfalls to avoid in 2026.',
+      'Filipino nanny salaries in Bangkok, Phuket and Chiang Mai, and the work-permit reality most guides get wrong: Thailand issues household-worker permits only under its MOUs with Myanmar, Laos and Cambodia. What that means for families, and the legal alternatives that do work in 2026.',
     date: '2026-09-01',
     updated: '2026-09-01',
     readTime: 12,
@@ -2141,9 +2185,9 @@ export const guides = [
         id: 'overview',
         h2: 'What you\'ll learn in this guide',
         html: `
-          <p>Filipino nannies — often called <em>yayas</em> in the Philippines — are the most requested profile among English-speaking expat families in Bangkok, Phuket, and Chiang Mai. The combination of fluent English, warm childcare culture, and a large expat Filipino community in Thailand makes them a strong fit for international families. But hiring a Filipino nanny is legally different from hiring a Thai nanny: she is a foreign national in Thailand, which means <strong>visa status and work-permit rules matter</strong>. Getting this wrong risks fines, deportation for the nanny, and problems for the sponsoring family.</p>
-          <p>This guide walks through the full picture: realistic 2026 salary ranges (Filipino nannies cost more than Thai nannies, and there are reasons), the Non-Immigrant B visa and work-permit process, where families actually find Filipino nannies in Thailand (with the trade-offs of each channel), what to ask in interviews, and the common mistakes that turn a good hire into a legal or financial problem.</p>
-          <p>Written for families hiring directly — no agency in the middle — but the visa and salary information applies regardless of how you find your candidate.</p>
+          <p>Filipino nannies — often called <em>yayas</em> in the Philippines — are the most requested profile among English-speaking expat families in Bangkok, Phuket, and Chiang Mai. The combination of fluent English, warm childcare culture, and a large expat Filipino community in Thailand makes them a strong fit for international families. But hiring a Filipino nanny is legally different from hiring a Thai nanny, and the difference is bigger than most guides admit: Thailand issues household-worker permits only under its labour MOUs with Myanmar, Laos and Cambodia, and there is no such MOU with the Philippines. <strong>A private family cannot obtain a work permit for a Filipino nanny.</strong> This guide explains that properly rather than selling you a process that does not exist.</p>
+          <p>It walks through the full picture: realistic 2026 salary ranges (Filipino nannies command a real premium, and there are reasons), exactly why the permit route is closed and what the exposure is for a family that hires anyway, the alternatives that are lawful — Thai nannies, the Myanmar/Laos/Cambodia MOU route, and separating out an English tutor — plus where families find candidates, what to ask in interviews, and the mistakes that turn a good hire into a legal problem.</p>
+          <p>Written for families hiring directly — no agency in the middle — but the legal and salary information applies regardless of how you find your candidate. No agency, platform or visa agent can change the underlying rule.</p>
           <p><em>Last updated: 1 September 2026. Salary figures reflect rates current in mid-2026 in Bangkok, Phuket, Chiang Mai, and Pattaya. Legal references are to the Thai Ministry of Labour and Immigration Bureau rules in force as of 2026. This guide is not legal advice — for individual cases involving work permits or visa transitions, consult a Thai immigration lawyer.</em></p>
         `,
       },
@@ -2187,41 +2231,50 @@ export const guides = [
             <li><strong>Additional languages</strong> beyond English (Mandarin especially): +10–20 %.</li>
           </ul>
 
-          <h3>The hidden costs beyond salary</h3>
-          <p>When budgeting for a Filipino nanny, families frequently forget the legal-status costs. Realistic annual add-ons:</p>
+          <h3>The costs beyond salary</h3>
+          <p>One line item that appears in most Filipino-nanny budgets should not be there: work-permit and Non-Immigrant B fees. For household work with a Filipino national there is no permit to pay for, because none can be issued to a family — see the legal section below. Treat any quote that itemises “work permit: 6,500 THB/year” for this arrangement as a signal to ask hard questions.</p>
+          <p>The add-ons that are real:</p>
           <ul>
-            <li><strong>Work permit</strong> — about 3,000–6,000 THB per year (government fee; not counting lawyer or agent fees to file).</li>
-            <li><strong>Non-Immigrant B visa renewal</strong> — about 2,000–5,000 THB per year plus the annual 90-day report cycle.</li>
-            <li><strong>Insurance</strong> — Thai law requires accident/health coverage for foreign workers. Realistic budget 8,000–15,000 THB/year for a private policy with meaningful coverage.</li>
+            <li><strong>Insurance</strong> — accident and health coverage. Realistic budget 8,000–15,000 THB/year for a private policy with meaningful coverage.</li>
             <li><strong>Round-trip flight home once a year</strong> — many Filipino nannies expect this as part of the package. Bangkok–Manila is typically 8,000–15,000 THB.</li>
-            <li><strong>Sunday off / rest day allowance</strong> if you want to be competitive with other expat families in your neighborhood.</li>
+            <li><strong>Sunday off / rest day allowance</strong> if you want to be competitive with other expat families in your neighbourhood.</li>
           </ul>
-          <p>Total "true cost" for a Bangkok family hiring legally is often <strong>1.25–1.4×</strong> the headline salary once these are included.</p>
+          <p>For comparison, the one foreign route a family can lawfully use — the MOU route for a Myanmar, Lao or Cambodian nanny — runs roughly 15,000–50,000 THB all-in, over 3–6 months for a first-time import.</p>
         `,
       },
       {
         id: 'legal',
-        h2: 'The Non-Immigrant B visa and work permit — the part that matters',
+        h2: 'The legal position — read this before you shortlist anyone',
         html: `
-          <p>This is the section families most often skim and later regret. A Filipino national working as a nanny in Thailand is a <strong>foreign worker</strong>. Thai law requires that foreign workers hold both (1) an appropriate visa and (2) a work permit issued by the Ministry of Labour.</p>
+          <p>This is the section families skim and later regret, and it is the one place where the honest answer is harder than the one most guides give. A Filipino national working as a nanny in Thailand is a foreign worker, and foreign workers need both a valid visa and a work permit issued by the Ministry of Labour. The difficulty is not the paperwork. It is that <strong>for household work, the permit a private family would need cannot be issued for a Filipino national at all</strong>.</p>
 
-          <h3>The legal path in plain English</h3>
-          <ol>
-            <li><strong>Visa:</strong> The correct visa for someone working as a nanny is the <strong>Non-Immigrant B (Business)</strong> visa. This is typically applied for at a Thai embassy or consulate outside Thailand (many families arrange it in Manila, Vientiane, or Penang). Tourist and Visa-Exempt entries do not allow work.</li>
-            <li><strong>Employer setup:</strong> Under Thai law, an individual family cannot easily sponsor a work permit on their own — the sponsor typically needs to be a registered Thai company. In practice, families work through an established household-staffing arrangement, or the nanny is sponsored by a licensed household-services entity that then places her with the family.</li>
-            <li><strong>Work permit application:</strong> Filed with the Ministry of Labour after the Non-Immigrant B is issued. Requires medical certificate, employment contract, sponsor documentation, and government fees (see cost section above).</li>
-            <li><strong>Annual maintenance:</strong> 90-day reporting to Immigration, annual work-permit renewal, visa renewal. Missing any of these can trigger overstay fines that quickly reach 20,000 THB or more.</li>
-          </ol>
+          <h3>Why not</h3>
+          <p>Under the Ministry of Labour's notification of 1 April 2020 (made under the Royal Decree on Foreign Workers Management B.E. 2560), household work is open to foreigners only through a government-to-government labour MOU. Thailand has household-work MOUs with <strong>Myanmar, Laos and Cambodia</strong>. There is no such MOU with the Philippines. Vietnam sits inside the wider CLMV labour framework, but for fishery and construction rather than household work.</p>
+          <p>The Non-Immigrant B route does not bridge the gap either. It requires the employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A household is not that, and a “household-services entity” that sponsors a nanny and places her with a family does not change the underlying occupation — the permit would still have to be issued for domestic work, which is the thing that is unavailable.</p>
+          <p>Narrow exceptions exist and they are genuinely narrow: diplomatic households, BOI-promoted employers, and genuinely skilled roles — a private tutor, governess or household manager — sponsored by a registered Thai employer, where the role matches the permit category in substance and not merely in wording. If your situation might fit one of these, that is a conversation with a Thai immigration lawyer, not something to assemble from a guide.</p>
 
-          <h3>What most families do wrong</h3>
+          <h3>What that means for you as a family</h3>
+          <p>Filipino nannies are highly visible in Bangkok, Phuket and Chiang Mai, and the demand is real: English fluency and childcare experience are exactly what international families want. But the visibility of a market is not evidence that it is lawful. Families hiring into this gap are employing a worker without valid permission, and under Section 102 of the Royal Decree the employer faces 10,000–100,000 THB per worker, multiplied by the number of workers found, with repeat offences adding heavier penalties and a three-year ban on hiring foreigners. The nanny faces 5,000–50,000 THB, deportation and a two-year bar on reapplying for a permit — a far worse outcome than the family's, which is worth weighing honestly.</p>
+          <p>Nationwide inspections were stepped up in May 2026 after a raid on an unlicensed school in Koh Phangan, so the historical pattern of light enforcement is not a safe planning assumption.</p>
+
+          <h3>Arrangements that do not fix it</h3>
           <ul>
-            <li><strong>Hiring on a tourist stamp.</strong> The nanny arrives visa-exempt or on a 60-day tourist visa and starts working. Common, illegal, and if reported, results in deportation and blacklisting of the nanny. The family typically pays a fine but suffers no lasting consequence — <em>the worker bears the risk</em>. Ethically and practically the wrong call.</li>
-            <li><strong>"Border runs" as a work-permit substitute.</strong> Some families ask the nanny to exit and re-enter every 60 days to stay legal on tourist entries. This is not a work-permit substitute — the nanny is still working illegally between border runs.</li>
-            <li><strong>Marriage / student visa workarounds.</strong> Occasionally families ask the nanny to enroll in a language school to hold an ED visa. An ED visa <em>also</em> does not permit work; enforcement is uneven but the arrangement is illegal.</li>
+            <li><strong>Hiring on a tourist stamp or visa-exempt entry.</strong> Common, illegal, and the worker carries most of the consequence.</li>
+            <li><strong>Border runs every 60 days.</strong> Not a work-permit substitute. The work between runs is still unauthorised.</li>
+            <li><strong>Enrolling the nanny in a language school for an ED visa.</strong> An ED visa does not permit work either.</li>
+            <li><strong>A permit written for a different role.</strong> A permit authorises the work actually performed. Describing household work as something else does not make it lawful, and it puts the worker's status at risk rather than protecting it.</li>
           </ul>
 
-          <p><strong>Practical guidance:</strong> If you want to hire a Filipino nanny long-term, plan the visa and work-permit path from day one, budget for it, and speak to a Thai immigration lawyer for your specific situation. If you cannot commit to the legal path, hire a Thai nanny (who does not need any of this) instead. It is a better outcome for everyone.</p>
-          <p>ThaiHelper is a direct-connection platform: we surface real, English-speaking Filipino candidates already based in Thailand, many with existing legal status. But the employment relationship — including visa and work-permit compliance — is between the family and the nanny, and any legal setup is the family's responsibility.</p>
+          <h3>The routes that do work</h3>
+          <ul>
+            <li><strong>Hire a Thai nanny.</strong> No permit needed, the largest candidate pool by far, and immediate start. For most families this is the answer.</li>
+            <li><strong>Hire from Myanmar, Laos or Cambodia through the MOU.</strong> The one foreign route a family can use directly for household work: roughly 15,000–50,000 THB all-in, 3–6 months for a first-time import.</li>
+            <li><strong>Engage an English tutor separately.</strong> If English exposure is the real goal, a tutor employed through a licensed centre can sit alongside a Thai or MOU nanny, each on its own lawful footing. This is usually cheaper than the premium a Filipino nanny commands, and it holds up.</li>
+            <li><strong>Talk to an immigration lawyer</strong> if you think one of the narrow exceptions applies to you. <a href="/directory">Expert directory by city</a>.</li>
+          </ul>
+
+          <p>Run your specific candidate through the <a href="/work-permit-wizard">Work Permit Wizard</a> for a direct answer in five questions.</p>
+          <p>ThaiHelper is a listings and messaging platform: we show you who is out there, including Filipino candidates already based in Thailand. We do not place workers or arrange permits, and the employment relationship — including legal compliance — is between the family and the helper. We would rather tell you this before you fall in love with a candidate than after.</p>
         `,
       },
       {
@@ -2281,7 +2334,7 @@ export const guides = [
         h2: 'Common mistakes families make',
         html: `
           <ul>
-            <li><strong>Skipping the legal setup because "everyone does it."</strong> True that illegal hiring is widespread. Also true that when things go wrong — a workplace injury, a dispute, an immigration check on the building — the nanny takes the fall and the family loses her overnight. The correct legal setup costs 15,000–30,000 THB/year total; that is a small fraction of what a good nanny is worth to a working family.</li>
+            <li><strong>Assuming there is a legal setup to buy.</strong> The most expensive mistake is paying an agent 15,000–30,000 THB to arrange something that cannot be arranged. For household work with a Filipino national there is no permit a family can obtain — so the real decision is between hiring anyway with open eyes, or choosing one of the lawful routes. When things go wrong — an injury, a dispute, an immigration check on the building — the nanny takes the heavier fall: deportation and a two-year bar, against a fine for the family.</li>
             <li><strong>Under-paying because the Facebook post said "budget 15,000."</strong> That number is realistic for a Thai nanny, not for a Filipino nanny with 5+ years of experience and fluent English. Under-pay and she'll take a competing offer within three months.</li>
             <li><strong>Not committing to Sunday off.</strong> The single most common cause of Filipino nanny turnover in Bangkok is families who think Sunday off is negotiable. It usually isn't.</li>
             <li><strong>Live-in room that isn't really a room.</strong> A curtained-off corner of the utility room or a bed in the kitchen destroys retention. Even a small dedicated room with a door and a window is fine.</li>
@@ -2309,17 +2362,17 @@ export const guides = [
       {
         question: 'How much does a Filipino nanny in Bangkok cost in 2026?',
         answer:
-          'A live-out full-time Filipino nanny in Bangkok typically earns 28,000–45,000 THB per month in 2026, depending on experience, English fluency, and specialised skills like newborn or infant care. Live-in arrangements are usually 25,000–40,000 THB plus a private room and food. Both figures are roughly 1.5–2× what a Thai nanny with similar experience earns, and the legal costs (Non-Immigrant B visa, work permit, insurance, annual flight home) add roughly 25–40 % on top of the headline salary.',
+          'A live-out full-time Filipino nanny in Bangkok typically earns 28,000–45,000 THB per month in 2026, depending on experience, English fluency, and specialised skills like newborn or infant care. Live-in arrangements are usually 25,000–40,000 THB plus a private room and food. Both figures are roughly 1.5–2× what a Thai nanny with similar experience earns. Note that work-permit and visa fees should not be in this budget: Thailand does not issue household-worker permits for Filipino nationals, so there is nothing to pay for. Insurance and an annual flight home are the real add-ons.',
       },
       {
         question: 'Do Filipino nannies in Thailand need a work permit?',
         answer:
-          'Yes. A Filipino national working as a nanny in Thailand is a foreign worker and legally requires both an appropriate visa (typically Non-Immigrant B) and a work permit from the Thai Ministry of Labour. Working on a tourist visa, visa-exempt entry, or ED (student) visa is illegal, and enforcement — while uneven — carries fines, deportation, and blacklisting for the nanny. Families should plan and budget for the legal setup from day one or hire a Thai nanny instead.',
+          'Yes, and that is the problem: the permit exists in law but cannot be issued for this arrangement. Household work is open to foreigners only through Thailand\u2019s labour MOUs, which cover Myanmar, Laos and Cambodia — not the Philippines. So a Filipino nanny needs a work permit, and no private family can obtain one for her. Working on a tourist, visa-exempt or ED entry is unlawful and carries fines, deportation and a two-year re-entry bar for the nanny, plus 10,000–100,000 THB per worker for the family. The lawful options are a Thai nanny, an MOU nanny from Myanmar, Laos or Cambodia, or a separately employed English tutor.',
       },
       {
         question: 'Can a family in Thailand sponsor a Filipino nanny\'s work permit directly?',
         answer:
-          'In practice, work-permit sponsorship in Thailand typically requires a registered Thai company as the sponsor — individual families cannot easily sponsor directly. Most legal Filipino nanny arrangements go through a household-services company or through a lawyer-arranged structure. For your specific situation, consult a Thai immigration lawyer; the details change often and depend on the family\'s and nanny\'s current status.',
+          'No. Two separate barriers apply. First, household work is only open to foreigners through Thailand\u2019s MOUs with Myanmar, Laos and Cambodia, so the occupation itself is unavailable for a Filipino national. Second, the Non-Immigrant B route requires the employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire, which a household is not. A “household-services company” sponsoring the nanny does not solve the first barrier. Narrow exceptions exist — diplomatic households, BOI-promoted employers, and genuinely skilled tutor or household-manager roles under a registered Thai employer — and those are a conversation with a Thai immigration lawyer.',
       },
       {
         question: 'Where can I find English-speaking Filipino nannies in Bangkok, Phuket, or Chiang Mai?',
@@ -2329,7 +2382,7 @@ export const guides = [
       {
         question: 'Why do Filipino nannies cost more than Thai nannies?',
         answer:
-          'Three main reasons: fluent English (the single biggest driver — English is the primary language of instruction in Philippine schools), childcare-first cultural background (being a yaya is a long-standing profession with clear conventions around child safety and routine), and higher legal-status costs on the family side (Non-Immigrant B visa, work-permit, insurance, annual flight home). The premium is typically 50–100 % over a Thai nanny with similar experience.',
+          'Three main reasons: fluent English (the single biggest driver — English is the primary language of instruction in Philippine schools), childcare-first cultural background (being a yaya is a long-standing profession with clear conventions around child safety and routine), and higher support costs on the family side (insurance, an annual flight home). Note that work-permit and visa fees are not part of this: Thailand issues household-worker permits only under its MOUs with Myanmar, Laos and Cambodia, so no permit can be obtained for a Filipino nanny by a private family. The premium is typically 50–100 % over a Thai nanny with similar experience.',
       },
       {
         question: 'What should I definitely put in a Filipino nanny contract?',

@@ -371,15 +371,15 @@ export const blogPosts = [
       </ul>
       <p><strong>Worked example:</strong> a 20,000-THB Bangkok live-out nanny actually costs roughly 25,000–28,000 THB/month all-in once you account for Social Security, the prorated 13th-month bonus, a transport stipend, and meals. Plan around the higher number, not the salary line.</p>
 
-      <h2>Foreign Nannies (Filipino, Burmese) — Add Visa + Work-Permit Costs</h2>
-      <p>If you hire a non-Thai citizen (commonly Filipino or Burmese), there are additional costs you do NOT face with a Thai national:</p>
+      <h2>Foreign Nannies — What the Legal Route Actually Costs</h2>
+      <p>If you hire a non-Thai citizen, the first question is not cost but whether a permit can be issued at all. Household work is open to foreigners only through Thailand's government-to-government labour MOUs, and those cover <strong>Myanmar, Laos and Cambodia</strong>. There is no such MOU with the Philippines, so a private family cannot obtain a work permit for a Filipino nanny — the Non-Immigrant B route needs a registered Thai company with 2 million THB of paid-up capital as the employer, which a household is not.</p>
       <ul>
-        <li><strong>Work permit:</strong> 6,500–10,000 THB/year (employer-paid)</li>
-        <li><strong>Non-Immigrant B visa:</strong> ~2,000 THB/year plus initial setup</li>
-        <li><strong>Visa agent</strong> (most families use one): 15,000–30,000 THB initial setup, then 5,000–10,000 THB per renewal year</li>
-        <li><strong>Premium on salary:</strong> Filipino nannies with English fluency typically command 25,000–35,000 THB/month, sometimes more for nursing-trained candidates.</li>
+        <li><strong>Burmese, Lao or Cambodian nanny (MOU route):</strong> roughly 15,000–50,000 THB all-in, 3–6 months for a first-time import. The low end is an in-country renewal; the high end a fresh import with passport, CI, embassy steps and travel.</li>
+        <li><strong>Filipino nanny:</strong> no permit route exists for a private household. Families who hire anyway face 10,000–100,000 THB per worker under the Royal Decree; the nanny faces deportation and a two-year bar.</li>
+        <li><strong>Driving:</strong> reserved for Thai nationals outright. No foreign helper, MOU or otherwise, can lawfully do the school run by car.</li>
+        <li><strong>Salary premium:</strong> Filipino nannies with English fluency typically command 25,000–35,000 THB/month, which is the market rate whether or not the arrangement is lawful.</li>
       </ul>
-      <p>Full breakdown in the <a href="/guide/hire-a-nanny-in-thailand">complete hiring guide</a> (section "Work permits for foreign nannies").</p>
+      <p>Check your specific candidate with the <a href="/work-permit-wizard">Work Permit Wizard</a>, or read the full breakdown in the <a href="/guide/hire-a-nanny-in-thailand">complete hiring guide</a>.</p>
 
       <h2>Agency vs Direct Hire — Cost Comparison</h2>
       <p>Recruitment agencies in Thailand typically charge a placement fee of <strong>1–3 months' salary</strong>. For a 20,000-THB nanny in Bangkok, that's 20,000–60,000 THB <em>before she starts</em>. Some include a replacement guarantee; many do not.</p>
@@ -1352,8 +1352,8 @@ export const blogPosts = [
         <li>A 2-year work permit is issued (renewable for another 2 years)</li>
         <li>The worker enters Thailand legally with a Non-Immigrant LA visa</li>
       </ol>
-      <p><strong>Costs:</strong> Approximately 15,000-25,000 THB total (including medical check, visa, work permit, and agency fees if applicable).</p>
-      <p><strong>Timeline:</strong> 2-4 months from application to arrival.</p>
+      <p><strong>Costs:</strong> Roughly 15,000–50,000 THB all-in. The low end is an in-country renewal through a licensed agency; the high end is a first-time import from Myanmar once passport, CI, embassy steps, agency fees and travel are counted.</p>
+      <p><strong>Timeline:</strong> 3–6 months from application to arrival. Thai-side processing is now 1–3 weeks via the e-Work Permit system; the delay sits on the sending country's side.</p>
 
       <h3>2. Border Pass / Pink Card System</h3>
       <p>For workers already in Thailand, the government periodically opens <strong>registration windows</strong> allowing undocumented workers to register for temporary work permits (often called "pink cards").</p>
@@ -1394,12 +1394,13 @@ export const blogPosts = [
       </ol>
 
       <h2>Frequently Asked Questions</h2>
-      <p><strong>Can I hire a helper from the Philippines or Indonesia?</strong><br/>There is no MOU for domestic workers from these countries. Filipino and Indonesian nationals would need a different visa category, which is complex and uncommon for domestic work.</p>
+      <p><strong>Can I hire a helper from the Philippines or Indonesia?</strong><br/>Not for household work. Thailand's domestic-worker MOUs cover Myanmar, Laos and Cambodia only, and the Non-Immigrant B alternative requires the employer to be a registered Thai company with 2 million THB of paid-up capital — a household is not that. So there is no permit a private family can obtain for a Filipino or Indonesian helper. The same applies to Vietnamese nationals: Vietnam is inside the wider CLMV labour framework, but for fishery and construction, not household work. Narrow exceptions exist for diplomatic households, BOI-promoted employers, and genuinely skilled tutor or household-manager roles under a registered Thai employer — those need a Thai immigration lawyer.</p>
+      <p><strong>Can a foreign helper drive for us?</strong><br/>No. Driving a motor vehicle is on List 1 of the 2020 Ministry of Labour notification — reserved for Thai nationals, with no permit available to any foreigner. A Burmese helper with a valid MOU permit for household work still cannot lawfully drive. If the role includes school runs, that part has to go to a Thai national.</p>
       <p><strong>What if my helper's work permit expires?</strong><br/>They must stop working immediately. Apply for renewal at least 30 days before expiry. If it lapses, the worker may need to leave the country and re-enter under a new MOU.</p>
       <p><strong>Can my helper change employers?</strong><br/>Yes, but the new employer must apply for a transfer at the Employment Office. The worker cannot work during the transfer period.</p>
 
       <h2>Need Help Finding a Helper?</h2>
-      <p>On <a href="/helpers">ThaiHelper</a>, you can find both Thai and legally documented foreign helpers with verified profiles. <a href="/employer-register">Create your free account</a> to start browsing.</p>
+      <p>On <a href="/helpers">ThaiHelper</a> you can browse Thai and foreign helpers and filter by nationality and self-reported work-permit status. We verify email addresses, not documents — always ask to see the actual permit before you hire. Not sure which route applies to your candidate? Run it through the <a href="/work-permit-wizard">Work Permit Wizard</a>. <a href="/employer-register">Create your free account</a> to start browsing.</p>
     `,
   },
 
@@ -2060,13 +2061,17 @@ export const blogPosts = [
       </ul>
       <p>Pay tends to be higher than for local Thai helpers, reflecting the premium placed on English skills and international experience.</p>
 
-      <h2>Legal Requirements (Work Permits)</h2>
-      <p>As a foreign national, you must have a legal <strong>work permit</strong>. Your employer must sponsor you. Key points:</p>
+      <h2>Legal Requirements — Please Read This Carefully</h2>
+      <p>We would rather tell you this plainly than let you find out from an immigration officer. As a foreign national you need a work permit, and for <strong>household work</strong> — nanny, housekeeper, caregiver, cook in a private home — Thailand issues those only under its labour MOUs with Myanmar, Laos and Cambodia. There is no MOU with the Philippines, so <strong>a private family cannot sponsor a work permit for you for household work</strong>, no matter how willing they are or which agent they use.</p>
       <ul>
-        <li>You cannot work legally on a tourist visa.</li>
-        <li>Most Filipino helpers enter on a Non-Immigrant "O" or "B" visa with work permit sponsored by the employer.</li>
-        <li>Some work via embassy/diplomatic household exemptions — check with your employer.</li>
+        <li>You cannot work legally on a tourist, visa-exempt or ED (student) visa. Border runs do not change this.</li>
+        <li>The Non-Immigrant B route requires your employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A household does not qualify.</li>
+        <li><strong>Tutoring and teaching</strong> is the category where a lawful route does exist for Filipino nationals — but the permit must be held by an employer such as a school, language centre or tutoring company, not by the family you teach for.</li>
+        <li><strong>Driving</strong> is reserved for Thai nationals outright. No permit covers it.</li>
+        <li>Diplomatic households are a genuine statutory exemption. If a position is with an embassy, ask them to confirm it in writing.</li>
       </ul>
+      <p>If you work without valid permission and it is discovered, the consequences fall harder on you than on the family: 5,000–50,000 THB, deportation, and a two-year bar on applying for a work permit. Nationwide inspections were stepped up in May 2026.</p>
+      <p>This is why many Filipino members on ThaiHelper focus on <strong>tutoring and teaching roles</strong>, or on positions with employers who can lawfully hold a permit. If someone promises you a household work permit for a private family, treat it as a warning sign, not an opportunity.</p>
       <p>Read our <a href="/blog/work-permits-foreign-helpers-thailand">complete work permit guide</a> for details.</p>
 
       <h2>Cultural Tips for Working in Thailand</h2>
@@ -2762,7 +2767,8 @@ export const blogPosts = [
       <h2>Legal Requirements</h2>
       <ul>
         <li><strong>Thai caregivers:</strong> No work permit needed. Register under Social Security if full-time.</li>
-        <li><strong>Foreign caregivers (Filipino, Burmese):</strong> Require legal work permits. See our <a href="/blog/work-permits-foreign-helpers-thailand">work permit guide</a>.</li>
+        <li><strong>Burmese, Lao and Cambodian caregivers:</strong> Can be employed through Thailand's labour MOUs — the only foreign route open to a private family. See our <a href="/blog/work-permits-foreign-helpers-thailand">work permit guide</a>.</li>
+        <li><strong>Filipino caregivers:</strong> No household work permit can be issued — Thailand has no domestic-worker MOU with the Philippines, and a family cannot sponsor a Non-Immigrant B. Common in the market, but the family carries the legal exposure.</li>
         <li><strong>Medical duties:</strong> Only licensed nurses can administer certain medications or perform medical procedures. For complex care, hire a nurse — not a caregiver.</li>
       </ul>
 
@@ -3000,8 +3006,9 @@ export const blogPosts = [
 
       <h2>Hiring Thai vs Foreign Staff</h2>
       <p><strong>Thai staff:</strong> No work permit issues. Generally strong in housekeeping and gardening. May have limited English.</p>
-      <p><strong>Filipino staff:</strong> Common for nannies and chefs. Strong English. Require work permits.</p>
-      <p><strong>Burmese staff:</strong> Common in gardens, pools, and general maintenance. Require proper MOU documentation.</p>
+      <p><strong>Filipino staff:</strong> Common for nannies and chefs, strong English — but no household work permit can be issued to a private household for Filipino nationals, since Thailand's domestic-worker MOUs cover only Myanmar, Laos and Cambodia. Worth knowing before you build a staffing plan around it.</p>
+      <p><strong>Burmese, Lao and Cambodian staff:</strong> Common in gardens, pools, housekeeping and general maintenance, and lawfully employable through the MOU route with proper documentation.</p>
+      <p><strong>Driving:</strong> Thai nationals only, in every case — the occupation is reserved and no permit is available to a foreigner.</p>
       <p>See our <a href="/blog/work-permits-foreign-helpers-thailand">work permit guide</a>.</p>
 
       <h2>Villa Owner Considerations</h2>

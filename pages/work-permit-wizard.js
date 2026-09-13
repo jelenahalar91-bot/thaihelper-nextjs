@@ -45,6 +45,8 @@ const T = {
     nav_resources: 'Resources',
     nav_browse_helpers: 'Browse Helpers',
     nav_directory: 'Expert Directory',
+    nav_legal: 'Work Permit Rules',
+    rule_more: 'Which nationalities may do which work — the full rules →',
     nav_about: 'About',
     nav_faq: 'FAQ',
 
@@ -52,7 +54,7 @@ const T = {
     hero_h1: 'Hiring a non-Thai helper? Let\'s make it legal.',
     hero_sub: 'Five quick questions, no signup. The wizard tells you whether starting the work permit process for your specific candidate is worth it — and exactly what to do next.',
     rule_label: 'The basic rule',
-    rule_text: 'In Thailand, every non-Thai worker needs a work permit — no exceptions, not even on a tourist, retirement, dependent or education visa. The only people who can work without a WP are Thai nationals. This wizard helps you decide whether the WP process is worth it for THIS candidate, given the cost, timeline, and how long you plan to employ them.',
+    rule_text: 'In Thailand, every non-Thai worker needs a work permit — no exceptions, not even on a tourist, retirement, dependent or education visa. The only people who can work without one are Thai nationals. And needing a permit is not the same as being able to get one: for household work, permits are issued only to nationals of Myanmar, Laos and Cambodia under Thailand\'s labour MOUs, while driving is closed to every foreigner outright. This wizard tells you which case your candidate falls into, and whether the process is worth it given the cost and timeline.',
 
     enforcement_label: '🚨 Active enforcement — May 2026',
     enforcement_text: 'After a 1 May 2026 raid on an unlicensed school in Koh Phangan (9 arrests), Labour Minister Julapun Amornvivat ordered nationwide inspections under the Trai Thep Phithak task force. Statutory penalties (Royal Decree on Foreign Workers Management B.E. 2560, as amended 2018) for employing a worker without a valid work permit: 10,000–100,000 THB per worker for the employer; repeat offences add 50,000–200,000 THB per worker, up to 1 year prison and a 3-year ban on hiring foreigners. The worker faces 5,000–50,000 THB, deportation and a 2-year bar on reapplying for a work permit. Recent high-profile cases like the 800,000 THB Phuket villa fine multiply the 100k per-worker cap by the number of illegal workers found on site.',
@@ -168,6 +170,8 @@ const T = {
     nav_resources: 'แหล่งข้อมูล',
     nav_browse_helpers: 'ดูผู้ช่วย',
     nav_directory: 'รายชื่อผู้เชี่ยวชาญ',
+    nav_legal: 'กฎใบอนุญาตทำงาน',
+    rule_more: 'สัญชาติใดทำงานประเภทใดได้บ้าง — ดูกฎฉบับเต็ม →',
     nav_about: 'เกี่ยวกับเรา',
     nav_faq: 'คำถามที่พบบ่อย',
 
@@ -175,7 +179,7 @@ const T = {
     hero_h1: 'จ้างผู้ช่วยที่ไม่ใช่คนไทย? มาทำให้ถูกกฎหมายกัน',
     hero_sub: 'ห้าคำถามสั้นๆ ไม่ต้องสมัครสมาชิก แบบสอบถามจะบอกคุณว่าการเริ่มกระบวนการขอใบอนุญาตทำงานสำหรับผู้สมัครของคุณคุ้มค่าหรือไม่ และต้องทำอะไรต่อไป',
     rule_label: 'กฎพื้นฐาน',
-    rule_text: 'ในประเทศไทย คนต่างชาติทุกคนที่ทำงานต้องมีใบอนุญาตทำงาน ไม่มีข้อยกเว้น แม้จะอยู่ด้วยวีซ่าท่องเที่ยว เกษียณอายุ ผู้ติดตาม หรือนักเรียน เฉพาะคนไทยเท่านั้นที่สามารถทำงานได้โดยไม่ต้องมี WP แบบสอบถามนี้ช่วยคุณตัดสินใจว่ากระบวนการ WP คุ้มค่าสำหรับผู้สมัครคนนี้หรือไม่ โดยพิจารณาจากค่าใช้จ่าย ระยะเวลา และระยะเวลาที่คุณวางแผนจะจ้าง',
+    rule_text: 'ในประเทศไทย คนต่างชาติทุกคนที่ทำงานต้องมีใบอนุญาตทำงาน ไม่มีข้อยกเว้น แม้จะอยู่ด้วยวีซ่าท่องเที่ยว เกษียณอายุ ผู้ติดตาม หรือนักเรียน เฉพาะคนไทยเท่านั้นที่ทำงานได้โดยไม่ต้องมีใบอนุญาต และการที่ต้องมีใบอนุญาตไม่ได้แปลว่าจะขอได้ สำหรับงานบ้าน ใบอนุญาตออกให้เฉพาะคนสัญชาติเมียนมา ลาว และกัมพูชา ภายใต้ MOU ด้านแรงงานเท่านั้น ส่วนงานขับรถปิดสำหรับคนต่างด้าวทุกคน แบบสอบถามนี้จะบอกว่าผู้สมัครของคุณอยู่ในกรณีใด และกระบวนการคุ้มค่าหรือไม่เมื่อพิจารณาค่าใช้จ่ายและระยะเวลา',
 
     enforcement_label: '🚨 การบังคับใช้กฎหมายเข้มข้น — พฤษภาคม 2569',
     enforcement_text: 'หลังเหตุการณ์บุกค้นโรงเรียนผิดกฎหมายที่เกาะพะงัน 1 พ.ค. 2569 (จับกุม 9 คน) รมว.แรงงาน จุลพันธ์ อมรวิวัฒน์ สั่งตรวจสอบทั่วประเทศผ่านชุดเฉพาะกิจไตรเทพพิทักษ์ ค่าปรับตามกฎหมาย (พ.ร.ก.การบริหารจัดการการทำงานของคนต่างด้าว พ.ศ. 2560 แก้ไขเพิ่มเติม 2561) สำหรับนายจ้างที่จ้างแรงงานต่างชาติไม่มี WP: 10,000–100,000 บาท ต่อคน ผู้กระทำผิดซ้ำเพิ่มอีก 50,000–200,000 บาท ต่อคน จำคุกสูงสุด 1 ปี และห้ามจ้างแรงงานต่างชาติ 3 ปี ลูกจ้างถูกปรับ 5,000–50,000 บาท ถูกส่งกลับ และห้ามขอ WP ใหม่ 2 ปี กรณีฟูเก็ตที่ปรับ 800,000 บาทเป็นการคำนวณ 100,000 บาท × 8 คน ไม่ใช่ 800,000 บาทต่อคน',
@@ -472,6 +476,7 @@ export default function WorkPermitWizard() {
           {(() => {
             const navItems = [
               { href: '/helpers',             label: t.nav_browse_helpers },
+              { href: '/legal',               label: t.nav_legal },
               { href: '/directory',           label: t.nav_directory },
               { href: '/employers',           label: t.nav_employers },
               { href: '/about',               label: t.nav_about },
@@ -527,6 +532,11 @@ export default function WorkPermitWizard() {
             <div className="max-w-2xl mx-auto rounded-xl border border-blue-200 bg-blue-50 px-5 py-4 text-sm text-blue-900 leading-relaxed">
               <strong className="font-bold">📋 {t.rule_label}: </strong>
               {t.rule_text}
+              <div className="mt-2">
+                <Link href="/legal" className="font-semibold underline hover:no-underline">
+                  {t.rule_more}
+                </Link>
+              </div>
             </div>
           </section>
 

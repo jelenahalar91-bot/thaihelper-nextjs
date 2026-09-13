@@ -72,6 +72,7 @@ import { fetchEmployers } from '@/lib/api/employers';
 import { CITIES, CITY_OPTIONS, MAX_ADDITIONAL_CITIES, parseAdditionalCities } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS, WP_PUBLIC_BADGES, formatWpStatus } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS, formatNationality } from '@/lib/constants/nationalities';
+import WorkPermitNotice from '@/components/WorkPermitNotice';
 import { jobDetailEntries } from '@/lib/constants/employer';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
@@ -2041,6 +2042,12 @@ export default function Profile() {
                         ))}
                       </select>
                       <div style={{ marginTop: 6, fontSize: '13px', color: '#bbb' }}>{t.nat_hint}</div>
+                      {/* Nationality × category guidance — helper-facing only. */}
+                      <WorkPermitNotice
+                        nationality={editData.nationality ?? p.nationality ?? ''}
+                        categories={editData.category ?? p.category ?? ''}
+                        lang={lang}
+                      />
                     </div>
 
                     {/* Work permit status (optional) */}

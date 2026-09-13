@@ -10,6 +10,7 @@ import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/hel
 import { CITY_OPTIONS, THAI_PROVINCES, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS } from '@/lib/constants/nationalities';
+import WorkPermitNotice from '@/components/WorkPermitNotice';
 import { suggestEmail } from '@/lib/email-typo';
 import { computeAge, validateDob } from '@/lib/age';
 import { event as gaEvent, fbTrack, EVENTS } from '@/lib/analytics';
@@ -1016,6 +1017,9 @@ export default function Register() {
                     {t.nat_hint}
                   </div>
                   {errors.nationality && <div className="field-error" style={{ display: 'block' }}>{errors.nationality}</div>}
+                  {/* Nationality × category guidance. Informational only —
+                      never blocks the signup, never shown to employers. */}
+                  <WorkPermitNotice nationality={nationality} categories={categories} lang={lang} />
                 </div>
 
                 {/* Work Permit status (optional) */}
