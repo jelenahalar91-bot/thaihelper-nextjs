@@ -30,6 +30,28 @@ import {
 const DAY_MS = 24 * 60 * 60 * 1000;
 const OUTREACH_BUCKET = 'conversation-start';
 
+// Search states that may not open NEW conversations.
+//
+// Until 2026-09-13 visibility was checked in one direction only: an employer
+// could not message a hidden helper, but a hidden employer could message
+// whoever they liked. EMP-572KZV used exactly that — he set his profile to
+// 'hidden' two minutes after posting his second retaliation review, which
+// took him out of the family directory where a helper might have looked him
+// up, while leaving him free to keep approaching helpers.
+//
+// The dashboard already promises this: 'paused' says "not hiring now" and
+// "existing chats keep working", 'hidden' says "no new inquiries". Only
+// 'searching' means actively looking, and only it should be able to reach
+// out. Replies inside existing threads stay open for every state — /api/messages
+// is untouched — because going quiet on someone mid-conversation is worse
+// than the problem being fixed.
+//
+// A Set of the states that DENY, rather than a check for 'searching': the
+// column is NOT NULL DEFAULT 'searching', but if a caller ever forgets to
+// select it, undefined must not lock the whole platform out of messaging.
+// Same reasoning as hasActiveAccess in lib/access.js.
+const NO_OUTREACH_SEARCH_STATES = new Set(['paused', 'hidden']);
+
 /**
  * Bound how many new conversations one account may open.
  *
@@ -136,7 +158,7 @@ export default async function handler(req, res) {
       // email_verified is the access gate as of 2026-06-09 (see
       // lib/access.js); without it loaded here, hasActiveAccess
       // sees undefined and blocks every conversation start.
-      .select('employer_ref, first_name, preferred_language, access_until, access_tier, email_verified, status, phone_verified_at')
+      .select('employer_ref, first_name, preferred_language, access_until, access_tier, email_verified, status, search_status, phone_verified_at')
       .eq('employer_ref', session.ref)
       .single();
     if (!data) return res.status(401).json({ error: 'Not authenticated' });
@@ -303,6 +325,14 @@ export default async function handler(req, res) {
         });
       }
 
+      // Not searching means not approaching anyone. See above.
+      if (NO_OUTREACH_SEARCH_STATES.has(employer.search_status)) {
+        return res.status(403).json({
+          error: 'not_searching',
+          searchStatus: employer.search_status,
+        });
+      }
+
       const { helper_ref } = req.body || {};
       if (!helper_ref) {
         return res.status(400).json({ error: 'helper_ref required' });
@@ -362,11 +392,17 @@ export default async function handler(req, res) {
       // gated at all, so a suspended helper could still open new chats.
       const { data: senderHelper } = await supabase
         .from('helper_profiles')
-        .select('status, phone_verified_at')
+        .select('status, availability_status, phone_verified_at')
         .eq('helper_ref', session.ref)
         .single();
       if (senderHelper?.status === 'suspended') {
         return res.status(403).json({ error: 'account_suspended' });
+      }
+      // Mirror of the employer rule: a helper who has taken her profile
+      // offline is not reachable by families, so she does not get to open new
+      // chats either. Her existing conversations keep working.
+      if (senderHelper?.availability_status === 'hidden') {
+        return res.status(403).json({ error: 'profile_hidden' });
       }
 
       const { employer_ref } = req.body || {};

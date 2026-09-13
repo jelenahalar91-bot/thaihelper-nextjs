@@ -120,6 +120,7 @@ const T = {
     err_start_locked: 'Please verify your email to message helpers.',
     err_generic: 'Something went wrong. Please try again.',
     err_helper_unavailable: 'This helper has taken their profile offline and isn’t accepting messages right now.',
+    err_not_searching: 'Your profile is set to “not searching”, so you can’t start new chats. Your existing conversations still work. Set your profile back to “Searching” above to contact new helpers.',
     msg_delete_error: 'Could not delete the conversation. Please try again.',
     err_translation_failed: '',
     err_too_long: 'Message is too long (max {n} characters).',
@@ -236,6 +237,7 @@ const T = {
     err_start_locked: 'กรุณายืนยันอีเมลเพื่อส่งข้อความหาผู้ช่วย',
     err_generic: 'เกิดข้อผิดพลาด กรุณาลองอีกครั้ง',
     err_helper_unavailable: 'ผู้ช่วยคนนี้ได้ซ่อนโปรไฟล์ไว้ และตอนนี้ยังไม่รับข้อความ',
+    err_not_searching: 'โปรไฟล์ของคุณตั้งค่าเป็น “ไม่ได้กำลังหา” จึงเริ่มแชทใหม่ไม่ได้ การสนทนาที่มีอยู่ยังใช้งานได้ตามปกติ หากต้องการติดต่อผู้ช่วยใหม่ กรุณาเปลี่ยนกลับเป็น “กำลังหา” ด้านบน',
     msg_delete_error: 'ไม่สามารถลบการสนทนาได้ กรุณาลองอีกครั้ง',
     err_translation_failed: '',
     err_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
@@ -694,6 +696,8 @@ export default function EmployerDashboard() {
         setActiveTab('messages');
       } else if (err.code === 'helper_unavailable') {
         setErrorBanner(t.err_helper_unavailable);
+      } else if (err.code === 'not_searching') {
+        setErrorBanner(t.err_not_searching);
       } else if (err.code === 'outreach_limit') {
         setErrorBanner(t.err_outreach_limit);
       } else {

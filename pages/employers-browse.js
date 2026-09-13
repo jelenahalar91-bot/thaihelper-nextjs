@@ -75,6 +75,7 @@ const T = {
     card_message_family: 'Message this family',
     card_applying:  'Starting…',
     card_apply_error: 'Could not start the conversation. Please try again.',
+    card_apply_hidden: 'Your profile is hidden, so you can’t apply to new jobs. Make it visible again in your dashboard.',
     card_tasks:     'Tasks',
     live_in:        'Live-in',
     live_out:       'Live-out',
@@ -122,6 +123,7 @@ const T = {
     card_message_family: 'ส่งข้อความหาครอบครัวนี้',
     card_applying:  'กำลังเริ่ม…',
     card_apply_error: 'ไม่สามารถเริ่มการสนทนาได้ กรุณาลองใหม่',
+    card_apply_hidden: 'โปรไฟล์ของคุณถูกซ่อนอยู่ จึงสมัครงานใหม่ไม่ได้ กรุณาเปิดโปรไฟล์ให้แสดงในแดชบอร์ดของคุณ',
     card_tasks:     'งาน',
     live_in:        'อยู่ประจำ',
     live_out:       'ไป-กลับ',
@@ -174,7 +176,7 @@ export default function EmployersBrowse({ initialEmployers = [] }) {
       window.location.href = '/profile';
     } catch (err) {
       console.error('Apply (start conversation) failed:', err);
-      alert(t.card_apply_error);
+      alert(err.code === 'profile_hidden' ? t.card_apply_hidden : t.card_apply_error);
       setApplyingRef(null);
     }
   }

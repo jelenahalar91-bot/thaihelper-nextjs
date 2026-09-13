@@ -242,6 +242,7 @@ const T = {
     msg_too_long: 'Message is too long (max {n} characters).',
     msg_send_error: 'Failed to send message. Please try again.',
     msg_delete_error: 'Could not delete the conversation. Please try again.',
+    err_profile_hidden: 'Your profile is hidden, so you can’t start new chats. Your existing conversations still work. Make your profile visible again to contact families.',
     msg_empty_title: 'Say hi to {name} 👋',
     msg_empty_hint: 'Send your first reply to get the conversation started.',
     msg_delete: 'Delete conversation',
@@ -445,6 +446,7 @@ const T = {
     msg_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
     msg_send_error: 'ส่งข้อความไม่สำเร็จ กรุณาลองอีกครั้ง',
     msg_delete_error: 'ไม่สามารถลบการสนทนาได้ กรุณาลองอีกครั้ง',
+    err_profile_hidden: 'โปรไฟล์ของคุณถูกซ่อนอยู่ จึงเริ่มแชทใหม่ไม่ได้ การสนทนาที่มีอยู่ยังใช้งานได้ กรุณาเปิดโปรไฟล์ให้แสดงอีกครั้งเพื่อติดต่อครอบครัว',
     msg_empty_title: 'ทักทาย {name} กันเถอะ 👋',
     msg_empty_hint: 'ส่งข้อความตอบกลับแรกเพื่อเริ่มการสนทนา',
     msg_delete: 'ลบบทสนทนา',
@@ -1140,6 +1142,8 @@ export default function Profile() {
       console.error('Failed to start conversation:', err);
       if (err.code === 'outreach_limit') {
         setMsgToast(t.err_outreach_limit);
+      } else if (err.code === 'profile_hidden') {
+        setMsgToast(t.err_profile_hidden);
       } else {
         setMsgToast(err.message || 'Failed to start conversation');
       }
