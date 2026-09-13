@@ -15,12 +15,23 @@
 
 import { getServiceSupabase } from '../../../lib/supabase';
 import {
+  // Named after what the email CONTAINS, not who receives it — same
+  // convention as sendNewHelperMatchEmail / sendNewEmployerMatchEmail:
+  //   sendHelperMatchDigestEmail   → lists helpers,   goes to an employer
+  //   sendEmployerMatchDigestEmail → lists employers, goes to a helper
+  // Both bail out silently (return null) when handed the wrong list prop.
   sendHelperMatchDigestEmail,
   sendEmployerMatchDigestEmail,
 } from '../../../lib/send-confirmation-email';
 import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../../lib/unsubscribe';
 import { sendPush, templates as lineTemplates } from '../../../lib/line';
-import { MATCH_COOLDOWN_DAYS } from '../../../lib/match-notifications';
+import {
+  MATCH_COOLDOWN_DAYS,
+  matchOverlap,
+  fetchHelpersCoveringCity,
+  helperCitySlugs,
+} from '../../../lib/match-notifications';
+import { toCitySlug, cityQueryVariants } from '../../../lib/constants/cities';
 
 const COOLDOWN_MS = MATCH_COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
 // Cap how far back we look on the very first run for a recipient (NULL
@@ -30,6 +41,11 @@ const FIRST_RUN_LOOKBACK_DAYS = 7;
 
 // Bound a single cron run so it can't time out on a large backlog.
 const MAX_RECIPIENTS_PER_RUN = 200;
+
+// Cap the rows inside one digest email. The city query runs twice (home city
+// + additional_cities) and each side is capped at 20, so an unbounded digest
+// could list 40 people — too long to read and too easy to mistake for spam.
+const MAX_ROWS_PER_DIGEST = 12;
 
 function authorize(req) {
   const expected = process.env.CRON_SECRET;
@@ -89,7 +105,6 @@ export default async function handler(req, res) {
     )
     .eq('email_verified', true)
     .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${cooldownCutoff}`)
-    .neq('city', 'other')
     .limit(MAX_RECIPIENTS_PER_RUN);
 
   if (empErr) {
@@ -100,35 +115,38 @@ export default async function handler(req, res) {
       // Respect paused/hidden — those employers opted out of new-match
       // alerts. NULL (pre-migration) counts as actively searching.
       if (emp.search_status === 'paused' || emp.search_status === 'hidden') continue;
+      // 'other' / blank city can't be matched to anyone.
+      const empCitySlug = toCitySlug(emp.city);
+      if (!empCitySlug || empCitySlug === 'other') continue;
       const wanted = parseLookingFor(emp.looking_for);
       if (wanted.length === 0) continue;
 
       const since = newSinceCutoff(emp.last_match_notification_at);
 
-      // Pull verified helpers in the same city verified after `since`.
-      // Filter category in JS — small set, "multiple" wildcard is awkward in SQL.
+      // Pull verified helpers who cover the employer's city — home city or
+      // additional_cities — and verified after `since`. Category overlap is
+      // resolved in JS (both sides store comma-joined lists).
       // Uses email_verified_at (not created_at) so a helper who registered
       // weeks ago but verified yesterday is still surfaced in the digest.
-      const { data: helpers, error: hErr } = await supabase
-        .from('helper_profiles')
-        .select('helper_ref, first_name, city, category, email_verified, status, availability_status')
-        .eq('city', emp.city)
-        .eq('email_verified', true)
-        .gt('email_verified_at', since)
-        .or('status.eq.active,status.is.null')
-        .or('availability_status.neq.hidden,availability_status.is.null')
-        .limit(20);
+      const { data: helpers, error: hErr } = await fetchHelpersCoveringCity(
+        supabase,
+        emp.city,
+        'helper_ref, first_name, city, category, additional_cities, email_verified, ' +
+        'status, availability_status',
+        { verifiedSince: since, limit: 20 }
+      );
 
       if (hErr) {
         console.error(`Match digest: helpers fetch failed for emp ${emp.employer_ref}:`, hErr);
         continue;
       }
 
-      const matches = (helpers || []).filter((h) => {
-        if (!h.category) return false;
-        if (h.category === 'multiple') return true;
-        return wanted.includes(h.category);
-      });
+      const matches = (helpers || [])
+        .filter((h) => h.status === null || h.status === undefined || h.status === 'active')
+        .filter((h) => h.availability_status !== 'hidden')
+        .map((h) => ({ helper: h, overlap: matchOverlap(emp, h) }))
+        .filter((m) => m.overlap !== null)
+        .slice(0, MAX_ROWS_PER_DIGEST);
 
       if (matches.length === 0) continue;
 
@@ -139,13 +157,13 @@ export default async function handler(req, res) {
         try {
           const token = await createUnsubscribeToken('employer', emp.employer_ref);
           const unsubscribeUrl = buildUnsubscribeUrl(token);
-          await sendEmployerMatchDigestEmail({
+          await sendHelperMatchDigestEmail({
             recipientName: emp.first_name || '',
             recipientEmail: emp.email,
-            helpers: matches.map((h) => ({
-              firstName: h.first_name || 'New helper',
-              category: h.category,
-              city: h.city,
+            helpers: matches.map(({ helper, overlap }) => ({
+              firstName: helper.first_name || 'New helper',
+              category: overlap.category,
+              city: overlap.city,
             })),
             unsubscribeUrl,
           });
@@ -189,13 +207,12 @@ export default async function handler(req, res) {
   const { data: hlpCandidates, error: hlpErr } = await supabase
     .from('helper_profiles')
     .select(
-      'helper_ref, first_name, email, city, category, notify_on_message, ' +
+      'helper_ref, first_name, email, city, category, additional_cities, notify_on_message, ' +
       'line_user_id, notify_via_line, last_match_notification_at, status, ' +
       'availability_status'
     )
     .eq('email_verified', true)
     .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${cooldownCutoff}`)
-    .neq('city', 'other')
     .or('status.eq.active,status.is.null')
     // Helpers who hid their profile don't want match mail at all.
     .or('availability_status.neq.hidden,availability_status.is.null')
@@ -207,17 +224,20 @@ export default async function handler(req, res) {
     for (const hlp of hlpCandidates || []) {
       if (!hlp.email && !hlp.line_user_id) continue;
       if (!hlp.category) continue;
+      // Every city this helper covers — home plus "I can also travel to …".
+      const coveredCities = helperCitySlugs(hlp);
+      if (coveredCities.length === 0) continue;
 
       const since = newSinceCutoff(hlp.last_match_notification_at);
 
-      // Pull verified employers in the same city verified after `since`.
-      // Filter looking_for in JS so the "multiple" helper wildcard works.
+      // Pull verified employers in any city this helper covers, verified
+      // after `since`. Category overlap is resolved in JS.
       // Uses email_verified_at (not created_at) so an employer who registered
       // earlier and only verified recently still appears in the digest.
       const { data: employers, error: eErr } = await supabase
         .from('employer_accounts')
         .select('employer_ref, first_name, city, looking_for, email_verified')
-        .eq('city', hlp.city)
+        .in('city', [...new Set(coveredCities.flatMap(cityQueryVariants))])
         .eq('email_verified', true)
         .gt('email_verified_at', since)
         .limit(20);
@@ -227,11 +247,10 @@ export default async function handler(req, res) {
         continue;
       }
 
-      const matches = (employers || []).filter((e) => {
-        if (hlp.category === 'multiple') return true;
-        const wanted = parseLookingFor(e.looking_for);
-        return wanted.includes(hlp.category);
-      });
+      const matches = (employers || [])
+        .map((e) => ({ employer: e, overlap: matchOverlap(e, hlp) }))
+        .filter((m) => m.overlap !== null)
+        .slice(0, MAX_ROWS_PER_DIGEST);
 
       if (matches.length === 0) continue;
 
@@ -242,18 +261,14 @@ export default async function handler(req, res) {
         try {
           const token = await createUnsubscribeToken('helper', hlp.helper_ref);
           const unsubscribeUrl = buildUnsubscribeUrl(token);
-          await sendHelperMatchDigestEmail({
+          await sendEmployerMatchDigestEmail({
             recipientName: hlp.first_name || '',
             recipientEmail: hlp.email,
-            employers: matches.map((e) => {
-              const wanted = parseLookingFor(e.looking_for);
-              const display = wanted.includes(hlp.category) ? hlp.category : (wanted[0] || hlp.category);
-              return {
-                firstName: e.first_name || 'A new family',
-                lookingForCategory: display,
-                city: e.city,
-              };
-            }),
+            employers: matches.map(({ employer, overlap }) => ({
+              firstName: employer.first_name || 'A new family',
+              lookingForCategory: overlap.category,
+              city: overlap.city,
+            })),
             unsubscribeUrl,
           });
           helperDigests++;

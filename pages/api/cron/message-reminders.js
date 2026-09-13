@@ -186,6 +186,7 @@ export default async function handler(req, res) {
           recipientEmail,
           senderName,
           senderRole: msg.sender_type,
+          recipientRole,
           messagePreview: msg.content_original,
           unsubscribeUrl,
         });

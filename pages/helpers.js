@@ -10,7 +10,7 @@ import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import HelperCard from '@/components/HelperCard';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
-import { CITIES, parseAdditionalCities } from '@/lib/constants/cities';
+import { CITIES, parseAdditionalCities, toCitySlug } from '@/lib/constants/cities';
 import { getAllHireSlugs } from '@/lib/seo/hire-pages';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 import { WP_FILTER_OPTIONS } from '@/lib/constants/work-permit';
@@ -415,6 +415,30 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     }
   }, [router.isReady, router.query.nationality]);
 
+  // The /hire/<city> landing pages send visitors here with ?city= and
+  // ?category=. Both were being ignored, so every SEO page dropped its
+  // visitor onto the full unfiltered list. Accept either spelling — the
+  // links carry a city slug and an English category label — and store the
+  // value the matching <select> uses, so the dropdown shows it as selected.
+  useEffect(() => {
+    if (!router.isReady) return;
+    const raw = router.query.city;
+    const value = Array.isArray(raw) ? raw[0] : raw;
+    if (!value) return;
+    const slug = toCitySlug(value);
+    const option = CITIES.find(c => toCitySlug(c) === slug);
+    if (option) setFilterCity(option);
+  }, [router.isReady, router.query.city]);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const raw = router.query.category;
+    const value = Array.isArray(raw) ? raw[0] : raw;
+    if (!value) return;
+    const slug = categoryToSlug(value);
+    if (slug) setFilterCat(slug);
+  }, [router.isReady, router.query.category]);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -480,9 +504,12 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
       // A helper matches if their primary city OR any of their additional
       // cities equals the selected filter — so an Andaman helper appears
       // under each island they listed.
-      const primary = (h.city || '').toLowerCase();
-      const extras = parseAdditionalCities(h.additionalCities);
-      const target = filterCity.toLowerCase();
+      // Compare on slugs: the dropdown is built from CITIES (display names,
+      // "Chiang Mai") while helper_profiles stores slugs ("chiang_mai"), so a
+      // plain toLowerCase() silently emptied every multi-word city.
+      const primary = toCitySlug(h.city);
+      const extras = parseAdditionalCities(h.additionalCities).map(toCitySlug);
+      const target = toCitySlug(filterCity);
       if (primary !== target && !extras.includes(target)) return false;
     }
     if (filterCat) {

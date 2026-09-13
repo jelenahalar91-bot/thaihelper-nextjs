@@ -433,6 +433,7 @@ export default async function handler(req, res) {
             recipientEmail,
             senderName: session.firstName || 'Someone',
             senderRole: session.role,
+            recipientRole,
             messagePreview: trimmed,
             unsubscribeUrl,
           });
