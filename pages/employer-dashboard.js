@@ -39,7 +39,7 @@ import {
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
-import { CITIES } from '@/lib/constants/cities';
+import { CITIES, parseAdditionalCities, toCitySlug } from '@/lib/constants/cities';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────
@@ -540,7 +540,16 @@ export default function EmployerDashboard() {
   // ── Filtered + sorted helper list ─────────────────────────────────────
   const filteredHelpers = useMemo(() => {
     const filtered = helpers.filter(h => {
-    if (filterCity && h.city?.toLowerCase() !== filterCity.toLowerCase()) return false;
+    // City — compare on slugs. The dropdown is built from CITIES (display
+    // names, "Hua Hin") while helper_profiles stores slugs ("hua_hin"), so a
+    // plain toLowerCase() silently emptied every multi-word city. A helper
+    // also matches on the cities they listed as travelling to.
+    if (filterCity) {
+      const target = toCitySlug(filterCity);
+      const primary = toCitySlug(h.city);
+      const extras = parseAdditionalCities(h.additionalCities).map(toCitySlug);
+      if (primary !== target && !extras.includes(target)) return false;
+    }
     // Category — normalize both sides to slug so the filter works regardless
     // of whether the helper's stored `category` is a slug ("nanny") or a
     // display name ("Nanny & Babysitter"). filterCat is always a slug.

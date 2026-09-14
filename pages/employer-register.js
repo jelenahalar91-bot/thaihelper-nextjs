@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Turnstile from '@/components/Turnstile';
 import { employerSignup, uploadEmployerPhoto } from '@/lib/api/employer-auth-client';
-import { CITIES } from '@/lib/constants/cities';
+import { CITY_OPTIONS } from '@/lib/constants/cities';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
@@ -697,8 +697,8 @@ export default function EmployerRegisterPage() {
                 <label>{t.city_label}</label>
                 <select value={city} onChange={e => setCity(e.target.value)} required>
                   <option value="">{t.city_ph}</option>
-                  {CITIES.map(c => (
-                    <option key={c} value={c}>{c}</option>
+                  {CITY_OPTIONS.map(c => (
+                    <option key={c.slug} value={c.slug}>{c.name}</option>
                   ))}
                 </select>
               </div>

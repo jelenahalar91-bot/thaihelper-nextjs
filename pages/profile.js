@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 const PhotoCropModal = dynamic(() => import('@/components/PhotoCropModal'), { ssr: false });
 import { fetchProfile as fetchProfileApi, updateProfile as updateProfileApi } from '@/lib/api/helpers';
 import { CATEGORIES, SKILLS_BY_CATEGORY, RATES, LANGUAGES } from '@/lib/constants/categories';
-import { formatCity, formatAdditionalCities } from '@/lib/constants/cities';
+import { formatCity, formatAdditionalCities, toCitySlug } from '@/lib/constants/cities';
 import { AVAILABILITY_LABELS, AVAILABILITY_VALUES } from '@/components/AvailabilityPill';
 
 // Render a category slug (or comma-separated list of slugs) as readable
@@ -1068,7 +1068,8 @@ export default function Profile() {
 
   // ─── Browse employers: filtered list ────────────────────────────────────
   const filteredEmployers = employers.filter(e => {
-    if (empFilterCity && e.city?.toLowerCase() !== empFilterCity.toLowerCase()) return false;
+    // Slug comparison — see employers-browse.js for why both spellings exist.
+    if (empFilterCity && toCitySlug(e.city) !== toCitySlug(empFilterCity)) return false;
     if (empFilterLooking && !e.lookingFor?.toLowerCase().includes(empFilterLooking.toLowerCase())) return false;
     if (empFilterArea && !e.area?.toLowerCase().includes(empFilterArea.toLowerCase())) return false;
     return true;
@@ -2812,7 +2813,7 @@ function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, la
             {e.city && (
               <span style={{ fontSize: '13px', color: '#666', display: 'flex', alignItems: 'center', gap: '3px' }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                {e.city}{e.area ? `, ${e.area}` : ''}
+                {formatCity(e.city)}{e.area ? `, ${e.area}` : ''}
               </span>
             )}
             {e.source === 'registration' && (

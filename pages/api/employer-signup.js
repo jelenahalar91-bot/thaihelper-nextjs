@@ -15,6 +15,7 @@ import { formatAttributionString } from '../../lib/utm';
 import { translateForeignText } from '../../lib/translate';
 import { looksLikeFullAddress } from '../../lib/address-guard';
 import { buildJobDetailsPatch } from '../../lib/employer-job-details';
+import { VALID_CITY_SLUGS, toCitySlug } from '../../lib/constants/cities';
 
 function generateRef() {
   // crypto.randomBytes is cryptographically secure — Math.random() is
@@ -98,6 +99,15 @@ export default async function handler(req, res) {
     });
   }
 
+  // City must be a real Thailand location, stored as a slug — the same gate
+  // /api/register applies to helpers. The two sides used to disagree here:
+  // this form submitted display names ("Phuket") while helpers submitted
+  // slugs ("phuket"), so every city comparison across the two tables failed.
+  const citySlug = toCitySlug(city);
+  if (!VALID_CITY_SLUGS.has(citySlug)) {
+    return res.status(400).json({ error: 'Please choose a valid city in Thailand.' });
+  }
+
   // "Area" is shown publicly and unauthenticated on /employers-browse cards
   // — reject full street addresses (house number + moo/soi) here rather
   // than storing them, since that's an exact-home-location leak, not a
@@ -138,7 +148,7 @@ export default async function handler(req, res) {
         last_name: lastName.trim(),
         email: email.trim().toLowerCase(),
         phone: phone?.trim() || null,
-        city,
+        city: citySlug,
         area: area?.trim() || null,
         looking_for: Array.isArray(lookingFor) ? lookingFor.join(', ') : (lookingFor || null),
         needed_skills: Array.isArray(neededSkills) ? (neededSkills.join(', ') || null) : (neededSkills || null),

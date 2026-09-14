@@ -32,7 +32,7 @@ import {
   updateEmployerProfile,
   uploadEmployerPhoto,
 } from '@/lib/api/employer-auth-client';
-import { CITIES } from '@/lib/constants/cities';
+import { CITY_OPTIONS, formatCity } from '@/lib/constants/cities';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
 
@@ -658,7 +658,7 @@ export default function EmployerProfile() {
                     onChange={e => update('city', e.target.value)}
                     className={inputClass}
                   >
-                    {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+                    {CITY_OPTIONS.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
                   </select>
                 </Field>
                 <Field label={t.label_area}>
@@ -673,7 +673,7 @@ export default function EmployerProfile() {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <ViewField label={t.label_city}>{form.city}</ViewField>
+                <ViewField label={t.label_city}>{formatCity(form.city)}</ViewField>
                 <ViewField label={t.label_area}>{form.area}</ViewField>
               </div>
             )}

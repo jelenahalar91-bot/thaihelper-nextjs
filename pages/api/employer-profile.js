@@ -8,6 +8,7 @@ import { notifyHelpersOfNewEmployer } from '../../lib/match-notifications';
 import { translateForeignText } from '../../lib/translate';
 import { looksLikeFullAddress } from '../../lib/address-guard';
 import { buildJobDetailsPatch } from '../../lib/employer-job-details';
+import { VALID_CITY_SLUGS, toCitySlug } from '../../lib/constants/cities';
 
 const EDITABLE_FIELDS = [
   'first_name',
@@ -92,6 +93,15 @@ export default async function handler(req, res) {
     // cards — reject full street addresses (house number + moo/soi) rather
     // than storing them, since that's an exact-home-location leak, not a
     // neighbourhood name.
+    // Keep employer_accounts.city on canonical slugs — see /api/employer-signup.
+    if ('city' in patch) {
+      const citySlug = toCitySlug(patch.city);
+      if (!VALID_CITY_SLUGS.has(citySlug)) {
+        return res.status(400).json({ error: 'Please choose a valid city in Thailand.' });
+      }
+      patch.city = citySlug;
+    }
+
     if ('area' in patch && looksLikeFullAddress(patch.area)) {
       return res.status(400).json({ error: 'area_full_address' });
     }

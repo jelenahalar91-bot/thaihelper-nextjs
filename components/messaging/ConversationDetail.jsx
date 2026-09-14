@@ -17,6 +17,7 @@
 import { useEffect, useRef, useState } from 'react';
 import MessageBubble from './MessageBubble';
 import { sharesContactDetails } from '../../lib/contact-warning';
+import { formatCity } from '../../lib/constants/cities';
 
 export default function ConversationDetail({
   conversation,
@@ -112,7 +113,7 @@ export default function ConversationDetail({
   const displayName =
     [cp.firstName, cp.lastName].filter(Boolean).join(' ') || 'Unknown';
   const initial = (cp.firstName || '?')[0].toUpperCase();
-  const subtitle = cp.category || cp.city || '';
+  const subtitle = cp.category || formatCity(cp.city) || '';
   const profileClickable = typeof onViewProfile === 'function';
 
   return (

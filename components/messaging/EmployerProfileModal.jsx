@@ -15,6 +15,7 @@
 import { useEffect } from 'react';
 import { useLang } from '../../pages/_app';
 import { jobDetailEntries } from '../../lib/constants/employer';
+import { formatCity } from '../../lib/constants/cities';
 
 export default function EmployerProfileModal({ employer, onClose, t }) {
   const { lang } = useLang();
@@ -150,7 +151,7 @@ export default function EmployerProfileModal({ employer, onClose, t }) {
           }}>
             {employer.city && (
               <InfoRow icon="📍" label={t?.profile_location || 'Location'}>
-                {employer.city}
+                {formatCity(employer.city)}
                 {employer.area ? ` · ${employer.area}` : ''}
               </InfoRow>
             )}

@@ -7,7 +7,7 @@ import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { fetchEmployers } from '@/lib/api/employers';
 import { startConversationAsHelper } from '@/lib/api/messages';
-import { CITIES } from '@/lib/constants/cities';
+import { CITIES, formatCity, toCitySlug } from '@/lib/constants/cities';
 import { CATEGORIES, SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugList, jobDetailEntries } from '@/lib/constants/employer';
 import { relativeTime } from '@/lib/recent-helpers-display';
@@ -201,7 +201,9 @@ export default function EmployersBrowse({ initialEmployers = [] }) {
   }, [initialEmployers]);
 
   const filtered = useMemo(() => employers.filter(e => {
-    if (filterCity && e.city?.toLowerCase() !== filterCity.toLowerCase()) return false;
+    // Compare on slugs — employer_accounts moved from display names to
+    // slugs, and older rows still hold the name. toCitySlug() reads both.
+    if (filterCity && toCitySlug(e.city) !== toCitySlug(filterCity)) return false;
     if (filterLooking && !e.lookingFor?.toLowerCase().includes(filterLooking.toLowerCase())) return false;
     if (filterArea && !e.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
     return true;
@@ -646,7 +648,7 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang, viewerIsHelpe
           )}
           {e.city && (
             <div className="text-sm text-gray-500 mt-1">
-              📍 {e.city}{e.area ? ` · ${e.area}` : ''}
+              📍 {formatCity(e.city)}{e.area ? ` · ${e.area}` : ''}
             </div>
           )}
           {e.createdAt && (() => {
