@@ -149,14 +149,17 @@ export default function Login() {
   const [forgotSubmitting, setForgotSubmitting] = useState(false);
   const [forgotResult, setForgotResult] = useState(''); // 'sent' | 'not_found' | 'error'
 
-  // Surface ?error=invalid_link|expired_link|account_unavailable from
-  // a bounced magic-login redirect.
+  // Surface ?error=invalid_link|expired_link|account_unavailable|
+  // account_suspended from a bounced magic-login redirect.
   useEffect(() => {
     if (!router.isReady) return;
     const err = router.query?.error;
     if (err === 'invalid_link') setUrlError('url_error_invalid');
     else if (err === 'expired_link') setUrlError('url_error_expired');
     else if (err === 'account_unavailable') setUrlError('url_error_unavailable');
+    // Same wording the credential login shows for a suspended account, so
+    // the two entrances don't tell the same person two different stories.
+    else if (err === 'account_suspended') setUrlError('error_suspended');
   }, [router.isReady, router.query]);
 
   // If already logged in (helper OR employer), send straight to the right dashboard.

@@ -8,6 +8,7 @@
 
 import { getServiceSupabase } from '../../../lib/supabase';
 import { createToken, setSessionCookie } from '../../../lib/auth';
+import { isSuspended } from '../../../lib/access';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -47,12 +48,26 @@ export default async function handler(req, res) {
   const refCol = role === 'employer' ? 'employer_ref' : 'helper_ref';
   const { data: profile, error: profileErr } = await supabase
     .from(table)
-    .select(`${refCol}, first_name, email, email_verified`)
+    .select(`${refCol}, first_name, email, email_verified, status`)
     .eq(refCol, user_ref)
     .single();
 
   if (profileErr || !profile) {
     return res.redirect('/login?error=account_unavailable');
+  }
+
+  // Suspended between issue and click — and, until 2026-09-15, suspended long
+  // before issue too. /api/auth/magic-link now refuses to mint a token for a
+  // suspended account at all, so this is the second line: tokens already in
+  // an inbox, and any future path that writes to magic_login_tokens.
+  //
+  // Placed ABOVE the auto-verify below on purpose. That block flips
+  // email_verified for employers, so running it first would have a suspended
+  // account leave this endpoint in better standing than it arrived in, even
+  // though the redirect denies it the session.
+  if (isSuspended(profile)) {
+    console.warn(`Magic-login refused: ${user_ref} is suspended.`);
+    return res.redirect('/login?error=account_suspended');
   }
 
   if (!profile.email_verified) {

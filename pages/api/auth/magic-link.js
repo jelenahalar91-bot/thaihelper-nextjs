@@ -17,6 +17,7 @@ import { getServiceSupabase } from '../../../lib/supabase';
 import { sendMagicLoginEmail, sendHelperConfirmation } from '../../../lib/send-confirmation-email';
 import { verifyTurnstile } from '../../../lib/turnstile';
 import { checkRateLimit } from '../../../lib/rate-limit';
+import { isSuspended } from '../../../lib/access';
 
 const TOKEN_TTL_MS = 15 * 60 * 1000; // 15 minutes
 
@@ -76,12 +77,12 @@ export default async function handler(req, res) {
   const [helperRes, employerRes] = await Promise.all([
     supabase
       .from('helper_profiles')
-      .select('helper_ref, first_name, email, email_verified')
+      .select('helper_ref, first_name, email, email_verified, status')
       .eq('email', normalizedEmail)
       .maybeSingle(),
     supabase
       .from('employer_accounts')
-      .select('employer_ref, first_name, email, email_verified')
+      .select('employer_ref, first_name, email, email_verified, status')
       .eq('email', normalizedEmail)
       .maybeSingle(),
   ]);
@@ -93,6 +94,7 @@ export default async function handler(req, res) {
       userRef: helperRes.data.helper_ref,
       firstName: helperRes.data.first_name,
       emailVerified: helperRes.data.email_verified,
+      suspended: isSuspended(helperRes.data),
     });
   }
   if (employerRes.data) {
@@ -101,6 +103,7 @@ export default async function handler(req, res) {
       userRef: employerRes.data.employer_ref,
       firstName: employerRes.data.first_name,
       emailVerified: employerRes.data.email_verified,
+      suspended: isSuspended(employerRes.data),
     });
   }
 
@@ -113,6 +116,24 @@ export default async function handler(req, res) {
   const expiresAt = new Date(now + TOKEN_TTL_MS).toISOString();
 
   for (const target of targets) {
+    // A suspended account gets NOTHING from this endpoint: no token row, no
+    // email, not even the verification resend below. This is the door
+    // EMP-3THHAA walked through on 2026-09-13, two days after it was
+    // suspended — it asked for a link to its own unchanged address and had a
+    // fresh 365-day session sixteen seconds later, because the credential
+    // login checked `status` and this endpoint did not.
+    //
+    // Checked live against the DB, never against lib/suspension.js's cache:
+    // a session that was minted here outlives the incident that caused the
+    // suspension, so this one must bite on the very next request.
+    //
+    // The caller still sees the same generic success — telling someone their
+    // account is suspended is the moderator's decision, not this endpoint's.
+    if (target.suspended) {
+      console.warn(`Magic-link refused: ${target.userRef} is suspended.`);
+      continue;
+    }
+
     // Helpers must finish email verification before magic-link login.
     // Employers are exempt (since 2026-06-11): clicking a magic link
     // sent to their address proves email ownership — magic-login
