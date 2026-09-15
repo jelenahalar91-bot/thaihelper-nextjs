@@ -9,6 +9,7 @@ import { getAnySession, getSession, getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import {
   hasActiveAccess,
+  accessDenialReason,
   buildMessagePreview,
   getAccessStatus,
 } from '../../lib/access';
@@ -158,7 +159,7 @@ export default async function handler(req, res) {
       // email_verified is the access gate as of 2026-06-09 (see
       // lib/access.js); without it loaded here, hasActiveAccess
       // sees undefined and blocks every conversation start.
-      .select('employer_ref, first_name, preferred_language, access_until, access_tier, email_verified, status, search_status, phone_verified_at')
+      .select('employer_ref, first_name, preferred_language, access_until, access_tier, email_verified, status, search_status, phone_verified_at, created_at')
       .eq('employer_ref', session.ref)
       .single();
     if (!data) return res.status(401).json({ error: 'Not authenticated' });
@@ -319,8 +320,10 @@ export default async function handler(req, res) {
       // "email verified" (see lib/access.js). Unverified employers
       // can browse helpers but not start conversations.
       if (!employerHasAccess) {
+        // The specific door, not a blanket 'email_not_verified' — see
+        // accessDenialReason in lib/access.js.
         return res.status(403).json({
-          error: 'email_not_verified',
+          error: accessDenialReason(employer),
           accessStatus: getAccessStatus(employer),
         });
       }

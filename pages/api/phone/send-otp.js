@@ -23,12 +23,15 @@
 // Responses:
 //   200 { ok: true, retryAfterSec: 0, expiresInSec }
 //   429 { error: 'rate_limited', retryAfterSec } → too many SMS this hour
+//   409 { error: 'phone_in_use' | 'phone_blocked' } → number belongs to
+//        another account, or to one we suspended
 //   400 { error: 'invalid_phone' | 'invalid_request' }
 //   401 { error: 'unauthorized' }
 //   500 { error: 'sms_send_failed' | 'server_misconfigured' }
 
 import { getAnySession } from '@/lib/auth';
 import { getServiceSupabase } from '@/lib/supabase';
+import { numberTakenBy } from '@/lib/phone-identity';
 import {
   normalisePhone,
   checkSmsRateLimit,
@@ -103,6 +106,17 @@ export default async function handler(req, res) {
   if (loadErr || !row) {
     console.error('[phone/send-otp] account not found', { ref: session.ref, role: session.role, err: loadErr?.message });
     return res.status(404).json({ error: 'account_not_found' });
+  }
+
+  // One verified number, one account (lib/phone-identity.js). Checked here as
+  // well as in verify-otp so we neither pay for an SMS nor make somebody read
+  // one, only to refuse the code afterwards.
+  const owner = await numberTakenBy(supabase, e164, session.ref);
+  if (owner.taken) {
+    console.warn(`[phone/send-otp] ${session.ref} tried a number already verified by ${owner.ref}`);
+    return res.status(409).json({
+      error: owner.suspended ? 'phone_blocked' : 'phone_in_use',
+    });
   }
 
   // Our own per-account ceiling, kept even though Verify enforces one of its

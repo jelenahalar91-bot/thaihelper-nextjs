@@ -78,6 +78,11 @@ const T = {
     privacy: 'Your number is stored securely and shown to no one.',
     err_invalid_phone: 'That doesn\'t look like a valid phone number.',
     err_rate_limited: 'Too many requests. Try again in {n} minutes.',
+    // Deliberately vague about WHOSE account holds the number: saying "this
+    // number already belongs to TH-XXXX" would turn the form into a lookup
+    // tool for finding out who is on the platform.
+    err_phone_in_use: 'That number is already verified on another account. Each number can be used once.',
+    err_phone_blocked: 'That number cannot be used. If you think this is a mistake, contact support@thaihelper.app.',
     err_sms_failed: 'Could not send SMS. Try LINE instead, or contact support.',
     err_wrong_code: 'Wrong code. {n} attempts left.',
     err_too_many_attempts: 'Too many wrong attempts. Request a new code.',
@@ -111,6 +116,8 @@ const T = {
     privacy: 'เบอร์ของคุณเก็บไว้อย่างปลอดภัย และไม่แสดงต่อใคร',
     err_invalid_phone: 'รูปแบบเบอร์ไม่ถูกต้อง',
     err_rate_limited: 'ส่งบ่อยเกินไป กรุณาลองอีกครั้งใน {n} นาที',
+    err_phone_in_use: 'เบอร์นี้ถูกยืนยันในบัญชีอื่นแล้ว หนึ่งเบอร์ใช้ได้หนึ่งบัญชีเท่านั้น',
+    err_phone_blocked: 'ไม่สามารถใช้เบอร์นี้ได้ หากคิดว่าเป็นข้อผิดพลาด กรุณาติดต่อ support@thaihelper.app',
     err_sms_failed: 'ส่ง SMS ไม่สำเร็จ ลองใช้ LINE แทนหรือติดต่อทีมงาน',
     err_wrong_code: 'รหัสไม่ถูกต้อง เหลือ {n} ครั้ง',
     err_too_many_attempts: 'ใส่ผิดมากเกินไป กรุณาขอรหัสใหม่',
@@ -179,6 +186,10 @@ export default function PhoneVerificationCard({
           setErrorMsg(t.err_invalid_phone);
         } else if (data.error === 'sms_send_failed') {
           setErrorMsg(t.err_sms_failed);
+        } else if (data.error === 'phone_in_use') {
+          setErrorMsg(t.err_phone_in_use);
+        } else if (data.error === 'phone_blocked') {
+          setErrorMsg(t.err_phone_blocked);
         } else {
           setErrorMsg(t.err_generic);
         }
@@ -215,6 +226,10 @@ export default function PhoneVerificationCard({
           setAttemptsLeft(data.attemptsLeft);
           setErrorMsg(t.err_wrong_code.replace('{n}', data.attemptsLeft));
           setState('awaiting');
+        } else if (data.error === 'phone_in_use') {
+          setErrorMsg(t.err_phone_in_use);
+        } else if (data.error === 'phone_blocked') {
+          setErrorMsg(t.err_phone_blocked);
         } else if (data.error === 'too_many_attempts') {
           setErrorMsg(t.err_too_many_attempts);
           setState('idle');

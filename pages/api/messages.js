@@ -15,6 +15,7 @@ import { getServiceSupabase } from '../../lib/supabase';
 import { translateText, detectLanguage } from '../../lib/translate';
 import {
   hasActiveAccess,
+  accessDenialReason,
   maskMessageForEmployer,
   getAccessStatus,
 } from '../../lib/access';
@@ -84,7 +85,7 @@ async function loadEmployer(supabase, employerRef) {
     // email_verified is the new access gate (since paywall removal on
     // 2026-06-09 — see lib/access.js). Without selecting it here the
     // hasActiveAccess check sees undefined and locks every message.
-    .select('employer_ref, preferred_language, access_until, access_tier, email_verified, status')
+    .select('employer_ref, preferred_language, access_until, access_tier, email_verified, status, created_at, phone_verified_at')
     .eq('employer_ref', employerRef)
     .single();
   return data || null;
@@ -197,8 +198,10 @@ export default async function handler(req, res) {
     // access". 2026-06-09 the paywall was removed in favour of free
     // messaging for any email-verified employer; see lib/access.js.)
     if (isEmployer && !employerHasAccess) {
+      // The specific door, not a blanket 'email_not_verified' — see
+      // accessDenialReason in lib/access.js.
       return res.status(403).json({
-        error: 'email_not_verified',
+        error: accessDenialReason(employer),
         accessStatus: getAccessStatus(employer),
       });
     }

@@ -14,12 +14,14 @@
 // Responses:
 //   200 { ok: true, verified_at }
 //   400 { error: 'invalid_request' | 'otp_expired' | 'wrong_code', attemptsLeft? }
+//   409 { error: 'phone_in_use' | 'phone_blocked' }
 //   401 { error: 'unauthorized' }
 //   429 { error: 'too_many_attempts' }
 
 import { getAnySession } from '@/lib/auth';
 import { getServiceSupabase } from '@/lib/supabase';
 import { MAX_ATTEMPTS, DEV_BYPASS } from '@/lib/phone-otp';
+import { numberTakenBy } from '@/lib/phone-identity';
 
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
@@ -89,6 +91,17 @@ export default async function handler(req, res) {
   // between the two calls. Either way there is nothing to check against.
   if (!row.phone_number) {
     return res.status(400).json({ error: 'otp_expired' });
+  }
+
+  // Re-checked here, not just in send-otp: two accounts can both pass that
+  // check and race to confirm the same number. This is the one that decides,
+  // because it is the step that grants the badge.
+  const owner = await numberTakenBy(supabase, row.phone_number, session.ref);
+  if (owner.taken) {
+    console.warn(`[phone/verify-otp] ${session.ref} blocked: number belongs to ${owner.ref}`);
+    return res.status(409).json({
+      error: owner.suspended ? 'phone_blocked' : 'phone_in_use',
+    });
   }
 
   if (DEV_BYPASS) {
