@@ -255,6 +255,11 @@ const T = {
     msg_verify_required_body: 'Your profile will only show up to families once your email is verified — and then you can also send messages.',
     err_contact_spam: 'For safety, contact details can only be shared in a limited number of chats. Please contact support if you need this raised.',
     err_blocked_contact: 'This contact detail belongs to an account we blocked for scam activity, so your message was not sent. If you meant to share your own LINE or phone number, please check you copied the right one.',
+    // Says the family cannot be reached, never that it is blocked or
+    // suspended — another account's moderation state is not hers to receive.
+    // Not her fault and not her problem to fix, so it does not ask her to do
+    // anything: it just stops her waiting for a reply that cannot come.
+    err_recipient_unavailable: 'This family cannot receive messages at the moment, so your message was not sent. It is nothing to do with you — you may get a reply later if they come back.',
     err_outreach_limit: 'You have started a lot of new chats recently. To keep everyone safe, please continue in your existing conversations for now. Contact support if you need this raised.',
     msg_verify_resend: 'Resend verification email',
     msg_verify_resent: 'Verification email sent — please check your inbox.',
@@ -459,6 +464,7 @@ const T = {
     msg_verify_required_body: 'โปรไฟล์ของคุณจะปรากฏต่อครอบครัวเมื่อยืนยันอีเมลแล้วเท่านั้น จากนั้นคุณจะส่งข้อความได้ด้วย',
     err_contact_spam: 'เพื่อความปลอดภัย สามารถแบ่งปันข้อมูลติดต่อได้ในจำนวนแชทที่จำกัด หากต้องการเพิ่มวงเงิน กรุณาติดต่อทีมงาน',
     err_blocked_contact: 'ข้อมูลติดต่อนี้เป็นของบัญชีที่เราระงับไปเนื่องจากพฤติกรรมหลอกลวง ระบบจึงไม่ได้ส่งข้อความของคุณ หากคุณต้องการแชร์ LINE หรือเบอร์โทรของคุณเอง กรุณาตรวจสอบว่าคัดลอกมาถูกต้อง',
+    err_recipient_unavailable: 'ขณะนี้ครอบครัวนี้ไม่สามารถรับข้อความได้ ระบบจึงไม่ได้ส่งข้อความของคุณ ไม่ใช่ความผิดของคุณ หากเขากลับมา คุณอาจได้รับคำตอบภายหลัง',
     err_outreach_limit: 'คุณเริ่มแชทใหม่จำนวนมากในช่วงนี้ เพื่อความปลอดภัยของทุกคน กรุณาสนทนาต่อในแชทที่มีอยู่ก่อน หากต้องการเพิ่มวงเงิน กรุณาติดต่อทีมงาน',
     msg_verify_resend: 'ส่งอีเมลยืนยันอีกครั้ง',
     msg_verify_resent: 'ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ',
@@ -933,6 +939,8 @@ export default function Profile() {
         setMsgToast(t.err_blocked_contact);
       } else if (err.code === 'contact_sharing_limit') {
         setMsgToast(t.err_contact_spam);
+      } else if (err.code === 'recipient_unavailable') {
+        setMsgToast(t.err_recipient_unavailable);
       } else if (err.code === 'email_not_verified') {
         setMsgToast(t.msg_verify_required_body || 'Please verify your email first.');
         // Re-fetch profile so the verify-banner appears if the user cleared the cookie
