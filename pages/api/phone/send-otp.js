@@ -3,39 +3,47 @@
 // Body:
 //   { phone_number: "0891234567", country_code: "+66", language?: "en"|"th" }
 //
-// Sends a 6-digit verification code to the requested phone via Twilio,
-// stores its hash on the caller's account row, and starts a 10-minute
-// expiry. Works for both helpers (th_session cookie) and employers
-// (th_emp_session cookie).
+// Asks Twilio Verify to send a code to the requested phone. Works for both
+// helpers (th_session cookie) and employers (th_emp_session cookie).
+//
+// WHY VERIFY AND NOT PLAIN SMS. This route used to generate a code, hash it
+// into the account row and send it with Programmable SMS. That cannot reach a
+// Thai phone: since 2025-10-06 Thai operators drop SMS from unregistered
+// sender IDs and from international long codes, and registering means three
+// Letters of Authorisation and up to ten business days. 289 of our 298
+// helpers with a number on file have a Thai one, so "mostly works" would have
+// meant "works for nine people". Twilio states that Verify carries those
+// registrations itself for OTP traffic, which is the whole reason for the
+// switch.
+//
+// The side effect is that the code never exists on our side at all: Twilio
+// generates it, ages it out and counts wrong guesses. We no longer store an
+// OTP hash, and PHONE_OTP_SECRET is no longer needed.
 //
 // Responses:
-//   200 { ok: true, retryAfterSec: 0 }          → SMS dispatched
+//   200 { ok: true, retryAfterSec: 0, expiresInSec }
 //   429 { error: 'rate_limited', retryAfterSec } → too many SMS this hour
 //   400 { error: 'invalid_phone' | 'invalid_request' }
-//   401 { error: 'unauthorized' }                → no session
-//   500 { error: 'sms_send_failed' }             → Twilio rejected
-//
-// Dev mode: if PHONE_OTP_DEV_LOG=true OR Twilio creds are missing,
-// the code is logged to the server console instead of sent. Useful
-// for local testing before you have a Twilio account.
+//   401 { error: 'unauthorized' }
+//   500 { error: 'sms_send_failed' | 'server_misconfigured' }
 
 import { getAnySession } from '@/lib/auth';
 import { getServiceSupabase } from '@/lib/supabase';
 import {
-  generateOtp,
-  hashOtp,
   normalisePhone,
-  buildSmsBody,
   checkSmsRateLimit,
-  OTP_EXPIRY_MS,
+  VERIFY_EXPIRY_MS,
+  DEV_BYPASS,
 } from '@/lib/phone-otp';
 
 const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
-const TWILIO_FROM_NUMBER = process.env.TWILIO_PHONE_NUMBER;
-const DEV_LOG = process.env.PHONE_OTP_DEV_LOG === 'true';
+const TWILIO_VERIFY_SERVICE_SID = process.env.TWILIO_VERIFY_SERVICE_SID;
 
-// ─── Table mapping ──────────────────────────────────────────────────
+// Locales Twilio Verify has a template for AND that we actually offer. Sending
+// an unsupported locale is an error, not a silent fallback, so this is an
+// allowlist rather than a pass-through of whatever the client sent.
+const VERIFY_LOCALES = new Set(['en', 'th']);
 
 // Helpers live in helper_profiles (PK column 'helper_ref').
 // Employers live in employer_accounts (PK column 'employer_ref').
@@ -44,9 +52,6 @@ function tableFor(role) {
     ? { table: 'employer_accounts', refCol: 'employer_ref' }
     : { table: 'helper_profiles', refCol: 'helper_ref' };
 }
-
-// ─── Twilio client (lazy-loaded so the route doesn't crash if the
-//     package isn't installed yet) ────────────────────────────────────
 
 let _twilioClient = null;
 function getTwilio() {
@@ -63,44 +68,8 @@ function getTwilio() {
   }
 }
 
-// True only outside production. The dev fallback below prints the OTP to
-// the server log, so it must never be reachable on a deployed site: doing so
-// would tell every caller "code sent", send nothing, and leave the code
-// sitting in the platform logs.
-const IS_PRODUCTION =
-  process.env.VERCEL_ENV === 'production' || process.env.NODE_ENV === 'production';
-
-async function sendSms({ to, body }) {
-  // Dev-mode: skip Twilio, log to console. Lets you build and test the
-  // entire flow before a Twilio account is set up — local only.
-  if (!IS_PRODUCTION && (DEV_LOG || !TWILIO_ACCOUNT_SID)) {
-    console.log(`[phone/send-otp] DEV — would send to ${to}: ${body}`);
-    return { sid: 'DEV-DRYRUN' };
-  }
-
-  // Production with no Twilio configured: fail loudly rather than
-  // pretending the SMS went out.
-  if (!TWILIO_ACCOUNT_SID) {
-    throw new Error('twilio_not_configured');
-  }
-
-  const client = getTwilio();
-  if (!client) {
-    throw new Error('twilio_client_unavailable');
-  }
-  if (!TWILIO_FROM_NUMBER) {
-    throw new Error('TWILIO_PHONE_NUMBER env var is missing');
-  }
-
-  return client.messages.create({
-    to: to.startsWith('+') ? to : `+${to}`,
-    from: TWILIO_FROM_NUMBER,
-    body,
-  });
-}
-
-// ─── Handler ────────────────────────────────────────────────────────
-
+// DEV_BYPASS (lib/phone-otp.js) reports success without sending anything, so
+// it is gated on both an explicit opt-in flag and a non-production build.
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -125,7 +94,6 @@ export default async function handler(req, res) {
   const supabase = getServiceSupabase();
   const { table, refCol } = tableFor(session.role);
 
-  // Load current rate-limit + verification state.
   const { data: row, error: loadErr } = await supabase
     .from(table)
     .select('phone_sms_count, phone_sms_window_start, phone_verified_at, phone_number')
@@ -137,7 +105,9 @@ export default async function handler(req, res) {
     return res.status(404).json({ error: 'account_not_found' });
   }
 
-  // Rate-limit check (per account / per phone).
+  // Our own per-account ceiling, kept even though Verify enforces one of its
+  // own: theirs is per phone number and ours is what stops a single account
+  // burning our balance by re-sending to a different number each time.
   const rl = checkSmsRateLimit({
     count: row.phone_sms_count,
     windowStart: row.phone_sms_window_start,
@@ -149,32 +119,18 @@ export default async function handler(req, res) {
     });
   }
 
-  // Generate + hash OTP. Salt is account ref + server secret (see lib/phone-otp.js).
-  const code = generateOtp();
-  let otpHash;
-  try {
-    otpHash = hashOtp({ code, accountId: session.ref });
-  } catch (err) {
-    console.error('[phone/send-otp] hash failed:', err.message);
-    return res.status(500).json({ error: 'server_misconfigured' });
-  }
-
-  const expiresAt = new Date(Date.now() + OTP_EXPIRY_MS);
-
-  // Persist the pending OTP + rate-limit window update.
-  // We DON'T mark phone_verified_at here — that happens only after
-  // verify-otp succeeds. We DO clear any previous verified state so
-  // changing the number requires re-verification.
+  // Record the number and the rate-limit window BEFORE sending, so a send we
+  // never hear back about still costs a slot. phone_verified_at is untouched
+  // here — only verify-otp may set it.
   const update = {
     phone_number: e164,
     phone_country_code: country_code,
-    phone_otp_hash: otpHash,
-    phone_otp_expires_at: expiresAt.toISOString(),
     phone_otp_attempts: 0,
     phone_sms_count: rl.nextCount,
     phone_sms_window_start: rl.nextWindowStart.toISOString(),
   };
-  // If the user changed their number, drop the old verification.
+  // Changing the number drops any previous verification: the badge must never
+  // outlive the number it was granted for.
   if (row.phone_number && row.phone_number !== e164) {
     update.phone_verified_at = null;
     update.phone_verified_channel = null;
@@ -190,23 +146,43 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'db_update_failed' });
   }
 
-  // Send the SMS. Failures here surface to the user but the OTP is
-  // still stored — they can request a resend without consuming a new
-  // rate-limit slot if it's a transient network problem.
+  if (DEV_BYPASS) {
+    console.log(`[phone/send-otp] DEV — no SMS sent to +${e164}; any 6-digit code will verify.`);
+    return res.status(200).json({ ok: true, retryAfterSec: 0, expiresInSec: VERIFY_EXPIRY_MS / 1000 });
+  }
+
+  if (!TWILIO_ACCOUNT_SID || !TWILIO_VERIFY_SERVICE_SID) {
+    console.error('[phone/send-otp] TWILIO_ACCOUNT_SID / TWILIO_VERIFY_SERVICE_SID not configured');
+    return res.status(500).json({ error: 'server_misconfigured' });
+  }
+  const client = getTwilio();
+  if (!client) return res.status(500).json({ error: 'server_misconfigured' });
+
+  const locale = VERIFY_LOCALES.has(language) ? language : 'en';
+
   try {
-    await sendSms({
-      to: e164,
-      body: buildSmsBody({ code, lang: language === 'th' ? 'th' : 'en' }),
-    });
+    await client.verify.v2
+      .services(TWILIO_VERIFY_SERVICE_SID)
+      .verifications.create({ to: `+${e164}`, channel: 'sms', locale });
   } catch (err) {
-    console.error('[phone/send-otp] Twilio send failed:', err.message, err.code);
+    // 60203: Verify's own per-number send ceiling. Ours is per account, so a
+    // user switching numbers can reach theirs first — it is a rate limit to
+    // the person either way, not a broken number.
+    if (err.code === 60203) {
+      return res.status(429).json({ error: 'rate_limited', retryAfterSec: 600 });
+    }
+    // 60200: Verify rejected the number itself. normalisePhone only checks
+    // shape, so this is where a well-formed but non-existent number lands.
+    if (err.code === 60200) {
+      return res.status(400).json({ error: 'invalid_phone' });
+    }
+    console.error('[phone/send-otp] Verify send failed:', err.message, err.code);
     return res.status(500).json({ error: 'sms_send_failed', detail: err.code });
   }
 
   return res.status(200).json({
     ok: true,
     retryAfterSec: 0,
-    // Tells the UI how long the user has to enter the code.
-    expiresInSec: OTP_EXPIRY_MS / 1000,
+    expiresInSec: VERIFY_EXPIRY_MS / 1000,
   });
 }
