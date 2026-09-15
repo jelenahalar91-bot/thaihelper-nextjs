@@ -29,7 +29,7 @@ import {
   CONTACT_SPREAD_WINDOW_DAYS,
   notifyAdminOfSpamSignal,
 } from '../../lib/spam-signals';
-import { blockedHandlesIn } from '../../lib/contact-blocklist';
+import { blockedHandlesIn, linkHandles } from '../../lib/contact-blocklist';
 // Contact info in messages is still NOT blocked on content — sharing a phone
 // number or LINE ID is the point of a direct-connection platform (server-side
 // block removed 2026-06-08 with the repositioning).
@@ -275,6 +275,58 @@ export default async function handler(req, res) {
         }).catch((e) => console.error('Blocklist alert failed:', e.message));
       }
       return res.status(403).json({ error: 'blocked_contact' });
+    }
+
+    // A family sending a tap-to-open contact link is, on this platform, the
+    // scam itself — see linkHandles() for the traffic this is measured on.
+    // The volume signals below need 12 conversations before they say anything;
+    // this fires on the first message, which is the only moment that helps the
+    // person receiving it.
+    //
+    // It does NOT block. Warning a human in seconds is worth a false positive;
+    // refusing a real family's message is not. Moderation stays a decision.
+    //
+    // One mail per account per day: a scammer sprays the same link at everyone
+    // and the account — not the message — is what gets acted on.
+    if (session.role === 'employer') {
+      const links = linkHandles(trimmed);
+      if (links.length) {
+        const fresh = await checkRateLimit({
+          bucket: 'employer-contact-link-alert',
+          key: session.ref,
+          max: 1,
+          windowMs: 24 * 60 * 60 * 1000,
+        });
+        if (fresh) {
+          const { data: acct } = await supabase
+            .from('employer_accounts')
+            .select('first_name, last_name, email, created_at')
+            .eq('employer_ref', session.ref)
+            .maybeSingle();
+          const ageHours = acct
+            ? Math.round((Date.now() - new Date(acct.created_at)) / 36e5)
+            : null;
+          notifyAdminOfSpamSignal({
+            subject: `\u{1F517} Family sent a contact link: ${session.ref}`,
+            lines: [
+              `${acct ? `${acct.first_name} ${acct.last_name} <${acct.email}>` : session.ref}`,
+              `Account ${session.ref}, registered ${ageHours !== null ? `${ageHours}h ago` : 'unknown'}.`,
+              '',
+              'Sent a tap-to-open contact link to a helper:',
+              ...links.map((h) => `  ${h}`),
+              '',
+              'Message:',
+              trimmed.slice(0, 300),
+              '',
+              'Families have no reason to send these — every one in the 30 days',
+              'before 2026-09-15 came from a confirmed scam account. It could',
+              'still be a real family answering "what is your LINE?", so read the',
+              'conversation before acting:',
+              `  node scripts/suspend-employer.js ${session.ref} --dry-run`,
+            ],
+          }).catch((e) => console.error('Contact-link alert failed:', e.message));
+        }
+      }
     }
 
     // Anti-spam: contact info is fine, spraying it at everyone is not.

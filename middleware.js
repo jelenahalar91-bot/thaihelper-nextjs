@@ -70,7 +70,62 @@ async function refreshCookie(request, response, name) {
   });
 }
 
+// Countries barred from CREATING anything — comma-separated ISO codes.
+//
+// Defaults to NG: every IP ever tied to this scam family resolves to Nigeria
+// (105.119.9.236, 105.119.14.210 and 197.211.63.156 for EMP-B4MUCP,
+// 105.119.9.151 for EMP-3THHAA), and no legitimate account has ever been
+// traced there. Set BLOCKED_SIGNUP_COUNTRIES in Vercel to change the list, or
+// to an empty string to turn the whole thing off.
+//
+// Reading stays open to everyone. What is closed is signing up, logging in and
+// messaging, because those are the only actions a fraudster abroad needs and
+// the only ones a genuine visitor from that country has no use for on a
+// Thailand-only hiring site.
+//
+// BE HONEST ABOUT WHAT THIS BUYS. It is a speed bump: a VPN defeats it in
+// under a minute, and the scam family behind EMP-B4MUCP already rotates IPs
+// (105.119.9.236, 105.119.14.210, 105.119.9.151, 197.211.63.156). It raises
+// the cost of the next re-registration; it does not stop a determined person,
+// and nothing else should be relaxed on the assumption that it does.
+const BLOCKED_COUNTRIES = new Set(
+  (process.env.BLOCKED_SIGNUP_COUNTRIES ?? 'NG')
+    .split(',')
+    .map((c) => c.trim().toUpperCase())
+    .filter(Boolean)
+);
+
+// Account creation, authentication, and outbound contact. Deliberately NOT the
+// whole site: a blanket block would also hit crawlers and anyone reading a
+// city page, which costs SEO and gains nothing.
+const GUARDED_PREFIXES = [
+  '/api/register',
+  '/api/employer-signup',
+  '/api/auth',
+  '/api/employer-auth',
+  '/api/conversations',
+  '/api/messages',
+];
+
+function blockedByCountry(request) {
+  if (!BLOCKED_COUNTRIES.size) return null;
+  const path = request.nextUrl.pathname;
+  if (!GUARDED_PREFIXES.some((p) => path.startsWith(p))) return null;
+  // Vercel sets this on every incoming request; absent locally and on any
+  // other host, where the check simply does not apply.
+  const country = request.headers.get('x-vercel-ip-country');
+  return country && BLOCKED_COUNTRIES.has(country.toUpperCase()) ? country : null;
+}
+
 export async function middleware(request) {
+  const country = blockedByCountry(request);
+  if (country) {
+    // Logged so the Vercel function logs can answer "did this ever fire, and
+    // at whom" — there is no other record of a request's country anywhere.
+    console.warn(`[geo] blocked ${request.method} ${request.nextUrl.pathname} from ${country}`);
+    return NextResponse.json({ error: 'unavailable_in_region' }, { status: 403 });
+  }
+
   const response = NextResponse.next();
 
   // Refresh both cookies in parallel. Each call is independent.

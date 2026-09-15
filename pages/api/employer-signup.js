@@ -15,6 +15,7 @@ import { formatAttributionString } from '../../lib/utm';
 import { translateForeignText } from '../../lib/translate';
 import { looksLikeFullAddress } from '../../lib/address-guard';
 import { buildJobDetailsPatch } from '../../lib/employer-job-details';
+import { registrationResemblance } from '../../lib/spam-signals';
 import { VALID_CITY_SLUGS, toCitySlug } from '../../lib/constants/cities';
 
 function generateRef() {
@@ -179,7 +180,9 @@ export default async function handler(req, res) {
         // a chance to run for brand-new accounts.
         last_login_at: new Date().toISOString(),
       })
-      .select('employer_ref, first_name, email, city, access_until, access_tier')
+      // created_at feeds registrationResemblance below — without it the
+      // "registered N minutes after a suspension" line has no clock.
+      .select('employer_ref, first_name, email, city, access_until, access_tier, created_at')
       .single();
 
     if (insertError) {
@@ -204,6 +207,15 @@ export default async function handler(req, res) {
     // Send confirmation email (non-blocking — don't fail signup if email fails)
     try {
       if (process.env.RESEND_API_KEY) {
+        const helperTypes = Array.isArray(lookingFor) ? lookingFor.join(', ') : (lookingFor || '');
+        const warnings = await registrationResemblance(supabase, {
+          employerRef: inserted.employer_ref,
+          lookingFor: helperTypes,
+          createdAt: inserted.created_at,
+        }).catch((e) => {
+          console.error('Resemblance check failed:', e.message);
+          return [];
+        });
         await Promise.all([
           sendEmployerAccountConfirmation({
             firstName: inserted.first_name,
@@ -219,8 +231,9 @@ export default async function handler(req, res) {
             email: email.trim().toLowerCase(),
             city,
             area: (area || '').trim(),
-            helperTypes: Array.isArray(lookingFor) ? lookingFor.join(', ') : (lookingFor || ''),
+            helperTypes,
             ref: inserted.employer_ref,
+            warnings,
           }),
         ]);
       }
