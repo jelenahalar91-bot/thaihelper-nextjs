@@ -68,6 +68,7 @@ const T = {
     no_results:     'No jobs found',
     no_results_sub: 'Check back soon — new jobs are posted every day.',
     card_looking:   'Looking for',
+    card_phone_verified: 'Phone',
     card_arrangement: 'Arrangement',
     card_age_pref:  'Preferred age',
     card_cta:       'Register as Helper to Apply',
@@ -116,6 +117,7 @@ const T = {
     no_results:     'ไม่พบงาน',
     no_results_sub: 'กลับมาดูอีกครั้ง — มีงานใหม่ประกาศทุกวัน',
     card_looking:   'กำลังหา',
+    card_phone_verified: 'เบอร์ยืนยันแล้ว',
     card_arrangement: 'รูปแบบ',
     card_age_pref:  'อายุที่ต้องการ',
     card_cta:       'ลงทะเบียนเป็นผู้ช่วยเพื่อสมัคร',
@@ -633,6 +635,28 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang, viewerIsHelpe
         ) : (
           <span className="text-6xl font-bold text-[#006a62]">{initial}</span>
         )}
+        {/* Trust badges — mirrors the helper card (components/HelperCard.jsx).
+            Families used to publish none of these, which had it backwards:
+            every scam on this platform ran family -> helper, so the person
+            who most needs to know whether a stranger answered an SMS at a
+            real number is the helper reading this card.
+
+            Each badge states a fact we checked, never a judgement about the
+            person — we verify an email and, once SMS is live, a phone. We do
+            not check identity documents. See [[feedback_no_id_verification_claims]]
+            in spirit: never let a badge imply more than was actually verified. */}
+        <div className="absolute top-2 left-2 flex flex-col gap-1">
+          {e.phoneVerified && (
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
+              📞 {t.card_phone_verified}
+            </span>
+          )}
+          {e.lineVerified && (
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/95 text-[#06C755] text-[10px] font-bold shadow-sm">
+              💬 LINE
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Body */}
@@ -892,7 +916,11 @@ export async function getServerSideProps({ res }) {
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
         'job_description, job_description_en, job_details, photo_url, search_status, created_at, updated_at, ' +
-        'last_login_at'
+        // Same trust signals helpers already publish on their cards
+        // (pages/api/helpers.js). A helper deciding whether to answer a
+        // stranger needs these more than a family does: every scam this
+        // platform has had ran family -> helper.
+        'last_login_at, phone_verified_at, line_linked_at'
       )
       .order('created_at', { ascending: false });
     if (error) throw error;
@@ -923,6 +951,11 @@ export async function getServerSideProps({ res }) {
         createdAt: row.created_at || null,
         updatedAt: row.updated_at || null,
         lastActiveAt: row.last_login_at || null,
+        // Booleans, never the number itself — the card is public and
+        // unauthenticated. What a reader needs is "someone answered an SMS
+        // at a real number", not the number.
+        phoneVerified: !!row.phone_verified_at,
+        lineVerified: !!row.line_linked_at,
       }));
 
     return { props: { initialEmployers } };

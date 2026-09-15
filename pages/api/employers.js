@@ -37,6 +37,11 @@ function toPublicCard(row) {
     createdAt: row.created_at || null,
     updatedAt: row.updated_at || null,
     lastActiveAt: row.last_login_at || null,
+    // Booleans, never the number itself — this response is public and
+    // unauthenticated. What a reader needs is "someone answered an SMS at a
+    // real number", not the number.
+    phoneVerified: !!row.phone_verified_at,
+    lineVerified: !!row.line_linked_at,
   };
 }
 
@@ -55,7 +60,11 @@ export default async function handler(req, res) {
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
         'job_description, job_description_en, job_details, photo_url, search_status, created_at, updated_at, ' +
-        'last_login_at'
+        // Same trust signals helpers already publish on their cards
+        // (pages/api/helpers.js). A helper deciding whether to answer a
+        // stranger needs these more than a family does: every scam this
+        // platform has had ran family -> helper.
+        'last_login_at, phone_verified_at, line_linked_at'
       )
       .order('created_at', { ascending: false });
 
