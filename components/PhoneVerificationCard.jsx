@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Phone, Check, RefreshCw, MessageCircle } from 'lucide-react';
+import { Phone, Check, RefreshCw } from 'lucide-react';
 
 /**
  * Phone Verification flow — used in both /profile (helper) and
@@ -13,7 +13,6 @@ import { Phone, Check, RefreshCw, MessageCircle } from 'lucide-react';
  *     lineLinkedAt={profile.line_linked_at}
  *     lang="en" | "th"
  *     onVerified={() => refetchProfile()}
- *     onLinkLine={() => goToLineLink()}
  *   />
  *
  * State machine:
@@ -68,7 +67,6 @@ const T = {
     btn_verify: 'Verify code',
     btn_verifying: 'Verifying…',
     btn_change: 'Change number',
-    btn_line: 'Or verify via LINE',
     label_code: 'Enter the 6-digit code from the SMS',
     placeholder_code: '123456',
     msg_sent: 'Code sent. Check your SMS.',
@@ -83,7 +81,7 @@ const T = {
     // tool for finding out who is on the platform.
     err_phone_in_use: 'That number is already verified on another account. Each number can be used once.',
     err_phone_blocked: 'That number cannot be used. If you think this is a mistake, contact support@thaihelper.app.',
-    err_sms_failed: 'Could not send SMS. Try LINE instead, or contact support.',
+    err_sms_failed: 'Could not send SMS to that number. Check it and try again, or contact support@thaihelper.app.',
     err_wrong_code: 'Wrong code. {n} attempts left.',
     err_too_many_attempts: 'Too many wrong attempts. Request a new code.',
     err_expired: 'Code expired. Request a new one.',
@@ -106,7 +104,6 @@ const T = {
     btn_verify: 'ยืนยันรหัส',
     btn_verifying: 'กำลังตรวจสอบ…',
     btn_change: 'เปลี่ยนเบอร์',
-    btn_line: 'หรือยืนยันผ่าน LINE',
     label_code: 'กรอกรหัส 6 หลักจาก SMS',
     placeholder_code: '123456',
     msg_sent: 'ส่งรหัสแล้ว ตรวจสอบ SMS',
@@ -118,7 +115,7 @@ const T = {
     err_rate_limited: 'ส่งบ่อยเกินไป กรุณาลองอีกครั้งใน {n} นาที',
     err_phone_in_use: 'เบอร์นี้ถูกยืนยันในบัญชีอื่นแล้ว หนึ่งเบอร์ใช้ได้หนึ่งบัญชีเท่านั้น',
     err_phone_blocked: 'ไม่สามารถใช้เบอร์นี้ได้ หากคิดว่าเป็นข้อผิดพลาด กรุณาติดต่อ support@thaihelper.app',
-    err_sms_failed: 'ส่ง SMS ไม่สำเร็จ ลองใช้ LINE แทนหรือติดต่อทีมงาน',
+    err_sms_failed: 'ส่ง SMS ไปยังเบอร์นี้ไม่สำเร็จ กรุณาตรวจสอบเบอร์แล้วลองใหม่ หรือติดต่อ support@thaihelper.app',
     err_wrong_code: 'รหัสไม่ถูกต้อง เหลือ {n} ครั้ง',
     err_too_many_attempts: 'ใส่ผิดมากเกินไป กรุณาขอรหัสใหม่',
     err_expired: 'รหัสหมดอายุ กรุณาขอรหัสใหม่',
@@ -137,7 +134,6 @@ export default function PhoneVerificationCard({
   lineLinkedAt,
   lang = 'en',
   onVerified,
-  onLinkLine,
 }) {
   const t = T[lang] || T.en;
   const isVerified = !!phoneVerifiedAt;
@@ -259,9 +255,6 @@ export default function PhoneVerificationCard({
     setState('idle');
   };
 
-  const handleLine = () => {
-    if (onLinkLine) onLinkLine();
-  };
 
   // ─── render ──────────────────────────────────────────────────────
 
@@ -386,22 +379,26 @@ export default function PhoneVerificationCard({
             </div>
           )}
 
-          {/* LINE alternative */}
-          <div className="mt-4 border-t border-gray-100 pt-4">
-            {lineLinked ? (
+          {/* Connecting LINE is a real thing this account can have, so it is
+              worth showing — but it is NOT an alternative way to verify a
+              phone, and the button that offered it as one has been removed.
+              It was dead in both dashboards (neither passed onLinkLine) and
+              its label promised something LINE cannot do: linking proves
+              somebody has a LINE account, which is free, unlimited, and the
+              exact tool every scam on this platform has run on. Only the SMS
+              code proves a phone number.
+
+              There is currently no way to connect LINE after signup at all —
+              the only working flow is the helper registration success screen,
+              which is why 138 helpers and 0 families have one. Bringing that
+              into the dashboards is a separate piece of work. */}
+          {lineLinked && (
+            <div className="mt-4 border-t border-gray-100 pt-4">
               <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
                 <Check size={14} /> {t.line_already}
               </span>
-            ) : (
-              <button
-                type="button"
-                onClick={handleLine}
-                className="inline-flex items-center gap-2 rounded-lg border border-[#06C755] bg-[#06C755]/5 px-4 py-2 text-sm font-bold text-[#06C755] hover:bg-[#06C755]/10"
-              >
-                <MessageCircle size={14} /> {t.btn_line}
-              </button>
-            )}
-          </div>
+            </div>
+          )}
 
           <p className="mt-4 text-xs text-gray-500">{t.privacy}</p>
         </>
