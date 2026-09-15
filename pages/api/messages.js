@@ -243,6 +243,26 @@ export default async function handler(req, res) {
     const conv = await loadConversation(supabase, conversation_id, session);
     if (!conv) return res.status(404).json({ error: 'Conversation not found' });
 
+    // Don't let a helper write into the void. Once a family is past the
+    // phone-verification deadline it cannot reply, and 125 families had a live
+    // conversation when this was written — without this check the helper keeps
+    // writing and concludes she is being ignored, which is worse for her than
+    // being told plainly that the other side is unreachable right now.
+    //
+    // The wording the client shows says "not reachable", never "blocked" or
+    // "suspended": the helper does not need, and should not be handed, another
+    // account's moderation state.
+    if (!isEmployer) {
+      const { data: other } = await supabase
+        .from('employer_accounts')
+        .select('status, email_verified, created_at, phone_verified_at')
+        .eq('employer_ref', conv.employer_id)
+        .maybeSingle();
+      if (other && !hasActiveAccess(other)) {
+        return res.status(409).json({ error: 'recipient_unavailable' });
+      }
+    }
+
     // Anti-scam: a contact handle belonging to a suspended account is refused
     // no matter who sends it. The volume signals below count per account, so a
     // scammer who re-registers starts them all at zero — the handle is the one

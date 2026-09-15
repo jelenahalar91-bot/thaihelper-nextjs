@@ -6,6 +6,7 @@ import BrandWordmark from '@/components/BrandWordmark';
 import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { fetchEmployers } from '@/lib/api/employers';
+import { hiddenForMissingPhone } from '@/lib/access';
 import { startConversationAsHelper } from '@/lib/api/messages';
 import { CITIES, formatCity, toCitySlug } from '@/lib/constants/cities';
 import { CATEGORIES, SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
@@ -927,6 +928,8 @@ export async function getServerSideProps({ res }) {
 
     const initialEmployers = (data || [])
       .filter((row) => row.search_status !== 'hidden')
+      // Same rule the API applies — see lib/access.js.
+      .filter((row) => !hiddenForMissingPhone(row))
       .map((row) => ({
         ref: row.employer_ref || null,
         firstName: row.first_name || '',

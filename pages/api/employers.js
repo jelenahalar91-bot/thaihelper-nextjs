@@ -11,6 +11,7 @@
 // Shape mirrors /api/helpers for consistency.
 
 import { getServiceSupabase } from '../../lib/supabase';
+import { hiddenForMissingPhone } from '../../lib/access';
 
 function toPublicCard(row) {
   return {
@@ -78,6 +79,10 @@ export default async function handler(req, res) {
     // — a Postgres `.neq('search_status','hidden')` would exclude NULLs.
     const employers = (accounts || [])
       .filter((row) => row.search_status !== 'hidden')
+      // Past the announced deadline with no verified phone: off the board.
+      // Evaluated here rather than written into search_status, so verifying
+      // puts them back on the next request. See lib/access.js.
+      .filter((row) => !hiddenForMissingPhone(row))
       .map(toPublicCard);
 
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
