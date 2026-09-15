@@ -384,7 +384,26 @@ export default async function handler(req, res) {
     // unsubscribe URL in every email + RFC 8058 List-Unsubscribe headers.
     const notifyRecipient = async () => {
     try {
+      // One email per burst. If the recipient still has an unread message
+      // from this same sender in this thread, they were already emailed about
+      // it and haven't been back since — a second, third, fourth mail adds
+      // nothing but inbox noise (two mails at 03:51 is what surfaced this).
+      // The next email only goes out once they've opened the thread, which
+      // flips is_read via the PUT below. Push is deliberately left per-message:
+      // it's a glance, not an inbox entry.
+      let alreadyEmailedThisBurst = false;
       if (process.env.RESEND_API_KEY) {
+        const { count: unreadFromSender } = await supabase
+          .from('messages')
+          .select('id', { count: 'exact', head: true })
+          .eq('conversation_id', conversation_id)
+          .eq('sender_type', session.role)
+          .eq('is_read', false)
+          .neq('id', message.id);
+        alreadyEmailedThisBurst = (unreadFromSender || 0) > 0;
+      }
+
+      if (process.env.RESEND_API_KEY && !alreadyEmailedThisBurst) {
         let recipientEmail = null;
         let recipientName = null;
         let recipientRole = null;

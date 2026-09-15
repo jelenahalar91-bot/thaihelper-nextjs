@@ -65,13 +65,16 @@ CREATE TABLE messages (
 CREATE INDEX idx_messages_conversation ON messages(conversation_id, created_at);
 CREATE INDEX idx_messages_unread ON messages(conversation_id, is_read) WHERE NOT is_read;
 
--- 24-hour reminder bookkeeping for unread messages.
--- The hourly cron at /api/cron/message-reminders sets reminder_sent_at after
--- it sends one reminder so we never spam the same message twice.
+-- Reminder bookkeeping for unread messages. The daily cron at
+-- /api/cron/message-reminders sends at most two reminders per waiting
+-- conversation (48h and 72h after the oldest unread message from that
+-- sender); reminder_count says how many have gone out.
+-- See scripts/supabase-message-reminder-count.sql for the 2026-09-15 change.
 ALTER TABLE IF EXISTS messages ADD COLUMN IF NOT EXISTS reminder_sent_at TIMESTAMPTZ;
+ALTER TABLE IF EXISTS messages ADD COLUMN IF NOT EXISTS reminder_count SMALLINT NOT NULL DEFAULT 0;
 CREATE INDEX IF NOT EXISTS idx_messages_reminder_pending
   ON messages(created_at)
-  WHERE is_read = false AND reminder_sent_at IS NULL;
+  WHERE is_read = false AND reminder_count < 2;
 
 -- Email notification preferences for new messages.
 -- Default: opted IN (so users don't miss the first messages after signup).

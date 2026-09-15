@@ -1,8 +1,20 @@
 // GET /api/cron/message-reminders
 //
-// Hourly cron (configured in vercel.json) that sends a single reminder email
-// for any message that has been unread for 24+ hours. Each message is
-// reminded at most once — `reminder_sent_at` is set after the first reminder.
+// Daily cron (01:00 UTC, configured in vercel.json) that nudges people about
+// messages they never opened.
+//
+// Reminders belong to the waiting CONVERSATION, not to each message, and there
+// are exactly two of them:
+//
+//   message arrives  → "new message" email (pages/api/messages.js)
+//   + 48h unopened   → reminder 1
+//   + 72h unopened   → reminder 2, the last one
+//
+// After that the thread goes quiet however long it stays unread, and a message
+// the same sender adds on day two joins that run instead of starting its own —
+// someone who already knows they have mail waiting doesn't need a fresh copy
+// of the news. Opening the thread flips is_read and resets everything, so the
+// next round of messages gets the full sequence again.
 //
 // Auth: Vercel Cron sends `Authorization: Bearer $CRON_SECRET` automatically
 // when CRON_SECRET is set in env vars. If the secret isn't configured we
@@ -18,7 +30,11 @@ import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../../lib/unsubs
 // and we don't want to suddenly blast everyone. Cap to messages from the
 // last 7 days.
 const MAX_REMINDER_AGE_HOURS = 24 * 7;
-const MIN_REMINDER_AGE_HOURS = 24;
+// Hours the oldest unread message must have been sitting there before each
+// reminder. Index = reminders already sent for that thread.
+const REMINDER_AGE_HOURS = [48, 72];
+const MAX_REMINDERS_PER_THREAD = REMINDER_AGE_HOURS.length;
+const MIN_REMINDER_AGE_HOURS = REMINDER_AGE_HOURS[0];
 // Keep one cron run bounded so we don't time out on a backlog.
 const MAX_REMINDERS_PER_RUN = 50;
 
@@ -54,9 +70,9 @@ export default async function handler(req, res) {
   // Pull a batch of candidates: unread, no reminder yet, in our window.
   const { data: candidates, error } = await supabase
     .from('messages')
-    .select('id, conversation_id, sender_type, sender_ref, content_original, created_at')
+    .select('id, conversation_id, sender_type, sender_ref, content_original, created_at, reminder_count')
     .eq('is_read', false)
-    .is('reminder_sent_at', null)
+    .lt('reminder_count', MAX_REMINDERS_PER_THREAD)
     .lt('created_at', olderThan)
     .gt('created_at', newerThan)
     .order('created_at', { ascending: true })
@@ -78,10 +94,61 @@ export default async function handler(req, res) {
 
   let sent = 0;
   let skipped = 0;
+  let bundled = 0;
+  let notYetDue = 0;
+  let capped = 0;
   let failed = 0;
+  // conversation + sender pairs already reminded in this run.
+  const remindedThreads = new Set();
 
   for (const msg of candidates) {
+    const threadKey = `${msg.conversation_id}:${msg.sender_type}`;
+    if (remindedThreads.has(threadKey)) {
+      // Same sender, same thread — already covered by the reminder above.
+      bundled++;
+      continue;
+    }
     try {
+      // 0. The thread's anchor: the oldest unread message from this sender.
+      //    Its reminder_count is how far the thread has got through the
+      //    schedule, and its age is what the schedule is measured against —
+      //    a message that arrived later doesn't restart the clock or earn a
+      //    mail of its own.
+      const { data: anchor } = await supabase
+        .from('messages')
+        .select('id, content_original, created_at, reminder_count')
+        .eq('conversation_id', msg.conversation_id)
+        .eq('sender_type', msg.sender_type)
+        .eq('is_read', false)
+        // Same 7-day window as the candidate query: a thread someone
+        // abandoned months ago shouldn't anchor today's reminder, and its
+        // text shouldn't be the preview in the email.
+        .gt('created_at', newerThan)
+        .order('created_at', { ascending: true })
+        .limit(1)
+        .maybeSingle();
+      const waiting = anchor || msg;
+      const stage = waiting.reminder_count || 0;
+
+      if (stage >= MAX_REMINDERS_PER_THREAD) {
+        // Both reminders are spent — this thread is done being emailed about.
+        // Pull the later messages up to the same count so they stop coming
+        // back as candidates every night.
+        capped++;
+        remindedThreads.add(threadKey);
+        await markThreadReminded(supabase, msg, MAX_REMINDERS_PER_THREAD);
+        continue;
+      }
+
+      const ageHours = (now - new Date(waiting.created_at).getTime()) / 3600000;
+      if (ageHours < REMINDER_AGE_HOURS[stage]) {
+        // Reminder 1 has gone out and reminder 2 isn't due yet. Leave the
+        // whole thread alone — a later run will pick it up.
+        notYetDue++;
+        remindedThreads.add(threadKey);
+        continue;
+      }
+
       // 1. Conversation
       let conv = convCache.get(msg.conversation_id);
       if (!conv) {
@@ -90,7 +157,7 @@ export default async function handler(req, res) {
           .select('id, helper_ref, employer_id')
           .eq('id', msg.conversation_id)
           .maybeSingle();
-        if (!data) { skipped++; await markReminderSent(supabase, msg.id); continue; }
+        if (!data) { skipped++; remindedThreads.add(threadKey); await markThreadReminded(supabase, msg, MAX_REMINDERS_PER_THREAD); continue; }
         conv = data;
         convCache.set(msg.conversation_id, conv);
       }
@@ -187,14 +254,15 @@ export default async function handler(req, res) {
           senderName,
           senderRole: msg.sender_type,
           recipientRole,
-          messagePreview: msg.content_original,
+          messagePreview: waiting.content_original,
           unsubscribeUrl,
         });
         sent++;
       } else {
         skipped++;
       }
-      await markReminderSent(supabase, msg.id);
+      remindedThreads.add(threadKey);
+      await markThreadReminded(supabase, msg, stage + 1);
     } catch (err) {
       console.error('Reminder send failed for message', msg.id, err.message);
       failed++;
@@ -207,13 +275,25 @@ export default async function handler(req, res) {
     processed: candidates.length,
     sent,
     skipped,
+    bundled,
+    notYetDue,
+    capped,
     failed,
   });
 }
 
-async function markReminderSent(supabase, messageId) {
+// Move the whole unread run from this sender in this conversation to `count`,
+// not just the one message that tripped the query. Messages that arrived
+// after it are part of the same "you have something waiting" — reminding
+// about each separately is exactly what we're trying to stop. Reading the
+// thread clears is_read, so the sender's next message starts a fresh run at
+// count 0 and gets the full sequence again.
+async function markThreadReminded(supabase, msg, count) {
   await supabase
     .from('messages')
-    .update({ reminder_sent_at: new Date().toISOString() })
-    .eq('id', messageId);
+    .update({ reminder_sent_at: new Date().toISOString(), reminder_count: count })
+    .eq('conversation_id', msg.conversation_id)
+    .eq('sender_type', msg.sender_type)
+    .eq('is_read', false)
+    .lt('reminder_count', count);
 }
