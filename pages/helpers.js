@@ -67,6 +67,9 @@ const T = {
     no_results:     'No helpers found',
     no_results_sub: 'Try adjusting your filters or check back soon — new helpers register every day.',
     card_exp:       'yrs experience',
+    // "Phone" alone reads as "has a phone number"; the claim is that an SMS
+    // code actually reached it.
+    card_phone_verified: 'Phone verified',
     card_signin:    'Sign in to message',
     card_signin_btn:'Login / Register',
     fav_add:        'Save to favorites',
@@ -125,6 +128,7 @@ const T = {
     no_results:     'ไม่พบผู้ช่วย',
     no_results_sub: 'ลองปรับตัวกรอง หรือกลับมาดูอีกครั้ง — มีผู้ช่วยใหม่ลงทะเบียนทุกวัน',
     card_exp:       'ปีประสบการณ์',
+    card_phone_verified: 'เบอร์ยืนยันแล้ว',
     card_signin:    'เข้าสู่ระบบเพื่อส่งข้อความ',
     card_signin_btn:'เข้าสู่ระบบ / ลงทะเบียน',
     fav_add:        'บันทึกในรายการโปรด',

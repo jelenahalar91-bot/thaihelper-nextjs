@@ -179,28 +179,6 @@ export default function HelperCard({
             👤
           </div>
         )}
-        {/* Trust badges — stacked top-left. Each badge encodes a
-            specific fact ("we verified this email reaches the helper",
-            "this account has a linked LINE"), never a vouching claim
-            about the person. See PhoneVerificationCard for the
-            self-service flow that produces these. */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
-          {helper.phoneVerified && (
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
-              📞 {t.card_phone_verified || 'Phone'}
-            </span>
-          )}
-          {helper.lineVerified && (
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/95 text-[#06C755] text-[10px] font-bold shadow-sm">
-              💬 LINE
-            </span>
-          )}
-          {helper.verified && !helper.phoneVerified && !helper.lineVerified && (
-            <span className="inline-flex items-center px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
-              ✓ {t.card_verified || 'Verified'}
-            </span>
-          )}
-        </div>
       </div>
 
       {/* Body */}
@@ -219,6 +197,34 @@ export default function HelperCard({
               <AvailabilityPill status={helper.availabilityStatus} lang={lang} size="sm" />
             )}
           </div>
+          {/* Trust badges, beside the name rather than over the photo. As a
+              white pill on a bright photograph they were invisible — and
+              "Phone" on its own reads as "has a phone number somewhere",
+              which is not the claim being made.
+
+              Each badge encodes a fact we checked ("an SMS code reached this
+              number", "this account has a linked LINE"), never a vouching
+              claim about the person. We do not check identity documents and
+              no badge may imply that we do. */}
+          {(helper.phoneVerified || helper.lineVerified || helper.verified) && (
+            <div className="flex flex-wrap items-center gap-1.5 mb-1">
+              {helper.phoneVerified && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-[#006a62]">
+                  📞 {t.card_phone_verified || 'Phone verified'}
+                </span>
+              )}
+              {helper.lineVerified && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#06C755]/10 px-2 py-0.5 text-[11px] font-bold text-[#06C755]">
+                  💬 LINE
+                </span>
+              )}
+              {helper.verified && !helper.phoneVerified && !helper.lineVerified && (
+                <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-[#006a62]">
+                  ✓ {t.card_verified || 'Verified'}
+                </span>
+              )}
+            </div>
+          )}
           {helper.categoryLabel && (
             <div className="text-sm text-gray-700 mt-1 font-medium">
               {helper.categoryLabel}

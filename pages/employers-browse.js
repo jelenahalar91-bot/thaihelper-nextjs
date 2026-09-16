@@ -69,7 +69,7 @@ const T = {
     no_results:     'No jobs found',
     no_results_sub: 'Check back soon — new jobs are posted every day.',
     card_looking:   'Looking for',
-    card_phone_verified: 'Phone',
+    card_phone_verified: 'Phone verified',
     card_arrangement: 'Arrangement',
     card_age_pref:  'Preferred age',
     card_cta:       'Register as Helper to Apply',
@@ -636,36 +636,38 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang, viewerIsHelpe
         ) : (
           <span className="text-6xl font-bold text-[#006a62]">{initial}</span>
         )}
-        {/* Trust badges — mirrors the helper card (components/HelperCard.jsx).
-            Families used to publish none of these, which had it backwards:
-            every scam on this platform ran family -> helper, so the person
-            who most needs to know whether a stranger answered an SMS at a
-            real number is the helper reading this card.
-
-            Each badge states a fact we checked, never a judgement about the
-            person — we verify an email and, once SMS is live, a phone. We do
-            not check identity documents. See [[feedback_no_id_verification_claims]]
-            in spirit: never let a badge imply more than was actually verified. */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
-          {e.phoneVerified && (
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/95 text-[#006a62] text-[10px] font-bold shadow-sm">
-              📞 {t.card_phone_verified}
-            </span>
-          )}
-          {e.lineVerified && (
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/95 text-[#06C755] text-[10px] font-bold shadow-sm">
-              💬 LINE
-            </span>
-          )}
-        </div>
       </div>
 
       {/* Body */}
       <div className="p-5 sm:p-6 flex flex-col flex-1 min-w-0 gap-3">
         <div>
-          <h3 className="text-xl font-bold text-gray-900 leading-tight">
-            {displayName}
-          </h3>
+          {/* Trust badges sit beside the name, not over the photo. On the
+              photo they were white-on-white against a bright picture and
+              simply did not register — and the label has to say what was
+              checked ("Phone verified"), because "Phone" alone reads as
+              "there is a phone number somewhere", which is not the claim.
+
+              Each badge states a fact we checked, never a judgement about the
+              person: we verify an email and a phone. We do not check identity
+              documents, and no badge may imply we do.
+
+              Wraps rather than shrinking the name — a long name plus two
+              badges must not squeeze either at 400px. */}
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <h3 className="text-xl font-bold text-gray-900 leading-tight">
+              {displayName}
+            </h3>
+            {e.phoneVerified && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-[#006a62]">
+                📞 {t.card_phone_verified}
+              </span>
+            )}
+            {e.lineVerified && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#06C755]/10 px-2 py-0.5 text-[11px] font-bold text-[#06C755]">
+                💬 LINE
+              </span>
+            )}
+          </div>
           {e.lookingFor && (
             <div className="text-sm text-gray-700 mt-1 font-medium">
               {t.card_looking}: {formatLookingFor(e.lookingFor, lang)}
