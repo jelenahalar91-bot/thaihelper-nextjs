@@ -70,6 +70,10 @@ const T = {
     no_results_sub: 'Check back soon — new jobs are posted every day.',
     card_looking:   'Looking for',
     card_phone_verified: 'Phone verified',
+    // "connected", not "verified": adding a bot as a friend proves somebody
+    // has a LINE account, which is free and unlimited. Calling both badges
+    // "verified" would read as two equivalent checks — see HelperCard.
+    card_line_connected: 'LINE connected',
     card_arrangement: 'Arrangement',
     card_age_pref:  'Preferred age',
     card_cta:       'Register as Helper to Apply',
@@ -119,6 +123,7 @@ const T = {
     no_results_sub: 'กลับมาดูอีกครั้ง — มีงานใหม่ประกาศทุกวัน',
     card_looking:   'กำลังหา',
     card_phone_verified: 'เบอร์ยืนยันแล้ว',
+    card_line_connected: 'เชื่อมต่อ LINE แล้ว',
     card_arrangement: 'รูปแบบ',
     card_age_pref:  'อายุที่ต้องการ',
     card_cta:       'ลงทะเบียนเป็นผู้ช่วยเพื่อสมัคร',
@@ -664,7 +669,7 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang, viewerIsHelpe
             )}
             {e.lineVerified && (
               <span className="inline-flex items-center gap-1 rounded-full bg-[#06C755]/10 px-2 py-0.5 text-[11px] font-bold text-[#06C755]">
-                💬 LINE
+                💬 {t.card_line_connected || 'LINE connected'}
               </span>
             )}
           </div>

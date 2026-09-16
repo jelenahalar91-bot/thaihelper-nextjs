@@ -215,7 +215,7 @@ export default function HelperCard({
               )}
               {helper.lineVerified && (
                 <span className="inline-flex items-center gap-1 rounded-full bg-[#06C755]/10 px-2 py-0.5 text-[11px] font-bold text-[#06C755]">
-                  💬 LINE
+                  💬 {t.card_line_connected || 'LINE connected'}
                 </span>
               )}
               {helper.verified && !helper.phoneVerified && !helper.lineVerified && (

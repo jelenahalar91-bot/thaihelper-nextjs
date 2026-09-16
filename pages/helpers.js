@@ -70,6 +70,10 @@ const T = {
     // "Phone" alone reads as "has a phone number"; the claim is that an SMS
     // code actually reached it.
     card_phone_verified: 'Phone verified',
+    // "connected", not "verified": adding a bot as a friend proves somebody
+    // has a LINE account, which is free and unlimited. Calling both badges
+    // "verified" would read as two equivalent checks — see HelperCard.
+    card_line_connected: 'LINE connected',
     card_signin:    'Sign in to message',
     card_signin_btn:'Login / Register',
     fav_add:        'Save to favorites',
@@ -129,6 +133,7 @@ const T = {
     no_results_sub: 'ลองปรับตัวกรอง หรือกลับมาดูอีกครั้ง — มีผู้ช่วยใหม่ลงทะเบียนทุกวัน',
     card_exp:       'ปีประสบการณ์',
     card_phone_verified: 'เบอร์ยืนยันแล้ว',
+    card_line_connected: 'เชื่อมต่อ LINE แล้ว',
     card_signin:    'เข้าสู่ระบบเพื่อส่งข้อความ',
     card_signin_btn:'เข้าสู่ระบบ / ลงทะเบียน',
     fav_add:        'บันทึกในรายการโปรด',
