@@ -3,8 +3,9 @@
 // DELETE /api/ratings?helper=REF                       → employer only, remove own rating
 //
 // Eligibility rule: a family can only rate a helper after a real exchange —
-// MIN_MESSAGES_PER_SIDE each way, spread over MIN_CONVERSATION_SPAN_MS. See
-// the constants below for why those numbers, and what they do not prove.
+// MIN_MESSAGES_PER_SIDE each way, and only once MIN_AGE_SINCE_FIRST_CONTACT_MS
+// has passed since their first message. See the constants below for why those
+// numbers, and what they do not prove.
 //
 // Reviews are public from the first one (lib/rating-visibility.js). What
 // protects a helper from a single false review is the eligibility rule above,
@@ -40,16 +41,39 @@ const MAX_COMMENT = 400;
 //
 // Neither number can prove a job happened; nothing in the schema can, since
 // hiring occurs off-platform. They raise the price of a drive-by accusation
-// from four clicks to a sustained exchange over a day, which is what the
-// abuse case actually needed.
+// from four clicks to a sustained exchange, which is what the abuse case
+// actually needed.
 const MIN_MESSAGES_PER_SIDE = 3;
-const MIN_CONVERSATION_SPAN_MS = 24 * 60 * 60 * 1000;
+
+// Time that must pass before a review may be written — measured from the
+// FIRST message, not across the conversation.
+//
+// Until 2026-09-16 this was a span: last message minus first message had to
+// be at least a day. That rule punished the ordinary way hiring happens here.
+// The clearest case is in our own data: EMP-G3DER8 and TH-WAQMT7 talked for
+// 59 minutes, swapped WhatsApp numbers, and the helper came to work. A real
+// job, a real reference — and under the span rule that family could never
+// have said so. It is not rare either: of 130 pairs with a genuine
+// back-and-forth, 54 fail on span alone, which is 17 families who can review
+// nobody.
+//
+// Dropping the wait entirely was not an option. EMP-572KZV, the revenge
+// review that started all of this, had four messages from each side — the
+// message count never stopped him. Thirteen hours of conversation did.
+//
+// Measuring from first contact keeps exactly that: he still has to come back
+// a day later to publish. What it stops doing is demanding that the
+// conversation itself be slow, which was never evidence of anything. The
+// honest limit: neither shape stops someone patient, who under the old rule
+// only had to send one more message the next day. What protects a helper
+// after publication is the dispute link and the 1-2 star admin alert.
+const MIN_AGE_SINCE_FIRST_CONTACT_MS = 24 * 60 * 60 * 1000;
 
 // Returns { canRate: boolean, reason: string|null } describing whether
 // `employer_ref` is allowed to rate `helper_ref`. Reason codes:
 //   'not_messaged'      — no conversation, or only one side has spoken
 //   'too_few_messages'  — talked, but not enough either way
-//   'too_recent'        — the whole exchange fits inside one day
+//   'too_recent'        — they only started talking today
 //   null                — eligible
 async function checkEligibility(supabase, employer_ref, helper_ref) {
   // Deliberately counts conversations either side has hidden
@@ -87,8 +111,8 @@ async function checkEligibility(supabase, employer_ref, helper_ref) {
   }
 
   const times = rows.map(m => new Date(m.created_at).getTime()).filter(t => !Number.isNaN(t));
-  const span = times.length ? Math.max(...times) - Math.min(...times) : 0;
-  if (span < MIN_CONVERSATION_SPAN_MS) {
+  const firstContact = times.length ? Math.min(...times) : Date.now();
+  if (Date.now() - firstContact < MIN_AGE_SINCE_FIRST_CONTACT_MS) {
     return { canRate: false, reason: 'too_recent' };
   }
 
