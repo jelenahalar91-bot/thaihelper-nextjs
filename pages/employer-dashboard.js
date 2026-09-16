@@ -1253,6 +1253,7 @@ export default function EmployerDashboard() {
                   onUpgrade={handleUpgrade}
                   onViewProfile={handleViewHelperProfile}
                   onRequestVideoCall={handleRequestVideoCall}
+                  lang={lang}
                   t={t}
                 />
               )}

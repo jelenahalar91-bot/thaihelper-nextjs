@@ -6,8 +6,11 @@
 // MIN_MESSAGES_PER_SIDE each way, spread over MIN_CONVERSATION_SPAN_MS. See
 // the constants below for why those numbers, and what they do not prove.
 //
-// Nothing is public until MIN_PUBLIC_REVIEWS reviews exist
-// (lib/rating-visibility.js): one review must not be a whole reputation.
+// Reviews are public from the first one (lib/rating-visibility.js). What
+// protects a helper from a single false review is the eligibility rule above,
+// plus the two things that happen the moment a review lands: the helper is
+// emailed a one-click dispute link, and anything at 1-2 stars also alerts the
+// admin.
 //
 // employer_first_name is snapshotted on each upsert so reviews keep
 // rendering a name even if the family later deletes their account.
@@ -16,6 +19,8 @@ import { getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { MIN_PUBLIC_REVIEWS } from '../../lib/rating-visibility';
 import { sendNewRatingNotification } from '../../lib/send-confirmation-email';
+import { createDisputeToken, buildDisputeUrl } from '../../lib/review-dispute';
+import { sendLowRatingAlert } from '../../lib/emails/rating-alerts';
 
 const MAX_COMMENT = 400;
 
@@ -98,7 +103,7 @@ async function checkEligibility(supabase, employer_ref, helper_ref) {
  * "you were rated 1 star" without "and nobody can see it yet" would frighten
  * people for no reason.
  */
-async function notifyHelperOfRating(supabase, helper_ref, employerName, stars, comment) {
+async function notifyHelperOfRating(supabase, helper_ref, employerName, stars, comment, ratingId) {
   const [{ data: helper }, { count }] = await Promise.all([
     supabase
       .from('helper_profiles')
@@ -115,6 +120,14 @@ async function notifyHelperOfRating(supabase, helper_ref, employerName, stars, c
   // you is not marketing, but it is still their choice to be emailed.
   if (!helper?.email || helper.notify_on_message === false) return;
 
+  // One-click dispute, no login. The people most likely to need it are the
+  // least likely to still know their ref number, and someone who has just
+  // been called a thief in public should not have to fight a login form
+  // first. See lib/review-dispute.js.
+  const disputeUrl = ratingId
+    ? buildDisputeUrl(await createDisputeToken(ratingId, helper_ref))
+    : null;
+
   await sendNewRatingNotification({
     recipientName: helper.first_name,
     recipientEmail: helper.email,
@@ -123,6 +136,40 @@ async function notifyHelperOfRating(supabase, helper_ref, employerName, stars, c
     comment,
     isPublic: (count || 0) >= MIN_PUBLIC_REVIEWS,
     minPublicReviews: MIN_PUBLIC_REVIEWS,
+    disputeUrl,
+  });
+}
+
+/**
+ * Tell the admin about a 1-2 star review, whether or not it is disputed.
+ *
+ * Publishing from review #1 means a revenge review is visible to everyone the
+ * second it is written. The helper can dispute it, but only if they read
+ * their email — this is the path that does not depend on them.
+ */
+async function alertAdminOfLowRating(supabase, helper_ref, employer_ref, employerName, stars, comment) {
+  if (stars > 2) return;
+
+  const [{ data: helper }, { count }] = await Promise.all([
+    supabase
+      .from('helper_profiles')
+      .select('first_name')
+      .eq('helper_ref', helper_ref)
+      .single(),
+    supabase
+      .from('helper_ratings')
+      .select('*', { count: 'exact', head: true })
+      .eq('helper_ref', helper_ref),
+  ]);
+
+  await sendLowRatingAlert({
+    helperRef: helper_ref,
+    helperName: helper?.first_name || null,
+    employerRef: employer_ref,
+    employerName,
+    ratingStars: stars,
+    comment,
+    totalReviews: count || 1,
   });
 }
 
@@ -277,8 +324,11 @@ export default async function handler(req, res) {
     // rating, and the family should not wait on Resend. Before this the
     // subject of a review had no way of learning it existed — which is how a
     // false accusation of theft sat on a profile for two weeks.
-    notifyHelperOfRating(supabase, cleanHelperRef, firstName, numStars, cleanComment)
+    notifyHelperOfRating(supabase, cleanHelperRef, firstName, numStars, cleanComment, upserted.id)
       .catch(err => console.error('Rating notification failed:', err.message));
+
+    alertAdminOfLowRating(supabase, cleanHelperRef, employer_ref, firstName, numStars, cleanComment)
+      .catch(err => console.error('Low-rating alert failed:', err.message));
 
     return res.status(200).json({
       success: true,

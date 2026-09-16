@@ -12,10 +12,18 @@
  * - onViewProfile: optional callback. When set, the header avatar + name
  *   become clickable and call this with the counterparty object so the
  *   parent page can open a profile modal.
+ *
+ * Below the thread sits the closing-the-loop strip (OutcomePrompt): the
+ * rating form for families who may rate this helper, and "I was hired by
+ * this family" for helpers. Both live here rather than in the profile modal
+ * because this is where the relationship actually is — the modal version was
+ * three clicks and a scroll away and went unused for three and a half months.
  */
 
 import { useEffect, useRef, useState } from 'react';
 import MessageBubble from './MessageBubble';
+import RateForm from '../RateForm';
+import { StarRatingDisplay } from '../StarRating';
 import { sharesContactDetails } from '../../lib/contact-warning';
 import { formatCity } from '../../lib/constants/cities';
 
@@ -46,6 +54,7 @@ export default function ConversationDetail({
   resendVerifyResult = null, // 'sent' | 'error' | null
   // Optional quick-reply chips shown above the input. Array of strings.
   quickReplies = null,
+  lang = 'en',
   t,
 }) {
   const messagesEndRef = useRef(null);
@@ -108,6 +117,76 @@ export default function ConversationDetail({
     if (confirmOffPlatform) setConfirmOffPlatform(false);
     setMsgInput(value);
   };
+
+  // ── Closing the loop ────────────────────────────────────────────────
+  //
+  // Whether this family may rate this helper (employer view), or whether
+  // this helper has already told us the family hired them (helper view).
+  // Fetched per conversation; both endpoints are cheap and re-check
+  // everything server-side, so a stale answer here can only cost a wasted
+  // click, never an unauthorised write.
+  const [rating, setRating] = useState(null);      // { canRate, myRating } | null
+  const [hired, setHired] = useState(null);        // { confirmed } | null
+  const [hiring, setHiring] = useState(false);
+  const [rateOpen, setRateOpen] = useState(false);
+
+  const counterpartyRef = conversation.counterparty?.ref || null;
+
+  useEffect(() => {
+    setRateOpen(false);
+    setRating(null);
+    setHired(null);
+    if (!counterpartyRef) return;
+
+    let cancelled = false;
+    const url = currentRole === 'employer'
+      ? `/api/ratings?helper=${encodeURIComponent(counterpartyRef)}`
+      : `/api/hire-confirmation?employer=${encodeURIComponent(counterpartyRef)}`;
+
+    fetch(url)
+      .then(r => (r.ok ? r.json() : null))
+      .then(data => {
+        if (cancelled || !data) return;
+        if (currentRole === 'employer') {
+          setRating({ canRate: !!data.canRate, myRating: data.myRating || null });
+        } else {
+          setHired({ confirmed: !!data.confirmed });
+        }
+      })
+      .catch(() => {});
+
+    return () => { cancelled = true; };
+  }, [counterpartyRef, currentRole]);
+
+  async function confirmHired() {
+    if (!counterpartyRef || hiring) return;
+    setHiring(true);
+    try {
+      const res = await fetch('/api/hire-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ employerRef: counterpartyRef }),
+      });
+      if (res.ok) setHired({ confirmed: true });
+    } catch {
+      // Silent: the button simply stays available to try again.
+    }
+    setHiring(false);
+  }
+
+  // Refetch after a rating is saved so the strip switches to "you rated X".
+  async function reloadRating() {
+    if (!counterpartyRef) return;
+    try {
+      const res = await fetch(`/api/ratings?helper=${encodeURIComponent(counterpartyRef)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      setRating({ canRate: !!data.canRate, myRating: data.myRating || null });
+      setRateOpen(false);
+    } catch {
+      // Keep the form open rather than pretending it saved.
+    }
+  }
 
   const cp = conversation.counterparty || {};
   const displayName =
@@ -299,6 +378,25 @@ export default function ConversationDetail({
         )}
         <div ref={messagesEndRef} />
       </div>
+
+      {/* ── Closing the loop: rate / confirm hire ─────────── */}
+      <OutcomePrompt
+        currentRole={currentRole}
+        counterpartyRef={counterpartyRef}
+        counterpartyName={cp.firstName || displayName}
+        rating={rating}
+        rateOpen={rateOpen}
+        setRateOpen={setRateOpen}
+        onRated={reloadRating}
+        hired={hired}
+        hiring={hiring}
+        onConfirmHired={confirmHired}
+        bothSidesSpoke={
+          messages.some(m => m.sender_type === 'helper')
+          && messages.some(m => m.sender_type === 'employer')
+        }
+        lang={lang}
+      />
 
       {/* ── Input — verify-required > free-tier-locked > normal ─── */}
       {verifyRequired ? (
@@ -522,6 +620,169 @@ export default function ConversationDetail({
 }
 
 // ─── Empty-state ─────────────────────────────────────────────────────────
+/**
+ * The strip between the thread and the composer that asks what happened.
+ *
+ * Two different questions depending on who is looking:
+ *
+ *   Family → "How was X?" with the star form inline. Shown only when
+ *   /api/ratings says they are eligible (3 messages each way, spread over a
+ *   day). Once they have rated, it shrinks to their own stars plus an edit
+ *   link, so the strip never nags someone who already answered.
+ *
+ *   Helper → "Did this family hire you?" — one button, one email to the
+ *   family, once per pair forever (pages/api/hire-confirmation.js). Hidden
+ *   until both sides have actually said something, because before that there
+ *   is nothing to confirm.
+ *
+ * Neither version is dismissable, and both stay quiet-looking on purpose:
+ * this sits above the message input on every visit to the conversation, so
+ * anything louder would be shouting at someone who is trying to type.
+ */
+function OutcomePrompt({
+  currentRole, counterpartyRef, counterpartyName,
+  rating, rateOpen, setRateOpen, onRated,
+  hired, hiring, onConfirmHired, bothSidesSpoke, lang,
+}) {
+  const th = lang === 'th';
+  if (!counterpartyRef) return null;
+
+  const shell = (children, tone = 'teal') => (
+    <div style={{
+      padding: '12px 18px',
+      borderTop: '1px solid #e5e7eb',
+      background: tone === 'gold'
+        ? 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)'
+        : 'linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%)',
+    }}>
+      {children}
+    </div>
+  );
+
+  // ── Family side ──────────────────────────────────────────────────────
+  if (currentRole === 'employer') {
+    if (!rating) return null;
+
+    if (rating.myRating) {
+      return shell(
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '10px',
+          flexWrap: 'wrap', fontSize: '13px', color: '#4b5563',
+        }}>
+          <span>{th ? 'คุณให้คะแนนแล้ว' : 'You rated'} {counterpartyName}</span>
+          <StarRatingDisplay avg={rating.myRating.stars} count={1} size="sm" lang={lang} />
+          <button
+            type="button"
+            onClick={() => setRateOpen(!rateOpen)}
+            style={{
+              background: 'none', border: 'none', padding: 0,
+              color: '#006a62', fontWeight: 700, fontSize: '13px', cursor: 'pointer',
+              textDecoration: 'underline',
+            }}
+          >
+            {rateOpen ? (th ? 'ปิด' : 'Close') : (th ? 'แก้ไข' : 'Edit')}
+          </button>
+          {rateOpen && (
+            <div style={{ width: '100%' }}>
+              <RateForm
+                helperRef={counterpartyRef}
+                existingRating={rating.myRating}
+                onSubmitted={onRated}
+                lang={lang}
+              />
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (!rating.canRate) return null;
+
+    return shell(
+      <>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap',
+        }}>
+          <span style={{ fontSize: '18px' }} aria-hidden="true">⭐</span>
+          <span style={{ fontSize: '14px', fontWeight: 700, color: '#92400e' }}>
+            {th
+              ? `${counterpartyName} ทำงานให้คุณแล้วใช่ไหม?`
+              : `Did ${counterpartyName} work for you?`}
+          </span>
+          <button
+            type="button"
+            onClick={() => setRateOpen(!rateOpen)}
+            style={{
+              marginLeft: 'auto',
+              padding: '8px 16px', borderRadius: '9px', border: 'none',
+              background: '#006a62', color: 'white',
+              fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+            }}
+          >
+            {rateOpen ? (th ? 'ปิด' : 'Close') : (th ? 'ให้คะแนน' : 'Leave a review')}
+          </button>
+        </div>
+        {!rateOpen && (
+          <p style={{ fontSize: '12px', color: '#9ca3af', margin: '6px 0 0', lineHeight: 1.5 }}>
+            {th
+              ? 'ครอบครัวอื่นเห็นรีวิวของคุณบนโปรไฟล์ของเธอ'
+              : 'Your review shows on her profile — it is what the next family has to go on.'}
+          </p>
+        )}
+        {rateOpen && (
+          <RateForm
+            helperRef={counterpartyRef}
+            existingRating={null}
+            onSubmitted={onRated}
+            lang={lang}
+          />
+        )}
+      </>,
+      'gold'
+    );
+  }
+
+  // ── Helper side ──────────────────────────────────────────────────────
+  if (!hired || !bothSidesSpoke) return null;
+
+  if (hired.confirmed) {
+    return shell(
+      <div style={{ fontSize: '13px', color: '#4b5563', lineHeight: 1.5 }}>
+        {th
+          ? '✅ เราแจ้งครอบครัวนี้แล้วว่าคุณได้งาน และขอให้เขารีวิวคุณ'
+          : '✅ We told this family you got the job and asked them to review you.'}
+      </div>
+    );
+  }
+
+  return shell(
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+      <div style={{ fontSize: '13px', color: '#4b5563', lineHeight: 1.5, flex: 1, minWidth: '180px' }}>
+        <strong style={{ color: '#1a1a1a' }}>
+          {th ? 'ครอบครัวนี้จ้างคุณแล้วใช่ไหม?' : 'Did this family hire you?'}
+        </strong>
+        <br />
+        {th
+          ? 'เราจะส่งอีเมลหาเขาหนึ่งครั้ง เพื่อขอให้รีวิวคุณ'
+          : 'We will email them once and ask them to review you.'}
+      </div>
+      <button
+        type="button"
+        onClick={onConfirmHired}
+        disabled={hiring}
+        style={{
+          padding: '9px 16px', borderRadius: '9px', border: 'none',
+          background: '#006a62', color: 'white',
+          fontSize: '13px', fontWeight: 700,
+          cursor: hiring ? 'wait' : 'pointer', opacity: hiring ? 0.7 : 1,
+        }}
+      >
+        {hiring ? '…' : (th ? 'ใช่ ฉันได้งานแล้ว' : 'Yes, I got the job')}
+      </button>
+    </div>
+  );
+}
+
 function EmptyConversation({ displayName, t }) {
   return (
     <div style={{

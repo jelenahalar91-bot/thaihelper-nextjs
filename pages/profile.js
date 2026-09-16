@@ -1829,6 +1829,7 @@ export default function Profile() {
                       city: cp.city,
                     });
                   }}
+                  lang={lang}
                   t={t}
                 />
               )}
