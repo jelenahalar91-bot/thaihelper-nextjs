@@ -6,24 +6,15 @@
 
 import { getAnySession } from '../../lib/auth';
 import { Resend } from 'resend';
+import { checkRateLimit } from '../../lib/rate-limit';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Light rate limit — reporting is rare; this only stops runaway loops.
-const attempts = new Map();
+// Supabase-backed rather than an in-memory Map: every report sends mail to
+// the admin inbox, and a per-instance Map resets on each Vercel cold start.
 const WINDOW = 15 * 60 * 1000;
 const MAX = 10;
-
-function checkRate(key) {
-  const now = Date.now();
-  const r = attempts.get(key);
-  if (!r || now - r.first > WINDOW) {
-    attempts.set(key, { count: 1, first: now });
-    return true;
-  }
-  r.count++;
-  return r.count <= MAX;
-}
 
 const TARGET_TYPES = new Set(['helper', 'employer', 'conversation', 'rating']);
 
@@ -34,7 +25,13 @@ export default async function handler(req, res) {
 
   const session = await getAnySession(req);
   if (!session) return res.status(401).json({ error: 'Not authenticated' });
-  if (!checkRate(session.ref)) {
+  const withinRate = await checkRateLimit({
+    bucket: 'report-content',
+    key: session.ref,
+    max: MAX,
+    windowMs: WINDOW,
+  });
+  if (!withinRate) {
     return res.status(429).json({ error: 'Too many reports. Please wait.' });
   }
 

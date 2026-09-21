@@ -12,6 +12,7 @@
 // public identifier; the only side effect is a counter increment + event log.
 
 import { getServiceSupabase } from '../../../../lib/supabase';
+import { checkRateLimit } from '../../../../lib/rate-limit';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const VALID_CTA = ['website', 'phone', 'email', 'details', 'maps'];
@@ -41,8 +42,23 @@ export default async function handler(req, res) {
   const source  = inferSource(req.headers.referer || req.headers.referrer || '');
 
   // Generate a lightweight session id from IP + UA (no cookies needed).
+  const clientIp   = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+    || req.socket?.remoteAddress || null;
   const rawSession = `${req.headers['x-forwarded-for'] || req.socket?.remoteAddress || ''}|${req.headers['user-agent'] || ''}`;
   const sessionId  = Buffer.from(rawSession).toString('base64').slice(0, 40);
+
+  // These counters are the numbers we quote to prospective paying listings,
+  // so an unbounded insert endpoint is worse than a missing one: it lets
+  // anyone inflate a listing's click count. 120/hour per IP is far more than
+  // a person browsing the directory produces. Over-limit callers get the same
+  // 200 every other failure path returns — the click just isn't recorded.
+  const withinRate = await checkRateLimit({
+    bucket: 'directory-click',
+    key: clientIp,
+    max: 120,
+    windowMs: 60 * 60 * 1000,
+  });
+  if (!withinRate) return res.status(200).json({ ok: true });
 
   try {
     const supabase = getServiceSupabase();

@@ -1,5 +1,36 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
+// Content-Security-Policy, shipped in REPORT-ONLY first.
+//
+// The site had every other security header but no CSP — the one layer that
+// would have neutered a JSON-LD injection instead of merely surviving it.
+// Enforcing a wrong policy on a live marketplace breaks analytics, Turnstile
+// or the whole page silently, so this reports violations to the browser
+// console for a week or two and gets promoted to the enforcing header name
+// (drop the `-Report-Only` suffix below) once the console stays clean on
+// /, /helpers, /register, /login, /employer-dashboard and /directory/*.
+//
+// 'unsafe-inline' in script-src is unavoidable for now: GA4 and the Meta
+// Pixel are injected as inline <Script> blocks in _app.js, as is Next's own
+// hydration bootstrap. Dropping it needs per-request nonces, which the Pages
+// Router can't do from a static header. The allowlist still shuts out every
+// third-party host we don't name.
+const CSP_DIRECTIVES = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://challenges.cloudflare.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://www.facebook.com https://www.google.com https://www.google.co.th https://www.googletagmanager.com https://region1.google-analytics.com",
+  "font-src 'self' data:",
+  "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://connect.facebook.net https://*.sentry.io https://challenges.cloudflare.com",
+  "frame-src https://challenges.cloudflare.com https://www.facebook.com",
+  "worker-src 'self' blob:",
+  "manifest-src 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+].join('; ');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -57,6 +88,7 @@ const nextConfig = {
           { key: 'X-XSS-Protection', value: '1; mode=block' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'Content-Security-Policy-Report-Only', value: CSP_DIRECTIVES },
         ],
       },
       {

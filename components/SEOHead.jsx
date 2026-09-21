@@ -104,10 +104,18 @@ export default function SEOHead({
         const payload = Array.isArray(jsonLd) ? jsonLd.filter(Boolean) : jsonLd;
         const hasPayload = Array.isArray(payload) ? payload.length > 0 : Boolean(payload);
         if (!hasPayload) return null;
+        // Escape every `<` as its JSON unicode escape before the payload
+        // lands in the script tag.
+        // JSON.stringify does NOT escape `</script>`, so any user-controlled
+        // string in the payload could otherwise close the tag and inject
+        // markup. Directory listings are the live case: a company edits its
+        // own name and description via PUT /api/company-listing, and both
+        // flow straight into the business schema on /directory/[slug].
+        // The escape is valid JSON, so crawlers read the schema unchanged.
         return (
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(payload) }}
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(payload).replace(/</g, '\\u003c') }}
           />
         );
       })()}

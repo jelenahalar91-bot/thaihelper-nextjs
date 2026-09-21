@@ -403,6 +403,15 @@ export const blogPosts = [
       </blockquote>
       <p>Read all reviews and our public replies at <a href="/blog/thaihelper-reviews-real-users-2026">our 2026 review summary</a>, or add your own on <a href="https://www.trustpilot.com/evaluate/thaihelper.app">Trustpilot</a>.</p>
 
+      <h2>Bangkok-specific breakdowns for 2026</h2>
+      <p>If you're hiring in Bangkok specifically, three companion pieces with real live-platform data:</p>
+      <ul>
+        <li><a href="/blog/housekeeper-cost-bangkok-2026"><strong>Housekeeper Cost Bangkok 2026</strong></a> — Real rates from 136+ verified Bangkok housekeepers</li>
+        <li><a href="/blog/private-chef-bangkok-cost-2026"><strong>Private Chef Bangkok Cost 2026</strong></a> — Rate distribution from 60+ verified Bangkok chefs, 80 % English-speaking</li>
+        <li><a href="/blog/tutor-bangkok-cost-2026"><strong>Tutor Bangkok 2026</strong></a> — 99+ verified Bangkok tutors, 97 % English-speaking, 10+ year experience heavy</li>
+      </ul>
+      <p>And if you specifically want a <strong>Filipino nanny</strong> (higher English-fluency, higher cost, work-permit rules to know): <a href="/guide/hire-a-filipino-nanny-in-thailand">the complete Filipino-nanny guide for Thailand</a> covers salaries 28,000–45,000 THB Bangkok, the Non-Immigrant B visa reality, and where to find candidates.</p>
+
       <p><strong>Ready to start?</strong> Browse nanny profiles on <a href="/hire/nanny">ThaiHelper</a> for free — filter by city, languages, experience level. Message nannies directly with no platform fees on either side. The reference checks, interview, and hire decision are entirely yours.</p>
       <p>Or read the complete hiring guide first: <a href="/guide/hire-a-nanny-in-thailand">How to Hire a Nanny in Thailand — the full 2026 process</a>.</p>
     `,
@@ -2608,6 +2617,12 @@ export const blogPosts = [
     `,
     content: `
       <p>A private chef used to be reserved for the wealthy. In Thailand — especially in Bangkok, Phuket, and Koh Samui — having a <strong>private chef</strong> is increasingly accessible to middle- and upper-middle-class families.</p>
+
+      <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:16px 20px;margin:20px 0;">
+        <p style="margin:0 0 6px;font-weight:700;color:#006a62;">📊 Looking specifically for Bangkok?</p>
+        <p style="margin:0;font-size:14px;color:#334155;">Read our detailed <a href="/blog/private-chef-bangkok-cost-2026" style="color:#006a62;font-weight:600;">Private Chef Bangkok Cost 2026 breakdown</a> with the full hourly-rate distribution from 60+ verified Bangkok chefs, top neighborhoods, and English-speaker share.</p>
+      </div>
+
       <p><em>Updated August 2026. Rate ranges cross-checked against 130+ verified chef profiles currently on ThaiHelper across Bangkok, Phuket, and Koh Samui.</em></p>
 
       <h2>Private Chef Rates in Thailand</h2>

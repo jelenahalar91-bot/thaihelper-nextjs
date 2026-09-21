@@ -158,10 +158,14 @@ export default function App({ Component, pageProps }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
+            // Same `<` escape as components/SEOHead.jsx — JSON.stringify
+            // does not escape `</script>`. Nothing user-controlled reaches
+            // these two schemas today, but the two JSON-LD sinks should not
+            // drift apart in how safely they serialise.
             __html: JSON.stringify([
               getOrganizationSchema(),
               getWebSiteSchema(),
-            ]),
+            ]).replace(/</g, '\\u003c'),
           }}
         />
       </Head>

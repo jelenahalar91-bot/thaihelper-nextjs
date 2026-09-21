@@ -261,6 +261,7 @@ export const guides = [
             <li><a href="/hire/nanny-bangkok">Nannies in Bangkok</a></li>
             <li><a href="/hire/nanny-phuket">Nannies in Phuket</a></li>
             <li><a href="/hire/nanny-chiang-mai">Nannies in Chiang Mai</a></li>
+            <li><a href="/guide/hire-a-filipino-nanny-in-thailand"><strong>Filipino nanny in Thailand</strong> — salaries, Non-Immigrant B visa reality, where to find candidates</a></li>
             <li><a href="/blog/employment-contract-template-thailand">Free employment-contract template (EN + TH)</a></li>
             <li><a href="/work-permit-wizard">Work-permit checker (Thai vs foreign nanny)</a></li>
           </ul>
@@ -549,6 +550,7 @@ export const guides = [
             <li><a href="/hire/housekeeper-bangkok">Housekeepers in Bangkok</a></li>
             <li><a href="/hire/housekeeper-phuket">Housekeepers in Phuket</a></li>
             <li><a href="/hire/housekeeper-chiang-mai">Housekeepers in Chiang Mai</a></li>
+            <li><a href="/blog/housekeeper-cost-bangkok-2026"><strong>Housekeeper Cost Bangkok 2026</strong> — real rates from 136+ verified housekeepers</a></li>
             <li><a href="/blog/employment-contract-template-thailand">Free bilingual contract template</a></li>
             <li><a href="/guide/hire-a-nanny-in-thailand">Hire a Nanny in Thailand — full guide</a> (if you actually need childcare, not housekeeping)</li>
           </ul>
@@ -1157,6 +1159,7 @@ export const guides = [
             <li><a href="/hire/tutor-bangkok">Tutors in Bangkok</a></li>
             <li><a href="/hire/tutor-phuket">Tutors in Phuket</a></li>
             <li><a href="/hire/tutor-chiang-mai">Tutors in Chiang Mai</a></li>
+            <li><a href="/blog/tutor-bangkok-cost-2026"><strong>Tutor Bangkok 2026</strong> — real rates from 99+ verified tutors (97 % speak English)</a></li>
             <li><a href="/blog/find-tutor-bangkok">Find a Tutor in Bangkok — broader overview</a></li>
             <li><a href="/blog/english-speaking-nanny-demand-thailand">English-Speaking Helper Demand in Thailand</a></li>
           </ul>
