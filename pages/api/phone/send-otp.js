@@ -25,6 +25,8 @@
 //   429 { error: 'rate_limited', retryAfterSec } → too many SMS this hour
 //   409 { error: 'phone_in_use' | 'phone_blocked' } → number belongs to
 //        another account, or to one we suspended
+//   403 { error: 'email_not_verified' } → confirm the email first; we do not
+//        pay for an SMS on behalf of an account that has not clicked its link
 //   400 { error: 'invalid_phone' | 'invalid_request' }
 //   401 { error: 'unauthorized' }
 //   500 { error: 'sms_send_failed' | 'server_misconfigured' }
@@ -99,13 +101,32 @@ export default async function handler(req, res) {
 
   const { data: row, error: loadErr } = await supabase
     .from(table)
-    .select('phone_sms_count, phone_sms_window_start, phone_verified_at, phone_number')
+    .select('phone_sms_count, phone_sms_window_start, phone_verified_at, phone_number, email_verified')
     .eq(refCol, session.ref)
     .single();
 
   if (loadErr || !row) {
     console.error('[phone/send-otp] account not found', { ref: session.ref, role: session.role, err: loadErr?.message });
     return res.status(404).json({ error: 'account_not_found' });
+  }
+
+  // A confirmed email address before we spend anything on an SMS.
+  //
+  // Both signup routes set the session cookie immediately, so a brand-new
+  // account is logged in before it has clicked anything in its inbox. Sending
+  // a message from that state is already refused (/api/messages checks
+  // email_verified live against the DB) — but sending an SMS, which costs real
+  // money at Twilio, was not. That is the wrong way round: the free action had
+  // the stricter gate than the billed one.
+  //
+  // Without this, the cheapest SMS-pumping setup is a loop of throwaway
+  // signups, each burning its own 3-per-hour allowance on premium-rate
+  // numbers. Turnstile on the signup forms is the real barrier and stays the
+  // main one; this closes the gap behind it.
+  //
+  // Read live from the DB, not from the JWT — sessions last a year.
+  if (!row.email_verified) {
+    return res.status(403).json({ error: 'email_not_verified' });
   }
 
   // One verified number, one account (lib/phone-identity.js). Checked here as

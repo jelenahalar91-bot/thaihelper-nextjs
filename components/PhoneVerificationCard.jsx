@@ -81,6 +81,10 @@ const T = {
     // tool for finding out who is on the platform.
     err_phone_in_use: 'That number is already verified on another account. Each number can be used once.',
     err_phone_blocked: 'That number cannot be used. If you think this is a mistake, contact support@thaihelper.app.',
+    // Reachable right after signup: the account is logged in before the
+    // confirmation link has been clicked. Name the next step rather than
+    // just refusing, so nobody is left tapping a button that does nothing.
+    err_email_not_verified: 'Please confirm your email first — check your inbox for the link we sent you. Then come back and verify your phone.',
     err_sms_failed: 'Could not send SMS to that number. Check it and try again, or contact support@thaihelper.app.',
     err_wrong_code: 'Wrong code. {n} attempts left.',
     err_too_many_attempts: 'Too many wrong attempts. Request a new code.',
@@ -115,6 +119,7 @@ const T = {
     err_rate_limited: 'ส่งบ่อยเกินไป กรุณาลองอีกครั้งใน {n} นาที',
     err_phone_in_use: 'เบอร์นี้ถูกยืนยันในบัญชีอื่นแล้ว หนึ่งเบอร์ใช้ได้หนึ่งบัญชีเท่านั้น',
     err_phone_blocked: 'ไม่สามารถใช้เบอร์นี้ได้ หากคิดว่าเป็นข้อผิดพลาด กรุณาติดต่อ support@thaihelper.app',
+    err_email_not_verified: 'กรุณายืนยันอีเมลของคุณก่อน — ตรวจสอบกล่องจดหมายเพื่อคลิกลิงก์ที่เราส่งให้ จากนั้นกลับมายืนยันเบอร์โทรศัพท์',
     err_sms_failed: 'ส่ง SMS ไปยังเบอร์นี้ไม่สำเร็จ กรุณาตรวจสอบเบอร์แล้วลองใหม่ หรือติดต่อ support@thaihelper.app',
     err_wrong_code: 'รหัสไม่ถูกต้อง เหลือ {n} ครั้ง',
     err_too_many_attempts: 'ใส่ผิดมากเกินไป กรุณาขอรหัสใหม่',
@@ -186,6 +191,8 @@ export default function PhoneVerificationCard({
           setErrorMsg(t.err_phone_in_use);
         } else if (data.error === 'phone_blocked') {
           setErrorMsg(t.err_phone_blocked);
+        } else if (data.error === 'email_not_verified') {
+          setErrorMsg(t.err_email_not_verified);
         } else {
           setErrorMsg(t.err_generic);
         }
