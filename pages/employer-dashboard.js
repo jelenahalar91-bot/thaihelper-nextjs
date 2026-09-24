@@ -153,6 +153,7 @@ const T = {
     err_contact_spam: 'For safety, contact details can only be shared in a limited number of chats. Please contact support if you need this raised.',
     err_blocked_contact: 'This contact detail belongs to an account we blocked for scam activity, so your message was not sent. If you meant to share your own LINE or phone number, please check you copied the right one.',
     err_outreach_limit: 'You have started a lot of new chats recently. To keep everyone safe, please continue in your existing conversations for now. Contact support if you need this raised.',
+    err_outreach_limit_phone: 'You have started a lot of new chats recently. Verifying your phone number raises this limit — scroll down to “Phone verification” on this page, it takes two minutes.',
     msg_verify_resend: 'Resend verification email',
     msg_verify_resent: 'Verification email sent — please check your inbox.',
     msg_verify_resend_error: 'Could not resend the email. Please try again later.',
@@ -271,6 +272,7 @@ const T = {
     err_contact_spam: 'เพื่อความปลอดภัย สามารถแบ่งปันข้อมูลติดต่อได้ในจำนวนแชทที่จำกัด หากต้องการเพิ่มวงเงิน กรุณาติดต่อทีมงาน',
     err_blocked_contact: 'ข้อมูลติดต่อนี้เป็นของบัญชีที่เราระงับไปเนื่องจากพฤติกรรมหลอกลวง ระบบจึงไม่ได้ส่งข้อความของคุณ หากคุณต้องการแชร์ LINE หรือเบอร์โทรของคุณเอง กรุณาตรวจสอบว่าคัดลอกมาถูกต้อง',
     err_outreach_limit: 'คุณเริ่มแชทใหม่จำนวนมากในช่วงนี้ เพื่อความปลอดภัยของทุกคน กรุณาสนทนาต่อในแชทที่มีอยู่ก่อน หากต้องการเพิ่มวงเงิน กรุณาติดต่อทีมงาน',
+    err_outreach_limit_phone: 'คุณเริ่มแชทใหม่จำนวนมากในช่วงนี้ การยืนยันเบอร์โทรศัพท์จะเพิ่มวงเงินนี้ เลื่อนลงไปที่หัวข้อ “Phone verification” ในหน้านี้ ใช้เวลาสองนาที',
     msg_verify_resend: 'ส่งอีเมลยืนยันอีกครั้ง',
     msg_verify_resent: 'ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ',
     msg_verify_resend_error: 'ส่งอีเมลไม่สำเร็จ กรุณาลองอีกครั้งภายหลัง',
@@ -713,6 +715,8 @@ export default function EmployerDashboard() {
         setErrorBanner(t.err_helper_unavailable);
       } else if (err.code === 'not_searching') {
         setErrorBanner(t.err_not_searching);
+      } else if (err.code === 'outreach_limit_phone') {
+        setErrorBanner(t.err_outreach_limit_phone);
       } else if (err.code === 'outreach_limit') {
         setErrorBanner(t.err_outreach_limit);
       } else {

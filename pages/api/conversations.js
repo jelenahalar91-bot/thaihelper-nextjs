@@ -60,10 +60,15 @@ const NO_OUTREACH_SEARCH_STATES = new Set(['paused', 'hidden']);
  * chat returns early above and costs nothing, so an employer clicking through
  * their inbox is never charged for it.
  *
- * Returns true when the caller may proceed. When it returns false the caller
- * must not create anything; the admin has already been alerted.
+ * Returns null when the caller may proceed. Otherwise returns why it was
+ * refused, and the caller must not create anything; the admin has already
+ * been alerted. The reason is 'phone' when verifying a number would lift the
+ * cap right now, 'volume' when it would not (already verified, or the daily
+ * brake tripped). The caller turns that into an error code so the user is
+ * told which it is — the unverified cap exists to ask for a phone number,
+ * not to turn people away.
  */
-async function allowNewConversation(session, phoneVerified) {
+async function newConversationBlock(session, phoneVerified) {
   const key = session.ref;
   const windowMs = OUTREACH_WINDOW_DAYS * DAY_MS;
   const cap = outreachCapFor(phoneVerified);
@@ -109,11 +114,17 @@ async function allowNewConversation(session, phoneVerified) {
 
   if (blocked) {
     console.warn(`[spam] blocked new conversation from ${key}: ${inWindow} in ${OUTREACH_WINDOW_DAYS}d, ${today} today`);
-    return false;
+    // Verifying only helps when the 30-day cap is the tighter unverified one
+    // AND that is what was actually hit — not when the daily brake tripped.
+    const liftable = !phoneVerified
+      && cap === OUTREACH_UNVERIFIED_BLOCK
+      && inWindow >= cap
+      && today < OUTREACH_DAILY_BLOCK;
+    return liftable ? 'phone' : 'volume';
   }
 
   await recordRateLimit({ bucket: OUTREACH_BUCKET, key });
-  return true;
+  return null;
 }
 
 export default async function handler(req, res) {
@@ -368,8 +379,11 @@ export default async function handler(req, res) {
         return res.status(200).json({ conversation_id: existing.id, existed: true });
       }
 
-      if (!(await allowNewConversation(session, !!employer.phone_verified_at))) {
-        return res.status(429).json({ error: 'outreach_limit' });
+      const empBlock = await newConversationBlock(session, !!employer.phone_verified_at);
+      if (empBlock) {
+        return res.status(429).json({
+          error: empBlock === 'phone' ? 'outreach_limit_phone' : 'outreach_limit',
+        });
       }
 
       const { data: created, error: convErr } = await supabase
@@ -435,8 +449,11 @@ export default async function handler(req, res) {
         return res.status(200).json({ conversation_id: existing.id, existed: true });
       }
 
-      if (!(await allowNewConversation(session, !!senderHelper?.phone_verified_at))) {
-        return res.status(429).json({ error: 'outreach_limit' });
+      const helperBlock = await newConversationBlock(session, !!senderHelper?.phone_verified_at);
+      if (helperBlock) {
+        return res.status(429).json({
+          error: helperBlock === 'phone' ? 'outreach_limit_phone' : 'outreach_limit',
+        });
       }
 
       const { data: created, error: convErr } = await supabase

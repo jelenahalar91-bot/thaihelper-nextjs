@@ -261,6 +261,7 @@ const T = {
     // anything: it just stops her waiting for a reply that cannot come.
     err_recipient_unavailable: 'This family cannot receive messages at the moment, so your message was not sent. It is nothing to do with you — you may get a reply later if they come back.',
     err_outreach_limit: 'You have started a lot of new chats recently. To keep everyone safe, please continue in your existing conversations for now. Contact support if you need this raised.',
+    err_outreach_limit_phone: 'You have started a lot of new chats recently. Verifying your phone number raises this limit — scroll down to “Phone verification” on this page, it takes two minutes.',
     msg_verify_resend: 'Resend verification email',
     msg_verify_resent: 'Verification email sent — please check your inbox.',
     msg_verify_resend_error: 'Could not resend the email. Please try again later.',
@@ -466,6 +467,7 @@ const T = {
     err_blocked_contact: 'ข้อมูลติดต่อนี้เป็นของบัญชีที่เราระงับไปเนื่องจากพฤติกรรมหลอกลวง ระบบจึงไม่ได้ส่งข้อความของคุณ หากคุณต้องการแชร์ LINE หรือเบอร์โทรของคุณเอง กรุณาตรวจสอบว่าคัดลอกมาถูกต้อง',
     err_recipient_unavailable: 'ขณะนี้ครอบครัวนี้ไม่สามารถรับข้อความได้ ระบบจึงไม่ได้ส่งข้อความของคุณ ไม่ใช่ความผิดของคุณ หากเขากลับมา คุณอาจได้รับคำตอบภายหลัง',
     err_outreach_limit: 'คุณเริ่มแชทใหม่จำนวนมากในช่วงนี้ เพื่อความปลอดภัยของทุกคน กรุณาสนทนาต่อในแชทที่มีอยู่ก่อน หากต้องการเพิ่มวงเงิน กรุณาติดต่อทีมงาน',
+    err_outreach_limit_phone: 'คุณเริ่มแชทใหม่จำนวนมากในช่วงนี้ การยืนยันเบอร์โทรศัพท์จะเพิ่มวงเงินนี้ เลื่อนลงไปที่หัวข้อ “Phone verification” ในหน้านี้ ใช้เวลาสองนาที',
     msg_verify_resend: 'ส่งอีเมลยืนยันอีกครั้ง',
     msg_verify_resent: 'ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ',
     msg_verify_resend_error: 'ส่งอีเมลไม่สำเร็จ กรุณาลองอีกครั้งภายหลัง',
@@ -1150,7 +1152,9 @@ export default function Profile() {
       }
     } catch (err) {
       console.error('Failed to start conversation:', err);
-      if (err.code === 'outreach_limit') {
+      if (err.code === 'outreach_limit_phone') {
+        setMsgToast(t.err_outreach_limit_phone);
+      } else if (err.code === 'outreach_limit') {
         setMsgToast(t.err_outreach_limit);
       } else if (err.code === 'profile_hidden') {
         setMsgToast(t.err_profile_hidden);
