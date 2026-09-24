@@ -56,8 +56,8 @@ const T = {
     rule_label: 'The basic rule',
     rule_text: 'In Thailand, every non-Thai worker needs a work permit — no exceptions, not even on a tourist, retirement, dependent or education visa. The only people who can work without one are Thai nationals. And needing a permit is not the same as being able to get one: for household work, permits are issued only to nationals of Myanmar, Laos and Cambodia under Thailand\'s labour MOUs, while driving is closed to every foreigner outright. This wizard tells you which case your candidate falls into, and whether the process is worth it given the cost and timeline.',
 
-    enforcement_label: '🚨 Active enforcement — May 2026',
-    enforcement_text: 'After a 1 May 2026 raid on an unlicensed school in Koh Phangan (9 arrests), Labour Minister Julapun Amornvivat ordered nationwide inspections under the Trai Thep Phithak task force. Statutory penalties (Royal Decree on Foreign Workers Management B.E. 2560, as amended 2018) for employing a worker without a valid work permit: 10,000–100,000 THB per worker for the employer; repeat offences add 50,000–200,000 THB per worker, up to 1 year prison and a 3-year ban on hiring foreigners. The worker faces 5,000–50,000 THB, deportation and a 2-year bar on reapplying for a work permit. Recent high-profile cases like the 800,000 THB Phuket villa fine multiply the 100k per-worker cap by the number of illegal workers found on site.',
+    enforcement_label: '🚨 Active enforcement — May 2026, sharpened Aug 2026',
+    enforcement_text: 'After a 1 May 2026 raid on an unlicensed school in Koh Phangan (9 arrests), Labour Minister Julapun Amornvivat ordered nationwide inspections under the Trai Thep Phithak task force. FY2026 tally to date: 74,000+ businesses checked, 1,700+ foreigners caught in reserved occupations. Statutory penalties (Royal Decree on Foreign Workers Management B.E. 2560, as amended 2018) for employing a worker without a valid work permit: 10,000–100,000 THB per worker for the employer; repeat offences add 50,000–200,000 THB per worker, up to 1 year prison and a 3-year ban on hiring foreigners. The worker faces 5,000–50,000 THB, deportation and a 2-year bar on reapplying for a work permit. Since 28 August 2026, the new PM Office Regulation on Deportation B.E. 2569 adds a formal deportation procedure with a re-entry ban. High-profile fines like the 800,000 THB Phuket villa case are 100k × 8 workers — not 800k per person.',
 
     step_label: 'Step {n} of 5',
     btn_back: '← Back',
@@ -97,7 +97,7 @@ const T = {
 
     // Result: not legally allowed for domestic work
     nla_h2: 'Domestic-worker permits aren\'t available for this nationality.',
-    nla_p: 'Thailand operates bilateral labour MOUs with Cambodia (2003), Laos (2002) and Myanmar (2003) — renewed 2015–2016. In practice the "domestic worker" work-permit category is issued only for nationals of these three countries. Vietnamese workers are in the broader CLMV labour MOU (fishery/construction) but not the household-work track. Filipino, Indonesian, Western and other workers can\'t be hired by a private family under a household work permit. Salary level doesn\'t change this. Hiring outside this pathway is a standard work-permit violation under Section 102 of the Royal Decree on Foreign Workers Management — currently 10,000–100,000 THB per worker for the employer (multiplied by the number of workers found), plus possible visa/work-permit cancellation.',
+    nla_p: 'Thailand\'s bilateral labour MOUs (Cambodia 2003, Laos 2002, Myanmar 2003 — renewed 2015–2016) are the only pathway to a work permit in the "domestic worker" category. Vietnamese workers are in the wider CLMV MOU but only for fishery/construction, not household work. A private family cannot sponsor a household-worker WP for a Filipino, Indonesian, Western or other non-MOU3 helper. In practice you may see Filipinas working in Thai homes on company-sponsored Non-B permits in a skilled category (private tutor, governess, childcare specialist, household manager) arranged by nanny agencies like Madawa, Ayasan or Care Nest, or a family-owned Thai company. This route exists but is legally fragile: if a Labour inspector finds the daily role is actually domestic rather than the permitted skilled category, the permit is revoked, the sponsoring company/family is fined 10,000–100,000 THB per worker (Section 102, Royal Decree 2017), and since 28 August 2026 the worker faces formal deportation + re-entry ban under the new PM Office Regulation on Deportation.',
     nla_alt_title: 'Legal alternatives:',
     nla_alt1_h: 'Hire a Thai national',
     nla_alt1_p: 'No work permit required. Largest pool, fastest to start.',
@@ -106,7 +106,7 @@ const T = {
     nla_alt2_p: 'The only foreign nationalities for which a household-worker WP can actually be issued. Process takes 3–6 months.',
     nla_alt2_cta: 'Browse MOU helpers',
     nla_alt3_h: 'Talk to an immigration lawyer',
-    nla_alt3_p: 'Narrow legal pathways exist for non-MOU3 nationalities: diplomatic households (statutorily exempt), BOI-promoted employers, and Non-B permits for genuinely skilled roles such as private tutor, governess or household manager when sponsored by a registered Thai employer. The role must match the WP category in substance, not just on paper. Get qualified advice before relying on this.',
+    nla_alt3_p: 'Narrow legal pathways: (1) diplomatic households — statutorily exempt under the Alien Working Act; (2) Non-B permits for genuinely skilled roles (private tutor, governess, childcare specialist, household manager) sponsored by a registered Thai employer — schools, licensed nanny agencies (Madawa, Ayasan, Care Nest and similar) or a family-owned Thai company. The role performed must actually match the WP category, not just on paper — Feb 2025 Bangkok language-school raids and the ongoing Trai Thep Phithak task force do inspect. Get qualified advice before relying on this.',
     nla_alt3_cta: 'Find experts in your city',
 
     // Result: no WP needed
@@ -181,8 +181,8 @@ const T = {
     rule_label: 'กฎพื้นฐาน',
     rule_text: 'ในประเทศไทย คนต่างชาติทุกคนที่ทำงานต้องมีใบอนุญาตทำงาน ไม่มีข้อยกเว้น แม้จะอยู่ด้วยวีซ่าท่องเที่ยว เกษียณอายุ ผู้ติดตาม หรือนักเรียน เฉพาะคนไทยเท่านั้นที่ทำงานได้โดยไม่ต้องมีใบอนุญาต และการที่ต้องมีใบอนุญาตไม่ได้แปลว่าจะขอได้ สำหรับงานบ้าน ใบอนุญาตออกให้เฉพาะคนสัญชาติเมียนมา ลาว และกัมพูชา ภายใต้ MOU ด้านแรงงานเท่านั้น ส่วนงานขับรถปิดสำหรับคนต่างด้าวทุกคน แบบสอบถามนี้จะบอกว่าผู้สมัครของคุณอยู่ในกรณีใด และกระบวนการคุ้มค่าหรือไม่เมื่อพิจารณาค่าใช้จ่ายและระยะเวลา',
 
-    enforcement_label: '🚨 การบังคับใช้กฎหมายเข้มข้น — พฤษภาคม 2569',
-    enforcement_text: 'หลังเหตุการณ์บุกค้นโรงเรียนผิดกฎหมายที่เกาะพะงัน 1 พ.ค. 2569 (จับกุม 9 คน) รมว.แรงงาน จุลพันธ์ อมรวิวัฒน์ สั่งตรวจสอบทั่วประเทศผ่านชุดเฉพาะกิจไตรเทพพิทักษ์ ค่าปรับตามกฎหมาย (พ.ร.ก.การบริหารจัดการการทำงานของคนต่างด้าว พ.ศ. 2560 แก้ไขเพิ่มเติม 2561) สำหรับนายจ้างที่จ้างแรงงานต่างชาติไม่มี WP: 10,000–100,000 บาท ต่อคน ผู้กระทำผิดซ้ำเพิ่มอีก 50,000–200,000 บาท ต่อคน จำคุกสูงสุด 1 ปี และห้ามจ้างแรงงานต่างชาติ 3 ปี ลูกจ้างถูกปรับ 5,000–50,000 บาท ถูกส่งกลับ และห้ามขอ WP ใหม่ 2 ปี กรณีฟูเก็ตที่ปรับ 800,000 บาทเป็นการคำนวณ 100,000 บาท × 8 คน ไม่ใช่ 800,000 บาทต่อคน',
+    enforcement_label: '🚨 การบังคับใช้กฎหมายเข้มข้น — เริ่ม พ.ค. 2569, เข้มขึ้น ส.ค. 2569',
+    enforcement_text: 'หลังเหตุการณ์บุกค้นโรงเรียนผิดกฎหมายที่เกาะพะงัน 1 พ.ค. 2569 (จับกุม 9 คน) รมว.แรงงาน จุลพันธ์ อมรวิวัฒน์ สั่งตรวจสอบทั่วประเทศผ่านชุดเฉพาะกิจไตรเทพพิทักษ์ ยอดปีงบ 2569 ถึงปัจจุบัน: ตรวจสอบสถานประกอบการกว่า 74,000 แห่ง พบชาวต่างชาติทำงานในอาชีพสงวนกว่า 1,700 ราย ค่าปรับตามกฎหมาย (พ.ร.ก.การบริหารจัดการการทำงานของคนต่างด้าว พ.ศ. 2560 แก้ไขเพิ่มเติม 2561) สำหรับนายจ้างที่จ้างแรงงานต่างชาติไม่มี WP: 10,000–100,000 บาท ต่อคน ผู้กระทำผิดซ้ำเพิ่มอีก 50,000–200,000 บาท ต่อคน จำคุกสูงสุด 1 ปี และห้ามจ้างแรงงานต่างชาติ 3 ปี ลูกจ้างถูกปรับ 5,000–50,000 บาท ถูกส่งกลับ และห้ามขอ WP ใหม่ 2 ปี ตั้งแต่ 28 ส.ค. 2569 ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการเนรเทศ พ.ศ. 2569 เพิ่มขั้นตอนเนรเทศอย่างเป็นทางการพร้อมห้ามกลับเข้าประเทศ กรณีฟูเก็ตที่ปรับ 800,000 บาทเป็นการคำนวณ 100,000 บาท × 8 คน ไม่ใช่ 800,000 บาทต่อคน',
 
     step_label: 'ขั้นตอนที่ {n} จาก 5',
     btn_back: '← ย้อนกลับ',
@@ -220,7 +220,7 @@ const T = {
 
     // ผลลัพธ์: ไม่อนุญาตทางกฎหมายสำหรับงานในบ้าน
     nla_h2: 'ใบอนุญาตทำงานประเภทแรงงานในบ้านไม่มีสำหรับสัญชาตินี้',
-    nla_p: 'ประเทศไทยมี MOU แรงงานทวิภาคีกับกัมพูชา (2546), ลาว (2545) และพม่า (2546) ต่ออายุปี 2558–2559 ในทางปฏิบัติใบอนุญาตทำงาน "แรงงานในบ้าน" ออกได้เฉพาะคนสัญชาติทั้งสามนี้เท่านั้น คนเวียดนามอยู่ใน MOU CLMV กว้างกว่า (ประมงและก่อสร้าง) แต่ไม่อยู่ในเส้นทางงานบ้าน คนฟิลิปปินส์ อินโดนีเซีย ตะวันตก และสัญชาติอื่นๆ ไม่สามารถถูกจ้างโดยครอบครัวเอกชนภายใต้ WP งานบ้านได้ ระดับเงินเดือนไม่เปลี่ยนสิ่งนี้ การจ้างนอกเส้นทางนี้เป็นการละเมิด WP ทั่วไปตามมาตรา 102 พ.ร.ก. การบริหารจัดการการทำงานของคนต่างด้าว ปัจจุบัน 10,000–100,000 บาท ต่อคน สำหรับนายจ้าง (คูณด้วยจำนวนคนงานที่พบ) พร้อมความเสี่ยงเพิกถอน WP/วีซ่า',
+    nla_p: 'MOU แรงงานทวิภาคีของไทย (กัมพูชา 2546, ลาว 2545, พม่า 2546 — ต่ออายุ 2558–2559) เป็นเส้นทางเดียวสู่ใบอนุญาตทำงานประเภท "แรงงานในบ้าน" คนเวียดนามอยู่ใน MOU CLMV กว้างกว่า แต่เฉพาะประมง/ก่อสร้าง ไม่ใช่งานบ้าน ครอบครัวเอกชนไม่สามารถสนับสนุน WP งานบ้านสำหรับคนฟิลิปปินส์ อินโดนีเซีย ตะวันตก หรือสัญชาติอื่นๆ ได้ ในทางปฏิบัติคุณอาจเห็นฟิลิปปินส์ทำงานในบ้านคนไทยด้วย Non-B WP ที่บริษัทสนับสนุนในหมวดหมู่เฉพาะทาง (ครูสอนส่วนตัว พี่เลี้ยงเด็ก นักดูแลเด็ก ผู้จัดการบ้าน) จัดการโดยเอเจนซี่พี่เลี้ยงเช่น Madawa, Ayasan หรือ Care Nest หรือบริษัทไทยของครอบครัวเอง เส้นทางนี้มีอยู่จริง แต่มีความเปราะบางทางกฎหมาย: หากผู้ตรวจสอบแรงงานพบว่าหน้าที่จริงเป็นงานบ้านไม่ใช่หมวดหมู่ที่อนุญาต WP จะถูกเพิกถอน บริษัท/ครอบครัวผู้สนับสนุนถูกปรับ 10,000–100,000 บาท ต่อคน (มาตรา 102 พ.ร.ก. 2560) และตั้งแต่ 28 ส.ค. 2569 ลูกจ้างเผชิญการเนรเทศอย่างเป็นทางการและห้ามกลับเข้าประเทศตามระเบียบสำนักนายกฯ ใหม่',
     nla_alt_title: 'ทางเลือกที่ถูกกฎหมาย:',
     nla_alt1_h: 'จ้างคนไทย',
     nla_alt1_p: 'ไม่ต้องมีใบอนุญาตทำงาน กลุ่มใหญ่ที่สุด เริ่มงานได้เร็วที่สุด',
@@ -229,7 +229,7 @@ const T = {
     nla_alt2_p: 'สัญชาติต่างชาติเดียวที่ออก WP แรงงานในบ้านได้จริง กระบวนการใช้เวลา 3–6 เดือน',
     nla_alt2_cta: 'ดูผู้ช่วย MOU',
     nla_alt3_h: 'ปรึกษาทนายความตรวจคนเข้าเมือง',
-    nla_alt3_p: 'มีทางเลือกทางกฎหมายที่แคบสำหรับสัญชาติที่ไม่ใช่ MOU3: ครัวเรือนทูต (ได้รับยกเว้นตามกฎหมาย) นายจ้างที่ได้รับการส่งเสริม BOI และ Non-B WP สำหรับบทบาทเฉพาะทางที่แท้จริง เช่น ครูสอนส่วนตัว พี่เลี้ยงเด็ก หรือผู้จัดการบ้าน เมื่อมีนายจ้างไทยที่จดทะเบียนเป็นผู้สนับสนุน บทบาทต้องสอดคล้องกับประเภท WP ไม่ใช่เพียงในนาม ขอคำปรึกษาผู้เชี่ยวชาญก่อนตัดสินใจ',
+    nla_alt3_p: 'ทางเลือกทางกฎหมายที่แคบ: (1) ครัวเรือนทูต — ได้รับยกเว้นตามพระราชบัญญัติการทำงานของคนต่างด้าว (2) Non-B WP สำหรับบทบาทเฉพาะทางที่แท้จริง (ครูสอนส่วนตัว พี่เลี้ยงเด็ก นักดูแลเด็ก ผู้จัดการบ้าน) โดยมีนายจ้างไทยที่จดทะเบียนเป็นผู้สนับสนุน — โรงเรียน เอเจนซี่พี่เลี้ยงที่ได้รับอนุญาต (Madawa, Ayasan, Care Nest และอื่นๆ) หรือบริษัทไทยของครอบครัวเอง บทบาทที่ทำจริงต้องสอดคล้องกับประเภท WP ไม่ใช่เพียงในนาม — การบุกโรงเรียนสอนภาษาในกรุงเทพฯ ก.พ. 2568 และชุดเฉพาะกิจไตรเทพพิทักษ์ที่ยังปฏิบัติหน้าที่มีการตรวจสอบจริง ขอคำปรึกษาผู้เชี่ยวชาญก่อนตัดสินใจ',
     nla_alt3_cta: 'หาผู้เชี่ยวชาญในเมืองของคุณ',
 
     no_wp_h2: 'ข่าวดี — ไม่ต้องมีใบอนุญาตทำงาน',
