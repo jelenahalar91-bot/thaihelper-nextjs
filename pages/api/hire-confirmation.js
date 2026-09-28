@@ -16,6 +16,7 @@ import { getSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { sendHireConfirmedEmail } from '../../lib/emails/hire-confirmation';
 import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../lib/unsubscribe';
+import { checkEligibility } from '../../lib/rating-eligibility';
 
 export default async function handler(req, res) {
   const session = await getSession(req);
@@ -85,7 +86,14 @@ export default async function handler(req, res) {
         .single(),
     ]);
 
-    if (employer?.email && employer.notify_on_message !== false) {
+    // Do not invite a family to rate someone the rating box will refuse them.
+    // Helpers misread this button: of the first nine presses, three came from
+    // helpers who had only applied or asked a question, one of them to a
+    // family suspended for scam days earlier. Those families would have been
+    // asked to review a stranger, found no box, and trusted us slightly less.
+    const { canRate } = await checkEligibility(supabase, employerRef, helper_ref);
+
+    if (canRate && employer?.email && employer.notify_on_message !== false) {
       try {
         const token = await createUnsubscribeToken('employer', employerRef);
         await sendHireConfirmedEmail({

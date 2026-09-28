@@ -160,6 +160,17 @@ export default function ConversationDetail({
 
   async function confirmHired() {
     if (!counterpartyRef || hiring) return;
+
+    // Ask once more before this leaves the site. Three of the first nine
+    // presses came from helpers who had only applied or asked a question —
+    // "I got the job" reads as "I want this job" to someone mid-application.
+    // The family gets a real email out of this, so the cost of a stray press
+    // is paid by someone else.
+    const warning = lang === 'th'
+      ? '\u0e22\u0e37\u0e19\u0e22\u0e31\u0e19\u0e27\u0e48\u0e32\u0e04\u0e38\u0e13\u0e44\u0e14\u0e49\u0e40\u0e23\u0e34\u0e48\u0e21\u0e17\u0e33\u0e07\u0e32\u0e19\u0e43\u0e2b\u0e49\u0e04\u0e23\u0e2d\u0e1a\u0e04\u0e23\u0e31\u0e27\u0e19\u0e35\u0e49\u0e41\u0e25\u0e49\u0e27?\n\n\u0e40\u0e23\u0e32\u0e08\u0e30\u0e2a\u0e48\u0e07\u0e2d\u0e35\u0e40\u0e21\u0e25\u0e2b\u0e32\u0e04\u0e23\u0e2d\u0e1a\u0e04\u0e23\u0e31\u0e27\u0e19\u0e35\u0e49\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e02\u0e2d\u0e43\u0e2b\u0e49\u0e23\u0e35\u0e27\u0e34\u0e27\u0e04\u0e38\u0e13 \u0e2b\u0e32\u0e01\u0e04\u0e38\u0e13\u0e40\u0e1e\u0e35\u0e22\u0e07\u0e41\u0e04\u0e48\u0e2a\u0e21\u0e31\u0e04\u0e23\u0e07\u0e32\u0e19 \u0e01\u0e23\u0e38\u0e13\u0e32\u0e2d\u0e22\u0e48\u0e32\u0e01\u0e14\u0e1b\u0e38\u0e48\u0e21\u0e19\u0e35\u0e49'
+      : 'Have you actually started working for this family?\n\nWe will email them and ask them to review you. If you have only applied or are still waiting for an answer, please do not press this yet.';
+    if (typeof window !== 'undefined' && !window.confirm(warning)) return;
+
     setHiring(true);
     try {
       const res = await fetch('/api/hire-confirmation', {
@@ -759,12 +770,12 @@ function OutcomePrompt({
     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
       <div style={{ fontSize: '13px', color: '#4b5563', lineHeight: 1.5, flex: 1, minWidth: '180px' }}>
         <strong style={{ color: '#1a1a1a' }}>
-          {th ? 'ครอบครัวนี้จ้างคุณแล้วใช่ไหม?' : 'Did this family hire you?'}
+          {th ? 'คุณทำงานให้ครอบครัวนี้แล้วใช่ไหม?' : 'Are you already working for this family?'}
         </strong>
         <br />
         {th
-          ? 'เราจะส่งอีเมลหาเขาหนึ่งครั้ง เพื่อขอให้รีวิวคุณ'
-          : 'We will email them once and ask them to review you.'}
+          ? 'เราจะส่งอีเมลหาเขาหนึ่งครั้ง เพื่อขอให้รีวิวคุณ กดเมื่อเริ่มทำงานแล้วเท่านั้น'
+          : 'Only if you have started. We will email them once and ask them to review you.'}
       </div>
       <button
         type="button"
@@ -777,7 +788,7 @@ function OutcomePrompt({
           cursor: hiring ? 'wait' : 'pointer', opacity: hiring ? 0.7 : 1,
         }}
       >
-        {hiring ? '…' : (th ? 'ใช่ ฉันได้งานแล้ว' : 'Yes, I got the job')}
+        {hiring ? '…' : (th ? 'ใช่ ฉันทำงานแล้ว' : 'Yes, I work for them')}
       </button>
     </div>
   );
