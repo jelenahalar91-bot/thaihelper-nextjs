@@ -10,6 +10,7 @@ import { getServiceSupabase } from '../../lib/supabase';
 import {
   hasActiveAccess,
   accessDenialReason,
+  canStartConversation,
   buildMessagePreview,
   getAccessStatus,
 } from '../../lib/access';
@@ -335,6 +336,17 @@ export default async function handler(req, res) {
         // accessDenialReason in lib/access.js.
         return res.status(403).json({
           error: accessDenialReason(employer),
+          accessStatus: getAccessStatus(employer),
+        });
+      }
+
+      // Approaching somebody new needs a verified number. Checked HERE and
+      // not in hasActiveAccess() on purpose: this is the one action the rule
+      // is about, so everything else — replying, browsing, being listed —
+      // carries on untouched for an unverified family.
+      if (!canStartConversation(employer)) {
+        return res.status(403).json({
+          error: 'phone_not_verified',
           accessStatus: getAccessStatus(employer),
         });
       }
