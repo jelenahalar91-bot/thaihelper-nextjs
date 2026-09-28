@@ -101,6 +101,25 @@ export default async function handler(req, res) {
     });
   }
 
+  // A family that names no role is not looking for anyone.
+  //
+  // This was optional, and the two accounts that left it empty and then
+  // messaged helpers are both suspended today: EMP-6J3VUE (the "Support
+  // ThaiHelper" phishing run) and one earlier scam family. Measured over all
+  // 189 families: 4 of the 178 who said what they wanted are suspended (2.2%),
+  // against 2 of the 11 who said nothing (18%) — eight times the rate.
+  //
+  // It is also the field the whole product turns on. Without it a listing
+  // shows a name and a city, matching cannot place them, and a helper reading
+  // the profile learns nothing. Requiring it costs an honest family one tap on
+  // a chip they meant to tap anyway.
+  const wantedRoles = Array.isArray(lookingFor)
+    ? lookingFor.filter((v) => typeof v === 'string' && v.trim())
+    : String(lookingFor || '').split(',').map((v) => v.trim()).filter(Boolean);
+  if (wantedRoles.length === 0) {
+    return res.status(400).json({ error: 'looking_for_required' });
+  }
+
   // "Support ThaiHelper" registered here on 2026-09-27 and phished nine
   // helpers with it. See lib/impersonation.js.
   const impersonation = impersonationBlock({ firstName, lastName });
