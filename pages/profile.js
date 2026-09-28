@@ -941,6 +941,13 @@ export default function Profile() {
         setMsgToast(t.err_blocked_contact);
       } else if (err.code === 'contact_sharing_limit') {
         setMsgToast(t.err_contact_spam);
+      } else if (err.code === 'outreach_limit_phone') {
+        setMsgToast(t.err_outreach_limit_phone);
+      } else if (err.code === 'outreach_limit') {
+        // The outreach cap can now land on the first message in a thread, not
+        // only on opening it (see /api/messages.js), so this path needs the
+        // same wording the "start a chat" path already uses.
+        setMsgToast(t.err_outreach_limit);
       } else if (err.code === 'recipient_unavailable') {
         setMsgToast(t.err_recipient_unavailable);
       } else if (err.code === 'email_not_verified') {

@@ -14,23 +14,11 @@ import {
   buildMessagePreview,
   getAccessStatus,
 } from '../../lib/access';
-import { countRateLimit, recordRateLimit } from '../../lib/rate-limit';
 import {
   deletedColumnFor,
   restoreConversationFor,
 } from '../../lib/conversation-visibility';
-import {
-  notifyAdminOfSpamSignal,
-  OUTREACH_WINDOW_DAYS,
-  OUTREACH_ALERT,
-  OUTREACH_BLOCK,
-  OUTREACH_UNVERIFIED_BLOCK,
-  OUTREACH_DAILY_BLOCK,
-  outreachCapFor,
-} from '../../lib/spam-signals';
-
-const DAY_MS = 24 * 60 * 60 * 1000;
-const OUTREACH_BUCKET = 'conversation-start';
+import { outreachGate } from '../../lib/spam-signals';
 
 // Search states that may not open NEW conversations.
 //
@@ -55,77 +43,26 @@ const OUTREACH_BUCKET = 'conversation-start';
 const NO_OUTREACH_SEARCH_STATES = new Set(['paused', 'hidden']);
 
 /**
- * Bound how many new conversations one account may open.
+ * Bound how many people one account may approach.
  *
- * Counted only where a conversation is really created — reopening an existing
- * chat returns early above and costs nothing, so an employer clicking through
- * their inbox is never charged for it.
+ * The decision, the thresholds and the admin alert all live in
+ * lib/spam-signals.js, because the same question is asked again in
+ * /api/messages.js when a first message goes into a thread that already
+ * exists. Nothing is counted here: an outreach event is a first message, and
+ * this endpoint only creates the empty room it will be written in. 31% of the
+ * rooms ever created stayed empty, which is what made the old count — taken
+ * right here — mean something other than "people approached".
  *
  * Returns null when the caller may proceed. Otherwise returns why it was
  * refused, and the caller must not create anything; the admin has already
- * been alerted. The reason is 'phone' when verifying a number would lift the
- * cap right now, 'volume' when it would not (already verified, or the daily
- * brake tripped). The caller turns that into an error code so the user is
- * told which it is — the unverified cap exists to ask for a phone number,
- * not to turn people away.
+ * been alerted.
  */
 async function newConversationBlock(session, phoneVerified) {
-  const key = session.ref;
-  const windowMs = OUTREACH_WINDOW_DAYS * DAY_MS;
-  const cap = outreachCapFor(phoneVerified);
-
-  const [inWindow, today] = await Promise.all([
-    countRateLimit({ bucket: OUTREACH_BUCKET, key, windowMs }),
-    countRateLimit({ bucket: OUTREACH_BUCKET, key, windowMs: DAY_MS }),
-  ]);
-
-  const blocked = inWindow >= cap || today >= OUTREACH_DAILY_BLOCK;
-
-  // One alert per account per day, whether it ends in a block or not.
-  if (blocked || inWindow + 1 >= OUTREACH_ALERT) {
-    const fresh = await countRateLimit({
-      bucket: 'outreach-alert',
-      key,
-      windowMs: DAY_MS,
-    });
-    if (fresh === 0) {
-      await recordRateLimit({ bucket: 'outreach-alert', key });
-      notifyAdminOfSpamSignal({
-        subject: `\u{1F6A8} Outreach volume: ${session.role} ${key} (${inWindow} in ${OUTREACH_WINDOW_DAYS}d)`,
-        lines: [
-          `${key} (${session.role}) has opened ${inWindow} conversations in the last`,
-          `${OUTREACH_WINDOW_DAYS} days, ${today} of them in the last 24 hours.`,
-          '',
-          blocked
-            ? `This attempt was BLOCKED (limits: ${cap} per ${OUTREACH_WINDOW_DAYS}d, ${OUTREACH_DAILY_BLOCK} per day).`
-            : `Still allowed — alert threshold is ${OUTREACH_ALERT}, block is ${cap}.`,
-          phoneVerified
-            ? 'Phone: verified.'
-            : cap === OUTREACH_BLOCK
-              ? 'Phone: not verified, but SMS is not configured yet, so the full cap applies.'
-              : `Phone: NOT verified — that is why the cap is ${OUTREACH_UNVERIFIED_BLOCK} rather than ${OUTREACH_BLOCK}.`,
-          '',
-          'A busy legitimate recruiter does reach the alert threshold — the',
-          'highest honest account on record opened 33 in 30 days. Check before',
-          `acting: node scripts/suspend-employer.js ${key} --dry-run`,
-        ],
-      });
-    }
-  }
-
-  if (blocked) {
-    console.warn(`[spam] blocked new conversation from ${key}: ${inWindow} in ${OUTREACH_WINDOW_DAYS}d, ${today} today`);
-    // Verifying only helps when the 30-day cap is the tighter unverified one
-    // AND that is what was actually hit — not when the daily brake tripped.
-    const liftable = !phoneVerified
-      && cap === OUTREACH_UNVERIFIED_BLOCK
-      && inWindow >= cap
-      && today < OUTREACH_DAILY_BLOCK;
-    return liftable ? 'phone' : 'volume';
-  }
-
-  await recordRateLimit({ bucket: OUTREACH_BUCKET, key });
-  return null;
+  return outreachGate({
+    ref: session.ref,
+    role: session.role,
+    phoneVerified,
+  });
 }
 
 export default async function handler(req, res) {

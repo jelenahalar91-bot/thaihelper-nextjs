@@ -30,6 +30,9 @@ import {
   CONTACT_SPREAD_BLOCK,
   CONTACT_SPREAD_WINDOW_DAYS,
   notifyAdminOfSpamSignal,
+  outreachGate,
+  recordOutreach,
+  suspendCommand,
 } from '../../lib/spam-signals';
 import { blockedHandlesIn, linkHandles } from '../../lib/contact-blocklist';
 // Contact info in messages is still NOT blocked on content — sharing a phone
@@ -68,7 +71,7 @@ async function notifyAdminOfContactSpread({ senderRef, senderType, spread, block
       sample,
       '',
       'Legitimate broadcast recruiters do reach the alert threshold. Check the',
-      'account before acting: node scripts/suspend-employer.js ' + senderRef + ' --dry-run',
+      `account before acting: ${suspendCommand(senderRef)}`,
     ].join('\n'),
   });
 }
@@ -213,7 +216,7 @@ export default async function handler(req, res) {
     const senderRefCol = isEmployer ? 'employer_ref' : 'helper_ref';
     const { data: senderRow } = await supabase
       .from(senderTable)
-      .select('email_verified, status')
+      .select('email_verified, status, phone_verified_at')
       .eq(senderRefCol, session.ref)
       .single();
     if (senderRow?.status === 'suspended') {
@@ -346,10 +349,35 @@ export default async function handler(req, res) {
               'before 2026-09-15 came from a confirmed scam account. It could',
               'still be a real family answering "what is your LINE?", so read the',
               'conversation before acting:',
-              `  node scripts/suspend-employer.js ${session.ref} --dry-run`,
+              `  ${suspendCommand(session.ref)}`,
             ],
           }).catch((e) => console.error('Contact-link alert failed:', e.message));
         }
+      }
+    }
+
+    // Anti-spam: approaching somebody who has not spoken to you is outreach,
+    // and this is where it actually happens. /api/conversations refuses to
+    // create the room when the account is over its limit, but the room can
+    // already exist — empty threads are free and invisible, so an account
+    // could open a hundred of them while the counter sat at zero and then
+    // write into all of them. The first message is the moment somebody is
+    // really reached, so it is the moment that is counted and capped.
+    const { count: priorMessages } = await supabase
+      .from('messages')
+      .select('id', { count: 'exact', head: true })
+      .eq('conversation_id', conversation_id);
+    const isOutreach = (priorMessages || 0) === 0;
+    if (isOutreach) {
+      const denied = await outreachGate({
+        ref: session.ref,
+        role: session.role,
+        phoneVerified: !!senderRow?.phone_verified_at,
+      });
+      if (denied) {
+        return res.status(429).json({
+          error: denied === 'phone' ? 'outreach_limit_phone' : 'outreach_limit',
+        });
       }
     }
 
@@ -409,7 +437,7 @@ export default async function handler(req, res) {
             'Message:',
             trimmed.slice(0, 400),
             '',
-            `Check the account: node scripts/suspend-employer.js ${session.ref} --dry-run`,
+            `Check the account: ${suspendCommand(session.ref)}`,
           ],
         }).catch((e) => console.error('Shortener alert failed:', e.message));
       }
@@ -470,6 +498,13 @@ export default async function handler(req, res) {
     if (error) {
       console.error('Message insert error:', error);
       return res.status(500).json({ error: 'Failed to send message' });
+    }
+
+    // Counted only now, after the message is really stored: the counter holds
+    // people approached, nothing else.
+    if (isOutreach) {
+      recordOutreach(session.ref).catch((e) =>
+        console.error('[spam] outreach record failed:', e.message));
     }
 
     // Bump conversation last_message_at, and un-hide the thread for both
