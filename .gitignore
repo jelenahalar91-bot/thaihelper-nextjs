@@ -75,6 +75,9 @@ scripts/.feedback-blast-sent.jsonl
 # Multi-job announcement blast — send log has PII (recipient emails)
 scripts/.multijob-announcement-sent.jsonl
 
+# App-launch blast — send log has PII (recipient emails)
+scripts/.app-launch-blast-sent.jsonl
+
 # Moderation audit log — contains account PII
 scripts/.suspended-accounts.jsonl
 
