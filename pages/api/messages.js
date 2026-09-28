@@ -25,6 +25,7 @@ import { sendPushToUser } from '../../lib/web-push';
 import { checkRateLimit } from '../../lib/rate-limit';
 import {
   contactSpread,
+  shortenerLinks,
   CONTACT_SPREAD_ALERT,
   CONTACT_SPREAD_BLOCK,
   CONTACT_SPREAD_WINDOW_DAYS,
@@ -376,6 +377,41 @@ export default async function handler(req, res) {
       if (spread >= CONTACT_SPREAD_BLOCK) {
         console.warn(`[spam] blocked ${session.ref}: contact info in ${spread} conversations`);
         return res.status(403).json({ error: 'contact_sharing_limit' });
+      }
+    }
+
+    // Anti-phishing: a shortened link hides where it goes, which is the only
+    // reason to use one in a message here. Reported, never blocked — a family
+    // may legitimately send one, and blocking would only teach the next
+    // attacker to spell the domain differently. What this buys is that a human
+    // sees it the same hour: "Support ThaiHelper" sent ten helpers a tinu.be
+    // link on 2026-09-27 and it went unnoticed for 21 hours.
+    //
+    // Google Maps links are excluded in shortenerLinks() — families share their
+    // address that way, and they are the only legitimate short link on record.
+    const shorteners = shortenerLinks(trimmed);
+    if (shorteners.length) {
+      const fresh = await checkRateLimit({
+        bucket: 'shortener-alert',
+        key: session.ref,
+        max: 1,
+        windowMs: 24 * 60 * 60 * 1000,
+      });
+      if (fresh && process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
+        notifyAdminOfSpamSignal({
+          subject: `\u{1F517} Shortened link from ${session.role} ${session.ref} (${shorteners.join(', ')})`,
+          lines: [
+            `${session.ref} (${session.role}) sent a shortened link in a message.`,
+            '',
+            'Across every message ever sent, only 14 contain one — ten of them',
+            'were the phishing campaign on 2026-09-27. This is worth a look.',
+            '',
+            'Message:',
+            trimmed.slice(0, 400),
+            '',
+            `Check the account: node scripts/suspend-employer.js ${session.ref} --dry-run`,
+          ],
+        }).catch((e) => console.error('Shortener alert failed:', e.message));
       }
     }
 

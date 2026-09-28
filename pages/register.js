@@ -151,6 +151,7 @@ const T = {
     submit_error:    'Something went wrong. Please try again or contact hello@thaihelper.com',
     captcha_error:   'Please complete the "I\'m human" check, then try again.',
     duplicate_email: 'An account with this email already exists. Please log in instead.',
+    name_not_allowed: 'Please register under your own name. Words like "Support" or "Admin", and the name ThaiHelper itself, are reserved so that nobody can pretend to write to families on our behalf.',
     area_full_address: 'Please enter a general area or neighbourhood (e.g. "Sukhumvit"), not your full home address. You can share your exact address privately once you\'re in touch with a family.',
     photo_size_err:  'Photo must be smaller than 5 MB.',
     success_h2:      'Welcome to ThaiHelper! 🎉',
@@ -290,6 +291,7 @@ const T = {
     submit_error:    'เกิดข้อผิดพลาด กรุณาลองใหม่หรือติดต่อ hello@thaihelper.com',
     captcha_error:   'กรุณายืนยัน "ฉันไม่ใช่โปรแกรมอัตโนมัติ" แล้วลองใหม่',
     duplicate_email: 'อีเมลนี้มีบัญชีอยู่แล้ว กรุณาเข้าสู่ระบบแทน',
+    name_not_allowed: 'กรุณาสมัครด้วยชื่อจริงของคุณ คำว่า "Support" หรือ "Admin" รวมถึงชื่อ ThaiHelper นั้นสงวนไว้ เพื่อไม่ให้ใครแอบอ้างเป็นเราในการติดต่อครอบครัว',
     area_full_address: 'กรุณากรอกเขต/ย่านทั่วไป (เช่น "สุขุมวิท") แทนที่จะเป็นที่อยู่บ้านเต็มรูปแบบ คุณสามารถแจ้งที่อยู่ที่ชัดเจนแบบส่วนตัวได้เมื่อได้ติดต่อกับครอบครัวแล้ว',
     photo_size_err:  'รูปภาพต้องมีขนาดไม่เกิน 5 MB',
     success_h2:      'ยินดีต้อนรับสู่ ThaiHelper! 🎉',
@@ -565,7 +567,7 @@ export default function Register() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error('Submit error:', err);
-      const knownErrors = { duplicate_email: t.duplicate_email, area_full_address: t.area_full_address };
+      const knownErrors = { duplicate_email: t.duplicate_email, area_full_address: t.area_full_address, name_not_allowed: t.name_not_allowed };
       let msg = knownErrors[err.message];
       // CAPTCHA errors come back as "CAPTCHA verification failed" / "Missing
       // CAPTCHA token" etc. — tell the user to redo it instead of a vague

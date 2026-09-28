@@ -106,6 +106,7 @@ const T = {
     error_invalid: 'Please fill in all required fields.',
     error_generic: 'Something went wrong. Please try again.',
     error_captcha: 'Please complete the "I\'m human" check, then try again.',
+    error_name_not_allowed: 'Please register under your own name. Words like "Support" or "Admin", and the name ThaiHelper itself, are reserved so that nobody can pretend to write to helpers on our behalf.',
     error_area_address: 'Please enter a general area or neighbourhood (e.g. "Sukhumvit"), not your full home address. You can share your exact address privately once you\'re in touch with a helper.',
     have_account: 'Already have an account?',
     login_link: 'Login',
@@ -193,6 +194,7 @@ const T = {
     error_invalid: 'กรุณากรอกข้อมูลที่จำเป็นทั้งหมด',
     error_generic: 'เกิดข้อผิดพลาด กรุณาลองใหม่',
     error_captcha: 'กรุณายืนยัน "ฉันไม่ใช่โปรแกรมอัตโนมัติ" แล้วลองใหม่',
+    error_name_not_allowed: 'กรุณาสมัครด้วยชื่อจริงของคุณ คำว่า "Support" หรือ "Admin" รวมถึงชื่อ ThaiHelper นั้นสงวนไว้ เพื่อไม่ให้ใครแอบอ้างเป็นเราในการติดต่อผู้ช่วย',
     error_area_address: 'กรุณากรอกเขต/ย่านทั่วไป (เช่น "สุขุมวิท") แทนที่จะเป็นที่อยู่บ้านเต็มรูปแบบ คุณสามารถแจ้งที่อยู่ที่ชัดเจนแบบส่วนตัวได้เมื่อได้ติดต่อกับผู้ช่วยแล้ว',
     have_account: 'มีบัญชีอยู่แล้ว?',
     login_link: 'เข้าสู่ระบบ',
@@ -374,6 +376,7 @@ export default function EmployerRegisterPage() {
           invalid_input: t.error_invalid,
           area_full_address: t.error_area_address,
           captcha: t.error_captcha,
+          name_not_allowed: t.error_name_not_allowed,
         };
         setError(errorMap[result.error] || t.error_generic);
         return;

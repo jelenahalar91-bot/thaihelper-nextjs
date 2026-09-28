@@ -5,6 +5,7 @@
 
 import crypto from 'crypto';
 import { getServiceSupabase } from '../../lib/supabase';
+import { impersonationBlock, impersonationNotes, IMPERSONATION_ERROR } from '../../lib/impersonation';
 import { createToken, setSessionCookie } from '../../lib/auth';
 import {
   sendEmployerAccountConfirmation,
@@ -98,6 +99,14 @@ export default async function handler(req, res) {
     return res.status(400).json({
       error: 'First name, last name, email and city are required.',
     });
+  }
+
+  // "Support ThaiHelper" registered here on 2026-09-27 and phished nine
+  // helpers with it. See lib/impersonation.js.
+  const impersonation = impersonationBlock({ firstName, lastName });
+  if (impersonation) {
+    console.warn(`[employer-signup] refused impersonating name: ${impersonation.field}="${impersonation.value}" (${impersonation.reason})`);
+    return res.status(400).json({ error: IMPERSONATION_ERROR, field: impersonation.field });
   }
 
   // City must be a real Thailand location, stored as a slug — the same gate
@@ -216,6 +225,11 @@ export default async function handler(req, res) {
           console.error('Resemblance check failed:', e.message);
           return [];
         });
+        // A name that merely contains a role word is not refused (that happens
+        // above, for the narrow cases), but the admin mail should say so rather
+        // than looking like the twenty harmless signups before it — which is
+        // exactly how "Support ThaiHelper" went unread for 21 hours.
+        warnings.push(...impersonationNotes({ firstName, lastName }));
         await Promise.all([
           sendEmployerAccountConfirmation({
             firstName: inserted.first_name,

@@ -5,6 +5,7 @@
 
 import crypto from 'crypto';
 import { getServiceSupabase } from '../../lib/supabase';
+import { impersonationBlock, impersonationNotes, IMPERSONATION_ERROR } from '../../lib/impersonation';
 import { createToken, setSessionCookie } from '../../lib/auth';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
 import { verifyTurnstile } from '../../lib/turnstile';
@@ -67,6 +68,15 @@ export default async function handler(req, res) {
   // Validate required fields
   if (!first_name?.trim() || !last_name?.trim() || !email?.trim() || !city || !category) {
     return res.status(400).json({ error: 'Missing required fields: first name, last name, email, city, and category are required.' });
+  }
+
+  // Nobody registers as "Support" or with our own name in theirs. See
+  // lib/impersonation.js — checked here, before any translation or DB work,
+  // because a refused signup should cost nothing.
+  const impersonation = impersonationBlock({ firstName: first_name, lastName: last_name });
+  if (impersonation) {
+    console.warn(`[register] refused impersonating name: ${impersonation.field}="${impersonation.value}" (${impersonation.reason})`);
+    return res.status(400).json({ error: IMPERSONATION_ERROR, field: impersonation.field });
   }
 
   // City must be a real Thailand location. The form only offers Thai
@@ -243,6 +253,10 @@ export default async function handler(req, res) {
             city,
             category,
             ref,
+            // The employer mail has carried these since 2026-09-15; the helper
+            // one never did. Impersonation works in both directions — a fake
+            // "ThaiHelper Support" helper profile would be read by families.
+            warnings: impersonationNotes({ firstName: first_name, lastName: last_name }),
           }),
         ]);
       }
