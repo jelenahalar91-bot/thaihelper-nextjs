@@ -665,6 +665,24 @@ export default function EmployerDashboard() {
     (filterCity ? 1 : 0) + (filterCat ? 1 : 0) + (filterArea ? 1 : 0) +
     (filterAgeRange ? 1 : 0) + (filterMinExp ? 1 : 0) + filterLanguages.length;
 
+  // Deep link from the match email: /employer-dashboard?message=TH-XXXXXX
+  // opens the conversation with that helper straight away. Waits for the
+  // helper list so the composer header has a real name, and strips the
+  // parameter so a reload is not a second attempt.
+  const deepLinkHandled = useRef(false);
+  useEffect(() => {
+    if (deepLinkHandled.current) return;
+    if (!router.isReady || !profile || helpersLoading) return;
+    const ref = router.query.message;
+    if (!ref || typeof ref !== 'string') return;
+
+    deepLinkHandled.current = true;
+    router.replace('/employer-dashboard', undefined, { shallow: true });
+    handleMessageHelper(ref);
+    // handleMessageHelper is a stable function declaration in this component.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady, router.query.message, profile, helpersLoading]);
+
   // ── Start a conversation from a helper card ───────────────────────────
   async function handleMessageHelper(helperRef) {
     setErrorBanner('');

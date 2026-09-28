@@ -1109,6 +1109,25 @@ export default function Profile() {
       .map(s => s.trim())
   )].sort();
 
+  // Deep link from the match email: /profile?message=EMP-XXXXXX opens the
+  // conversation with that family straight away, so the helper lands in the
+  // composer instead of on their own dashboard wondering where to click.
+  // Waits for the employer list so the composer header can show a real name,
+  // and strips the parameter afterwards so a reload is not a second attempt.
+  const deepLinkHandled = useRef(false);
+  useEffect(() => {
+    if (deepLinkHandled.current) return;
+    if (!router.isReady || !profile || employersLoading) return;
+    const ref = router.query.message;
+    if (!ref || typeof ref !== 'string') return;
+
+    deepLinkHandled.current = true;
+    router.replace('/profile', undefined, { shallow: true });
+    handleMessageEmployer(ref);
+    // handleMessageEmployer is a stable function declaration in this component.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady, router.query.message, profile, employersLoading]);
+
   async function handleMessageEmployer(employerRef) {
     setStartingEmpConv(employerRef);
     try {
