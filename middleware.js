@@ -140,8 +140,35 @@ export async function middleware(request) {
 // Skip middleware on static assets, the service worker, image
 // optimization, and the Next.js internals. Running on /api and pages is
 // enough to keep the cookie fresh whenever the user actually interacts.
+//
+// ALSO SKIPPED: the four public, read-only list endpoints.
+//
+// Each of them sets `s-maxage` and none of it ever took effect — measured
+// 2026-09-28, five calls in a row to /api/helpers, every one
+// `x-vercel-cache: MISS` with the handler's header replaced by
+// `max-age=0, must-revalidate`. Same for /api/employers,
+// /api/recent-helpers and /api/directory. So every single call ran the
+// function: three DB queries and 1.37 MB of JSON on /api/helpers alone,
+// on every browse-page load and every mobile app start. That is what put
+// Fluid Active CPU at 5h57m against the 4h included in the plan.
+//
+// The one thing all four share is this middleware. It runs before the
+// cache and returns a response Vercel then treats as dynamic, which is
+// the most plausible reason the CDN never stores them. Skipping it here
+// is the cheap way to find out: if these routes start reporting
+// `x-vercel-cache: HIT` after deploy, that was it.
+//
+// Safe to skip, for the same reason the header at the top of this file
+// gives: the middleware gates nothing. It only re-signs the rolling
+// session cookie, and it still does that on every page navigation — a
+// session lasts a year, so not refreshing it during a list fetch changes
+// nothing for the user. None of these four reads a session in the first
+// place (no getSession, no query params, identical bytes for everyone),
+// which is also why caching them publicly cannot leak anything. Anything
+// that IS per-user — /api/messages, /api/profile, /api/helper-documents —
+// stays covered, and so does every page.
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|sw.js|robots.txt|sitemap.xml|manifest.json|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|woff2?|ttf|css|js|map)).*)',
+    '/((?!_next/static|_next/image|favicon.ico|sw.js|robots.txt|sitemap.xml|manifest.json|api/helpers$|api/employers$|api/recent-helpers$|api/directory$|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|woff2?|ttf|css|js|map)).*)',
   ],
 };

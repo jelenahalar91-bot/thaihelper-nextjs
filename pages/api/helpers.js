@@ -117,8 +117,21 @@ export default async function handler(req, res) {
         referenceCount: refCounts.get(row.helper_ref) || 0,
       }));
 
-    // Cache publicly for 60s at the edge — browse list doesn't need to be realtime
-    res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    // Cache publicly at the edge. Safe to share between everyone: this route
+    // reads no session and takes no query params, so every caller gets the
+    // same bytes.
+    //
+    // 5 minutes, not the 60s this used to ask for. This is the heaviest
+    // response on the site — three DB queries and ~1.37 MB of JSON, built on
+    // every browse-page load and every mobile app start — so the window is
+    // what decides how often that work happens. A helper who registered four
+    // minutes ago showing up a minute late costs nobody anything;
+    // /api/recent-helpers is the one with a real freshness claim ("Recently
+    // joined") and it keeps its shorter window.
+    //
+    // stale-while-revalidate means nobody ever waits for the rebuild: the
+    // stale copy goes out immediately while the refresh happens behind it.
+    res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
 
     return res.status(200).json({ helpers, demo: false });
   } catch (err) {
