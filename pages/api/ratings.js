@@ -76,25 +76,6 @@ const MIN_AGE_SINCE_FIRST_CONTACT_MS = 24 * 60 * 60 * 1000;
 //   'too_recent'        — they only started talking today
 //   null                — eligible
 async function checkEligibility(supabase, employer_ref, helper_ref) {
-  // A confirmed hire outranks every message count below it. The helper
-  // pressed "she hired me", the family got an email about it, and the whole
-  // point of the message thresholds is to establish that a real working
-  // relationship existed — which a confirmed hire establishes directly.
-  //
-  // Without this, the mail asking for a review reached families who then
-  // found no rating box: hiring is arranged off-platform, so three of the
-  // first nine confirmed hires had exactly one message from the family.
-  // Being asked to do something the site then refuses is worse than not
-  // being asked at all.
-  const { data: hire } = await supabase
-    .from('hire_confirmations')
-    .select('id')
-    .eq('helper_ref', helper_ref)
-    .eq('employer_ref', employer_ref)
-    .maybeSingle();
-
-  if (hire) return { canRate: true, reason: null };
-
   // Deliberately counts conversations either side has hidden
   // (lib/conversation-visibility.js). Eligibility is about whether the two
   // actually talked, and that stays true once it happened — if hiding a
