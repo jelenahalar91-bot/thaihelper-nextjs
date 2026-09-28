@@ -57,32 +57,32 @@ export default function SalaryCalculator() {
       <div className="grid sm:grid-cols-2 gap-4 mb-6">
         {/* City */}
         <div>
-          <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">City</label>
-          <select value={city} onChange={(e) => setCity(e.target.value)} className="w-full rounded-lg border-gray-200 text-sm py-2.5 focus:border-primary focus:ring-primary">
+          <label htmlFor="f-city" className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">City</label>
+          <select id="f-city" value={city} onChange={(e) => setCity(e.target.value)} className="w-full rounded-lg border-gray-200 text-sm py-2.5 focus:border-primary focus:ring-primary">
             {CITIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
           </select>
         </div>
 
         {/* Job Type */}
         <div>
-          <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Job Type</label>
-          <select value={jobType} onChange={(e) => setJobType(e.target.value)} className="w-full rounded-lg border-gray-200 text-sm py-2.5 focus:border-primary focus:ring-primary">
+          <label htmlFor="f-jobtype" className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Job Type</label>
+          <select id="f-jobtype" value={jobType} onChange={(e) => setJobType(e.target.value)} className="w-full rounded-lg border-gray-200 text-sm py-2.5 focus:border-primary focus:ring-primary">
             {JOB_TYPES.map((j) => <option key={j.value} value={j.value}>{j.label}</option>)}
           </select>
         </div>
 
         {/* Experience */}
         <div>
-          <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Experience</label>
-          <select value={experience} onChange={(e) => setExperience(e.target.value)} className="w-full rounded-lg border-gray-200 text-sm py-2.5 focus:border-primary focus:ring-primary">
+          <label htmlFor="f-experience" className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Experience</label>
+          <select id="f-experience" value={experience} onChange={(e) => setExperience(e.target.value)} className="w-full rounded-lg border-gray-200 text-sm py-2.5 focus:border-primary focus:ring-primary">
             {EXPERIENCE.map((e) => <option key={e.value} value={e.value}>{e.label}</option>)}
           </select>
         </div>
 
         {/* Schedule */}
         <div>
-          <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Schedule</label>
-          <select value={schedule} onChange={(e) => setSchedule(e.target.value)} className="w-full rounded-lg border-gray-200 text-sm py-2.5 focus:border-primary focus:ring-primary">
+          <label htmlFor="f-schedule" className="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5">Schedule</label>
+          <select id="f-schedule" value={schedule} onChange={(e) => setSchedule(e.target.value)} className="w-full rounded-lg border-gray-200 text-sm py-2.5 focus:border-primary focus:ring-primary">
             {SCHEDULE.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
           </select>
         </div>

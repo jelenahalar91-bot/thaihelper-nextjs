@@ -846,14 +846,14 @@ export default function Register() {
                 {/* Name + Age */}
                 <div className="name-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                   <div className={`field ${errors.firstname ? 'has-error' : ''}`}>
-                    <label>{t.fname_label} <span className="req">*</span></label>
-                    <input type="text" value={firstname} placeholder={t.fname_ph}
+                    <label htmlFor="f-firstname">{t.fname_label} <span className="req">*</span></label>
+                    <input id="f-firstname" type="text" value={firstname} placeholder={t.fname_ph}
                       onChange={e => { setFirstname(e.target.value); setErrors(ev => ({...ev, firstname:''})); }} />
                     <div className="field-error">{errors.firstname}</div>
                   </div>
                   <div className={`field ${errors.lastname ? 'has-error' : ''}`}>
-                    <label>{t.lname_label} <span className="req">*</span></label>
-                    <input type="text" value={lastname} placeholder={t.lname_ph}
+                    <label htmlFor="f-lastname">{t.lname_label} <span className="req">*</span></label>
+                    <input id="f-lastname" type="text" value={lastname} placeholder={t.lname_ph}
                       onChange={e => { setLastname(e.target.value); setErrors(ev => ({...ev, lastname:''})); }} />
                     <div className="field-error">{errors.lastname}</div>
                   </div>
@@ -861,8 +861,8 @@ export default function Register() {
 
                 {/* Date of birth — exact age computed from this */}
                 <div className={`field ${errors.dob ? 'has-error' : ''}`}>
-                  <label>{t.age_label} <span className="req">*</span></label>
-                  <input
+                  <label htmlFor="f-dob">{t.age_label} <span className="req">*</span></label>
+                  <input id="f-dob"
                     type="date"
                     value={dob}
                     max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().slice(0, 10)}
@@ -881,8 +881,8 @@ export default function Register() {
                     it previously let people type a country (e.g.
                     "Philippines") into what is meant to be a Thai location. */}
                 <div className={`field ${errors.city ? 'has-error' : ''}`}>
-                  <label>{t.city_label} <span className="req">*</span></label>
-                  <select value={city} onChange={e => { setCity(e.target.value); setErrors(ev => ({...ev, city:'', area:''})); }}>
+                  <label htmlFor="f-city">{t.city_label} <span className="req">*</span></label>
+                  <select id="f-city" value={city} onChange={e => { setCity(e.target.value); setErrors(ev => ({...ev, city:'', area:''})); }}>
                     <option value="">{t.city_ph}</option>
                     <optgroup label={t.city_group_popular}>
                       {CITY_OPTIONS.map(c => (
@@ -904,8 +904,8 @@ export default function Register() {
                     locality within the chosen city/province. Never the city
                     itself anymore. */}
                 <div className="field">
-                  <label>{t.area_label}</label>
-                  <input
+                  <label htmlFor="f-area">{t.area_label}</label>
+                  <input id="f-area"
                     type="text"
                     value={area}
                     placeholder={t.area_ph}
@@ -969,8 +969,8 @@ export default function Register() {
 
                 {/* Experience */}
                 <div className={`field ${errors.experience ? 'has-error' : ''}`}>
-                  <label>{t.exp_label} <span className="req">*</span></label>
-                  <select value={experience} onChange={e => { setExperience(e.target.value); setErrors(ev => ({...ev, experience:''})); }}>
+                  <label htmlFor="f-experience">{t.exp_label} <span className="req">*</span></label>
+                  <select id="f-experience" value={experience} onChange={e => { setExperience(e.target.value); setErrors(ev => ({...ev, experience:''})); }}>
                     <option value="">{t.exp_ph}</option>
                     <option value="0">{t.exp_0}</option>
                     <option value="1">{t.exp_1}</option>
@@ -1001,8 +1001,8 @@ export default function Register() {
 
                 {/* Nationality (required) — drives WP-status auto-derivation. */}
                 <div className={`field ${errors.nationality ? 'has-error' : ''}`}>
-                  <label>{t.nat_label} <span className="req">*</span></label>
-                  <select
+                  <label htmlFor="f-nationality">{t.nat_label} <span className="req">*</span></label>
+                  <select id="f-nationality"
                     value={nationality}
                     onChange={e => { setNationality(e.target.value); setErrors(ev => ({ ...ev, nationality: '' })); }}
                   >
@@ -1024,8 +1024,8 @@ export default function Register() {
 
                 {/* Work Permit status (optional) */}
                 <div className="field">
-                  <label>{t.wp_label}</label>
-                  <select value={wpStatus} onChange={e => setWpStatus(e.target.value)}>
+                  <label htmlFor="f-wpstatus">{t.wp_label}</label>
+                  <select id="f-wpstatus" value={wpStatus} onChange={e => setWpStatus(e.target.value)}>
                     <option value="">{t.wp_ph}</option>
                     {WP_STATUS_OPTIONS.map(o => (
                       <option key={o.value} value={o.value}>{lang === 'th' ? o.th : o.en}</option>
@@ -1038,8 +1038,8 @@ export default function Register() {
 
                 {/* Expected rate (optional) */}
                 <div className="field">
-                  <label>{t.rate_label} <span style={{ color: 'var(--gray-400)', fontWeight: 400, fontSize: '0.85rem' }}>(optional)</span></label>
-                  <select value={rate} onChange={e => setRate(e.target.value)}>
+                  <label htmlFor="f-rate">{t.rate_label} <span style={{ color: 'var(--gray-400)', fontWeight: 400, fontSize: '0.85rem' }}>(optional)</span></label>
+                  <select id="f-rate" value={rate} onChange={e => setRate(e.target.value)}>
                     <option value="">{t.rate_ph}</option>
                     {RATES.map(r => (
                       <option key={r.value} value={r.value}>{lang === 'th' ? r.th : r.en}</option>
@@ -1049,14 +1049,14 @@ export default function Register() {
 
                 {/* Education (optional) */}
                 <div className="field">
-                  <label>{t.edu_label}</label>
-                  <input type="text" value={education} onChange={e => setEducation(e.target.value)} placeholder={t.edu_ph} />
+                  <label htmlFor="f-education">{t.edu_label}</label>
+                  <input id="f-education" type="text" value={education} onChange={e => setEducation(e.target.value)} placeholder={t.edu_ph} />
                 </div>
 
                 {/* Certificates (optional) */}
                 <div className="field">
-                  <label>{t.cert_label}</label>
-                  <input type="text" value={certificates} onChange={e => setCertificates(e.target.value)} placeholder={t.cert_ph} />
+                  <label htmlFor="f-certificates">{t.cert_label}</label>
+                  <input id="f-certificates" type="text" value={certificates} onChange={e => setCertificates(e.target.value)} placeholder={t.cert_ph} />
                 </div>
 
                 {/* Bio with hints + generate button */}
@@ -1108,8 +1108,8 @@ export default function Register() {
 
                 {/* Email */}
                 <div className={`field ${errors.email ? 'has-error' : ''}`}>
-                  <label>{t.email_label} <span className="req">*</span></label>
-                  <input type="email" value={email} placeholder="your@email.com"
+                  <label htmlFor="f-email">{t.email_label} <span className="req">*</span></label>
+                  <input id="f-email" type="email" value={email} placeholder="your@email.com"
                     onChange={e => {
                       setEmail(e.target.value);
                       setErrors(ev => ({ ...ev, email: '' }));

@@ -218,36 +218,36 @@ export default function Partners() {
                   <h2 className="text-lg font-bold text-slate-900">{t.form_title}</h2>
 
                   <div>
-                    <label className={labelCls}>{t.label_company}</label>
-                    <input required className={inputCls} value={form.companyName}
+                    <label htmlFor="f-form-companyname" className={labelCls}>{t.label_company}</label>
+                    <input id="f-form-companyname" required className={inputCls} value={form.companyName}
                       onChange={(e) => setForm({ ...form, companyName: e.target.value })}
                       placeholder={t.ph_company} />
                   </div>
 
                   <div>
-                    <label className={labelCls}>{t.label_contact}</label>
-                    <input className={inputCls} value={form.contactName}
+                    <label htmlFor="f-form-contactname" className={labelCls}>{t.label_contact}</label>
+                    <input id="f-form-contactname" className={inputCls} value={form.contactName}
                       onChange={(e) => setForm({ ...form, contactName: e.target.value })}
                       placeholder={t.ph_contact} />
                   </div>
 
                   <div>
-                    <label className={labelCls}>{t.label_email}</label>
-                    <input required type="email" className={inputCls} value={form.email}
+                    <label htmlFor="f-form-email" className={labelCls}>{t.label_email}</label>
+                    <input id="f-form-email" required type="email" className={inputCls} value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       placeholder="info@yourcompany.com" />
                   </div>
 
                   <div>
-                    <label className={labelCls}>{t.label_phone}</label>
-                    <input className={inputCls} value={form.phone}
+                    <label htmlFor="f-form-phone" className={labelCls}>{t.label_phone}</label>
+                    <input id="f-form-phone" className={inputCls} value={form.phone}
                       onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       placeholder={t.ph_phone} />
                   </div>
 
                   <div>
-                    <label className={labelCls}>{t.label_link}</label>
-                    <input className={inputCls} value={form.website}
+                    <label htmlFor="f-form-website" className={labelCls}>{t.label_link}</label>
+                    <input id="f-form-website" className={inputCls} value={form.website}
                       onChange={(e) => setForm({ ...form, website: e.target.value })}
                       placeholder={t.ph_link} />
                     <p className="mt-1 text-xs text-slate-400">{t.hint_link}</p>

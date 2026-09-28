@@ -305,8 +305,8 @@ export default function Login() {
               <>
                 <form onSubmit={handleMagicSubmit}>
                   <div className="field">
-                    <label>{t.magic_email_label}</label>
-                    <input
+                    <label htmlFor="f-magicemail">{t.magic_email_label}</label>
+                    <input id="f-magicemail"
                       type="email"
                       value={magicEmail}
                       onChange={e => setMagicEmail(e.target.value)}
@@ -379,8 +379,8 @@ export default function Login() {
               <>
                 <form onSubmit={handleSubmit}>
                   <div className="field">
-                    <label>{t.email_label}</label>
-                    <input
+                    <label htmlFor="f-email">{t.email_label}</label>
+                    <input id="f-email"
                       type="email"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
@@ -390,8 +390,8 @@ export default function Login() {
                   </div>
 
                   <div className="field">
-                    <label>{t.ref_label}</label>
-                    <input
+                    <label htmlFor="f-ref">{t.ref_label}</label>
+                    <input id="f-ref"
                       type="text"
                       value={ref}
                       onChange={e => setRef(e.target.value.toUpperCase())}
@@ -502,8 +502,8 @@ export default function Login() {
                   setForgotSubmitting(false);
                 }}>
                   <div className="field" style={{ marginBottom: '12px' }}>
-                    <label>{t.forgot_email_label}</label>
-                    <input
+                    <label htmlFor="f-forgotemail">{t.forgot_email_label}</label>
+                    <input id="f-forgotemail"
                       type="email"
                       value={forgotEmail}
                       onChange={e => setForgotEmail(e.target.value)}

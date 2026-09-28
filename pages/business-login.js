@@ -53,12 +53,12 @@ export default function BusinessLogin() {
             </p>
 
             <div className="mb-4">
-              <label className="mb-1 block text-sm font-semibold text-navy">{th ? 'อีเมล' : 'Email'}</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} className={inputCls} autoComplete="email" />
+              <label htmlFor="f-email" className="mb-1 block text-sm font-semibold text-navy">{th ? 'อีเมล' : 'Email'}</label>
+              <input id="f-email" type="email" value={email} onChange={e => setEmail(e.target.value)} className={inputCls} autoComplete="email" />
             </div>
             <div className="mb-5">
-              <label className="mb-1 block text-sm font-semibold text-navy">{th ? 'รหัสผ่าน' : 'Password'}</label>
-              <input type="password" value={password} onChange={e => setPassword(e.target.value)} className={inputCls} autoComplete="current-password" />
+              <label htmlFor="f-password" className="mb-1 block text-sm font-semibold text-navy">{th ? 'รหัสผ่าน' : 'Password'}</label>
+              <input id="f-password" type="password" value={password} onChange={e => setPassword(e.target.value)} className={inputCls} autoComplete="current-password" />
             </div>
 
             {error && <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}

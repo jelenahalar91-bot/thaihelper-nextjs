@@ -600,18 +600,18 @@ export default function EmployerRegisterPage() {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
                 <div className="field">
-                  <label>{t.fname_label}</label>
-                  <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder={t.fname_ph} required />
+                  <label htmlFor="f-firstname">{t.fname_label}</label>
+                  <input id="f-firstname" type="text" value={firstName} onChange={e => setFirstName(e.target.value)} placeholder={t.fname_ph} required />
                 </div>
                 <div className="field">
-                  <label>{t.lname_label}</label>
-                  <input type="text" value={lastName} onChange={e => setLastName(e.target.value)} placeholder={t.lname_ph} required />
+                  <label htmlFor="f-lastname">{t.lname_label}</label>
+                  <input id="f-lastname" type="text" value={lastName} onChange={e => setLastName(e.target.value)} placeholder={t.lname_ph} required />
                 </div>
               </div>
 
               <div className="field">
-                <label>{t.email_label}</label>
-                <input type="email" value={email}
+                <label htmlFor="f-email">{t.email_label}</label>
+                <input id="f-email" type="email" value={email}
                   onChange={e => { setEmail(e.target.value); setEmailSuggestion(''); }}
                   onBlur={() => setEmailSuggestion(suggestEmail(email) || '')}
                   placeholder={t.email_ph} required />
@@ -638,8 +638,8 @@ export default function EmployerRegisterPage() {
               </div>
 
               <div className="field">
-                <label>{t.phone_label}</label>
-                <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder={t.phone_ph} />
+                <label htmlFor="f-phone">{t.phone_label}</label>
+                <input id="f-phone" type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder={t.phone_ph} />
               </div>
 
               {/* Photo upload */}
@@ -694,8 +694,8 @@ export default function EmployerRegisterPage() {
               <SectionTitle>{t.section_location}</SectionTitle>
 
               <div className="field">
-                <label>{t.city_label}</label>
-                <select value={city} onChange={e => setCity(e.target.value)} required>
+                <label htmlFor="f-city">{t.city_label}</label>
+                <select id="f-city" value={city} onChange={e => setCity(e.target.value)} required>
                   <option value="">{t.city_ph}</option>
                   {CITY_OPTIONS.map(c => (
                     <option key={c.slug} value={c.slug}>{c.name}</option>
@@ -704,8 +704,8 @@ export default function EmployerRegisterPage() {
               </div>
 
               <div className="field">
-                <label>{t.area_label}</label>
-                <input type="text" value={area} onChange={e => setArea(e.target.value)} placeholder={t.area_ph} />
+                <label htmlFor="f-area">{t.area_label}</label>
+                <input id="f-area" type="text" value={area} onChange={e => setArea(e.target.value)} placeholder={t.area_ph} />
               </div>
 
               {/* Section: Looking For (chip multi-select) */}
@@ -892,8 +892,8 @@ export default function EmployerRegisterPage() {
               </div>
 
               <div className="field">
-                <label>{t.age_pref_label}</label>
-                <select value={preferredAgeRange} onChange={e => setPreferredAgeRange(e.target.value)}>
+                <label htmlFor="f-preferredagerange">{t.age_pref_label}</label>
+                <select id="f-preferredagerange" value={preferredAgeRange} onChange={e => setPreferredAgeRange(e.target.value)}>
                   <option value="">{t.age_any}</option>
                   <option value="20-30">{t.age_20_30}</option>
                   <option value="30-40">{t.age_30_40}</option>
@@ -909,8 +909,8 @@ export default function EmployerRegisterPage() {
                   no category is selected yet. */}
               {lookingFor.length === 0 ? (
                 <div className="field">
-                  <label>{t.job_label}</label>
-                  <textarea
+                  <label htmlFor="f-jobdescription">{t.job_label}</label>
+                  <textarea id="f-jobdescription"
                     value={jobDescription}
                     onChange={e => setJobDescription(e.target.value)}
                     placeholder={t.job_ph}

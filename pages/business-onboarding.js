@@ -109,14 +109,14 @@ export default function BusinessOnboarding() {
               <h3 className="mb-3 text-base font-bold text-navy">{th ? 'รหัสผ่านสำหรับเข้าสู่ระบบ' : 'Login password'}</h3>
               <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
                 <div className="mb-4">
-                  <label className="mb-1 block text-sm font-semibold text-navy">{th ? 'รหัสผ่าน' : 'Password'}</label>
-                  <input type="password" autoComplete="new-password" value={password}
+                  <label htmlFor="f-password" className="mb-1 block text-sm font-semibold text-navy">{th ? 'รหัสผ่าน' : 'Password'}</label>
+                  <input id="f-password" type="password" autoComplete="new-password" value={password}
                     onChange={e => setPassword(e.target.value)}
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
                 </div>
                 <div className="mb-4">
-                  <label className="mb-1 block text-sm font-semibold text-navy">{th ? 'ยืนยันรหัสผ่าน' : 'Confirm password'}</label>
-                  <input type="password" autoComplete="new-password" value={confirm}
+                  <label htmlFor="f-confirm" className="mb-1 block text-sm font-semibold text-navy">{th ? 'ยืนยันรหัสผ่าน' : 'Confirm password'}</label>
+                  <input id="f-confirm" type="password" autoComplete="new-password" value={confirm}
                     onChange={e => setConfirm(e.target.value)}
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary" />
                 </div>

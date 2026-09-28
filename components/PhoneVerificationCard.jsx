@@ -299,8 +299,8 @@ export default function PhoneVerificationCard({
           {/* Country code + number input */}
           <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-3 mb-3">
             <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">{t.label_country}</label>
-              <select
+              <label htmlFor="f-countrycode" className="block text-xs font-semibold text-gray-700 mb-1">{t.label_country}</label>
+              <select id="f-countrycode"
                 value={countryCode}
                 onChange={(e) => setCountryCode(e.target.value)}
                 disabled={state === 'sending' || state === 'awaiting' || state === 'verifying'}
@@ -312,8 +312,8 @@ export default function PhoneVerificationCard({
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">{t.label_number}</label>
-              <input
+              <label htmlFor="f-number" className="block text-xs font-semibold text-gray-700 mb-1">{t.label_number}</label>
+              <input id="f-number"
                 type="tel"
                 value={number}
                 onChange={(e) => setNumber(e.target.value)}

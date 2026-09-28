@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useId } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
@@ -1577,12 +1577,12 @@ export default function Profile() {
                   <div style={{ background: '#f9fafb', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
                     <div style={{ display: 'grid', gap: '10px' }}>
                       <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_name} *</label>
-                        <input type="text" value={refForm.reference_name} onChange={e => setRefForm(prev => ({ ...prev, reference_name: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px' }} />
+                        <label htmlFor="f-refform-reference-name" style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_name} *</label>
+                        <input id="f-refform-reference-name" type="text" value={refForm.reference_name} onChange={e => setRefForm(prev => ({ ...prev, reference_name: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px' }} />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_relationship}</label>
-                        <select value={refForm.relationship} onChange={e => setRefForm(prev => ({ ...prev, relationship: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px', background: 'white' }}>
+                        <label htmlFor="f-refform-relationship" style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_relationship}</label>
+                        <select id="f-refform-relationship" value={refForm.relationship} onChange={e => setRefForm(prev => ({ ...prev, relationship: e.target.value }))} style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px', background: 'white' }}>
                           <option value="employer">{t.ref_rel_employer}</option>
                           <option value="colleague">{t.ref_rel_colleague}</option>
                           <option value="trainer">{t.ref_rel_trainer}</option>
@@ -1590,8 +1590,8 @@ export default function Profile() {
                         </select>
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_contact}</label>
-                        <input type="text" value={refForm.contact_info} onChange={e => setRefForm(prev => ({ ...prev, contact_info: e.target.value }))} placeholder="Email or phone" style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px' }} />
+                        <label htmlFor="f-refform-contact-info" style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '4px' }}>{t.ref_contact}</label>
+                        <input id="f-refform-contact-info" type="text" value={refForm.contact_info} onChange={e => setRefForm(prev => ({ ...prev, contact_info: e.target.value }))} placeholder="Email or phone" style={{ width: '100%', padding: '8px 12px', borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '15px' }} />
                       </div>
                       <div>
                         <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#888', marginBottom: '8px' }}>{t.ref_text}</label>
@@ -2059,10 +2059,10 @@ export default function Profile() {
                     />
                     {/* Nationality */}
                     <div>
-                      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      <label htmlFor="f-o-value" style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                         {t.label_nationality}
                       </label>
-                      <select
+                      <select id="f-o-value"
                         value={editData.nationality ?? ''}
                         onChange={e => handleFieldChange('nationality', e.target.value)}
                         style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit', background: '#fff' }}
@@ -2085,10 +2085,10 @@ export default function Profile() {
 
                     {/* Work permit status (optional) */}
                     <div>
-                      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      <label htmlFor="f-o-value-2" style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                         {t.label_wp} <span style={{ color: '#bbb', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>{t.wp_optional}</span>
                       </label>
-                      <select
+                      <select id="f-o-value-2"
                         value={editData.wpStatus ?? ''}
                         onChange={e => handleFieldChange('wpStatus', e.target.value)}
                         style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit', background: '#fff' }}
@@ -2109,8 +2109,8 @@ export default function Profile() {
                     <EditField label={t.label_education} value={editData.education} onChange={v => handleFieldChange('education', v)} placeholder="e.g. Bachelor's Degree..." />
                     <EditField label={t.label_certificates} value={editData.certificates} onChange={v => handleFieldChange('certificates', v)} placeholder="e.g. First Aid, Childcare..." />
                     <div>
-                      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t.label_bio}</label>
-                      <textarea value={editData.bio} onChange={e => handleFieldChange('bio', e.target.value)} maxLength={500} rows={5} style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', resize: 'vertical', fontFamily: 'inherit', lineHeight: 1.6 }} />
+                      <label htmlFor="f-editdata-bio" style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t.label_bio}</label>
+                      <textarea id="f-editdata-bio" value={editData.bio} onChange={e => handleFieldChange('bio', e.target.value)} maxLength={500} rows={5} style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', resize: 'vertical', fontFamily: 'inherit', lineHeight: 1.6 }} />
                       <div style={{ fontSize: '13px', color: '#bbb', textAlign: 'right', marginTop: '4px' }}>{(editData.bio || '').length} / 500 {t.chars}</div>
                     </div>
                   </div>
@@ -2567,8 +2567,8 @@ function ExtraCitiesChips({ label, hint, maxHint, primarySlug, value, onChange }
 function RateSelect({ label, lang, value, onChange }) {
   return (
     <div>
-      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
-      <select
+      <label htmlFor="f-r-value" style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
+      <select id="f-r-value"
         value={value || ''}
         onChange={e => onChange(e.target.value)}
         style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit', background: 'white' }}
@@ -2593,10 +2593,16 @@ function ProfileField({ label, value, t, multiline, isMobile }) {
 }
 
 function EditField({ label, value, onChange, placeholder, type = 'text', max, min }) {
+  // useId gives every instance its own id, so the label points at THIS
+  // field and not at the first one rendered — nine of these on the page.
+  // Without it a screen reader announces the input with no name, and
+  // clicking the label does nothing.
+  const id = useId();
   return (
     <div>
-      <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
+      <label htmlFor={id} style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{label}</label>
       <input
+        id={id}
         type={type}
         value={value || ''}
         onChange={e => onChange(e.target.value)}
