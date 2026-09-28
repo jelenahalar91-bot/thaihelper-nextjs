@@ -9,25 +9,9 @@ import { useRouter } from 'next/router';
 // ever needed once the helper picks a file — keep it out of the SSR bundle.
 const PhotoCropModal = dynamic(() => import('@/components/PhotoCropModal'), { ssr: false });
 import { fetchProfile as fetchProfileApi, updateProfile as updateProfileApi } from '@/lib/api/helpers';
-import { CATEGORIES, SKILLS_BY_CATEGORY, RATES, LANGUAGES } from '@/lib/constants/categories';
+import { CATEGORIES, SKILLS_BY_CATEGORY, RATES, LANGUAGES, formatCategoryList as formatCategory } from '@/lib/constants/categories';
 import { formatCity, formatAdditionalCities, toCitySlug } from '@/lib/constants/cities';
 import { AVAILABILITY_LABELS, AVAILABILITY_VALUES } from '@/components/AvailabilityPill';
-
-// Render a category slug (or comma-separated list of slugs) as readable
-// labels in the current UI language, e.g. "nanny, housekeeper" →
-// "Nanny & Babysitter · Housekeeper & Cleaner".
-function formatCategory(slugOrCsv, lang) {
-  if (!slugOrCsv) return '';
-  return String(slugOrCsv)
-    .split(/[,]+/)
-    .map(s => s.trim())
-    .filter(Boolean)
-    .map(slug => {
-      const cat = CATEGORIES.find(c => c.value === slug);
-      return cat ? (cat[lang] || cat.en) : slug;
-    })
-    .join(' · ');
-}
 
 function formatLanguages(csv) {
   if (!csv) return '';
@@ -69,6 +53,7 @@ import { fetchReferences, addReference, updateReference, deleteReference } from 
 import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConversationAsHelper, deleteConversation } from '@/lib/api/messages';
 import { fetchSettings } from '@/lib/api/settings';
 import { fetchEmployers } from '@/lib/api/employers';
+import { matchingEmployersFor } from '@/lib/matching';
 import { CITIES, CITY_OPTIONS, MAX_ADDITIONAL_CITIES, parseAdditionalCities } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS, WP_PUBLIC_BADGES, formatWpStatus } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS, formatNationality } from '@/lib/constants/nationalities';
@@ -78,6 +63,7 @@ import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
 import PushNotificationToggle from '@/components/PushNotificationToggle';
+import MatchPanel from '@/components/MatchPanel';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
 import AndroidAppBanner from '@/components/AndroidAppBanner';
 import PhoneVerificationCard from '@/components/PhoneVerificationCard';
@@ -271,6 +257,14 @@ const T = {
     msg_quick_reply_3: 'Hi! Thank you for your post. I have experience working with families in Thailand and I\'d love to hear more about you and the work you need.',
     // Browse employers
     tab_browse: 'Browse',
+    match_panel_title: 'Families looking for you',
+    match_panel_sub: 'They need the work you do, in a city you work in. You write the first message.',
+    match_panel_hint: 'Jobs are never added to your profile — you reach a family by messaging them.',
+    match_panel_empty: 'No family matches your profile right now',
+    match_panel_empty_sub: 'New families register every day. We email you as soon as one is looking for what you do.',
+    match_panel_see_all: 'See all {n}',
+    match_panel_looking: 'Looking for',
+    match_filter_mine: 'Only families that match me',
     browse_title: 'Browse Employers',
     browse_results: 'employers found',
     browse_no_results: 'No employers found',
@@ -477,6 +471,14 @@ const T = {
     msg_quick_reply_3: 'สวัสดีค่ะ ขอบคุณสำหรับโพสต์ของคุณ ฉันมีประสบการณ์ทำงานกับครอบครัวในประเทศไทยและอยากทราบเพิ่มเติมเกี่ยวกับคุณและงานที่ต้องการค่ะ',
     // Browse employers
     tab_browse: 'ค้นหา',
+    match_panel_title: 'ครอบครัวที่กำลังมองหาคุณ',
+    match_panel_sub: 'พวกเขาต้องการงานที่คุณทำ ในจังหวัดที่คุณทำงาน คุณเป็นคนส่งข้อความก่อน',
+    match_panel_hint: 'งานจะไม่ถูกเพิ่มเข้าไปในโปรไฟล์ของคุณ — คุณติดต่อครอบครัวได้ด้วยการส่งข้อความ',
+    match_panel_empty: 'ตอนนี้ยังไม่มีครอบครัวที่ตรงกับโปรไฟล์ของคุณ',
+    match_panel_empty_sub: 'มีครอบครัวใหม่สมัครทุกวัน เราจะส่งอีเมลแจ้งคุณทันทีที่มีครอบครัวต้องการงานที่คุณทำ',
+    match_panel_see_all: 'ดูทั้งหมด {n} ครอบครัว',
+    match_panel_looking: 'กำลังหา',
+    match_filter_mine: 'เฉพาะครอบครัวที่ตรงกับฉัน',
     browse_title: 'ค้นหานายจ้าง',
     browse_results: 'นายจ้างที่พบ',
     browse_no_results: 'ไม่พบนายจ้าง',
@@ -540,6 +542,10 @@ export default function Profile() {
   const [empFilterCity, setEmpFilterCity] = useState('');
   const [empFilterLooking, setEmpFilterLooking] = useState('');
   const [empFilterArea, setEmpFilterArea] = useState('');
+  // Show only families whose city and service overlap this helper's profile.
+  // Off by default so the tab still means "browse everyone"; the dashboard
+  // panel and the match emails switch it on.
+  const [empFilterMatchOnly, setEmpFilterMatchOnly] = useState(false);
   const [empMobileFiltersOpen, setEmpMobileFiltersOpen] = useState(false);
   const [startingEmpConv, setStartingEmpConv] = useState(null);
   // Messaging
@@ -1021,6 +1027,42 @@ export default function Profile() {
     return () => clearInterval(id);
   }, [selectedConv]);
 
+  // Deep links from the match emails and LINE pushes:
+  //   /profile?message=EMP-XXXXXX → open the chat with that family straight
+  //     away, so she lands in the composer instead of on her own dashboard
+  //     wondering where to click. Waits for the employer list so the composer
+  //     header can show a real name.
+  //   /profile?matches=1 → open the browse tab narrowed to the families whose
+  //     city and service match her profile.
+  // The parameter is stripped afterwards so a reload is not a second attempt.
+  //
+  // This has to live above the early returns for the logged-out and loading
+  // states: a hook below them exists on some renders and not others, and
+  // React refuses to render a component whose hook count changes.
+  const deepLinkHandled = useRef(false);
+  useEffect(() => {
+    if (deepLinkHandled.current) return;
+    if (!router.isReady || !profile || employersLoading) return;
+
+    const ref = router.query.message;
+    const wantsMatches = router.query.matches;
+
+    if (ref && typeof ref === 'string') {
+      deepLinkHandled.current = true;
+      router.replace('/profile', undefined, { shallow: true });
+      handleMessageEmployer(ref);
+      return;
+    }
+
+    if (wantsMatches) {
+      deepLinkHandled.current = true;
+      router.replace('/profile', undefined, { shallow: true });
+      setEmpFilterMatchOnly(true);
+      setActiveTab('browse');
+    }
+    // handleMessageEmployer is a stable function declaration in this component.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady, router.query.message, router.query.matches, profile, employersLoading]);
 
   // Check profile completeness
   // Counts core profile fields + at least one uploaded document + at least one
@@ -1083,8 +1125,20 @@ export default function Profile() {
   const completeness = getCompleteness(p);
   const totalUnread = conversations.reduce((sum, c) => sum + (c.unread_count || 0), 0);
 
+  // ─── Families looking for someone like her ──────────────────────────────
+  // The same rule the match emails use (lib/matching.js), applied to the
+  // browse list she already has loaded. A helper who gets told "a family in
+  // Bangkok is looking for a housekeeper" should be able to find that family
+  // without rebuilding the filter from memory.
+  const matchingEmployers = matchingEmployersFor(
+    { city: p.city, additionalCities: p.additionalCities, category: p.category },
+    employers
+  );
+  const matchRefs = new Set(matchingEmployers.map(e => e.ref).filter(Boolean));
+
   // ─── Browse employers: filtered list ────────────────────────────────────
   const filteredEmployers = employers.filter(e => {
+    if (empFilterMatchOnly && !(e.ref && matchRefs.has(e.ref))) return false;
     // Slug comparison — see employers-browse.js for why both spellings exist.
     if (empFilterCity && toCitySlug(e.city) !== toCitySlug(empFilterCity)) return false;
     if (empFilterLooking && !e.lookingFor?.toLowerCase().includes(empFilterLooking.toLowerCase())) return false;
@@ -1093,12 +1147,24 @@ export default function Profile() {
   });
 
   const empActiveFilterCount =
-    (empFilterCity ? 1 : 0) + (empFilterLooking ? 1 : 0) + (empFilterArea ? 1 : 0);
+    (empFilterMatchOnly ? 1 : 0) + (empFilterCity ? 1 : 0) +
+    (empFilterLooking ? 1 : 0) + (empFilterArea ? 1 : 0);
 
   const resetEmpFilters = () => {
+    setEmpFilterMatchOnly(false);
     setEmpFilterCity('');
     setEmpFilterLooking('');
     setEmpFilterArea('');
+  };
+
+  // Open the browse tab already narrowed to her matches.
+  const showMyMatches = () => {
+    setEmpFilterMatchOnly(true);
+    setEmpFilterCity('');
+    setEmpFilterLooking('');
+    setEmpFilterArea('');
+    setActiveTab('browse');
+    if (editing) cancelEditing();
   };
 
   const arrangementLabel = (val) => {
@@ -1115,25 +1181,6 @@ export default function Profile() {
       .filter(Boolean)
       .map(s => s.trim())
   )].sort();
-
-  // Deep link from the match email: /profile?message=EMP-XXXXXX opens the
-  // conversation with that family straight away, so the helper lands in the
-  // composer instead of on their own dashboard wondering where to click.
-  // Waits for the employer list so the composer header can show a real name,
-  // and strips the parameter afterwards so a reload is not a second attempt.
-  const deepLinkHandled = useRef(false);
-  useEffect(() => {
-    if (deepLinkHandled.current) return;
-    if (!router.isReady || !profile || employersLoading) return;
-    const ref = router.query.message;
-    if (!ref || typeof ref !== 'string') return;
-
-    deepLinkHandled.current = true;
-    router.replace('/profile', undefined, { shallow: true });
-    handleMessageEmployer(ref);
-    // handleMessageEmployer is a stable function declaration in this component.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady, router.query.message, profile, employersLoading]);
 
   async function handleMessageEmployer(employerRef) {
     setStartingEmpConv(employerRef);
@@ -1509,6 +1556,20 @@ export default function Profile() {
                 />
               </div>
 
+              {/* Families looking for her — the answer to "I don't see any
+                  work in my profile". The match emails name a family; this
+                  is where she finds all of them again. */}
+              <MatchPanel
+                t={t}
+                lang={lang}
+                loading={employersLoading}
+                matches={matchingEmployers}
+                onMessage={handleMessageEmployer}
+                startingEmpConv={startingEmpConv}
+                onSeeAll={showMyMatches}
+                isMobile={isMobile}
+              />
+
               {/* Profile completeness */}
               <div style={{ background: 'white', borderRadius: '16px', padding: isMobile ? '20px' : '24px', marginBottom: '16px', border: '1px solid #e5e7eb' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
@@ -1773,6 +1834,8 @@ export default function Profile() {
               loading={employersLoading}
               employers={filteredEmployers}
               totalCount={filteredEmployers.length}
+              empFilterMatchOnly={empFilterMatchOnly} setEmpFilterMatchOnly={setEmpFilterMatchOnly}
+              matchCount={matchingEmployers.length}
               empFilterCity={empFilterCity} setEmpFilterCity={setEmpFilterCity}
               empFilterLooking={empFilterLooking} setEmpFilterLooking={setEmpFilterLooking}
               empFilterArea={empFilterArea} setEmpFilterArea={setEmpFilterArea}
@@ -2642,6 +2705,7 @@ function IconCompass() {
 // ─── Browse Employers Tab ──────────────────────────────────────────────────
 function BrowseEmployersTab({
   t, lang, loading, employers, totalCount,
+  empFilterMatchOnly, setEmpFilterMatchOnly, matchCount,
   empFilterCity, setEmpFilterCity,
   empFilterLooking, setEmpFilterLooking,
   empFilterArea, setEmpFilterArea,
@@ -2654,6 +2718,8 @@ function BrowseEmployersTab({
     <EmployerFilterSidebar
       t={t}
       lang={lang}
+      empFilterMatchOnly={empFilterMatchOnly} setEmpFilterMatchOnly={setEmpFilterMatchOnly}
+      matchCount={matchCount}
       empFilterCity={empFilterCity} setEmpFilterCity={setEmpFilterCity}
       empFilterLooking={empFilterLooking} setEmpFilterLooking={setEmpFilterLooking}
       empFilterArea={empFilterArea} setEmpFilterArea={setEmpFilterArea}
@@ -2942,6 +3008,7 @@ function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, la
 
 function EmployerFilterSidebar({
   t, lang = 'en',
+  empFilterMatchOnly, setEmpFilterMatchOnly, matchCount = 0,
   empFilterCity, setEmpFilterCity,
   empFilterLooking, setEmpFilterLooking,
   empFilterArea, setEmpFilterArea,
@@ -3002,6 +3069,30 @@ function EmployerFilterSidebar({
           </button>
         )}
       </div>
+
+      {/* Matches first: the families whose city and service overlap her
+          profile — the same set the match emails write about. */}
+      <label style={{
+        display: 'flex', alignItems: 'center', gap: '10px',
+        padding: '10px 12px', marginBottom: '16px',
+        borderRadius: '10px', cursor: 'pointer',
+        background: empFilterMatchOnly ? '#e6f5f3' : '#f8faf9',
+        border: `1px solid ${empFilterMatchOnly ? '#006a62' : '#eef2f3'}`,
+      }}>
+        <input
+          type="checkbox"
+          checked={!!empFilterMatchOnly}
+          onChange={e => setEmpFilterMatchOnly(e.target.checked)}
+          style={{ width: '16px', height: '16px', accentColor: '#006a62', cursor: 'pointer' }}
+        />
+        <span style={{
+          fontSize: '13.5px', fontWeight: 700,
+          color: empFilterMatchOnly ? '#006a62' : '#1a1a1a',
+        }}>
+          {t.match_filter_mine}
+          {matchCount > 0 && ` (${matchCount})`}
+        </span>
+      </label>
 
       {/* City */}
       <EmpFilterGroup label={t.browse_filter_city_label}>

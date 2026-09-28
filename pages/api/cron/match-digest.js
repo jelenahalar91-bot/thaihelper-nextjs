@@ -265,6 +265,7 @@ export default async function handler(req, res) {
             recipientName: hlp.first_name || '',
             recipientEmail: hlp.email,
             employers: matches.map(({ employer, overlap }) => ({
+              ref: employer.employer_ref || null,
               firstName: employer.first_name || 'A new family',
               lookingForCategory: overlap.category,
               city: overlap.city,

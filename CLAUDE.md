@@ -150,3 +150,13 @@ Before first run, execute every `scripts/supabase-*.sql` in the Supabase SQL edi
 6. **Family browses helpers:** `/helpers` (SSR + filters) → click profile → `HelperProfileModal` (loads references + certificates from employer-only endpoints)
 7. **Messaging:** family opens helper modal → "Message" → `/api/conversations` + `/api/messages` (paywall checks for free-tier employer)
 8. **Helper updates availability:** dashboard toggle → `/api/profile` (optimistic update + rollback)
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
