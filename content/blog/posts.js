@@ -3165,6 +3165,13 @@ export const blogPosts = [
     title: 'Private Chef Bangkok Cost 2026: Real Rates from 60+ Verified Chefs',
     description:
       'What a private chef actually costs in Bangkok in 2026, based on live rates from 60+ verified chefs on ThaiHelper. Hourly and monthly ranges, English-speaking share, top Sukhumvit neighborhoods, hire-tips.',
+    // 2026-09-28: after 19 days without ranking on target queries, Google
+    // kept ranking the older /blog/private-chef-thailand-cost-guide (16.04.)
+    // instead — up from #3 to #2 on "private chef bangkok cost" after our
+    // 21.09. internal-linking push. Consolidate signals: canonical points
+    // at the established URL. This post stays live for direct traffic but
+    // stops competing for the same search intent.
+    canonicalUrl: 'https://thaihelper.app/blog/private-chef-thailand-cost-guide',
     category: 'families',
     date: '2026-09-09',
     updated: '2026-09-09',
@@ -3272,6 +3279,11 @@ export const blogPosts = [
     title: 'Housekeeper Cost Bangkok 2026: Real Rates from 136+ Verified Housekeepers',
     description:
       'What a housekeeper or maid actually costs in Bangkok in 2026, based on 136+ verified housekeepers on ThaiHelper. Hourly, monthly, and live-in rate ranges. English-speaking share, top neighborhoods, hire-tips.',
+    // 2026-09-28: after 19 days no Top-10 traction. The Housekeeper Guide
+    // /guide/hire-a-housekeeper-in-thailand keeps ranking (#6 on
+    // "housekeeper cost bangkok", plus #4/#6/#8 on adjacent long-tails).
+    // Consolidate signals to the guide. Post stays live for direct traffic.
+    canonicalUrl: 'https://thaihelper.app/guide/hire-a-housekeeper-in-thailand',
     category: 'families',
     date: '2026-09-09',
     updated: '2026-09-09',
@@ -3380,6 +3392,10 @@ export const blogPosts = [
     title: 'Tutor Bangkok 2026: Real Rates from 99+ Verified Tutors (97 % Speak English)',
     description:
       'What a private tutor in Bangkok actually costs in 2026, from 99+ verified tutors on ThaiHelper. Hourly ranges, English-speaker share (97 %!), experience distribution, top neighborhoods, hire-tips.',
+    // 2026-09-28: after 19 days no Top-10 traction. The Tutor Guide is the
+    // established topic anchor for tutor-in-Thailand search intent.
+    // Consolidate signals to the guide.
+    canonicalUrl: 'https://thaihelper.app/guide/hire-a-tutor-in-thailand',
     category: 'families',
     date: '2026-09-09',
     updated: '2026-09-09',
