@@ -405,7 +405,9 @@ export default function EmployerDashboard() {
     (async () => {
       const profileRes = await fetchEmployerProfile();
       if (!profileRes || !profileRes.success) {
-        router.replace('/login');
+        // Carry the destination so a rating link from email survives the
+        // detour through /login instead of dumping them on the dashboard.
+        router.replace(`/login?next=${encodeURIComponent(router.asPath)}`);
         return;
       }
       if (cancelled) return;

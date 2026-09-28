@@ -162,6 +162,22 @@ export default function Login() {
     else if (err === 'account_suspended') setUrlError('error_suspended');
   }, [router.isReady, router.query]);
 
+  // Where to go after signing in. A match email links to
+  // /profile?message=EMP-XXX; if that visitor is signed out they land on the
+  // lock screen, whose login link carries the destination here as ?next=.
+  //
+  // Only same-site paths are honoured. A value starting with "//" is a URL to
+  // another host ("//evil.example"), so refusing anything but a single leading
+  // slash is what stops this from becoming an open redirect — a login page
+  // that forwards to an attacker's copy of itself is a classic phishing setup.
+  const nextPath = (() => {
+    const raw = router.query.next;
+    const v = Array.isArray(raw) ? raw[0] : raw;
+    if (typeof v !== 'string') return null;
+    if (!v.startsWith('/') || v.startsWith('//')) return null;
+    return v;
+  })();
+
   // If already logged in (helper OR employer), send straight to the right dashboard.
   useEffect(() => {
     let cancelled = false;
@@ -170,7 +186,7 @@ export default function Login() {
       try {
         const data = await fetchProfileApi();
         if (!cancelled && data && data.success) {
-          router.replace('/profile');
+          router.replace(nextPath || '/profile');
           return;
         }
       } catch { /* not a helper, try employer */ }
@@ -179,12 +195,12 @@ export default function Login() {
       try {
         const data = await fetchEmployerProfile();
         if (!cancelled && data && data.success) {
-          router.replace('/employer-dashboard');
+          router.replace(nextPath || '/employer-dashboard');
         }
       } catch { /* not logged in — stay here */ }
     })();
     return () => { cancelled = true; };
-  }, [router]);
+  }, [router, nextPath]);
 
   const t = T[lang] || T.en;
 
@@ -235,7 +251,7 @@ export default function Login() {
         return;
       }
 
-      router.replace(isEmployer ? '/employer-dashboard' : '/profile');
+      router.replace(nextPath || (isEmployer ? '/employer-dashboard' : '/profile'));
     } catch {
       setError(t.error_generic);
     } finally {

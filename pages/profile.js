@@ -1041,7 +1041,7 @@ export default function Profile() {
             <div className="card" style={{ padding: '40px 32px', textAlign: 'center' }}>
               <div style={{ marginBottom: '16px', color: '#006a62', display: 'flex', justifyContent: 'center' }}><IconLock /></div>
               <h1 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '8px' }}>{t.login_required}</h1>
-              <Link href="/login" className="btn-next" style={{ display: 'inline-block', marginTop: '16px', textDecoration: 'none' }}>{t.login_btn}</Link>
+              <Link href={`/login?next=${encodeURIComponent(router.asPath)}`} className="btn-next" style={{ display: 'inline-block', marginTop: '16px', textDecoration: 'none' }}>{t.login_btn}</Link>
               <div style={{ marginTop: '14px' }}>
                 <Link href="/" style={{ fontSize: '14px', color: '#006a62', textDecoration: 'none', fontWeight: 600 }}>{t.back_home}</Link>
               </div>

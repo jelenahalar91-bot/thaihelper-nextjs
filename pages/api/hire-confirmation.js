@@ -92,6 +92,7 @@ export default async function handler(req, res) {
           employerName: employer.first_name,
           employerEmail: employer.email,
           helperName: helper?.first_name,
+          helperRef: helper_ref,
           unsubscribeUrl: buildUnsubscribeUrl(token),
         });
         await supabase
