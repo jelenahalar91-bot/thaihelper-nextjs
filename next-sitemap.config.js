@@ -124,6 +124,13 @@ module.exports = {
     }
     const lastmod = new Date().toISOString();
     const alternateRefs = config.alternateRefs;
+    // /ru is written in Russian whichever locale serves it, so declaring an
+    // English and a Thai alternate for it would be a claim about pages that
+    // do not exist. It carries no alternateRefs, and the page itself emits no
+    // hreflang either (SEOHead suppresses them when canonicalOverride is set).
+    if (path === '/ru') {
+      return { loc: path, changefreq: 'weekly', priority: 0.7, lastmod };
+    }
     // Homepage = highest priority
     if (path === '/') {
       return { loc: path, changefreq: 'daily', priority: 1.0, lastmod, alternateRefs };

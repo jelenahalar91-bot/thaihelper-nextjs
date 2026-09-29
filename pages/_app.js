@@ -15,8 +15,13 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: '--font-headline',
 });
 
+// 'cyrillic' is here for /ru. Browsers fetch a subset only when the page
+// actually renders glyphs from its unicode-range, so the Latin and Thai
+// pages download exactly what they did before — the Cyrillic file is only
+// requested by the Russian page. Plus Jakarta Sans (--font-headline) has no
+// Cyrillic at all, which is why /ru sets its headings in Manrope instead.
 const manrope = Manrope({
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   weight: ['400', '600', '700'],
   display: 'swap',
   variable: '--font-body',
