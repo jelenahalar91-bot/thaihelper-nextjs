@@ -10,7 +10,7 @@
 // being listed publicly. Strips sensitive info (email, phone).
 // Shape mirrors /api/helpers for consistency.
 
-import { getServiceSupabase } from '../../lib/supabase';
+import { getServiceSupabase, selectAll } from '../../lib/supabase';
 
 function toPublicCard(row) {
   return {
@@ -53,20 +53,26 @@ export default async function handler(req, res) {
   try {
     const supabase = getServiceSupabase();
 
-    const { data: accounts, error: accErr } = await supabase
-      .from('employer_accounts')
-      .select(
-        'employer_ref, first_name, last_name, city, area, ' +
-        'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
-        'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
-        'job_description, job_description_en, job_details, photo_url, search_status, created_at, updated_at, ' +
-        // Same trust signals helpers already publish on their cards
-        // (pages/api/helpers.js). A helper deciding whether to answer a
-        // stranger needs these more than a family does: every scam this
-        // platform has had ran family -> helper.
-        'last_login_at, phone_verified_at, line_linked_at'
-      )
-      .order('created_at', { ascending: false });
+    // Paged. Only ~190 families today, but /api/helpers hit the silent
+    // 1000-row ceiling the week it crossed it, and this list is built the
+    // same way. See selectAll() in lib/supabase.js.
+    const { data: accounts, error: accErr } = await selectAll(() =>
+      supabase
+        .from('employer_accounts')
+        .select(
+          'employer_ref, first_name, last_name, city, area, ' +
+          'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
+          'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
+          'job_description, job_description_en, job_details, photo_url, search_status, created_at, updated_at, ' +
+          // Same trust signals helpers already publish on their cards
+          // (pages/api/helpers.js). A helper deciding whether to answer a
+          // stranger needs these more than a family does: every scam this
+          // platform has had ran family -> helper.
+          'last_login_at, phone_verified_at, line_linked_at'
+        )
+        .order('created_at', { ascending: false })
+        .order('id', { ascending: false })
+    );
 
     if (accErr) {
       console.error('Employer accounts list error:', accErr);

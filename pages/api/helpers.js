@@ -4,7 +4,7 @@
 // Contact info is gated behind the paywall and must be fetched separately via
 // GET /api/helpers/[ref]/contact (which checks employer access).
 
-import { getServiceSupabase } from '../../lib/supabase';
+import { getServiceSupabase, selectAll } from '../../lib/supabase';
 import { getDisplayAge } from '../../lib/age';
 import { maskWpStatusForPublic } from '../../lib/constants/work-permit';
 import { publicRating } from '../../lib/rating-visibility';
@@ -72,19 +72,26 @@ export default async function handler(req, res) {
 
   try {
     const supabase = getServiceSupabase();
-    const { data, error } = await supabase
-      .from('helper_profiles')
-      .select(
-        'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
-        'age, date_of_birth, category, skills, city, area, area_en, additional_cities, ' +
-        'experience, languages, rate, education, education_en, certificates, bio, bio_en, ' +
-        'photo_url, created_at, last_login_at, rating_avg, rating_count, status, ' +
-        'availability_status, work_permit_status, nationality, ' +
-        'phone_verified_at, line_linked_at'
-      )
-      .or('status.eq.active,status.is.null')
-      .eq('email_verified', true)
-      .order('created_at', { ascending: false });
+    // Paged: the directory passed 1000 helpers, which is exactly where an
+    // unpaginated .select() starts silently dropping the oldest profiles.
+    // `id` is the tiebreaker that keeps page boundaries stable when two
+    // helpers share a created_at. See selectAll() in lib/supabase.js.
+    const { data, error } = await selectAll(() =>
+      supabase
+        .from('helper_profiles')
+        .select(
+          'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
+          'age, date_of_birth, category, skills, city, area, area_en, additional_cities, ' +
+          'experience, languages, rate, education, education_en, certificates, bio, bio_en, ' +
+          'photo_url, created_at, last_login_at, rating_avg, rating_count, status, ' +
+          'availability_status, work_permit_status, nationality, ' +
+          'phone_verified_at, line_linked_at'
+        )
+        .or('status.eq.active,status.is.null')
+        .eq('email_verified', true)
+        .order('created_at', { ascending: false })
+        .order('id', { ascending: false })
+    );
 
     if (error) {
       console.error('Helpers list error:', error);
@@ -97,10 +104,34 @@ export default async function handler(req, res) {
     const certSet = new Set();
     const refCounts = new Map();
     try {
-      const [{ data: certDocs }, { data: refs }] = await Promise.all([
-        supabase.from('documents').select('helper_ref').eq('file_type', 'certificate'),
-        supabase.from('helper_references').select('helper_ref'),
+      // Paged for the same reason as the profile query above. These two are
+      // still well short of 1000 rows, but they grow with every upload — and
+      // truncation here is invisible: the page renders fine, just with trust
+      // badges quietly missing from the oldest helpers.
+      const [
+        { data: certDocs, error: certErr },
+        { data: refs, error: refErr },
+      ] = await Promise.all([
+        selectAll(() =>
+          supabase
+            .from('documents')
+            .select('helper_ref')
+            .eq('file_type', 'certificate')
+            .order('id', { ascending: true })
+        ),
+        selectAll(() =>
+          supabase
+            .from('helper_references')
+            .select('helper_ref')
+            .order('id', { ascending: true })
+        ),
       ]);
+      if (certErr || refErr) {
+        console.warn(
+          'Helpers list: trust-signal fetch failed:',
+          (certErr || refErr).message
+        );
+      }
       for (const d of certDocs || []) certSet.add(d.helper_ref);
       for (const r of refs || []) refCounts.set(r.helper_ref, (refCounts.get(r.helper_ref) || 0) + 1);
     } catch (trustErr) {
