@@ -67,6 +67,7 @@ import MatchPanel from '@/components/MatchPanel';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
 import AndroidAppBanner from '@/components/AndroidAppBanner';
 import PhoneVerificationCard from '@/components/PhoneVerificationCard';
+import { readableText } from '@/lib/recent-helpers-display';
 
 const T = {
   en: {
@@ -2893,7 +2894,8 @@ function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, la
   // translation (falls back to the original when it's already English);
   // Thai viewers always see the original.
   const jobEntries = jobDetailEntries(e.jobDetails, lang);
-  const jobDesc = lang === 'th' ? e.jobDescription : (e.jobDescriptionEn || e.jobDescription);
+  // See readableText() — a Russian job post is unreadable to a Thai helper too.
+  const jobDesc = readableText(e.jobDescription, e.jobDescriptionEn, lang);
   return (
     <div style={{
       background: 'white', borderRadius: '16px',

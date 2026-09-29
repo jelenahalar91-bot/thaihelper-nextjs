@@ -7,6 +7,7 @@ import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { getAllHirePages, getHirePageBySlug } from '@/lib/seo/hire-pages';
 import { CATEGORIES, CATEGORIES_DATA } from '@/lib/constants/categories';
 import { CITIES_DATA } from '@/lib/constants/cities';
+import { readableText } from '@/lib/recent-helpers-display';
 
 // ─── Static generation ──────────────────────────────────────────────────────
 
@@ -440,7 +441,8 @@ export default function HirePage({ page, matchingHelpers = [] }) {
                     </div>
                   </div>
                   {(() => {
-                    const bio = lang === 'th' ? h.bio : (h.bioEn || h.bio);
+                    // See readableText() — Thai readers get the original only when it IS Thai.
+                    const bio = readableText(h.bio, h.bioEn, lang);
                     return bio && <p className="text-sm text-gray-600 mb-2">{bio}{bio.length >= 120 ? '...' : ''}</p>;
                   })()}
                   <div className="flex flex-wrap gap-1.5 text-xs text-gray-500">

@@ -12,6 +12,7 @@ import { CATEGORIES, SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugList, jobDetailEntries } from '@/lib/constants/employer';
 import { relativeTime } from '@/lib/recent-helpers-display';
 import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '@/lib/utils';
+import { readableText } from '@/lib/recent-helpers-display';
 
 // Render an employer's "looking for" CSV (e.g. "nanny, housekeeper") as
 // readable labels in the current UI language.
@@ -600,7 +601,8 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang, viewerIsHelpe
   // get the stored translation (falls back to the original when it's
   // already English); Thai viewers always see the original.
   const jobEntries = jobDetailEntries(e.jobDetails, lang);
-  const jobDesc = lang === 'th' ? e.jobDescription : (e.jobDescriptionEn || e.jobDescription);
+  // See readableText() — a Russian job post is unreadable to a Thai helper too.
+  const jobDesc = readableText(e.jobDescription, e.jobDescriptionEn, lang);
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow flex flex-col sm:flex-row">

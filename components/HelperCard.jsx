@@ -6,6 +6,7 @@ import { relativeTime } from '../lib/recent-helpers-display';
 import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '../lib/utils';
 import AvailabilityPill from './AvailabilityPill';
 import { StarRatingDisplay } from './StarRating';
+import { readableText } from '@/lib/recent-helpers-display';
 
 // Thai / CJK / other non-Latin script ranges — used to detect data
 // quality issues where helpers typed text into structured fields
@@ -68,7 +69,8 @@ export default function HelperCard({
   // Show the English translation when the viewer's UI is English and we have
   // one stored. Thai viewers (and the helper themselves) always see the
   // original they wrote.
-  const displayBio = lang === 'th' ? helper.bio : (helper.bioEn || helper.bio);
+  // See readableText(): a Thai reader gets the original only when it IS Thai.
+  const displayBio = readableText(helper.bio, helper.bioEn, lang);
 
   const showFavBtn = typeof onToggleFavorite === 'function' && helper.ref;
   const hintText = favoriteHint ||
@@ -267,7 +269,9 @@ export default function HelperCard({
               const cityIsOther = !helper.city || String(helper.city).toLowerCase() === 'other';
               if (lang === 'en' && NONLATIN.test(cityLabel)) cityLabel = '';
               if (cityIsOther) cityLabel = '';
-              const area = lang === 'en' && helper.areaEn ? helper.areaEn : helper.area;
+              // Same rule as the bio: a Thai reader gets the original only
+              // when it IS Thai. See readableText().
+              const area = readableText(helper.area, helper.areaEn, lang);
               if (!cityLabel && !area) return '—';
               if (!cityLabel) return area;
               if (!area || area === cityLabel) return cityLabel;

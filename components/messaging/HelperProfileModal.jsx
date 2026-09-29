@@ -29,6 +29,7 @@ import { relativeTime } from '../../lib/recent-helpers-display';
 import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '../../lib/utils';
 import { StarRatingDisplay } from '../StarRating';
 import RateForm from '../RateForm';
+import { readableText } from '@/lib/recent-helpers-display';
 
 // ─── Label helpers ──────────────────────────────────────────────────────────
 
@@ -401,7 +402,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
                 const cityIsOther = !helper.city || String(helper.city).toLowerCase() === 'other';
                 if (lang === 'en' && NONLATIN_RE.test(cityLabel)) cityLabel = '';
                 if (cityIsOther) cityLabel = '';
-                const area = lang === 'en' && helper.areaEn ? helper.areaEn : helper.area;
+                const area = readableText(helper.area, helper.areaEn, lang);
                 if (!cityLabel && !area) return '—';
                 if (!cityLabel) return area;
                 if (!area || area === cityLabel) return cityLabel;
@@ -430,7 +431,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
             )}
             {helper.education && (
               <InfoRow icon="🎓" label={t?.profile_education || 'Education'}>
-                {lang === 'en' && helper.educationEn ? helper.educationEn : helper.education}
+                {readableText(helper.education, helper.educationEn, lang)}
               </InfoRow>
             )}
             {rateLabel && (
@@ -442,7 +443,8 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
 
           {/* About / bio — show English translation to English viewers when available */}
           {(() => {
-            const displayBio = lang === 'th' ? helper.bio : (helper.bioEn || helper.bio);
+            // See readableText() — a Russian bio is unreadable to a Thai reader too.
+            const displayBio = readableText(helper.bio, helper.bioEn, lang);
             if (!displayBio) return null;
             return (
               <Section title={t?.profile_about || 'About'}>

@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useLang } from '../../pages/_app';
 import { jobDetailEntries } from '../../lib/constants/employer';
 import { formatCity } from '../../lib/constants/cities';
+import { readableText } from '@/lib/recent-helpers-display';
 
 export default function EmployerProfileModal({ employer, onClose, t }) {
   const { lang } = useLang();
@@ -23,7 +24,8 @@ export default function EmployerProfileModal({ employer, onClose, t }) {
   // English viewers get the stored translation (falls back to the original
   // when it's already English); Thai viewers always see the original.
   const jobEntries = jobDetailEntries(employer.jobDetails, lang);
-  const jobDesc = lang === 'th' ? employer.jobDescription : (employer.jobDescriptionEn || employer.jobDescription);
+  // See readableText() — a Russian job post is unreadable to a Thai helper too.
+  const jobDesc = readableText(employer.jobDescription, employer.jobDescriptionEn, lang);
   const hasJobInfo = jobEntries.length > 0 || !!jobDesc;
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
