@@ -216,7 +216,7 @@ export default async function handler(req, res) {
     const senderRefCol = isEmployer ? 'employer_ref' : 'helper_ref';
     const { data: senderRow } = await supabase
       .from(senderTable)
-      .select('email_verified, status, phone_verified_at')
+      .select('email_verified, status, phone_verified_at, created_at')
       .eq(senderRefCol, session.ref)
       .single();
     if (senderRow?.status === 'suspended') {
@@ -373,6 +373,7 @@ export default async function handler(req, res) {
         ref: session.ref,
         role: session.role,
         phoneVerified: !!senderRow?.phone_verified_at,
+        createdAt: senderRow?.created_at,
       });
       if (denied) {
         return res.status(429).json({

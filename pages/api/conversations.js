@@ -57,11 +57,14 @@ const NO_OUTREACH_SEARCH_STATES = new Set(['paused', 'hidden']);
  * refused, and the caller must not create anything; the admin has already
  * been alerted.
  */
-async function newConversationBlock(session, phoneVerified) {
+async function newConversationBlock(session, phoneVerified, createdAt) {
   return outreachGate({
     ref: session.ref,
     role: session.role,
     phoneVerified,
+    // Without this the first-day check cannot see a new account at all, which
+    // is the one it exists for. Both call sites select created_at.
+    createdAt,
   });
 }
 
@@ -328,7 +331,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ conversation_id: existing.id, existed: true });
       }
 
-      const empBlock = await newConversationBlock(session, !!employer.phone_verified_at);
+      const empBlock = await newConversationBlock(session, !!employer.phone_verified_at, employer.created_at);
       if (empBlock) {
         return res.status(429).json({
           error: empBlock === 'phone' ? 'outreach_limit_phone' : 'outreach_limit',
@@ -358,7 +361,7 @@ export default async function handler(req, res) {
       // gated at all, so a suspended helper could still open new chats.
       const { data: senderHelper } = await supabase
         .from('helper_profiles')
-        .select('status, availability_status, phone_verified_at')
+        .select('status, availability_status, phone_verified_at, created_at')
         .eq('helper_ref', session.ref)
         .single();
       if (senderHelper?.status === 'suspended') {
@@ -398,7 +401,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ conversation_id: existing.id, existed: true });
       }
 
-      const helperBlock = await newConversationBlock(session, !!senderHelper?.phone_verified_at);
+      const helperBlock = await newConversationBlock(session, !!senderHelper?.phone_verified_at, senderHelper?.created_at);
       if (helperBlock) {
         return res.status(429).json({
           error: helperBlock === 'phone' ? 'outreach_limit_phone' : 'outreach_limit',
