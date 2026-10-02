@@ -14,6 +14,7 @@
 // when CRON_SECRET is set. Falls back to `x-vercel-cron: 1` header otherwise.
 
 import { getServiceSupabase } from '../../../lib/supabase';
+import { isPubliclyListable } from '../../../lib/access';
 import {
   // Named after what the email CONTAINS, not who receives it — same
   // convention as sendNewHelperMatchEmail / sendNewEmployerMatchEmail:
@@ -101,7 +102,7 @@ export default async function handler(req, res) {
     .from('employer_accounts')
     .select(
       'employer_ref, first_name, email, city, looking_for, notify_on_message, ' +
-      'search_status, line_user_id, notify_via_line, last_match_notification_at'
+      'status, search_status, line_user_id, notify_via_line, last_match_notification_at'
     )
     .eq('email_verified', true)
     .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${cooldownCutoff}`)
@@ -112,6 +113,9 @@ export default async function handler(req, res) {
   } else {
     for (const emp of empCandidates || []) {
       if (!emp.email && !emp.line_user_id) continue;
+      // No digest for a suspended or closed family — same rule as the listing
+      // and the helper→employer notifier in lib/match-notifications.js.
+      if (!isPubliclyListable(emp)) continue;
       // Respect paused/hidden — those employers opted out of new-match
       // alerts. NULL (pre-migration) counts as actively searching.
       if (emp.search_status === 'paused' || emp.search_status === 'hidden') continue;
@@ -236,7 +240,7 @@ export default async function handler(req, res) {
       // earlier and only verified recently still appears in the digest.
       const { data: employers, error: eErr } = await supabase
         .from('employer_accounts')
-        .select('employer_ref, first_name, city, looking_for, email_verified')
+        .select('employer_ref, first_name, city, looking_for, email_verified, status, search_status')
         .in('city', [...new Set(coveredCities.flatMap(cityQueryVariants))])
         .eq('email_verified', true)
         .gt('email_verified_at', since)
@@ -248,6 +252,15 @@ export default async function handler(req, res) {
       }
 
       const matches = (employers || [])
+        // This is the digest that puts a family in front of a helper, so it is
+        // the one place a stopped account must never appear — the window is
+        // "verified since her last digest", which is exactly the shape of an
+        // account that verified its email and was suspended days later. Hidden
+        // and paused are dropped too: a family that stopped searching should
+        // not be advertised either.
+        .filter((e) => isPubliclyListable(e)
+          && e.search_status !== 'hidden'
+          && e.search_status !== 'paused')
         .map((e) => ({ employer: e, overlap: matchOverlap(e, hlp) }))
         .filter((m) => m.overlap !== null)
         .slice(0, MAX_ROWS_PER_DIGEST);

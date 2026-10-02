@@ -11,6 +11,7 @@
 // Shape mirrors /api/helpers for consistency.
 
 import { getServiceSupabase, selectAll } from '../../lib/supabase';
+import { isPubliclyListable } from '../../lib/access';
 
 function toPublicCard(row) {
   return {
@@ -63,7 +64,7 @@ export default async function handler(req, res) {
           'employer_ref, first_name, last_name, city, area, ' +
           'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
           'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
-          'job_description, job_description_en, job_details, photo_url, search_status, created_at, updated_at, ' +
+          'job_description, job_description_en, job_details, photo_url, search_status, status, created_at, updated_at, ' +
           // Same trust signals helpers already publish on their cards
           // (pages/api/helpers.js). A helper deciding whether to answer a
           // stranger needs these more than a family does: every scam this
@@ -79,11 +80,19 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to load employers' });
     }
 
-    // Drop employers who set themselves to 'hidden'. Filtered in JS (not
-    // the query) so pre-migration rows with search_status = NULL are kept
-    // — a Postgres `.neq('search_status','hidden')` would exclude NULLs.
+    // Drop employers who set themselves to 'hidden', and families staff have
+    // stopped. Until now only the first filter existed: every suspended
+    // account happened to be 'hidden' too, because whoever suspended it set
+    // both by hand. That is a habit, not a guarantee — suspend one family and
+    // forget the second column and a scam listing stays in the directory.
+    // /api/helpers has filtered its side since the status column landed.
+    //
+    // Both filtered in JS (not the query) so pre-migration rows with a NULL
+    // search_status or status are kept — a Postgres `.neq()` drops NULLs, and
+    // only an explicit 'suspended' should deny (same reasoning as
+    // hasActiveAccess in lib/access.js).
     const employers = (accounts || [])
-      .filter((row) => row.search_status !== 'hidden')
+      .filter((row) => row.search_status !== 'hidden' && isPubliclyListable(row))
       .map(toPublicCard);
 
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');

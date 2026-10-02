@@ -917,6 +917,7 @@ export async function getServerSideProps({ res }) {
   res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
+    const { isPubliclyListable } = await import('@/lib/access');
     const supabase = getServiceSupabase();
     const { data, error } = await supabase
       .from('employer_accounts')
@@ -924,7 +925,7 @@ export async function getServerSideProps({ res }) {
         'employer_ref, first_name, last_name, city, area, ' +
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
-        'job_description, job_description_en, job_details, photo_url, search_status, created_at, updated_at, ' +
+        'job_description, job_description_en, job_details, photo_url, search_status, status, created_at, updated_at, ' +
         // Same trust signals helpers already publish on their cards
         // (pages/api/helpers.js). A helper deciding whether to answer a
         // stranger needs these more than a family does: every scam this
@@ -935,7 +936,11 @@ export async function getServerSideProps({ res }) {
     if (error) throw error;
 
     const initialEmployers = (data || [])
-      .filter((row) => row.search_status !== 'hidden')
+      // Suspended families are dropped here as well as in /api/employers —
+      // this SSR list is what a helper actually sees, the API is only the
+      // client-side fallback, so filtering one without the other would leave
+      // the hole open on the page itself.
+      .filter((row) => row.search_status !== 'hidden' && isPubliclyListable(row))
       .map((row) => ({
         ref: row.employer_ref || null,
         firstName: row.first_name || '',
