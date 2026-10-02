@@ -15,7 +15,10 @@ import { verifyTurnstile } from '../../lib/turnstile';
 import { formatAttributionString } from '../../lib/utm';
 import { translateForeignText } from '../../lib/translate';
 import { looksLikeFullAddress } from '../../lib/address-guard';
-import { buildJobDetailsPatch } from '../../lib/employer-job-details';
+import { buildJobDetailsPatch, missingJobTexts, MIN_TEXT_LENGTH } from '../../lib/employer-job-details';
+import { readPhoneProof } from '../../lib/phone-signup-token';
+import { signupNeedsPhone } from '../../lib/access';
+import { numberTakenBy } from '../../lib/phone-identity';
 import { registrationResemblance } from '../../lib/spam-signals';
 import { VALID_CITY_SLUGS, toCitySlug } from '../../lib/constants/cities';
 
@@ -72,6 +75,7 @@ export default async function handler(req, res) {
     jobDetails,
     preferredLanguage,
     turnstileToken,
+    phoneToken,
     attribution,
   } = req.body || {};
 
@@ -120,6 +124,29 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'looking_for_required' });
   }
 
+  // Every role the family ticked needs a description of that job.
+  //
+  // Optional until 2026-10-02, and 25 of the 46 families who registered in the
+  // two weeks before were listed with no text at all: a name, a city, and
+  // nothing a helper could answer. 30% of them never received a single reply,
+  // against 15% of the families who wrote one. Requiring looking_for (2026-09-28)
+  // fixed what a listing is FILED under; this fixes whether it SAYS anything.
+  //
+  // Per role, not one box for all of them, because the multi-job form already
+  // works that way (2026-08-25) — a family wanting a nanny and a housekeeper is
+  // describing two jobs, and the reply each one needs is different.
+  //
+  // The returned list names the roles still missing, so the form can point at
+  // the empty box rather than saying "something is wrong".
+  const missingTexts = missingJobTexts(jobDetails, wantedRoles);
+  if (missingTexts.length) {
+    return res.status(400).json({
+      error: 'job_text_required',
+      categories: missingTexts,
+      minLength: MIN_TEXT_LENGTH,
+    });
+  }
+
   // "Support ThaiHelper" registered here on 2026-09-27 and phished nine
   // helpers with it. See lib/impersonation.js.
   const impersonation = impersonationBlock({ firstName, lastName });
@@ -164,6 +191,37 @@ export default async function handler(req, res) {
   const jobDescriptionEn = hasJobDetails ? null : await translateForeignText(sanitizedJobDesc);
 
   const supabase = getServiceSupabase();
+
+  // A verified phone number, or no account.
+  //
+  // The proof is minted by /api/phone/signup-verify-otp after Twilio approves a
+  // code, and it names the number it was minted for — see
+  // lib/phone-signup-token.js for why a token rather than a session.
+  //
+  // Checked here and not in the form alone, because the form is not the only
+  // way to reach this endpoint.
+  let verifiedPhone = null;
+  if (signupNeedsPhone()) {
+    const proof = await readPhoneProof(phoneToken);
+    if (!proof) {
+      return res.status(400).json({ error: 'phone_not_verified' });
+    }
+
+    // The third and final ownership check. signup-send-otp asked before paying
+    // for the SMS and signup-verify-otp asked before minting the proof; a proof
+    // is good for 30 minutes, so the number can be claimed inside that window.
+    // This is the one that runs immediately before the row is written, and it is
+    // the only one that cannot be raced.
+    const owner = await numberTakenBy(supabase, proof.phone, null);
+    if (owner.taken) {
+      console.warn(`[employer-signup] refused: number already held by ${owner.ref}`);
+      return res.status(409).json({
+        error: owner.suspended ? 'phone_blocked' : 'phone_in_use',
+      });
+    }
+    verifiedPhone = proof;
+  }
+
   const ref = generateRef();
   const verificationToken = crypto.randomBytes(32).toString('hex');
   const promo = getPromoAccess();
@@ -177,6 +235,12 @@ export default async function handler(req, res) {
         last_name: lastName.trim(),
         email: email.trim().toLowerCase(),
         phone: phone?.trim() || null,
+        // The verified number goes in its own columns; `phone` above stays the
+        // free-text field the form has always had, which nothing trusts.
+        phone_number: verifiedPhone?.phone || null,
+        phone_country_code: verifiedPhone?.countryCode || null,
+        phone_verified_at: verifiedPhone ? new Date().toISOString() : null,
+        phone_verified_channel: verifiedPhone ? 'sms' : null,
         city: citySlug,
         area: area?.trim() || null,
         looking_for: Array.isArray(lookingFor) ? lookingFor.join(', ') : (lookingFor || null),

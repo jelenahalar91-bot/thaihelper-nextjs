@@ -5,10 +5,11 @@ import BrandWordmark from '@/components/BrandWordmark';
 import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Turnstile from '@/components/Turnstile';
+import SignupPhoneVerification from '@/components/SignupPhoneVerification';
 import { employerSignup, uploadEmployerPhoto } from '@/lib/api/employer-auth-client';
 import { CITY_OPTIONS } from '@/lib/constants/cities';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
-import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
+import { JOB_TEXT_MIN_LENGTH, SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu } from '@/components/MobileMenu';
 import { useLang } from '@/pages/_app';
@@ -74,8 +75,6 @@ const T = {
     email_typo_use: 'Use this',
     email_typo_block: 'Looks like a typo in your email — please fix it or use the suggestion above.',
     email_hint: 'Used for login and notifications',
-    phone_label: 'Phone (optional)',
-    phone_ph: '+66 …',
     section_location: 'Where you need help',
     city_label: 'City',
     city_ph: '— Select city —',
@@ -108,6 +107,10 @@ const T = {
     error_captcha: 'Please complete the "I\'m human" check, then try again.',
     error_name_not_allowed: 'Please register under your own name. Words like "Support" or "Admin", and the name ThaiHelper itself, are reserved so that nobody can pretend to write to helpers on our behalf.',
     error_looking_for_required: 'Please choose at least one kind of help you are looking for — nanny, housekeeper, chef and so on. Helpers cannot find you without it.',
+    error_job_text_required: 'Please describe each job below in a sentence or two. Helpers decide whether to reply from this text — a listing without it gets almost no answers.',
+    error_phone_required: 'Please verify your mobile number above. We send you a code by SMS; an account cannot be created without it.',
+    error_phone_in_use: 'That number is already on another ThaiHelper account. Log in to that one, or register with a different number.',
+    error_phone_blocked: 'That number cannot be used to register. Write to support@thaihelper.app if you think that is a mistake.',
     error_area_address: 'Please enter a general area or neighbourhood (e.g. "Sukhumvit"), not your full home address. You can share your exact address privately once you\'re in touch with a helper.',
     have_account: 'Already have an account?',
     login_link: 'Login',
@@ -163,8 +166,6 @@ const T = {
     email_typo_use: 'ใช้อันนี้',
     email_typo_block: 'ดูเหมือนอีเมลของคุณพิมพ์ผิด — กรุณาแก้ไขหรือใช้คำแนะนำด้านบน',
     email_hint: 'ใช้สำหรับเข้าสู่ระบบและการแจ้งเตือน',
-    phone_label: 'โทรศัพท์ (ไม่จำเป็น)',
-    phone_ph: '+66 …',
     section_location: 'ที่ที่คุณต้องการความช่วยเหลือ',
     city_label: 'เมือง',
     city_ph: '— เลือกเมือง —',
@@ -197,6 +198,10 @@ const T = {
     error_captcha: 'กรุณายืนยัน "ฉันไม่ใช่โปรแกรมอัตโนมัติ" แล้วลองใหม่',
     error_name_not_allowed: 'กรุณาสมัครด้วยชื่อจริงของคุณ คำว่า "Support" หรือ "Admin" รวมถึงชื่อ ThaiHelper นั้นสงวนไว้ เพื่อไม่ให้ใครแอบอ้างเป็นเราในการติดต่อผู้ช่วย',
     error_looking_for_required: 'กรุณาเลือกอย่างน้อยหนึ่งประเภทที่คุณกำลังมองหา เช่น พี่เลี้ยงเด็ก แม่บ้าน หรือพ่อครัว มิฉะนั้นผู้ช่วยจะไม่พบโพรไฟล์ของคุณ',
+    error_job_text_required: 'กรุณาอธิบายงานแต่ละประเภทด้านล่างสั้นๆ หนึ่งถึงสองประโยค ผู้ช่วยใช้ข้อความนี้ตัดสินใจว่าจะตอบหรือไม่ ประกาศที่ไม่มีคำอธิบายแทบไม่ได้รับการตอบกลับ',
+    error_phone_required: 'กรุณายืนยันเบอร์โทรศัพท์มือถือด้านบน เราจะส่งรหัสให้ทาง SMS หากไม่ยืนยันจะสร้างบัญชีไม่ได้',
+    error_phone_in_use: 'เบอร์นี้ถูกใช้กับบัญชี ThaiHelper อื่นแล้ว กรุณาเข้าสู่ระบบบัญชีนั้น หรือสมัครด้วยเบอร์อื่น',
+    error_phone_blocked: 'เบอร์นี้ไม่สามารถใช้สมัครได้ หากคิดว่าไม่ถูกต้อง กรุณาเขียนถึง support@thaihelper.app',
     error_area_address: 'กรุณากรอกเขต/ย่านทั่วไป (เช่น "สุขุมวิท") แทนที่จะเป็นที่อยู่บ้านเต็มรูปแบบ คุณสามารถแจ้งที่อยู่ที่ชัดเจนแบบส่วนตัวได้เมื่อได้ติดต่อกับผู้ช่วยแล้ว',
     have_account: 'มีบัญชีอยู่แล้ว?',
     login_link: 'เข้าสู่ระบบ',
@@ -220,7 +225,6 @@ export default function EmployerRegisterPage() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [emailSuggestion, setEmailSuggestion] = useState('');
-  const [phone, setPhone] = useState('');
   const [city, setCity] = useState('');
   const [area, setArea] = useState('');
   const [lookingFor, setLookingFor] = useState([]);
@@ -245,6 +249,21 @@ export default function EmployerRegisterPage() {
   const [successRef, setSuccessRef] = useState(null);
   const [turnstileToken, setTurnstileToken] = useState('');
   const handleTurnstileToken = useCallback((token) => setTurnstileToken(token), []);
+  // A Turnstile token is single-use and this form spends two: one on the SMS
+  // request, one on the submit. Bumping this makes the widget solve again.
+  const [turnstileReset, setTurnstileReset] = useState(0);
+  const spendTurnstileToken = useCallback(() => {
+    setTurnstileToken('');
+    setTurnstileReset((n) => n + 1);
+  }, []);
+
+  // Proof that the number was verified, from /api/phone/signup-verify-otp.
+  // No proof, no account — see lib/access.js signupNeedsPhone().
+  const [phoneToken, setPhoneToken] = useState('');
+  const [phoneInvalid, setPhoneInvalid] = useState(false);
+  // Categories whose job text is missing or too short, so the boxes can be
+  // marked individually instead of one error for the whole section.
+  const [jobTextMissing, setJobTextMissing] = useState([]);
 
   // Section guide ("steps"). The form stays single-page — these are a scroll
   // progress indicator, not gated wizard steps, so there's no per-step
@@ -345,6 +364,23 @@ export default function EmployerRegisterPage() {
       return;
     }
 
+    // Mirrors missingJobTexts() on the server, so the family sees which box is
+    // empty instead of a round-trip and one red line for the whole section.
+    const missing = lookingFor.filter(
+      (cat) => (jobDetails[cat] || '').trim().length < JOB_TEXT_MIN_LENGTH
+    );
+    setJobTextMissing(missing);
+    if (missing.length) {
+      setError(t.error_job_text_required);
+      return;
+    }
+
+    if (!phoneToken) {
+      setPhoneInvalid(true);
+      setError(t.error_phone_required);
+      return;
+    }
+
     // Hard-block on confident email typos (e.g. gmail.co, hotmail.con).
     // The yellow "Did you mean ..." hint is already shown on blur; here we
     // refuse to submit until the user either accepts the suggestion or
@@ -362,7 +398,6 @@ export default function EmployerRegisterPage() {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
-        phone: phone.trim(),
         city,
         area: area.trim(),
         lookingFor,
@@ -377,6 +412,7 @@ export default function EmployerRegisterPage() {
         jobDescription: jobDescription.trim(),
         jobDetails,
         turnstileToken,
+        phoneToken,
       });
 
       if (!result.success) {
@@ -387,6 +423,10 @@ export default function EmployerRegisterPage() {
           captcha: t.error_captcha,
           name_not_allowed: t.error_name_not_allowed,
           looking_for_required: t.error_looking_for_required,
+          job_text_required: t.error_job_text_required,
+          phone_not_verified: t.error_phone_required,
+          phone_in_use: t.error_phone_in_use,
+          phone_blocked: t.error_phone_blocked,
         };
         setError(errorMap[result.error] || t.error_generic);
         return;
@@ -650,10 +690,17 @@ export default function EmployerRegisterPage() {
                 <p style={{ fontSize: '13px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.email_hint}</p>
               </div>
 
-              <div className="field">
-                <label htmlFor="f-phone">{t.phone_label}</label>
-                <input id="f-phone" type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder={t.phone_ph} />
-              </div>
+              {/* Verified before the account exists — the free-text phone
+                  field this replaced was never checked, and 9 of the 46
+                  families who registered in the fortnight before 2026-10-02
+                  left it empty. */}
+              <SignupPhoneVerification
+                lang={lang}
+                onVerified={(token) => { setPhoneToken(token || ''); if (token) setPhoneInvalid(false); }}
+                turnstileToken={turnstileToken}
+                onSpendToken={spendTurnstileToken}
+                invalid={phoneInvalid}
+              />
 
               {/* Photo upload */}
               <div className="field">
@@ -947,10 +994,23 @@ export default function EmployerRegisterPage() {
                       </div>
                       <textarea
                         value={jobDetails[opt.value] || ''}
-                        onChange={e => setJobDetails(prev => ({ ...prev, [opt.value]: e.target.value }))}
+                        onChange={e => {
+                          const text = e.target.value;
+                          setJobDetails(prev => ({ ...prev, [opt.value]: text }));
+                          // Clear the mark as soon as this box is long enough,
+                          // so the red border answers what they are typing
+                          // rather than waiting for another submit.
+                          if (text.trim().length >= JOB_TEXT_MIN_LENGTH) {
+                            setJobTextMissing(prev => prev.filter(c => c !== opt.value));
+                          }
+                        }}
                         placeholder={JOB_DESCRIPTION_EXAMPLES[opt.value]?.[lang] || JOB_DESCRIPTION_EXAMPLES[opt.value]?.en || ''}
                         rows={3}
-                        style={{ resize: 'vertical', minHeight: '80px' }}
+                        style={{
+                          resize: 'vertical',
+                          minHeight: '80px',
+                          borderColor: jobTextMissing.includes(opt.value) ? '#b3261e' : undefined,
+                        }}
                       />
                     </div>
                   ))}
@@ -959,7 +1019,7 @@ export default function EmployerRegisterPage() {
               )}
 
               {/* Cloudflare Turnstile CAPTCHA */}
-              <Turnstile onToken={handleTurnstileToken} />
+              <Turnstile onToken={handleTurnstileToken} resetSignal={turnstileReset} />
 
               {/* Last-chance bilingual reminder, right before submit, to catch
                   job seekers who filled in the form by mistake. */}
