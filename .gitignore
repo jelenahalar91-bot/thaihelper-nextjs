@@ -92,3 +92,6 @@ scripts/.harassment-followup-sent.jsonl
 
 # Phishing-Warnung 27.09. — Versandprotokoll (Helfer-Referenzen)
 scripts/.phishing-warning-sent.jsonl
+
+# Listing-completion blast — send log has PII (recipient emails)
+scripts/.listing-completion-sent.jsonl
