@@ -95,3 +95,6 @@ scripts/.phishing-warning-sent.jsonl
 
 # Listing-completion blast — send log has PII (recipient emails)
 scripts/.listing-completion-sent.jsonl
+
+# Deleted duplicate family accounts — the backup holds real emails and messages
+scripts/.deleted-accounts.jsonl
