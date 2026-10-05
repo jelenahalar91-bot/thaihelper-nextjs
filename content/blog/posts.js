@@ -2016,17 +2016,17 @@ export const blogPosts = [
 
   {
     slug: 'filipino-helpers-thailand-guide',
-    title: 'Complete Guide for Filipino Helpers Working in Thailand (2026)',
-    description: 'Everything Filipino nannies, housekeepers, tutors, and caregivers need to know about working in Thailand in 2026 — visas, real pay rates, cultural tips, and how to find English-speaking families directly.',
+    title: 'Filipino Tutors & Teachers in Thailand 2026: The Legal Route + Real Pay',
+    description: 'Tutoring and teaching are the legal routes for Filipinos to work in Thailand. Real 2026 pay rates, how the work-permit sponsorship actually works, and data from 49 verified Filipino tutors on ThaiHelper.',
     category: 'helpers',
     date: '2026-04-16',
-    updated: '2026-09-24',
-    readTime: 9,
+    updated: '2026-10-05',
+    readTime: 10,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&q=80',
-    keywords: 'Filipino nanny Thailand, Filipino helper Bangkok, English speaking helper Thailand, work as Filipino caregiver Thailand',
-    title_th: 'คู่มือฉบับสมบูรณ์สำหรับผู้ช่วยชาวฟิลิปปินส์ทำงานในประเทศไทย',
-    description_th: 'ทุกสิ่งที่พี่เลี้ยง แม่บ้าน และผู้ดูแลชาวฟิลิปปินส์ต้องรู้เกี่ยวกับการทำงานในประเทศไทย — วีซ่า ค่าจ้าง เคล็ดลับวัฒนธรรม และวิธีหาครอบครัวที่พูดภาษาอังกฤษ',
+    keywords: 'Filipino tutor Bangkok, Filipino English teacher Thailand, Filipino helper Thailand legal, work permit tutor Thailand, Filipino nanny Thailand legal, English teacher Bangkok',
+    title_th: 'ติวเตอร์และครูชาวฟิลิปปินส์ในประเทศไทย 2026: เส้นทางถูกกฎหมาย + ค่าจ้างจริง',
+    description_th: 'การสอนพิเศษและการเป็นครูเป็นเส้นทางถูกกฎหมายหลักสำหรับคนฟิลิปปินส์ที่ทำงานในประเทศไทย ค่าจ้างจริงปี 2026 ว่าใครสามารถสนับสนุนใบอนุญาตทำงานได้ และข้อมูลจากติวเตอร์ชาวฟิลิปปินส์ที่ยืนยันแล้ว 49 คนบน ThaiHelper',
     content_th: `
       <p>ผู้ช่วยชาวฟิลิปปินส์เป็นที่ต้องการอย่างมากในประเทศไทย โดยเฉพาะในครอบครัวชาวต่างชาติ <strong>ทักษะภาษาอังกฤษ</strong> ประสบการณ์ในการดูแลเด็ก และจริยธรรมในการทำงานทำให้คุณเป็นที่ต้องการสูงในกรุงเทพฯ ภูเก็ต และเมืองท่องเที่ยวอื่นๆ</p>
 
@@ -2060,25 +2060,42 @@ export const blogPosts = [
       <p>พร้อมหางานแล้วหรือยัง? <a href="/register">สมัครฟรีบน ThaiHelper</a></p>
     `,
     content: `
-      <p>Filipino helpers are in high demand in Thailand, especially in expat families. Your <strong>English skills</strong>, childcare experience, and strong work ethic make you a top choice in Bangkok, Phuket, and other international hubs.</p>
-      <p><em>Updated 9 September 2026. ThaiHelper currently has 86 verified Filipino helpers across Thailand — 43 in Bangkok, 9 in Phuket, and the rest across Chonburi, Nonthaburi, Koh Samui, and other expat hubs. Category breakdown: 46 tutors, 41 housekeepers, 25 nannies, 23 elder-care specialists, 23 pet-sitters (helpers often list multiple categories).</em></p>
+      <p><strong>If you are Filipino and want to work in Thailand, tutoring and teaching is the main legal lane open to you.</strong> This guide covers how it actually works in 2026 — real pay, which employers can sponsor you, and the honest picture on household roles like nanny or housekeeper (short answer: those are mostly off-limits legally for Filipinos; the full reasons are further down).</p>
+      <p><em>Updated 5 October 2026. ThaiHelper currently has 91 verified Filipino members across Thailand — 45 in Bangkok, 10 in Phuket, plus Nonthaburi, Chonburi, Pattaya and other hubs. Category breakdown: 49 tutors, 43 housekeepers, 27 nannies, 25 elder-care, 24 pet-sitters, 8 chefs, 7 gardeners (members often list more than one). The tutor group is by far the largest — and the one with a clean legal route.</em></p>
 
-      <h2>Why Families Want Filipino Helpers</h2>
+      <h2>Why Thai and expat families hire Filipino tutors</h2>
       <ul>
-        <li><strong>Fluent English</strong> — Critical for expat families who don't speak Thai.</li>
-        <li><strong>Childcare and elder care experience</strong> — Many have formal training or international work experience.</li>
-        <li><strong>Western cooking skills</strong> — A major plus for expat families.</li>
-        <li><strong>Strong cultural fit</strong> — Filipino values of care, respect, and family-oriented service resonate with expat employers.</li>
+        <li><strong>Native-level English</strong> — the single biggest reason international-school families and bilingual Thai families choose Filipino tutors over local alternatives.</li>
+        <li><strong>Teaching qualifications</strong> — many hold a B.Ed. or TESOL/CELTA. International-school families particularly value a teaching degree.</li>
+        <li><strong>Experience abroad</strong> — Hong Kong, Singapore, UAE and Saudi contracts are common on Filipino CVs. That cross-cultural experience plays well with expat parents.</li>
+        <li><strong>Subject strength</strong> — early-years literacy, English for school-age children, exam prep (SAT, IELTS, Cambridge), piano, maths, and university tutoring are the categories most in demand on ThaiHelper.</li>
       </ul>
 
-      <h2>Expected Pay Rates</h2>
+      <h2>What Filipino tutors earn in Thailand (2026)</h2>
+      <p>Rates vary by qualification, subject, and whether you're employed by a school vs. tutoring independently through a sponsor. Based on verified profiles on ThaiHelper plus publicly listed language-centre rates in Bangkok:</p>
+      <table>
+        <thead><tr><th>Role</th><th>Pay (THB)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>English tutor / after-school homework help</td><td>400–800 /hour</td><td>Private 1-on-1, in-person Bangkok</td></tr>
+          <tr><td>Online tutor (via platform)</td><td>300–600 /hour</td><td>Platform typically takes 15–30 %</td></tr>
+          <tr><td>Full-time at a language centre</td><td>35,000–55,000 /month</td><td>Non-Immigrant B WP sponsored by the centre</td></tr>
+          <tr><td>International-school teaching assistant</td><td>40,000–65,000 /month</td><td>Full WP + school benefits (housing stipend, insurance)</td></tr>
+          <tr><td>International-school teacher (B.Ed. + licence)</td><td>65,000–120,000 /month</td><td>Teaching licence from Khurusapha required</td></tr>
+          <tr><td>Exam prep specialist (SAT, IELTS, Cambridge)</td><td>800–1,500 /hour</td><td>Independent or through a prep company</td></tr>
+          <tr><td>Private tutor live-in with a single family</td><td>35,000–60,000 /month</td><td>Rare and legally fragile — see legal section</td></tr>
+        </tbody>
+      </table>
+      <p>Live-in rates include room and meals; subtract roughly 8,000–12,000 THB to compare like-for-like with live-out.</p>
+
+      <h2>Expected pay for the household roles — and why these numbers are mostly moot for Filipino members</h2>
+      <p>For context only, these are the market rates households pay in Thailand for nanny, housekeeper and caregiver roles. Filipino members on ThaiHelper see these numbers often; the problem is that <strong>a private family cannot lawfully sponsor your work permit for them</strong> (see legal section). The numbers in practice end up being realistic only for diplomatic households.</p>
       <ul>
         <li><strong>Full-time nanny (live-in):</strong> 18,000–30,000 THB/month</li>
         <li><strong>Full-time nanny (live-out):</strong> 20,000–35,000 THB/month</li>
         <li><strong>Full-time housekeeper:</strong> 15,000–25,000 THB/month</li>
         <li><strong>Part-time (per hour):</strong> 350–600 THB</li>
       </ul>
-      <p>Pay tends to be higher than for local Thai helpers, reflecting the premium placed on English skills and international experience.</p>
+      <p>Expat families who want English-speaking household help legally hire Myanmar nationals under MOU3 — see our <a href="/blog/hire-myanmar-helper-thailand-mou3-guide">Myanmar helper guide</a>. Many Filipino members on ThaiHelper combine a lawful tutoring role (sponsored by a language centre or school) with occasional babysitting on evenings and weekends for the same families — a model that keeps the legal and the informal clearly separated.</p>
 
       <h2>Legal Requirements — Please Read This Carefully</h2>
       <p>We would rather tell you this plainly than let you find out from an immigration officer. As a foreign national you need a work permit, and for <strong>household work</strong> — nanny, housekeeper, caregiver, cook in a private home — Thailand issues those only under its labour MOUs with Myanmar, Laos and Cambodia. There is no MOU with the Philippines, so <strong>a private family cannot sponsor a work permit for you for household work</strong>, no matter how willing they are or which agent they use.</p>
@@ -2102,25 +2119,26 @@ export const blogPosts = [
         <li><strong>Dress modestly</strong> — Especially if your employer is more traditional.</li>
       </ol>
 
-      <h2>Where Filipino Helpers Are Most in Demand</h2>
+      <h2>Where Filipino tutors are most in demand</h2>
       <ul>
-        <li><a href="/hire/nanny-bangkok">Bangkok (nannies)</a> — Huge expat community, high demand for English-speaking nannies.</li>
-        <li><a href="/hire/nanny-phuket">Phuket (nannies)</a> — Tourist families and expats on the island.</li>
-        <li><a href="/hire/housekeeper-koh-samui">Koh Samui (housekeepers)</a> — Villa owners often prefer English-speaking staff.</li>
-        <li><a href="/hire/caregiver-chiang-mai">Chiang Mai (caregivers)</a> — Retirees and digital nomads hiring long-term.</li>
+        <li><a href="/hire/tutor-bangkok">Bangkok (tutors)</a> — by far the biggest market. Sukhumvit, Sathorn, Thonglor and Ekkamai for private 1-on-1; the whole city for international schools and language centres.</li>
+        <li><a href="/hire/tutor-phuket">Phuket (tutors)</a> — international-school families, hotel/resort children on long stays, exam prep for expat teens.</li>
+        <li><a href="/hire/tutor-chiang-mai">Chiang Mai (tutors)</a> — large digital-nomad family community, bilingual-upbringing families, home-schooling support.</li>
+        <li><a href="/hire/tutor-koh-samui">Koh Samui (tutors)</a> — smaller but affluent; home-school support and online tutoring hubs.</li>
       </ul>
 
-      <h2>How to Stand Out on ThaiHelper</h2>
+      <h2>How to stand out as a Filipino tutor on ThaiHelper</h2>
       <ol>
-        <li><strong>Emphasize English fluency</strong> in your profile and bio.</li>
-        <li><strong>List international experience</strong> — Hong Kong, Singapore, Middle East experience is highly valued.</li>
-        <li><strong>Upload a professional photo</strong> — Clean, smiling, professional attire.</li>
-        <li><strong>Mention cooking skills</strong> — Especially Western and Filipino cuisine.</li>
-        <li><strong>Provide references</strong> — Previous employers' contacts build trust quickly.</li>
+        <li><strong>Lead with the subject + level</strong> — "Early-years English literacy, ages 4–8" is far stronger than "English tutor". Families filter by exactly this.</li>
+        <li><strong>List qualifications upfront</strong> — B.Ed., TESOL / CELTA, specialised certifications (Orton-Gillingham, Montessori, IB training). Upload scans where possible.</li>
+        <li><strong>Attach a short teaching sample</strong> — a 60-second video introducing yourself in English, or a one-page sample lesson plan. Families book trial lessons far faster from a profile that already shows the voice and approach.</li>
+        <li><strong>Mention international experience</strong> — Hong Kong, Singapore, UAE, Saudi contracts resonate with expat parents; those employers are a known quantity.</li>
+        <li><strong>Be clear about hours and format</strong> — in-person Bangkok evenings only? Online worldwide? Weekends? Setting expectations in the profile saves everyone three rounds of back-and-forth.</li>
+        <li><strong>Reference check-ready</strong> — list two previous employers (school, centre, or family) with their contact details. Families take references seriously; a tutor without them starts at a disadvantage.</li>
       </ol>
 
-      <h2>Ready to Start?</h2>
-      <p><a href="/register">Create your free ThaiHelper profile</a> and connect directly with expat families in Thailand. No middleman fees, just direct hiring.</p>
+      <h2>Ready to start?</h2>
+      <p><a href="/register">Create your free ThaiHelper profile</a> and connect directly with families and language centres in Thailand. No middleman fees — you message directly and agree on terms with the employer.</p>
     `,
   },
 
