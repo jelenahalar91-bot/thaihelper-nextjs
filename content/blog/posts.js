@@ -3499,6 +3499,160 @@ export const blogPosts = [
       <p style="text-align:center;font-size:14px;color:#666;">100 % free to browse. No signup needed to look.</p>
     `,
   },
+
+  // ─── MYANMAR HELPERS (MOU3 LEGAL ROUTE) ─────────────────────────────────
+  {
+    slug: 'hire-myanmar-helper-thailand-mou3-guide',
+    title: 'Hiring Myanmar (Burmese) Helpers in Thailand 2026: MOU3 Legal Guide + Real Rates',
+    description:
+      'How to hire a Myanmar nanny, housekeeper, or caregiver in Thailand legally in 2026. MOU3 work permit explained, real pay rates, and data from 117 verified Myanmar helpers on ThaiHelper.',
+    category: 'families',
+    date: '2026-10-05',
+    updated: '2026-10-05',
+    readTime: 10,
+    author: 'ThaiHelper Team',
+    image: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&q=80',
+    keywords: 'Myanmar nanny Thailand, Burmese helper Bangkok, Myanmar maid, MOU3 work permit Thailand, Burmese housekeeper, hire Myanmar nanny legally',
+    title_th: 'จ้างผู้ช่วยชาวพม่าในประเทศไทย ปี 2026: คู่มือ MOU3 ถูกกฎหมาย + ค่าจ้างจริง',
+    description_th: 'วิธีจ้างพี่เลี้ยง แม่บ้าน หรือผู้ดูแลชาวพม่าในประเทศไทยอย่างถูกกฎหมายปี 2026. อธิบายใบอนุญาตทำงาน MOU3, ค่าจ้างจริง, และข้อมูลจาก 117 โปรไฟล์ชาวพม่าที่ยืนยันแล้วบน ThaiHelper',
+    content_th: `
+      <p>คุณสามารถจ้าง<strong>พี่เลี้ยง แม่บ้าน หรือผู้ดูแลชาวพม่าในประเทศไทยได้อย่างถูกกฎหมาย</strong> ผ่านข้อตกลง MOU3 (Thailand-Myanmar MOU) โดยนายจ้างต้องเป็นผู้สนับสนุน หน้านี้สรุปอย่างย่อว่าสิ่งที่คุณต้องรู้ ค่าใช้จ่าย และข้อมูลจริงจาก 117 โปรไฟล์ที่ยืนยันแล้วบน ThaiHelper</p>
+
+      <h2>ค่าจ้างชาวพม่าในประเทศไทย (2026)</h2>
+      <ul>
+        <li><strong>แม่บ้านฟูลไทม์ (ไป-กลับ):</strong> 12,000–18,000 บาท/เดือน</li>
+        <li><strong>แม่บ้านฟูลไทม์ (อยู่ประจำ):</strong> 10,000–15,000 บาท/เดือน + ที่พัก + อาหาร</li>
+        <li><strong>พี่เลี้ยงเด็ก (พูดอังกฤษพื้นฐาน):</strong> 14,000–20,000 บาท/เดือน</li>
+        <li><strong>ผู้ดูแลผู้สูงอายุ:</strong> 15,000–22,000 บาท/เดือน</li>
+      </ul>
+
+      <p>พร้อมดูโปรไฟล์แล้วหรือยัง? <a href="/helpers">เลือกดูผู้ช่วยทั้งหมด</a> รวมถึงชาวพม่าที่ยืนยันแล้วใน Bangkok, Chiang Mai, Phuket และจังหวัดอื่น ๆ</p>
+    `,
+    content: `
+      <p><strong>Quick answer:</strong> Yes, you can hire Myanmar (Burmese) nannies, housekeepers, and caregivers in Thailand <strong>legally</strong>. The route is the Thailand–Myanmar <strong>MOU3</strong> agreement — the only formal pathway that lets a non-Thai household worker get a real work permit for domestic roles. This guide covers the law, the realistic pay ranges, and what we actually see on the ThaiHelper platform from 117 verified Myanmar helpers.</p>
+
+      <p><em>Updated 5 October 2026. Platform figures below are cross-checked against 117 verified Myanmar helper profiles currently on ThaiHelper (part of 1 000 verified helpers total).</em></p>
+
+      <h2>Why Myanmar helpers are the main non-Thai option in Thai households</h2>
+      <p>Thai labour law restricts most domestic-work categories to Thai citizens and to workers covered by one of the four Thailand MOUs (Myanmar, Laos, Cambodia, Vietnam). In practice, <strong>Myanmar is by far the largest</strong> source of legally-permitted non-Thai domestic workers:</p>
+      <ul>
+        <li>Long, open border and well-established recruitment corridors (Mae Sot, Mae Sai, Ranong).</li>
+        <li>Many Myanmar helpers already live in Thailand with family networks that help new arrivals settle quickly.</li>
+        <li>The MOU3 renewal (signed 2023, extended through 2026) explicitly covers household-domestic roles including nanny, housekeeper, caregiver, and gardener.</li>
+      </ul>
+      <p>Filipino, Nepali, and other foreign-nationality nannies that families sometimes ask about are rarely legal for Thai civilian households — their legal routes exist only through diplomatic households (embassies, UN) or education-work permits (as tutors or international-school staff). See our <a href="/blog/work-permits-foreign-helpers-thailand">complete work-permit guide</a>.</p>
+
+      <h2>Real platform data: 117 verified Myanmar helpers on ThaiHelper</h2>
+      <p>As of October 2026 we see 117 Myanmar helpers who have completed verification on ThaiHelper. The distribution reflects exactly where Thai families (and expat families) hire them:</p>
+
+      <h3>By category</h3>
+      <ul>
+        <li><strong>Housekeeper:</strong> 55 verified (largest group)</li>
+        <li><strong>Nanny:</strong> 49 verified</li>
+        <li><strong>Pet-sitter:</strong> 34 verified</li>
+        <li><strong>Tutor:</strong> 23 verified (mostly Burmese-language or school-support)</li>
+        <li><strong>Elder-care:</strong> 20 verified</li>
+        <li><strong>Chef:</strong> 13 verified</li>
+        <li><strong>Gardener:</strong> 10 verified</li>
+        <li><strong>Driver:</strong> 7 verified — note: non-Thai drivers for Thai households are a legal grey area; see below</li>
+      </ul>
+      <p>(Totals exceed 117 because many helpers list two or three categories — a nanny-housekeeper combo is especially common.)</p>
+
+      <h3>By city</h3>
+      <ul>
+        <li><strong>Bangkok:</strong> 81 verified — the overwhelming majority. Sukhumvit, Sathorn, and the northern suburbs (Nonthaburi, Pathum Thani) are the strongest clusters.</li>
+        <li><strong>Chiang Mai:</strong> 11 verified. Growing expat community, lower cost of living.</li>
+        <li><strong>Phuket:</strong> 6 verified. Villa staff for both long-term residents and seasonal rentals.</li>
+        <li><strong>Pattaya:</strong> 4 verified. Mixed expat and Thai households.</li>
+        <li><strong>Tak:</strong> 4 verified. Border province — Mae Sot is the main MOU3 entry point for Myanmar workers.</li>
+        <li><strong>Other provinces:</strong> 11 verified across Surat Thani, Khon Kaen, Rayong, and others.</li>
+      </ul>
+      <p><em>Data source: ThaiHelper platform, verified Myanmar helper profiles as of 5 October 2026. Numbers update as new helpers join.</em></p>
+
+      <h2>Myanmar helper salaries in Thailand (2026)</h2>
+      <p>Myanmar helpers typically earn 10–20 % less than Thai-national equivalents at the same experience level — not because they're less skilled, but because the labour-supply pool is larger and competition between candidates keeps prices moderate. English-speaking Myanmar helpers close the gap entirely.</p>
+
+      <table>
+        <thead><tr><th>Role</th><th>Live-out (THB/mo)</th><th>Live-in (THB/mo)</th></tr></thead>
+        <tbody>
+          <tr><td>Housekeeper (full-time)</td><td>12,000–18,000</td><td>10,000–15,000 + room + meals</td></tr>
+          <tr><td>Nanny (Thai or basic English)</td><td>13,000–18,000</td><td>11,000–16,000 + room + meals</td></tr>
+          <tr><td>Nanny (fluent English)</td><td>18,000–28,000</td><td>15,000–22,000 + room + meals</td></tr>
+          <tr><td>Elder-care / caregiver</td><td>15,000–22,000</td><td>12,000–18,000 + room + meals</td></tr>
+          <tr><td>Chef (home cook)</td><td>18,000–30,000</td><td>15,000–25,000 + room + meals</td></tr>
+        </tbody>
+      </table>
+      <p>Add roughly 20 % for true total monthly cost (Social Security employer share, 13th-month bonus, meals, transport). See the full breakdown in <a href="/blog/nanny-costs-thailand">Nanny Cost Thailand 2026</a>.</p>
+
+      <h2>MOU3 — what it actually covers</h2>
+      <p>MOU3 is the current (2023 renewal, extended) Memorandum of Understanding between Thailand and Myanmar on labour cooperation. For families hiring a Myanmar helper, the practical points are:</p>
+      <ul>
+        <li><strong>Eligible roles:</strong> domestic worker (housekeeper, nanny, caregiver, gardener, cook), plus the main labour categories (construction, fishing, agriculture, food processing). <em>Drivers are not covered for private households</em> — this is a hard line in Thai labour law.</li>
+        <li><strong>Who sponsors:</strong> the Thai employer (the family) is the legal sponsor. You submit documents through the Department of Employment or through an authorised employment agency.</li>
+        <li><strong>Permit length:</strong> typically 2 years, renewable for another 2 years, after which the worker must leave and re-enter (the 2+2 rule). Agencies handle the border run.</li>
+        <li><strong>Minimum wage applies:</strong> Myanmar helpers under MOU3 must be paid at least the provincial minimum wage. In Bangkok that's currently 400 THB/day — a full-time housekeeper at 12,000 THB/month already meets this.</li>
+        <li><strong>Social Security:</strong> mandatory for the worker, employer pays 5 % (capped at 750 THB/month).</li>
+        <li><strong>Health check + health insurance:</strong> initial medical check and worker's health-insurance contribution are required.</li>
+      </ul>
+
+      <h3>Cost of the MOU3 setup</h3>
+      <ul>
+        <li>Work permit: 6,500–10,000 THB/year (employer-paid)</li>
+        <li>Non-Immigrant LA visa: ~2,000 THB/year</li>
+        <li>Medical check + insurance: ~3,500 THB first year</li>
+        <li>Agency fee (most families use one): 15,000–30,000 THB initial setup, then 5,000–8,000 THB per renewal</li>
+      </ul>
+      <p>Budget roughly <strong>25,000–45,000 THB in year 1</strong> for the paperwork on top of salary, then <strong>10,000–15,000 THB/year</strong> for renewals.</p>
+
+      <h2>What "already in Thailand" versus "fresh from Myanmar" means</h2>
+      <p>A key split on the ThaiHelper platform:</p>
+      <ul>
+        <li><strong>Already in Thailand with valid MOU papers (~70 % of our Myanmar pool):</strong> fastest to hire. The helper's current employer transfers sponsorship to you, or the helper changes jobs within the system. 2–4 weeks of paperwork. These profiles are marked "available immediately" on the browse page.</li>
+        <li><strong>Already in Thailand but without current MOU papers (~15 %):</strong> may need re-registration during a government amnesty window, or a border run and re-entry. 1–3 months.</li>
+        <li><strong>Fresh recruitment from Myanmar (~15 %):</strong> full MOU3 process from scratch. 2–4 months, typically done through a registered recruitment agency. Significantly more paperwork but you can shape the match from the start.</li>
+      </ul>
+
+      <h2>How to hire a Myanmar helper on ThaiHelper</h2>
+      <ol>
+        <li><strong>Browse</strong> Myanmar helper profiles directly — filter by city, category, language, and years of experience. <a href="/helpers">Start on the helper directory</a>.</li>
+        <li><strong>Message</strong> 3–5 candidates whose profile and location match. Ask directly about their current paperwork status: are they in Thailand with valid MOU, or will they need fresh sponsorship?</li>
+        <li><strong>Interview</strong> — in person or via video. Many Myanmar helpers speak Thai and basic English; some fluent English (especially those with 5+ years of expat-family experience).</li>
+        <li><strong>Trial period</strong> — a 1–4 week paid trial is standard and strongly recommended before committing to full MOU paperwork.</li>
+        <li><strong>Formalise</strong> — use our free <a href="/blog/employment-contract-template-thailand">employment contract template</a> and work with an MOU-registered agency or directly with the Department of Employment to transfer or create the work permit.</li>
+      </ol>
+
+      <h2>Common pitfalls to avoid</h2>
+      <ul>
+        <li><strong>Don't hire undocumented Myanmar workers.</strong> It exposes you (the employer) to fines of up to 100 000 THB per worker and the worker to immediate deportation. Every helper on ThaiHelper is email-verified, but you must verify their MOU papers yourself before the first pay cycle.</li>
+        <li><strong>Driving a private car for the family is not a legal role for a non-Thai worker</strong>, including Myanmar nationals under MOU3. Hire a Thai driver for that specific task.</li>
+        <li><strong>Agency up-front fees</strong> for the worker are illegal under MOU3 — Myanmar workers cannot be charged by Thai agencies to find them a household job. If an agency asks the worker to pay a placement fee, walk away.</li>
+        <li><strong>Verify the person on the ID.</strong> Burmese-Thai document conventions differ; check the pink or purple ID card details against the person at the first in-person meeting.</li>
+      </ul>
+
+      <h2>Why families on ThaiHelper hire Myanmar helpers</h2>
+      <p>The three reasons families tell us most often:</p>
+      <ol>
+        <li><strong>Legal clarity.</strong> MOU3 gives both sides a formal framework — unlike the grey-area setups families often fall into with other foreign nationalities.</li>
+        <li><strong>Stability.</strong> MOU3 permits are 2 + 2 years. Thai families and expat families alike report longer tenure with Myanmar staff than with short-contract temporary helpers.</li>
+        <li><strong>Fair cost structure.</strong> Salaries sit 10–20 % below Thai-national rates at the same experience, which lets families reinvest in benefits (13th-month, insurance, children's school fees) without raising the base.</li>
+      </ol>
+
+      <h2>Ready to browse?</h2>
+      <p>Every Myanmar helper on ThaiHelper is email-verified and lists their category, city, languages, and whether they currently have MOU paperwork in Thailand or will need fresh sponsorship. There are no middleman fees — you message directly, verify documents yourself, and agree on terms with the helper.</p>
+      <p style="text-align:center;margin:24px 0;">
+        <a href="/helpers" style="display:inline-block;background:#006a62;color:#fff;padding:14px 28px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;">Browse verified helpers →</a>
+      </p>
+      <p style="text-align:center;font-size:14px;color:#666;">100 % free to browse. No signup needed to look.</p>
+
+      <h3>Related reading</h3>
+      <ul>
+        <li><a href="/blog/work-permits-foreign-helpers-thailand">Work permits for foreign helpers in Thailand — the full legal picture</a></li>
+        <li><a href="/blog/nanny-costs-thailand">Nanny Cost Thailand 2026 — rates from 285+ verified nannies</a></li>
+        <li><a href="/blog/employment-contract-template-thailand">Free employment contract template (Thai + English)</a></li>
+        <li><a href="/legit">Is ThaiHelper legit? Our verification and trust page</a></li>
+      </ul>
+    `,
+  },
 ];
 
 export function getPostBySlug(slug) {
