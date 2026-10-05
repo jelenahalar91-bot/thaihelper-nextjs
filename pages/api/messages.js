@@ -25,6 +25,9 @@ import { sendPushToUser } from '../../lib/web-push';
 import { checkRateLimit } from '../../lib/rate-limit';
 import {
   contactSpread,
+  documentRequestKind,
+  documentRequestSpread,
+  DOC_SCREEN_SPREAD_ALERT,
   shortenerLinks,
   CONTACT_SPREAD_ALERT,
   CONTACT_SPREAD_BLOCK,
@@ -72,6 +75,52 @@ async function notifyAdminOfContactSpread({ senderRef, senderType, spread, block
       '',
       'Legitimate broadcast recruiters do reach the alert threshold. Check the',
       `account before acting: ${suspendCommand(senderRef)}`,
+    ].join('\n'),
+  });
+}
+
+// Tell the admin inbox that somebody is asking for identity documents.
+//
+// Alert only, never a block, and that is deliberate. A family that travels has
+// a real reason to ask whether a nanny holds a passport, and a helper applying
+// for a live-in job abroad has a real reason to answer. What cannot be judged
+// by a regex is which of those is happening — so a human reads it, and nobody's
+// message is stopped on a guess.
+async function notifyAdminOfDocumentRequest({ senderRef, senderType, kind, spread, sample }) {
+  const { Resend } = await import('resend');
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const asked = kind === 'send';
+  await resend.emails.send({
+    from: 'ThaiHelper <noreply@thaihelper.app>',
+    to: process.env.ADMIN_EMAIL,
+    subject: asked
+      ? `\u{1F6A8} Asked for an ID document: ${senderType} ${senderRef}`
+      : `\u{1F6A8} Screening for passports: ${senderType} ${senderRef} (${spread} people)`,
+    text: [
+      ...(asked
+        ? [
+            `${senderRef} (${senderType}) has asked somebody to SEND a photo or copy`,
+            'of a passport or ID card through ThaiHelper.',
+            '',
+            'A passport image cannot be taken back. It is enough to open accounts or',
+            'apply for visas in her name, and it is the standard first step when a',
+            'domestic worker is being moved abroad. There is no reason to need one',
+            'here: hiring happens in person, and we have never asked for documents.',
+          ]
+        : [
+            `${senderRef} (${senderType}) has asked ${spread} different people whether`,
+            `they hold a passport or ID, within the last ${CONTACT_SPREAD_WINDOW_DAYS} days.`,
+            '',
+            'Asking one person is ordinary — families who travel need to know. Asking',
+            'this many is screening a list, which is what recruitment for work abroad',
+            `looks like. Everyone else on record has asked at most 2 people.`,
+          ]),
+      '',
+      'The message:',
+      sample,
+      '',
+      'Nothing was blocked and the message was delivered.',
+      `Read the conversation before acting: ${suspendCommand(senderRef)}`,
     ].join('\n'),
   });
 }
@@ -406,6 +455,38 @@ export default async function handler(req, res) {
       if (spread >= CONTACT_SPREAD_BLOCK) {
         console.warn(`[spam] blocked ${session.ref}: contact info in ${spread} conversations`);
         return res.status(403).json({ error: 'contact_sharing_limit' });
+      }
+    }
+
+    // Anti-trafficking: somebody asking for a passport photo.
+    //
+    // EMP-SMHEBC asked 15 helpers whether they had a passport and then asked
+    // one of them to send a picture of it, five days before anybody noticed.
+    // Across all 4,465 messages ever sent here, it is the only account that
+    // ever asked for the document itself, and the only one that screened more
+    // than two people — so neither branch of this has a precedent among honest
+    // users, and both are rare enough to mail about individually.
+    const docKind = documentRequestKind(trimmed);
+    if (docKind) {
+      const docSpread = docKind === 'send'
+        ? 1 // one is already too many; no counting needed
+        : await documentRequestSpread(supabase, session.ref, trimmed, conversation_id);
+      if (docKind === 'send' || docSpread >= DOC_SCREEN_SPREAD_ALERT) {
+        const fresh = await checkRateLimit({
+          bucket: 'document-request-alert',
+          key: session.ref,
+          max: 1,
+          windowMs: 24 * 60 * 60 * 1000,
+        });
+        if (fresh && process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
+          notifyAdminOfDocumentRequest({
+            senderRef: session.ref,
+            senderType: session.role,
+            kind: docKind,
+            spread: docSpread,
+            sample: trimmed.slice(0, 300),
+          }).catch((e) => console.error('Document-request alert failed:', e.message));
+        }
       }
     }
 
