@@ -453,7 +453,7 @@ function getCategoryLabel(slugCsv, lang) {
 
 export default function Employers({ featuredHelpers = [] }) {
   const { lang, setLang: changeLang } = useLang();
-  const t = T[lang];
+  const t = T[lang] || T.en;
   const [viewingHelper, setViewingHelper] = useState(null);
 
   // Hero "Latest signups" grid — same data source as the helpers

@@ -1,18 +1,32 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLang } from '../pages/_app';
 
+// my/km/lo are labelled in their own script on purpose: somebody who reads
+// neither Thai nor English cannot find "MY" in a list, but recognises
+// မြန်မာ instantly. They appear only where a page passes `languages`,
+// which today is the helper funnel — see pages/register.js and index.js.
 const LANGS = {
   en: { flag: '🇬🇧', label: 'EN' },
   th: { flag: '🇹🇭', label: 'TH' },
+  my: { flag: '🇲🇲', label: 'မြန်မာ' },
+  km: { flag: '🇰🇭', label: 'ខ្មែរ' },
+  lo: { flag: '🇱🇦', label: 'ລាວ' },
 };
+
+// Only en/th exist on every page, so that is what a bare <LangSwitcher />
+// offers. my/km/lo translate the HELPER funnel only (landing + registration)
+// — offering them anywhere else would promise a translation and deliver an
+// English page. Those two pages opt in with `languages={HELPER_LANGS}`.
+export const DEFAULT_LANGS = ['en', 'th'];
+export const HELPER_LANGS = ['en', 'th', 'my', 'km', 'lo'];
 
 export default function LangSwitcher({ className = '', value, onChange, languages }) {
   const ctx = useLang();
   const lang = value ?? ctx.lang;
   const setLang = onChange ?? ctx.setLang;
-  const langs = languages
-    ? Object.fromEntries(languages.map((c) => [c, LANGS[c]]).filter(([, v]) => v))
-    : LANGS;
+  const langs = Object.fromEntries(
+    (languages || DEFAULT_LANGS).map((c) => [c, LANGS[c]]).filter(([, v]) => v)
+  );
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const ref = useRef(null);

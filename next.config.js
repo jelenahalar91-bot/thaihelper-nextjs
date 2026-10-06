@@ -39,7 +39,14 @@ const nextConfig = {
   // is disabled so visitors aren't auto-redirected based on browser
   // Accept-Language — the LangSwitcher gives explicit control instead.
   i18n: {
-    locales: ['en', 'th'],
+    // en/th serve the whole site. my/km/lo (Burmese, Khmer, Lao) were added
+    // 2026-10-05 for the MOU helper campaign: Thailand only issues household
+    // work permits to nationals of Myanmar, Laos and Cambodia, and most of
+    // them read neither Thai nor English — 111 of our 117 Myanmar helpers
+    // speak Burmese, only 45 speak Thai. They cover the HELPER funnel only
+    // (landing + registration); every other page falls back to English via
+    // `T[lang] || T.en`, which is why that fallback is now mandatory.
+    locales: ['en', 'th', 'my', 'km', 'lo'],
     defaultLocale: 'en',
     localeDetection: false,
   },
@@ -126,6 +133,11 @@ const nextConfig = {
       { src: '/pt',  campaign: 'pattaya-jobs' },
       { src: '/ph',  campaign: 'phuket-jobs' },
       { src: '/ks',  campaign: 'samui-jobs' },
+      // Added 2026-10-05 for the resort-province helper push. Supply is
+      // thinnest exactly here: 20 helpers for 17 Hua Hin families (1.2 each)
+      // against 463 for 87 in Bangkok (5.3). See marketing/fb-ads-thai-south-2026-10.md.
+      { src: '/hh',  campaign: 'huahin-jobs' },
+      { src: '/kb',  campaign: 'krabi-jobs' },
       { src: '/bm',  campaign: 'burmese-jobs' },
       { src: '/cg',  campaign: 'caregiver-jobs' },
     ].map(({ src, campaign }) => ({

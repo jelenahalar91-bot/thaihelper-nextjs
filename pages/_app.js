@@ -36,6 +36,9 @@ const sarabun = Sarabun({
 
 // Language context — derived from the Next.js router locale.
 // The URL is now the source of truth: `/` is English, `/th/...` is Thai.
+// Keep in sync with `i18n.locales` in next.config.js.
+export const SUPPORTED_LANGS = ['en', 'th', 'my', 'km', 'lo'];
+
 const LangContext = createContext({ lang: 'en', setLang: () => {} });
 
 export function useLang() {
@@ -44,7 +47,9 @@ export function useLang() {
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const lang = router.locale === 'th' ? 'th' : 'en';
+  // Locales the helper funnel is translated into. Anything else — and any
+  // page without a block for the active locale — falls back to English.
+  const lang = SUPPORTED_LANGS.includes(router.locale) ? router.locale : 'en';
 
   // setLang now switches the URL locale (which re-renders the page).
   // We use shallow routing where possible so SSG data isn't refetched.
@@ -74,7 +79,7 @@ export default function App({ Component, pageProps }) {
 
   // Keep <html lang> in sync with the active locale.
   useEffect(() => {
-    document.documentElement.lang = lang === 'th' ? 'th' : 'en';
+    document.documentElement.lang = lang;
   }, [lang]);
 
   // Track page views on route change — fires both GA and Meta Pixel

@@ -4,7 +4,7 @@ import BrandWordmark from '@/components/BrandWordmark';
 import AppBadges from '@/components/AppBadges';
 import Image from 'next/image';
 import SEOHead, { getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
-import LangSwitcher from '@/components/LangSwitcher';
+import LangSwitcher, { HELPER_LANGS } from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '@/lib/utils';
@@ -181,7 +181,7 @@ const PROFILES = [
 
 export default function Home({ initialRecentHelpers = null, initialTotalHelpers = null }) {
   const { lang, setLang: changeLang } = useLang();
-  const t = T[lang];
+  const t = T[lang] || T.en;
 
   // Recently joined panel — seeded on the server (getServerSideProps) so the
   // real signups show on first paint. Falls back to placeholder data if the
@@ -282,7 +282,7 @@ export default function Home({ initialRecentHelpers = null, initialTotalHelpers 
                 <div className="hidden lg:flex items-center gap-4">
                   <ResourcesDropdown label={t.nav_resources} items={navItems} />
                   <Link className="text-sm font-semibold text-[#001b3d] hover:text-primary transition-colors" href="/login">{t.nav_login}</Link>
-                  <LangSwitcher />
+                  <LangSwitcher languages={HELPER_LANGS} />
                   <Link className="px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary text-sm font-semibold hover:shadow-lg transition-all active:scale-95 duration-150 whitespace-nowrap" href="/signup">{t.nav_cta}</Link>
                 </div>
                 <div className="lg:hidden">

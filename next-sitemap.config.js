@@ -43,6 +43,16 @@ module.exports = {
     '/api/*',
     '/th',
     '/th/*',
+    // my/km/lo (added 2026-10-05) translate the helper funnel only. Every
+    // other page renders English under those prefixes, so letting them into
+    // the sitemap would hand Google three duplicate copies of the whole site.
+    // They are reached from the ads by direct link, which needs no sitemap.
+    '/my',
+    '/my/*',
+    '/km',
+    '/km/*',
+    '/lo',
+    '/lo/*',
   ],
 
   // Pages that next-sitemap can't discover on its own:
@@ -113,8 +123,10 @@ module.exports = {
     // Belt-and-suspenders: even with /th/* in exclude, return null here
     // for any /th-prefixed path that slips through. Prevents the
     // /th/th/ alternateRef bug from ever recurring.
-    if (path === '/th' || path.startsWith('/th/')) {
-      return null;
+    for (const loc of ['th', 'my', 'km', 'lo']) {
+      if (path === `/${loc}` || path.startsWith(`/${loc}/`)) {
+        return null;
+      }
     }
     // /employers-browse got noindex on 2026-06-16 (GSC Soft 404).
     // Keep it out of the sitemap so we don't send Google mixed signals
