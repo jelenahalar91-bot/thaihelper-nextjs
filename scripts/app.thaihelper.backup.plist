@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Daily off-site backup of the Supabase project.
+
+  Install:
+    cp scripts/app.thaihelper.backup.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/app.thaihelper.backup.plist
+
+  Run it once by hand:
+    launchctl start app.thaihelper.backup
+
+  Stop it again:
+    launchctl unload ~/Library/LaunchAgents/app.thaihelper.backup.plist
+
+  The job runs through a login shell so nvm's `node` is on PATH — an nvm
+  upgrade would otherwise break a hardcoded version path. If the Mac is
+  asleep at 03:30, launchd runs the job once it next wakes.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>app.thaihelper.backup</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd "/Users/jelenahermann/Desktop/ Thai Helper/thaihelper-nextjs" &amp;&amp; exec caffeinate -i node scripts/backup-supabase.js</string>
+  </array>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>3</integer>
+    <key>Minute</key><integer>30</integer>
+  </dict>
+
+  <key>StandardOutPath</key>
+  <string>/Users/jelenahermann/Library/Logs/thaihelper-backup.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/jelenahermann/Library/Logs/thaihelper-backup.log</string>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+</dict>
+</plist>
