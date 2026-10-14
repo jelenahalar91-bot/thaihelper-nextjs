@@ -304,7 +304,9 @@ const T = {
     trust_mobile:    '📱 ใช้งานได้ทุกอุปกรณ์',
   },
   // Burmese / Khmer / Lao — added 2026-10-05. Thailand issues household work
-  // permits only to nationals of Myanmar, Laos and Cambodia, and most of them
+  // permits only to nationals of Myanmar, Laos and Cambodia — and since Nov
+  // 2025 no new Cambodian workers are admitted, so Myanmar and Laos are the
+  // live routes (the Khmer copy stays for workers already here). Most of them
   // read neither Thai nor English: of our 117 Myanmar helpers, 111 speak
   // Burmese and only 45 speak Thai. Every one of them reached this form in a
   // language they could not read. See marketing/fb-ads-burmese-mou-2026-10.md.

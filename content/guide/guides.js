@@ -180,7 +180,7 @@ export const guides = [
           <p>This section matters only if you hire a non-Thai citizen. Thai nationals working in private households do <strong>not</strong> need a work permit. For everyone else the rules are considerably narrower than most families expect, and narrower than a lot of advice circulating in expat groups.</p>
 
           <h3>The rule that decides everything</h3>
-          <p>Household work sits in the group of occupations that the Ministry of Labour's notification of 1 April 2020 (under the Royal Decree on Foreign Workers Management B.E. 2560) opens to foreigners <strong>only through a government-to-government labour MOU</strong>. Thailand has household-work MOUs with exactly three countries: <strong>Myanmar, Laos and Cambodia</strong>. A Burmese, Lao or Cambodian helper on an MOU work permit is fully legal and entirely routine — several hundred thousand migrant workers are employed in Thailand this way.</p>
+          <p>Household work sits in the group of occupations that the Ministry of Labour's notification of 1 April 2020 (under the Royal Decree on Foreign Workers Management B.E. 2560) opens to foreigners <strong>only through a government-to-government labour MOU</strong>. Thailand has household-work MOUs with exactly three countries: <strong>Myanmar, Laos and Cambodia</strong>. A Burmese or Lao helper on an MOU work permit is fully legal and entirely routine — several hundred thousand migrant workers are employed in Thailand this way. <strong>One caveat that now matters more than the treaty text:</strong> Thailand has admitted no new Cambodian workers since November 2025, and in March 2026 the Ministry of Labour confirmed that only those already holding valid permits would be managed. Renewals for Cambodians were put on hold while Lao, Myanmar and Vietnamese renewals continued. For a new hire today that leaves Myanmar and Laos.</p>
 
           <h3>Nationalities outside that list</h3>
           <p>There is no Thailand&ndash;Philippines MOU for domestic workers. Vietnam sits inside the wider CLMV labour framework, but for fishery and construction &mdash; not household work. So for Filipino, Vietnamese, Indian, Nepali and Western candidates, <strong>a private family cannot obtain a domestic-worker permit at all</strong>.</p>
@@ -282,7 +282,7 @@ export const guides = [
       {
         question: 'Do nannies in Thailand need a work permit?',
         answer:
-          'Thai citizens working as nannies do NOT need a work permit. For foreign nannies it depends on nationality. Myanmar, Lao and Cambodian candidates can be employed by a family through Thailand’s bilateral labour MOUs — all-in cost roughly 15,000–50,000 THB, 3–6 months for a new import. For Filipino, Vietnamese, Indian and Western candidates there is no domestic-worker permit a private household can obtain: Thailand has no household-work MOU with those countries, and a family cannot sponsor a Non-Immigrant B visa, which requires a registered Thai company with 2 million THB of paid-up capital.',
+          'Thai citizens working as nannies do NOT need a work permit. For foreign nannies it depends on nationality. Myanmar and Lao candidates can be employed by a family through Thailand’s bilateral labour MOUs — all-in cost roughly 15,000–50,000 THB, 3–6 months for a new import. Cambodia is on the same treaty list but Thailand has admitted no new Cambodian workers since November 2025. For Filipino, Vietnamese, Indian and Western candidates there is no domestic-worker permit a private household can obtain: Thailand has no household-work MOU with those countries, and a family cannot sponsor a Non-Immigrant B visa, which requires a registered Thai company with 2 million THB of paid-up capital.',
       },
       {
         question: 'What is the difference between live-in and live-out nannies?',
@@ -467,7 +467,7 @@ export const guides = [
           <p>If you hire a Thai citizen as a housekeeper, no work permit is needed. If you hire a non-Thai citizen, whether a permit is even available depends entirely on her nationality.</p>
 
           <h3>The rule that decides everything</h3>
-          <p>Household work sits in the group of occupations that the Ministry of Labour's notification of 1 April 2020 (under the Royal Decree on Foreign Workers Management B.E. 2560) opens to foreigners <strong>only through a government-to-government labour MOU</strong>. Thailand has household-work MOUs with exactly three countries: <strong>Myanmar, Laos and Cambodia</strong>. A Burmese, Lao or Cambodian helper on an MOU work permit is fully legal and entirely routine — several hundred thousand migrant workers are employed in Thailand this way.</p>
+          <p>Household work sits in the group of occupations that the Ministry of Labour's notification of 1 April 2020 (under the Royal Decree on Foreign Workers Management B.E. 2560) opens to foreigners <strong>only through a government-to-government labour MOU</strong>. Thailand has household-work MOUs with exactly three countries: <strong>Myanmar, Laos and Cambodia</strong>. A Burmese or Lao helper on an MOU work permit is fully legal and entirely routine — several hundred thousand migrant workers are employed in Thailand this way. <strong>One caveat that now matters more than the treaty text:</strong> Thailand has admitted no new Cambodian workers since November 2025, and in March 2026 the Ministry of Labour confirmed that only those already holding valid permits would be managed. Renewals for Cambodians were put on hold while Lao, Myanmar and Vietnamese renewals continued. For a new hire today that leaves Myanmar and Laos.</p>
 
           <p><strong>Burmese housekeepers</strong> are by far the largest non-Thai group in this profession, particularly in Bangkok and Phuket. Many are already documented as migrant workers; some are not, and the difference matters to you as the employer. <strong>Lao and Cambodian housekeepers</strong> are common in border-region cities and parts of Bangkok, and fall under the same MOU route.</p>
 
@@ -576,7 +576,7 @@ export const guides = [
       {
         question: 'Do housekeepers in Thailand need a work permit?',
         answer:
-          'Thai citizens do NOT need a work permit for domestic work. Burmese, Lao and Cambodian citizens can be employed through Thailand’s bilateral labour MOUs, which is the only route that exists for household work — roughly 15,000–50,000 THB all-in and 3–6 months for a first-time import. Filipino, Vietnamese and Western citizens cannot be issued a domestic-worker permit by a private family at all, because Thailand has no household-work MOU with those countries.',
+          'Thai citizens do NOT need a work permit for domestic work. Burmese and Lao citizens can be employed through Thailand’s bilateral labour MOUs, which is the only route that exists for household work — roughly 15,000–50,000 THB all-in and 3–6 months for a first-time import. Cambodia is on the same list but closed to new workers since November 2025; a Cambodian already holding a valid permit may be employable until it expires. Filipino, Vietnamese and Western citizens cannot be issued a domestic-worker permit by a private family at all, because Thailand has no household-work MOU with those countries.',
       },
       {
         question: 'Is the 13th-month bonus required by law for housekeepers in Thailand?',
@@ -766,7 +766,7 @@ export const guides = [
           <p>Elder care is where the gap between what families want and what the law allows is widest. Filipino caregivers are highly visible in higher-tier home care in Bangkok and Phuket — many have formal nursing or caregiver training and fluent English — but the legal route for a private family to employ one does not exist. It is worth understanding why before you build a care plan around it.</p>
 
           <h3>The rule that decides everything</h3>
-          <p>Household work sits in the group of occupations that the Ministry of Labour's notification of 1 April 2020 (under the Royal Decree on Foreign Workers Management B.E. 2560) opens to foreigners <strong>only through a government-to-government labour MOU</strong>. Thailand has household-work MOUs with exactly three countries: <strong>Myanmar, Laos and Cambodia</strong>. A Burmese, Lao or Cambodian helper on an MOU work permit is fully legal and entirely routine — several hundred thousand migrant workers are employed in Thailand this way.</p>
+          <p>Household work sits in the group of occupations that the Ministry of Labour's notification of 1 April 2020 (under the Royal Decree on Foreign Workers Management B.E. 2560) opens to foreigners <strong>only through a government-to-government labour MOU</strong>. Thailand has household-work MOUs with exactly three countries: <strong>Myanmar, Laos and Cambodia</strong>. A Burmese or Lao helper on an MOU work permit is fully legal and entirely routine — several hundred thousand migrant workers are employed in Thailand this way. <strong>One caveat that now matters more than the treaty text:</strong> Thailand has admitted no new Cambodian workers since November 2025, and in March 2026 the Ministry of Labour confirmed that only those already holding valid permits would be managed. Renewals for Cambodians were put on hold while Lao, Myanmar and Vietnamese renewals continued. For a new hire today that leaves Myanmar and Laos.</p>
 
           <p>Burmese caregivers are common at companion and personal-care levels and can be employed through this route.</p>
 
@@ -1904,7 +1904,7 @@ export const guides = [
             <li><strong>Hotel or restaurant chef cooking privately on the side:</strong> their permit covers the hotel, not your dining room. Extending it to a second employer is the lawful version; most private dinners happen without that, and the risk sits with the chef.</li>
             <li><strong>Foreign chef on a marriage or parent visa:</strong> lawful to cook privately if they hold a work permit that actually covers culinary work. Ask to see it rather than assuming the visa is enough — a Non-O is not a work authorisation by itself.</li>
             <li><strong>Full-time private chef employed through a family's Thai company:</strong> this works where the company genuinely exists and meets the capital and staffing requirements. Budget 15,000–30,000 THB for initial setup and 5,000–10,000 THB per renewal year on top of the company's own compliance costs.</li>
-            <li><strong>Chef from Myanmar, Laos or Cambodia:</strong> cooking within a household falls under the domestic-worker MOU route, which is the one pathway open to a family directly. Roughly 15,000–50,000 THB all-in, 3–6 months for a first-time import.</li>
+            <li><strong>Chef from Myanmar or Laos:</strong> cooking within a household falls under the domestic-worker MOU route, which is the one pathway open to a family directly. Roughly 15,000–50,000 THB all-in, 3–6 months for a first-time import. Cambodia is on the treaty list but closed to new workers since November 2025.</li>
           </ul>
 
           <h3>What to do for a long-term hire</h3>
@@ -2271,7 +2271,7 @@ export const guides = [
           <h3>The routes that do work</h3>
           <ul>
             <li><strong>Hire a Thai nanny.</strong> No permit needed, the largest candidate pool by far, and immediate start. For most families this is the answer.</li>
-            <li><strong>Hire from Myanmar, Laos or Cambodia through the MOU.</strong> The one foreign route a family can use directly for household work: roughly 15,000–50,000 THB all-in, 3–6 months for a first-time import.</li>
+            <li><strong>Hire from Myanmar or Laos through the MOU.</strong> The one foreign route a family can use directly for household work: roughly 15,000–50,000 THB all-in, 3–6 months for a first-time import. Cambodia is on the same treaty list but has been closed to new workers since November 2025.</li>
             <li><strong>Engage an English tutor separately.</strong> If English exposure is the real goal, a tutor employed through a licensed centre can sit alongside a Thai or MOU nanny, each on its own lawful footing. This is usually cheaper than the premium a Filipino nanny commands, and it holds up.</li>
             <li><strong>Talk to an immigration lawyer</strong> if you think one of the narrow exceptions applies to you. <a href="/directory">Expert directory by city</a>.</li>
           </ul>

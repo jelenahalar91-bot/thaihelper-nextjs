@@ -56,6 +56,9 @@ const T = {
     rule_label: 'The basic rule',
     rule_text: 'In Thailand, every non-Thai worker needs a work permit — no exceptions, not even on a tourist, retirement, dependent or education visa. The only people who can work without one are Thai nationals. And needing a permit is not the same as being able to get one: for household work, permits are issued only to nationals of Myanmar, Laos and Cambodia under Thailand\'s labour MOUs, while driving is closed to every foreigner outright. This wizard tells you which case your candidate falls into, and whether the process is worth it given the cost and timeline.',
 
+    newmou_label: '🆕 New source countries — does this change anything?',
+    newmou_text: 'Thailand signed a labour MOU and an employment agreement with Sri Lanka on 14 September 2026, covering an initial 10,000 workers on two-year contracts, with frameworks for Nepal and Bangladesh announced for 2027. Worth knowing, because it gets quoted as proof that Thailand is opening up: the announced sectors are construction, manufacturing and agriculture, and household work is not among them. For a family hiring a nanny, housekeeper or carer, nothing has changed. We will update this page if the implementing rules add domestic service.',
+
     enforcement_label: '🚨 Active enforcement — May 2026, sharpened Aug 2026',
     enforcement_text: 'After a 1 May 2026 raid on an unlicensed school in Koh Phangan (9 arrests), Labour Minister Julapun Amornvivat ordered nationwide inspections under the Trai Thep Phithak task force. FY2026 tally to date: 74,000+ businesses checked, 1,700+ foreigners caught in reserved occupations. Statutory penalties (Royal Decree on Foreign Workers Management B.E. 2560, as amended 2018) for employing a worker without a valid work permit: 10,000–100,000 THB per worker for the employer; repeat offences add 50,000–200,000 THB per worker, up to 1 year prison and a 3-year ban on hiring foreigners. The worker faces 5,000–50,000 THB, deportation and a 2-year bar on reapplying for a work permit. Since 28 August 2026, the new PM Office Regulation on Deportation B.E. 2569 adds a formal deportation procedure with a re-entry ban. High-profile fines like the 800,000 THB Phuket villa case are 100k × 8 workers — not 800k per person.',
 
@@ -69,7 +72,7 @@ const T = {
     q1_placeholder: '— Select your city —',
 
     q2_title: 'What is your helper\'s nationality?',
-    q2_sub: 'Thailand\'s bilateral labour MOUs (Cambodia 2003, Laos 2002, Myanmar 2003 — renewed 2015–2016) cover the household-worker permit category for those three nationalities only. Filipino, Vietnamese, Western and other workers cannot be hired by a private family under a domestic-worker WP.',
+    q2_sub: 'Thailand\'s bilateral labour MOUs (Cambodia 2003, Laos 2002, Myanmar 2003 — renewed 2015–2016) cover the household-worker permit category for those three nationalities only — and of those, only Myanmar and Laos are open to new workers today; Cambodia has been closed to new admissions since late 2025. Filipino, Vietnamese, Western and other workers cannot be hired by a private family under a domestic-worker WP at all.',
 
     q3_title: 'What is your helper\'s current status?',
     q3_sub: 'Already-employed helpers can often follow a faster transfer path; brand-new hires take longer.',
@@ -83,7 +86,7 @@ const T = {
     // Results — common
     result_disclaimer_title: 'Before you continue',
     result_disclaimer: 'I understand this is general information, not legal advice.',
-    result_label_track_mou: 'MOU process (Myanmar / Laos / Cambodia)',
+    result_label_track_mou: 'MOU process (Myanmar / Laos)',
     result_estimated_cost: 'Estimated cost',
     result_estimated_time: 'Estimated time',
     result_thb: 'THB',
@@ -91,23 +94,33 @@ const T = {
     // Myanmar-specific 2026 compliance notice — shown on every MOU result
     // where the helper is Myanmar.
     myanmar_notice_title: '📌 2026 status notes for Myanmar workers',
-    myanmar_notice_b1: 'Myanmar-side: the Myanmar embassy and consulate processes have tightened since 2024. Workers typically need a valid Myanmar passport, CI (Certificate of Identity) or PJ (Passport for Job), plus their original Myanmar NRC and Myanmar household register for embassy/CI steps. Since Jan 2026, junta pre-departure approvals are causing delays. This is a Myanmar-side requirement — not a Thai DoE checklist.',
-    myanmar_notice_b2: 'CI center extension: Myanmar\'s CI service centers in Thailand stay open until 17 Aug 2026, but only for workers already in the Cabinet-Sep-2024 renewal pipeline whose permits expired 31 Mar 2026 and who still need to complete the CI step. This is not a blanket Thai work-permit deadline extension.',
-    myanmar_notice_b3: 'Two-part status: (a) Workers who missed the 31 Mar 2026 renewal submission deadline (~375k of 890k CLMV workers per MOL) are currently undocumented — verify your candidate\'s WP status carefully before hiring. (b) Workers who DID renew successfully now have their temporary stay + work authorization extended to 11 December 2027 (Cabinet resolution 14 July 2026), plus a 60-day window (previously 30) to find a new employer if they leave a job.',
+    myanmar_notice_b1: 'Myanmar-side paperwork: workers typically need a valid Myanmar passport, CI (Certificate of Identity) or PJ (Passport for Job), plus their original Myanmar NRC and household register for the embassy/CI steps. This is a Myanmar-side requirement, not a Thai DoE checklist, and it is where most of the delay sits.',
+    myanmar_notice_b2: 'Renewal cycle: workers who renewed successfully hold temporary stay and work authorisation to 11 December 2027 under the Cabinet resolution of 14 July 2026 — roughly 770,000 Lao, Myanmar and Vietnamese workers in total. The renewal application itself has to be filed by 11 December 2026, so check where your candidate sits in that cycle rather than assuming the 2027 date applies to them.',
+    myanmar_notice_b3: 'Two-part status: (a) workers who missed the 31 March 2026 submission deadline are currently undocumented — verify the permit itself rather than taking a candidate\'s word for it. (b) Those who did renew have a 60-day window (previously 30) to find a new employer if they leave a job. For a fresh import, expect the bottleneck on the Myanmar side: departures for MOU recruitment have been disrupted repeatedly since 2024, and processing runs around 90 days even when it is moving.',
 
     // Result: not legally allowed for domestic work
     nla_h2: 'Domestic-worker permits aren\'t available for this nationality.',
-    nla_p: 'Thailand\'s bilateral labour MOUs (Cambodia 2003, Laos 2002, Myanmar 2003 — renewed 2015–2016) are the only pathway to a work permit in the "domestic worker" category. Vietnamese workers are in the wider CLMV MOU but only for fishery/construction, not household work. A private family cannot sponsor a household-worker WP for a Filipino, Indonesian, Western or other non-MOU3 helper. In practice you may see Filipinas working in Thai homes on company-sponsored Non-B permits in a skilled category (private tutor, governess, childcare specialist, household manager) arranged by nanny agencies like Madawa, Ayasan or Care Nest, or a family-owned Thai company. This route exists but is legally fragile: if a Labour inspector finds the daily role is actually domestic rather than the permitted skilled category, the permit is revoked, the sponsoring company/family is fined 10,000–100,000 THB per worker (Section 102, Royal Decree 2017), and since 28 August 2026 the worker faces formal deportation + re-entry ban under the new PM Office Regulation on Deportation.',
+    nla_p: 'Thailand\'s bilateral labour MOUs (Cambodia 2003, Laos 2002, Myanmar 2003 — renewed 2015–2016) are the only pathway to a work permit in the "domestic worker" category — and of those only Myanmar and Laos are open to new workers today, Cambodia having been closed to new admissions since late 2025. Vietnamese workers are in the wider CLMV MOU but only for fishery/construction, not household work. A private family cannot sponsor a household-worker WP for a Filipino, Indonesian, Western or other non-MOU3 helper. In practice you may see Filipinas working in Thai homes on company-sponsored Non-B permits in a skilled category (private tutor, governess, childcare specialist, household manager) arranged by nanny agencies like Madawa, Ayasan or Care Nest, or a family-owned Thai company. This route exists but is legally fragile: if a Labour inspector finds the daily role is actually domestic rather than the permitted skilled category, the permit is revoked, the sponsoring company/family is fined 10,000–100,000 THB per worker (Section 102, Royal Decree 2017), and since 28 August 2026 the worker faces formal deportation + re-entry ban under the new PM Office Regulation on Deportation.',
     nla_alt_title: 'Legal alternatives:',
     nla_alt1_h: 'Hire a Thai national',
     nla_alt1_p: 'No work permit required. Largest pool, fastest to start.',
     nla_alt1_cta: 'Browse Thai helpers',
-    nla_alt2_h: 'Hire from Myanmar / Laos / Cambodia',
-    nla_alt2_p: 'The only foreign nationalities for which a household-worker WP can actually be issued. Process takes 3–6 months.',
+    nla_alt2_h: 'Hire from Myanmar or Laos',
+    nla_alt2_p: 'The nationalities for which a household-worker WP can actually be issued today. Process takes 3–6 months. Cambodia is on the treaty list but closed to new workers.',
     nla_alt2_cta: 'Browse MOU helpers',
     nla_alt3_h: 'Talk to an immigration lawyer',
     nla_alt3_p: 'Narrow legal pathways: (1) diplomatic households — statutorily exempt under the Alien Working Act; (2) Non-B permits for genuinely skilled roles (private tutor, governess, childcare specialist, household manager) sponsored by a registered Thai employer — schools, licensed nanny agencies (Madawa, Ayasan, Care Nest and similar) or a family-owned Thai company. The role performed must actually match the WP category, not just on paper — Feb 2025 Bangkok language-school raids and the ongoing Trai Thep Phithak task force do inspect. Get qualified advice before relying on this.',
     nla_alt3_cta: 'Find experts in your city',
+
+    // Result: Cambodia — MOU intact on paper, admissions shut in practice
+    cam_h2: 'Cambodia: no new work permits are being issued.',
+    cam_p_lead: 'Cambodia is one of the three countries whose labour MOU with Thailand covers household work, so on paper this looks like an ordinary MOU hire. In practice it has not been one for about a year, and the treaty text is not the operative answer here.',
+    cam_p_facts: 'After a landmine injured a Thai soldier in November 2025, the government suspended the extension policy covering roughly 100,000 Cambodian workers. On 9 March 2026 the Ministry of Labour set out five measures, the second of them explicit: no new Cambodian workers will be admitted, and only those already holding valid permits will be managed. The Ministry has said repeatedly since that there is no policy to reopen the border, despite sustained pressure from Thai business groups. Renewals for Cambodian nationals were put on hold while Lao, Myanmar and Vietnamese renewals carried on — and the Cabinet extension of 14 July 2026, which runs to 11 December 2027, covers those three countries and pointedly leaves Cambodia out.',
+    cam_new_h: 'If your candidate is not yet in Thailand',
+    cam_new_p: 'There is no route at all at the moment. No new Cambodian worker can be brought in under the MOU, whatever an agent offers you. Treat anyone promising a fresh Cambodian household permit as a warning sign rather than an opportunity — this is exactly the gap that recruitment scams fill.',
+    cam_here_h: 'If your candidate is already in Thailand',
+    cam_here_p: 'It may still be possible, but it is time-limited and nothing should be assumed. Ask to see the permit itself and check the expiry date before agreeing anything. Most Cambodian MOU workers are finishing four-year terms that run out between November 2025 and December 2026. Those who renewed after 13 February 2025 are authorised to stay and work until 13 February 2027, with one further renewal available to 13 February 2029. Whether a transfer to a new employer can actually be processed is the open question, since the renewal track for Cambodians was suspended — confirm with the Department of Employment or a licensed agent before either of you relies on it.',
+    cam_alt_title: 'What works instead:',
 
     // Result: no WP needed
     no_wp_h2: 'Good news — no work permit needed.',
@@ -207,12 +220,25 @@ const T = {
 
     result_disclaimer_title: 'ก่อนคุณดำเนินการต่อ',
     result_disclaimer: 'ฉันเข้าใจว่านี่เป็นข้อมูลทั่วไปไม่ใช่คำแนะนำทางกฎหมาย',
-    result_label_track_mou: 'กระบวนการ MOU (พม่า / ลาว / กัมพูชา)',
+    result_label_track_mou: 'กระบวนการ MOU (พม่า / ลาว)',
     result_estimated_cost: 'ค่าใช้จ่ายโดยประมาณ',
     result_estimated_time: 'เวลาโดยประมาณ',
     result_thb: 'บาท',
 
     // ข้อกำหนดปี 2026 เฉพาะแรงงานพม่า — แสดงเมื่อสัญชาติ = พม่า + MOU
+    newmou_label: '🆕 ประเทศต้นทางใหม่ — เปลี่ยนอะไรหรือไม่?',
+    newmou_text: 'ไทยลงนาม MOU ด้านแรงงานและข้อตกลงการจ้างงานกับศรีลังกาเมื่อวันที่ 14 กันยายน 2569 ครอบคลุมแรงงานชุดแรก 10,000 คน สัญญา 2 ปี และมีกรอบความร่วมมือกับเนปาลและบังกลาเทศที่ประกาศไว้สำหรับปี 2570 เรื่องนี้ถูกยกมาอ้างบ่อยว่าไทยกำลังเปิดรับมากขึ้น แต่สาขาที่ประกาศคือก่อสร้าง การผลิต และเกษตรกรรม ไม่รวมงานบ้าน สำหรับครอบครัวที่ต้องการจ้างพี่เลี้ยงเด็ก แม่บ้าน หรือผู้ดูแล จึงไม่มีอะไรเปลี่ยนแปลง เราจะอัปเดตหน้านี้หากระเบียบปฏิบัติเพิ่มงานรับใช้ในบ้านเข้าไป',
+
+    // ผลลัพธ์: กัมพูชา — MOU ยังอยู่บนกระดาษ แต่ปิดรับคนใหม่
+    cam_h2: 'กัมพูชา: ขณะนี้ไม่มีการออกใบอนุญาตทำงานใหม่',
+    cam_p_lead: 'กัมพูชาเป็นหนึ่งในสามประเทศที่ MOU ด้านแรงงานกับไทยครอบคลุมงานบ้าน บนกระดาษจึงดูเหมือนการจ้างผ่าน MOU ตามปกติ แต่ในทางปฏิบัติไม่ได้เป็นเช่นนั้นมาประมาณหนึ่งปีแล้ว ตัวบทข้อตกลงจึงไม่ใช่คำตอบที่ใช้ได้จริงในกรณีนี้',
+    cam_p_facts: 'หลังเหตุทุ่นระเบิดทำให้ทหารไทยบาดเจ็บเมื่อเดือนพฤศจิกายน 2568 รัฐบาลระงับมาตรการขยายเวลาที่ครอบคลุมแรงงานกัมพูชาราว 100,000 คน ต่อมาวันที่ 9 มีนาคม 2569 กระทรวงแรงงานประกาศมาตรการ 5 ข้อ โดยข้อที่สองระบุชัดว่าจะไม่รับแรงงานกัมพูชาเข้ามาใหม่ และจะบริหารจัดการเฉพาะผู้ที่ถือใบอนุญาตทำงานที่ยังไม่หมดอายุเท่านั้น กระทรวงยืนยันหลายครั้งว่าไม่มีนโยบายเปิดด่านอีก แม้ภาคธุรกิจไทยจะกดดันอย่างต่อเนื่อง การต่ออายุสำหรับคนสัญชาติกัมพูชาถูกพักไว้ ขณะที่ลาว พม่า และเวียดนามยังต่ออายุได้ตามปกติ และมติคณะรัฐมนตรีวันที่ 14 กรกฎาคม 2569 ที่ขยายถึงวันที่ 11 ธันวาคม 2570 ครอบคลุมสามประเทศนั้น โดยไม่รวมกัมพูชา',
+    cam_new_h: 'หากผู้สมัครยังไม่ได้อยู่ในประเทศไทย',
+    cam_new_p: 'ขณะนี้ไม่มีช่องทางใดเลย ไม่สามารถนำแรงงานกัมพูชาเข้ามาใหม่ภายใต้ MOU ได้ ไม่ว่านายหน้าจะเสนออะไรก็ตาม หากมีผู้รับปากว่าจะทำใบอนุญาตทำงานบ้านให้คนกัมพูชาใหม่ ให้ถือเป็นสัญญาณอันตราย ไม่ใช่โอกาส เพราะช่องว่างนี้คือจุดที่มิจฉาชีพด้านการจัดหางานเข้ามา',
+    cam_here_h: 'หากผู้สมัครอยู่ในประเทศไทยแล้ว',
+    cam_here_p: 'อาจยังเป็นไปได้ แต่มีกรอบเวลาจำกัดและไม่ควรคาดเดา ขอดูใบอนุญาตตัวจริงและตรวจวันหมดอายุก่อนตกลงใดๆ แรงงานกัมพูชาภายใต้ MOU ส่วนใหญ่กำลังครบวาระสี่ปีซึ่งสิ้นสุดระหว่างเดือนพฤศจิกายน 2568 ถึงธันวาคม 2569 ส่วนผู้ที่ต่ออายุหลังวันที่ 13 กุมภาพันธ์ 2568 ได้รับอนุญาตให้อยู่และทำงานถึงวันที่ 13 กุมภาพันธ์ 2570 และต่ออายุได้อีกครั้งถึงวันที่ 13 กุมภาพันธ์ 2572 ประเด็นที่ยังไม่ชัดคือการโอนย้ายไปนายจ้างใหม่จะดำเนินการได้จริงหรือไม่ เพราะการต่ออายุสำหรับคนกัมพูชาถูกพักไว้ ควรยืนยันกับกรมการจัดหางานหรือตัวแทนที่ได้รับอนุญาตก่อนที่ทั้งสองฝ่ายจะยึดถือเป็นแผน',
+    cam_alt_title: 'ทางเลือกที่ใช้ได้จริง:',
+
     myanmar_notice_title: '📌 สถานะปี 2026 สำหรับแรงงานพม่า',
     myanmar_notice_b1: 'ฝั่งพม่า: ขั้นตอนที่สถานทูตและสถานกงสุลพม่าเข้มงวดขึ้นตั้งแต่ปี 2024 แรงงานต้องมีหนังสือเดินทางพม่า CI หรือ PJ ที่ใช้ได้ พร้อม NRC ตัวจริงและสำเนาทะเบียนบ้านพม่า (Form 10) สำหรับขั้นตอนสถานทูต/CI ตั้งแต่ ม.ค. 2569 มีความล่าช้าจากการอนุมัติก่อนเดินทางของรัฐบาลทหารพม่า เป็นข้อกำหนดฝั่งพม่า ไม่ใช่ของกรมการจัดหางานไทย',
     myanmar_notice_b2: 'ขยายเวลาศูนย์ CI: ศูนย์บริการ CI ของพม่าในไทยเปิดถึง 17 ส.ค. 2569 เฉพาะแรงงานที่อยู่ในกลุ่ม มติคณะรัฐมนตรี ก.ย. 2567 ซึ่ง WP หมดอายุ 31 มี.ค. 2569 และยังต้องดำเนินการ CI ไม่ใช่การขยายเส้นตาย WP ฝั่งไทยทั่วไป',
@@ -225,8 +251,8 @@ const T = {
     nla_alt1_h: 'จ้างคนไทย',
     nla_alt1_p: 'ไม่ต้องมีใบอนุญาตทำงาน กลุ่มใหญ่ที่สุด เริ่มงานได้เร็วที่สุด',
     nla_alt1_cta: 'ดูผู้ช่วยคนไทย',
-    nla_alt2_h: 'จ้างจากพม่า / ลาว / กัมพูชา',
-    nla_alt2_p: 'สัญชาติต่างชาติเดียวที่ออก WP แรงงานในบ้านได้จริง กระบวนการใช้เวลา 3–6 เดือน',
+    nla_alt2_h: 'จ้างจากพม่าหรือลาว',
+    nla_alt2_p: 'สัญชาติที่ออกใบอนุญาตทำงานบ้านได้จริงในปัจจุบัน กระบวนการใช้เวลา 3–6 เดือน ส่วนกัมพูชาอยู่ในรายชื่อข้อตกลงแต่ปิดรับแรงงานใหม่',
     nla_alt2_cta: 'ดูผู้ช่วย MOU',
     nla_alt3_h: 'ปรึกษาทนายความตรวจคนเข้าเมือง',
     nla_alt3_p: 'ทางเลือกทางกฎหมายที่แคบ: (1) ครัวเรือนทูต — ได้รับยกเว้นตามพระราชบัญญัติการทำงานของคนต่างด้าว (2) Non-B WP สำหรับบทบาทเฉพาะทางที่แท้จริง (ครูสอนส่วนตัว พี่เลี้ยงเด็ก นักดูแลเด็ก ผู้จัดการบ้าน) โดยมีนายจ้างไทยที่จดทะเบียนเป็นผู้สนับสนุน — โรงเรียน เอเจนซี่พี่เลี้ยงที่ได้รับอนุญาต (Madawa, Ayasan, Care Nest และอื่นๆ) หรือบริษัทไทยของครอบครัวเอง บทบาทที่ทำจริงต้องสอดคล้องกับประเภท WP ไม่ใช่เพียงในนาม — การบุกโรงเรียนสอนภาษาในกรุงเทพฯ ก.พ. 2568 และชุดเฉพาะกิจไตรเทพพิทักษ์ที่ยังปฏิบัติหน้าที่มีการตรวจสอบจริง ขอคำปรึกษาผู้เชี่ยวชาญก่อนตัดสินใจ',
@@ -540,6 +566,18 @@ export default function WorkPermitWizard() {
             </div>
           </section>
 
+          {/* New-source-country note. Sri Lanka (14 Sep 2026) and the
+              announced Nepal/Bangladesh frameworks get quoted at us as
+              proof that household hiring has opened up. It has not —
+              the announced sectors are construction, manufacturing and
+              agriculture. Stated here so nobody has to ask. */}
+          <section className="px-4 md:px-6 pb-2 pt-2">
+            <div className="max-w-2xl mx-auto rounded-xl border border-slate-300 bg-slate-50 px-5 py-4 text-sm text-slate-800 leading-relaxed">
+              <strong className="font-bold block mb-1">{t.newmou_label}</strong>
+              {t.newmou_text}
+            </div>
+          </section>
+
           {/* May 2026 enforcement banner — surfaces the active nationwide
               crackdown launched after the 1 May 2026 Koh Phangan raid.
               Sits above the wizard intentionally so every visitor sees it,
@@ -791,6 +829,36 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
           </div>
         </>
       )}
+      {result.flow === 'mou_suspended' && (
+        <>
+          <h2 className="text-2xl md:text-3xl font-extrabold font-headline mb-3 text-red-700">{t.cam_h2}</h2>
+          <p className="text-base text-on-surface-variant mb-4">{t.cam_p_lead}</p>
+          <div className="rounded-2xl border-2 border-red-300 bg-red-50 p-4 md:p-5 mb-4">
+            <p className="text-sm md:text-base text-red-900 leading-relaxed">{t.cam_p_facts}</p>
+          </div>
+          {/* The branch that actually applies to this family is shown
+              first and in full colour; the other is kept visible but
+              muted, because candidates move between the two states. */}
+          <div className="grid gap-3 mb-6">
+            {[
+              { key: 'here', show: result.alreadyInThailand, h: t.cam_here_h, p: t.cam_here_p },
+              { key: 'new',  show: !result.alreadyInThailand, h: t.cam_new_h,  p: t.cam_new_p  },
+            ]
+              .sort((a, b) => Number(b.show) - Number(a.show))
+              .map(({ key, show, h, p }) => (
+                <div
+                  key={key}
+                  className={`rounded-2xl border p-4 md:p-5 ${
+                    show ? 'border-amber-300 bg-amber-50' : 'border-slate-200 bg-slate-50 opacity-70'
+                  }`}
+                >
+                  <div className="font-bold mb-1 text-sm md:text-base">{h}</div>
+                  <p className="text-sm text-on-surface-variant leading-relaxed">{p}</p>
+                </div>
+              ))}
+          </div>
+        </>
+      )}
       {result.flow === 'not_worth_it' && (
         <>
           <h2 className="text-2xl md:text-3xl font-extrabold font-headline mb-3">{t.nw_h2}</h2>
@@ -879,7 +947,7 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
           />
           <Recommendation t={t}
             title={t.nla_alt2_h} body={t.nla_alt2_p} cta={t.nla_alt2_cta}
-            href="/helpers?nationality=myanmar,laos,cambodia"
+            href="/helpers?nationality=myanmar,laos"
             disabled={!agree}
             onClick={() => trackCta('nla_browse_mou3')}
           />
@@ -888,6 +956,30 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
             href={directoryUrl()}
             disabled={!agree}
             onClick={() => trackCta('nla_directory')}
+          />
+        </div>
+      )}
+
+      {result.flow === 'mou_suspended' && (
+        <div className="grid gap-3">
+          <div className="text-sm font-bold text-on-background mb-1">{t.cam_alt_title}</div>
+          <Recommendation t={t}
+            title={t.nla_alt1_h} body={t.nla_alt1_p} cta={t.nla_alt1_cta}
+            href={thaiHelpersUrl}
+            disabled={!agree}
+            onClick={() => trackCta('cam_browse_thai')}
+          />
+          <Recommendation t={t}
+            title={t.nla_alt2_h} body={t.nla_alt2_p} cta={t.nla_alt2_cta}
+            href="/helpers?nationality=myanmar,laos"
+            disabled={!agree}
+            onClick={() => trackCta('cam_browse_mou_open')}
+          />
+          <Recommendation t={t}
+            title={t.nla_alt3_h} body={t.nla_alt3_p} cta={t.nla_alt3_cta}
+            href={directoryUrl()}
+            disabled={!agree}
+            onClick={() => trackCta('cam_directory')}
           />
         </div>
       )}

@@ -5,8 +5,9 @@
  * get accused of running a scam on the back of the first one:
  *
  *   (a) "Only Thai nationals may work as nannies or housekeepers."
- *       False — the MOU route for Myanmar, Laos and Cambodia is real and
- *       carries several hundred thousand workers.
+ *       False — the MOU route for Myanmar and Laos is real and carries
+ *       several hundred thousand workers. (Cambodia is on the same treaty
+ *       list but closed to new admissions since Nov 2025 — see law5.)
  *   (b) "Any foreigner can get a household work permit through an agent."
  *       Also false — for every other nationality no such permit exists.
  *
@@ -29,11 +30,19 @@ import { useLang } from './_app';
 const FAQS = [
   {
     question: 'Can foreigners legally work as nannies or housekeepers in Thailand?',
-    answer: 'Some can. Household work is open to foreigners only through a government-to-government labour MOU, and Thailand has household-work MOUs with Myanmar, Laos and Cambodia. Nationals of those three countries can be employed by a private family on an MOU work permit, and several hundred thousand migrant workers are employed in Thailand this way. It is a common misconception that domestic work is reserved for Thai nationals only — it is not.',
+    answer: 'Some can. Household work is open to foreigners only through a government-to-government labour MOU, and Thailand has household-work MOUs with Myanmar, Laos and Cambodia. Nationals of Myanmar and Laos can be employed by a private family on an MOU work permit, and several hundred thousand migrant workers are employed in Thailand this way. It is a common misconception that domestic work is reserved for Thai nationals only — it is not. Cambodia is currently the exception: the MOU exists but Thailand has admitted no new Cambodian workers since November 2025.',
   },
   {
     question: 'Can a Filipino nanny legally work in Thailand?',
     answer: 'Not for a private family doing household work. Thailand has no domestic-worker MOU with the Philippines, so no household work permit can be issued. The Non-Immigrant B alternative requires the employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire, which a household is not. Teaching and tutoring is the category where a lawful route exists for Filipino nationals, but the permit must be held by a school, language centre or tutoring company rather than by the family.',
+  },
+  {
+    question: 'Can a Cambodian helper still work in Thailand in 2026?',
+    answer: 'Only if they already hold a valid work permit, and only until it expires. Thailand has admitted no new Cambodian workers since November 2025, when the government suspended the extension policy covering roughly 100,000 of them after a landmine injured a Thai soldier. In March 2026 the Ministry of Labour confirmed that no new Cambodian workers would be admitted and only existing permit holders would be managed, and it has since repeated that there is no policy to reopen the border. Renewals for Cambodian nationals were put on hold while Lao, Myanmar and Vietnamese renewals continued, and the Cabinet extension of 14 July 2026 running to 11 December 2027 covers those three nationalities but not Cambodia. Most Cambodian MOU workers are finishing four-year terms that expire between November 2025 and December 2026; those who renewed after 13 February 2025 are covered to 13 February 2027, with one further renewal possible to 13 February 2029.',
+  },
+  {
+    question: 'Does the Thailand–Sri Lanka labour agreement allow Sri Lankan nannies or housekeepers?',
+    answer: 'No. Thailand signed a labour MOU and an employment agreement with Sri Lanka on 14 September 2026 covering an initial 10,000 workers on two-year contracts, and frameworks with Nepal and Bangladesh have been announced for 2027. The announced sectors are construction, manufacturing and agriculture. Household work is not among them, so a private family still cannot obtain a work permit for a Sri Lankan, Nepali or Bangladeshi domestic worker.',
   },
   {
     question: 'Which occupations are completely closed to foreigners in Thailand?',
@@ -41,7 +50,7 @@ const FAQS = [
   },
   {
     question: 'Can a private family in Thailand sponsor a work permit?',
-    answer: 'Only through the MOU route for household workers from Myanmar, Laos or Cambodia. For every other permit type the employer must be a registered Thai company meeting the capital and Thai-staffing requirements, so a household cannot sponsor a Non-Immigrant B visa. Narrow exceptions exist for diplomatic households, BOI-promoted employers, and genuinely skilled tutor, governess or household-manager roles under a registered Thai employer.',
+    answer: 'Only through the MOU route for household workers from Myanmar or Laos (Cambodia is on the same treaty list but closed to new workers since November 2025). For every other permit type the employer must be a registered Thai company meeting the capital and Thai-staffing requirements, so a household cannot sponsor a Non-Immigrant B visa. Narrow exceptions exist for diplomatic households, BOI-promoted employers, and genuinely skilled tutor, governess or household-manager roles under a registered Thai employer.',
   },
   {
     question: 'What are the penalties for employing a helper without a work permit in Thailand?',
@@ -73,7 +82,7 @@ const T = {
     myths_title: 'The two things everybody gets wrong',
     myth1_label: 'Claim',
     myth1_q: '"Only Thai nationals may work as nannies, maids or carers. Anything else is illegal."',
-    myth1_a: 'Wrong. Thailand runs bilateral labour MOUs with Myanmar, Laos and Cambodia, and household work is exactly what they cover. Several hundred thousand migrant workers are employed in Thai households on valid MOU permits. A Burmese nanny with her permit in order is as lawful as a Thai one.',
+    myth1_a: 'Wrong. Thailand runs bilateral labour MOUs with Myanmar, Laos and Cambodia, and household work is exactly what they cover — Myanmar and Laos are open to new workers today, Cambodia is not. Several hundred thousand migrant workers are employed in Thai households on valid MOU permits. A Burmese nanny with her permit in order is as lawful as a Thai one.',
     myth2_q: '"Any foreigner can get a nanny work permit — just use a visa agent."',
     myth2_a: 'Also wrong, and this is the more expensive mistake. Outside those three nationalities no household work permit can be issued to a private family. The Non-Immigrant B route people are sold requires a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A household is not that, and no agent can make it one.',
 
@@ -91,13 +100,19 @@ const T = {
         tutoring:  { ok: 'yes', text: 'Yes' },
       },
       {
-        nat: 'Myanmar, Laos, Cambodia',
+        nat: 'Myanmar, Laos',
         household: { ok: 'yes', text: 'Yes — through the MOU work permit. Roughly 15,000–50,000 THB all-in, 3–6 months for a first-time import' },
         driving:   { ok: 'no',  text: 'No — closed to every foreigner, even with a valid household permit' },
         tutoring:  { ok: 'partial', text: 'Only through an employing school, language centre or company' },
       },
       {
-        nat: 'Philippines, Vietnam, India, Nepal',
+        nat: 'Cambodia',
+        household: { ok: 'partial', text: 'The MOU covers household work, but no new Cambodian workers have been admitted since November 2025 and renewals are on hold. Someone already holding a valid permit may be employable until it expires; nobody new can enter' },
+        driving:   { ok: 'no',  text: 'No' },
+        tutoring:  { ok: 'partial', text: 'Only through an employing school, language centre or company' },
+      },
+      {
+        nat: 'Philippines, Vietnam, India, Nepal, Sri Lanka',
         household: { ok: 'no', text: 'No permit can be issued to a private family — no MOU covers these nationalities' },
         driving:   { ok: 'no', text: 'No' },
         tutoring:  { ok: 'partial', text: 'Yes, but the permit is held by the school or company, never by the family' },
@@ -114,12 +129,15 @@ const T = {
     law_title: 'Where these rules come from',
     law1_h: 'The 2020 notification',
     law1_p: 'The Ministry of Labour notification of 1 April 2020, made under the Royal Decree on Foreign Workers Management B.E. 2560 (2017), replaced the old 39-item list from 1979 with 40 occupations across four lists. List 1 is reserved for Thai nationals absolutely. The list that covers household and manual work is open to foreigners only under a government-to-government MOU.',
-    law2_h: 'The MOUs',
-    law2_p: 'Thailand signed bilateral labour MOUs with Laos (2002), Cambodia (2003) and Myanmar (2003), renewed in 2015–2016 and with Cambodia again in 2025. These are what make a foreign household worker possible at all. Vietnam sits inside the wider CLMV labour framework but for fishery and construction, not household work.',
+    law2_h: 'The MOUs — and why Cambodia is now the exception',
+    law2_p: 'Thailand signed bilateral labour MOUs with Laos (2002), Cambodia (2003) and Myanmar (2003), renewed in 2015–2016. These are what make a foreign household worker possible at all. Vietnam sits inside the wider CLMV framework but for fishery and construction, not household work. Cambodia is the case where the treaty text no longer gives the real answer: after a landmine injured a Thai soldier in November 2025 the government suspended the extension policy covering some 100,000 Cambodian workers, and in March 2026 the Ministry of Labour confirmed that no new Cambodian workers would be admitted and only existing permit holders managed. Renewals for Cambodians were put on hold while Lao, Myanmar and Vietnamese renewals continued, and the Cabinet extension of 14 July 2026 to 11 December 2027 covers those three countries but not Cambodia.',
     law3_h: 'Driving, specifically',
     law3_p: 'Driving a motor vehicle sits on List 1 — absolutely reserved, with the only carve-outs being international aircraft piloting and forklift operation. There is no permit, visa or MOU that opens it. Re-describing the job as "personal assistant" does not help: a work permit authorises the work actually performed, not the job title on the form.',
     law4_h: 'Enforcement in 2026',
     law4_p: 'After a raid on an unlicensed school in Koh Phangan on 1 May 2026, the Labour Minister ordered nationwide inspections of foreign-worker permits. Penalties under Section 102 of the Royal Decree: 10,000–100,000 THB per worker for the employer, multiplied by the number of workers found; 5,000–50,000 THB, deportation and a two-year bar for the worker.',
+
+    law5_h: 'Sri Lanka, Nepal, Bangladesh — not a household route',
+    law5_p: 'Thailand signed a labour MOU and an employment agreement with Sri Lanka on 14 September 2026 for an initial 10,000 workers on two-year contracts, and frameworks with Nepal and Bangladesh have been announced for 2027. This gets cited as evidence that Thailand is opening up to more nationalities, and for construction, manufacturing and agriculture it is. Household work is not among the announced sectors, so for a family hiring a nanny, housekeeper or carer nothing has changed. We will update this page if the implementing rules add domestic service.',
 
     fair_title: 'Who actually carries the risk',
     fair_p: 'Worth saying plainly, because it shapes the decision: the penalties are not symmetrical. A family that hires without permission pays a fine. The helper loses her livelihood, is deported, and cannot reapply for a work permit for two years. If you are weighing whether to hire into the gap, that asymmetry belongs in the calculation.',
@@ -168,7 +186,7 @@ const T = {
     myths_title: 'สองเรื่องที่เข้าใจผิดกันมากที่สุด',
     myth1_label: 'คำกล่าวอ้าง',
     myth1_q: '"เฉพาะคนไทยเท่านั้นที่ทำงานพี่เลี้ยงเด็ก แม่บ้าน หรือผู้ดูแลได้ นอกนั้นผิดกฎหมายทั้งหมด"',
-    myth1_a: 'ไม่ถูกต้อง ประเทศไทยมีบันทึกความเข้าใจ (MOU) ด้านแรงงานกับเมียนมา ลาว และกัมพูชา ซึ่งครอบคลุมงานบ้านโดยตรง มีแรงงานข้ามชาติหลายแสนคนทำงานในครัวเรือนไทยด้วยใบอนุญาตตาม MOU ที่ถูกต้อง พี่เลี้ยงชาวเมียนมาที่มีใบอนุญาตครบถ้วนถูกกฎหมายเช่นเดียวกับคนไทย',
+    myth1_a: 'ไม่ถูกต้อง ประเทศไทยมีบันทึกความเข้าใจ (MOU) ด้านแรงงานกับเมียนมา ลาว และกัมพูชา ซึ่งครอบคลุมงานบ้านโดยตรง โดยเมียนมาและลาวยังเปิดรับแรงงานใหม่ ส่วนกัมพูชาไม่เปิดแล้ว มีแรงงานข้ามชาติหลายแสนคนทำงานในครัวเรือนไทยด้วยใบอนุญาตตาม MOU ที่ถูกต้อง พี่เลี้ยงชาวเมียนมาที่มีใบอนุญาตครบถ้วนถูกกฎหมายเช่นเดียวกับคนไทย',
     myth2_q: '"คนต่างชาติคนไหนก็ขอใบอนุญาตทำงานพี่เลี้ยงได้ แค่ใช้บริการเอเจนซี่วีซ่า"',
     myth2_a: 'ก็ไม่ถูกต้องเช่นกัน และเป็นความเข้าใจผิดที่แพงกว่า นอกเหนือจากสามสัญชาตินั้น ไม่มีใบอนุญาตทำงานบ้านใดที่ออกให้ครอบครัวผู้ว่าจ้างได้ ช่องทาง Non-Immigrant B ที่มักถูกเสนอขายต้องมีบริษัทไทยจดทะเบียนที่มีทุนชำระแล้ว 2 ล้านบาท และลูกจ้างคนไทย 4 คนต่อคนต่างด้าว 1 คน ครอบครัวไม่เข้าเงื่อนไขนี้ และไม่มีเอเจนซี่ใดทำให้เข้าได้',
 
@@ -186,13 +204,19 @@ const T = {
         tutoring:  { ok: 'yes', text: 'ได้' },
       },
       {
-        nat: 'เมียนมา ลาว กัมพูชา',
+        nat: 'เมียนมา ลาว',
         household: { ok: 'yes', text: 'ได้ — ผ่านใบอนุญาตทำงานระบบ MOU ประมาณ 15,000–50,000 บาทรวมทุกอย่าง ใช้เวลา 3–6 เดือนสำหรับการนำเข้าครั้งแรก' },
         driving:   { ok: 'no',  text: 'ไม่ได้ — ปิดสำหรับคนต่างด้าวทุกคน แม้มีใบอนุญาตทำงานบ้านที่ถูกต้อง' },
         tutoring:  { ok: 'partial', text: 'ได้เฉพาะผ่านโรงเรียน สถาบันสอนภาษา หรือบริษัทที่เป็นนายจ้าง' },
       },
       {
-        nat: 'ฟิลิปปินส์ เวียดนาม อินเดีย เนปาล',
+        nat: 'กัมพูชา',
+        household: { ok: 'partial', text: 'MOU ครอบคลุมงานบ้าน แต่ไทยไม่รับแรงงานกัมพูชาเข้ามาใหม่ตั้งแต่พฤศจิกายน 2568 และการต่ออายุถูกพักไว้ ผู้ที่ถือใบอนุญาตที่ยังไม่หมดอายุอาจจ้างได้จนกว่าจะหมดอายุ แต่ไม่มีการรับคนใหม่' },
+        driving:   { ok: 'no',  text: 'ไม่ได้' },
+        tutoring:  { ok: 'partial', text: 'ได้เฉพาะผ่านโรงเรียน สถาบันสอนภาษา หรือบริษัทที่เป็นนายจ้าง' },
+      },
+      {
+        nat: 'ฟิลิปปินส์ เวียดนาม อินเดีย เนปาล ศรีลังกา',
         household: { ok: 'no', text: 'ไม่ได้ — ไม่มี MOU ครอบคลุมสัญชาติเหล่านี้ ครอบครัวจึงขอใบอนุญาตให้ไม่ได้' },
         driving:   { ok: 'no', text: 'ไม่ได้' },
         tutoring:  { ok: 'partial', text: 'ได้ แต่ใบอนุญาตต้องออกให้โรงเรียนหรือบริษัท ไม่ใช่ครอบครัว' },
@@ -209,12 +233,15 @@ const T = {
     law_title: 'ที่มาของกฎเหล่านี้',
     law1_h: 'ประกาศปี 2563',
     law1_p: 'ประกาศกระทรวงแรงงาน ลงวันที่ 1 เมษายน 2563 ออกตามพระราชกำหนดการบริหารจัดการการทำงานของคนต่างด้าว พ.ศ. 2560 แทนที่บัญชี 39 รายการเดิมจากปี 2522 ด้วย 40 อาชีพแบ่งเป็น 4 บัญชี บัญชี 1 สงวนไว้สำหรับคนไทยโดยเด็ดขาด ส่วนบัญชีที่ครอบคลุมงานบ้านและงานกรรมกรเปิดให้คนต่างด้าวเฉพาะภายใต้ MOU ระหว่างรัฐบาลเท่านั้น',
-    law2_h: 'ข้อตกลง MOU',
-    law2_p: 'ประเทศไทยลงนาม MOU ด้านแรงงานกับลาว (2545) กัมพูชา (2546) และเมียนมา (2546) ต่ออายุในปี 2558–2559 และกับกัมพูชาอีกครั้งในปี 2568 ข้อตกลงเหล่านี้คือสิ่งที่ทำให้การจ้างคนต่างด้าวทำงานบ้านเป็นไปได้ ส่วนเวียดนามอยู่ในกรอบแรงงาน CLMV แต่สำหรับงานประมงและก่อสร้าง ไม่ใช่งานบ้าน',
+    law2_h: 'ข้อตกลง MOU — และเหตุใดกัมพูชาจึงเป็นข้อยกเว้นในขณะนี้',
+    law2_p: 'ประเทศไทยลงนาม MOU ด้านแรงงานกับลาว (2545) กัมพูชา (2546) และเมียนมา (2546) ต่ออายุในปี 2558–2559 ข้อตกลงเหล่านี้คือสิ่งที่ทำให้การจ้างคนต่างด้าวทำงานบ้านเป็นไปได้ ส่วนเวียดนามอยู่ในกรอบแรงงาน CLMV แต่สำหรับงานประมงและก่อสร้าง ไม่ใช่งานบ้าน กรณีกัมพูชาคือกรณีที่ตัวบทข้อตกลงไม่ได้ให้คำตอบที่ตรงกับความเป็นจริงอีกต่อไป หลังเหตุทุ่นระเบิดทำให้ทหารไทยบาดเจ็บเมื่อพฤศจิกายน 2568 รัฐบาลระงับมาตรการขยายเวลาที่ครอบคลุมแรงงานกัมพูชาราว 100,000 คน และในเดือนมีนาคม 2569 กระทรวงแรงงานยืนยันว่าจะไม่รับแรงงานกัมพูชาเข้ามาใหม่ และบริหารจัดการเฉพาะผู้ถือใบอนุญาตเดิม การต่ออายุสำหรับคนกัมพูชาถูกพักไว้ ขณะที่ลาว พม่า และเวียดนามยังต่ออายุได้ และมติคณะรัฐมนตรีวันที่ 14 กรกฎาคม 2569 ที่ขยายถึง 11 ธันวาคม 2570 ครอบคลุมสามประเทศนั้นแต่ไม่รวมกัมพูชา',
     law3_h: 'เรื่องงานขับรถโดยเฉพาะ',
     law3_p: 'งานขับขี่ยานยนต์อยู่ในบัญชี 1 สงวนไว้โดยเด็ดขาด ยกเว้นเพียงการขับอากาศยานระหว่างประเทศและการขับรถยก ไม่มีใบอนุญาต วีซ่า หรือ MOU ใดเปิดช่องให้ การเปลี่ยนชื่อตำแหน่งเป็น "ผู้ช่วยส่วนตัว" ไม่ช่วย เพราะใบอนุญาตทำงานอนุญาตตามงานที่ทำจริง ไม่ใช่ตามชื่อตำแหน่งในเอกสาร',
     law4_h: 'การบังคับใช้ในปี 2569',
     law4_p: 'หลังการเข้าตรวจค้นโรงเรียนที่ไม่ได้รับอนุญาตบนเกาะพะงันเมื่อวันที่ 1 พฤษภาคม 2569 รัฐมนตรีว่าการกระทรวงแรงงานสั่งการให้ตรวจสอบใบอนุญาตทำงานของคนต่างด้าวทั่วประเทศ บทลงโทษตามมาตรา 102: นายจ้างปรับ 10,000–100,000 บาทต่อคนต่างด้าวหนึ่งคน คูณจำนวนคนที่พบ ส่วนลูกจ้างปรับ 5,000–50,000 บาท ถูกส่งกลับประเทศ และห้ามยื่นขอใบอนุญาตใหม่เป็นเวลา 2 ปี',
+
+    law5_h: 'ศรีลังกา เนปาล บังกลาเทศ — ไม่ใช่ช่องทางสำหรับงานบ้าน',
+    law5_p: 'ไทยลงนาม MOU ด้านแรงงานและข้อตกลงการจ้างงานกับศรีลังกาเมื่อวันที่ 14 กันยายน 2569 สำหรับแรงงานชุดแรก 10,000 คน สัญญา 2 ปี และมีกรอบความร่วมมือกับเนปาลและบังกลาเทศที่ประกาศไว้สำหรับปี 2570 เรื่องนี้ถูกยกมาอ้างว่าไทยกำลังเปิดรับสัญชาติมากขึ้น ซึ่งเป็นจริงสำหรับงานก่อสร้าง การผลิต และเกษตรกรรม แต่งานบ้านไม่อยู่ในสาขาที่ประกาศ สำหรับครอบครัวที่จะจ้างพี่เลี้ยงเด็ก แม่บ้าน หรือผู้ดูแล จึงไม่มีอะไรเปลี่ยนแปลง เราจะอัปเดตหน้านี้หากระเบียบปฏิบัติเพิ่มงานรับใช้ในบ้านเข้าไป',
 
     fair_title: 'ใครเป็นผู้แบกรับความเสี่ยงจริง',
     fair_p: 'ควรพูดตรงๆ เพราะมีผลต่อการตัดสินใจ: บทลงโทษไม่เท่ากัน ครอบครัวที่จ้างโดยไม่มีใบอนุญาตเสียค่าปรับ แต่ผู้ช่วยสูญเสียอาชีพ ถูกส่งกลับประเทศ และยื่นขอใบอนุญาตทำงานใหม่ไม่ได้เป็นเวลา 2 ปี หากคุณกำลังชั่งใจว่าจะจ้างหรือไม่ ความไม่เท่ากันนี้ควรอยู่ในการคำนวณด้วย',
@@ -425,6 +452,7 @@ export default function Legal() {
                   { h: t.law2_h, p: t.law2_p },
                   { h: t.law3_h, p: t.law3_p },
                   { h: t.law4_h, p: t.law4_p },
+                  { h: t.law5_h, p: t.law5_p },
                 ].map((c, i) => (
                   <div key={i} className="bg-white rounded-2xl border border-slate-200 p-6">
                     <h3 className="text-lg font-bold font-headline text-on-background mb-2">{c.h}</h3>
