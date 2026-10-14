@@ -62,6 +62,7 @@ import { jobDetailEntries } from '@/lib/constants/employer';
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import EmployerProfileModal from '@/components/messaging/EmployerProfileModal';
+import OutcomeReasonModal, { counterpartiesForOutcome } from '@/components/OutcomeReasonModal';
 import PushNotificationToggle from '@/components/PushNotificationToggle';
 import MatchPanel from '@/components/MatchPanel';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
@@ -744,6 +745,9 @@ export default function Profile() {
   // immediately on click — no edit form, no save button. 'hidden' takes the
   // profile offline without deleting anything; see AvailabilityPill.
   const [availSaving, setAvailSaving] = useState(false);
+  // "Why are you switching off?" — opens after working / hidden is saved.
+  // See components/OutcomeReasonModal.jsx.
+  const [outcomeModalOpen, setOutcomeModalOpen] = useState(false);
   const handleAvailabilityChange = async (nextValue) => {
     if (availSaving) return;
     if (profile?.availabilityStatus === nextValue) return;
@@ -752,6 +756,9 @@ export default function Profile() {
     setProfile(prev => prev ? { ...prev, availabilityStatus: nextValue } : prev);
     try {
       await updateProfileApi({ availabilityStatus: nextValue });
+      // Ask why — only once the status is saved. 'open_to_offers' is left
+      // alone: it means "still listening", not "done".
+      if (nextValue === 'working' || nextValue === 'hidden') setOutcomeModalOpen(true);
     } catch (err) {
       console.error('Availability toggle failed:', err);
       setProfile(prev => prev ? { ...prev, availabilityStatus: previous } : prev);
@@ -2234,6 +2241,15 @@ export default function Profile() {
           employer={viewingEmployer}
           onClose={() => setViewingEmployer(null)}
           t={t}
+        />
+      )}
+
+      {outcomeModalOpen && (
+        <OutcomeReasonModal
+          role="helper"
+          lang={lang}
+          counterparties={counterpartiesForOutcome(conversations)}
+          onClose={() => setOutcomeModalOpen(false)}
         />
       )}
     </>

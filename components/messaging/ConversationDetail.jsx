@@ -127,6 +127,10 @@ export default function ConversationDetail({
   // click, never an unauthorised write.
   const [rating, setRating] = useState(null);      // { canRate, myRating } | null
   const [hired, setHired] = useState(null);        // { confirmed } | null
+  // Family's last answer to "did X work for you?" — { outcome, askAgain }.
+  // Fetched alongside eligibility so the strip never flashes the question
+  // at someone who already said "no" (pages/api/hiring-outcome.js).
+  const [outcome, setOutcome] = useState(null);
   const [hiring, setHiring] = useState(false);
   const [rateOpen, setRateOpen] = useState(false);
 
@@ -136,6 +140,7 @@ export default function ConversationDetail({
     setRateOpen(false);
     setRating(null);
     setHired(null);
+    setOutcome(null);
     if (!counterpartyRef) return;
 
     let cancelled = false;
@@ -155,8 +160,42 @@ export default function ConversationDetail({
       })
       .catch(() => {});
 
+    if (currentRole === 'employer') {
+      fetch(`/api/hiring-outcome?role=employer&counterparty=${encodeURIComponent(counterpartyRef)}`)
+        .then(r => (r.ok ? r.json() : null))
+        .then(data => {
+          if (cancelled) return;
+          // A failed fetch must not silence the strip forever — fall back to
+          // "never asked", which is what the strip showed before today.
+          setOutcome(data ? { outcome: data.outcome || null, askAgain: data.askAgain !== false } : { outcome: null, askAgain: true });
+        })
+        .catch(() => { if (!cancelled) setOutcome({ outcome: null, askAgain: true }); });
+    }
+
     return () => { cancelled = true; };
   }, [counterpartyRef, currentRole]);
+
+  // Family answers "did X work for you?". Optimistic: the strip changes at
+  // once; the server re-checks eligibility and the conversation itself.
+  async function reportOutcome(kind) {
+    if (!counterpartyRef) return;
+    setOutcome({ outcome: kind, askAgain: false });
+    if (kind === 'hired_here') setRateOpen(true);
+    try {
+      await fetch('/api/hiring-outcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          role: 'employer',
+          trigger: 'conversation_prompt',
+          outcome: kind,
+          counterpartyRef,
+        }),
+      });
+    } catch {
+      // The optimistic state stands; the next visit re-asks if it never saved.
+    }
+  }
 
   async function confirmHired() {
     if (!counterpartyRef || hiring) return;
@@ -402,6 +441,8 @@ export default function ConversationDetail({
         hired={hired}
         hiring={hiring}
         onConfirmHired={confirmHired}
+        outcome={outcome}
+        onOutcome={reportOutcome}
         bothSidesSpoke={
           messages.some(m => m.sender_type === 'helper')
           && messages.some(m => m.sender_type === 'employer')
@@ -636,10 +677,15 @@ export default function ConversationDetail({
  *
  * Two different questions depending on who is looking:
  *
- *   Family → "How was X?" with the star form inline. Shown only when
- *   /api/ratings says they are eligible (3 messages each way, spread over a
- *   day). Once they have rated, it shrinks to their own stars plus an edit
- *   link, so the strip never nags someone who already answered.
+ *   Family → first "Did X work for you?" with three answers — yes / no /
+ *   still talking (pages/api/hiring-outcome.js). Shown only when
+ *   /api/ratings says they are eligible (3 messages each way, 24h since
+ *   first contact). "Yes" opens the star form; "no" closes the strip for
+ *   good; "still talking" snoozes it a week. Once they have rated, it
+ *   shrinks to their own stars plus an edit link, so the strip never nags
+ *   someone who already answered. Before 2026-10-14 the only answer on
+ *   offer was "leave a review", and 125 of 149 serious conversations ended
+ *   with nothing said either way.
  *
  *   Helper → "Did this family hire you?" — one button, one email to the
  *   family, once per pair forever (pages/api/hire-confirmation.js). Hidden
@@ -653,7 +699,7 @@ export default function ConversationDetail({
 function OutcomePrompt({
   currentRole, counterpartyRef, counterpartyName,
   rating, rateOpen, setRateOpen, onRated,
-  hired, hiring, onConfirmHired, bothSidesSpoke, lang,
+  hired, hiring, onConfirmHired, outcome, onOutcome, bothSidesSpoke, lang,
 }) {
   const th = lang === 'th';
   if (!counterpartyRef) return null;
@@ -708,6 +754,46 @@ function OutcomePrompt({
     }
 
     if (!rating.canRate) return null;
+    // Wait for the stored answer, so the question never flashes at someone
+    // who already said no.
+    if (!outcome) return null;
+    if (outcome.outcome === 'not_a_match') return null;
+    if (outcome.outcome === 'still_talking' && !outcome.askAgain) return null;
+
+    const answered = outcome.outcome === 'hired_here';
+    if (!answered) {
+      const pill = (extra) => ({
+        padding: '8px 14px', borderRadius: '9px', fontSize: '13px', fontWeight: 700,
+        cursor: 'pointer', fontFamily: 'inherit', border: '2px solid transparent', ...extra,
+      });
+      return shell(
+        <>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '18px' }} aria-hidden="true">🤝</span>
+            <span style={{ fontSize: '14px', fontWeight: 700, color: '#92400e' }}>
+              {th
+                ? `${counterpartyName} ทำงานให้คุณแล้วใช่ไหม?`
+                : `Did ${counterpartyName} work for you?`}
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '10px' }}>
+            <button type="button" onClick={() => onOutcome('hired_here')}
+              style={pill({ background: '#006a62', color: 'white', borderColor: '#006a62' })}>
+              {th ? `ใช่ เราจ้าง ${counterpartyName} แล้ว` : `Yes, we hired ${counterpartyName}`}
+            </button>
+            <button type="button" onClick={() => onOutcome('not_a_match')}
+              style={pill({ background: 'white', color: '#1B3A4B', borderColor: '#E2ECF0' })}>
+              {th ? 'ไม่ ไม่ได้จ้าง' : 'No, it didn’t work out'}
+            </button>
+            <button type="button" onClick={() => onOutcome('still_talking')}
+              style={pill({ background: 'transparent', color: '#6B8999' })}>
+              {th ? 'ยังคุยกันอยู่' : 'Still talking'}
+            </button>
+          </div>
+        </>,
+        'gold'
+      );
+    }
 
     return shell(
       <>
@@ -717,8 +803,8 @@ function OutcomePrompt({
           <span style={{ fontSize: '18px' }} aria-hidden="true">⭐</span>
           <span style={{ fontSize: '14px', fontWeight: 700, color: '#92400e' }}>
             {th
-              ? `${counterpartyName} ทำงานให้คุณแล้วใช่ไหม?`
-              : `Did ${counterpartyName} work for you?`}
+              ? `${counterpartyName} เป็นอย่างไรบ้าง?`
+              : `How is ${counterpartyName} working out?`}
           </span>
           <button
             type="button"

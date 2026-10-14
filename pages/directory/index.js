@@ -31,6 +31,14 @@ import {
   formatDirectoryType,
   formatCsvList,
 } from '@/lib/constants/directory';
+import {
+  normalizePricing,
+  pricingSummary,
+  cheapestPackage,
+  formatPackagePrice,
+  paymentFlowShort,
+  maxReplacementDays,
+} from '@/lib/directory-pricing';
 
 const T = {
   en: {
@@ -81,6 +89,15 @@ const T = {
     tab_partner_desc: 'Insurance, payroll, transport',
     tab_association_desc: 'Embassies, expat networks, NGOs',
     tab_coming_soon: 'Coming soon',
+    pricing_compare_title: 'Agency fees at a glance',
+    pricing_compare_sub: 'As published on each agency’s own website. Open a listing for the full packages and the date we checked.',
+    pricing_col_agency: 'Agency',
+    pricing_col_cities: 'Cities',
+    pricing_col_fee: 'Fee from',
+    pricing_col_pays: 'Who you pay',
+    pricing_col_guarantee: 'Replacement',
+    pricing_days: '{n} days',
+    pricing_compare_more: 'more packages',
 
     filter_title: 'Filters',
     filter_city: 'All cities',
@@ -163,6 +180,15 @@ const T = {
     tab_partner_desc: 'ประกัน เงินเดือน การขนส่ง',
     tab_association_desc: 'สถานทูต เครือข่ายชาวต่างชาติ NGO',
     tab_coming_soon: 'เร็วๆ นี้',
+    pricing_compare_title: 'เปรียบเทียบค่าบริการเอเจนซี่',
+    pricing_compare_sub: 'ตามที่แต่ละเอเจนซี่ประกาศบนเว็บไซต์ของตน เปิดรายการเพื่อดูแพ็กเกจทั้งหมดและวันที่เราตรวจสอบ',
+    pricing_col_agency: 'เอเจนซี่',
+    pricing_col_cities: 'เมือง',
+    pricing_col_fee: 'ค่าบริการเริ่ม',
+    pricing_col_pays: 'คุณจ่ายให้ใคร',
+    pricing_col_guarantee: 'เปลี่ยนคน',
+    pricing_days: '{n} วัน',
+    pricing_compare_more: 'แพ็กเกจเพิ่มเติม',
 
     filter_title: 'ตัวกรอง',
     filter_city: 'ทุกเมือง',
@@ -233,6 +259,13 @@ function toPublicListing(row) {
     logoUrl: row.logo_url || '',
     tier: row.tier || 'free',
     verified: row.verified === true,
+    // Agency fees as published on their own site — see lib/directory-pricing.js.
+    pricing: normalizePricing(row.pricing),
+    paymentFlow: row.payment_flow || '',
+    pricingUrl: row.pricing_url || '',
+    pricingCheckedAt: row.pricing_checked_at || '',
+    pricingNote: row.pricing_note || '',
+    pricingNoteTh: row.pricing_note_th || '',
   };
 }
 
@@ -318,6 +351,15 @@ export default function DirectoryIndex({ initialListings = [] }) {
       return true;
     });
   }, [initialListings, filterCity, filterType, filterSpecialty]);
+
+  // Fee comparison rows: the listings of the active provider tab that
+  // publish prices. Agencies (you employ the helper) and service companies
+  // (they employ the helper) are compared within their own tab only — the
+  // two models are not the same product.
+  const pricedAgencies = useMemo(
+    () => filtered.filter(l => l.type === filterType && l.pricing && l.pricing.length > 0),
+    [filtered, filterType]
+  );
 
   const resetFilters = () => {
     setFilterCity(''); setFilterType(''); setFilterSpecialty('');
@@ -498,6 +540,13 @@ export default function DirectoryIndex({ initialListings = [] }) {
 
               <div className="text-sm text-slate-500 mb-3">{resultLabel}</div>
 
+              {/* Agency fee comparison — only on the agency tab, only for
+                  listings that publish prices. The number a family is really
+                  looking for, before any card. */}
+              {(filterType === 'agency' || filterType === 'service_company') && pricedAgencies.length > 0 && (
+                <AgencyPricingTable listings={pricedAgencies} t={t} lang={lang} />
+              )}
+
               {/* List */}
               {filtered.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-slate-300 p-8 text-center text-slate-500">
@@ -549,6 +598,70 @@ export default function DirectoryIndex({ initialListings = [] }) {
   );
 }
 
+/**
+ * Side-by-side fees for the agencies on screen. One row per agency, cheapest
+ * published package first; the detail page has the rest. Everything here is
+ * the agency's own published number — never ours.
+ */
+function AgencyPricingTable({ listings, t, lang }) {
+  const rows = listings.map(l => {
+    const cheapest = cheapestPackage(l.pricing);
+    const extra = normalizePricing(l.pricing).length - 1;
+    return {
+      l,
+      fee: cheapest ? formatPackagePrice(cheapest, lang) : (pricingSummary(l, lang) || '—'),
+      pkgName: cheapest ? ((lang === 'th' && cheapest.name_th) || cheapest.name) : '',
+      extra,
+      pays: paymentFlowShort(l.paymentFlow, lang) || '—',
+      days: maxReplacementDays(l.pricing),
+      cities: formatCsvList(l.citiesServed || l.city || '', CITY_OPTIONS.map(c => ({ value: c.slug, en: c.name, th: c.name })), lang)
+        || formatCity(l.city, lang),
+    };
+  });
+
+  return (
+    <div className="rounded-2xl border border-amber-200 bg-amber-50/40 p-4 md:p-5 mb-5">
+      <h2 className="text-base md:text-lg font-extrabold font-headline text-on-background mb-1">{t.pricing_compare_title}</h2>
+      <p className="text-xs md:text-sm text-slate-600 mb-3 leading-snug">{t.pricing_compare_sub}</p>
+      <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+        <table className="w-full text-sm min-w-[560px]">
+          <thead>
+            <tr className="text-left text-[11px] font-bold uppercase tracking-wide text-slate-400">
+              <th className="pb-2 pr-4 font-bold">{t.pricing_col_agency}</th>
+              <th className="pb-2 pr-4 font-bold">{t.pricing_col_cities}</th>
+              <th className="pb-2 pr-4 font-bold whitespace-nowrap">{t.pricing_col_fee}</th>
+              <th className="pb-2 pr-4 font-bold">{t.pricing_col_pays}</th>
+              <th className="pb-2 font-bold">{t.pricing_col_guarantee}</th>
+            </tr>
+          </thead>
+          <tbody className="align-top">
+            {rows.map(r => (
+              <tr key={r.l.id} className="border-t border-amber-100">
+                <td className="py-2.5 pr-4">
+                  <Link href={`/directory/${r.l.slug}`} className="font-bold text-on-background hover:text-primary hover:underline">
+                    {r.l.name}
+                  </Link>
+                </td>
+                <td className="py-2.5 pr-4 text-slate-600 text-xs leading-snug max-w-[200px]">{r.cities}</td>
+                <td className="py-2.5 pr-4 whitespace-nowrap">
+                  <div className="font-bold text-primary">{r.fee}</div>
+                  <div className="text-[11px] text-slate-500">
+                    {r.pkgName}{r.extra > 0 ? ` · +${r.extra} ${t.pricing_compare_more}` : ''}
+                  </div>
+                </td>
+                <td className="py-2.5 pr-4 text-slate-700 text-xs leading-snug">{r.pays}</td>
+                <td className="py-2.5 text-slate-700 text-xs whitespace-nowrap">
+                  {r.days ? t.pricing_days.replace('{n}', r.days) : '—'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 function ListingCard({ listing, t, lang, source = 'direct' }) {
   const clickSource = source;
   const isFeatured = listing.tier === 'featured';
@@ -594,6 +707,9 @@ function ListingCard({ listing, t, lang, source = 'direct' }) {
               <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold">{t.badge_premium}</span>
             )}
             <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 font-semibold">{typeLabel}</span>
+            {pricingSummary(listing, lang) && (
+              <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-bold">{pricingSummary(listing, lang)}</span>
+            )}
           </div>
           <h3 className="text-lg font-extrabold font-headline leading-snug">{displayName}</h3>
           <div className="text-xs text-slate-500 mt-0.5">

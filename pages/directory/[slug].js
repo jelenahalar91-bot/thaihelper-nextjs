@@ -8,6 +8,7 @@
  * experts in the same city to keep the user inside the directory.
  */
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
@@ -25,6 +26,14 @@ import {
   formatDirectoryType,
   formatCsvList,
 } from '@/lib/constants/directory';
+import {
+  formatPackagePrice,
+  packageName,
+  packageIncludes,
+  paymentFlowLong,
+  formatCheckedDate,
+  normalizePricing,
+} from '@/lib/directory-pricing';
 
 const T = {
   en: {
@@ -51,6 +60,16 @@ const T = {
     section_nationalities: 'Nationalities placed',
     section_hours: 'Opening hours',
     section_license: 'License',
+    section_pricing: 'Fees, as published by the agency',
+    pricing_col_package: 'Package',
+    pricing_col_price: 'Price',
+    pricing_col_includes: 'What you get',
+    pricing_guarantee: '{n}-day replacement',
+    pricing_min: 'min. {n} months',
+    pricing_pays_label: 'Who you pay',
+    pricing_source: 'Taken from the agency’s own price page on {date}. Fees change — confirm before you sign anything, and ask whether the helper’s salary is included.',
+    pricing_source_nodate: 'Taken from the agency’s own price page. Fees change — confirm before you sign anything, and ask whether the helper’s salary is included.',
+    pricing_source_link: 'See their price page →',
     section_address: 'Address',
     section_serves: 'Cities served',
     section_others: 'Other experts in {city}',
@@ -104,6 +123,16 @@ const T = {
     section_nationalities: 'สัญชาติที่รับสมัคร',
     section_hours: 'เวลาทำการ',
     section_license: 'ใบอนุญาต',
+    section_pricing: 'ค่าบริการ ตามที่เอเจนซี่ประกาศ',
+    pricing_col_package: 'แพ็กเกจ',
+    pricing_col_price: 'ราคา',
+    pricing_col_includes: 'สิ่งที่ได้รับ',
+    pricing_guarantee: 'เปลี่ยนคนได้ภายใน {n} วัน',
+    pricing_min: 'สัญญาขั้นต่ำ {n} เดือน',
+    pricing_pays_label: 'คุณจ่ายให้ใคร',
+    pricing_source: 'อ้างอิงจากหน้าราคาของเอเจนซี่เมื่อ {date} ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนเซ็นสัญญา และสอบถามว่ารวมเงินเดือนผู้ช่วยหรือไม่',
+    pricing_source_nodate: 'อ้างอิงจากหน้าราคาของเอเจนซี่ ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนเซ็นสัญญา และสอบถามว่ารวมเงินเดือนผู้ช่วยหรือไม่',
+    pricing_source_link: 'ดูหน้าราคาของเอเจนซี่ →',
     section_address: 'ที่อยู่',
     section_serves: 'เมืองที่ให้บริการ',
     section_others: 'ผู้เชี่ยวชาญอื่นๆ ใน {city}',
@@ -170,6 +199,13 @@ function toPublicListing(row) {
     logoUrl: row.logo_url || '',
     tier: row.tier || 'free',
     verified: row.verified === true,
+    // Agency fees as published on their own site — see lib/directory-pricing.js.
+    pricing: normalizePricing(row.pricing),
+    paymentFlow: row.payment_flow || '',
+    pricingUrl: row.pricing_url || '',
+    pricingCheckedAt: row.pricing_checked_at || '',
+    pricingNote: row.pricing_note || '',
+    pricingNoteTh: row.pricing_note_th || '',
   };
 }
 
@@ -258,6 +294,14 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
   // Preserve source from the listing index (?source=wizard etc.)
   const rawSrc = Array.isArray(router.query.source) ? router.query.source[0] : router.query.source;
   const clickSource = VALID_SOURCES.includes(rawSrc) ? rawSrc : 'direct';
+
+  // One view per page open. This is the "X people opened your page" half of
+  // what a paying listing will be shown; see pages/api/directory/[id]/view.js.
+  const listingId = listing?.id;
+  useEffect(() => {
+    if (!listingId) return;
+    fetch(`/api/directory/${listingId}/view`, { method: 'POST', keepalive: true }).catch(() => {});
+  }, [listingId]);
 
   if (!listing) return null;
 
@@ -504,6 +548,78 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                         </div>
                       )}
                     </div>
+                  </div>
+                )}
+
+                {/* Fees — what the agency itself publishes. The one thing a
+                    family wants before calling: one-off or monthly, who pays
+                    the helper, what if it goes wrong. Never shown as our
+                    price; the footnote names the source and the date. */}
+                {listing.pricing && listing.pricing.length > 0 && (
+                  <div className="rounded-2xl border border-amber-200 bg-amber-50/40 p-5 md:p-6 mb-6">
+                    <h2 className="text-sm font-bold text-on-surface mb-4">{t.section_pricing}</h2>
+                    <div className="overflow-x-auto -mx-2 px-2">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="text-left text-xs font-bold uppercase tracking-wide text-slate-400">
+                            <th className="pb-2 pr-4 font-bold">{t.pricing_col_package}</th>
+                            <th className="pb-2 pr-4 font-bold whitespace-nowrap">{t.pricing_col_price}</th>
+                            <th className="pb-2 font-bold">{t.pricing_col_includes}</th>
+                          </tr>
+                        </thead>
+                        <tbody className="align-top">
+                          {listing.pricing.map((pkg, i) => (
+                            <tr key={i} className="border-t border-amber-100">
+                              <td className="py-2.5 pr-4 font-semibold text-on-background">{packageName(pkg, lang)}</td>
+                              <td className="py-2.5 pr-4 whitespace-nowrap font-bold text-primary">{formatPackagePrice(pkg, lang)}</td>
+                              <td className="py-2.5 text-slate-700">
+                                {packageIncludes(pkg, lang)}
+                                {(pkg.replacement_days || pkg.min_months) && (
+                                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                                    {pkg.replacement_days ? (
+                                      <span className="px-2 py-0.5 rounded-full bg-white border border-amber-200 text-[11px] font-semibold text-amber-800">
+                                        {t.pricing_guarantee.replace('{n}', pkg.replacement_days)}
+                                      </span>
+                                    ) : null}
+                                    {pkg.min_months ? (
+                                      <span className="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[11px] font-semibold text-slate-600">
+                                        {t.pricing_min.replace('{n}', pkg.min_months)}
+                                      </span>
+                                    ) : null}
+                                  </div>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    {listing.paymentFlow && (
+                      <div className="mt-4 text-sm">
+                        <span className="text-xs font-bold uppercase tracking-wide text-slate-400 mr-2">{t.pricing_pays_label}</span>
+                        <span className="text-slate-700">{paymentFlowLong(listing.paymentFlow, lang)}</span>
+                      </div>
+                    )}
+                    {(lang === 'th' ? (listing.pricingNoteTh || listing.pricingNote) : listing.pricingNote) && (
+                      <p className="mt-2 text-sm text-slate-700">
+                        {lang === 'th' ? (listing.pricingNoteTh || listing.pricingNote) : listing.pricingNote}
+                      </p>
+                    )}
+                    <p className="mt-3 text-xs text-slate-500 leading-snug">
+                      {listing.pricingCheckedAt
+                        ? t.pricing_source.replace('{date}', formatCheckedDate(listing.pricingCheckedAt, lang))
+                        : t.pricing_source_nodate}
+                      {listing.pricingUrl && (
+                        <>
+                          {' '}
+                          <a href={listing.pricingUrl} target="_blank" rel="nofollow noopener noreferrer"
+                            onClick={() => trackClick(listing.id, 'website', clickSource)}
+                            className="text-primary font-semibold hover:underline">
+                            {t.pricing_source_link}
+                          </a>
+                        </>
+                      )}
+                    </p>
                   </div>
                 )}
 

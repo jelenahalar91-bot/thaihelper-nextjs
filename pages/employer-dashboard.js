@@ -39,6 +39,7 @@ import {
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
+import OutcomeReasonModal, { counterpartiesForOutcome } from '@/components/OutcomeReasonModal';
 import { CITIES, parseAdditionalCities, toCitySlug } from '@/lib/constants/cities';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 
@@ -393,6 +394,9 @@ export default function EmployerDashboard() {
   const sendingRef = useRef(false);
   const [errorBanner, setErrorBanner] = useState('');
   const [viewingHelper, setViewingHelper] = useState(null); // helper obj shown in profile modal
+  // "Why are you switching off?" — opens after a status change to paused /
+  // hidden is saved. See components/OutcomeReasonModal.jsx.
+  const [outcomeModalOpen, setOutcomeModalOpen] = useState(false);
   const [resendingVerify, setResendingVerify] = useState(false);
   const [resendVerifyResult, setResendVerifyResult] = useState(null); // 'sent' | 'error' | null
 
@@ -444,6 +448,9 @@ export default function EmployerDashboard() {
     setProfile(prev => prev ? { ...prev, search_status: nextValue } : prev);
     try {
       await updateEmployerProfile({ search_status: nextValue });
+      // Ask why — only once the status is safely saved, so someone who just
+      // wants out is never held up by a question.
+      if (nextValue !== 'searching') setOutcomeModalOpen(true);
     } catch (err) {
       console.error('Failed to update search status:', err);
       setProfile(prev => prev ? { ...prev, search_status: current } : prev);
@@ -1299,6 +1306,15 @@ export default function EmployerDashboard() {
             onClose={() => setViewingHelper(null)}
             t={t}
             lang={lang}
+          />
+        )}
+
+        {outcomeModalOpen && (
+          <OutcomeReasonModal
+            role="employer"
+            lang={lang}
+            counterparties={counterpartiesForOutcome(conversations)}
+            onClose={() => setOutcomeModalOpen(false)}
           />
         )}
       </div>

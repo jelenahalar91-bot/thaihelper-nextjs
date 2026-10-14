@@ -7,6 +7,10 @@
 // got the job presses one button, and the family gets one email asking them
 // to say how it went.
 //
+// The recording itself lives in lib/hire-confirmation.js since 2026-10-14,
+// because the same statement can now also be made from the "why are you
+// hiding your profile?" prompt (pages/api/hiring-outcome.js).
+//
 // Guards against this becoming a way to pester families:
 //   - the two must actually have a conversation here,
 //   - UNIQUE(helper_ref, employer_ref) means one email per pair, ever,
@@ -14,9 +18,7 @@
 
 import { getSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
-import { sendHireConfirmedEmail } from '../../lib/emails/hire-confirmation';
-import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../lib/unsubscribe';
-import { checkEligibility } from '../../lib/rating-eligibility';
+import { recordHireConfirmation, haveConversation } from '../../lib/hire-confirmation';
 
 export default async function handler(req, res) {
   const session = await getSession(req);
@@ -43,79 +45,30 @@ export default async function handler(req, res) {
     const employerRef = String(req.body?.employerRef || '').trim().toUpperCase();
     if (!employerRef) return res.status(400).json({ error: 'employerRef required' });
 
-    // They have to have talked. Not proof of a job — nothing here can be —
-    // but it stops the button from reaching a family the helper never met.
-    const { data: convs } = await supabase
-      .from('conversations')
-      .select('id')
-      .eq('helper_ref', helper_ref)
-      .eq('employer_id', employerRef)
-      .limit(1);
-
-    if (!convs || convs.length === 0) {
+    if (!(await haveConversation(supabase, helper_ref, employerRef))) {
       return res.status(403).json({ error: 'You have no conversation with this family.' });
     }
 
-    // Insert first, mail second. If the insert loses the race the row already
-    // exists and we stop — better a missing email than a family told twice.
-    const { data: inserted, error } = await supabase
-      .from('hire_confirmations')
-      .insert({ helper_ref, employer_ref: employerRef, confirmed_by: 'helper' })
-      .select()
-      .maybeSingle();
+    const result = await recordHireConfirmation(supabase, {
+      helperRef: helper_ref,
+      employerRef,
+      confirmedBy: 'helper',
+    });
+    if (!result.ok) return res.status(500).json({ error: result.error });
 
-    if (error) {
-      // 23505 = unique violation: they already pressed it.
-      if (error.code === '23505') {
-        return res.status(200).json({ ok: true, alreadyConfirmed: true });
-      }
-      console.error('Hire confirmation insert error:', error);
-      return res.status(500).json({ error: 'Could not save that. Please try again.' });
-    }
+    // The button is also an answer to "what happened?" — keep the two
+    // records in step so the outcome table does not undercount hires that
+    // came in through the original path.
+    const { error: outcomeErr } = await supabase.from('hiring_outcomes').insert({
+      reported_by: 'helper',
+      helper_ref,
+      employer_ref: employerRef,
+      outcome: 'hired_here',
+      trigger: 'conversation_prompt',
+    });
+    if (outcomeErr) console.warn('hiring_outcomes insert failed:', outcomeErr.message);
 
-    const [{ data: employer }, { data: helper }] = await Promise.all([
-      supabase
-        .from('employer_accounts')
-        .select('first_name, email, notify_on_message')
-        .eq('employer_ref', employerRef)
-        .single(),
-      supabase
-        .from('helper_profiles')
-        .select('first_name')
-        .eq('helper_ref', helper_ref)
-        .single(),
-    ]);
-
-    // Do not invite a family to rate someone the rating box will refuse them.
-    // Helpers misread this button: of the first nine presses, three came from
-    // helpers who had only applied or asked a question, one of them to a
-    // family suspended for scam days earlier. Those families would have been
-    // asked to review a stranger, found no box, and trusted us slightly less.
-    const { canRate } = await checkEligibility(supabase, employerRef, helper_ref);
-
-    if (canRate && employer?.email && employer.notify_on_message !== false) {
-      try {
-        const token = await createUnsubscribeToken('employer', employerRef);
-        await sendHireConfirmedEmail({
-          employerName: employer.first_name,
-          employerEmail: employer.email,
-          helperName: helper?.first_name,
-          helperRef: helper_ref,
-          unsubscribeUrl: buildUnsubscribeUrl(token),
-        });
-        await supabase
-          .from('hire_confirmations')
-          .update({ notified_at: new Date().toISOString() })
-          .eq('id', inserted.id);
-      } catch (err) {
-        // The confirmation itself stands — it is real data about a real hire
-        // either way, and notified_at staying null is how we find the ones
-        // that never went out.
-        console.error('Hire confirmation email failed:', err.message);
-      }
-    }
-
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, alreadyConfirmed: !!result.alreadyConfirmed });
   }
 
   res.setHeader('Allow', 'GET, POST');

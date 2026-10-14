@@ -8,6 +8,7 @@
 // text by an arbitrary enum without a CASE statement or a join.
 
 import { getServiceSupabase } from '../../lib/supabase';
+import { normalizePricing } from '../../lib/directory-pricing';
 import {
   DIRECTORY_TYPE_VALUES,
   SPECIALTY_VALUES,
@@ -40,6 +41,13 @@ function toPublicListing(row) {
     languagesSpoken: row.languages_spoken || '',
     tier: row.tier || 'free',
     verified: row.verified === true,
+    // Agency fees as published on their own site — see lib/directory-pricing.js.
+    pricing: normalizePricing(row.pricing),
+    paymentFlow: row.payment_flow || '',
+    pricingUrl: row.pricing_url || '',
+    pricingCheckedAt: row.pricing_checked_at || '',
+    pricingNote: row.pricing_note || '',
+    pricingNoteTh: row.pricing_note_th || '',
     viewCount: row.view_count || 0,
     clickCount: row.click_count || 0,
   };
@@ -93,14 +101,9 @@ export default async function handler(req, res) {
         return a.name.localeCompare(b.name);
       });
 
-    // Increment view counts for the listings we returned (fire-and-forget).
-    // Wrap the RPC call in a try so a missing function in dev doesn't 500.
-    const ids = listings.map(l => l.id);
-    if (ids.length > 0) {
-      supabase.rpc('increment_view_counts', { listing_ids: ids })
-        .then(({ error: rpcErr }) => { if (rpcErr) console.warn('view count RPC failed:', rpcErr.message); })
-        .catch(err => console.warn('view count RPC threw:', err));
-    }
+    // View counting moved to POST /api/directory/[id]/view on 2026-10-14.
+    // Bumping every returned listing from a CDN-cached list endpoint
+    // counted neither people nor pages — see that file.
 
     // Cache publicly for 5 min — directory data changes rarely
     res.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
