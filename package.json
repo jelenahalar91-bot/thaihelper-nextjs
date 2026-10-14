@@ -9,15 +9,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@capacitor/android": "^8.3.3",
-    "@capacitor/app": "^8.1.0",
-    "@capacitor/browser": "^8.0.3",
-    "@capacitor/cli": "^8.3.3",
-    "@capacitor/core": "^8.3.3",
-    "@capacitor/ios": "^8.3.3",
-    "@capacitor/push-notifications": "^8.0.4",
-    "@capacitor/splash-screen": "^8.0.1",
-    "@capacitor/status-bar": "^8.0.2",
     "@radix-ui/react-slot": "^1.2.4",
     "@sentry/nextjs": "^10.48.0",
     "@supabase/supabase-js": "^2.101.1",
@@ -37,13 +28,12 @@
     "react-dom": "^18.2.0",
     "react-easy-crop": "^5.5.7",
     "resend": "^6.10.0",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "tailwind-merge": "^3.5.0",
     "twilio": "^6.0.2",
     "web-push": "^3.6.7"
   },
   "devDependencies": {
-    "@capacitor/assets": "^3.0.5",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.19",
     "autoprefixer": "^10.4.19",

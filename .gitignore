@@ -24,23 +24,9 @@ skills-lock.json
 .vercel
 .env*.local
 
-# Capacitor — native build outputs we never commit
-# (the native projects themselves are checked in for reproducibility,
-#  only the build artefacts and IDE state are ignored)
-android/.gradle/
-android/build/
-android/app/build/
-android/.idea/
-android/local.properties
-ios/App/build/
-ios/App/Pods/
-ios/DerivedData/
-ios/App/App.xcworkspace/xcuserdata/
-ios/App/*.xcodeproj/xcuserdata/
-*.xcuserstate
-# Source assets for icon/splash generation — outputs land in
-# android/ + ios/ via `npx capacitor-assets generate`
-assets/
+# The Capacitor shell and its ignore rules were removed on 2026-10-14 —
+# the native apps are built from the Expo project in ../thaihelper-mobile.
+# Nothing here produces an android/ or ios/ directory any more.
 
 # Local-only operational files — contain real user data (emails, phone
 # numbers, ref codes from helper_profiles) or live messaging logs that
