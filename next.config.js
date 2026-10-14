@@ -1,6 +1,19 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
-// Content-Security-Policy, shipped in REPORT-ONLY first.
+// Content-Security-Policy. ENFORCING since 2026-10-14; it spent sixteen days
+// in report-only first, and that was not ceremony — the run turned up exactly
+// one real violation, the Meta Pixel posting to facebook.com/tr/, which an
+// eagerly-enforced policy would have broken without anyone noticing until the
+// conversion numbers went flat.
+//
+// Checked before flipping: the live console on /, /employer-register and
+// /helpers reported that one violation and nothing else, and every other
+// external host in the codebase is either a link (App Store, LINE, WhatsApp,
+// Trustpilot) or a server-side call (LINE API, Google Translate, Expo) —
+// neither of which CSP governs. One AWS endpoint showed up in the console and
+// is deliberately NOT allowlisted: it appears nowhere in this repo and comes
+// from a browser extension, and a policy that waves through unknown hosts is
+// not a policy.
 //
 // The site had every other security header but no CSP — the one layer that
 // would have neutered a JSON-LD injection instead of merely surviving it.
@@ -26,7 +39,11 @@ const CSP_DIRECTIVES = [
   "worker-src 'self' blob:",
   "manifest-src 'self'",
   "base-uri 'self'",
-  "form-action 'self'",
+  // www.facebook.com is the Meta Pixel: it POSTs a form to /tr/ for its
+  // standard events. Found by the report-only run, which is the whole reason
+  // the policy spent two weeks in report-only — enforcing the stricter
+  // version would have silently killed conversion tracking.
+  "form-action 'self' https://www.facebook.com",
   "object-src 'none'",
   "frame-ancestors 'none'",
 ].join('; ');
@@ -95,7 +112,7 @@ const nextConfig = {
           { key: 'X-XSS-Protection', value: '1; mode=block' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-          { key: 'Content-Security-Policy-Report-Only', value: CSP_DIRECTIVES },
+          { key: 'Content-Security-Policy', value: CSP_DIRECTIVES },
         ],
       },
       {
