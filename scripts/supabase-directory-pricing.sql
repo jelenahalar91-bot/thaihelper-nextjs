@@ -9,7 +9,7 @@
 --   pricing: [
 --     { "name": "Standard placement",
 --       "name_th": "...",                     -- optional
---       "price_thb": 6000,                    -- null = "on request"
+--       "price_thb": 6000,                    -- null = "on request" (or set price_label, e.g. "1 month’s salary")
 --       "price_max_thb": null,                -- set for a published range
 --       "period": "one_time",                 -- one_time | monthly | hourly | daily | per_visit
 --       "includes": "Up to 3 candidates, 90-day replacement",
