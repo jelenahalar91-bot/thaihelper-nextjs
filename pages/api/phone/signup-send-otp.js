@@ -97,6 +97,9 @@ export default async function handler(req, res) {
     key: e164,
     max: MAX_SMS_PER_WINDOW,
     windowMs: SMS_WINDOW_MS,
+    // A limiter that cannot answer must not wave an SMS through here. If the
+    // database is unreachable this signup was never going to finish anyway.
+    failClosed: true,
   });
   if (!perNumber) {
     return res.status(429).json({
@@ -114,6 +117,7 @@ export default async function handler(req, res) {
     key: ip,
     max: IP_MAX_PER_WINDOW,
     windowMs: SMS_WINDOW_MS,
+    failClosed: true,
   });
   if (!perIp) {
     return res.status(429).json({

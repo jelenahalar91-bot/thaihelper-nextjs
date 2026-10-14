@@ -60,6 +60,9 @@ export default async function handler(req, res) {
     key: e164,
     max: MAX_CHECKS_PER_NUMBER,
     windowMs: CHECK_WINDOW_MS,
+    // This is the only thing between a six-digit code and someone trying all
+    // of them, so it does not get to fail open either.
+    failClosed: true,
   });
   if (!fresh) {
     return res.status(429).json({ error: 'too_many_attempts' });
