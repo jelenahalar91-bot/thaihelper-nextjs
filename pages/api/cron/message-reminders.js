@@ -24,6 +24,7 @@
 import { getServiceSupabase } from '../../../lib/supabase';
 import { sendMessageReminderEmail } from '../../../lib/send-confirmation-email';
 import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../../lib/unsubscribe';
+import { pruneExpiredRows } from '../../../lib/retention';
 
 // Don't reach back too far on the very first run after we ship this — there
 // could be hundreds of old unread messages from the broken-messaging period
@@ -83,7 +84,11 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Query failed' });
   }
   if (!candidates || candidates.length === 0) {
-    return res.status(200).json({ ok: true, processed: 0 });
+    // Nothing to remind anyone about, but the housekeeping still has to happen
+    // — hung off the other exit alone it would only run on days that happen to
+    // have unread mail, which is most days but not all of them.
+    const pruned = await pruneExpiredRows(supabase);
+    return res.status(200).json({ ok: true, processed: 0, pruned });
   }
 
   // Cache conversation + recipient lookups so we don't re-query for messages
@@ -270,6 +275,10 @@ export default async function handler(req, res) {
     }
   }
 
+  // Last, after every mail is out: a prune that fails or hangs must never be
+  // the reason a reminder did not go. pruneExpiredRows never throws.
+  const pruned = await pruneExpiredRows(supabase);
+
   return res.status(200).json({
     ok: true,
     processed: candidates.length,
@@ -279,6 +288,7 @@ export default async function handler(req, res) {
     notYetDue,
     capped,
     failed,
+    pruned,
   });
 }
 
