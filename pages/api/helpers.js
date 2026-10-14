@@ -3,67 +3,17 @@
 // Returns all active helpers WITHOUT contact details (whatsapp, phone, email).
 // Contact info is gated behind the paywall and must be fetched separately via
 // GET /api/helpers/[ref]/contact (which checks employer access).
+//
+// The card shape itself lives in lib/public-helper-card.js, because the
+// server-rendered first page of /helpers builds the same one and the two used
+// to be hand-copied.
 
 import { getServiceSupabase, selectAll } from '../../lib/supabase';
-import { getDisplayAge } from '../../lib/age';
-import { maskWpStatusForPublic } from '../../lib/constants/work-permit';
-import { publicRating } from '../../lib/rating-visibility';
-
-// Map a helper_profiles row to a public-safe card shape.
-// IMPORTANT: never expose whatsapp / has_whatsapp / phone / email here.
-// `trust` carries presence-only signals derived from related tables
-// (uploaded certificate documents, references) — booleans/counts, never
-// the underlying content (which stays gated behind the employer paywall).
-function toPublicCard(row, trust = {}) {
-  return {
-    ref: row.helper_ref,
-    firstName: row.first_name,
-    lastName: row.last_name ? row.last_name.charAt(0) + '.' : '', // only initial
-    age: getDisplayAge(row) || null,
-    category: row.category || '',
-    skills: row.skills || '',
-    city: row.city || '',
-    area: row.area || '',
-    areaEn: row.area_en || '',
-    availabilityStatus: row.availability_status || 'available',
-    additionalCities: row.additional_cities || '',
-    experience: row.experience || '',
-    languages: row.languages || '',
-    rate: row.rate || '',
-    education: row.education || '',
-    educationEn: row.education_en || '',
-    certificates: row.certificates || '',
-    bio: row.bio || '',
-    bioEn: row.bio_en || '',
-    photo: row.photo_url || '',
-    createdAt: row.created_at || null,
-    lastActiveAt: row.last_login_at || null,
-    // Hidden below MIN_PUBLIC_REVIEWS — one review must not be a whole
-    // reputation. See lib/rating-visibility.js.
-    ...publicRating(row.rating_avg, row.rating_count),
-    // Signal to the UI whether contact info exists (without revealing it)
-    hasWhatsApp: !!row.whatsapp,
-    hasEmail: !!row.email,
-    // Only positive WP statuses are surfaced publicly. Anything else
-    // (in_progress / no_wp / prefer_not_say) is masked to null so it
-    // can't leak through the public API.
-    wpStatus: maskWpStatusForPublic(row.work_permit_status),
-    // Nationality is shown publicly except "prefer_not_say" — that
-    // value is the helper's explicit opt-out and must stay private.
-    nationality: row.nationality === 'prefer_not_say' ? null : (row.nationality || null),
-    // Trust badges — booleans only. The actual phone number is never
-    // exposed in the public card; the family sees only "📞 Phone"
-    // signalling "we verified this helper's number reaches them".
-    phoneVerified: !!row.phone_verified_at,
-    lineVerified: !!row.line_linked_at,
-    // Quality signals — presence only. "Has uploaded certificates" and
-    // "has references" let families see proof-of-qualification at a glance
-    // in the browse list; the documents/reference content itself stays
-    // behind the employer-only endpoints.
-    hasCertificates: !!trust.hasCertificates,
-    referenceCount: trust.referenceCount || 0,
-  };
-}
+import {
+  PUBLIC_CARD_COLUMNS,
+  toPublicCard,
+  isPubliclyVisible,
+} from '../../lib/public-helper-card';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -79,14 +29,7 @@ export default async function handler(req, res) {
     const { data, error } = await selectAll(() =>
       supabase
         .from('helper_profiles')
-        .select(
-          'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
-          'age, date_of_birth, category, skills, city, area, area_en, additional_cities, ' +
-          'experience, languages, rate, education, education_en, certificates, bio, bio_en, ' +
-          'photo_url, created_at, last_login_at, rating_avg, rating_count, status, ' +
-          'availability_status, work_permit_status, nationality, ' +
-          'phone_verified_at, line_linked_at'
-        )
+        .select(PUBLIC_CARD_COLUMNS)
         .or('status.eq.active,status.is.null')
         .eq('email_verified', true)
         .order('created_at', { ascending: false })
@@ -138,11 +81,8 @@ export default async function handler(req, res) {
       console.warn('Helpers list: trust-signal fetch failed:', trustErr.message);
     }
 
-    // Helpers who took their profile offline ('hidden') are dropped here
-    // rather than in the query, so pre-migration rows with a NULL status
-    // are kept — a Postgres .neq() would exclude them.
     const helpers = (data || [])
-      .filter((row) => row.availability_status !== 'hidden')
+      .filter(isPubliclyVisible)
       .map((row) => toPublicCard(row, {
         hasCertificates: certSet.has(row.helper_ref),
         referenceCount: refCounts.get(row.helper_ref) || 0,

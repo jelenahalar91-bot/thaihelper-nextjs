@@ -15,7 +15,6 @@ import { getAllHireSlugs } from '@/lib/seo/hire-pages';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 import { WP_FILTER_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_FILTER_OPTIONS } from '@/lib/constants/nationalities';
-import { publicRating } from '@/lib/rating-visibility';
 
 // How many helper cards to render at once. Used both for the server-rendered
 // first page (keeps initial HTML small) and as the client-side "reveal" step
@@ -246,19 +245,14 @@ export async function getServerSideProps({ req }) {
 
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
-    const { getDisplayAge } = await import('@/lib/age');
-    const { maskWpStatusForPublic } = await import('@/lib/constants/work-permit');
+    // Same card builder /api/helpers uses — one definition of what an
+    // anonymous visitor is allowed to see. See lib/public-helper-card.js.
+    const { PUBLIC_CARD_COLUMNS, toPublicCard, isPubliclyVisible } =
+      await import('@/lib/public-helper-card');
     const supabase = getServiceSupabase();
     const { data, error } = await supabase
       .from('helper_profiles')
-      .select(
-        'helper_ref, first_name, last_name, email, whatsapp, has_whatsapp, ' +
-        'age, date_of_birth, category, skills, city, area, area_en, additional_cities, ' +
-        'experience, languages, rate, education, education_en, certificates, bio, bio_en, ' +
-        'photo_url, created_at, last_login_at, rating_avg, rating_count, status, ' +
-        'availability_status, work_permit_status, nationality, ' +
-        'phone_verified_at, line_linked_at'
-      )
+      .select(PUBLIC_CARD_COLUMNS)
       .or('status.eq.active,status.is.null')
       .eq('email_verified', true)
       .order('created_at', { ascending: false })
@@ -288,42 +282,8 @@ export async function getServerSideProps({ req }) {
     }
 
     const helpers = (data || [])
-      .filter((row) => row.availability_status !== 'hidden')
-      .map((row) => ({
-        ref: row.helper_ref,
-        firstName: row.first_name,
-        lastName: row.last_name ? row.last_name.charAt(0) + '.' : '',
-        age: getDisplayAge(row) || null,
-        category: row.category || '',
-        skills: row.skills || '',
-        city: row.city || '',
-        area: row.area || '',
-        areaEn: row.area_en || '',
-        availabilityStatus: row.availability_status || 'available',
-        additionalCities: row.additional_cities || '',
-        experience: row.experience || '',
-        languages: row.languages || '',
-        rate: row.rate || '',
-        education: row.education || '',
-        educationEn: row.education_en || '',
-        certificates: row.certificates || '',
-        bio: row.bio || '',
-        bioEn: row.bio_en || '',
-        photo: row.photo_url || '',
-        createdAt: row.created_at || null,
-        lastActiveAt: row.last_login_at || null,
-        // Same gate as /api/helpers — this page builds its own card shape.
-        ...publicRating(row.rating_avg, row.rating_count),
-        hasWhatsApp: !!row.whatsapp,
-        hasEmail: !!row.email,
-        // Mirror the public masking from /api/helpers so the URL filter
-        // and the SSR-rendered page agree on what's visible.
-        wpStatus: maskWpStatusForPublic(row.work_permit_status),
-        nationality: row.nationality === 'prefer_not_say' ? null : (row.nationality || null),
-        // Trust badges — booleans only, number never exposed publicly.
-        phoneVerified: !!row.phone_verified_at,
-        lineVerified: !!row.line_linked_at,
-        // Quality signals — presence only (content stays gated).
+      .filter(isPubliclyVisible)
+      .map((row) => toPublicCard(row, {
         hasCertificates: certSet.has(row.helper_ref),
         referenceCount: refCounts.get(row.helper_ref) || 0,
       }));
