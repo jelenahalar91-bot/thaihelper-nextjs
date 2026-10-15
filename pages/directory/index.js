@@ -92,6 +92,11 @@ const T = {
     pricing_compare_title: 'Agency fees at a glance',
     pricing_compare_sub: 'As published on each agency’s own website. Open a listing for the full packages and the date we checked.',
     pricing_col_agency: 'Agency',
+    // Same table, service-company tab: these are cleaning and nanny companies,
+    // not agencies, and calling them agencies misstates what a family is buying.
+    pricing_compare_title_company: 'Company rates at a glance',
+    pricing_compare_sub_company: 'As published on each company’s own website. Open a listing for the full price list and the date we checked.',
+    pricing_col_company: 'Company',
     pricing_col_cities: 'Cities',
     pricing_col_fee: 'Fee from',
     pricing_col_pays: 'Who you pay',
@@ -183,6 +188,9 @@ const T = {
     pricing_compare_title: 'เปรียบเทียบค่าบริการเอเจนซี่',
     pricing_compare_sub: 'ตามที่แต่ละเอเจนซี่ประกาศบนเว็บไซต์ของตน เปิดรายการเพื่อดูแพ็กเกจทั้งหมดและวันที่เราตรวจสอบ',
     pricing_col_agency: 'เอเจนซี่',
+    pricing_compare_title_company: 'เปรียบเทียบค่าบริการบริษัท',
+    pricing_compare_sub_company: 'ตามที่แต่ละบริษัทประกาศบนเว็บไซต์ของตน เปิดรายการเพื่อดูราคาทั้งหมดและวันที่เราตรวจสอบ',
+    pricing_col_company: 'บริษัท',
     pricing_col_cities: 'เมือง',
     pricing_col_fee: 'ค่าบริการเริ่ม',
     pricing_col_pays: 'คุณจ่ายให้ใคร',
@@ -544,7 +552,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
                   listings that publish prices. The number a family is really
                   looking for, before any card. */}
               {(filterType === 'agency' || filterType === 'service_company') && pricedAgencies.length > 0 && (
-                <AgencyPricingTable listings={pricedAgencies} t={t} lang={lang} />
+                <AgencyPricingTable listings={pricedAgencies} t={t} lang={lang} isCompany={filterType === 'service_company'} />
               )}
 
               {/* List */}
@@ -603,7 +611,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
  * published package first; the detail page has the rest. Everything here is
  * the agency's own published number — never ours.
  */
-function AgencyPricingTable({ listings, t, lang }) {
+function AgencyPricingTable({ listings, t, lang, isCompany = false }) {
   const rows = listings.map(l => {
     const cheapest = cheapestPackage(l.pricing);
     const extra = normalizePricing(l.pricing).length - 1;
@@ -621,13 +629,17 @@ function AgencyPricingTable({ listings, t, lang }) {
 
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50/40 p-4 md:p-5 mb-5">
-      <h2 className="text-base md:text-lg font-extrabold font-headline text-on-background mb-1">{t.pricing_compare_title}</h2>
-      <p className="text-xs md:text-sm text-slate-600 mb-3 leading-snug">{t.pricing_compare_sub}</p>
+      <h2 className="text-base md:text-lg font-extrabold font-headline text-on-background mb-1">
+        {isCompany ? t.pricing_compare_title_company : t.pricing_compare_title}
+      </h2>
+      <p className="text-xs md:text-sm text-slate-600 mb-3 leading-snug">
+        {isCompany ? t.pricing_compare_sub_company : t.pricing_compare_sub}
+      </p>
       <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
         <table className="w-full text-sm min-w-[560px]">
           <thead>
             <tr className="text-left text-[11px] font-bold uppercase tracking-wide text-slate-400">
-              <th className="pb-2 pr-4 font-bold">{t.pricing_col_agency}</th>
+              <th className="pb-2 pr-4 font-bold">{isCompany ? t.pricing_col_company : t.pricing_col_agency}</th>
               <th className="pb-2 pr-4 font-bold">{t.pricing_col_cities}</th>
               <th className="pb-2 pr-4 font-bold whitespace-nowrap">{t.pricing_col_fee}</th>
               <th className="pb-2 pr-4 font-bold">{t.pricing_col_pays}</th>

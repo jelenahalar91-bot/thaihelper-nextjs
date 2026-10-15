@@ -61,6 +61,9 @@ const T = {
     section_hours: 'Opening hours',
     section_license: 'License',
     section_pricing: 'Fees, as published by the agency',
+    // A cleaning or housekeeping company sells visits, not placements: its
+    // rate page has no helper salary in it, but it does have tax and travel.
+    section_pricing_company: 'Rates, as published by the company',
     pricing_col_package: 'Package',
     pricing_col_price: 'Price',
     pricing_col_includes: 'What you get',
@@ -69,6 +72,8 @@ const T = {
     pricing_pays_label: 'Who you pay',
     pricing_source: 'Taken from the agency’s own price page on {date}. Fees change — confirm before you sign anything, and ask whether the helper’s salary is included.',
     pricing_source_nodate: 'Taken from the agency’s own price page. Fees change — confirm before you sign anything, and ask whether the helper’s salary is included.',
+    pricing_source_company: 'Taken from the company’s own price page on {date}. Rates change — confirm before you book, and ask whether tax and travel are included.',
+    pricing_source_company_nodate: 'Taken from the company’s own price page. Rates change — confirm before you book, and ask whether tax and travel are included.',
     pricing_source_link: 'See their price page →',
     section_address: 'Address',
     section_serves: 'Cities served',
@@ -124,6 +129,7 @@ const T = {
     section_hours: 'เวลาทำการ',
     section_license: 'ใบอนุญาต',
     section_pricing: 'ค่าบริการ ตามที่เอเจนซี่ประกาศ',
+    section_pricing_company: 'ค่าบริการ ตามที่บริษัทประกาศ',
     pricing_col_package: 'แพ็กเกจ',
     pricing_col_price: 'ราคา',
     pricing_col_includes: 'สิ่งที่ได้รับ',
@@ -132,6 +138,8 @@ const T = {
     pricing_pays_label: 'คุณจ่ายให้ใคร',
     pricing_source: 'อ้างอิงจากหน้าราคาของเอเจนซี่เมื่อ {date} ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนเซ็นสัญญา และสอบถามว่ารวมเงินเดือนผู้ช่วยหรือไม่',
     pricing_source_nodate: 'อ้างอิงจากหน้าราคาของเอเจนซี่ ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนเซ็นสัญญา และสอบถามว่ารวมเงินเดือนผู้ช่วยหรือไม่',
+    pricing_source_company: 'อ้างอิงจากหน้าราคาของบริษัทเมื่อ {date} ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนจอง และสอบถามว่ารวมภาษีและค่าเดินทางหรือไม่',
+    pricing_source_company_nodate: 'อ้างอิงจากหน้าราคาของบริษัท ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนจอง และสอบถามว่ารวมภาษีและค่าเดินทางหรือไม่',
     pricing_source_link: 'ดูหน้าราคาของเอเจนซี่ →',
     section_address: 'ที่อยู่',
     section_serves: 'เมืองที่ให้บริการ',
@@ -292,6 +300,10 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
   const { lang } = useLang();
   const t = T[lang] || T.en;
   const router = useRouter();
+
+  // A service company sells cleaning visits; an agency sells a placement.
+  // The price block is worded for whichever this is.
+  const isCompany = listing?.type === 'service_company';
 
   // Preserve source from the listing index (?source=wizard etc.)
   const rawSrc = Array.isArray(router.query.source) ? router.query.source[0] : router.query.source;
@@ -559,7 +571,9 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                     price; the footnote names the source and the date. */}
                 {listing.pricing && listing.pricing.length > 0 && (
                   <div className="rounded-2xl border border-amber-200 bg-amber-50/40 p-5 md:p-6 mb-6">
-                    <h2 className="text-sm font-bold text-on-surface mb-4">{t.section_pricing}</h2>
+                    <h2 className="text-sm font-bold text-on-surface mb-4">
+                      {isCompany ? t.section_pricing_company : t.section_pricing}
+                    </h2>
                     <div className="overflow-x-auto -mx-2 px-2">
                       <table className="w-full text-sm">
                         <thead>
@@ -609,8 +623,9 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                     )}
                     <p className="mt-3 text-xs text-slate-500 leading-snug">
                       {listing.pricingCheckedAt
-                        ? t.pricing_source.replace('{date}', formatCheckedDate(listing.pricingCheckedAt, lang))
-                        : t.pricing_source_nodate}
+                        ? (isCompany ? t.pricing_source_company : t.pricing_source)
+                            .replace('{date}', formatCheckedDate(listing.pricingCheckedAt, lang))
+                        : (isCompany ? t.pricing_source_company_nodate : t.pricing_source_nodate)}
                       {listing.pricingUrl && (
                         <>
                           {' '}
