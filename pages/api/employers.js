@@ -11,7 +11,7 @@
 // Shape mirrors /api/helpers for consistency.
 
 import { getServiceSupabase, selectAll } from '../../lib/supabase';
-import { isPubliclyListable } from '../../lib/access';
+import { isPubliclyListable, hiddenForMissingJobText } from '../../lib/access';
 
 function toPublicCard(row) {
   return {
@@ -92,7 +92,9 @@ export default async function handler(req, res) {
     // only an explicit 'suspended' should deny (same reasoning as
     // hasActiveAccess in lib/access.js).
     const employers = (accounts || [])
-      .filter((row) => row.search_status !== 'hidden' && isPubliclyListable(row))
+      .filter((row) => row.search_status !== 'hidden'
+        && isPubliclyListable(row)
+        && !hiddenForMissingJobText(row))
       .map(toPublicCard);
 
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
