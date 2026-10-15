@@ -114,6 +114,8 @@ const T = {
     error_area_address: 'Please enter a general area or neighbourhood (e.g. "Sukhumvit"), not your full home address. You can share your exact address privately once you\'re in touch with a helper.',
     have_account: 'Already have an account?',
     login_link: 'Login',
+    agency_optin_label: 'If I don’t find anyone here, you may suggest agencies',
+    agency_optin_hint: 'If you’re still looking in two or three weeks, we’d send you one email with agencies that work in your area and what they charge. One email, with an unsubscribe link. No agency is given your details.',
     terms_notice: 'By creating an account you agree to our',
     terms_link: 'Terms of Service',
     privacy_link: 'Privacy Policy',
@@ -205,6 +207,8 @@ const T = {
     error_area_address: 'กรุณากรอกเขต/ย่านทั่วไป (เช่น "สุขุมวิท") แทนที่จะเป็นที่อยู่บ้านเต็มรูปแบบ คุณสามารถแจ้งที่อยู่ที่ชัดเจนแบบส่วนตัวได้เมื่อได้ติดต่อกับผู้ช่วยแล้ว',
     have_account: 'มีบัญชีอยู่แล้ว?',
     login_link: 'เข้าสู่ระบบ',
+    agency_optin_label: 'หากหาคนที่นี่ไม่ได้ คุณแนะนำเอเจนซี่ให้ฉันได้',
+    agency_optin_hint: 'หากในสองถึงสามสัปดาห์คุณยังหาคนไม่ได้ เราจะส่งอีเมลหนึ่งฉบับพร้อมรายชื่อเอเจนซี่ที่ให้บริการในพื้นที่ของคุณและค่าบริการ ส่งครั้งเดียว พร้อมลิงก์ยกเลิกรับอีเมล เราไม่ให้ข้อมูลของคุณแก่เอเจนซี่',
     terms_notice: 'โดยการสร้างบัญชี คุณยอมรับ',
     terms_link: 'ข้อกำหนดการให้บริการ',
     privacy_link: 'นโยบายความเป็นส่วนตัว',
@@ -237,6 +241,8 @@ export default function EmployerRegisterPage() {
   const [startTiming, setStartTiming] = useState('');
   const [preferredAgeRange, setPreferredAgeRange] = useState('');
   const [jobDescription, setJobDescription] = useState('');
+  // "If I don't find anyone here, you may suggest agencies" — off unless ticked.
+  const [agencyReferralOptIn, setAgencyReferralOptIn] = useState(false);
   // Per-category job texts ({ nanny: "…" }) — used instead of the single
   // jobDescription as soon as at least one category is selected, so a
   // family hiring e.g. a babysitter AND a housekeeper describes each job.
@@ -411,6 +417,7 @@ export default function EmployerRegisterPage() {
         preferredAgeRange: preferredAgeRange || null,
         jobDescription: jobDescription.trim(),
         jobDetails,
+        agencyReferralOptIn,
         turnstileToken,
         phoneToken,
       });
@@ -1037,6 +1044,35 @@ export default function EmployerRegisterPage() {
                   Looking for work instead? · หางาน? →
                 </Link>
               </div>
+
+
+              {/* Agency opt-in. Asked here rather than later because this is
+                  the one moment a family is thinking about how they will find
+                  someone; an email three weeks in that nobody agreed to is a
+                  different thing entirely. Default off, and nothing about the
+                  family ever reaches an agency — they click, or they don't.
+                  See lib/family-followups.js. */}
+              <label style={{
+                display: 'flex', gap: '11px', alignItems: 'flex-start',
+                marginTop: '20px', padding: '14px 16px',
+                background: 'var(--gray-50, #f8faf9)', border: '1px solid var(--gray-100, #eef2f4)',
+                borderRadius: '12px', cursor: 'pointer',
+              }}>
+                <input
+                  type="checkbox"
+                  checked={agencyReferralOptIn}
+                  onChange={e => setAgencyReferralOptIn(e.target.checked)}
+                  style={{ width: '18px', height: '18px', marginTop: '2px', flexShrink: 0, accentColor: '#006a62', cursor: 'pointer' }}
+                />
+                <span>
+                  <span style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#1B3A4B', lineHeight: 1.4 }}>
+                    {t.agency_optin_label}
+                  </span>
+                  <span style={{ display: 'block', fontSize: '13px', color: 'var(--gray-500)', lineHeight: 1.5, marginTop: '3px' }}>
+                    {t.agency_optin_hint}
+                  </span>
+                </span>
+              </label>
 
               <button
                 type="submit"

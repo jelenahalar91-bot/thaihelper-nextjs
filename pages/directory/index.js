@@ -301,7 +301,7 @@ export async function getStaticProps() {
   }
 }
 
-const VALID_SOURCES = ['wizard', 'direct', 'hire_page', 'search', 'internal'];
+const VALID_SOURCES = ['wizard', 'direct', 'hire_page', 'search', 'internal', 'email'];
 
 function trackClick(listingId, ctaName, source) {
   // Fire-and-forget. We don't await so the user's click feels instant.

@@ -276,7 +276,9 @@ export async function getStaticProps({ params }) {
   }
 }
 
-const VALID_SOURCES = ['wizard', 'direct', 'hire_page', 'search', 'internal'];
+// 'email' is the agency-suggestion mail (lib/emails/agency-suggestions.js) —
+// the clicks we will one day quote back to the agency that got them.
+const VALID_SOURCES = ['wizard', 'direct', 'hire_page', 'search', 'internal', 'email'];
 
 function trackClick(listingId, ctaName, source) {
   fetch(`/api/directory/${listingId}/click`, {

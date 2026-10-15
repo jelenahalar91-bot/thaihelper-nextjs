@@ -25,6 +25,7 @@ import { getServiceSupabase } from '../../../lib/supabase';
 import { sendMessageReminderEmail } from '../../../lib/send-confirmation-email';
 import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../../lib/unsubscribe';
 import { pruneExpiredRows } from '../../../lib/retention';
+import { runAgencyReferrals, runStatusCheckins } from '../../../lib/family-followups';
 
 // Don't reach back too far on the very first run after we ship this — there
 // could be hundreds of old unread messages from the broken-messaging period
@@ -87,8 +88,9 @@ export default async function handler(req, res) {
     // Nothing to remind anyone about, but the housekeeping still has to happen
     // — hung off the other exit alone it would only run on days that happen to
     // have unread mail, which is most days but not all of them.
+    const followups = await runFollowups(supabase);
     const pruned = await pruneExpiredRows(supabase);
-    return res.status(200).json({ ok: true, processed: 0, pruned });
+    return res.status(200).json({ ok: true, processed: 0, followups, pruned });
   }
 
   // Cache conversation + recipient lookups so we don't re-query for messages
@@ -275,6 +277,11 @@ export default async function handler(req, res) {
     }
   }
 
+  // The two family follow-ups ride along on this cron rather than claiming a
+  // schedule of their own — one daily job, one place to read what went out.
+  // Both are no-ops until FAMILY_FOLLOWUPS_LIVE=true; see lib/family-followups.js.
+  const followups = await runFollowups(supabase);
+
   // Last, after every mail is out: a prune that fails or hangs must never be
   // the reason a reminder did not go. pruneExpiredRows never throws.
   const pruned = await pruneExpiredRows(supabase);
@@ -288,8 +295,24 @@ export default async function handler(req, res) {
     notYetDue,
     capped,
     failed,
+    followups,
     pruned,
   });
+}
+
+// Never let a follow-up failure take down the message reminders, which are
+// the job this endpoint exists for.
+async function runFollowups(supabase) {
+  try {
+    const [agencyReferrals, statusCheckins] = await Promise.all([
+      runAgencyReferrals(supabase),
+      runStatusCheckins(supabase),
+    ]);
+    return { agencyReferrals, statusCheckins };
+  } catch (err) {
+    console.error('Family follow-ups failed:', err.message);
+    return { error: err.message };
+  }
 }
 
 // Move the whole unread run from this sender in this conversation to `count`,

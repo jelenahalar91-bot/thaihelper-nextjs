@@ -73,6 +73,7 @@ export default async function handler(req, res) {
     preferredAgeRange,
     jobDescription,
     jobDetails,
+    agencyReferralOptIn,
     preferredLanguage,
     turnstileToken,
     phoneToken,
@@ -256,6 +257,11 @@ export default async function handler(req, res) {
         job_description_en: hasJobDetails ? jobDetailsPatch.job_description_en : (jobDescriptionEn || null),
         job_details: hasJobDetails ? jobDetailsPatch.job_details : null,
         preferred_language: preferredLanguage || 'en',
+        // Consent to be emailed agency suggestions later, with the moment it
+        // was given — see lib/family-followups.js. Anything but a literal
+        // true is a no.
+        agency_referral_opt_in: agencyReferralOptIn === true,
+        agency_referral_opt_in_at: agencyReferralOptIn === true ? new Date().toISOString() : null,
         access_until: promo.access_until,
         access_tier: promo.access_tier,
         source: formatAttributionString(attribution),

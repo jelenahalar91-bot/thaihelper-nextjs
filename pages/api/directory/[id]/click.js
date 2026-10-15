@@ -16,7 +16,7 @@ import { checkRateLimit } from '../../../../lib/rate-limit';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const VALID_CTA = ['website', 'phone', 'email', 'details', 'maps'];
-const VALID_SOURCE = ['wizard', 'direct', 'hire_page', 'search', 'internal'];
+const VALID_SOURCE = ['wizard', 'direct', 'hire_page', 'search', 'internal', 'email'];
 
 function inferSource(referer) {
   if (!referer) return 'direct';

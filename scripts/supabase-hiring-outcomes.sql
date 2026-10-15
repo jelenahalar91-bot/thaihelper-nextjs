@@ -28,6 +28,7 @@
 --   not_a_match      this particular conversation did not lead anywhere
 --   still_talking    asked too early; ask again later
 --   stopped_looking  no longer looking, nobody hired
+--   still_searching  (email check-in only) yes, still looking — asked again later
 --
 -- Sources (only with hired_elsewhere): agency | facebook | friends | other.
 -- source_detail is free text, e.g. the agency's name — the competitive
@@ -46,7 +47,11 @@ CREATE TABLE IF NOT EXISTS hiring_outcomes (
   employer_ref TEXT,
   helper_ref TEXT,
   outcome TEXT NOT NULL CHECK (outcome IN (
-    'hired_here', 'hired_elsewhere', 'not_a_match', 'still_talking', 'stopped_looking'
+    'hired_here', 'hired_elsewhere', 'not_a_match', 'still_talking', 'stopped_looking',
+    -- Added 2026-10-15 with the email check-in (scripts/supabase-family-followups.sql):
+    -- "yes, still looking" is a confirmed status, not an outcome, but it
+    -- belongs in the same log — it is how we learn the search is real.
+    'still_searching'
   )),
   source TEXT CHECK (source IS NULL OR source IN ('agency', 'facebook', 'friends', 'other')),
   source_detail TEXT CHECK (source_detail IS NULL OR char_length(source_detail) <= 120),
