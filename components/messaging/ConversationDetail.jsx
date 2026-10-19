@@ -54,6 +54,11 @@ export default function ConversationDetail({
   resendVerifyResult = null, // 'sent' | 'error' | null
   // Optional quick-reply chips shown above the input. Array of strings.
   quickReplies = null,
+  // Why a send was refused, shown directly above the composer. The caller
+  // owns the text (it already maps error codes to translated wording) and
+  // owns clearing it; this component only places it where it gets read.
+  sendError = null,
+  onDismissSendError,
   lang = 'en',
   t,
 }) {
@@ -542,6 +547,47 @@ export default function ConversationDetail({
                   </button>
                 ))}
               </div>
+            </div>
+          )}
+          {/* A refused send belongs next to the box it was refused from.
+              This used to be a banner at the top of the Messages tab, above a
+              detail pane that is calc(100vh - 200px) tall — on a phone, with
+              the composer in view, it rendered off-screen and cleared itself
+              after six seconds. What the sender actually saw was her text
+              reappearing in the input and nothing else, which reads as a dead
+              send button. Here it cannot be missed, and it stays until she
+              dismisses it or types again. */}
+          {sendError && (
+            <div
+              role="alert"
+              style={{
+                margin: '12px 16px 0',
+                padding: '12px 14px',
+                borderRadius: '12px',
+                background: '#fff7ed',
+                border: '1px solid #fed7aa',
+                color: '#9a3412',
+                fontSize: '13px',
+                lineHeight: 1.5,
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                gap: '12px',
+              }}
+            >
+              <span>{sendError}</span>
+              {typeof onDismissSendError === 'function' && (
+                <button
+                  type="button"
+                  onClick={onDismissSendError}
+                  aria-label={t.msg_dismiss || 'Dismiss'}
+                  style={{
+                    background: 'none', border: 'none', color: '#9a3412',
+                    cursor: 'pointer', fontSize: '18px', padding: 0,
+                    lineHeight: 1, flexShrink: 0,
+                  }}
+                >×</button>
+              )}
             </div>
           )}
           {confirmOffPlatform && (

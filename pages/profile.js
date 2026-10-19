@@ -563,6 +563,10 @@ export default function Profile() {
   const sendingMsgRef = useRef(false);
   const [loadingMsgs, setLoadingMsgs] = useState(false);
   const [msgToast, setMsgToast] = useState(''); // translation-failed / error banner
+  // Why the last send was refused. Kept apart from msgToast because it is the
+  // one message that has to appear next to the composer rather than at the top
+  // of the tab, and because it must not auto-clear — see ConversationDetail.
+  const [sendError, setSendError] = useState('');
   const [viewingEmployer, setViewingEmployer] = useState(null); // employer profile modal
   // Resend-verify state for the messaging tab banner
   const [resendingVerify, setResendingVerify] = useState(false);
@@ -901,6 +905,7 @@ export default function Profile() {
   // Messaging handlers
   const openConversation = async (conv) => {
     setSelectedConv(conv);
+    setSendError('');
     setLoadingMsgs(true);
     try {
       const res = await fetchMessages(conv.id, 1, 'helper');
@@ -926,6 +931,7 @@ export default function Profile() {
     sendingMsgRef.current = true;
     setMsgInput('');
     setSendingMsg(true);
+    setSendError('');
     try {
       const res = await sendMessage(selectedConv.id, content, 'helper');
       // Dedupe by ID: a slow send lets the 10s message poll fetch this
@@ -948,30 +954,31 @@ export default function Profile() {
       // Restore the message so the user doesn't lose what they typed.
       setMsgInput(content);
       if (err.code === 'message_too_long') {
-        setMsgToast(
+        setSendError(
           (t.msg_too_long || 'Message is too long (max {n} characters).').replace('{n}', err.max || 4000)
         );
       } else if (err.code === 'blocked_contact') {
-        setMsgToast(t.err_blocked_contact);
+        setSendError(t.err_blocked_contact);
       } else if (err.code === 'contact_sharing_limit') {
-        setMsgToast(t.err_contact_spam);
+        setSendError(t.err_contact_spam);
       } else if (err.code === 'outreach_limit_phone') {
-        setMsgToast(t.err_outreach_limit_phone);
+        setSendError(t.err_outreach_limit_phone);
       } else if (err.code === 'outreach_limit') {
         // The outreach cap can now land on the first message in a thread, not
         // only on opening it (see /api/messages.js), so this path needs the
         // same wording the "start a chat" path already uses.
-        setMsgToast(t.err_outreach_limit);
+        setSendError(t.err_outreach_limit);
       } else if (err.code === 'recipient_unavailable') {
-        setMsgToast(t.err_recipient_unavailable);
+        setSendError(t.err_recipient_unavailable);
       } else if (err.code === 'email_not_verified') {
-        setMsgToast(t.msg_verify_required_body || 'Please verify your email first.');
+        setSendError(t.msg_verify_required_body || 'Please verify your email first.');
         // Re-fetch profile so the verify-banner appears if the user cleared the cookie
         fetchProfile();
       } else {
-        setMsgToast(t.msg_send_error || 'Failed to send message.');
+        setSendError(t.msg_send_error || 'Failed to send message.');
       }
-      setTimeout(() => setMsgToast(''), 6000);
+      // Deliberately no auto-clear: it sits beside the composer, and the
+      // person it is for may be reading it in her second language.
     } finally {
       sendingMsgRef.current = false;
       setSendingMsg(false);
@@ -1914,12 +1921,14 @@ export default function Profile() {
                   resendingVerify={resendingVerify}
                   resendVerifyResult={resendVerifyResult}
                   quickReplies={[t.msg_quick_reply_1, t.msg_quick_reply_2, t.msg_quick_reply_3]}
+                  sendError={sendError}
+                  onDismissSendError={() => setSendError('')}
                   loading={loadingMsgs}
                   msgInput={msgInput}
                   setMsgInput={setMsgInput}
                   onSend={handleSendMessage}
                   sending={sendingMsg}
-                  onBack={() => { setSelectedConv(null); setMessages([]); }}
+                  onBack={() => { setSelectedConv(null); setMessages([]); setSendError(''); }}
                   onViewProfile={(cp) => {
                     // Look up full employer data from loaded employers list
                     const full = employers.find(e => e.ref === cp.ref);

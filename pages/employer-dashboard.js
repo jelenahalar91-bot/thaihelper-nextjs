@@ -393,6 +393,10 @@ export default function EmployerDashboard() {
   // (spinner, disabled button).
   const sendingRef = useRef(false);
   const [errorBanner, setErrorBanner] = useState('');
+  // Why the last send was refused. Separate from errorBanner because it has to
+  // render beside the composer, not at the top of the tab above the whole
+  // conversation pane — see ConversationDetail.
+  const [sendError, setSendError] = useState('');
   const [viewingHelper, setViewingHelper] = useState(null); // helper obj shown in profile modal
   // "Why are you switching off?" — opens after a status change to paused /
   // hidden is saved. See components/OutcomeReasonModal.jsx.
@@ -757,6 +761,7 @@ export default function EmployerDashboard() {
   // ── Open / send messages ──────────────────────────────────────────────
   async function openConversation(conv) {
     setSelectedConv(conv);
+    setSendError('');
     setMessagesLoading(true);
     setMessages([]);
     try {
@@ -786,6 +791,7 @@ export default function EmployerDashboard() {
     sendingRef.current = true;
     setMsgInput('');
     setSending(true);
+    setSendError('');
     try {
       const res = await sendMessage(selectedConv.id, content, 'employer');
       // Dedupe by ID: a slow send lets the 10s message poll fetch this
@@ -805,24 +811,24 @@ export default function EmployerDashboard() {
       // Restore the message so the user doesn't lose what they typed.
       setMsgInput(content);
       if (err.code === 'message_too_long') {
-        setErrorBanner((t.err_too_long || 'Message is too long.').replace('{n}', err.max || 4000));
+        setSendError((t.err_too_long || 'Message is too long.').replace('{n}', err.max || 4000));
       } else if (err.code === 'email_not_verified') {
-        setErrorBanner(t.msg_verify_required_body);
+        setSendError(t.msg_verify_required_body);
       } else if (err.code === 'phone_not_verified') {
-        setErrorBanner(t.err_phone_required);
+        setSendError(t.err_phone_required);
       } else if (err.code === 'blocked_contact') {
-        setErrorBanner(t.err_blocked_contact);
+        setSendError(t.err_blocked_contact);
       } else if (err.code === 'contact_sharing_limit') {
-        setErrorBanner(t.err_contact_spam);
+        setSendError(t.err_contact_spam);
       } else if (err.code === 'outreach_limit_phone') {
-        setErrorBanner(t.err_outreach_limit_phone);
+        setSendError(t.err_outreach_limit_phone);
       } else if (err.code === 'outreach_limit') {
         // The outreach cap can now land on the first message in a thread, not
         // only on opening it (see /api/messages.js), so this path needs the
         // same wording the "start a chat" path already uses.
-        setErrorBanner(t.err_outreach_limit);
+        setSendError(t.err_outreach_limit);
       } else {
-        setErrorBanner(t.err_generic);
+        setSendError(t.err_generic);
       }
     }
     sendingRef.current = false;
@@ -1287,7 +1293,9 @@ export default function EmployerDashboard() {
                   setMsgInput={setMsgInput}
                   onSend={handleSendMessage}
                   sending={sending}
-                  onBack={() => { setSelectedConv(null); setMessages([]); }}
+                  onBack={() => { setSelectedConv(null); setMessages([]); setSendError(''); }}
+                  sendError={sendError}
+                  onDismissSendError={() => setSendError('')}
                   onUpgrade={handleUpgrade}
                   onViewProfile={handleViewHelperProfile}
                   onRequestVideoCall={handleRequestVideoCall}

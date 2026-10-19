@@ -325,11 +325,29 @@ export default async function handler(req, res) {
     // Check the live DB state, not the JWT (which is long-lived).
     const senderTable = isEmployer ? 'employer_accounts' : 'helper_profiles';
     const senderRefCol = isEmployer ? 'employer_ref' : 'helper_ref';
-    const { data: senderRow } = await supabase
+    // warned_for lives on employer_accounts only, and is read in exactly one
+    // place: the employer-only solicitation branch further down. Asking for it
+    // on helper_profiles makes PostgREST reject the whole query (42703) — and
+    // because only `data` was destructured here, that failure arrived as
+    // senderRow === null and every helper was refused with
+    // 'email_not_verified'. Helper messaging was down for a morning that way.
+    const senderCols = isEmployer
+      ? 'email_verified, status, phone_verified_at, created_at, warned_for'
+      : 'email_verified, status, phone_verified_at, created_at';
+    const { data: senderRow, error: senderErr } = await supabase
       .from(senderTable)
-      .select('email_verified, status, phone_verified_at, created_at, warned_for')
+      .select(senderCols)
       .eq(senderRefCol, session.ref)
       .single();
+    // A query that failed says nothing about this account. Answering it with a
+    // verification notice sends a verified person off to re-verify an address
+    // that was never the problem — the misdiagnosis above, in one line. Fail
+    // loudly instead, so the next schema slip shows up as an error and not as
+    // a wrong instruction to a user.
+    if (senderErr) {
+      console.error(`[messages] sender lookup failed for ${session.ref}:`, senderErr.message);
+      return res.status(500).json({ error: 'Failed to send message' });
+    }
     if (senderRow?.status === 'suspended') {
       return res.status(403).json({ error: 'account_suspended' });
     }
