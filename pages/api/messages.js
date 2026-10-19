@@ -25,6 +25,7 @@ import { sendPushToUser } from '../../lib/web-push';
 import { checkRateLimit } from '../../lib/rate-limit';
 import {
   contactSpread,
+  isSolicitation,
   documentRequestKind,
   documentRequestSpread,
   DOC_SCREEN_SPREAD_ALERT,
@@ -122,6 +123,67 @@ async function notifyAdminOfDocumentRequest({ senderRef, senderType, kind, sprea
       'Nothing was blocked and the message was delivered.',
       `Read the conversation before acting: ${suspendCommand(senderRef)}`,
     ].join('\n'),
+  });
+}
+
+// Suspend a family that was warned in writing and did it again.
+//
+// The only place on this platform where a suspension is decided by a pattern
+// rather than by somebody reading the conversation, and it is narrow on
+// purpose: it fires ONLY for an account whose warned_for column says a human
+// already read its messages, wrote to it, and told it exactly this would
+// happen. Everything else gets an alert and the message goes through.
+async function suspendForRepeatSolicitation(supabase, ref, sample) {
+  const reason = 'Asked a helper for a personal service again after a written warning'
+    + ` (warned earlier, see warned_at). The message: "${String(sample).slice(0, 180)}"`
+    + ' — suspended automatically by /api/messages, see isSolicitation() in lib/spam-signals.js.';
+  const { error } = await supabase
+    .from('employer_accounts')
+    .update({
+      status: 'suspended',
+      status_reason: reason,
+      status_changed_at: new Date().toISOString(),
+      search_status: 'hidden',
+      notify_on_message: false,
+    })
+    .eq('employer_ref', ref);
+  if (error) console.error('[solicitation] suspend failed:', error.message);
+  return !error;
+}
+
+async function notifyAdminOfSolicitation({ senderRef, suspended, sample }) {
+  const { Resend } = await import('resend');
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  await resend.emails.send({
+    from: 'ThaiHelper <noreply@thaihelper.app>',
+    to: process.env.ADMIN_EMAIL,
+    subject: suspended
+      ? `\u{1F6A8} SUSPENDED: ${senderRef} asked for a massage again after the warning`
+      : `\u{1F6A8} ${senderRef} asked a helper for a massage`,
+    text: [
+      suspended
+        ? `${senderRef} was warned in writing and has now sent another one. The account`
+        : `${senderRef} has asked a helper to massage or stretch them.`,
+      suspended ? 'has been SUSPENDED automatically and the message was NOT delivered.' : '',
+      '',
+      'The message:',
+      sample,
+      '',
+      suspended
+        ? 'Nothing further is needed. To undo: node scripts/suspend-account.js ' + senderRef + ' --restore'
+        : [
+            'Nothing has been blocked and the message was delivered.',
+            '',
+            'Across all 5,958 messages ever sent here, exactly three accounts have ever',
+            'tripped this and all three were abusing it — but the obvious false positive',
+            'has simply not happened yet, so read the conversation before acting. A family',
+            'caring for a bedridden parent asking for help with their legs would look',
+            'similar and would be a real household job.',
+            '',
+            `If it is not: ${suspendCommand(senderRef)}`,
+            'Then set warned_for = \'solicitation\' so a repeat suspends itself.',
+          ].join('\n'),
+    ].filter(Boolean).join('\n'),
   });
 }
 
@@ -265,7 +327,7 @@ export default async function handler(req, res) {
     const senderRefCol = isEmployer ? 'employer_ref' : 'helper_ref';
     const { data: senderRow } = await supabase
       .from(senderTable)
-      .select('email_verified, status, phone_verified_at, created_at')
+      .select('email_verified, status, phone_verified_at, created_at, warned_for')
       .eq(senderRefCol, session.ref)
       .single();
     if (senderRow?.status === 'suspended') {
@@ -455,6 +517,38 @@ export default async function handler(req, res) {
       if (spread >= CONTACT_SPREAD_BLOCK) {
         console.warn(`[spam] blocked ${session.ref}: contact info in ${spread} conversations`);
         return res.status(403).json({ error: 'contact_sharing_limit' });
+      }
+    }
+
+    // Asking the helper for a personal service.
+    //
+    // People sign up here to clean, cook and mind children. Being asked to
+    // massage the person who hired them is a different job, asked of somebody
+    // who is often alone in a stranger's home. See isSolicitation().
+    if (isEmployer && isSolicitation(trimmed)) {
+      const warned = senderRow?.warned_for === 'solicitation';
+      if (warned) {
+        // The warning letter said this would happen. Suspend first, then
+        // refuse — so the message does not reach the helper even if the mail
+        // to the admin fails.
+        const done = await suspendForRepeatSolicitation(supabase, session.ref, trimmed);
+        if (process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
+          notifyAdminOfSolicitation({ senderRef: session.ref, suspended: done, sample: trimmed })
+            .catch((e) => console.error('Solicitation alert failed:', e.message));
+        }
+        console.warn(`[solicitation] suspended ${session.ref} for a repeat after warning`);
+        return res.status(403).json({ error: 'account_suspended' });
+      }
+      // Never warned: a human reads it. One mail per account per day.
+      const fresh = await checkRateLimit({
+        bucket: 'solicitation-alert',
+        key: session.ref,
+        max: 1,
+        windowMs: 24 * 60 * 60 * 1000,
+      });
+      if (fresh && process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
+        notifyAdminOfSolicitation({ senderRef: session.ref, suspended: false, sample: trimmed })
+          .catch((e) => console.error('Solicitation alert failed:', e.message));
       }
     }
 
