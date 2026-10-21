@@ -559,6 +559,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
                     </div>
                     <RateForm
                       helperRef={helper.ref}
+                      helperName={displayName}
                       existingRating={myRating}
                       onSubmitted={loadRatings}
                       lang={lang}

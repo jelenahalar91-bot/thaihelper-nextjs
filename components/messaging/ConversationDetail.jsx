@@ -789,6 +789,7 @@ function OutcomePrompt({
             <div style={{ width: '100%' }}>
               <RateForm
                 helperRef={counterpartyRef}
+                helperName={counterpartyName}
                 existingRating={rating.myRating}
                 onSubmitted={onRated}
                 lang={lang}
@@ -875,6 +876,7 @@ function OutcomePrompt({
         {rateOpen && (
           <RateForm
             helperRef={counterpartyRef}
+            helperName={counterpartyName}
             existingRating={null}
             onSubmitted={onRated}
             lang={lang}
