@@ -123,7 +123,7 @@ const T = {
     email_error:     'Please enter a valid email address.',
     email_typo:      'Did you mean',
     email_typo_use:  'Use this',
-    email_typo_block:'Looks like a typo in your email — please fix it or use the suggestion above.',
+    email_typo_block:'Looks like a typo in your email — fix it, use the suggestion above, or press again to keep your address.',
     notify_title:    'Get notified about new messages',
     notify_email:    'Email',
     notify_email_sub:'Always on — we send important updates here',
@@ -263,7 +263,7 @@ const T = {
     email_error:     'กรุณากรอกอีเมลที่ถูกต้อง',
     email_typo:      'คุณหมายถึง',
     email_typo_use:  'ใช้อันนี้',
-    email_typo_block:'ดูเหมือนอีเมลของคุณพิมพ์ผิด — กรุณาแก้ไขหรือใช้คำแนะนำด้านบน',
+    email_typo_block:'ดูเหมือนอีเมลของคุณพิมพ์ผิด — กรุณาแก้ไข หรือใช้คำแนะนำด้านบน หรือกดอีกครั้งหากอีเมลนี้ถูกต้องแล้ว',
     notify_title:    'รับการแจ้งเตือนข้อความใหม่',
     notify_email:    'อีเมล',
     notify_email_sub:'เปิดเสมอ — เราส่งการอัปเดตสำคัญทางอีเมล',
@@ -410,7 +410,7 @@ const T = {
     email_error:     'မှန်ကန်သော အီးမေးလ် ထည့်ပါ။',
     email_typo:      'ဤအတိုင်း ဆိုလိုတာလား',
     email_typo_use:  'ဤဟာကို သုံးမည်',
-    email_typo_block:'အီးမေးလ်တွင် စာလုံးမှားနေပုံရသည် — ပြင်ပါ သို့မဟုတ် အထက်ပါ အကြံပြုချက်ကို သုံးပါ။',
+    email_typo_block:'အီးမေးလ်တွင် စာလုံးမှားနေပုံရသည် — ပြင်ပါ၊ အထက်ပါ အကြံပြုချက်ကို သုံးပါ၊ သို့မဟုတ် ဤလိပ်စာမှန်ပါက နောက်တစ်ကြိမ် ထပ်နှိပ်ပါ။',
     notify_title:    'မက်ဆေ့ချ်အသစ်များကို အကြောင်းကြားစေရန်',
     notify_email:    'အီးမေးလ်',
     notify_email_sub:'အမြဲဖွင့်ထားသည် — အရေးကြီးသော အချက်အလက်များ ဤနေရာသို့ ပို့သည်',
@@ -550,7 +550,7 @@ const T = {
     email_error:     'សូមបញ្ចូលអ៊ីមែលត្រឹមត្រូវ។',
     email_typo:      'តើអ្នកចង់សរសេរ',
     email_typo_use:  'ប្រើវិញ',
-    email_typo_block:'អ៊ីមែលហាក់មានកំហុសអក្ខរាវិរុទ្ធ — សូមកែ ឬប្រើការណែនាំខាងលើ។',
+    email_typo_block:'អ៊ីមែលហាក់មានកំហុសអក្ខរាវិរុទ្ធ — សូមកែ ឬប្រើការណែនាំខាងលើ ឬចុចម្ដងទៀតប្រសិនបើអ៊ីមែលនេះត្រឹមត្រូវ។',
     notify_title:    'ទទួលការជូនដំណឹងអំពីសារថ្មី',
     notify_email:    'អ៊ីមែល',
     notify_email_sub:'បើកជានិច្ច — យើងផ្ញើព័ត៌មានសំខាន់មកទីនេះ',
@@ -690,7 +690,7 @@ const T = {
     email_error:     'ກະລຸນາໃສ່ອີເມວທີ່ຖືກຕ້ອງ.',
     email_typo:      'ທ່ານໝາຍເຖິງ',
     email_typo_use:  'ໃຊ້ອັນນີ້',
-    email_typo_block:'ອີເມວເບິ່ງຄືວ່າພິມຜິດ — ກະລຸນາແກ້ໄຂ ຫຼື ໃຊ້ຄຳແນະນຳຂ້າງເທິງ.',
+    email_typo_block:'ອີເມວເບິ່ງຄືວ່າພິມຜິດ — ກະລຸນາແກ້ໄຂ ຫຼືໃຊ້ຄຳແນະນຳຂ້າງເທິງ ຫຼື ກົດອີກຄັ້ງຖ້າອີເມວນີ້ຖືກຕ້ອງແລ້ວ.',
     notify_title:    'ຮັບແຈ້ງເຕືອນເມື່ອມີຂໍ້ຄວາມໃໝ່',
     notify_email:    'ອີເມວ',
     notify_email_sub:'ເປີດຕະຫຼອດ — ພວກເຮົາສົ່ງຂໍ້ມູນສຳຄັນມາທີ່ນີ້',
@@ -810,6 +810,10 @@ export default function Register() {
   const [bio,         setBio]         = useState('');
   const [email,       setEmail]       = useState('');
   const [emailSuggestion, setEmailSuggestion] = useState('');
+  // The address the typo warning was last shown for. Submitting the same
+  // address again means "yes, this really is my email" and goes through —
+  // the detector guesses, and a wrong guess must never cost us a signup.
+  const [emailTypoAcked, setEmailTypoAcked] = useState('');
   const [terms,       setTerms]       = useState(false);
   const [notifyLine,     setNotifyLine]     = useState(false);
   const [notifyWhatsapp, setNotifyWhatsapp] = useState(false);
@@ -901,13 +905,13 @@ export default function Register() {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         errs.email = t.email_error;
       } else {
-        // Hard-block submission when our typo detector has a confident
-        // suggestion (e.g. gmail.co → gmail.com, hotmail.con → hotmail.com).
-        // Users still see the existing yellow "Did you mean" hint; we just
-        // also refuse to submit until they accept it or fix the address.
+        // Warn once when the typo detector has a confident suggestion
+        // (e.g. gmail.co → gmail.com, hotmail.con → hotmail.com), then get
+        // out of the way: the second attempt on the same address submits.
         const typoFix = suggestEmail(email);
-        if (typoFix) {
+        if (typoFix && emailTypoAcked !== email.trim().toLowerCase()) {
           setEmailSuggestion(typoFix);
+          setEmailTypoAcked(email.trim().toLowerCase());
           errs.email = t.email_typo_block;
         }
       }

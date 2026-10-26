@@ -73,7 +73,7 @@ const T = {
     email_ph: 'you@example.com',
     email_typo: 'Did you mean',
     email_typo_use: 'Use this',
-    email_typo_block: 'Looks like a typo in your email — please fix it or use the suggestion above.',
+    email_typo_block: 'Looks like a typo in your email — fix it, use the suggestion above, or press again to keep your address.',
     email_hint: 'Used for login and notifications',
     section_location: 'Where you need help',
     city_label: 'City',
@@ -166,7 +166,7 @@ const T = {
     email_ph: 'you@example.com',
     email_typo: 'คุณหมายถึง',
     email_typo_use: 'ใช้อันนี้',
-    email_typo_block: 'ดูเหมือนอีเมลของคุณพิมพ์ผิด — กรุณาแก้ไขหรือใช้คำแนะนำด้านบน',
+    email_typo_block: 'ดูเหมือนอีเมลของคุณพิมพ์ผิด — กรุณาแก้ไข หรือใช้คำแนะนำด้านบน หรือกดอีกครั้งหากอีเมลนี้ถูกต้องแล้ว',
     email_hint: 'ใช้สำหรับเข้าสู่ระบบและการแจ้งเตือน',
     section_location: 'ที่ที่คุณต้องการความช่วยเหลือ',
     city_label: 'เมือง',
@@ -229,6 +229,9 @@ export default function EmployerRegisterPage() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [emailSuggestion, setEmailSuggestion] = useState('');
+  // The address the typo warning was last shown for — submitting the same
+  // address again means the person stands by it and the signup proceeds.
+  const [emailTypoAcked, setEmailTypoAcked] = useState('');
   const [city, setCity] = useState('');
   const [area, setArea] = useState('');
   const [lookingFor, setLookingFor] = useState([]);
@@ -387,13 +390,14 @@ export default function EmployerRegisterPage() {
       return;
     }
 
-    // Hard-block on confident email typos (e.g. gmail.co, hotmail.con).
-    // The yellow "Did you mean ..." hint is already shown on blur; here we
-    // refuse to submit until the user either accepts the suggestion or
-    // edits the address themselves.
+    // Warn once on a confident email typo (e.g. gmail.co, hotmail.con). The
+    // yellow "Did you mean ..." hint is already shown on blur; this stops the
+    // first submit, but pressing again with the same address lets it through
+    // — the detector only guesses, and nobody may be locked out by a guess.
     const typoFix = suggestEmail(email);
-    if (typoFix) {
+    if (typoFix && emailTypoAcked !== email.trim().toLowerCase()) {
       setEmailSuggestion(typoFix);
+      setEmailTypoAcked(email.trim().toLowerCase());
       setError(t.email_typo_block);
       return;
     }
