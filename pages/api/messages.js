@@ -462,6 +462,35 @@ export default async function handler(req, res) {
           const ageHours = acct
             ? Math.round((Date.now() - new Date(acct.created_at)) / 36e5)
             : null;
+
+          // The three messages before this one, oldest first. The alert used to
+          // show the link and nothing else, which made every one of them a
+          // database query before it could be judged: on 2026-10-26 EMP-HS6UKE
+          // was flagged for answering a helper who had just written "How can I
+          // apply?" — the sentence that settles the case was one line above the
+          // quoted message and not in the mail. A helper asking for the handle
+          // reads very differently from a family volunteering it unprompted,
+          // and that difference is almost always in the last few turns.
+          //
+          // This message is not written yet (the insert is further down), so
+          // the newest row here is genuinely the one before it.
+          const { data: before } = await supabase
+            .from('messages')
+            .select('sender_type, content_original, content_translated, created_at')
+            .eq('conversation_id', conversation_id)
+            .order('created_at', { ascending: false })
+            .limit(3);
+          const context = (before || []).reverse().flatMap((m) => {
+            const who = m.sender_type === 'helper' ? 'Helper  ' : 'Family  ';
+            const out = [`  ${who} ${(m.content_original || '').slice(0, 200)}`];
+            // Thai and Burmese arrive translated; the English is what tells you
+            // whether she asked for the handle.
+            if (m.content_translated && m.content_translated !== m.content_original) {
+              out.push(`           ↳ ${m.content_translated.slice(0, 200)}`);
+            }
+            return out;
+          });
+
           notifyAdminOfSpamSignal({
             subject: `\u{1F517} Family sent a contact link: ${session.ref}`,
             lines: [
@@ -471,13 +500,16 @@ export default async function handler(req, res) {
               'Sent a tap-to-open contact link to a helper:',
               ...links.map((h) => `  ${h}`),
               '',
+              ...(context.length
+                ? ['How the conversation got there:', ...context, '']
+                : ['Nothing was said in this conversation before it.', '']),
               'Message:',
-              trimmed.slice(0, 300),
+              `  Family   ${trimmed.slice(0, 300)}`,
               '',
               'Families have no reason to send these — every one in the 30 days',
-              'before 2026-09-15 came from a confirmed scam account. It could',
-              'still be a real family answering "what is your LINE?", so read the',
-              'conversation before acting:',
+              'before 2026-09-15 came from a confirmed scam account. A helper who',
+              'asked for it first ("how can I apply?", "what is your LINE?") is the',
+              'ordinary exception, and the lines above usually show which this is:',
               `  ${suspendCommand(session.ref)}`,
             ],
           }).catch((e) => console.error('Contact-link alert failed:', e.message));
