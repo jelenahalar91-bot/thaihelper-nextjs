@@ -303,7 +303,10 @@ export function getLocalBusinessSchema(city) {
     '@type': 'EmploymentAgency',
     name: `ThaiHelper ${c.name}`,
     description: `Find verified nannies, housekeepers, chefs, drivers and household staff in ${c.name}, Thailand. Free for both families and helpers — no agency fees.`,
-    url: `${SITE_URL}/helpers?city=${city}`,
+    // The city's own landing page, not /helpers?city=… — the filter URL
+    // canonicals away to exactly this page, so naming it here keeps the
+    // entity URL on the page that actually ranks (2026-10-26).
+    url: `${SITE_URL}/hire/${city}`,
     telephone: '',
     address: {
       '@type': 'PostalAddress',

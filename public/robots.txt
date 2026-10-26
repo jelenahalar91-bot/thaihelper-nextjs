@@ -10,13 +10,21 @@ Disallow: /employer-login
 Disallow: /employer-dashboard
 Disallow: /employer-profile
 
-# /helpers filter URLs — Google was crawling every ?city=…&category=…
-# combination and stacking them as "Alternative page with proper canonical
-# tag" (206 URLs on 2026-07-13). Wastes crawl budget on filter variants
-# that all canonical to /helpers anyway. The dedicated /hire/<city>-<cat>
-# landing pages are the real SEO surface — those stay indexable.
-Disallow: /helpers?
-Disallow: /th/helpers?
+# /helpers filter URLs — NOT blocked (un-blocked 2026-10-26).
+#
+# They were disallowed on 2026-07-13 to stop Google stacking every
+# ?city=…&category=… combination as "Alternative page with proper
+# canonical tag". That backfired: a blocked URL is still indexable from
+# links alone, Googlebot just can't read the page — so on 2026-10-26 GSC
+# reported "Indexed, though blocked by robots.txt" and the live index
+# carried /helpers?category=Driver… and /helpers?category=Private%20Chef…
+# as blank "no information available" results.
+#
+# The canonical on /helpers already points each filtered view at its
+# matching /hire/<city>-<cat> landing page (pages/helpers.js, 2026-05-21).
+# Googlebot has to crawl the URL to see that tag, so leaving these open is
+# what actually consolidates them into the /hire/* pages. "Alternative
+# page with proper canonical tag" is the healthy end state, not a problem.
 
 # ─── AI training crawlers — BLOCKED ─────────────────────────────────────
 # These bots crawl the entire site systematically to build training
