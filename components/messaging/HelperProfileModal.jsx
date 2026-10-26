@@ -28,6 +28,7 @@ import { formatCity, formatAdditionalCities } from '../../lib/constants/cities';
 import { relativeTime } from '../../lib/recent-helpers-display';
 import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '../../lib/utils';
 import { StarRatingDisplay } from '../StarRating';
+import PhotoLightbox from '../PhotoLightbox';
 import { helperShareUrl, shareCopy, shareOrCopyLink } from '../../lib/share-profile';
 import RateForm from '../RateForm';
 import { readableText } from '@/lib/recent-helpers-display';
@@ -119,6 +120,9 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
   const [references, setReferences] = useState([]);
   const [refsLoading, setRefsLoading] = useState(true);
   const [certDocs, setCertDocs] = useState([]);
+  // Photo being shown full size — the profile photo or a revealed
+  // certificate scan. null means the overlay is closed.
+  const [lightbox, setLightbox] = useState(null);
   // Certificates are shown clear to every logged-in employer from the
   // moment the modal opens. The earlier "blur until first message"
   // gating was removed on 2026-06-05 — being able to verify
@@ -389,34 +393,70 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
           }} />
 
           <div style={{ position: 'relative', textAlign: 'center' }}>
-            <div style={{
-              width: '96px', height: '96px', borderRadius: '50%',
-              background: 'white',
-              border: '4px solid rgba(255,255,255,0.5)',
-              margin: '0 auto 14px',
-              overflow: 'hidden',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '36px', color: '#006a62', fontWeight: 800,
-              boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
-            }}>
-              {helper.photo ? (
-                (!SUPABASE_IMAGE_OPTIMIZER_DISABLED && helper.photo.includes('.supabase.co')) ? (
-                  <Image
-                    src={helper.photo}
-                    alt={displayName}
-                    width={96}
-                    height={96}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={helper.photo}
-                    alt={displayName}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                )
-              ) : initial}
+            {/* The photo opens full size. 96px is not enough to judge a
+                face, and the circle did not look clickable either — hence
+                the badge. */}
+            <div style={{ position: 'relative', width: '96px', margin: '0 auto 14px' }}>
+              <div
+                onClick={helper.photo ? () => setLightbox(helper.photo) : undefined}
+                role={helper.photo ? 'button' : undefined}
+                tabIndex={helper.photo ? 0 : undefined}
+                onKeyDown={helper.photo ? (e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setLightbox(helper.photo);
+                  }
+                }) : undefined}
+                aria-label={helper.photo
+                  ? `${displayName} — ${lang === 'th' ? 'ดูรูปขนาดเต็ม' : 'view photo full size'}`
+                  : undefined}
+                style={{
+                  width: '96px', height: '96px', borderRadius: '50%',
+                  background: 'white',
+                  border: '4px solid rgba(255,255,255,0.5)',
+                  overflow: 'hidden',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '36px', color: '#006a62', fontWeight: 800,
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                  cursor: helper.photo ? 'zoom-in' : 'default',
+                }}
+              >
+                {helper.photo ? (
+                  (!SUPABASE_IMAGE_OPTIMIZER_DISABLED && helper.photo.includes('.supabase.co')) ? (
+                    <Image
+                      src={helper.photo}
+                      alt={displayName}
+                      width={96}
+                      height={96}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={helper.photo}
+                      alt={displayName}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  )
+                ) : initial}
+              </div>
+              {helper.photo && (
+                <span aria-hidden style={{
+                  position: 'absolute', right: '-2px', bottom: '-2px',
+                  width: '28px', height: '28px', borderRadius: '50%',
+                  background: 'rgba(27,58,75,0.85)',
+                  border: '2px solid rgba(255,255,255,0.65)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  pointerEvents: 'none',
+                }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 3 21 3 21 9" />
+                    <polyline points="9 21 3 21 3 15" />
+                    <line x1="21" y1="3" x2="14" y2="10" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                  </svg>
+                </span>
+              )}
             </div>
             <h2 style={{
               fontSize: '24px', fontWeight: 800, margin: '0 0 4px',
@@ -570,7 +610,13 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
             ) : certDocs.length > 0 ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {certDocs.map((doc) => (
-                  <CertificatePreview key={doc.id} doc={doc} t={t} revealed={certsRevealed} />
+                  <CertificatePreview
+                    key={doc.id}
+                    doc={doc}
+                    t={t}
+                    revealed={certsRevealed}
+                    onOpen={() => setLightbox(doc.url)}
+                  />
                 ))}
               </div>
             ) : !helper.certificates ? (
@@ -709,6 +755,12 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
         )}
       </div>
 
+      <PhotoLightbox
+        src={lightbox}
+        alt={displayName}
+        onClose={() => setLightbox(null)}
+      />
+
       {/* Inline keyframes (kept local so the modal doesn't depend on globals) */}
       <style jsx>{`
         @keyframes fadeIn {
@@ -724,7 +776,7 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
   );
 }
 
-function CertificatePreview({ doc, t, revealed = false }) {
+function CertificatePreview({ doc, t, revealed = false, onOpen }) {
   if (!doc.isImage || !doc.url) {
     // PDF or missing URL — show as file badge
     return (
@@ -754,14 +806,20 @@ function CertificatePreview({ doc, t, revealed = false }) {
   // Pre-contact, certs can contain DOBs, addresses, full names so we
   // blur defensively.
   return (
-    <div style={{
-      position: 'relative',
-      borderRadius: '12px',
-      overflow: 'hidden',
-      border: '1px solid #e5e7eb',
-      background: '#f9fafb',
-      minHeight: '180px',
-    }}>
+    <div
+      // A certificate is a document to read, so once it is unblurred it
+      // opens full size like the profile photo does.
+      onClick={revealed && onOpen ? onOpen : undefined}
+      style={{
+        position: 'relative',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        border: '1px solid #e5e7eb',
+        background: '#f9fafb',
+        minHeight: '180px',
+        cursor: revealed && onOpen ? 'zoom-in' : 'default',
+      }}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={doc.url}
