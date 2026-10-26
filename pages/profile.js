@@ -57,6 +57,7 @@ import { matchingEmployersFor } from '@/lib/matching';
 import { CITIES, CITY_OPTIONS, MAX_ADDITIONAL_CITIES, parseAdditionalCities } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS, WP_PUBLIC_BADGES, formatWpStatus } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS, formatNationality } from '@/lib/constants/nationalities';
+import { GENDER_OPTIONS, formatGender } from '@/lib/constants/gender';
 import WorkPermitNotice from '@/components/WorkPermitNotice';
 import { jobDetailEntries } from '@/lib/constants/employer';
 import ConversationList from '@/components/messaging/ConversationList';
@@ -161,6 +162,9 @@ const T = {
     wp_optional: '(optional)',
     wp_ph: '— Select if you wish —',
     wp_hint: 'This is optional. Your answer is only used to help families find you.',
+    label_gender: 'Gender',
+    gender_ph: '— Select —',
+    gender_hint: 'Families often search specifically for a woman or a man for a role — this helps them find you.',
     label_nationality: 'Nationality',
     nat_ph: '— Select nationality —',
     nat_hint: 'Used to determine work permit needs and to help families find the right match.',
@@ -379,6 +383,9 @@ const T = {
     wp_optional: '(ไม่บังคับ)',
     wp_ph: '— เลือกหากต้องการ —',
     wp_hint: 'ไม่บังคับ คำตอบของคุณจะใช้เพื่อช่วยให้ครอบครัวค้นพบคุณเท่านั้น',
+    label_gender: 'เพศ',
+    gender_ph: '— เลือก —',
+    gender_hint: 'ครอบครัวมักค้นหาผู้หญิงหรือผู้ชายสำหรับงานนั้นโดยเฉพาะ ข้อมูลนี้ช่วยให้พวกเขาพบคุณ',
     label_nationality: 'สัญชาติ',
     nat_ph: '— เลือกสัญชาติ —',
     nat_hint: 'ใช้เพื่อพิจารณาความจำเป็นของใบอนุญาตทำงาน และช่วยให้ครอบครัวหาผู้ช่วยที่เหมาะกับตน',
@@ -661,6 +668,7 @@ export default function Profile() {
       bio: profile.bio || '', whatsapp: profile.whatsapp || '',
       wpStatus: profile.wpStatus || '',
       nationality: profile.nationality || '',
+      gender: profile.gender || '',
     });
     setPhotoPreview(''); setEditing(true); setSavedMsg(''); setSaveError('');
   };
@@ -2014,6 +2022,47 @@ export default function Profile() {
                 <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', padding: '12px 16px', marginBottom: '14px', color: '#dc2626', fontSize: '15px' }}>{saveError}</div>
               )}
 
+              {/* Banner: ask for gender. Every helper who registered before
+                  the column existed (all 1074 of them at launch) has it
+                  empty, and an empty value means they match no gender filter
+                  at all — so this is not a nice-to-have nudge, it is the
+                  difference between appearing in a family's filtered search
+                  and not. Disappears the moment they save a value. */}
+              {!p.gender && !editing && (
+                <div style={{
+                  background: '#eff6ff',
+                  border: '1px solid #bfdbfe',
+                  borderRadius: '12px',
+                  padding: '16px 20px',
+                  marginBottom: '14px',
+                  display: 'flex',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  alignItems: isMobile ? 'flex-start' : 'center',
+                  justifyContent: 'space-between',
+                  gap: '12px',
+                }}>
+                  <div style={{ fontSize: '14px', color: '#1e40af', lineHeight: 1.5 }}>
+                    <strong>
+                      {lang === 'th' ? 'เพิ่มเพศของคุณในโปรไฟล์' : 'Add your gender to your profile'}
+                    </strong>
+                    <br/>
+                    {lang === 'th'
+                      ? 'ครอบครัวสามารถกรองการค้นหาตามเพศได้แล้ว หากคุณยังไม่ได้ระบุ โปรไฟล์ของคุณจะไม่ปรากฏในผลการค้นหาเหล่านั้น ใช้เวลาเพียงไม่กี่วินาที'
+                      : 'Families can now filter their search by gender. Until you fill this in, your profile won’t appear in those searches. It takes a few seconds.'}
+                  </div>
+                  <button
+                    onClick={() => { startEditing(); }}
+                    style={{
+                      background: '#2563eb', color: 'white', border: 'none',
+                      borderRadius: '8px', padding: '10px 18px', fontSize: '14px',
+                      fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {lang === 'th' ? 'เพิ่มเดี๋ยวนี้' : 'Add it now'}
+                  </button>
+                </div>
+              )}
+
               {/* Banner: ask helpers who registered with the legacy "multiple"
                   bucket to refine their category to one or more specific
                   services. Disappears once they save a non-multiple value. */}
@@ -2144,6 +2193,29 @@ export default function Profile() {
                       onChange={v => handleFieldChange('languages', v)}
                       options={LANGUAGES}
                     />
+                    {/* Gender — the browse filter families lean on hardest.
+                        Everyone who registered before the column existed
+                        lands here with it empty; the banner above points
+                        them at it. */}
+                    <div>
+                      <label htmlFor="f-gender" style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        {t.label_gender}
+                      </label>
+                      <select id="f-gender"
+                        value={editData.gender ?? ''}
+                        onChange={e => handleFieldChange('gender', e.target.value)}
+                        style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit', background: '#fff' }}
+                      >
+                        <option value="">{t.gender_ph}</option>
+                        {GENDER_OPTIONS.map(o => (
+                          <option key={o.value} value={o.value}>
+                            {o.emoji} {lang === 'th' ? o.th : o.en}
+                          </option>
+                        ))}
+                      </select>
+                      <div style={{ marginTop: 6, fontSize: '13px', color: '#bbb' }}>{t.gender_hint}</div>
+                    </div>
+
                     {/* Nationality */}
                     <div>
                       <label htmlFor="f-o-value" style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -2207,6 +2279,11 @@ export default function Profile() {
                     <ProfileField label={t.label_skills} value={formatSkills(p.skills, p.category, lang)} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_experience} value={p.experience} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_languages} value={(() => { const raw = Array.isArray(p.languages) ? p.languages.join(', ') : (p.languages || ''); const v = raw.includes('[Ljava.lang') ? '' : raw; return formatLanguages(v); })()} t={t} isMobile={isMobile} />
+                    {p.gender && (() => {
+                      const opt = GENDER_OPTIONS.find(o => o.value === p.gender);
+                      const label = opt ? `${opt.emoji} ${formatGender(p.gender, lang)}` : '';
+                      return <ProfileField label={t.label_gender} value={label} t={t} isMobile={isMobile} />;
+                    })()}
                     {p.nationality && p.nationality !== 'prefer_not_say' && (() => {
                       const opt = NATIONALITY_OPTIONS.find(o => o.value === p.nationality);
                       const label = opt ? `${opt.flag} ${formatNationality(p.nationality, lang)}` : '';

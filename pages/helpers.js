@@ -15,6 +15,7 @@ import { getAllHireSlugs } from '@/lib/seo/hire-pages';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 import { WP_FILTER_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_FILTER_OPTIONS } from '@/lib/constants/nationalities';
+import { GENDER_FILTER_OPTIONS } from '@/lib/constants/gender';
 
 // How many helper cards to render at once. Used both for the server-rendered
 // first page (keeps initial HTML small) and as the client-side "reveal" step
@@ -48,6 +49,7 @@ const T = {
     filter_age_label:   'Age',
     filter_exp_label:   'Experience (years)',
     filter_lang_label:  'Languages',
+    filter_gender_label: 'Gender',
     filter_nat_label:   'Nationality',
     filter_wp_label:    'Work Permit',
     filter_rating_label:'Rating',
@@ -113,6 +115,7 @@ const T = {
     filter_age_label:   'อายุ',
     filter_exp_label:   'ประสบการณ์ (ปี)',
     filter_lang_label:  'ภาษา',
+    filter_gender_label: 'เพศ',
     filter_nat_label:   'สัญชาติ',
     filter_wp_label:    'ใบอนุญาตทำงาน',
     filter_rating_label:'คะแนนรีวิว',
@@ -314,6 +317,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
   const [filterMinExp, setFilterMinExp] = useState('');
   const [filterLanguages, setFilterLanguages] = useState([]);
   const [filterWp, setFilterWp] = useState('');
+  const [filterGender, setFilterGender] = useState('');
   const [filterNationality, setFilterNationality] = useState('');
   const [filterMinRating, setFilterMinRating] = useState(''); // '' | 'rated' | '3' | '4' | '4.5'
   // Default 'active' so helpers who log in regularly rank above ones who
@@ -326,7 +330,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
   const [visibleCount, setVisibleCount] = useState(SSR_INITIAL_PAGE);
   useEffect(() => {
     setVisibleCount(SSR_INITIAL_PAGE);
-  }, [filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality, filterMinRating, sortBy]);
+  }, [filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality, filterGender, filterMinRating, sortBy]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // The server rendered only the first page (see SSR_INITIAL_PAGE) for a fast,
@@ -383,6 +387,19 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
       setFilterNationality(value);
     }
   }, [router.isReady, router.query.nationality]);
+
+  // Same shape again for gender, so a /hire page, an ad or a Facebook post
+  // can link straight to e.g. /helpers?gender=female&category=nanny — the
+  // single most common thing families ask for in the groups.
+  useEffect(() => {
+    if (!router.isReady) return;
+    const raw = router.query.gender;
+    const value = Array.isArray(raw) ? raw[0] : raw;
+    if (!value) return;
+    if (GENDER_FILTER_OPTIONS.some(o => o.value && o.value === value)) {
+      setFilterGender(value);
+    }
+  }, [router.isReady, router.query.gender]);
 
   // The /hire/<city> landing pages send visitors here with ?city= and
   // ?category=. Both were being ignored, so every SEO page dropped its
@@ -526,6 +543,12 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     // set are excluded when a specific value is selected.
     if (filterNationality && h.nationality !== filterNationality) return false;
 
+    // Gender — exact match, and deliberately exclusive: a family asking for
+    // a female nanny does not want the ones we simply don't know about mixed
+    // in. Profiles with gender still null therefore only show under "All",
+    // which is what the /profile banner is there to fix.
+    if (filterGender && h.gender !== filterGender) return false;
+
     // Rating filter — unrated helpers are excluded as soon as any rating
     // filter is active ('rated' = has at least one review, numbers = min avg).
     if (filterMinRating) {
@@ -534,7 +557,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     }
 
     return true;
-  }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality, filterMinRating]);
+  }), [helpers, filterCity, filterCat, filterArea, filterAgeRange, filterMinExp, filterLanguages, filterWp, filterNationality, filterGender, filterMinRating]);
 
   // Sorted view — 'active' (default) ranks recent logins first and pushes
   // helpers who never come back to the bottom (missing lastActiveAt = the
@@ -569,6 +592,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     setFilterLanguages([]);
     setFilterWp('');
     setFilterNationality('');
+    setFilterGender('');
     setFilterMinRating('');
   };
 
@@ -591,7 +615,8 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
   const activeFilterCount =
     (filterCity ? 1 : 0) + (filterCat ? 1 : 0) + (filterArea ? 1 : 0) +
     (filterAgeRange ? 1 : 0) + (filterMinExp ? 1 : 0) + filterLanguages.length +
-    (filterWp ? 1 : 0) + (filterNationality ? 1 : 0) + (filterMinRating ? 1 : 0);
+    (filterWp ? 1 : 0) + (filterNationality ? 1 : 0) + (filterGender ? 1 : 0) +
+    (filterMinRating ? 1 : 0);
 
   // Point the canonical URL at the matching /hire/ landing page when the
   // user has filtered to a single city / category / city+category combo.
@@ -716,6 +741,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                 filterLanguages={filterLanguages} toggleLanguage={toggleLanguage}
                 filterWp={filterWp} setFilterWp={setFilterWp}
                 filterNationality={filterNationality} setFilterNationality={setFilterNationality}
+                filterGender={filterGender} setFilterGender={setFilterGender}
                 filterMinRating={filterMinRating} setFilterMinRating={setFilterMinRating}
                 hasRatedHelpers={hasRatedHelpers}
                 activeFilterCount={activeFilterCount}
@@ -885,6 +911,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                     filterLanguages={filterLanguages} toggleLanguage={toggleLanguage}
                     filterWp={filterWp} setFilterWp={setFilterWp}
                     filterNationality={filterNationality} setFilterNationality={setFilterNationality}
+                    filterGender={filterGender} setFilterGender={setFilterGender}
                     filterMinRating={filterMinRating} setFilterMinRating={setFilterMinRating}
                     hasRatedHelpers={hasRatedHelpers}
                     activeFilterCount={activeFilterCount}
@@ -1018,6 +1045,7 @@ function FilterSidebar({
   filterLanguages, toggleLanguage,
   filterWp, setFilterWp,
   filterNationality, setFilterNationality,
+  filterGender, setFilterGender,
   filterMinRating, setFilterMinRating,
   hasRatedHelpers,
   activeFilterCount, onResetFilters,
@@ -1168,6 +1196,23 @@ function FilterSidebar({
         </div>
       </FilterGroup>
       )}
+
+      {/* Gender — chips rather than a dropdown: two options, and it's the
+          control families reach for first. */}
+      <FilterGroup label={t.filter_gender_label}>
+        <div style={chipRowStyle}>
+          {GENDER_FILTER_OPTIONS.filter(o => o.value).map(o => (
+            <ChipButton
+              key={o.value}
+              active={filterGender === o.value}
+              onClick={() => setFilterGender(filterGender === o.value ? '' : o.value)}
+            >
+              <span style={{ marginRight: '4px' }}>{o.emoji}</span>
+              {lang === 'th' ? o.th : o.en}
+            </ChipButton>
+          ))}
+        </div>
+      </FilterGroup>
 
       {/* Nationality */}
       <FilterGroup label={t.filter_nat_label}>

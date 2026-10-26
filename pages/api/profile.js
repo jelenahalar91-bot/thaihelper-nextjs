@@ -8,6 +8,7 @@ import { translateForeignText } from '../../lib/translate';
 import { getDisplayAge, validateDob } from '../../lib/age';
 import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
 import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/constants/nationalities';
+import { GENDER_VALUES } from '../../lib/constants/gender';
 import { notifyEmployersOfNewHelper } from '../../lib/match-notifications';
 import { looksLikeFullAddress } from '../../lib/address-guard';
 
@@ -84,6 +85,7 @@ function toFrontend(row) {
     notifyOnMessage: row.notify_on_message !== false,
     wpStatus: row.work_permit_status || null,
     nationality: row.nationality || null,
+    gender: row.gender || null,
   };
 }
 
@@ -112,6 +114,7 @@ const fieldMap = {
   notifyOnMessage: 'notify_on_message',
   wpStatus: 'work_permit_status',
   nationality: 'nationality',
+  gender: 'gender',
 };
 
 export default async function handler(req, res) {
@@ -180,6 +183,20 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Invalid nationality' });
       }
 
+      // Gender, same whitelist shape. Required at registration, but an
+      // edit may legitimately leave it untouched (undefined) — what it must
+      // never do is set it to a value outside the CHECK constraint. The
+      // 1074 pre-column helpers reach this route with it still null and
+      // fill it in from the /profile prompt.
+      if (
+        incoming.gender !== undefined
+        && incoming.gender !== null
+        && incoming.gender !== ''
+        && !GENDER_VALUES.includes(incoming.gender)
+      ) {
+        return res.status(400).json({ error: 'Invalid gender' });
+      }
+
       // Age gate — same rule as registration. Editing the DOB must not be a
       // way around the 18+ requirement (the form check is browser-side only).
       if (incoming.dateOfBirth !== undefined && incoming.dateOfBirth !== '') {
@@ -216,7 +233,7 @@ export default async function handler(req, res) {
             // helpers can't route families around on-platform messaging by
             // editing their profile after signup.
             updates[dbKey] = sanitizeFreeText(value);
-          } else if (frontKey === 'wpStatus' || frontKey === 'nationality') {
+          } else if (frontKey === 'wpStatus' || frontKey === 'nationality' || frontKey === 'gender') {
             // Empty string would violate the CHECK constraint — store as null.
             updates[dbKey] = value || null;
           } else {

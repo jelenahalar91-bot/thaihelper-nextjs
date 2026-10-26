@@ -10,6 +10,7 @@ import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/hel
 import { CITY_OPTIONS, THAI_PROVINCES, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
 import { WP_STATUS_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS } from '@/lib/constants/nationalities';
+import { GENDER_OPTIONS } from '@/lib/constants/gender';
 import WorkPermitNotice from '@/components/WorkPermitNotice';
 import { suggestEmail } from '@/lib/email-typo';
 import { computeAge, validateDob } from '@/lib/age';
@@ -96,6 +97,12 @@ const T = {
     nat_ph:          '— Select your nationality —',
     nat_hint:        'Used to determine work permit needs and to help families find the right match.',
     nat_error:       'Please select your nationality.',
+    gender_label:    'Gender',
+    gender_ph:       '— Select —',
+    gender_female:   'Female',
+    gender_male:     'Male',
+    gender_hint:     'Many families search specifically for a woman or a man for a role, so this helps them find you.',
+    gender_error:    'Please select female or male.',
     wp_label:        'Work Permit Status (optional)',
     wp_ph:           '— Select if you wish —',
     wp_hint:         'This is optional. Your answer is only used to help families find you.',
@@ -236,6 +243,12 @@ const T = {
     nat_ph:          '— เลือกสัญชาติของคุณ —',
     nat_hint:        'ใช้เพื่อพิจารณาความจำเป็นของใบอนุญาตทำงาน และช่วยให้ครอบครัวหาผู้ช่วยที่เหมาะกับตน',
     nat_error:       'กรุณาเลือกสัญชาติของคุณ',
+    gender_label:    'เพศ',
+    gender_ph:       '— เลือก —',
+    gender_female:   'หญิง',
+    gender_male:     'ชาย',
+    gender_hint:     'ครอบครัวหลายครอบครัวค้นหาผู้หญิงหรือผู้ชายสำหรับงานนั้นโดยเฉพาะ ข้อมูลนี้ช่วยให้พวกเขาพบคุณ',
+    gender_error:    'กรุณาเลือกหญิงหรือชาย',
     wp_label:        'สถานะใบอนุญาตทำงาน (ไม่บังคับ)',
     wp_ph:           '— เลือกหากต้องการ —',
     wp_hint:         'ไม่บังคับ คำตอบของคุณจะใช้เพื่อช่วยให้ครอบครัวค้นพบคุณเท่านั้น',
@@ -383,6 +396,12 @@ const T = {
     nat_ph:          '— နိုင်ငံသားကို ရွေးပါ —',
     nat_hint:        'အလုပ်လုပ်ခွင့်လက်မှတ် လိုအပ်ချက်ကို သတ်မှတ်ရန်နှင့် သင့်တော်သော မိသားစုနှင့် ချိတ်ဆက်ရန် သုံးသည်။',
     nat_error:       'နိုင်ငံသားကို ရွေးပါ။',
+    gender_label:    'ကျား / မ',
+    gender_ph:       '— ရွေးပါ —',
+    gender_female:   'အမျိုးသမီး',
+    gender_male:     'အမျိုးသား',
+    gender_hint:     'မိသားစုအများအပြားသည် အလုပ်အတွက် အမျိုးသမီး သို့မဟုတ် အမျိုးသားကို အတိအလင်းရှာသည်။ ဤအချက်သည် သင့်ကိုရှာတွေ့ရန် ကူညီသည်။',
+    gender_error:    'အမျိုးသမီး သို့မဟုတ် အမျိုးသားကို ရွေးပါ။',
     wp_label:        'အလုပ်လုပ်ခွင့်လက်မှတ် အခြေအနေ (မဖြည့်လည်းရသည်)',
     wp_ph:           '— လိုလျှင် ရွေးပါ —',
     wp_hint:         'မဖြည့်လည်းရသည်။ မိသားစုများ သင့်ကို ရှာတွေ့ရန်သာ သုံးသည်။',
@@ -523,6 +542,12 @@ const T = {
     nat_ph:          '— ជ្រើសរើសសញ្ជាតិ —',
     nat_hint:        'ប្រើសម្រាប់កំណត់តម្រូវការលិខិតអនុញ្ញាតការងារ និងជួយផ្គូផ្គងនឹងគ្រួសារសមស្រប។',
     nat_error:       'សូមជ្រើសរើសសញ្ជាតិ។',
+    gender_label:    'ភេទ',
+    gender_ph:       '— ជ្រើសរើស —',
+    gender_female:   'ស្រី',
+    gender_male:     'ប្រុស',
+    gender_hint:     'គ្រួសារជាច្រើនស្វែងរកស្ត្រី ឬបុរសជាក់លាក់សម្រាប់ការងារ។ ព័ត៌មាននេះជួយឱ្យពួកគេរកឃើញអ្នក។',
+    gender_error:    'សូមជ្រើសរើស ស្រី ឬ ប្រុស។',
     wp_label:        'ស្ថានភាពលិខិតអនុញ្ញាតការងារ (មិនចាំបាច់)',
     wp_ph:           '— ជ្រើសរើសបើចង់ —',
     wp_hint:         'មិនចាំបាច់។ ចម្លើយរបស់អ្នកប្រើសម្រាប់ជួយគ្រួសាររកឃើញអ្នកតែប៉ុណ្ណោះ។',
@@ -663,6 +688,12 @@ const T = {
     nat_ph:          '— ເລືອກສັນຊາດ —',
     nat_hint:        'ໃຊ້ເພື່ອກຳນົດຄວາມຕ້ອງການໃບອະນຸຍາດເຮັດວຽກ ແລະ ຈັບຄູ່ກັບຄອບຄົວທີ່ເໝາະສົມ.',
     nat_error:       'ກະລຸນາເລືອກສັນຊາດ.',
+    gender_label:    'ເພດ',
+    gender_ph:       '— ເລືອກ —',
+    gender_female:   'ຍິງ',
+    gender_male:     'ຊາຍ',
+    gender_hint:     'ຫຼາຍຄອບຄົວຊອກຫາຜູ້ຍິງ ຫຼື ຜູ້ຊາຍສະເພາະສຳລັບວຽກນັ້ນ. ຂໍ້ມູນນີ້ຊ່ວຍໃຫ້ເຂົາເຈົ້າພົບທ່ານ.',
+    gender_error:    'ກະລຸນາເລືອກ ຍິງ ຫຼື ຊາຍ.',
     wp_label:        'ສະຖານະໃບອະນຸຍາດເຮັດວຽກ (ບໍ່ຈຳເປັນ)',
     wp_ph:           '— ເລືອກຖ້າຕ້ອງການ —',
     wp_hint:         'ບໍ່ຈຳເປັນ. ຄຳຕອບຂອງທ່ານໃຊ້ເພື່ອຊ່ວຍໃຫ້ຄອບຄົວຊອກຫາທ່ານເທົ່ານັ້ນ.',
@@ -803,6 +834,7 @@ export default function Register() {
   const [experience,  setExperience]  = useState('');
   const [languages,   setLanguages]   = useState([]);
   const [nationality, setNationality] = useState('');
+  const [gender, setGender] = useState('');
   const [wpStatus,    setWpStatus]    = useState('');
   const [rate,        setRate]        = useState('');
   const [education,   setEducation]   = useState('');
@@ -898,6 +930,7 @@ export default function Register() {
     if (stepNum === 2) {
       if (!experience)           errs.experience  = t.exp_error;
       if (languages.length === 0)errs.languages   = t.lang_error;
+      if (!gender)               errs.gender      = t.gender_error;
       if (!nationality)          errs.nationality = t.nat_error;
       if (bio.trim().length < 30)errs.bio         = t.bio_error;
     }
@@ -959,6 +992,7 @@ export default function Register() {
       experience,
       languages:  languages.join(', '),
       nationality: nationality || null,
+      gender,
       work_permit_status: wpStatus || null,
       rate,
       education:    education.trim(),
@@ -1430,6 +1464,28 @@ export default function Register() {
                     ))}
                   </div>
                   {errors.languages && <div className="field-error" style={{ display: 'block' }}>{errors.languages}</div>}
+                </div>
+
+                {/* Gender (required) — the browse filter families use most.
+                    Two options only; see lib/constants/gender.js for why
+                    there is no opt-out value here. */}
+                <div className={`field ${errors.gender ? 'has-error' : ''}`}>
+                  <label htmlFor="f-gender">{t.gender_label} <span className="req">*</span></label>
+                  <select id="f-gender"
+                    value={gender}
+                    onChange={e => { setGender(e.target.value); setErrors(ev => ({ ...ev, gender: '' })); }}
+                  >
+                    <option value="">{t.gender_ph}</option>
+                    {GENDER_OPTIONS.map(o => (
+                      <option key={o.value} value={o.value}>
+                        {o.emoji} {o.value === 'female' ? t.gender_female : t.gender_male}
+                      </option>
+                    ))}
+                  </select>
+                  <div style={{ marginTop: 6, fontSize: '0.85rem', color: 'var(--gray-500)' }}>
+                    {t.gender_hint}
+                  </div>
+                  {errors.gender && <div className="field-error" style={{ display: 'block' }}>{errors.gender}</div>}
                 </div>
 
                 {/* Nationality (required) — drives WP-status auto-derivation. */}

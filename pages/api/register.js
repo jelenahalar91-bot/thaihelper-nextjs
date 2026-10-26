@@ -17,6 +17,7 @@ import {
 } from '../../lib/line';
 import { WP_STATUS_VALUES } from '../../lib/constants/work-permit';
 import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/constants/nationalities';
+import { GENDER_VALUES } from '../../lib/constants/gender';
 import { VALID_CITY_SLUGS } from '../../lib/constants/cities';
 import { looksLikeFullAddress } from '../../lib/address-guard';
 import { validateDob } from '../../lib/age';
@@ -55,7 +56,7 @@ export default async function handler(req, res) {
     city, area, additional_cities, experience, languages, rate,
     education, certificates, bio, email,
     notify_via_line, notify_via_whatsapp,
-    work_permit_status, nationality,
+    work_permit_status, nationality, gender,
     turnstileToken, attribution,
   } = req.body || {};
 
@@ -116,6 +117,15 @@ export default async function handler(req, res) {
   // Nationality has the same shape — optional, whitelist-validated.
   if (nationality && !NATIONALITY_VALUES.includes(nationality)) {
     return res.status(400).json({ error: 'Invalid nationality' });
+  }
+
+  // Gender is required, unlike the two fields above. It drives the browse
+  // filter families use most, and a blank here is not a privacy choice —
+  // it is a profile that no filtered search will ever return. Safe to
+  // require server-side: /register is the only caller (the mobile app has
+  // no signup flow of its own), so no shipped client breaks on it.
+  if (!GENDER_VALUES.includes(gender)) {
+    return res.status(400).json({ error: 'Please select female or male.' });
   }
 
   // Auto-derive WP status when the helper picks Thai but didn't
@@ -181,6 +191,7 @@ export default async function handler(req, res) {
         notify_via_whatsapp: notify_via_whatsapp === true,
         work_permit_status: finalWpStatus,
         nationality: nationality || null,
+        gender,
         line_link_token: lineLinkToken,
         line_link_expires: lineLinkExpires,
         source: formatAttributionString(attribution),
