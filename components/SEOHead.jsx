@@ -25,6 +25,7 @@ export default function SEOHead({
   noindex = false,
   canonicalOverride,
   ogImage,
+  ogUrl,
 }) {
   // Per-page share image (blog/guide/city pages pass their own). Accepts an
   // absolute URL or a site-relative path; falls back to the generic image.
@@ -84,7 +85,12 @@ export default function SEOHead({
       {/* Open Graph */}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:url" content={canonicalUrl} />
+      {/* og:url is the address a share preview links back to, which is not
+          always the canonical: /helper/<ref> shares the browse page's
+          canonical (/helpers) but MUST send the recipient to the profile
+          link itself, or the preview would drop them on the unfiltered
+          list. Defaults to the canonical when no page overrides it. */}
+      <meta property="og:url" content={ogUrl || canonicalUrl} />
       <meta property="og:image" content={ogImageUrl} />
       {isDefaultOg && <meta property="og:image:width" content="1200" />}
       {isDefaultOg && <meta property="og:image:height" content="630" />}

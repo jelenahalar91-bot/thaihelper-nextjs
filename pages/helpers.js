@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Link from 'next/link';
@@ -10,11 +10,13 @@ import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import HelperCard from '@/components/HelperCard';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
-import { CITIES, parseAdditionalCities, toCitySlug } from '@/lib/constants/cities';
+import { CITIES, formatCity, parseAdditionalCities, toCitySlug } from '@/lib/constants/cities';
 import { getAllHireSlugs } from '@/lib/seo/hire-pages';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 import { WP_FILTER_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_FILTER_OPTIONS } from '@/lib/constants/nationalities';
+import { readableText } from '@/lib/recent-helpers-display';
+import { helperShareUrl, SHARE_SITE_URL } from '@/lib/share-profile';
 import { GENDER_FILTER_OPTIONS } from '@/lib/constants/gender';
 
 // How many helper cards to render at once. Used both for the server-rendered
@@ -234,7 +236,16 @@ const RATING_OPTIONS = [
 ];
 
 // ─── Server-side data fetch — fixes Soft 404 for Googlebot ──────────────────
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps({ req, query }) {
+  // A shared /helper/<ref> link arrives here as ?helper=<ref> (rewritten in
+  // next.config.js). Shape-check it before it reaches a query: a ref is
+  // "TH-" + 6 upper-case base32-ish chars, and uppercasing covers the chat
+  // apps that lower-case a pasted URL.
+  const sharedRef =
+    typeof query?.helper === 'string' && /^TH-[A-Za-z0-9]{4,12}$/i.test(query.helper.trim())
+      ? query.helper.trim().toUpperCase()
+      : null;
+
   // Detect whether the visitor is logged in (helper OR employer). The
   // launch banner only makes sense for anonymous visitors — they're
   // the ones we're trying to convert. Logged-in users already know
@@ -291,19 +302,56 @@ export async function getServerSideProps({ req }) {
         referenceCount: refCounts.get(row.helper_ref) || 0,
       }));
 
+    // The shared profile has to be rendered open on arrival — and it is only
+    // in `helpers` above when it happens to be on the first page, which for
+    // anyone but the newest 48 helpers it isn't. So fetch that one row when
+    // it's missing: a share link must work for every helper, not the recent
+    // ones. Same visibility rules as the list — a suspended or unverified
+    // profile is not shareable, it just isn't there.
+    let sharedHelper = null;
+    if (sharedRef) {
+      sharedHelper = helpers.find((h) => h.ref === sharedRef) || null;
+      if (!sharedHelper) {
+        try {
+          const { data: row } = await supabase
+            .from('helper_profiles')
+            .select(PUBLIC_CARD_COLUMNS)
+            .eq('helper_ref', sharedRef)
+            .or('status.eq.active,status.is.null')
+            .eq('email_verified', true)
+            .maybeSingle();
+          if (row && isPubliclyVisible(row)) {
+            const [{ data: oneCerts }, { data: oneRefs }] = await Promise.all([
+              supabase.from('documents').select('helper_ref').eq('file_type', 'certificate').eq('helper_ref', sharedRef),
+              supabase.from('helper_references').select('helper_ref').eq('helper_ref', sharedRef),
+            ]);
+            sharedHelper = toPublicCard(row, {
+              hasCertificates: (oneCerts || []).length > 0,
+              referenceCount: (oneRefs || []).length,
+            });
+          }
+        } catch (sharedErr) {
+          // A broken share link must not take the browse page down with it —
+          // the visitor still gets the list, just without the modal.
+          console.warn('SSR helpers: shared profile fetch failed:', sharedErr.message);
+        }
+      }
+    }
+
     return {
       props: {
         initialHelpers: helpers,
         isAnonymous,
+        sharedHelper,
       },
     };
   } catch (err) {
     console.error('SSR helpers fetch failed:', err);
-    return { props: { initialHelpers: [], isAnonymous } };
+    return { props: { initialHelpers: [], isAnonymous, sharedHelper: null } };
   }
 }
 
-export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
+export default function Helpers({ initialHelpers = [], isAnonymous = true, sharedHelper = null }) {
   const { lang, setLang: changeLang } = useLang();
   const router = useRouter();
   const [helpers, setHelpers] = useState(initialHelpers);
@@ -360,7 +408,33 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
   // as employer), and true when favorites were successfully loaded.
   const [favorites, setFavorites] = useState(new Set());
   const [isEmployer, setIsEmployer] = useState(null);
-  const [viewingHelper, setViewingHelper] = useState(null);
+  // Seeded from the share link, so a /helper/<ref> visitor sees the profile
+  // on the first paint instead of the list plus a pop-in.
+  const [viewingHelper, setViewingHelper] = useState(sharedHelper);
+
+  // Opening and closing a profile keeps the address bar honest: arriving on
+  // /helper/<ref> and then browsing on must not leave the URL pointing at a
+  // profile that is no longer open — it's the URL people forward.
+  const clearShareUrl = useCallback(() => {
+    const { helper, ref, ...rest } = router.query;
+    if (!helper) return;
+    // The rewrite delivers the ref twice: as `helper` (what this page reads)
+    // and as `ref`, the source parameter Next passes through on its own.
+    // Dropping only the first one leaves /helpers?ref=TH-… in the address
+    // bar — a link that no longer opens anything.
+    const keep = ref && ref !== helper ? { ...rest, ref } : rest;
+    router.replace({ pathname: '/helpers', query: keep }, undefined, { shallow: true });
+  }, [router]);
+
+  const openProfile = useCallback((h) => {
+    setViewingHelper(h);
+    if (router.query.helper && router.query.helper !== h?.ref) clearShareUrl();
+  }, [router.query.helper, clearShareUrl]);
+
+  const closeProfile = useCallback(() => {
+    setViewingHelper(null);
+    clearShareUrl();
+  }, [clearShareUrl]);
 
   // Pre-fill the WP filter from `?wp=` so the wizard's recommendation
   // CTAs (e.g. /helpers?wp=thai_national) land directly on a filtered
@@ -641,13 +715,47 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
     return hireSlugs.includes(candidate) ? `/hire/${candidate}` : fallback;
   }, [filterCity, filterCat]);
 
+  // Share preview for a /helper/<ref> link. Without it, a profile sent to a
+  // partner previews as "Browse Helpers" with the generic site image —
+  // three identical cards in a chat and nobody can tell which one was the
+  // nanny they liked. The canonical stays /helpers (above), so these
+  // previews don't turn into competing search results; only og:url points
+  // back at the profile link, because that's where the tap has to land.
+  const shareMeta = useMemo(() => {
+    if (!sharedHelper) return null;
+    const name = [sharedHelper.firstName, sharedHelper.lastName].filter(Boolean).join(' ').trim();
+    if (!name) return null;
+    const role = String(sharedHelper.category || '')
+      .split(/[,]+/).map(s => s.trim()).filter(Boolean)
+      .map((slug) => {
+        const def = CATEGORIES.find(c => c.value === categoryToSlug(slug));
+        return def ? (def[lang] || def.en) : slug;
+      })
+      .join(' · ');
+    const city = formatCity(sharedHelper.city);
+    const headline = [role, city].filter(Boolean).join(' · ');
+    const bio = readableText(sharedHelper.bio, sharedHelper.bioEn, lang) || '';
+    return {
+      title: headline ? `${name} — ${headline}` : name,
+      // The bio is what makes the preview worth opening; the fallback line
+      // is for the profiles that don't have one yet.
+      description: (bio.length > 160 ? `${bio.slice(0, 157).trimEnd()}…` : bio)
+        || `${headline} — see experience, languages and references on ThaiHelper.`,
+      // The helper's own photo, already public on the browse page.
+      image: sharedHelper.photo || undefined,
+      url: helperShareUrl(sharedHelper.ref, SHARE_SITE_URL),
+    };
+  }, [sharedHelper, lang]);
+
   return (
     <>
       <SEOHead
-        title="Browse Helpers – Find Nannies, Chefs, Drivers & More"
-        description="Browse verified household staff profiles in Thailand. Find nannies, housekeepers, private chefs, drivers, gardeners, caregivers and tutors."
+        title={shareMeta ? shareMeta.title : 'Browse Helpers – Find Nannies, Chefs, Drivers & More'}
+        description={shareMeta ? shareMeta.description : 'Browse verified household staff profiles in Thailand. Find nannies, housekeepers, private chefs, drivers, gardeners, caregivers and tutors.'}
         path={canonicalPath}
         lang={lang}
+        ogImage={shareMeta?.image}
+        ogUrl={shareMeta?.url}
         jsonLd={getBreadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Browse Helpers', path: '/helpers' }])}
       />
 
@@ -841,7 +949,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
                       isFavorite={favorites.has(h.ref)}
                       onToggleFavorite={toggleFavorite}
                       favoriteHint={isEmployer === false ? t.fav_login : undefined}
-                      onViewProfile={setViewingHelper}
+                      onViewProfile={openProfile}
                     />
                   ))}
                   {sorted.length > visibleCount && (
@@ -1014,7 +1122,7 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true }) {
       {viewingHelper && (
         <HelperProfileModal
           helper={viewingHelper}
-          onClose={() => setViewingHelper(null)}
+          onClose={closeProfile}
           t={t}
           lang={lang}
           footerCta={

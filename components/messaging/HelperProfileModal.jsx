@@ -28,6 +28,7 @@ import { formatCity, formatAdditionalCities } from '../../lib/constants/cities';
 import { relativeTime } from '../../lib/recent-helpers-display';
 import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '../../lib/utils';
 import { StarRatingDisplay } from '../StarRating';
+import { helperShareUrl, shareCopy, shareOrCopyLink } from '../../lib/share-profile';
 import RateForm from '../RateForm';
 import { readableText } from '@/lib/recent-helpers-display';
 
@@ -126,6 +127,22 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
   // from cold harvesting (only authenticated employers reach here).
   const [certsRevealed] = useState(true);
   const [certsLoading, setCertsLoading] = useState(true);
+
+  // Sharing one profile with the person who isn't at the screen. Families
+  // decide together, and before this the only way to carry a profile into
+  // that conversation was a screenshot — /helpers has no per-profile URL in
+  // the address bar, because profiles open in this modal. See
+  // lib/share-profile.js for the link it builds.
+  //
+  // `shareNote` replaces the button label for a moment when there was no OS
+  // share sheet and the link went to the clipboard instead — otherwise a
+  // click looks like it did nothing at all.
+  const [shareNote, setShareNote] = useState(null);
+  useEffect(() => {
+    if (!shareNote) return;
+    const timer = setTimeout(() => setShareNote(null), 2200);
+    return () => clearTimeout(timer);
+  }, [shareNote]);
 
   // Ratings: list of public reviews + whether the current user (an
   // employer) is eligible to leave a rating. Loaded on open and
@@ -247,6 +264,25 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
   const expLabel = getExperienceLabel(helper.experience, lang);
   const langLabels = getLanguageLabels(helper.languages);
   const skillLabels = getSkillLabels(helper.skills, helper.category, lang);
+  // "other" is the catch-all slug people pick when their province isn't
+  // listed — it formats to the word "Other", which says nothing in a share.
+  const shareCity = String(helper.city || '').toLowerCase() === 'other'
+    ? '' : formatCity(helper.city);
+  const shareText = [displayName, [categoryLabel, shareCity].filter(Boolean).join(' · ')]
+    .filter(Boolean).join(' — ');
+  const share = shareCopy(lang);
+
+  async function handleShare() {
+    const result = await shareOrCopyLink({
+      url: helperShareUrl(helper.ref),
+      title: shareText,
+      text: shareText,
+    });
+    // 'shared' and 'cancelled' both happened inside the OS sheet, which
+    // already showed the outcome — saying it twice is noise.
+    if (result === 'copied') setShareNote(share.copied);
+    else if (result === 'failed') setShareNote(share.failed);
+  }
 
   return (
     <div
@@ -281,6 +317,40 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
           padding: '28px 24px 24px',
           color: 'white',
         }}>
+          {/* Share — sits beside the close button because that is where a
+              phone user's thumb already looks for the actions on a sheet.
+              Labelled, not icon-only: an unlabelled glyph in a coloured
+              hero is exactly the control nobody finds. */}
+          <button
+            onClick={handleShare}
+            title={share.shareTitle}
+            style={{
+              position: 'absolute', top: '14px', left: '14px',
+              zIndex: 10,
+              height: '34px',
+              padding: '0 12px',
+              borderRadius: '999px',
+              background: 'rgba(255,255,255,0.2)',
+              backdropFilter: 'blur(8px)',
+              border: 'none', color: 'white',
+              cursor: 'pointer',
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              fontSize: '13px', fontWeight: 700,
+              transition: 'background 0.15s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.32)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; }}
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+            </svg>
+            {shareNote || share.share}
+          </button>
+
           <button
             onClick={onClose}
             aria-label="Close"

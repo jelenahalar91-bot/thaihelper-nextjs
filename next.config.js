@@ -138,6 +138,28 @@ const nextConfig = {
     ];
   },
 
+  // Rewrites
+  async rewrites() {
+    return [
+      {
+        // Shareable address for a single helper profile. /helpers opens
+        // profiles in a modal, so there was no URL a family could send to
+        // each other — this gives one, without a second page that would
+        // duplicate the browse page's SSR, its card privacy rules and the
+        // profile layout. The browse page reads ?helper=<ref>, renders that
+        // profile open on arrival and emits its share preview.
+        //
+        // A rewrite, not a redirect: the recipient keeps the clean
+        // /helper/<ref> in the address bar, which is the link they'll
+        // forward on. The canonical still points at /helpers (see
+        // canonicalPath in pages/helpers.js), so these URLs don't compete
+        // in search.
+        source: '/helper/:ref',
+        destination: '/helpers?helper=:ref',
+      },
+    ];
+  },
+
   // Redirects
   async redirects() {
     // Short links for marketing channels — keep them <= 5 chars after the slash
