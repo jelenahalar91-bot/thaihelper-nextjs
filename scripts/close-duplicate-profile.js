@@ -155,9 +155,25 @@ async function main() {
   console.log(`Keeping : ${twin}  ${twinRow.first_name} ${twinRow.last_name}  <${twinRow.email}>  DOB ${twinRow.date_of_birth || '—'}  ${twinRow.city}`);
   console.log(`          ${theirs.convs} conversations, ${theirs.sent} sent by her${theirs.lastSent ? ` (last ${theirs.lastSent.slice(0, 10)})` : ''}, ${theirs.unread} unread\n`);
 
+  // A shared date of birth is what turns "same name" into "same person". Two
+  // helpers really can be called Mohammad Ismail. So this refuses by default,
+  // and the override has to carry the evidence in writing — which goes into
+  // the log and the status_reason, where the next person can judge it.
+  //
+  // It is needed more often than it looks: the first sweep keyed on an exact
+  // date and missed three pairs. Two had a typo in the date itself (Ruchi
+  // Pandey 2008 vs 1993, Joesphin Zon Zon Oo May vs July) and one had the name
+  // in capitals. The date being wrong is half the reason the person could not
+  // get back into the first account.
+  const dobOverride = arg('--dob-differs');
   if (!row.date_of_birth || row.date_of_birth !== twinRow.date_of_birth) {
-    console.error('STOP: the two profiles do not share a date of birth. Same name is not evidence.');
-    process.exit(1);
+    if (!dobOverride) {
+      console.error(`STOP: dates of birth differ (${row.date_of_birth || 'none'} vs ${twinRow.date_of_birth || 'none'}). Same name is not evidence.`);
+      console.error('If you have checked and it IS the same person, say how:');
+      console.error('  --dob-differs "same face and necklace in both photos; 2008 is a typo for 1993"');
+      process.exit(1);
+    }
+    console.log(`Dates of birth differ (${row.date_of_birth} vs ${twinRow.date_of_birth}) — overridden: ${dobOverride}\n`);
   }
   // Which profile is she WRITING FROM — by date, not by total. Totals get this
   // backwards on exactly the case this script is for: the abandoned profile is
@@ -177,11 +193,13 @@ async function main() {
   fs.appendFileSync(LOG, JSON.stringify({
     action: 'close', helper_ref: ref, duplicate_of: twin,
     at: new Date().toISOString(), before: row, activity: mine,
+    dob_override: dobOverride || null,
   }) + '\n');
 
   const { error } = await supabase.from('helper_profiles').update({
     status: 'closed',
-    status_reason: `Duplicate of ${twin}. ${reason}`,
+    status_reason: `Duplicate of ${twin}. ${reason}`
+      + (dobOverride ? ` Dates of birth differ (${row.date_of_birth} vs ${twinRow.date_of_birth}); identified anyway: ${dobOverride}` : ''),
     status_changed_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   }).eq('helper_ref', ref);
