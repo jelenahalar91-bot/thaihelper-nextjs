@@ -458,18 +458,19 @@ export default function Employers({ featuredHelpers = [] }) {
   const [viewingHelper, setViewingHelper] = useState(null);
 
   // Hero "Latest signups" grid — same data source as the helpers
-  // homepage but framed as a discovery grid for families. Fetches 8
-  // entries for the 4×2 grid (vs. 4 on the helpers page panel).
+  // homepage but framed as a discovery grid for families. Fetches 10
+  // entries for the 5×2 grid (vs. 4 on the helpers page panel); four
+  // rows left a visible gap above the stats strip, five fill the column.
   const [recentHelpers, setRecentHelpers] = useState(FALLBACK_HELPERS);
   const [totalHelpers, setTotalHelpers] = useState(80);
   useEffect(() => {
     let cancelled = false;
-    fetch('/api/recent-helpers?limit=8')
+    fetch('/api/recent-helpers?limit=10')
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (cancelled) return;
         if (data?.helpers && data.helpers.length > 0) {
-          setRecentHelpers(data.helpers.slice(0, 8));
+          setRecentHelpers(data.helpers.slice(0, 10));
         }
         if (typeof data?.count === 'number' && data.count > 80) {
           setTotalHelpers(data.count);
@@ -613,7 +614,7 @@ export default function Employers({ featuredHelpers = [] }) {
                 </div>
 
                 <div className="grid grid-cols-2 gap-2.5 flex-1 content-start">
-                  {recentHelpers.slice(0, 8).map((entry, i) => (
+                  {recentHelpers.slice(0, 10).map((entry, i) => (
                     <Link
                       key={i}
                       href="/helpers"
