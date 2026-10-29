@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
 import AppBadges from '@/components/AppBadges';
+import LiveStats from '@/components/LiveStats';
 import Image from 'next/image';
 import SEOHead, { getServiceSchema, getFAQSchema, getSpeakableSchema } from '@/components/SEOHead';
 import LangSwitcher, { HELPER_LANGS } from '@/components/LangSwitcher';
@@ -345,6 +346,9 @@ export default function Home({ initialRecentHelpers = null, initialTotalHelpers 
                 <div className="mt-6 flex items-center gap-3">
                   <AppBadges lang={lang} />
                   <p className="text-sm text-slate-500 leading-snug max-w-[210px]">{t.hero_app}</p>
+                </div>
+                <div className="mt-8 pt-6 border-t border-on-background/10">
+                  <LiveStats lang={lang} accent="primary" />
                 </div>
               </div>
               <div className="relative h-full flex flex-col">

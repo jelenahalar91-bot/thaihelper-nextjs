@@ -13,6 +13,7 @@ import {
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
 import AppBadges from '@/components/AppBadges';
+import LiveStats from '@/components/LiveStats';
 import Image from 'next/image';
 import {
   UserPlus, MessageCircle, PartyPopper,
@@ -591,6 +592,9 @@ export default function Employers({ featuredHelpers = [] }) {
                 <div className="mt-6 flex items-center gap-3">
                   <AppBadges lang={lang} />
                   <p className="text-sm text-slate-500 leading-snug max-w-[210px]">{t.hero_app}</p>
+                </div>
+                <div className="mt-8 pt-6 border-t border-gold/20">
+                  <LiveStats lang={lang} accent="gold" />
                 </div>
               </div>
 
