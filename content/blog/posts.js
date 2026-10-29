@@ -3526,6 +3526,16 @@ export const blogPosts = [
     title: 'Hiring Myanmar (Burmese) Helpers in Thailand 2026: MOU3 Legal Guide + Real Rates',
     description:
       'How to hire a Myanmar nanny, housekeeper, or caregiver in Thailand legally in 2026. MOU3 work permit explained, real pay rates, and data from 117 verified Myanmar helpers on ThaiHelper.',
+    // 2026-10-29: 24 days after deploy + 15 days after sitemap fix, the
+    // post is still not in top-20 for "myanmar nanny bangkok" (Kiidu +
+    // Ayasan + Madawa + Facebook dominate). Repeat the pattern that
+    // worked for the chef post: canonical points at the established
+    // /blog/work-permits-foreign-helpers-thailand (the oldest, strongest
+    // thematically-related URL — both posts answer "how do non-Thai
+    // helpers work legally in Thailand"). Keeps the Myanmar post live
+    // for direct traffic + internal links; stops competing against our
+    // own older URL for the same search intent.
+    canonicalUrl: 'https://thaihelper.app/blog/work-permits-foreign-helpers-thailand',
     category: 'families',
     date: '2026-10-05',
     updated: '2026-10-05',
