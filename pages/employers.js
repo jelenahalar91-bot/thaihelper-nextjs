@@ -210,7 +210,7 @@ const T = {
     footer_fp4: 'Work Permit Wizard',
     footer_fp5: 'Expert Directory',
     footer_company: 'Company',
-    footer_fc1: 'About Us',
+    footer_fc1: 'About Us', footer_fc_press: 'Press',
     footer_fc2: 'Contact', footer_line: 'LINE',
     footer_legal: 'Legal',
     footer_fl1: 'Privacy Policy',
@@ -327,7 +327,7 @@ const T = {
     footer_app: 'รับแอปฟรี',
     footer_disclaimer: 'ThaiHelper.app ใช้งานฟรี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
     footer_product: 'ผลิตภัณฑ์', footer_fp1: 'สำหรับผู้ช่วย', footer_fp2: 'สำหรับครอบครัว', footer_fp3: 'วิธีการใช้งาน', footer_fp4: 'ตัวช่วยใบอนุญาตทำงาน', footer_fp5: 'รายชื่อผู้เชี่ยวชาญ',
-    footer_company: 'บริษัท', footer_fc1: 'เกี่ยวกับเรา', footer_fc2: 'ติดต่อ', footer_line: 'LINE',
+    footer_company: 'บริษัท', footer_fc1: 'เกี่ยวกับเรา', footer_fc_press: 'สำหรับสื่อมวลชน', footer_fc2: 'ติดต่อ', footer_line: 'LINE',
     footer_legal: 'กฎหมาย', footer_fl1: 'นโยบายความเป็นส่วนตัว', footer_fl2: 'ข้อกำหนดการใช้บริการ',
     footer_copy: '© 2026 ThaiHelper สงวนลิขสิทธิ์',
   },
@@ -961,6 +961,7 @@ export default function Employers({ featuredHelpers = [] }) {
                   <h4 className="font-bold text-slate-700 mb-4 text-sm uppercase tracking-widest font-headline whitespace-nowrap">{t.footer_company}</h4>
                   <ul className="space-y-3">
                     <li><Link className="text-slate-500 hover:text-primary text-sm" href="/about">{t.footer_fc1}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/press">{t.footer_fc_press}</Link></li>
                     <li><a className="text-slate-500 hover:text-primary text-sm" href="mailto:support@thaihelper.app">{t.footer_fc2}</a></li>
                     <li><a className="text-slate-500 hover:text-primary text-sm" href="https://lin.ee/U7B1KX6" target="_blank" rel="noopener noreferrer">{t.footer_line}</a></li>
                   </ul>

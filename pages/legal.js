@@ -162,7 +162,7 @@ const T = {
 
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
     footer_product: 'Product', footer_employers: 'For Families', footer_hire: 'Categories',
-    footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_faq: 'FAQ',
+    footer_company: 'Company', footer_contact: 'Contact', footer_about: 'About', footer_press: 'Press', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
     footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labour and immigration law is the sole responsibility of the user.',
   },
@@ -266,7 +266,7 @@ const T = {
 
     footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
     footer_product: 'ผลิตภัณฑ์', footer_employers: 'สำหรับครอบครัว', footer_hire: 'หมวดหมู่',
-    footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_faq: 'คำถามที่พบบ่อย',
+    footer_company: 'บริษัท', footer_contact: 'ติดต่อ', footer_about: 'เกี่ยวกับเรา', footer_press: 'สำหรับสื่อมวลชน', footer_faq: 'คำถามที่พบบ่อย',
     footer_legal: 'กฎหมาย', footer_privacy: 'นโยบายความเป็นส่วนตัว', footer_terms: 'ข้อกำหนดการให้บริการ',
     footer_disclaimer: 'ThaiHelper.app ใช้งานฟรี เราไม่ใช่บริษัทจัดหางานและไม่ได้ให้บริการจัดหางาน การปฏิบัติตามกฎหมายแรงงานและกฎหมายตรวจคนเข้าเมืองของไทยเป็นความรับผิดชอบของผู้ใช้แต่เพียงผู้เดียว',
   },
@@ -564,6 +564,7 @@ export default function Legal() {
                   <ul className="space-y-3">
                     <li><a className="text-slate-500 hover:text-primary text-sm" href="mailto:support@thaihelper.app">{t.footer_contact}</a></li>
                     <li><Link className="text-slate-500 hover:text-primary text-sm" href="/about">{t.footer_about}</Link></li>
+                    <li><Link className="text-slate-500 hover:text-primary text-sm" href="/press">{t.footer_press}</Link></li>
                     <li><Link className="text-slate-500 hover:text-primary text-sm" href="/faq">{t.footer_faq}</Link></li>
                   </ul>
                 </div>

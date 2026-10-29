@@ -159,8 +159,8 @@ module.exports = {
     if (path.startsWith('/blog/')) {
       return { loc: path, changefreq: 'monthly', priority: 0.8, lastmod, alternateRefs };
     }
-    // Blog index, FAQ, about
-    if (['/blog', '/faq', '/about'].includes(path)) {
+    // Blog index, FAQ, about, press
+    if (['/blog', '/faq', '/about', '/press'].includes(path)) {
       return { loc: path, changefreq: 'weekly', priority: 0.8, lastmod, alternateRefs };
     }
     // Legal pages — low priority
