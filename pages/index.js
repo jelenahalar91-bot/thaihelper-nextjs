@@ -347,9 +347,6 @@ export default function Home({ initialRecentHelpers = null, initialTotalHelpers 
                   <AppBadges lang={lang} />
                   <p className="text-sm text-slate-500 leading-snug max-w-[210px]">{t.hero_app}</p>
                 </div>
-                <div className="mt-8 pt-6 border-t border-on-background/10">
-                  <LiveStats lang={lang} accent="primary" />
-                </div>
               </div>
               <div className="relative h-full flex flex-col">
                 <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
@@ -402,15 +399,8 @@ export default function Home({ initialRecentHelpers = null, initialTotalHelpers 
                     })}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-gray-100 flex-shrink-0">
-                    <div>
-                      <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">{Math.floor(totalHelpers / 10) * 10}+</div>
-                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>ผู้ช่วยลงทะเบียน<br/>เพิ่มขึ้นทุกวัน</>) : (<>Helpers registered<br/>&amp; growing daily</>)}</div>
-                    </div>
-                    <div>
-                      <div className="font-headline font-extrabold text-3xl text-primary leading-none tracking-tight">20+</div>
-                      <div className="text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">{lang === 'th' ? (<>เมือง<br/>ทั่วประเทศไทย</>) : (<>Cities across<br/>Thailand</>)}</div>
-                    </div>
+                  <div className="mt-4 pt-4 border-t border-gray-100 flex-shrink-0">
+                    <LiveStats lang={lang} accent="primary" layout="columns" />
                   </div>
                 </div>
                 <Link className="relative z-10 mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all" href="/employers-browse">{t.hero_browse}</Link>

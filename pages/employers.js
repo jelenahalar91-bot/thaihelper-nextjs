@@ -593,9 +593,6 @@ export default function Employers({ featuredHelpers = [] }) {
                   <AppBadges lang={lang} />
                   <p className="text-sm text-slate-500 leading-snug max-w-[210px]">{t.hero_app}</p>
                 </div>
-                <div className="mt-8 pt-6 border-t border-gold/20">
-                  <LiveStats lang={lang} accent="gold" />
-                </div>
               </div>
 
               {/* Right: 2×4 grid (8 helpers) with header + stats + browse */}
@@ -644,19 +641,8 @@ export default function Employers({ featuredHelpers = [] }) {
                   ))}
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-gold/30 flex-shrink-0">
-                  <div className="text-center">
-                    <div className="font-headline font-extrabold text-xl text-gold leading-none">{Math.floor(totalHelpers / 10) * 10}+</div>
-                    <div className="text-[11px] text-on-surface-variant mt-1">{lang === 'th' ? 'ผู้ช่วยที่ยืนยันแล้ว' : 'Verified helpers'}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-headline font-extrabold text-xl text-gold leading-none">20+</div>
-                    <div className="text-[11px] text-on-surface-variant mt-1">{lang === 'th' ? 'เมือง' : 'Cities'}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-headline font-extrabold text-xl text-gold leading-none">7</div>
-                    <div className="text-[11px] text-on-surface-variant mt-1">{lang === 'th' ? 'หมวดหมู่' : 'Categories'}</div>
-                  </div>
+                <div className="mt-4 pt-3 border-t border-gold/30 flex-shrink-0">
+                  <LiveStats lang={lang} accent="gold" layout="columns" />
                 </div>
                 <Link className="mt-3 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gold text-on-background hover:bg-gold-dark hover:text-white font-bold text-sm transition-all" href="/helpers">{t.hero_browse}</Link>
               </div>

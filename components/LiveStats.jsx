@@ -41,7 +41,7 @@ function useCountUp(target, run, durationMs = 1500) {
   return value;
 }
 
-export default function LiveStats({ lang = 'en', accent = 'primary', className = '' }) {
+export default function LiveStats({ lang = 'en', accent = 'primary', layout = 'inline', className = '' }) {
   const [stats, setStats] = useState(null);
   const [visible, setVisible] = useState(false);
   const ref = useRef(null);
@@ -93,6 +93,25 @@ export default function LiveStats({ lang = 'en', accent = 'primary', className =
     { key: 'helpers', value: helpers, label: labels.helpers },
     { key: 'families', value: families, label: labels.families },
   ];
+
+  if (layout === 'columns') {
+    return (
+      <div ref={ref} className={className} aria-live="polite">
+        <div className="grid grid-cols-3 gap-3">
+          {items.map((item) => (
+            <div key={item.key} className="text-center">
+              <div className={`font-headline font-extrabold ${accentCls} leading-none tracking-tight tabular-nums`} style={{ fontSize: 'clamp(1.4rem, 2.6vw, 2rem)' }}>
+                {stats ? formatNumber(item.value, lang) : '—'}
+              </div>
+              <div className="text-[11px] sm:text-xs text-on-surface-variant mt-1.5 font-medium leading-snug">
+                {item.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
