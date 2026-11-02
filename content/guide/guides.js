@@ -261,6 +261,7 @@ export const guides = [
             <li><a href="/hire/nanny-bangkok">Nannies in Bangkok</a></li>
             <li><a href="/hire/nanny-phuket">Nannies in Phuket</a></li>
             <li><a href="/hire/nanny-chiang-mai">Nannies in Chiang Mai</a></li>
+            <li><a href="/guide/hire-a-pet-sitter-in-thailand">Hiring a pet sitter or dog walker</a> — the other care arrangement that falls over when the family travels</li>
             <li><a href="/blog/employment-contract-template-thailand">Free employment-contract template (EN + TH)</a></li>
             <li><a href="/work-permit-wizard">Work-permit checker (Thai vs foreign nanny)</a></li>
           </ul>
@@ -550,6 +551,7 @@ export const guides = [
             <li><a href="/hire/housekeeper-phuket">Housekeepers in Phuket</a></li>
             <li><a href="/hire/housekeeper-chiang-mai">Housekeepers in Chiang Mai</a></li>
             <li><a href="/guide/hire-a-gardener-in-thailand">Hiring a gardener or pool-care helper</a> — the other half of keeping a house, if you have outside space</li>
+            <li><a href="/guide/hire-a-pet-sitter-in-thailand">Hiring a pet sitter</a> — worth reading before you ask your housekeeper to feed the cat while you travel</li>
             <li><a href="/blog/housekeeper-cost-bangkok-2026"><strong>Housekeeper Cost Bangkok 2026</strong> — real rates from 136+ verified housekeepers</a></li>
             <li><a href="/blog/employment-contract-template-thailand">Free bilingual contract template</a></li>
             <li><a href="/guide/hire-a-nanny-in-thailand">Hire a Nanny in Thailand — full guide</a> (if you actually need childcare, not housekeeping)</li>
@@ -1516,8 +1518,8 @@ export const guides = [
     description:
       'House-visit, dog-walking, overnight, and boarding rates by city. How to find a pet sitter for travel cover, work-hour cover, or post-surgery care. Emergency vet authorisation, insurance gaps, and the questions that actually matter at interview. Updated for 2026.',
     date: '2026-06-08',
-    updated: '2026-06-08',
-    readTime: 11,
+    updated: '2026-11-02',
+    readTime: 14,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1200&q=80',
     keywords:
@@ -1675,6 +1677,54 @@ export const guides = [
         `,
       },
       {
+        id: 'work-permit',
+        h2: 'Pet sitters and work permits — the part the expat groups skip',
+        html: `
+          <p>Pet care in someone's home counts as household work in Thai law, which means the same permit rules apply here as to a nanny or a housekeeper. That surprises people, because pet sitting feels casual — a neighbour, a friend of a friend, someone from a Facebook group who loves dogs. The law does not distinguish by how casual the arrangement feels, or by whether you pay per visit rather than a salary.</p>
+
+          <h3>Who can do this work</h3>
+          <ul>
+            <li><strong>Thai nationals</strong> — no work permit needed, and this is the large majority of the market.</li>
+            <li><strong>Myanmar and Lao nationals</strong> — employable through Thailand's labour MOUs, the one route open to a private household.</li>
+            <li><strong>Cambodian nationals</strong> — on the same treaty list, but Thailand has admitted no new Cambodian workers since November 2025, and renewals for Cambodians were put on hold. Only someone already holding a valid permit, and only until it expires.</li>
+            <li><strong>Filipino, Vietnamese, Western and other nationalities</strong> — no household work permit can be issued to a private household. This is worth saying plainly, because the informal expat pet-sitting scene in Bangkok, Phuket and Chiang Mai is large and almost entirely outside this. Many of the people offering to mind your dog for a week cannot lawfully be paid for it.</li>
+          </ul>
+
+          <h3>The vet run is the catch nobody expects</h3>
+          <p>Pet sitting drifts into driving faster than any other household role: a sick cat at 9pm, a routine vaccination, a trip to the pet shop for the right food. <strong>Driving a motor vehicle is reserved for Thai nationals outright</strong> under List 1 of the 2020 Ministry of Labour notification, with no permit available to any foreigner — including one holding a valid MOU household permit. If your emergency plan involves the sitter driving your animal somewhere, that plan needs a Thai national, a neighbour, or a vet who does home visits.</p>
+
+          <h3>What this means practically</h3>
+          <p>For a one-week holiday with drop-in visits, most households never think about any of this, and enforcement has not historically reached casual pet care. That is an observation, not advice: the penalties under the Royal Decree run to 10,000–100,000 THB per worker for the employer, and the worker faces deportation and a two-year bar. The exposure is lopsided, and it lands on the sitter.</p>
+          <p>If you want the arrangement to be clean, the simple version is a Thai sitter or a registered pet-boarding business. Our <a href="/legal">work-permit rules page</a> has the full picture, and the <a href="/work-permit-wizard">Work Permit Wizard</a> checks one specific person in five questions.</p>
+        `,
+      },
+      {
+        id: 'handover',
+        h2: 'The handover — what to agree and what to write down',
+        html: `
+          <p>Pet sitting goes wrong in the gap between what you assumed and what you said. You are usually on a plane when the gap opens. Twenty minutes of written handover prevents nearly all of it.</p>
+
+          <h3>Leave this in writing, not in a conversation</h3>
+          <ul>
+            <li><strong>Feeding:</strong> amount, times, which food, and what happens if the animal refuses it. "A scoop" means nothing — a scoop of what, how full?</li>
+            <li><strong>Medication:</strong> dose, timing, how it is given, and what it is for. If there is a chronic condition, say what a bad day looks like.</li>
+            <li><strong>The vet:</strong> clinic name, address, phone, your account there if you have one, and the signed emergency authorisation covered earlier in this guide.</li>
+            <li><strong>Your second contact:</strong> someone in Thailand who can decide if you cannot be reached. Flights, time zones and dead phones all happen.</li>
+            <li><strong>Boundaries:</strong> which rooms, whether the animal goes on furniture or outside, whether anyone else may enter the home.</li>
+            <li><strong>The quirk list:</strong> bolts out of open doors, hates the broom, bites when startled while sleeping. This is the part owners forget and sitters most need.</li>
+          </ul>
+
+          <h3>Keys and access</h3>
+          <p>Agree how the sitter gets in and how the key comes back. For longer trips a key handed to a neighbour or left in a lockbox beats a key in someone's pocket for three weeks. Change nothing about your door while you are away, and tell the sitter if anyone else — a cleaner, a gardener — will also be coming in.</p>
+
+          <h3>Money</h3>
+          <p>Drop-in visits are usually paid at the end of the booking, overnight stays half up front and half on return. For bookings over a week, paying something in advance is normal and reasonable. Agree in advance who pays for food, litter and an unplanned vet bill, and roughly up to what amount the sitter may spend without reaching you.</p>
+
+          <h3>Ask for a daily message</h3>
+          <p>One photo and a line a day. It costs the sitter nothing, it tells you the visits are happening, and it is the single thing holiday pet owners say afterwards that they were most glad of.</p>
+        `,
+      },
+      {
         id: 'mistakes',
         h2: 'Common mistakes pet owners make',
         html: `
@@ -1730,6 +1780,16 @@ export const guides = [
         question: 'What about pet boarding while I travel — at a sitter\'s home or at a pet hotel?',
         answer:
           'Pet hotels are more expensive (700–1,500 THB/night for a small dog) but have established procedures, larger staffs, and business insurance. Sitter\'s-home boarding is cheaper (500–1,200 THB/night) and your pet stays in a home environment with usually 2–4 other animals max, which is less stressful than a kennel setting. The tradeoff: hotel quality is more predictable; home-boarding quality varies hugely between sitters. Always visit the home in person before booking, and ask which other animals will be there during your stay.',
+      },
+      {
+        question: 'Does a pet sitter in Thailand need a work permit?',
+        answer:
+          'If they are not a Thai national, yes — and for most nationalities no permit can be obtained. Pet care in a private home counts as household work, which is open to foreigners only through Thailand\u2019s labour MOUs. Myanmar and Lao nationals can be employed by a household that way; Cambodia is on the same treaty list but closed to new workers since November 2025; for Filipino, Vietnamese and Western nationals no household work permit can be issued to a private household at all. Paying per visit rather than a salary does not change this. One catch specific to pet sitting: if the plan involves driving the animal to the vet, driving is reserved for Thai nationals outright and no permit covers it.',
+      },
+      {
+        question: 'What should I write down before leaving my pet with a sitter?',
+        answer:
+          'Feeding amounts and times with the exact food, medication doses and timing, the vet clinic details plus a signed emergency treatment authorisation, a second contact in Thailand who can decide if you cannot be reached, house boundaries, and the animal\u2019s quirks — bolting through open doors, biting when startled awake. Agree how keys are handed over and returned, who pays for food and an unplanned vet bill, and up to what amount the sitter may spend without reaching you. Ask for one photo and one line a day.',
       },
       {
         question: 'Can I hire a full-time pet caregiver to look after my dog while I work?',

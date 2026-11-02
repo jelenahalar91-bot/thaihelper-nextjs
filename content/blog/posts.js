@@ -2951,7 +2951,7 @@ export const blogPosts = [
       <p><strong>Burmese and Lao staff:</strong> Common in gardens, pools, housekeeping and general maintenance, and lawfully employable through the MOU route with proper documentation. Cambodian staff are on the same treaty list but Thailand stopped admitting new Cambodian workers in November 2025 — only existing permit holders, and only until their permits expire.</p>
       <p><strong>Driving:</strong> Thai nationals only, in every case — the occupation is reserved and no permit is available to a foreigner.</p>
 
-      <p>For the grounds and pool specifically, our <a href="/guide/hire-a-gardener-in-thailand">gardener and pool-care guide</a> covers rates, equipment ownership and how to scope the work so nobody is disappointed.</p>
+      <p>For the grounds and pool specifically, our <a href="/guide/hire-a-gardener-in-thailand">gardener and pool-care guide</a> covers rates, equipment ownership and how to scope the work so nobody is disappointed. If animals stay at the villa between guests or while you travel, the <a href="/guide/hire-a-pet-sitter-in-thailand">pet-sitter guide</a> covers the handover and the emergency-vet authorisation.</p>
       <p>See our <a href="/blog/work-permits-foreign-helpers-thailand">work permit guide</a>.</p>
 
       <h2>Villa Owner Considerations</h2>
