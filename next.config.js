@@ -240,6 +240,19 @@ const nextConfig = {
         permanent: true,
       },
       {
+        // Deleted 2026-11-02: /blog/filipino-helpers-thailand-guide. The post
+        // was repivoted on 2026-10-05 from "household Filipino helpers" to
+        // "Filipino tutors + teachers" (the only legally sponsorable route),
+        // but 62 days later still zero impressions on the target queries. The
+        // query cluster is dominated by agencies (Home Staff International,
+        // Kiidu, Ayasan, Madawa) + Facebook groups. Collapse the signal into
+        // the oldest, strongest Legal/work-permit URL, same destination that
+        // the Myanmar MOU3 post's canonical already points at.
+        source: '/blog/filipino-helpers-thailand-guide',
+        destination: '/blog/work-permits-foreign-helpers-thailand',
+        permanent: true,
+      },
+      {
         // /th/th/* → /th/* (permanent 301). Cleans up the duplicate-prefix bug
         // introduced by next-sitemap on 2026-05-27 and crawled by Google on
         // 2026-05-28 before the fix went live on 2026-06-02. As of 2026-06-08
