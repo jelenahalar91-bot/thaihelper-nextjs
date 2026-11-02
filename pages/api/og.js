@@ -3,14 +3,19 @@
 //
 //   /api/og?title=…&subtitle=…&tag=…
 //
-// The three params shape the layout:
-//   title    = main headline (big, bold, up to ~80 chars)
-//   subtitle = optional secondary line (city, salary range, read time)
-//   tag      = small pill above the title (category, "Blog", "Guide")
-//
 // SEOHead.jsx builds this URL automatically when a page doesn't pass
 // a custom ogImage, so every blog post, hire page and guide gets its
 // own branded share image rather than the generic default.
+//
+// Satori (the rendering engine behind next/og) has two gotchas:
+//   1. The default sans font doesn't carry glyphs for ★, ☆, emoji —
+//      anything outside basic Latin shows as a tofu box. Use inline
+//      SVG for stars and brand marks instead.
+//   2. Every nested element in a flex container becomes a flex item,
+//      and text wrapping inherits the parent flex-direction. Set
+//      flexDirection explicitly on every flex container, and wrap
+//      inline text in a <span> rendered as a block so letters stay
+//      together.
 //
 // Edge runtime renders the image in <50ms once warm and gets cached
 // at the Vercel CDN per unique query string.
@@ -18,22 +23,22 @@ import { ImageResponse } from 'next/og';
 
 export const config = { runtime: 'edge' };
 
+const Star = ({ size = 28 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="#F4A261">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+  </svg>
+);
+
 export default function handler(req) {
   const { searchParams } = new URL(req.url);
   const title = (searchParams.get('title') || 'ThaiHelper').slice(0, 110);
   const subtitle = (searchParams.get('subtitle') || '').slice(0, 90);
   const tag = (searchParams.get('tag') || '').slice(0, 32);
 
-  // Brand teal gradient. Subtle enough that the title stays legible
-  // in both light and dark Facebook/LinkedIn/WhatsApp preview panes.
-  const bg = 'linear-gradient(135deg, #006a62 0%, #004d47 55%, #003330 100%)';
-
-  // One hour of fresh cache + 24 hours of stale-while-revalidate at the
-  // Vercel CDN. The query string makes the URL unique per page, so this
-  // is safe to cache aggressively — a page would need its title to change
-  // for the preview to change, and we'd rather serve a stale card than
-  // render a new one on every Facebook/LinkedIn/WhatsApp preview fetch.
-  const cache = 'public, s-maxage=3600, stale-while-revalidate=86400';
+  // Dark teal with a diagonal highlight band. More depth than a flat gradient.
+  const bg =
+    'radial-gradient(ellipse 70% 50% at 85% 15%, rgba(244,162,97,0.18), transparent 60%),' +
+    'linear-gradient(135deg, #003330 0%, #004d47 45%, #006a62 100%)';
 
   const image = new ImageResponse(
     (
@@ -48,21 +53,56 @@ export default function handler(req) {
           background: bg,
           color: '#ffffff',
           fontFamily: 'sans-serif',
+          position: 'relative',
         }}
       >
+        {/* Top row — brand mark */}
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '16px' }}>
+          <div
+            style={{
+              display: 'flex',
+              width: '52px',
+              height: '52px',
+              background: '#F4A261',
+              borderRadius: '14px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#003330',
+              fontSize: '32px',
+              fontWeight: 900,
+            }}
+          >
+            T
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              fontSize: '34px',
+              fontWeight: 800,
+              letterSpacing: '-0.01em',
+            }}
+          >
+            <span style={{ color: '#ffffff' }}>Thai</span>
+            <span style={{ color: '#F4A261' }}>Helper</span>
+          </div>
+        </div>
+
+        {/* Middle — title block */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           {tag ? (
             <div
               style={{
                 display: 'flex',
                 alignSelf: 'flex-start',
-                padding: '8px 20px',
-                background: 'rgba(255,255,255,0.18)',
-                border: '1px solid rgba(255,255,255,0.28)',
+                padding: '10px 24px',
+                background: 'rgba(244,162,97,0.18)',
+                border: '1px solid rgba(244,162,97,0.45)',
                 borderRadius: '999px',
                 fontSize: '26px',
-                letterSpacing: '0.04em',
+                fontWeight: 700,
+                letterSpacing: '0.08em',
                 textTransform: 'uppercase',
+                color: '#F4A261',
               }}
             >
               {tag}
@@ -70,10 +110,12 @@ export default function handler(req) {
           ) : null}
           <div
             style={{
-              fontSize: title.length > 70 ? '58px' : title.length > 45 ? '70px' : '82px',
-              lineHeight: 1.1,
+              display: 'flex',
+              fontSize: title.length > 70 ? '58px' : title.length > 45 ? '72px' : '86px',
+              lineHeight: 1.08,
               fontWeight: 800,
-              letterSpacing: '-0.02em',
+              letterSpacing: '-0.025em',
+              maxWidth: '1040px',
             }}
           >
             {title}
@@ -81,52 +123,68 @@ export default function handler(req) {
           {subtitle ? (
             <div
               style={{
+                display: 'flex',
                 fontSize: '32px',
                 color: 'rgba(255,255,255,0.82)',
                 maxWidth: '960px',
                 lineHeight: 1.3,
+                fontWeight: 400,
               }}
             >
               {subtitle}
             </div>
           ) : null}
         </div>
+
+        {/* Bottom row — URL + Trustpilot */}
         <div
           style={{
             display: 'flex',
+            flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            fontSize: '28px',
-            color: 'rgba(255,255,255,0.9)',
+            paddingTop: '28px',
+            borderTop: '1px solid rgba(255,255,255,0.14)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div
-              style={{
-                width: '44px',
-                height: '44px',
-                background: '#F4A261',
-                borderRadius: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#003330',
-                fontSize: '28px',
-                fontWeight: 900,
-              }}
-            >
-              T
+          <div
+            style={{
+              display: 'flex',
+              fontSize: '30px',
+              fontWeight: 600,
+              color: 'rgba(255,255,255,0.95)',
+            }}
+          >
+            thaihelper.app
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: '10px',
+              fontSize: '26px',
+              color: 'rgba(255,255,255,0.82)',
+            }}
+          >
+            <div style={{ display: 'flex', gap: '2px' }}>
+              <Star />
+              <Star />
+              <Star />
+              <Star />
+              <Star />
             </div>
-            <div style={{ display: 'flex', fontWeight: 700, fontSize: '32px' }}>
-              thaihelper.app
+            <div style={{ display: 'flex', paddingLeft: '8px', fontWeight: 600 }}>
+              4.1 on Trustpilot
             </div>
           </div>
-          <div style={{ display: 'flex' }}>★ 4.1 / 5 on Trustpilot</div>
         </div>
       </div>
     ),
     { width: 1200, height: 630 },
   );
-  image.headers.set('cache-control', cache);
+
+  // One hour fresh + 24 hours stale-while-revalidate at the Vercel CDN.
+  image.headers.set('cache-control', 'public, s-maxage=3600, stale-while-revalidate=86400');
   return image;
 }

@@ -26,28 +26,22 @@ export default function SEOHead({
   canonicalOverride,
   ogImage,
   ogUrl,
-  ogTag,
-  ogSubtitle,
 }) {
-  // Per-page share image. Priority is: explicit ogImage > dynamic branded
-  // image from /api/og (populated from page title + ogSubtitle + ogTag) >
-  // generic /og-image.jpg fallback. The dynamic branded image means every
-  // post/city/guide gets a distinct, on-brand preview on Facebook,
-  // LinkedIn, WhatsApp, Twitter — instead of all 300 URLs sharing one jpg.
+  // Per-page share image. Priority is: explicit ogImage > generic jpg
+  // fallback. A dynamic /api/og endpoint exists in this repo and can
+  // render a branded 1200x630 PNG per title/subtitle/tag — but Satori
+  // (next/og) without a bundled custom font renders typography that
+  // doesn't match the brand (letter spacing in system sans is off, and
+  // Trustpilot ★ is a tofu box). Any page can opt in by passing
+  // ogImage={`/api/og?title=…`} explicitly once the font bundling is
+  // sorted; the default path stays on /og-image.jpg so share cards
+  // never look amateurish on Facebook/LinkedIn/WhatsApp previews.
   const ogImageUrl = ogImage
     ? (/^https?:\/\//.test(ogImage) ? ogImage : `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`)
-    : (title
-      ? `${SITE_URL}/api/og?${new URLSearchParams({
-          title,
-          ...(ogSubtitle ? { subtitle: ogSubtitle } : {}),
-          ...(ogTag ? { tag: ogTag } : {}),
-        }).toString()}`
-      : DEFAULT_OG_IMAGE);
-  // We only know the exact dimensions of the default .jpg image. The
-  // dynamic /api/og endpoint always renders 1200x630, so we can assert
-  // dimensions for both; a custom third-party image lets the platform
-  // infer its size.
-  const isDefaultOg = ogImageUrl === DEFAULT_OG_IMAGE || ogImageUrl.includes('/api/og?');
+    : DEFAULT_OG_IMAGE;
+  // We only know the exact dimensions of the default image, so only assert
+  // them for that one — custom images let the platform infer their size.
+  const isDefaultOg = ogImageUrl === DEFAULT_OG_IMAGE;
   // path may or may not start with "/" — normalise.
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   // The canonical URL must reflect the locale so Google doesn't fold
