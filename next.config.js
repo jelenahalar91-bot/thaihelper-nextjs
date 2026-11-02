@@ -253,6 +253,17 @@ const nextConfig = {
         permanent: true,
       },
       {
+        // Deleted 2026-11-02: /guide/hire-a-filipino-nanny-in-thailand. Same
+        // reason — 62 days of zero impressions on `filipino nanny bangkok`
+        // and sibling queries. The guide was already honestly framed ("a
+        // private family cannot obtain a work permit for a Filipino nanny")
+        // but Google never surfaced it. Query cluster is strategically dead
+        // for us; signal collapses into the same work-permit destination.
+        source: '/guide/hire-a-filipino-nanny-in-thailand',
+        destination: '/blog/work-permits-foreign-helpers-thailand',
+        permanent: true,
+      },
+      {
         // /th/th/* → /th/* (permanent 301). Cleans up the duplicate-prefix bug
         // introduced by next-sitemap on 2026-05-27 and crawled by Google on
         // 2026-05-28 before the fix went live on 2026-06-02. As of 2026-06-08

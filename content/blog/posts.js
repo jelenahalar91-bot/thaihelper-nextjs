@@ -411,7 +411,6 @@ export const blogPosts = [
         <li><a href="/blog/private-chef-bangkok-cost-2026"><strong>Private Chef Bangkok Cost 2026</strong></a> — Rate distribution from 60+ verified Bangkok chefs, 80 % English-speaking</li>
         <li><a href="/blog/tutor-bangkok-cost-2026"><strong>Tutor Bangkok 2026</strong></a> — 99+ verified Bangkok tutors, 97 % English-speaking, 10+ year experience heavy</li>
       </ul>
-      <p>And if you specifically want a <strong>Filipino nanny</strong> (higher English-fluency, higher cost, work-permit rules to know): <a href="/guide/hire-a-filipino-nanny-in-thailand">the complete Filipino-nanny guide for Thailand</a> covers salaries 28,000–45,000 THB Bangkok, the Non-Immigrant B visa reality, and where to find candidates.</p>
 
       <p><strong>Ready to start?</strong> Browse nanny profiles on <a href="/hire/nanny">ThaiHelper</a> for free — filter by city, languages, experience level. Message nannies directly with no platform fees on either side. The reference checks, interview, and hire decision are entirely yours.</p>
       <p>Or read the complete hiring guide first: <a href="/guide/hire-a-nanny-in-thailand">How to Hire a Nanny in Thailand — the full 2026 process</a>.</p>
