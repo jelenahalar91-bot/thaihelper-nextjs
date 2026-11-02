@@ -56,6 +56,12 @@ const T = {
     rule_label: 'The basic rule',
     rule_text: 'In Thailand, every non-Thai worker needs a work permit — no exceptions, not even on a tourist, retirement, dependent or education visa. The only people who can work without one are Thai nationals. And needing a permit is not the same as being able to get one: for household work, permits are issued only to nationals of Myanmar, Laos and Cambodia under Thailand\'s labour MOUs, while driving is closed to every foreigner outright. This wizard tells you which case your candidate falls into, and whether the process is worth it given the cost and timeline.',
 
+    ssf_label: '💼 Coming: social security for household staff',
+    ssf_text: 'Separate from the work permit, and it applies whether your helper is Thai or foreign. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree bringing household staff — nanny, housekeeper, cook, gardener, family driver — into compulsory social security under Section 33, removing an exclusion that has stood for decades. It is not in force yet: the Council of State has to finish its review, it must be published in the Royal Gazette, and a 180-day transition follows. When it lands, the employer contribution is 5 % of wages within the 1,650–17,500 THB band — roughly 9,000 THB a year on a 15,000 THB salary. Worth building into your budget now rather than being surprised by it.',
+
+    deadline_label: '⏳ If your helper already has a permit: 11 December 2026',
+    deadline_text: 'This one is a date, not a rule. Lao, Myanmar and Vietnamese workers whose permission to work ends on 11 December 2026 have to have their renewal filed by that day — the e-WorkPermit window opened on 8 September 2026 and closes at 16:30 on 11 December, fee 1,000 THB. Filed in time, the worker is covered to 11 December 2027. Missed, the worker is undocumented and you are employing someone without valid permission. If you already employ an MOU helper, check now whose job it is to file — yours, theirs, or an agent\'s — rather than assuming it is handled.',
+
     newmou_label: '🆕 New source countries — does this change anything?',
     newmou_text: 'Thailand signed a labour MOU and an employment agreement with Sri Lanka on 14 September 2026, covering an initial 10,000 workers on two-year contracts, with frameworks for Nepal and Bangladesh announced for 2027. Worth knowing, because it gets quoted as proof that Thailand is opening up: the announced sectors are construction, manufacturing and agriculture, and household work is not among them. For a family hiring a nanny, housekeeper or carer, nothing has changed. We will update this page if the implementing rules add domestic service.',
 
@@ -119,7 +125,7 @@ const T = {
     cam_new_h: 'If your candidate is not yet in Thailand',
     cam_new_p: 'There is no route at all at the moment. No new Cambodian worker can be brought in under the MOU, whatever an agent offers you. Treat anyone promising a fresh Cambodian household permit as a warning sign rather than an opportunity — this is exactly the gap that recruitment scams fill.',
     cam_here_h: 'If your candidate is already in Thailand',
-    cam_here_p: 'It may still be possible, but it is time-limited and nothing should be assumed. Ask to see the permit itself and check the expiry date before agreeing anything. Most Cambodian MOU workers are finishing four-year terms that run out between November 2025 and December 2026. Those who renewed after 13 February 2025 are authorised to stay and work until 13 February 2027, with one further renewal available to 13 February 2029. Whether a transfer to a new employer can actually be processed is the open question, since the renewal track for Cambodians was suspended — confirm with the Department of Employment or a licensed agent before either of you relies on it.',
+    cam_here_p: 'It may still be possible, but it is time-limited and nothing should be assumed. Ask to see the permit itself and check the expiry date before agreeing anything. The bulk of Cambodian MOU workers were on four-year terms that expired between November 2025 and December 2026, so by now many permits have simply run out. The group still covered is those who renewed after 13 February 2025: they are authorised to stay and work until 13 February 2027, with one further renewal available to 13 February 2029. Anything outside that is almost certainly expired. Whether a transfer to a new employer can actually be processed is the open question, since the renewal track for Cambodians was suspended — confirm with the Department of Employment or a licensed agent before either of you relies on it.',
     cam_alt_title: 'What works instead:',
 
     // Result: no WP needed
@@ -226,6 +232,12 @@ const T = {
     result_thb: 'บาท',
 
     // ข้อกำหนดปี 2026 เฉพาะแรงงานพม่า — แสดงเมื่อสัญชาติ = พม่า + MOU
+    ssf_label: '💼 กำลังจะมา: ประกันสังคมสำหรับลูกจ้างทำงานบ้าน',
+    ssf_text: 'เรื่องนี้แยกจากใบอนุญาตทำงาน และใช้กับลูกจ้างทั้งคนไทยและคนต่างด้าว เมื่อวันที่ 25 สิงหาคม 2569 คณะรัฐมนตรีเห็นชอบในหลักการร่างพระราชกฤษฎีกาที่นำลูกจ้างทำงานบ้าน ได้แก่ พี่เลี้ยงเด็ก แม่บ้าน แม่ครัว คนสวน และคนขับรถประจำบ้าน เข้าสู่ระบบประกันสังคมภาคบังคับตามมาตรา 33 ซึ่งยกเลิกข้อยกเว้นที่มีมานานหลายสิบปี ขณะนี้ยังไม่มีผลบังคับใช้ ต้องผ่านการตรวจพิจารณาของสำนักงานคณะกรรมการกฤษฎีกา ประกาศในราชกิจจานุเบกษา และมีระยะเปลี่ยนผ่าน 180 วัน เมื่อมีผลบังคับใช้ นายจ้างจ่ายสมทบร้อยละ 5 ของค่าจ้างในช่วง 1,650–17,500 บาท หรือราว 9,000 บาทต่อปีสำหรับค่าจ้าง 15,000 บาท ควรเผื่อไว้ในงบประมาณตั้งแต่ตอนนี้',
+
+    deadline_label: '⏳ หากผู้ช่วยของคุณมีใบอนุญาตอยู่แล้ว: 11 ธันวาคม 2569',
+    deadline_text: 'ข้อนี้เป็นกำหนดวัน ไม่ใช่กฎเกณฑ์ แรงงานลาว เมียนมา และเวียดนามที่สิทธิทำงานสิ้นสุดวันที่ 11 ธันวาคม 2569 ต้องยื่นต่ออายุภายในวันดังกล่าว ระบบ e-WorkPermit เปิดตั้งแต่วันที่ 8 กันยายน 2569 และปิดเวลา 16:30 น. ของวันที่ 11 ธันวาคม ค่าธรรมเนียม 1,000 บาท หากยื่นทัน แรงงานจะได้รับความคุ้มครองถึงวันที่ 11 ธันวาคม 2570 หากพลาด แรงงานจะไม่มีเอกสารถูกต้อง และคุณกำลังจ้างผู้ที่ไม่มีสิทธิทำงาน หากคุณจ้างผู้ช่วยระบบ MOU อยู่แล้ว ควรตรวจสอบตอนนี้ว่าใครเป็นผู้ยื่น คุณ ลูกจ้าง หรือตัวแทน แทนที่จะคิดว่ามีคนจัดการให้แล้ว',
+
     newmou_label: '🆕 ประเทศต้นทางใหม่ — เปลี่ยนอะไรหรือไม่?',
     newmou_text: 'ไทยลงนาม MOU ด้านแรงงานและข้อตกลงการจ้างงานกับศรีลังกาเมื่อวันที่ 14 กันยายน 2569 ครอบคลุมแรงงานชุดแรก 10,000 คน สัญญา 2 ปี และมีกรอบความร่วมมือกับเนปาลและบังกลาเทศที่ประกาศไว้สำหรับปี 2570 เรื่องนี้ถูกยกมาอ้างบ่อยว่าไทยกำลังเปิดรับมากขึ้น แต่สาขาที่ประกาศคือก่อสร้าง การผลิต และเกษตรกรรม ไม่รวมงานบ้าน สำหรับครอบครัวที่ต้องการจ้างพี่เลี้ยงเด็ก แม่บ้าน หรือผู้ดูแล จึงไม่มีอะไรเปลี่ยนแปลง เราจะอัปเดตหน้านี้หากระเบียบปฏิบัติเพิ่มงานรับใช้ในบ้านเข้าไป',
 
@@ -236,7 +248,7 @@ const T = {
     cam_new_h: 'หากผู้สมัครยังไม่ได้อยู่ในประเทศไทย',
     cam_new_p: 'ขณะนี้ไม่มีช่องทางใดเลย ไม่สามารถนำแรงงานกัมพูชาเข้ามาใหม่ภายใต้ MOU ได้ ไม่ว่านายหน้าจะเสนออะไรก็ตาม หากมีผู้รับปากว่าจะทำใบอนุญาตทำงานบ้านให้คนกัมพูชาใหม่ ให้ถือเป็นสัญญาณอันตราย ไม่ใช่โอกาส เพราะช่องว่างนี้คือจุดที่มิจฉาชีพด้านการจัดหางานเข้ามา',
     cam_here_h: 'หากผู้สมัครอยู่ในประเทศไทยแล้ว',
-    cam_here_p: 'อาจยังเป็นไปได้ แต่มีกรอบเวลาจำกัดและไม่ควรคาดเดา ขอดูใบอนุญาตตัวจริงและตรวจวันหมดอายุก่อนตกลงใดๆ แรงงานกัมพูชาภายใต้ MOU ส่วนใหญ่กำลังครบวาระสี่ปีซึ่งสิ้นสุดระหว่างเดือนพฤศจิกายน 2568 ถึงธันวาคม 2569 ส่วนผู้ที่ต่ออายุหลังวันที่ 13 กุมภาพันธ์ 2568 ได้รับอนุญาตให้อยู่และทำงานถึงวันที่ 13 กุมภาพันธ์ 2570 และต่ออายุได้อีกครั้งถึงวันที่ 13 กุมภาพันธ์ 2572 ประเด็นที่ยังไม่ชัดคือการโอนย้ายไปนายจ้างใหม่จะดำเนินการได้จริงหรือไม่ เพราะการต่ออายุสำหรับคนกัมพูชาถูกพักไว้ ควรยืนยันกับกรมการจัดหางานหรือตัวแทนที่ได้รับอนุญาตก่อนที่ทั้งสองฝ่ายจะยึดถือเป็นแผน',
+    cam_here_p: 'อาจยังเป็นไปได้ แต่มีกรอบเวลาจำกัดและไม่ควรคาดเดา ขอดูใบอนุญาตตัวจริงและตรวจวันหมดอายุก่อนตกลงใดๆ แรงงานกัมพูชาภายใต้ MOU ส่วนใหญ่อยู่ในวาระสี่ปีที่สิ้นสุดระหว่างเดือนพฤศจิกายน 2568 ถึงธันวาคม 2569 ดังนั้นถึงตอนนี้ใบอนุญาตจำนวนมากหมดอายุไปแล้ว กลุ่มที่ยังได้รับความคุ้มครองคือผู้ที่ต่ออายุหลังวันที่ 13 กุมภาพันธ์ 2568 ซึ่งได้รับอนุญาตให้อยู่และทำงานถึงวันที่ 13 กุมภาพันธ์ 2570 และต่ออายุได้อีกครั้งถึงวันที่ 13 กุมภาพันธ์ 2572 นอกเหนือจากนั้นแทบจะหมดอายุแล้วทั้งหมด ประเด็นที่ยังไม่ชัดคือการโอนย้ายไปนายจ้างใหม่จะดำเนินการได้จริงหรือไม่ เพราะการต่ออายุสำหรับคนกัมพูชาถูกพักไว้ ควรยืนยันกับกรมการจัดหางานหรือตัวแทนที่ได้รับอนุญาตก่อนที่ทั้งสองฝ่ายจะยึดถือเป็นแผน',
     cam_alt_title: 'ทางเลือกที่ใช้ได้จริง:',
 
     myanmar_notice_title: '📌 สถานะปี 2026 สำหรับแรงงานพม่า',
@@ -578,6 +590,17 @@ export default function WorkPermitWizard() {
             </div>
           </section>
 
+          {/* Social-security draft decree (Cabinet, 25 Aug 2026). Not a
+              work-permit question at all, which is why it sits on the
+              intro rather than in a result: it lands on every family,
+              Thai helper included. Not in force — the copy says so. */}
+          <section className="px-4 md:px-6 pb-2 pt-2">
+            <div className="max-w-2xl mx-auto rounded-xl border border-indigo-200 bg-indigo-50 px-5 py-4 text-sm text-indigo-900 leading-relaxed">
+              <strong className="font-bold block mb-1">{t.ssf_label}</strong>
+              {t.ssf_text}
+            </div>
+          </section>
+
           {/* May 2026 enforcement banner — surfaces the active nationwide
               crackdown launched after the 1 May 2026 Koh Phangan raid.
               Sits above the wizard intentionally so every visitor sees it,
@@ -892,6 +915,19 @@ function ResultPanel({ result, t, lang, city, nationality, agree, setAgree, trac
               <div className="font-bold">{result.estimatedCost.timeMonths}</div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Renewal deadline for workers already on an MOU permit. Shown on
+          every MOU result because it hits Lao workers as well as Burmese,
+          and it is a date rather than a rule — so it retires itself once
+          11 Dec 2026 has passed instead of ageing into a stale claim. */}
+      {result.track === 'mou' && Date.now() < Date.parse('2026-12-11T16:30:00+07:00') && (
+        <div className="rounded-2xl border-2 border-amber-400 bg-amber-50 p-4 md:p-5 mb-6">
+          <div className="font-bold text-amber-900 mb-2 text-sm md:text-base">
+            {t.deadline_label}
+          </div>
+          <p className="text-sm text-amber-900 leading-relaxed">{t.deadline_text}</p>
         </div>
       )}
 

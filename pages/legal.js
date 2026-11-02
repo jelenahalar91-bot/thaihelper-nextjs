@@ -53,6 +53,10 @@ const FAQS = [
     answer: 'Only through the MOU route for household workers from Myanmar or Laos (Cambodia is on the same treaty list but closed to new workers since November 2025). For every other permit type the employer must be a registered Thai company meeting the capital and Thai-staffing requirements, so a household cannot sponsor a Non-Immigrant B visa. Narrow exceptions exist for diplomatic households, BOI-promoted employers, and genuinely skilled tutor, governess or household-manager roles under a registered Thai employer.',
   },
   {
+    question: 'Do I have to pay social security for a nanny or housekeeper in Thailand?',
+    answer: 'Not yet, but it is coming. Household staff have long been excluded from Thailand\u2019s compulsory social security system. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree that removes that exclusion and brings nannies, housekeepers, cooks, gardeners and family drivers into Section 33 coverage, for Thai and foreign employees alike. It is not in force: the Council of State must complete its review, the decree must be published in the Royal Gazette, and a 180-day transition period follows. Once it applies, the employer contributes 5 per cent of wages within the 1,650 to 17,500 THB band, which is roughly 9,000 THB a year on a 15,000 THB salary.',
+  },
+  {
     question: 'What are the penalties for employing a helper without a work permit in Thailand?',
     answer: 'Under the Royal Decree on Foreign Workers Management B.E. 2560, the employer faces 10,000 to 100,000 THB per worker, multiplied by the number of workers found, with heavier penalties and a three-year ban on hiring foreigners for repeat offences. The worker faces 5,000 to 50,000 THB, deportation and a two-year bar on reapplying for a work permit. The Labour Ministry ordered nationwide inspections in May 2026.',
   },
@@ -138,6 +142,9 @@ const T = {
 
     law5_h: 'Sri Lanka, Nepal, Bangladesh — not a household route',
     law5_p: 'Thailand signed a labour MOU and an employment agreement with Sri Lanka on 14 September 2026 for an initial 10,000 workers on two-year contracts, and frameworks with Nepal and Bangladesh have been announced for 2027. This gets cited as evidence that Thailand is opening up to more nationalities, and for construction, manufacturing and agriculture it is. Household work is not among the announced sectors, so for a family hiring a nanny, housekeeper or carer nothing has changed. We will update this page if the implementing rules add domestic service.',
+
+    law6_h: 'Coming separately: social security for household staff',
+    law6_p: 'Not a work-permit question, but the other obligation families ask about. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree bringing household staff — nanny, housekeeper, cook, gardener, family driver — into compulsory social security under Section 33, removing an exclusion that has stood for decades. It covers Thai and foreign employees alike, provided the worker holds valid documents. It is not in force: the Council of State must finish its review, it must be published in the Royal Gazette, and a 180-day transition follows. When it does land, the employer contributes 5 % of wages within the 1,650–17,500 THB band, roughly 9,000 THB a year on a 15,000 THB salary.',
 
     fair_title: 'Who actually carries the risk',
     fair_p: 'Worth saying plainly, because it shapes the decision: the penalties are not symmetrical. A family that hires without permission pays a fine. The helper loses her livelihood, is deported, and cannot reapply for a work permit for two years. If you are weighing whether to hire into the gap, that asymmetry belongs in the calculation.',
@@ -242,6 +249,9 @@ const T = {
 
     law5_h: 'ศรีลังกา เนปาล บังกลาเทศ — ไม่ใช่ช่องทางสำหรับงานบ้าน',
     law5_p: 'ไทยลงนาม MOU ด้านแรงงานและข้อตกลงการจ้างงานกับศรีลังกาเมื่อวันที่ 14 กันยายน 2569 สำหรับแรงงานชุดแรก 10,000 คน สัญญา 2 ปี และมีกรอบความร่วมมือกับเนปาลและบังกลาเทศที่ประกาศไว้สำหรับปี 2570 เรื่องนี้ถูกยกมาอ้างว่าไทยกำลังเปิดรับสัญชาติมากขึ้น ซึ่งเป็นจริงสำหรับงานก่อสร้าง การผลิต และเกษตรกรรม แต่งานบ้านไม่อยู่ในสาขาที่ประกาศ สำหรับครอบครัวที่จะจ้างพี่เลี้ยงเด็ก แม่บ้าน หรือผู้ดูแล จึงไม่มีอะไรเปลี่ยนแปลง เราจะอัปเดตหน้านี้หากระเบียบปฏิบัติเพิ่มงานรับใช้ในบ้านเข้าไป',
+
+    law6_h: 'อีกเรื่องที่กำลังจะมา: ประกันสังคมสำหรับลูกจ้างทำงานบ้าน',
+    law6_p: 'ไม่ใช่เรื่องใบอนุญาตทำงาน แต่เป็นภาระหน้าที่อีกข้อที่ครอบครัวมักถาม เมื่อวันที่ 25 สิงหาคม 2569 คณะรัฐมนตรีเห็นชอบในหลักการร่างพระราชกฤษฎีกาที่นำลูกจ้างทำงานบ้าน ได้แก่ พี่เลี้ยงเด็ก แม่บ้าน แม่ครัว คนสวน และคนขับรถประจำบ้าน เข้าสู่ระบบประกันสังคมภาคบังคับตามมาตรา 33 ซึ่งยกเลิกข้อยกเว้นที่มีมานานหลายสิบปี ครอบคลุมทั้งลูกจ้างคนไทยและคนต่างด้าวที่มีเอกสารถูกต้อง ขณะนี้ยังไม่มีผลบังคับใช้ ต้องผ่านสำนักงานคณะกรรมการกฤษฎีกา ประกาศในราชกิจจานุเบกษา และมีระยะเปลี่ยนผ่าน 180 วัน เมื่อมีผลบังคับใช้ นายจ้างจ่ายสมทบร้อยละ 5 ของค่าจ้างในช่วง 1,650–17,500 บาท หรือราว 9,000 บาทต่อปีสำหรับค่าจ้าง 15,000 บาท',
 
     fair_title: 'ใครเป็นผู้แบกรับความเสี่ยงจริง',
     fair_p: 'ควรพูดตรงๆ เพราะมีผลต่อการตัดสินใจ: บทลงโทษไม่เท่ากัน ครอบครัวที่จ้างโดยไม่มีใบอนุญาตเสียค่าปรับ แต่ผู้ช่วยสูญเสียอาชีพ ถูกส่งกลับประเทศ และยื่นขอใบอนุญาตทำงานใหม่ไม่ได้เป็นเวลา 2 ปี หากคุณกำลังชั่งใจว่าจะจ้างหรือไม่ ความไม่เท่ากันนี้ควรอยู่ในการคำนวณด้วย',
@@ -453,6 +463,7 @@ export default function Legal() {
                   { h: t.law3_h, p: t.law3_p },
                   { h: t.law4_h, p: t.law4_p },
                   { h: t.law5_h, p: t.law5_p },
+                  { h: t.law6_h, p: t.law6_p },
                 ].map((c, i) => (
                   <div key={i} className="bg-white rounded-2xl border border-slate-200 p-6">
                     <h3 className="text-lg font-bold font-headline text-on-background mb-2">{c.h}</h3>
