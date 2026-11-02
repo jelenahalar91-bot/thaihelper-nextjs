@@ -287,7 +287,7 @@ export default function HirePage({ page, matchingHelpers = [] }) {
           getBreadcrumbSchema(breadcrumbs),
           getSpeakableSchema(`/hire/${page.slug}`),
           ...(itemListSchema ? [itemListSchema] : []),
-          ...(page.city ? [getLocalBusinessSchema(page.city)] : []),
+          ...(page.city ? [getLocalBusinessSchema(page.city, page.category)] : []),
         ]}
       />
 

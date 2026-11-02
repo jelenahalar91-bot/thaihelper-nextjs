@@ -217,6 +217,31 @@ export const blogPosts = [
     date: '2026-04-08',
     updated: '2026-08-25',
     readTime: 13,
+    // FAQ answers are the ones Google's "People also ask" surfaces for the
+    // nanny-cost cluster. Each answer is self-contained (no "see above") so
+    // the FAQPage schema can be lifted as a snippet by itself.
+    faq: [
+      {
+        question: 'How much does it cost to hire a nanny in Thailand in 2026?',
+        answer: 'A full-time nanny in Thailand costs 15,000–25,000 THB per month in Bangkok and 12,000–18,000 THB in smaller cities like Chiang Mai. Live-in nannies earn 12,000–18,000 THB cash plus room and meals. Add about 20–35% to the headline salary for the true total monthly cost once Social Security (5% employer share), 13th-month bonus, transport, and meals are included.',
+      },
+      {
+        question: 'Is a live-in or live-out nanny cheaper in Bangkok?',
+        answer: 'Live-in nannies look cheaper on paper (12,000–18,000 THB vs 15,000–25,000 THB for live-out), but the room, meals, and utilities you provide typically close the gap. In Bangkok the true all-in cost of a live-in nanny is roughly the same as live-out once you count accommodation value. Choose on fit and family routine, not on headline salary.',
+      },
+      {
+        question: 'How much more do English-speaking nannies cost in Thailand?',
+        answer: 'A fluent English-speaking nanny commands roughly 30–50% more than a Thai-only nanny. In Bangkok that puts the typical range at 25,000–35,000 THB per month for a confident English speaker, with specialist profiles (newborn experience, international-school background, multilingual) reaching 28,000–70,000 THB. 78% of verified nannies on ThaiHelper now list conversational English, which has compressed the premium slightly in central Bangkok.',
+      },
+      {
+        question: 'Do I have to pay a 13th-month bonus to my nanny?',
+        answer: 'The 13th-month bonus is not legally required in Thailand, but it is universally expected and paid before Songkran (mid-April) by nearly every family. Skipping it is the fastest way to lose a good nanny. Budget one full monthly salary spread across the year — it is the single biggest "hidden" cost most families forget.',
+      },
+      {
+        question: 'What does Social Security add to the total nanny cost?',
+        answer: 'For full-time staff the employer contributes 5% of salary (capped at 750 THB per month) to Thai Social Security under Section 33. On a 20,000 THB salary that is 750 THB per month, or 9,000 THB per year. In return the nanny gets state-funded medical care, maternity, and pension benefits, and the employment relationship becomes formally documented.',
+      },
+    ],
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80',
     keywords: 'nanny cost Thailand, nanny salary Bangkok, babysitter price Thailand, childcare costs Thailand 2026',
@@ -3067,6 +3092,24 @@ export const blogPosts = [
     date: '2026-09-09',
     updated: '2026-09-09',
     readTime: 8,
+    faq: [
+      {
+        question: 'How much does a private chef cost in Bangkok?',
+        answer: 'A full-time live-out private chef in Bangkok costs 25,000–45,000 THB per month. Live-in chefs earn 20,000–35,000 THB plus room and board. Part-time (3–4 sessions per week) is 8,000–15,000 THB per month. Chefs with international experience — 5-star hotels, Michelin backgrounds, or expat family work — charge 50–100% more.',
+      },
+      {
+        question: 'Is a private chef cheaper than eating out in Bangkok?',
+        answer: 'For a family of four it usually is. Eating out and ordering in runs 60,000–80,000 THB per month at mid-market Bangkok prices. A full-time live-out chef at 30,000 THB plus roughly 25,000 THB of groceries lands around 55,000 THB per month — plus you get fresher meals, dietary control, and the time back. The break-even is around three family dinners per week.',
+      },
+      {
+        question: 'What qualifications should I check before hiring a private chef?',
+        answer: 'Ask for a hands-on trial of 1–2 meals paid at your home before committing. Check references from previous families or restaurants, verify any Food Hygiene certificate, and watch kitchen behaviour (cleanliness, time management, plating). On ThaiHelper, 80% of verified Bangkok chefs speak English and most list cuisines they are strongest in — filter the directory on both.',
+      },
+      {
+        question: 'Should a private chef also do the grocery shopping?',
+        answer: 'Yes, almost always — it is part of the role. Agree a weekly grocery budget (typically 15,000–30,000 THB for a family of four in Bangkok), decide whether the chef or the family picks the markets and supermarkets, and settle on a simple receipt-plus-ledger routine. Chefs who shop deliver fresher ingredients and plan meals more cost-effectively than families picking the groceries themselves.',
+      },
+    ],
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=1200&q=80',
     keywords: 'private chef bangkok, private chef bangkok cost, chef cost thailand, personal chef bangkok, hire chef bangkok, private cook bangkok, family chef bangkok salary, chef hourly rate bangkok',
@@ -3179,6 +3222,24 @@ export const blogPosts = [
     date: '2026-09-09',
     updated: '2026-09-09',
     readTime: 8,
+    faq: [
+      {
+        question: 'How much does a housekeeper cost in Bangkok per month?',
+        answer: 'A full-time live-out housekeeper in Bangkok costs 15,000–22,000 THB per month. Live-in housekeepers earn 13,000–18,000 THB cash plus room and meals. Part-time (2–3 days per week) is 6,000–10,000 THB per month. Deep-clean visits average 500–1,000 THB per 4-hour session. English-speaking and experience with expat families each add roughly 15–25%.',
+      },
+      {
+        question: 'What is the difference between a housekeeper and a maid in Thailand?',
+        answer: 'In Thai households the roles overlap. "Maid" (mae ban) typically covers cleaning, laundry, and basic cooking. "Housekeeper" implies broader responsibility — household management, inventory, running the home when the family travels. On ThaiHelper the distinction shows up in salary: housekeepers who take on management duties earn 3,000–6,000 THB more per month than cleaning-only roles.',
+      },
+      {
+        question: 'Do I have to register my full-time housekeeper for Social Security?',
+        answer: 'Yes. Full-time household staff are covered under Section 33 of the Thai Social Security Act. The employer contributes 5% of salary (capped at 750 THB per month), and the worker contributes the same. In return the housekeeper gets state medical care, maternity benefits, and pension coverage. Part-time staff below the threshold are not required.',
+      },
+      {
+        question: 'How many days off should a full-time housekeeper get?',
+        answer: 'The Thai Ministerial Regulation 14 (2012) sets a minimum of 1 rest day per week and 6 paid holidays per year. In practice most Bangkok families give 10–15 days of paid annual leave and respect the major Thai holidays (Songkran, Chinese New Year, Buddhist days). Put the exact arrangement in writing — unclear leave policies are the single most common source of housekeeper disputes.',
+      },
+    ],
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200&q=80',
     keywords: 'housekeeper cost bangkok, find housekeeper bangkok, maid bangkok cost, cleaner bangkok cost, live-in maid bangkok, weekly cleaner bangkok, part time housekeeper bangkok, hire maid bangkok',
@@ -3411,6 +3472,28 @@ export const blogPosts = [
     date: '2026-10-05',
     updated: '2026-10-05',
     readTime: 10,
+    faq: [
+      {
+        question: 'Can I legally hire a Myanmar nanny in Thailand?',
+        answer: 'Yes. Thailand\'s MOU3 agreement with Myanmar is the formal legal pathway for Myanmar nationals to work in Thai households as nannies, housekeepers, caregivers, cooks, and gardeners. The Thai employer (the family) sponsors the permit. Permits run 2 years and renew for another 2 years before a mandatory border re-entry. Private driving by non-Thai workers is NOT covered — that role is reserved for Thai nationals.',
+      },
+      {
+        question: 'What does MOU3 cover and who is eligible?',
+        answer: 'MOU3 is the 2023-renewed Thailand–Myanmar Memorandum of Understanding on labour cooperation. It covers Myanmar nationals working in domestic roles (nanny, housekeeper, caregiver, gardener, cook) plus the main labour categories (construction, fishing, agriculture, food processing). Workers must enter via official channels, be registered with the Thai Ministry of Labour, and hold a Non-Immigrant LA visa plus work permit. Driving a private car for a family is excluded from MOU3.',
+      },
+      {
+        question: 'How much does a Myanmar nanny or housekeeper cost in Bangkok?',
+        answer: 'Myanmar helpers typically earn 10–20% less than Thai nationals at the same experience level. In Bangkok 2026: full-time Myanmar housekeeper 12,000–18,000 THB (live-out) or 10,000–15,000 THB plus room and meals (live-in); Myanmar nanny with basic English 13,000–18,000 THB; English-fluent Myanmar nanny 18,000–28,000 THB. Add 20% for true all-in cost after Social Security, 13th-month bonus, meals, transport.',
+      },
+      {
+        question: 'How much does the MOU3 paperwork cost per year?',
+        answer: 'Expect 25,000–45,000 THB in year 1 and 10,000–15,000 THB per renewal year on top of salary. That covers the work permit (6,500–10,000 THB/year, employer-paid), Non-Immigrant LA visa (~2,000 THB/year), the initial medical check and worker\'s health-insurance contribution (~3,500 THB), and a MOU-registered agency fee if you use one (15,000–30,000 THB setup, 5,000–8,000 THB per renewal).',
+      },
+      {
+        question: 'What happens if I hire an undocumented Myanmar helper?',
+        answer: 'The employer faces fines of up to 100,000 THB per worker. The helper faces immediate deportation and typically a 2-year bar on applying for a work permit. Enforcement has stepped up since May 2026. Every Myanmar helper on ThaiHelper is email-verified by us, but you must verify their MOU paperwork (work permit, Non-Immigrant LA visa, Pink ID card) in person before the first pay cycle — no exceptions.',
+      },
+    ],
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1581553673739-c4906b5d0de8?w=800&q=80',
     keywords: 'Myanmar nanny Thailand, Burmese helper Bangkok, Myanmar maid, MOU3 work permit Thailand, Burmese housekeeper, hire Myanmar nanny legally',

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
 import Image from 'next/image';
 import { ArrowLeft, Clock, Calendar, User } from 'lucide-react';
-import SEOHead, { getBlogPostingSchema, getBreadcrumbSchema, getSpeakableSchema } from '@/components/SEOHead';
+import SEOHead, { getBlogPostingSchema, getBreadcrumbSchema, getSpeakableSchema, getFAQSchema } from '@/components/SEOHead';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import BlogCard from '@/components/BlogCard';
@@ -57,6 +57,9 @@ export default function BlogPost({ post }) {
           getBlogPostingSchema({ ...post, lang }),
           getBreadcrumbSchema(breadcrumbs),
           getSpeakableSchema(`/blog/${post.slug}`, ['h1', 'h2', '.prose p:first-of-type']),
+          // Posts opt in by declaring a `faq: [{ question, answer }]` array
+          // in content/blog/posts.js. Null entries are filtered out upstream.
+          post.faq && post.faq.length > 0 ? getFAQSchema(post.faq) : null,
         ]}
       />
 

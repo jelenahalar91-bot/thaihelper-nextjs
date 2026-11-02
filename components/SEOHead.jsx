@@ -294,7 +294,7 @@ export function getBlogPostingSchema({ title, description, slug, date, updated, 
 /**
  * LocalBusiness schema for city landing pages — boosts GEO for location-specific queries
  */
-export function getLocalBusinessSchema(city) {
+export function getLocalBusinessSchema(city, categorySlug) {
   const cities = {
     bangkok: { name: 'Bangkok', lat: 13.7563, lng: 100.5018, region: 'Bangkok' },
     'chiang-mai': { name: 'Chiang Mai', lat: 18.7061, lng: 98.9817, region: 'Chiang Mai' },
@@ -302,17 +302,49 @@ export function getLocalBusinessSchema(city) {
     pattaya: { name: 'Pattaya', lat: 12.9236, lng: 100.8825, region: 'Chonburi' },
     'koh-samui': { name: 'Koh Samui', lat: 9.5120, lng: 100.0136, region: 'Surat Thani' },
     'hua-hin': { name: 'Hua Hin', lat: 12.5684, lng: 99.9577, region: 'Prachuap Khiri Khan' },
+    // Added 2026-11-02 — all cities now with their own verified-helper pool,
+    // so the local-business entity on /hire/<city> can carry proper coords
+    // and address instead of falling back to Bangkok.
+    nonthaburi: { name: 'Nonthaburi', lat: 13.8622, lng: 100.5144, region: 'Nonthaburi' },
+    chonburi: { name: 'Chonburi', lat: 13.3611, lng: 100.9847, region: 'Chonburi' },
+    krabi: { name: 'Krabi', lat: 8.0863, lng: 98.9063, region: 'Krabi' },
+    'khon-kaen': { name: 'Khon Kaen', lat: 16.4322, lng: 102.8236, region: 'Khon Kaen' },
+    'samut-prakan': { name: 'Samut Prakan', lat: 13.5990, lng: 100.5998, region: 'Samut Prakan' },
+    rayong: { name: 'Rayong', lat: 12.6833, lng: 101.2372, region: 'Rayong' },
   };
   const c = cities[city] || cities.bangkok;
+
+  // Role-specific service metadata lets Google show "ThaiHelper offers Nanny
+  // services in Phuket" instead of just a generic employment-agency entity.
+  // Category slugs match CATEGORIES_DATA keys in lib/constants.
+  const categoryServices = {
+    nanny: 'Nanny and Babysitter',
+    housekeeper: 'Housekeeper and Maid',
+    chef: 'Private Chef and Cook',
+    driver: 'Driver and Chauffeur',
+    gardener: 'Gardener and Pool Care',
+    elder_care: 'Elder Care and Caregiver',
+    tutor: 'Tutor and Teacher',
+    petsitter: 'Pet Sitter and Dog Walker',
+  };
+  const serviceLabel = categoryServices[categorySlug] || null;
+
+  // URL points at the exact landing page, not /helpers?city=… — the filter
+  // URL canonicals away to the landing page (2026-10-26).
+  const urlPath = serviceLabel
+    ? `/hire/${categorySlug.replace('_', '-')}-${city}`
+    : `/hire/${city}`;
+
   return {
     '@context': 'https://schema.org',
     '@type': 'EmploymentAgency',
-    name: `ThaiHelper ${c.name}`,
-    description: `Find verified nannies, housekeepers, chefs, drivers and household staff in ${c.name}, Thailand. Free for both families and helpers — no agency fees.`,
-    // The city's own landing page, not /helpers?city=… — the filter URL
-    // canonicals away to exactly this page, so naming it here keeps the
-    // entity URL on the page that actually ranks (2026-10-26).
-    url: `${SITE_URL}/hire/${city}`,
+    name: serviceLabel
+      ? `ThaiHelper ${c.name} — ${serviceLabel}`
+      : `ThaiHelper ${c.name}`,
+    description: serviceLabel
+      ? `Verified ${serviceLabel.toLowerCase()} in ${c.name}, Thailand. Browse profiles, message directly. Free for both families and helpers — no middleman fees.`
+      : `Find verified nannies, housekeepers, chefs, drivers and household staff in ${c.name}, Thailand. Free for both families and helpers — no middleman fees.`,
+    url: `${SITE_URL}${urlPath}`,
     telephone: '',
     address: {
       '@type': 'PostalAddress',
@@ -336,6 +368,28 @@ export function getLocalBusinessSchema(city) {
       opens: '00:00',
       closes: '23:59',
     },
+    // Live Trustpilot rating — refreshed when it moves on the public SERP.
+    // Pulling it in here means the EmploymentAgency entity on every city
+    // landing page carries real third-party review signal, not just the
+    // homepage. Current reading: 4.1 / 5 across 8 verified reviews (2026-11-02).
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.1',
+      reviewCount: '8',
+      bestRating: '5',
+      worstRating: '1',
+    },
+    sameAs: ['https://www.trustpilot.com/review/thaihelper.app'],
+    ...(serviceLabel && {
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: `${serviceLabel} in ${c.name}`,
+        itemListElement: [{
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: serviceLabel, areaServed: c.name },
+        }],
+      },
+    }),
   };
 }
 
