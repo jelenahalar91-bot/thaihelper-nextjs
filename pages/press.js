@@ -101,10 +101,13 @@ const T = {
 
     assets_title: 'Brand assets',
     assets_sub: 'Free to use in editorial coverage of ThaiHelper. Please do not alter the wordmark or its colours.',
-    asset_logo: 'Logo (SVG)',
-    asset_icon: 'App icon (PNG, 512px)',
-    asset_og: 'Preview image (JPG)',
-    asset_download: 'Download',
+    asset_wordmark: 'Wordmark',
+    asset_wordmark_white: 'Wordmark, white',
+    asset_wordmark_white_note: 'For dark backgrounds',
+    asset_wordmark_navy: 'Wordmark, one colour',
+    asset_wordmark_navy_note: 'For greyscale printing',
+    asset_icon: 'App icon',
+    asset_outlined: 'In the SVGs the letters are outlines, not live text — Plus Jakarta Sans does not need to be installed to place them.',
     colors_title: 'Brand colours',
     color_primary: 'Primary teal',
     color_navy: 'Navy',
@@ -219,10 +222,13 @@ const T = {
 
     assets_title: 'ไฟล์แบรนด์',
     assets_sub: 'ใช้ได้ฟรีในการรายงานข่าวเกี่ยวกับ ThaiHelper กรุณาอย่าดัดแปลงโลโก้หรือเปลี่ยนสี',
-    asset_logo: 'โลโก้ (SVG)',
-    asset_icon: 'ไอคอนแอป (PNG, 512px)',
-    asset_og: 'ภาพตัวอย่าง (JPG)',
-    asset_download: 'ดาวน์โหลด',
+    asset_wordmark: 'โลโก้ตัวอักษร',
+    asset_wordmark_white: 'โลโก้ตัวอักษร สีขาว',
+    asset_wordmark_white_note: 'สำหรับพื้นหลังสีเข้ม',
+    asset_wordmark_navy: 'โลโก้ตัวอักษร สีเดียว',
+    asset_wordmark_navy_note: 'สำหรับงานพิมพ์ขาวดำ',
+    asset_icon: 'ไอคอนแอป',
+    asset_outlined: 'ตัวอักษรในไฟล์ SVG เป็นเส้นขอบ ไม่ใช่ข้อความที่แก้ไขได้ จึงไม่จำเป็นต้องติดตั้งฟอนต์ Plus Jakarta Sans เพื่อนำไปใช้',
     colors_title: 'สีประจำแบรนด์',
     color_primary: 'เขียวน้ำทะเล',
     color_navy: 'น้ำเงินเข้ม',
@@ -601,28 +607,51 @@ export default function Press({ facts }) {
               <h2 className="text-2xl md:text-3xl font-extrabold font-headline mb-2">{t.assets_title}</h2>
               <p className="text-sm text-on-surface-variant mb-8">{t.assets_sub}</p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                 {[
-                  { href: '/icon.svg',    label: t.asset_logo },
-                  { href: '/icon-512.png', label: t.asset_icon },
-                  { href: '/og-image.jpg', label: t.asset_og },
+                  {
+                    label: t.asset_wordmark,
+                    svg: '/press/thaihelper-wordmark.svg',
+                    png: '/press/thaihelper-wordmark-2400.png',
+                  },
+                  {
+                    label: t.asset_wordmark_white,
+                    note: t.asset_wordmark_white_note,
+                    svg: '/press/thaihelper-wordmark-white.svg',
+                    png: '/press/thaihelper-wordmark-white-2400.png',
+                    // The white wordmark is invisible on a light tile, so its
+                    // preview sits on the brand navy instead.
+                    onDark: true,
+                  },
+                  {
+                    label: t.asset_wordmark_navy,
+                    note: t.asset_wordmark_navy_note,
+                    svg: '/press/thaihelper-wordmark-navy.svg',
+                    png: '/press/thaihelper-wordmark-navy-2400.png',
+                  },
+                  {
+                    label: t.asset_icon,
+                    svg: '/icon.svg',
+                    png: '/icon-512.png',
+                  },
                 ].map((a) => (
-                  <div key={a.href} className="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col">
-                    <div className="h-20 flex items-center justify-center mb-4 rounded-xl bg-surface-container-low">
+                  <div key={a.svg} className="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col">
+                    <div className={`h-20 flex items-center justify-center mb-4 rounded-xl ${a.onDark ? 'bg-navy' : 'bg-surface-container-low'}`}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={a.href} alt="" className="max-h-16 max-w-[80%] object-contain" />
+                      <img src={a.svg} alt="" className="max-h-14 max-w-[82%] object-contain" />
                     </div>
-                    <div className="text-sm font-semibold text-on-background mb-3">{a.label}</div>
-                    <a
-                      href={a.href}
-                      download
-                      className="mt-auto text-sm font-semibold text-primary hover:underline"
-                    >
-                      {t.asset_download} →
-                    </a>
+                    <div className="text-sm font-semibold text-on-background">{a.label}</div>
+                    {a.note && (
+                      <div className="text-xs text-on-surface-variant mt-0.5 leading-snug">{a.note}</div>
+                    )}
+                    <div className="mt-auto pt-3 flex gap-4">
+                      <a href={a.svg} download className="text-sm font-semibold text-primary hover:underline">SVG</a>
+                      <a href={a.png} download className="text-sm font-semibold text-primary hover:underline">PNG</a>
+                    </div>
                   </div>
                 ))}
               </div>
+              <p className="text-xs text-on-surface-variant mb-8 max-w-2xl leading-relaxed">{t.asset_outlined}</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white rounded-2xl border border-slate-200 p-6">
