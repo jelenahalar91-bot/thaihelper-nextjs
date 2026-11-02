@@ -3412,7 +3412,7 @@ export const blogPosts = [
     updated: '2026-10-05',
     readTime: 10,
     author: 'ThaiHelper Team',
-    image: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1581553673739-c4906b5d0de8?w=800&q=80',
     keywords: 'Myanmar nanny Thailand, Burmese helper Bangkok, Myanmar maid, MOU3 work permit Thailand, Burmese housekeeper, hire Myanmar nanny legally',
     title_th: 'จ้างผู้ช่วยชาวพม่าในประเทศไทย ปี 2026: คู่มือ MOU3 ถูกกฎหมาย + ค่าจ้างจริง',
     description_th: 'วิธีจ้างพี่เลี้ยง แม่บ้าน หรือผู้ดูแลชาวพม่าในประเทศไทยอย่างถูกกฎหมายปี 2026. อธิบายใบอนุญาตทำงาน MOU3, ค่าจ้างจริง, และข้อมูลจาก 117 โปรไฟล์ชาวพม่าที่ยืนยันแล้วบน ThaiHelper',
