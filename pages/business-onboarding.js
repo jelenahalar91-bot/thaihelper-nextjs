@@ -44,7 +44,16 @@ export default function BusinessOnboarding() {
         const d = await r.json();
         if (!r.ok) { setInvalid(true); }
         else {
-          setListing(l => ({ ...l, name: d.companyName || '', email: d.email || '', type: d.type || '' }));
+          // Prefill from the application they already filled in at /partners —
+          // city, description, links and the rest — then let the account's own
+          // fields win for name/email/type.
+          setListing(l => ({
+            ...l,
+            ...Object.fromEntries(Object.entries(d.listing || {}).filter(([, v]) => v)),
+            name: d.companyName || '',
+            email: d.email || '',
+            type: d.type || '',
+          }));
         }
       } catch { setInvalid(true); }
       setLoading(false);

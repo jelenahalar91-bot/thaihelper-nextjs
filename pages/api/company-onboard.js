@@ -11,7 +11,8 @@ import bcrypt from 'bcryptjs';
 import { getServiceSupabase } from '@/lib/supabase';
 import { verifyInviteToken } from '@/lib/company-invite';
 import { createToken, setSessionCookie } from '@/lib/auth';
-import { sanitizeListingInput, slugifyName } from '@/lib/company-listing';
+import { DIRECTORY_TYPE_VALUES } from '@/lib/constants/directory';
+import { sanitizeListingInput, toEditableListing, slugifyName } from '@/lib/company-listing';
 
 const MIN_PASSWORD = 8;
 
@@ -47,16 +48,20 @@ export default async function handler(req, res) {
     const supabase = getServiceSupabase();
     const { data: account } = await supabase
       .from('company_accounts')
-      .select('company_name, email, contact_name, phone, type, status')
+      .select('company_name, email, contact_name, phone, type, status, listing_draft')
       .eq('id', payload.id)
       .single();
     if (!account) return res.status(404).json({ error: 'Account not found.' });
+    // Hand back the application as a ready-to-edit listing. The company
+    // already typed its city, description and links into /partners; making
+    // them type the lot again is the surest way to lose them at this step.
     return res.status(200).json({
       companyName: account.company_name,
       email: account.email,
       contactName: account.contact_name || '',
       phone: account.phone || '',
       type: account.type || '',
+      listing: toEditableListing(account.listing_draft || {}),
       alreadyActive: account.status === 'active',
     });
   }
@@ -76,7 +81,7 @@ export default async function handler(req, res) {
 
   const { data: account, error: accErr } = await supabase
     .from('company_accounts')
-    .select('id, company_ref, email, company_name, status')
+    .select('id, company_ref, email, company_name, status, listing_draft')
     .eq('id', payload.id)
     .single();
 
@@ -85,8 +90,18 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'This application has not been approved yet.' });
   }
 
-  // Build the listing payload. Default the display name to the company name.
+  // Build the listing payload, falling back to the application draft for
+  // anything the company left blank here — those answers were already vetted
+  // at the approval step, so an empty field on this form means "unchanged",
+  // not "delete what you know about us".
+  const draft = account.listing_draft || {};
   const fields = sanitizeListingInput(req.body);
+  for (const key of Object.keys(fields)) {
+    if (!fields[key] && draft[key]) fields[key] = draft[key];
+  }
+  // `type` never arrives empty — sanitizeListingInput defaults it — so an
+  // explicit check is the only way to keep the applicant's own answer.
+  if (!DIRECTORY_TYPE_VALUES.includes(req.body?.type) && draft.type) fields.type = draft.type;
   if (!fields.name) fields.name = account.company_name;
   if (!fields.email) fields.email = account.email;
 

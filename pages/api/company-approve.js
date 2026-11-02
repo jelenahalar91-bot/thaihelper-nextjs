@@ -52,13 +52,25 @@ export default async function handler(req, res) {
 
   const { data: account, error } = await supabase
     .from('company_accounts')
-    .select('id, email, company_name, contact_name, status')
+    .select('id, email, company_name, contact_name, status, email_verified')
     .eq('id', payload.id)
     .single();
 
   if (error || !account) {
     return res.status(404).send(page('Not found',
       '<h2 style="color:#b91c1c;margin:0 0 10px;">Account not found</h2><p style="color:#444;">This application no longer exists.</p>'));
+  }
+
+  // An approve link is also an invite link: clicking it emails a private
+  // onboarding URL to this address. Sending that to an address nobody has
+  // confirmed is how three of the first four approvals ended up unopened, so
+  // the notification is only supposed to exist once /api/partner-verify has
+  // run. Belt and braces, in case an old email is still sitting in the inbox.
+  if (!account.email_verified) {
+    return res.status(409).send(page('Email not confirmed',
+      `<h2 style="color:#b45309;margin:0 0 10px;">Email not confirmed yet</h2>
+       <p style="color:#444;line-height:1.6;"><strong>${esc(account.company_name)}</strong> has not clicked the confirmation link we sent to <strong>${esc(account.email)}</strong>, so we can't yet be sure anyone reads that address. Approving now would send the onboarding link into the void.</p>
+       <p style="color:#444;line-height:1.6;">Wait for the confirmation — you'll get a fresh notification with this button when it arrives.</p>`));
   }
 
   if (account.status === 'active') {
