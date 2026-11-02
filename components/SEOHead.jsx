@@ -26,15 +26,28 @@ export default function SEOHead({
   canonicalOverride,
   ogImage,
   ogUrl,
+  ogTag,
+  ogSubtitle,
 }) {
-  // Per-page share image (blog/guide/city pages pass their own). Accepts an
-  // absolute URL or a site-relative path; falls back to the generic image.
+  // Per-page share image. Priority is: explicit ogImage > dynamic branded
+  // image from /api/og (populated from page title + ogSubtitle + ogTag) >
+  // generic /og-image.jpg fallback. The dynamic branded image means every
+  // post/city/guide gets a distinct, on-brand preview on Facebook,
+  // LinkedIn, WhatsApp, Twitter — instead of all 300 URLs sharing one jpg.
   const ogImageUrl = ogImage
     ? (/^https?:\/\//.test(ogImage) ? ogImage : `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`)
-    : DEFAULT_OG_IMAGE;
-  // We only know the exact dimensions of the default image, so only assert
-  // them for that one — custom images let the platform infer their size.
-  const isDefaultOg = ogImageUrl === DEFAULT_OG_IMAGE;
+    : (title
+      ? `${SITE_URL}/api/og?${new URLSearchParams({
+          title,
+          ...(ogSubtitle ? { subtitle: ogSubtitle } : {}),
+          ...(ogTag ? { tag: ogTag } : {}),
+        }).toString()}`
+      : DEFAULT_OG_IMAGE);
+  // We only know the exact dimensions of the default .jpg image. The
+  // dynamic /api/og endpoint always renders 1200x630, so we can assert
+  // dimensions for both; a custom third-party image lets the platform
+  // infer its size.
+  const isDefaultOg = ogImageUrl === DEFAULT_OG_IMAGE || ogImageUrl.includes('/api/og?');
   // path may or may not start with "/" — normalise.
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   // The canonical URL must reflect the locale so Google doesn't fold

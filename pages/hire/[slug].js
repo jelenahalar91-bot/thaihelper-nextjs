@@ -281,6 +281,8 @@ export default function HirePage({ page, matchingHelpers = [] }) {
         description={description}
         path={`/hire/${page.slug}`}
         lang={lang}
+        ogTag={page.cityEn || 'Thailand'}
+        ogSubtitle={`Verified ${(page.category || 'helper').replace(/_/g, ' ')} profiles on ThaiHelper — browse free, message directly`}
         jsonLd={[
           faqSchema,
           serviceSchema,
