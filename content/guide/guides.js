@@ -549,6 +549,7 @@ export const guides = [
             <li><a href="/hire/housekeeper-bangkok">Housekeepers in Bangkok</a></li>
             <li><a href="/hire/housekeeper-phuket">Housekeepers in Phuket</a></li>
             <li><a href="/hire/housekeeper-chiang-mai">Housekeepers in Chiang Mai</a></li>
+            <li><a href="/guide/hire-a-gardener-in-thailand">Hiring a gardener or pool-care helper</a> — the other half of keeping a house, if you have outside space</li>
             <li><a href="/blog/housekeeper-cost-bangkok-2026"><strong>Housekeeper Cost Bangkok 2026</strong> — real rates from 136+ verified housekeepers</a></li>
             <li><a href="/blog/employment-contract-template-thailand">Free bilingual contract template</a></li>
             <li><a href="/guide/hire-a-nanny-in-thailand">Hire a Nanny in Thailand — full guide</a> (if you actually need childcare, not housekeeping)</li>
@@ -1468,6 +1469,7 @@ export const guides = [
             <li><a href="/hire/driver-bangkok">Drivers in Bangkok</a></li>
             <li><a href="/hire/driver-phuket">Drivers in Phuket</a></li>
             <li><a href="/hire/driver-chiang-mai">Drivers in Chiang Mai</a></li>
+            <li><a href="/guide/hire-a-gardener-in-thailand">Hiring a gardener</a> — driver and gardener is one of the most common combined roles on the platform</li>
             <li><a href="/blog/hire-driver-bangkok-guide">Hire a Driver in Bangkok — broader overview</a></li>
             <li><a href="/blog/employment-contract-template-thailand">Free bilingual contract template</a></li>
           </ul>
@@ -1982,8 +1984,8 @@ export const guides = [
     description:
       'Weekly, monthly, and full-time gardener rates. Pool-care combinations, equipment ownership decisions, what to specify in scope (lawn vs. ornamental vs. tree work), where to find a gardener whose previous gardens you can see. Updated for 2026.',
     date: '2026-06-08',
-    updated: '2026-06-08',
-    readTime: 10,
+    updated: '2026-11-02',
+    readTime: 13,
     author: 'ThaiHelper Team',
     image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1200&q=80',
     keywords:
@@ -2108,6 +2110,78 @@ export const guides = [
         `,
       },
       {
+        id: 'interview',
+        h2: 'What to ask before you hire',
+        html: `
+          <p>Gardening is the one household role where you can check the work before you commit, and almost nobody does. A gardener who has maintained the same garden for three years can show you that garden. Ask.</p>
+
+          <h3>The questions that actually tell you something</h3>
+          <ul>
+            <li><strong>"Which garden do you look after now, and can I see it?"</strong> The single most useful question in this guide. Ten minutes looking at a garden they have kept for a year tells you more than any CV. A good gardener is usually proud to show one.</li>
+            <li><strong>"What died on you, and why?"</strong> Everyone who gardens in Thailand has killed something. Someone who answers honestly — root rot in the rainy season, a frangipani that got too much sun after a transplant — understands cause and effect. Someone who says nothing has ever died is either new or not paying attention.</li>
+            <li><strong>"What do you do differently in May than in January?"</strong> The rainy and dry seasons need almost opposite work: drainage, fungus and runaway growth against watering schedules and heat stress. A gardener who treats the year as one long routine will lose you plants.</li>
+            <li><strong>"What is in my garden right now?"</strong> Walk round with them and let them name things. You are not testing Latin names — you are checking whether they look at a plant and see a species with needs, or just greenery to be cut back.</li>
+            <li><strong>"How do you handle the pool when the water goes green?"</strong> Only if pool care is part of the job. The answer should involve testing and correcting chemistry, not just adding more chlorine and hoping.</li>
+          </ul>
+
+          <h3>The practical ones people forget</h3>
+          <ul>
+            <li>How do they get to you, and what happens in heavy rain? A gardener on a motorbike 40 minutes away will miss days in the wet season.</li>
+            <li>Which tools do they bring and which do they expect you to own? Settle it before the first visit, not after.</li>
+            <li>Do they work alone or bring someone? For tree work and big clearances many bring a second pair of hands, and you should know who is on your property.</li>
+            <li>What notice do they give for a missed visit, and do they make it up?</li>
+          </ul>
+        `,
+      },
+      {
+        id: 'work-permit',
+        h2: 'Gardeners and work permits — same rules as indoor staff',
+        html: `
+          <p>Garden work in a private home counts as household work, so the rules here are the ones that apply to a nanny or a housekeeper, not some lighter outdoor version. A Thai national needs no work permit at all. For everyone else it depends entirely on nationality.</p>
+
+          <h3>Who can actually be employed</h3>
+          <p>Household work is open to foreigners only through a government-to-government labour MOU. Thailand has household-work MOUs with Myanmar, Laos and Cambodia — and of those, <strong>Myanmar and Laos are the ones open to new workers today</strong>. Thailand has admitted no new Cambodian workers since November 2025, and in March 2026 the Ministry of Labour confirmed that only those already holding valid permits would be managed.</p>
+          <p>For Filipino, Vietnamese, Indian, Nepali and Western nationals, a private household cannot obtain a work permit for garden work at all. The Non-Immigrant B alternative that gets suggested needs a registered Thai company with 2 million THB of paid-up capital as the employer, which a household is not.</p>
+
+          <h3>The trap specific to gardeners</h3>
+          <p>Garden jobs drift into driving. The gardener picks up soil from the nursery, runs to the hardware shop, moves the car. <strong>Driving a motor vehicle is on List 1 of the 2020 Ministry of Labour notification</strong> — reserved for Thai nationals outright, with no permit available to any foreigner, including one holding a valid MOU household permit. If errands by car are part of what you need, that part has to go to a Thai national, however the job is described on paper.</p>
+
+          <h3>Coming: social security</h3>
+          <p>On 25 August 2026 the Cabinet approved in principle a draft Royal Decree bringing household staff — gardeners named explicitly, alongside nannies, housekeepers, cooks and family drivers — into compulsory social security under Section 33, for Thai and foreign employees alike. It is not in force yet: the Council of State has to finish its review, it must be published in the Royal Gazette, and a 180-day transition follows. When it lands, the employer contributes 5 % of wages within the 1,650–17,500 THB band. For a weekly gardener the amounts are small, but it is worth knowing it is coming.</p>
+
+          <p>The full picture is on our <a href="/legal">work-permit rules page</a>, and the <a href="/work-permit-wizard">Work Permit Wizard</a> answers it for one specific candidate in five questions.</p>
+        `,
+      },
+      {
+        id: 'contract',
+        h2: 'Pay, cadence, and what to write down',
+        html: `
+          <p>Garden arrangements are usually looser than indoor ones, which is fine until the first disagreement about money. A few lines written down at the start prevent almost all of them.</p>
+
+          <h3>How payment usually works</h3>
+          <ul>
+            <li><strong>Per visit</strong> for weekly and fortnightly gardeners, paid on the day. Simple and the most common.</li>
+            <li><strong>Monthly</strong> for anyone coming twice a week or more, paid at the end of the month. Agree what happens when a visit falls on a public holiday — most households pay the month regardless and let the gardener make the visit up.</li>
+            <li><strong>Full-time villa gardeners</strong> are on a normal monthly salary and are covered by the Labour Protection Act like any employee, including the rules on rest days and notice.</li>
+          </ul>
+
+          <h3>The materials question</h3>
+          <p>Plants, soil, fertiliser and pool chemicals add up, and this is where trust gets tested. Two arrangements work: you buy everything yourself, or you set a monthly materials budget and ask for receipts. What does not work is open-ended reimbursement with no ceiling and no paperwork — not because gardeners are dishonest, but because neither side can reconstruct what was spent three months later.</p>
+
+          <h3>Write these five things down</h3>
+          <ul>
+            <li>Visit frequency and roughly which day</li>
+            <li>What is in scope: lawn, beds, hedges, pool, pots on the balcony — and what is not, particularly tree work</li>
+            <li>Rate per visit or per month, and when it is paid</li>
+            <li>Who owns and maintains the tools</li>
+            <li>The materials arrangement and its ceiling</li>
+          </ul>
+
+          <h3>The Songkran bonus</h3>
+          <p>Not a legal requirement for a part-time gardener, but a long-standing convention in Thailand and worth honouring if someone has looked after your garden all year. For a weekly gardener a month's visits in cash is normal. For a full-time one, a thirteenth month is the expectation.</p>
+        `,
+      },
+      {
         id: 'mistakes',
         h2: 'Common mistakes property owners make',
         html: `
@@ -2162,6 +2236,16 @@ export const guides = [
         question: 'Should I let my gardener buy plants and materials with my money?',
         answer:
           'No, or only at small scale (under 500 THB per visit) with receipts. Receipts get vague when money is loose, and mark-ups creep in. For larger purchases — new plants, mulch, fertiliser, irrigation parts — go to the nursery together, choose the items, and pay the nursery directly. The gardener picks for what works in your specific micro-climate; you pay for what gets installed. Cleaner relationship, no surprises.',
+      },
+      {
+        question: 'Can a foreign gardener work legally in Thailand?',
+        answer:
+          'Garden work in a private home counts as household work, so the same rules apply as for a nanny or housekeeper. Thai nationals need no permit. Myanmar and Lao nationals can be employed through Thailand\u2019s labour MOUs, which is the only route open to a private family. Cambodia is on the same treaty list but has been closed to new workers since November 2025. For Filipino, Vietnamese, Indian and Western nationals no household work permit can be issued to a household at all. One extra catch specific to gardeners: if the job includes driving to the nursery or the hardware shop, driving is reserved for Thai nationals outright and no permit covers it.',
+      },
+      {
+        question: 'Do I have to pay social security for a gardener in Thailand?',
+        answer:
+          'Not yet. Household staff including gardeners have long been excluded from Thailand\u2019s compulsory social security system. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree that removes the exclusion and brings gardeners, nannies, housekeepers, cooks and family drivers into Section 33 coverage for Thai and foreign employees alike. It is not in force: the Council of State must complete its review, it must be published in the Royal Gazette, and a 180-day transition period follows. Once it applies the employer contributes 5 per cent of wages within the 1,650 to 17,500 THB band.',
       },
       {
         question: 'What about big tree work — can my regular gardener do it?',
