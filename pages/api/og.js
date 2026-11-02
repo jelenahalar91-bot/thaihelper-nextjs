@@ -28,7 +28,14 @@ export default function handler(req) {
   // in both light and dark Facebook/LinkedIn/WhatsApp preview panes.
   const bg = 'linear-gradient(135deg, #006a62 0%, #004d47 55%, #003330 100%)';
 
-  return new ImageResponse(
+  // One hour of fresh cache + 24 hours of stale-while-revalidate at the
+  // Vercel CDN. The query string makes the URL unique per page, so this
+  // is safe to cache aggressively — a page would need its title to change
+  // for the preview to change, and we'd rather serve a stale card than
+  // render a new one on every Facebook/LinkedIn/WhatsApp preview fetch.
+  const cache = 'public, s-maxage=3600, stale-while-revalidate=86400';
+
+  const image = new ImageResponse(
     (
       <div
         style={{
@@ -120,4 +127,6 @@ export default function handler(req) {
     ),
     { width: 1200, height: 630 },
   );
+  image.headers.set('cache-control', cache);
+  return image;
 }
