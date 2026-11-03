@@ -188,19 +188,34 @@ export default async function handler(req, res) {
 
     // Re-trigger match notifications when the employer actually moved or
     // changed which categories they're looking for. Skip while unverified.
+    //
+    // This runs AFTER the response goes out. It emails every helper covering
+    // the employer's city one at a time, which on 2026-11-02 meant 70 emails
+    // and 28s of a family staring at a "Saving..." button for an edit that
+    // had already been written to the database in the first second. Nothing
+    // in here affects what we tell the client, so none of it belongs in
+    // front of the response. On Vercel waitUntil keeps the function alive
+    // until the fan-out finishes; locally the promise just runs on its own.
     if (prev?.email_verified) {
       const cityChanged    = 'city' in patch         && patch.city         !== prev.city;
       const lookingChanged = 'looking_for' in patch  && patch.looking_for  !== prev.looking_for;
       if (cityChanged || lookingChanged) {
-        try {
-          await notifyHelpersOfNewEmployer({
-            employer_ref: ref,
-            first_name:  prev.first_name || '',
-            city:        patch.city        ?? prev.city,
-            looking_for: patch.looking_for ?? prev.looking_for,
-          });
-        } catch (err) {
+        const notifyPromise = notifyHelpersOfNewEmployer({
+          employer_ref: ref,
+          first_name:  prev.first_name || '',
+          city:        patch.city        ?? prev.city,
+          looking_for: patch.looking_for ?? prev.looking_for,
+        }).catch((err) => {
           console.error('Match re-trigger on employer profile update failed:', err.message);
+        });
+
+        try {
+          // Only available on Vercel's runtime — guarantees the deferred work
+          // completes after the response. Locally it runs best-effort.
+          const { waitUntil } = require('@vercel/functions');
+          waitUntil(notifyPromise);
+        } catch {
+          /* not on Vercel — fine */
         }
       }
     }
