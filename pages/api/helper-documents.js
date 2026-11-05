@@ -77,33 +77,40 @@ export default async function handler(req, res) {
     return res.status(200).json({ documents: [], hasContacted });
   }
 
-  // Generate signed URLs for each document
+  // Generate signed URLs for each document.
+  //
+  // PDFs used to get `url: null` on purpose — "no preview" — and both the web
+  // modal and the app faithfully rendered that as a grey badge with a file
+  // name and nothing to click. Measured 2026-11-04: 110 of 427 uploaded
+  // certificates are PDFs, so a quarter of everything helpers took the
+  // trouble to upload could not be read by anyone, anywhere. A certificate
+  // nobody can open is worse than no certificate: it looks like evidence and
+  // carries none.
+  //
+  // A PDF link is handed out only AFTER contact. That is stricter than the
+  // image path, and deliberately so: an image is blurred in the UI until
+  // contact, but a PDF opens in the system viewer where we control nothing,
+  // so the gate has to sit here, on the URL itself. Certificates can carry a
+  // date of birth, an address and a full name.
   const withUrls = await Promise.all(
     docs.map(async (doc) => {
       const isImage = doc.mime_type?.startsWith('image/');
+      const mayLink = isImage || hasContacted;
 
-      if (isImage) {
+      let url = null;
+      if (mayLink) {
         const { data: signedData, error: signError } = await supabase.storage
           .from(BUCKET)
           .createSignedUrl(doc.storage_path, SIGNED_URL_EXPIRY);
-
-        return {
-          id: doc.id,
-          fileName: doc.file_name,
-          mimeType: doc.mime_type,
-          isImage: true,
-          url: signError ? null : signedData.signedUrl,
-          uploadedAt: doc.uploaded_at,
-        };
+        url = signError ? null : signedData.signedUrl;
       }
 
-      // PDFs — just return metadata, no preview
       return {
         id: doc.id,
         fileName: doc.file_name,
         mimeType: doc.mime_type,
-        isImage: false,
-        url: null,
+        isImage: !!isImage,
+        url,
         uploadedAt: doc.uploaded_at,
       };
     })

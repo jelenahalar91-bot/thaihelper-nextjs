@@ -778,14 +778,16 @@ export default function HelperProfileModal({ helper, onClose, t, lang = 'en', fo
 
 function CertificatePreview({ doc, t, revealed = false, onOpen }) {
   if (!doc.isImage || !doc.url) {
-    // PDF or missing URL — show as file badge
-    return (
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: '10px',
-        padding: '10px 14px',
-        background: '#f9fafb', borderRadius: '10px',
-        border: '1px solid #e5e7eb',
-      }}>
+    // A PDF certificate, or an image whose signed URL could not be minted.
+    // This badge used to be inert markup — a file name and the words "PDF
+    // document" — because the API sent no URL for non-images at all. It now
+    // sends one once the employer has messaged the helper, so the badge is a
+    // real link whenever we have a URL, and says plainly what unlocks it
+    // when we don't. An unsignable image lands here too rather than
+    // vanishing: a certificate that exists should not silently disappear.
+    const openable = !!doc.url;
+    const body = (
+      <>
         <span style={{ fontSize: '20px' }}>📄</span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{
@@ -794,9 +796,33 @@ function CertificatePreview({ doc, t, revealed = false, onOpen }) {
           }}>
             {doc.fileName}
           </div>
-          <div style={{ fontSize: '11px', color: '#9ca3af' }}>PDF document</div>
+          <div style={{ fontSize: '11px', color: openable ? '#006a62' : '#9ca3af' }}>
+            {openable
+              ? (t?.profile_pdf_open || 'PDF — tap to open')
+              : (t?.profile_pdf_locked || 'PDF — send a message to open')}
+          </div>
         </div>
-      </div>
+      </>
+    );
+    const frame = {
+      display: 'flex', alignItems: 'center', gap: '10px',
+      padding: '10px 14px',
+      background: '#f9fafb', borderRadius: '10px',
+      border: '1px solid #e5e7eb',
+      textDecoration: 'none',
+    };
+
+    if (!openable) return <div style={frame}>{body}</div>;
+
+    return (
+      <a
+        href={doc.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ ...frame, cursor: 'pointer' }}
+      >
+        {body}
+      </a>
     );
   }
 
