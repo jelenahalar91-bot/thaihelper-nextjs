@@ -7,7 +7,7 @@
 
 import {
   DIRECTORY_TYPES,
-  SPECIALTIES,
+  groupedSpecialties,
   DIRECTORY_LANGUAGES,
   NATIONALITIES_PLACED,
 } from '@/lib/constants/directory';
@@ -155,8 +155,17 @@ export default function CompanyListingForm({ value, onChange, lang = 'en' }) {
       </Field>
 
       <Field label={th ? 'บริการเฉพาะทาง' : 'Specialties'}>
-        <ChipGroup options={SPECIALTIES} value={v.specialties} lang={lang}
-          onToggle={(val) => onChange('specialties', csvToggle(v.specialties, val))} />
+        {/* One heading per group. Unheaded, 22 chips read as a single blob
+            and companies tick the first few rather than the right ones. */}
+        {groupedSpecialties().map(g => (
+          <div key={g.value} className="mb-3 last:mb-0">
+            <div className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-gray-400">
+              {th ? g.th : g.en}
+            </div>
+            <ChipGroup options={g.options} value={v.specialties} lang={lang}
+              onToggle={(val) => onChange('specialties', csvToggle(v.specialties, val))} />
+          </div>
+        ))}
       </Field>
 
       <Field label={th ? 'ภาษาที่ให้บริการ' : 'Languages spoken'}>

@@ -26,6 +26,7 @@ import { CITY_OPTIONS, formatCity } from '@/lib/constants/cities';
 import {
   DIRECTORY_TYPES,
   SPECIALTIES,
+  groupedSpecialties,
   DIRECTORY_LANGUAGES,
   NATIONALITIES_PLACED,
   formatDirectoryType,
@@ -528,10 +529,17 @@ export default function DirectoryIndex({ initialListings = [] }) {
                     className="w-full p-2.5 rounded-lg border border-slate-300 text-sm bg-white"
                   >
                     <option value="">{t.filter_specialty}</option>
-                    {SPECIALTIES.map(o => (
-                      <option key={o.value} value={o.value}>
-                        {lang === 'th' ? o.th : o.en}
-                      </option>
+                    {/* Grouped: 22 specialties in one flat list is a wall.
+                        The groups are the question the reader actually has —
+                        household service, course, legal help or advice. */}
+                    {groupedSpecialties().map(g => (
+                      <optgroup key={g.value} label={lang === 'th' ? g.th : g.en}>
+                        {g.options.map(o => (
+                          <option key={o.value} value={o.value}>
+                            {lang === 'th' ? o.th : o.en}
+                          </option>
+                        ))}
+                      </optgroup>
                     ))}
                   </select>
                 </div>

@@ -82,6 +82,13 @@ export default async function handler(req, res) {
       query = query.or(`city.eq.${cityValid},cities_served.ilike.%${cityValid}%`);
     }
     if (typeValid)      query = query.eq('type', typeValid);
+    // ilike is a cheap pre-filter only: it matches substrings, and both of
+    // these columns hold CSVs whose values overlap. 'childcare' is a
+    // substring of 'childcare_training' and 'cooking' of 'cooking_school',
+    // so a family filtering for childcare would be shown training
+    // providers. Likewise the province 'nan' sits inside 'ao_nang'. The
+    // exact token match happens in JS below, the way the page's own filter
+    // has always done it.
     if (specialtyValid) query = query.ilike('specialties', `%${specialtyValid}%`);
 
     const { data, error } = await query;
@@ -90,7 +97,14 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to load directory' });
     }
 
+    const hasToken = (csv, token) => String(csv || '')
+      .toLowerCase().split(',').map(v => v.trim()).includes(token);
+
     const listings = (data || [])
+      .filter(row => !specialtyValid || hasToken(row.specialties, specialtyValid))
+      .filter(row => !cityValid
+        || String(row.city || '').toLowerCase() === cityValid
+        || hasToken(row.cities_served, cityValid))
       .map(toPublicListing)
       .sort((a, b) => {
         const t = (TIER_RANK[b.tier] || 0) - (TIER_RANK[a.tier] || 0);
