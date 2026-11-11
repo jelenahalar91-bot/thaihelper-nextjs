@@ -26,6 +26,10 @@ const PhotoCropModal = dynamic(() => import('@/components/PhotoCropModal'), { ss
 import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
 import PushNotificationToggle from '@/components/PushNotificationToggle';
+import PhoneVerificationCard from '@/components/PhoneVerificationCard';
+import OutcomeReasonModal, { counterpartiesForOutcome } from '@/components/OutcomeReasonModal';
+import { SEARCH_STATUS_VALUES, SEARCH_STATUS_LABELS } from '@/components/EmployerStatusPill';
+import { fetchConversations } from '@/lib/api/messages';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
 import {
   fetchEmployerProfile,
@@ -71,6 +75,12 @@ const T = {
     section_preferences: 'What you\'re looking for',
     section_job: 'Job description',
     section_settings: 'Settings',
+    section_status: 'Your hiring status',
+    status_subtitle: 'Control whether helpers can find and contact you.',
+    status_hint_searching: 'You’re visible to helpers and will get emails when matching helpers join.',
+    status_hint_paused: 'Still listed with a “not hiring now” badge, but you won’t get new-match emails. Existing chats keep working.',
+    status_hint_hidden: 'Hidden from the helper browse list. No new inquiries, no emails. Switch back any time.',
+    status_save_error: 'Could not update your status. Please try again.',
     section_notifications: 'Email notifications',
     notify_label: 'Email me when I receive a new message',
     notify_hint: 'We\'ll send a short email with the sender\'s name and a preview. You can unsubscribe from every email with one click.',
@@ -141,6 +151,12 @@ const T = {
     section_preferences: 'สิ่งที่คุณกำลังมองหา',
     section_job: 'รายละเอียดงาน',
     section_settings: 'การตั้งค่า',
+    section_status: 'สถานะการหาผู้ช่วย',
+    status_subtitle: 'กำหนดว่าผู้ช่วยจะค้นหาและติดต่อคุณได้หรือไม่',
+    status_hint_searching: 'คุณแสดงต่อผู้ช่วยและจะได้รับอีเมลเมื่อมีผู้ช่วยที่ตรงกับความต้องการสมัครเข้ามา',
+    status_hint_paused: 'ยังแสดงอยู่พร้อมป้าย “ตอนนี้ยังไม่หา” แต่จะไม่ได้รับอีเมลแจ้งผู้ช่วยใหม่ การสนทนาที่มีอยู่ยังใช้งานได้',
+    status_hint_hidden: 'ซ่อนจากรายการค้นหาของผู้ช่วย ไม่มีการติดต่อใหม่และไม่มีอีเมล เปลี่ยนกลับได้ทุกเมื่อ',
+    status_save_error: 'ไม่สามารถอัปเดตสถานะได้ กรุณาลองอีกครั้ง',
     section_notifications: 'การแจ้งเตือนทางอีเมล',
     notify_label: 'ส่งอีเมลหาฉันเมื่อได้รับข้อความใหม่',
     notify_hint: 'เราจะส่งอีเมลสั้นๆ พร้อมชื่อผู้ส่งและตัวอย่างข้อความ คุณสามารถยกเลิกการสมัครได้ด้วยคลิกเดียวในทุกอีเมล',
@@ -218,6 +234,11 @@ export default function EmployerProfile() {
   // Object URL of a freshly-picked file shown in the crop modal.
   const [cropSrc, setCropSrc] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const [searchStatusSaving, setSearchStatusSaving] = useState(false);
+  // "Why are you switching off?" — opens once a change to paused / hidden
+  // is safely saved. See components/OutcomeReasonModal.jsx.
+  const [outcomeModalOpen, setOutcomeModalOpen] = useState(false);
+  const [outcomeCounterparties, setOutcomeCounterparties] = useState([]);
   const fileInputRef = useRef(null);
 
   function buildFormFromProfile(p) {
@@ -258,6 +279,41 @@ export default function EmployerProfile() {
       preferred_language: p.preferred_language || 'en',
       notify_on_message: p.notify_on_message !== false,
     };
+  }
+
+  // Change the hiring status (searching / paused / hidden). Saves on click
+  // instead of going through the Edit/Save gate: it is a switch people come
+  // to this page to flip, and making them press Edit first would be a trap.
+  // Optimistic update with rollback, mirroring the helper availability toggle.
+  async function handleSearchStatusChange(nextValue) {
+    const current = profile?.search_status || 'searching';
+    if (current === nextValue || searchStatusSaving) return;
+    setSearchStatusSaving(true);
+    setErrorMsg('');
+    setProfile(prev => prev ? { ...prev, search_status: nextValue } : prev);
+    try {
+      await updateEmployerProfile({ search_status: nextValue });
+      // Ask why — only once the status is safely saved, so someone who just
+      // wants out is never held up by a question.
+      if (nextValue !== 'searching') {
+        // The picker lists the helpers they have been talking to. Unlike the
+        // dashboard this page holds no conversation list, so fetch one; an
+        // empty list is a state the modal already renders.
+        try {
+          const data = await fetchConversations('employer');
+          setOutcomeCounterparties(counterpartiesForOutcome(data?.conversations || []));
+        } catch (err) {
+          setOutcomeCounterparties([]);
+        }
+        setOutcomeModalOpen(true);
+      }
+    } catch (err) {
+      console.error('Failed to update search status:', err);
+      setProfile(prev => prev ? { ...prev, search_status: current } : prev);
+      setErrorMsg(t.status_save_error);
+    } finally {
+      setSearchStatusSaving(false);
+    }
   }
 
   function handleEdit() {
@@ -486,6 +542,15 @@ export default function EmployerProfile() {
         />
       )}
 
+      {outcomeModalOpen && (
+        <OutcomeReasonModal
+          role="employer"
+          lang={lang}
+          counterparties={outcomeCounterparties}
+          onClose={() => setOutcomeModalOpen(false)}
+        />
+      )}
+
       <div className={`min-h-screen bg-gray-50 ${lang === 'th' ? 'lang-th' : ''}`}>
         {/* ── NAV ───────────────────────────────────────── */}
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
@@ -599,6 +664,43 @@ export default function EmployerProfile() {
               </div>
             </div>
           </section>
+
+          {/* ── Hiring status ────────────────────────── */}
+          {/* Moved here from the dashboard, where it sat above the messages
+              on every single visit for a setting that changes a few times a
+              year. Outside the edit gate — see handleSearchStatusChange. */}
+          <Section id="status" title={t.section_status}>
+            <p className="-mt-2 mb-4 text-sm text-gray-500">{t.status_subtitle}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {SEARCH_STATUS_VALUES.map((value) => {
+                const isActive = (profile?.search_status || 'searching') === value;
+                const palette = {
+                  searching: { active: '#006a62', text: '#006a62' },
+                  paused:    { active: '#F4A261', text: '#A6612A' },
+                  hidden:    { active: '#1B3A4B', text: '#1B3A4B' },
+                }[value];
+                return (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => handleSearchStatusChange(value)}
+                    disabled={searchStatusSaving}
+                    className="px-3 py-3 rounded-xl text-[13px] font-bold leading-tight text-center transition-colors disabled:cursor-wait"
+                    style={{
+                      border: `2px solid ${isActive ? palette.active : '#E2ECF0'}`,
+                      background: isActive ? palette.active : 'white',
+                      color: isActive ? 'white' : palette.text,
+                    }}
+                  >
+                    {SEARCH_STATUS_LABELS[value][lang === 'th' ? 'th' : 'en']}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-3 text-[12.5px] leading-relaxed text-gray-500">
+              {t[`status_hint_${profile?.search_status || 'searching'}`]}
+            </p>
+          </Section>
 
           {/* ── Personal information ─────────────────── */}
           <Section title={t.section_personal}>
@@ -1054,6 +1156,28 @@ export default function EmployerProfile() {
               <PushNotificationToggle lang={lang} />
             </div>
           </Section>
+
+          {/* Verifying a phone raises this family's outreach ceiling
+              (see lib/spam-signals.js) — it is not required to use the site,
+              which is why it belongs down here among the settings and not on
+              the dashboard. Hidden until SMS is configured, so nobody meets
+              a dead button. */}
+          {process.env.NEXT_PUBLIC_PHONE_VERIFICATION_ENABLED === 'true' && (
+            <div className="mb-4">
+              <PhoneVerificationCard
+                role="employer"
+                phoneVerifiedAt={profile?.phone_verified_at}
+                phoneNumber={profile?.phone_number}
+                phoneCountryCode={profile?.phone_country_code}
+                lineLinkedAt={profile?.line_linked_at}
+                lang={lang}
+                onVerified={async () => {
+                  const r = await fetchEmployerProfile();
+                  if (r?.success) setProfile(r.profile);
+                }}
+              />
+            </div>
+          )}
 
 
           {/* Save / Cancel — only in edit mode. View mode uses the top-of-page

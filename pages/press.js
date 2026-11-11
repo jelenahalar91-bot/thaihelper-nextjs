@@ -85,8 +85,8 @@ const T = {
 
     angles_title: 'Stories we can help with',
     angles_sub: 'Happy to provide data, context or an interview on any of these. Exclusives are possible — just say so.',
-    ang1_h: 'What household help actually costs in Thailand',
-    ang1_p: 'We hold salary expectations across every verified profile, broken down by city, role, experience and nationality. We will prepare a custom analysis with charts for you, free of charge.',
+    ang1_h: 'What household help asks for, by the hour',
+    ang1_p: 'Most verified helpers name an hourly rate band when they register; about a third prefer to negotiate. We can break that down by city, role, experience and nationality, and prepare the charts for you free of charge. These are asking rates, not agreed wages — we hold no record of what anyone was actually paid, and we will say so in any figure we give you.',
     ang2_h: 'Who may legally work in a Thai household — and who may not',
     ang2_p: 'In practice only a narrow set of nationalities has a legal route into private households, and driving is closed to foreign nationals altogether. Many families only discover this after hiring. We have the figures on how widespread the misunderstanding is.',
     ang3_h: 'The scams targeting domestic workers',
@@ -206,8 +206,8 @@ const T = {
 
     angles_title: 'ประเด็นข่าวที่เราช่วยได้',
     angles_sub: 'เรายินดีให้ข้อมูล บริบท หรือให้สัมภาษณ์ในทุกประเด็นเหล่านี้ และสามารถให้สิทธิ์เผยแพร่ก่อนใครได้ เพียงแจ้งความประสงค์',
-    ang1_h: 'ค่าจ้างพนักงานในบ้านในประเทศไทยอยู่ที่เท่าไรจริงๆ',
-    ang1_p: 'เรามีข้อมูลค่าจ้างที่คาดหวังจากทุกโปรไฟล์ที่ยืนยันแล้ว แยกตามจังหวัด ประเภทงาน ประสบการณ์ และสัญชาติ เรายินดีจัดทำบทวิเคราะห์พร้อมกราฟให้คุณโดยไม่คิดค่าใช้จ่าย',
+    ang1_h: 'ผู้ช่วยในบ้านเรียกค่าจ้างรายชั่วโมงเท่าไร',
+    ang1_p: 'ผู้ช่วยที่ยืนยันแล้วส่วนใหญ่ระบุช่วงค่าจ้างรายชั่วโมงตอนสมัคร ประมาณหนึ่งในสามเลือกให้ตกลงกันภายหลัง เราแยกข้อมูลตามจังหวัด ประเภทงาน ประสบการณ์ และสัญชาติ พร้อมจัดทำกราฟให้โดยไม่คิดค่าใช้จ่าย ทั้งนี้เป็นค่าจ้างที่ผู้ช่วยเรียก ไม่ใช่ค่าจ้างที่ตกลงกันจริง เราไม่มีบันทึกว่าใครได้รับเท่าไร และเราจะระบุข้อจำกัดนี้ทุกครั้งที่ให้ตัวเลข',
     ang2_h: 'ใครทำงานในบ้านคนไทยได้อย่างถูกกฎหมาย และใครทำไม่ได้',
     ang2_p: 'ในทางปฏิบัติมีเพียงไม่กี่สัญชาติที่มีช่องทางถูกกฎหมายในการทำงานบ้านส่วนบุคคล และงานขับรถปิดสำหรับคนต่างชาติทั้งหมด ครอบครัวจำนวนมากเพิ่งรู้เรื่องนี้หลังจ้างงานไปแล้ว เรามีตัวเลขว่าความเข้าใจผิดนี้แพร่หลายเพียงใด',
     ang3_h: 'กลโกงที่พุ่งเป้าไปที่คนทำงานบ้าน',

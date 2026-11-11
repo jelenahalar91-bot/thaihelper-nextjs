@@ -24,9 +24,8 @@ import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
 import HelperCard from '@/components/HelperCard';
-import PhoneVerificationCard from '@/components/PhoneVerificationCard';
-import { fetchEmployerProfile, updateEmployerProfile } from '@/lib/api/employer-auth-client';
-import { SEARCH_STATUS_VALUES, SEARCH_STATUS_LABELS } from '@/components/EmployerStatusPill';
+import { fetchEmployerProfile } from '@/lib/api/employer-auth-client';
+import { SEARCH_STATUS_LABELS } from '@/components/EmployerStatusPill';
 import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import {
   fetchConversations,
@@ -39,7 +38,6 @@ import {
 import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
-import OutcomeReasonModal, { counterpartiesForOutcome } from '@/components/OutcomeReasonModal';
 import { CITIES, parseAdditionalCities, toCitySlug } from '@/lib/constants/cities';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 
@@ -161,12 +159,9 @@ const T = {
     msg_verify_resent: 'Verification email sent — please check your inbox.',
     msg_verify_resend_error: 'Could not resend the email. Please try again later.',
     verify_banner: 'Please check your email and click the verification link — you need it to send messages and to log in next time.',
-    status_title: 'Your hiring status',
-    status_subtitle: 'Control whether helpers can find and contact you.',
     status_hint_searching: 'You’re visible to helpers and will get emails when matching helpers join.',
     status_hint_paused: 'Still listed with a “not hiring now” badge, but you won’t get new-match emails. Existing chats keep working.',
     status_hint_hidden: 'Hidden from the helper browse list. No new inquiries, no emails. Switch back any time.',
-    status_save_error: 'Could not update your status. Please try again.',
   },
   th: {
     page_title: 'แดชบอร์ดนายจ้าง – ThaiHelper',
@@ -282,12 +277,9 @@ const T = {
     msg_verify_resent: 'ส่งอีเมลยืนยันแล้ว กรุณาตรวจสอบกล่องจดหมายของคุณ',
     msg_verify_resend_error: 'ส่งอีเมลไม่สำเร็จ กรุณาลองอีกครั้งภายหลัง',
     verify_banner: 'กรุณาตรวจสอบอีเมลและคลิกลิงก์ยืนยัน — จำเป็นสำหรับการส่งข้อความและการเข้าสู่ระบบครั้งถัดไป',
-    status_title: 'สถานะการหาผู้ช่วย',
-    status_subtitle: 'กำหนดว่าผู้ช่วยจะค้นหาและติดต่อคุณได้หรือไม่',
     status_hint_searching: 'คุณแสดงต่อผู้ช่วยและจะได้รับอีเมลเมื่อมีผู้ช่วยที่ตรงกับความต้องการสมัครเข้ามา',
     status_hint_paused: 'ยังแสดงอยู่พร้อมป้าย “ตอนนี้ยังไม่หา” แต่จะไม่ได้รับอีเมลแจ้งผู้ช่วยใหม่ การสนทนาที่มีอยู่ยังใช้งานได้',
     status_hint_hidden: 'ซ่อนจากรายการค้นหาของผู้ช่วย ไม่มีการติดต่อใหม่และไม่มีอีเมล เปลี่ยนกลับได้ทุกเมื่อ',
-    status_save_error: 'ไม่สามารถอัปเดตสถานะได้ กรุณาลองอีกครั้ง',
   },
 };
 
@@ -353,7 +345,6 @@ export default function EmployerDashboard() {
 
   // ── Auth + profile state ──────────────────────────────────────────────
   const [profile, setProfile] = useState(null);
-  const [searchStatusSaving, setSearchStatusSaving] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
 
   // ── Responsive breakpoint ─────────────────────────────────────────────
@@ -402,9 +393,6 @@ export default function EmployerDashboard() {
   // conversation pane — see ConversationDetail.
   const [sendError, setSendError] = useState('');
   const [viewingHelper, setViewingHelper] = useState(null); // helper obj shown in profile modal
-  // "Why are you switching off?" — opens after a status change to paused /
-  // hidden is saved. See components/OutcomeReasonModal.jsx.
-  const [outcomeModalOpen, setOutcomeModalOpen] = useState(false);
   const [resendingVerify, setResendingVerify] = useState(false);
   const [resendVerifyResult, setResendVerifyResult] = useState(null); // 'sent' | 'error' | null
 
@@ -443,28 +431,6 @@ export default function EmployerDashboard() {
       setFavorites(new Set(data.favorites || []));
     } catch (err) {
       console.error('Failed to load favorites:', err);
-    }
-  }
-
-  // Change the employer's hiring status (searching / paused / hidden).
-  // Optimistic update with rollback, mirroring the helper availability
-  // toggle on the helper dashboard.
-  async function handleSearchStatusChange(nextValue) {
-    const current = profile?.search_status || 'searching';
-    if (current === nextValue || searchStatusSaving) return;
-    setSearchStatusSaving(true);
-    setProfile(prev => prev ? { ...prev, search_status: nextValue } : prev);
-    try {
-      await updateEmployerProfile({ search_status: nextValue });
-      // Ask why — only once the status is safely saved, so someone who just
-      // wants out is never held up by a question.
-      if (nextValue !== 'searching') setOutcomeModalOpen(true);
-    } catch (err) {
-      console.error('Failed to update search status:', err);
-      setProfile(prev => prev ? { ...prev, search_status: current } : prev);
-      setErrorBanner(t.status_save_error || 'Could not update your status. Please try again.');
-    } finally {
-      setSearchStatusSaving(false);
     }
   }
 
@@ -1086,74 +1052,28 @@ export default function EmployerDashboard() {
             </div>
           )}
 
-          {/* ── Hiring-status quick toggle ──────────────── */}
-          <div style={{ marginBottom: '16px', background: 'white', borderRadius: '16px', border: '1px solid #E2ECF0', padding: isMobile ? '16px' : '20px' }}>
-            <div style={{ marginBottom: '12px' }}>
-              <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', color: '#1B3A4B', marginBottom: '4px' }}>
-                {t.status_title}
-              </div>
-              <div style={{ fontSize: '13px', color: '#6B8999' }}>
-                {t.status_subtitle}
-              </div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-              {SEARCH_STATUS_VALUES.map((s) => {
-                const isActive = (profile?.search_status || 'searching') === s;
-                const palette = {
-                  searching: { active: '#006a62', text: '#006a62', soft: 'rgba(0,106,98,0.08)' },
-                  paused:    { active: '#F4A261', text: '#A6612A', soft: 'rgba(244,162,97,0.12)' },
-                  hidden:    { active: '#1B3A4B', text: '#1B3A4B', soft: 'rgba(27,58,75,0.08)' },
-                }[s];
-                return (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => handleSearchStatusChange(s)}
-                    disabled={searchStatusSaving}
-                    style={{
-                      padding: isMobile ? '10px 8px' : '12px 14px',
-                      borderRadius: '12px',
-                      border: `2px solid ${isActive ? palette.active : '#E2ECF0'}`,
-                      background: isActive ? palette.active : 'white',
-                      color: isActive ? 'white' : palette.text,
-                      fontWeight: 700,
-                      fontSize: isMobile ? '12px' : '13px',
-                      cursor: searchStatusSaving ? 'wait' : 'pointer',
-                      transition: 'all 0.15s',
-                      fontFamily: 'inherit',
-                      textAlign: 'center',
-                      lineHeight: 1.25,
-                    }}
-                    onMouseEnter={(e) => { if (!isActive && !searchStatusSaving) e.currentTarget.style.background = palette.soft; }}
-                    onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = 'white'; }}
-                  >
-                    {SEARCH_STATUS_LABELS[s][lang === 'th' ? 'th' : 'en']}
-                  </button>
-                );
-              })}
-            </div>
-            {/* One-line hint describing what the active status does. */}
-            <div style={{ marginTop: '10px', fontSize: '12.5px', color: '#6B8999', lineHeight: 1.5 }}>
-              {t[`status_hint_${profile?.search_status || 'searching'}`]}
-            </div>
-          </div>
-
-          {/* Verifying a phone raises this family's outreach ceiling
-              (see lib/spam-signals.js) — it is not required to use the site.
-              Hidden until SMS is configured, so nobody meets a dead button. */}
-          {process.env.NEXT_PUBLIC_PHONE_VERIFICATION_ENABLED === 'true' && (
-          <PhoneVerificationCard
-            role="employer"
-            phoneVerifiedAt={profile?.phone_verified_at}
-            phoneNumber={profile?.phone_number}
-            phoneCountryCode={profile?.phone_country_code}
-            lineLinkedAt={profile?.line_linked_at}
-            lang={lang}
-            onVerified={async () => {
-              const r = await fetchEmployerProfile();
-              if (r?.success) setProfile(r.profile);
-            }}
-          />
+          {/* Hiring status and phone verification now live on the profile
+              page. Both are set-once settings that were taking up the top of
+              the dashboard on every single visit. What stays here is a one-
+              line warning for the two states that make this family invisible
+              to helpers — too costly to forget about silently. */}
+          {profile?.search_status && profile.search_status !== 'searching' && (
+            <a
+              href="/employer-profile#status"
+              style={{
+                display: 'flex', gap: '8px', alignItems: 'baseline', flexWrap: 'wrap',
+                background: '#FDF6EC', border: '1px solid #F0D9B5', borderRadius: '12px',
+                padding: '10px 14px', marginBottom: '16px', textDecoration: 'none',
+                fontSize: '13px', lineHeight: 1.5,
+              }}
+            >
+              <strong style={{ color: '#A6612A', fontWeight: 700 }}>
+                {SEARCH_STATUS_LABELS[profile.search_status]?.[lang === 'th' ? 'th' : 'en']}
+              </strong>
+              <span style={{ color: '#6B8999' }}>
+                {t[`status_hint_${profile.search_status}`]}
+              </span>
+            </a>
           )}
 
           {/* ── Error banner ───────────────────────────── */}
@@ -1318,15 +1238,6 @@ export default function EmployerDashboard() {
             onClose={() => setViewingHelper(null)}
             t={t}
             lang={lang}
-          />
-        )}
-
-        {outcomeModalOpen && (
-          <OutcomeReasonModal
-            role="employer"
-            lang={lang}
-            counterparties={counterpartiesForOutcome(conversations)}
-            onClose={() => setOutcomeModalOpen(false)}
           />
         )}
       </div>
