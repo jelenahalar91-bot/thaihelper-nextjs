@@ -13,6 +13,7 @@ import { verifyInviteToken } from '@/lib/company-invite';
 import { createToken, setSessionCookie } from '@/lib/auth';
 import { DIRECTORY_TYPE_VALUES } from '@/lib/constants/directory';
 import { sanitizeListingInput, toEditableListing, slugifyName } from '@/lib/company-listing';
+import { findClaimableListings, pickClaimTarget, fillBlanks } from '@/lib/listing-claim';
 
 const MIN_PASSWORD = 8;
 
@@ -40,6 +41,20 @@ async function uniqueSlug(supabase, name, accountId) {
   return `${base}-${String(accountId).slice(0, 6)}`;
 }
 
+// The entry this account writes to: the one it already owns, else an unowned
+// one its confirmed mailbox proves is theirs (see lib/listing-claim.js), else
+// none — and a new row is created.
+async function resolveListing(supabase, account) {
+  const { data: owned } = await supabase
+    .from('directory_listings')
+    .select('*')
+    .eq('owner_account_id', account.id)
+    .limit(1);
+  if (owned?.[0]) return owned[0];
+  const claimable = await findClaimableListings(supabase, account);
+  return pickClaimTarget(claimable, account.listing_draft?.city);
+}
+
 export default async function handler(req, res) {
   // GET — resolve the invite token to prefill the onboarding form.
   if (req.method === 'GET') {
@@ -48,20 +63,29 @@ export default async function handler(req, res) {
     const supabase = getServiceSupabase();
     const { data: account } = await supabase
       .from('company_accounts')
-      .select('company_name, email, contact_name, phone, type, status, listing_draft')
+      .select('id, company_name, email, contact_name, phone, type, status, listing_draft')
       .eq('id', payload.id)
       .single();
     if (!account) return res.status(404).json({ error: 'Account not found.' });
     // Hand back the application as a ready-to-edit listing. The company
     // already typed its city, description and links into /partners; making
     // them type the lot again is the surest way to lose them at this step.
+    // If they are taking over an entry we wrote, show what it already says
+    // wherever their application was silent, so they correct it rather than
+    // start from an empty form.
+    const existing = await resolveListing(supabase, account);
+    const blank = Object.fromEntries(Object.keys(sanitizeListingInput({})).map((k) => [k, '']));
+    const prefill = fillBlanks(blank, account.listing_draft || {}, existing);
+    if (existing?.logo_url) prefill.logo_url = existing.logo_url;
+    const { id: _id, slug: _slug, status: _status, ...listing } = toEditableListing(prefill);
     return res.status(200).json({
       companyName: account.company_name,
       email: account.email,
       contactName: account.contact_name || '',
       phone: account.phone || '',
       type: account.type || '',
-      listing: toEditableListing(account.listing_draft || {}),
+      listing,
+      claimsListing: existing && !existing.owner_account_id ? existing.slug : null,
       alreadyActive: account.status === 'active',
     });
   }
@@ -90,34 +114,31 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: 'This application has not been approved yet.' });
   }
 
-  // Build the listing payload, falling back to the application draft for
-  // anything the company left blank here — those answers were already vetted
-  // at the approval step, so an empty field on this form means "unchanged",
-  // not "delete what you know about us".
+  // Build the listing payload, falling back to the application draft — and,
+  // when this company is taking over an entry we wrote, to that entry — for
+  // anything left blank here. Those answers were already vetted at the
+  // approval step, so an empty field on this form means "unchanged", not
+  // "delete what you know about us".
   const draft = account.listing_draft || {};
-  const fields = sanitizeListingInput(req.body);
-  for (const key of Object.keys(fields)) {
-    if (!fields[key] && draft[key]) fields[key] = draft[key];
-  }
+  const target = await resolveListing(supabase, account);
+  const fields = fillBlanks(sanitizeListingInput(req.body), draft, target);
   // `type` never arrives empty — sanitizeListingInput defaults it — so an
   // explicit check is the only way to keep the applicant's own answer.
-  if (!DIRECTORY_TYPE_VALUES.includes(req.body?.type) && draft.type) fields.type = draft.type;
+  if (!DIRECTORY_TYPE_VALUES.includes(req.body?.type)) {
+    fields.type = draft.type || target?.type || fields.type;
+  }
   if (!fields.name) fields.name = account.company_name;
   if (!fields.email) fields.email = account.email;
 
   const passwordHash = await bcrypt.hash(String(password), 10);
 
   try {
-    const slug = await uniqueSlug(supabase, fields.name, account.id);
+    // A taken-over entry keeps its address: /directory/<slug> is what we
+    // sent the company, what Google has indexed and what families have saved.
+    const slug = target?.slug || await uniqueSlug(supabase, fields.name, account.id);
 
-    // Upsert the owned listing. Live immediately — the admin already vetted
-    // the company at the approval step.
-    const { data: existing } = await supabase
-      .from('directory_listings')
-      .select('id')
-      .eq('owner_account_id', account.id)
-      .maybeSingle();
-
+    // Live immediately — the admin already vetted the company at the
+    // approval step.
     const listingRow = {
       ...fields,
       slug,
@@ -125,13 +146,17 @@ export default async function handler(req, res) {
       status: 'active',
       updated_at: new Date().toISOString(),
     };
+    // The price-page link is asked for on /partners but is not a field of the
+    // listing form, so it has to be carried across here or it is lost.
+    if (draft.pricing_url) listingRow.pricing_url = draft.pricing_url;
 
-    if (existing) {
-      const { error } = await supabase
-        .from('directory_listings')
-        .update(listingRow)
-        .eq('id', existing.id);
+    if (target) {
+      let q = supabase.from('directory_listings').update(listingRow).eq('id', target.id);
+      // Claiming: only if nobody took it in the meantime.
+      q = target.owner_account_id ? q.eq('owner_account_id', account.id) : q.is('owner_account_id', null);
+      const { data: written, error } = await q.select('id');
       if (error) throw error;
+      if (!written?.length) throw new Error(`listing ${target.slug} changed owner during onboarding`);
     } else {
       const { error } = await supabase
         .from('directory_listings')
