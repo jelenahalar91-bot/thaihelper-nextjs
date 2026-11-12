@@ -181,11 +181,11 @@ export default function MessageBubble({ message, isOwn, t, onUpgrade }) {
           lineHeight: 1.5,
         }}>
           <strong style={{ color: '#8a4b12' }}>
-            {t?.msg_offplatform_title || 'You are about to leave ThaiHelper'}
+            {t?.msg_offplatform_title || 'Keep the job details in this chat'}
           </strong>
           <br />
           {t?.msg_offplatform_body
-            || 'We cannot see or check what happens outside the app, and this is how scams start. Please keep job offers and job requests here in the chat.'}
+            || 'Swapping phone numbers is allowed. But what you agree somewhere else leaves no record here, so neither of you can show later what was promised — and we cannot help if something goes wrong. Keep offers, rates and dates in the chat.'}
         </div>
       )}
     </div>
