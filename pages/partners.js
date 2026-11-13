@@ -52,6 +52,9 @@ const T = {
     label_license: 'Thai company registration or licence number',
     label_languages: 'Languages you speak',
     label_nationalities: 'Nationalities you place',
+    other: 'Other',
+    ph_languages_other: 'e.g. French, Korean',
+    ph_nationalities_other: 'e.g. Laotian, Nepali',
     label_pricing: 'Link to your prices',
     label_confirm: 'My company operates inside Thailand and serves customers there.',
 
@@ -145,6 +148,9 @@ const T = {
     label_license: 'เลขทะเบียนนิติบุคคล หรือ เลขใบอนุญาต',
     label_languages: 'ภาษาที่ใช้ได้',
     label_nationalities: 'สัญชาติที่จัดหา',
+    other: 'อื่นๆ',
+    ph_languages_other: 'เช่น ฝรั่งเศส, เกาหลี',
+    ph_nationalities_other: 'เช่น ลาว, เนปาล',
     label_pricing: 'ลิงก์ราคา',
     label_confirm: 'บริษัทของเราดำเนินงานในประเทศไทยและให้บริการลูกค้าที่นั่น',
 
@@ -216,6 +222,7 @@ const EMPTY = {
   website: '', googleMapsUrl: '',
   description: '', licenseNumber: '',
   languagesSpoken: [], nationalitiesPlaced: [], pricingUrl: '',
+  languagesOther: '', nationalitiesOther: '',
   operatesInThailand: false,
   faxNumber: '', // honeypot — hidden from humans, see the field below
 };
@@ -232,6 +239,12 @@ export default function Partners() {
   const [turnstileToken, setTurnstileToken] = useState('');
 
   const set = (field, value) => setForm((f) => ({ ...f, [field]: value }));
+  // "Other" chips: open one line of free text; closing it clears the text.
+  const [otherOpen, setOtherOpen] = useState({ languages: false, nationalities: false });
+  const toggleOther = (key, field) => {
+    if (otherOpen[key]) set(field, '');
+    setOtherOpen((o) => ({ ...o, [key]: !o[key] }));
+  };
 
   const toggle = (field, value, max) => setForm((f) => {
     const list = f[field];
@@ -469,7 +482,16 @@ export default function Partners() {
                             {n.flag} {n[lang] || n.en}
                           </button>
                         ))}
+                        <button type="button" className={chip(otherOpen.nationalities)} aria-expanded={otherOpen.nationalities}
+                          onClick={() => toggleOther('nationalities', 'nationalitiesOther')}>
+                          {t.other}
+                        </button>
                       </div>
+                      {otherOpen.nationalities && (
+                        <input className={`${inputCls} mt-2`} value={form.nationalitiesOther} maxLength={120} autoFocus
+                          aria-label={`${t.label_nationalities} — ${t.other}`}
+                          onChange={(e) => set('nationalitiesOther', e.target.value)} placeholder={t.ph_nationalities_other} />
+                      )}
                     </div>
                   )}
 
@@ -523,7 +545,16 @@ export default function Partners() {
                           {l[lang] || l.en}
                         </button>
                       ))}
+                      <button type="button" className={chip(otherOpen.languages)} aria-expanded={otherOpen.languages}
+                        onClick={() => toggleOther('languages', 'languagesOther')}>
+                        {t.other}
+                      </button>
                     </div>
+                    {otherOpen.languages && (
+                      <input className={`${inputCls} mt-2`} value={form.languagesOther} maxLength={120} autoFocus
+                        aria-label={`${t.label_languages} — ${t.other}`}
+                        onChange={(e) => set('languagesOther', e.target.value)} placeholder={t.ph_languages_other} />
+                    )}
                   </div>
 
                   {/* ———— Proof ———— */}

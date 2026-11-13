@@ -10,7 +10,8 @@ const EMPTY = {
   name: '', nameTh: '', type: '', city: '', citiesServed: '', address: '',
   phone: '', whatsapp: '', lineId: '', email: '', website: '', googleMapsUrl: '',
   openingHours: '', licenseNumber: '', description: '', descriptionTh: '',
-  specialties: '', languagesSpoken: '', nationalitiesPlaced: '',
+  specialties: '', languagesSpoken: '', languagesOther: '',
+  nationalitiesPlaced: '', nationalitiesOther: '',
 };
 
 export default function BusinessOnboarding() {

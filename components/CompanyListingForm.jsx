@@ -5,6 +5,7 @@
 // and gets updates via onChange(field, newValue). CSV fields (specialties,
 // languages, nationalities) are stored as comma strings; the chips toggle them.
 
+import { useState, useEffect } from 'react';
 import {
   DIRECTORY_TYPES,
   groupedSpecialties,
@@ -42,8 +43,17 @@ function Field({ label, hint, children }) {
   );
 }
 
-function ChipGroup({ options, value, onToggle, lang }) {
+// `other` adds an "Other" chip that opens one line of free text — the chips
+// are the part families filter on, but a company that also speaks French or
+// places Nepali staff had nowhere to say so.
+function ChipGroup({ options, value, onToggle, lang, other }) {
+  const [otherOpen, setOtherOpen] = useState(Boolean(other?.value));
+  // The listing arrives after the first render on the onboarding page.
+  useEffect(() => { if (other?.value) setOtherOpen(true); }, [other?.value]);
+  const th = lang === 'th';
+
   return (
+    <>
     <div className="flex flex-wrap gap-2">
       {options.map(opt => {
         const on = csvHas(value, opt.value);
@@ -63,7 +73,38 @@ function ChipGroup({ options, value, onToggle, lang }) {
           </button>
         );
       })}
+      {other && (
+        <button
+          type="button"
+          aria-expanded={otherOpen}
+          onClick={() => {
+            // Closing it is how you take the entry back, so it clears the text.
+            if (otherOpen) other.onChange('');
+            setOtherOpen(!otherOpen);
+          }}
+          className={
+            'rounded-full border px-3 py-1.5 text-sm transition ' +
+            (otherOpen
+              ? 'border-primary bg-primary/10 text-primary font-semibold'
+              : 'border-gray-300 bg-white text-gray-600')
+          }
+        >
+          {th ? 'อื่นๆ' : 'Other'}
+        </button>
+      )}
     </div>
+    {other && otherOpen && (
+      <input
+        className={inputCls + ' mt-2'}
+        value={other.value || ''}
+        onChange={(e) => other.onChange(e.target.value)}
+        maxLength={120}
+        placeholder={other.placeholder}
+        aria-label={other.label}
+        autoFocus={!other.value}
+      />
+    )}
+    </>
   );
 }
 
@@ -170,12 +211,24 @@ export default function CompanyListingForm({ value, onChange, lang = 'en' }) {
 
       <Field label={th ? 'ภาษาที่ให้บริการ' : 'Languages spoken'}>
         <ChipGroup options={DIRECTORY_LANGUAGES} value={v.languagesSpoken} lang={lang}
-          onToggle={(val) => onChange('languagesSpoken', csvToggle(v.languagesSpoken, val))} />
+          onToggle={(val) => onChange('languagesSpoken', csvToggle(v.languagesSpoken, val))}
+          other={{
+            value: v.languagesOther,
+            onChange: (val) => onChange('languagesOther', val),
+            label: th ? 'ภาษาอื่นๆ' : 'Other languages',
+            placeholder: th ? 'เช่น ฝรั่งเศส, เกาหลี' : 'e.g. French, Korean',
+          }} />
       </Field>
 
       <Field label={th ? 'สัญชาติของพนักงานที่จัดหา' : 'Nationalities placed'}>
         <ChipGroup options={NATIONALITIES_PLACED} value={v.nationalitiesPlaced} lang={lang}
-          onToggle={(val) => onChange('nationalitiesPlaced', csvToggle(v.nationalitiesPlaced, val))} />
+          onToggle={(val) => onChange('nationalitiesPlaced', csvToggle(v.nationalitiesPlaced, val))}
+          other={{
+            value: v.nationalitiesOther,
+            onChange: (val) => onChange('nationalitiesOther', val),
+            label: th ? 'สัญชาติอื่นๆ' : 'Other nationalities',
+            placeholder: th ? 'เช่น ลาว, เนปาล' : 'e.g. Laotian, Nepali',
+          }} />
       </Field>
     </div>
   );

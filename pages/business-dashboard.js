@@ -6,6 +6,16 @@ import BrandWordmark from '@/components/BrandWordmark';
 import { useLang } from './_app';
 import CompanyListingForm from '@/components/CompanyListingForm';
 
+// Order the channels appear in under the two totals.
+const CHANNELS = [
+  { key: 'website',  en: 'Website',  th: 'เว็บไซต์' },
+  { key: 'phone',    en: 'Phone',    th: 'โทรศัพท์' },
+  { key: 'whatsapp', en: 'WhatsApp', th: 'WhatsApp' },
+  { key: 'line',     en: 'LINE',     th: 'LINE' },
+  { key: 'email',    en: 'Email',    th: 'อีเมล' },
+  { key: 'maps',     en: 'Map',      th: 'แผนที่' },
+];
+
 export default function BusinessDashboard() {
   const router = useRouter();
   const { lang } = useLang();
@@ -14,6 +24,7 @@ export default function BusinessDashboard() {
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState(null);
   const [listing, setListing] = useState(null);
+  const [stats, setStats] = useState(null);
   const [logoUrl, setLogoUrl] = useState('');
   const [saving, setSaving] = useState(false);
   const [savedAt, setSavedAt] = useState(false);
@@ -28,6 +39,7 @@ export default function BusinessDashboard() {
         const d = await r.json();
         setAccount(d.account);
         setListing(d.listing || {});
+        setStats(d.stats || null);
         setLogoUrl(d.listing?.logoUrl || '');
       } catch {
         setError('Could not load your listing.');
@@ -114,6 +126,36 @@ export default function BusinessDashboard() {
                   </label>
                 </div>
               </div>
+
+              {stats && (
+                <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-5">
+                  <h2 className="text-sm font-bold text-navy">{th ? 'สถิติรายชื่อของคุณ' : 'How your listing is doing'}</h2>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div className="rounded-xl bg-gray-50 p-4">
+                      <div className="text-2xl font-extrabold text-navy">{stats.views}</div>
+                      <div className="text-xs font-semibold text-gray-500">{th ? 'จำนวนครั้งที่เปิดดูหน้าของคุณ' : 'Times your page was opened'}</div>
+                    </div>
+                    <div className="rounded-xl bg-gray-50 p-4">
+                      <div className="text-2xl font-extrabold text-primary">{stats.contacts}</div>
+                      <div className="text-xs font-semibold text-gray-500">{th ? 'จำนวนคลิกช่องทางติดต่อ' : 'Clicks on your contact details'}</div>
+                    </div>
+                  </div>
+                  {stats.contacts > 0 && (
+                    <p className="mt-3 text-sm text-gray-600">
+                      {CHANNELS.filter(c => stats.byChannel?.[c.key]).map(c => `${th ? c.th : c.en} ${stats.byChannel[c.key]}`).join(' · ')}
+                    </p>
+                  )}
+                  <p className="mt-3 text-xs leading-relaxed text-gray-400">
+                    {stats.views === 0 && stats.contacts === 0
+                      ? (th
+                        ? 'ยังไม่มีการเข้าชม ตัวเลขจะแสดงที่นี่เมื่อมีครอบครัวเปิดดูหน้าของคุณ'
+                        : 'No visits counted yet. Numbers show up here as families find your page.')
+                      : (th
+                        ? 'ผู้เข้าชมไม่จำเป็นต้องเข้าสู่ระบบ เราจึงนับจำนวนครั้งได้ แต่ไม่สามารถบอกได้ว่าเป็นใคร จำนวนคลิกรวมการกดจากการ์ดของคุณในหน้ารายชื่อด้วย'
+                        : 'Families browse without logging in, so we can count visits but cannot show who they were. Clicks include taps on your card in the directory list.')}
+                  </p>
+                </div>
+              )}
 
               <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
                 <CompanyListingForm value={listing} onChange={onField} lang={lang} />

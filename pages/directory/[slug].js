@@ -201,7 +201,9 @@ function toPublicListing(row) {
     descriptionTh: row.description_th || '',
     specialties: row.specialties || '',
     languagesSpoken: row.languages_spoken || '',
+    languagesOther: row.languages_other || '',
     nationalitiesPlaced: row.nationalities_placed || '',
+    nationalitiesOther: row.nationalities_other || '',
     licenseNumber: row.license_number || '',
     openingHours: row.opening_hours || '',
     logoUrl: row.logo_url || '',
@@ -287,6 +289,9 @@ export async function getStaticProps({ params }) {
 // 'email' is the agency-suggestion mail (lib/emails/agency-suggestions.js) —
 // the clicks we will one day quote back to the agency that got them.
 const VALID_SOURCES = ['wizard', 'direct', 'hire_page', 'search', 'internal', 'email'];
+
+// "French, Korean" → ['French', 'Korean']
+const splitOther = (text) => String(text || '').split(',').map(s => s.trim()).filter(Boolean);
 
 function trackClick(listingId, ctaName, source) {
   fetch(`/api/directory/${listingId}/click`, {
@@ -508,12 +513,12 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                 )}
 
                 {/* How we can help — capability columns */}
-                {(listing.languagesSpoken || listing.nationalitiesPlaced || listing.specialties) && (
+                {(listing.languagesSpoken || listing.languagesOther || listing.nationalitiesPlaced || listing.nationalitiesOther || listing.specialties) && (
                   <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 md:p-6 mb-6">
                     <h2 className="text-sm font-bold text-on-surface mb-4">{t.section_help}</h2>
                     <div className="grid sm:grid-cols-3 gap-5">
 
-                      {listing.languagesSpoken && (
+                      {(listing.languagesSpoken || listing.languagesOther) && (
                         <div>
                           <div className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">{t.col_speak}</div>
                           <div className="flex flex-wrap gap-1.5">
@@ -525,11 +530,17 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                                 </span>
                               ) : null;
                             })}
+                            {/* The company's own words, beyond the fixed list. */}
+                            {splitOther(listing.languagesOther).map(label => (
+                              <span key={label} className="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold">
+                                {label}
+                              </span>
+                            ))}
                           </div>
                         </div>
                       )}
 
-                      {listing.nationalitiesPlaced && (
+                      {(listing.nationalitiesPlaced || listing.nationalitiesOther) && (
                         <div>
                           <div className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">{t.col_hire}</div>
                           <div className="flex flex-wrap gap-2">
@@ -542,6 +553,11 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                                 </span>
                               ) : null;
                             })}
+                            {splitOther(listing.nationalitiesOther).map(label => (
+                              <span key={label} className="px-2.5 py-1 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold">
+                                {label}
+                              </span>
+                            ))}
                           </div>
                         </div>
                       )}

@@ -5,7 +5,7 @@
 // or write the single listing whose owner_account_id matches its account.
 
 import { getCompanySession } from '@/lib/auth';
-import { getServiceSupabase } from '@/lib/supabase';
+import { getServiceSupabase, selectAll } from '@/lib/supabase';
 import { sanitizeListingInput, toEditableListing } from '@/lib/company-listing';
 
 async function loadAccount(supabase, session) {
@@ -15,6 +15,37 @@ async function loadAccount(supabase, session) {
     .eq('company_ref', session.ref)
     .maybeSingle();
   return data;
+}
+
+// What the listing has brought in: how often its page was opened and which
+// contact buttons were pressed. Counts only — the directory is browsed
+// without an account, so there is no "who" to show, and we would not hand a
+// family's name to a company for looking at its page anyway.
+//
+// 'details' is the click from the directory list INTO the page; that visit is
+// already a view, so it is not counted as a contact.
+const CONTACT_CHANNELS = ['website', 'phone', 'whatsapp', 'line', 'email', 'maps'];
+
+async function loadStats(supabase, listing) {
+  const byChannel = {};
+  try {
+    const { data } = await selectAll(() => supabase
+      .from('directory_click_events')
+      .select('id, cta_type')
+      .eq('listing_id', listing.id)
+      .order('id'));
+    for (const e of data || []) {
+      if (CONTACT_CHANNELS.includes(e.cta_type)) byChannel[e.cta_type] = (byChannel[e.cta_type] || 0) + 1;
+    }
+  } catch (err) {
+    // The numbers are a nicety; the dashboard must still open without them.
+    console.error('company-listing stats error', err);
+  }
+  return {
+    views: listing.view_count || 0,
+    contacts: Object.values(byChannel).reduce((a, b) => a + b, 0),
+    byChannel,
+  };
 }
 
 export default async function handler(req, res) {
@@ -37,6 +68,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       account: { ref: account.company_ref, name: account.company_name, email: account.email },
       listing: listing ? toEditableListing(listing) : null,
+      stats: listing ? await loadStats(supabase, listing) : null,
     });
   }
 

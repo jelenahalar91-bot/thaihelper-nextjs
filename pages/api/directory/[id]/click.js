@@ -5,7 +5,7 @@
 // clicks (took action) because the latter is the metric we'll quote
 // to lawyers / agencies when pitching paid tiers.
 //
-// Body: { cta: 'website' | 'phone' | 'email' | 'details' | 'maps' }
+// Body: { cta: 'website' | 'phone' | 'email' | 'whatsapp' | 'line' | 'details' | 'maps' }
 // Source is inferred from the Referer header.
 //
 // No auth — anonymous tracking. The listing id (UUID) is treated as a
@@ -15,7 +15,11 @@ import { getServiceSupabase } from '../../../../lib/supabase';
 import { checkRateLimit } from '../../../../lib/rate-limit';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const VALID_CTA = ['website', 'phone', 'email', 'details', 'maps'];
+// 'whatsapp' and 'line' were sent by the detail page from the start but were
+// missing here, so both were logged as 'website' — which made the per-channel
+// numbers a company now sees in its dashboard wrong for exactly the two
+// channels Thai businesses use most.
+const VALID_CTA = ['website', 'phone', 'email', 'details', 'maps', 'whatsapp', 'line'];
 const VALID_SOURCE = ['wizard', 'direct', 'hire_page', 'search', 'internal', 'email'];
 
 function inferSource(referer) {
