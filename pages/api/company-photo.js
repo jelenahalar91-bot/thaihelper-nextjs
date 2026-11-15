@@ -8,6 +8,7 @@ import { getServiceSupabase } from '../../lib/supabase';
 import Busboy from 'busboy';
 import { bufferMatchesMime } from '../../lib/file-magic';
 import { shrinkImage } from '../../lib/image-resize';
+import { refreshListingPages } from '../../lib/directory-revalidate';
 
 export const config = { api: { bodyParser: false } };
 
@@ -67,7 +68,7 @@ export default async function handler(req, res) {
 
   const { data: listing } = await supabase
     .from('directory_listings')
-    .select('id')
+    .select('id, slug')
     .eq('owner_account_id', account.id)
     .maybeSingle();
   if (!listing) return res.status(404).json({ error: 'No listing to attach a logo to.' });
@@ -116,6 +117,8 @@ export default async function handler(req, res) {
       console.error('Company logo DB update error:', dbError);
       return res.status(500).json({ error: 'Failed to save logo URL' });
     }
+
+    await refreshListingPages(res, listing.slug);
 
     return res.status(200).json({ url: publicUrl });
   } catch (err) {

@@ -7,6 +7,7 @@
 import { getCompanySession } from '@/lib/auth';
 import { getServiceSupabase, selectAll } from '@/lib/supabase';
 import { sanitizeListingInput, toEditableListing } from '@/lib/company-listing';
+import { refreshListingPages } from '@/lib/directory-revalidate';
 
 async function loadAccount(supabase, session) {
   const { data } = await supabase
@@ -78,7 +79,7 @@ export default async function handler(req, res) {
 
     const { data: existing } = await supabase
       .from('directory_listings')
-      .select('id')
+      .select('id, slug')
       .eq('owner_account_id', account.id)
       .maybeSingle();
 
@@ -95,6 +96,9 @@ export default async function handler(req, res) {
       console.error('company-listing update error', error);
       return res.status(500).json({ error: 'Could not save changes.' });
     }
+
+    // So "View public page" shows what was just saved.
+    await refreshListingPages(res, existing.slug);
 
     return res.status(200).json({ ok: true });
   }

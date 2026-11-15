@@ -14,6 +14,7 @@ import { createToken, setSessionCookie } from '@/lib/auth';
 import { DIRECTORY_TYPE_VALUES } from '@/lib/constants/directory';
 import { sanitizeListingInput, toEditableListing, slugifyName } from '@/lib/company-listing';
 import { findClaimableListings, pickClaimTarget, fillBlanks } from '@/lib/listing-claim';
+import { refreshListingPages } from '@/lib/directory-revalidate';
 
 const MIN_PASSWORD = 8;
 
@@ -131,11 +132,13 @@ export default async function handler(req, res) {
   if (!fields.email) fields.email = account.email;
 
   const passwordHash = await bcrypt.hash(String(password), 10);
+  let liveSlug = null;
 
   try {
     // A taken-over entry keeps its address: /directory/<slug> is what we
     // sent the company, what Google has indexed and what families have saved.
     const slug = target?.slug || await uniqueSlug(supabase, fields.name, account.id);
+    liveSlug = slug;
 
     // Live immediately — the admin already vetted the company at the
     // approval step.
@@ -179,6 +182,10 @@ export default async function handler(req, res) {
     console.error('company-onboard error', err);
     return res.status(500).json({ error: 'Could not save your listing. Please try again.' });
   }
+
+  // The entry is live now — the directory should show it, and a taken-over
+  // entry should show the company's own version, not ours.
+  await refreshListingPages(res, liveSlug);
 
   // Log them in.
   const token = await createToken({
