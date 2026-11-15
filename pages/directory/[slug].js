@@ -74,6 +74,8 @@ const T = {
     pricing_source_nodate: 'Taken from the agency’s own price page. Fees change — confirm before you sign anything, and ask whether the helper’s salary is included.',
     pricing_source_company: 'Taken from the company’s own price page on {date}. Rates change — confirm before you book, and ask whether tax and travel are included.',
     pricing_source_company_nodate: 'Taken from the company’s own price page. Rates change — confirm before you book, and ask whether tax and travel are included.',
+    pricing_source_owner: 'Entered by the agency itself, last updated {date}. Fees change — confirm before you sign anything, and ask whether the helper’s salary is included.',
+    pricing_source_owner_company: 'Entered by the company itself, last updated {date}. Rates change — confirm before you book, and ask whether tax and travel are included.',
     pricing_source_link: 'See their price page →',
     section_address: 'Address',
     section_serves: 'Cities served',
@@ -140,6 +142,8 @@ const T = {
     pricing_source_nodate: 'อ้างอิงจากหน้าราคาของเอเจนซี่ ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนเซ็นสัญญา และสอบถามว่ารวมเงินเดือนผู้ช่วยหรือไม่',
     pricing_source_company: 'อ้างอิงจากหน้าราคาของบริษัทเมื่อ {date} ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนจอง และสอบถามว่ารวมภาษีและค่าเดินทางหรือไม่',
     pricing_source_company_nodate: 'อ้างอิงจากหน้าราคาของบริษัท ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนจอง และสอบถามว่ารวมภาษีและค่าเดินทางหรือไม่',
+    pricing_source_owner: 'เอเจนซี่กรอกข้อมูลเอง อัปเดตล่าสุดเมื่อ {date} ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนเซ็นสัญญา และสอบถามว่ารวมเงินเดือนผู้ช่วยหรือไม่',
+    pricing_source_owner_company: 'บริษัทกรอกข้อมูลเอง อัปเดตล่าสุดเมื่อ {date} ราคาอาจเปลี่ยนแปลง — โปรดยืนยันก่อนจอง และสอบถามว่ารวมภาษีและค่าเดินทางหรือไม่',
     pricing_source_link: 'ดูหน้าราคาของเอเจนซี่ →',
     section_address: 'ที่อยู่',
     section_serves: 'เมืองที่ให้บริการ',
@@ -214,6 +218,9 @@ function toPublicListing(row) {
     paymentFlow: row.payment_flow || '',
     pricingUrl: row.pricing_url || '',
     pricingCheckedAt: row.pricing_checked_at || '',
+    // True once the company typed its own prices in its dashboard; until
+    // then the table is our copy of its website and is labelled as such.
+    pricingByOwner: row.pricing_by_owner === true,
     pricingNote: row.pricing_note || '',
     pricingNoteTh: row.pricing_note_th || '',
   };
@@ -638,10 +645,13 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                       </p>
                     )}
                     <p className="mt-3 text-xs text-slate-500 leading-snug">
-                      {listing.pricingCheckedAt
-                        ? (isCompany ? t.pricing_source_company : t.pricing_source)
+                      {listing.pricingByOwner && listing.pricingCheckedAt
+                        ? (isCompany ? t.pricing_source_owner_company : t.pricing_source_owner)
                             .replace('{date}', formatCheckedDate(listing.pricingCheckedAt, lang))
-                        : (isCompany ? t.pricing_source_company_nodate : t.pricing_source_nodate)}
+                        : listing.pricingCheckedAt
+                          ? (isCompany ? t.pricing_source_company : t.pricing_source)
+                              .replace('{date}', formatCheckedDate(listing.pricingCheckedAt, lang))
+                          : (isCompany ? t.pricing_source_company_nodate : t.pricing_source_nodate)}
                       {listing.pricingUrl && (
                         <>
                           {' '}

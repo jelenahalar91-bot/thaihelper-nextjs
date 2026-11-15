@@ -6,7 +6,7 @@
 
 import { getCompanySession } from '@/lib/auth';
 import { getServiceSupabase, selectAll } from '@/lib/supabase';
-import { sanitizeListingInput, toEditableListing } from '@/lib/company-listing';
+import { sanitizeListingInput, toEditableListing, pricingStamp } from '@/lib/company-listing';
 import { refreshListingPages } from '@/lib/directory-revalidate';
 
 async function loadAccount(supabase, session) {
@@ -79,13 +79,21 @@ export default async function handler(req, res) {
 
     const { data: existing } = await supabase
       .from('directory_listings')
-      .select('id, slug')
+      .select('id, slug, pricing')
       .eq('owner_account_id', account.id)
       .maybeSingle();
 
     if (!existing) {
       return res.status(404).json({ error: 'No listing to update.' });
     }
+
+    // A dashboard tab left open from before the price section existed sends
+    // no price fields at all. That is silence, not "delete my prices".
+    const body = req.body || {};
+    if (!Array.isArray(body.pricing)) delete fields.pricing;
+    if (!('paymentFlow' in body) && !('payment_flow' in body)) delete fields.payment_flow;
+    if (!('pricingUrl' in body) && !('pricing_url' in body)) delete fields.pricing_url;
+    Object.assign(fields, pricingStamp(fields.pricing, existing.pricing));
 
     const { error } = await supabase
       .from('directory_listings')

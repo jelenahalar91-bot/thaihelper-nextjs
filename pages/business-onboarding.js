@@ -12,6 +12,7 @@ const EMPTY = {
   openingHours: '', licenseNumber: '', description: '', descriptionTh: '',
   specialties: '', languagesSpoken: '', languagesOther: '',
   nationalitiesPlaced: '', nationalitiesOther: '',
+  pricing: [], paymentFlow: '', pricingUrl: '',
 };
 
 export default function BusinessOnboarding() {

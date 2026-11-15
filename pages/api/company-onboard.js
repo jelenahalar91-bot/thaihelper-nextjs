@@ -12,7 +12,7 @@ import { getServiceSupabase } from '@/lib/supabase';
 import { verifyInviteToken } from '@/lib/company-invite';
 import { createToken, setSessionCookie } from '@/lib/auth';
 import { DIRECTORY_TYPE_VALUES } from '@/lib/constants/directory';
-import { sanitizeListingInput, toEditableListing, slugifyName } from '@/lib/company-listing';
+import { sanitizeListingInput, toEditableListing, slugifyName, pricingStamp } from '@/lib/company-listing';
 import { findClaimableListings, pickClaimTarget, fillBlanks } from '@/lib/listing-claim';
 import { refreshListingPages } from '@/lib/directory-revalidate';
 
@@ -149,9 +149,13 @@ export default async function handler(req, res) {
       status: 'active',
       updated_at: new Date().toISOString(),
     };
-    // The price-page link is asked for on /partners but is not a field of the
-    // listing form, so it has to be carried across here or it is lost.
-    if (draft.pricing_url) listingRow.pricing_url = draft.pricing_url;
+    // The price-page link from /partners arrives through `fields` like every
+    // other answer (form, else application, else the entry being taken over).
+    // If the company typed or changed packages here, the page says so.
+    Object.assign(listingRow, pricingStamp(
+      Array.isArray(req.body?.pricing) ? fields.pricing : null,
+      target?.pricing,
+    ));
 
     if (target) {
       let q = supabase.from('directory_listings').update(listingRow).eq('id', target.id);

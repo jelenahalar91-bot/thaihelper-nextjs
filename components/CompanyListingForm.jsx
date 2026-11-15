@@ -13,6 +13,7 @@ import {
   NATIONALITIES_PLACED,
 } from '@/lib/constants/directory';
 import { CITY_OPTIONS } from '@/lib/constants/cities';
+import CompanyPricingEditor from '@/components/CompanyPricingEditor';
 
 function csvHas(csv, v) {
   return String(csv || '').split(',').map(s => s.trim()).includes(v);
@@ -230,6 +231,8 @@ export default function CompanyListingForm({ value, onChange, lang = 'en' }) {
             placeholder: th ? 'เช่น ลาว, เนปาล' : 'e.g. Laotian, Nepali',
           }} />
       </Field>
+
+      <CompanyPricingEditor value={v} onChange={onChange} lang={lang} />
     </div>
   );
 }
