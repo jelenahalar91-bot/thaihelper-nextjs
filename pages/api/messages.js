@@ -37,7 +37,10 @@ import {
   outreachGate,
   recordOutreach,
   suspendCommand,
+  overseasPlacement,
+  placementAbroad,
 } from '../../lib/spam-signals';
+import { notifyContactedHelpers } from '../../lib/emails/suspended-contact-notice';
 import { blockedHandlesIn, linkHandles } from '../../lib/contact-blocklist';
 // Contact info in messages is still NOT blocked on content — sharing a phone
 // number or LINE ID is the point of a direct-connection platform (server-side
@@ -148,6 +151,32 @@ async function suspendForRepeatSolicitation(supabase, ref, sample) {
     })
     .eq('employer_ref', ref);
   if (error) console.error('[solicitation] suspend failed:', error.message);
+  return !error;
+}
+
+// Suspend a family offering a job in another country and asking for papers.
+//
+// The second place on this platform where a pattern decides a suspension, and
+// unlike the first (suspendForRepeatSolicitation, which needs a human warning
+// on file) this one fires on the first message. overseasPlacement() carries
+// the argument for that; the short version is that ThaiHelper is for
+// households in Thailand, no family account can lawfully place anybody
+// abroad from here, and the first letter is already the whole harm.
+async function suspendForOverseasPlacement(supabase, ref, sample, hit) {
+  const reason = `Offered a job outside Thailand (${hit.place}) and demanded identity`
+    + ` documents in the same message (${hit.documents}). The message: "${String(sample).slice(0, 180)}"`
+    + ' — suspended automatically by /api/messages, see overseasPlacement() in lib/spam-signals.js.';
+  const { error } = await supabase
+    .from('employer_accounts')
+    .update({
+      status: 'suspended',
+      status_reason: reason,
+      status_changed_at: new Date().toISOString(),
+      search_status: 'hidden',
+      notify_on_message: false,
+    })
+    .eq('employer_ref', ref);
+  if (error) console.error('[overseas] suspend failed:', error.message);
   return !error;
 }
 
@@ -332,7 +361,7 @@ export default async function handler(req, res) {
     // senderRow === null and every helper was refused with
     // 'email_not_verified'. Helper messaging was down for a morning that way.
     const senderCols = isEmployer
-      ? 'email_verified, status, phone_verified_at, created_at, warned_for'
+      ? 'email_verified, status, phone_verified_at, created_at, warned_for, first_name'
       : 'email_verified, status, phone_verified_at, created_at';
     const { data: senderRow, error: senderErr } = await supabase
       .from(senderTable)
@@ -431,6 +460,94 @@ export default async function handler(req, res) {
         }).catch((e) => console.error('Blocklist alert failed:', e.message));
       }
       return res.status(403).json({ error: 'blocked_contact' });
+    }
+
+    // Anti-trafficking: a job on the other side of the world.
+    //
+    // ThaiHelper is for household jobs in Thailand. An account offering work
+    // in another country AND demanding a passport, an ID card or a police
+    // record in the same message is suspended here and now, the message is
+    // not delivered, and every helper it has already written to is told why
+    // within the minute. See overseasPlacement() in lib/spam-signals.js for
+    // the argument for acting rather than alerting, and
+    // scripts/calibrate-overseas-placement.js for what this would have done
+    // to all 4,117 employer messages ever sent here: one account, EMP-TLZAVL,
+    // three days and eighteen women before a person caught it by hand.
+    if (isEmployer) {
+      const abroad = overseasPlacement(trimmed);
+      if (abroad) {
+        const suspended = await suspendForOverseasPlacement(supabase, session.ref, trimmed, abroad);
+        // Only write to the helpers if the suspension actually landed — a
+        // letter saying "the account has been blocked" has to be true.
+        const notice = suspended
+          ? await notifyContactedHelpers({
+            supabase,
+            employerRef: session.ref,
+            caseKey: 'AUTO-OVERSEAS',
+            label: senderRow?.first_name || session.ref,
+          })
+          : { sent: 0, failed: 0, total: 0 };
+        console.warn(`[overseas] suspended ${session.ref} (${abroad.place}), wrote to ${notice.sent} helper(s)`);
+        if (process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
+          notifyAdminOfSpamSignal({
+            subject: `\u{1F6A8} SUSPENDED: ${session.ref} offered a job in ${abroad.place}`,
+            lines: [
+              `${session.ref} offered work outside Thailand and asked for identity`,
+              `documents in the same message (place: ${abroad.place}, documents: ${abroad.documents}).`,
+              '',
+              suspended
+                ? 'The account has been SUSPENDED automatically and the message was NOT delivered.'
+                : 'THE SUSPENSION FAILED TO WRITE — the account is still active. Act by hand.',
+              notice.total
+                ? `${notice.sent} of ${notice.total} helper(s) it had already written to have been told why`
+                  + `${notice.failed ? `, ${notice.failed} mail(s) failed` : ''}.`
+                : 'It had not written to anybody else yet.',
+              '',
+              'The message:',
+              trimmed.slice(0, 400),
+              '',
+              'This rule has fired on exactly one account in the platform\'s history',
+              '(EMP-TLZAVL, 2026-11-11). If this one is a real family — a trip is not a',
+              'workplace, and the rule is built to tell them apart — undo it with:',
+              `  node scripts/suspend-account.js ${session.ref} --restore`,
+              'and the helpers will need a correction by hand.',
+            ],
+          }).catch((e) => console.error('Overseas alert failed:', e.message));
+        }
+        return res.status(403).json({ error: 'account_suspended' });
+      }
+
+      // A job abroad with no document demand only alerts. "Will u be
+      // interested to work in Sydney" (EMP-ESWAAB) looks exactly like a family
+      // asking "did you work in Hong Kong before?", and the second one must
+      // not cost anybody an account. Seven accounts in seven months.
+      const mentioned = placementAbroad(trimmed);
+      if (mentioned) {
+        const fresh = await checkRateLimit({
+          bucket: 'placement-abroad-alert',
+          key: session.ref,
+          max: 1,
+          windowMs: 24 * 60 * 60 * 1000,
+        });
+        if (fresh && process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
+          notifyAdminOfSpamSignal({
+            subject: `\u{1F30F} ${session.ref} mentioned work in ${mentioned.place}`,
+            lines: [
+              `${session.ref} wrote to a helper about work in ${mentioned.place}.`,
+              '',
+              'No documents were asked for, so nothing was blocked and the message',
+              'was delivered. Most of these are ordinary — a family that used to live',
+              'abroad, or one asking where she has worked before. The one that was',
+              'not ordinary was EMP-ESWAAB: "will u be interested to work in Sydney".',
+              '',
+              'The message:',
+              trimmed.slice(0, 400),
+              '',
+              `If it is recruitment: ${suspendCommand(session.ref)}`,
+            ],
+          }).catch((e) => console.error('Placement alert failed:', e.message));
+        }
+      }
     }
 
     // A family sending a tap-to-open contact link is, on this platform, the
@@ -825,6 +942,9 @@ export default async function handler(req, res) {
             senderName: session.firstName || 'Someone',
             senderRole: session.role,
             recipientRole,
+            // The recipient's dashboard opens the thread from the OTHER
+            // party's ref, i.e. the sender's.
+            senderRef: session.role === 'helper' ? conv.helper_ref : conv.employer_id,
             messagePreview: trimmed,
             unsubscribeUrl,
           });
