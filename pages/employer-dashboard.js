@@ -23,6 +23,7 @@ import { useLang } from './_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import EmployerProfileMenu from '@/components/EmployerProfileMenu';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
+import { JOB_TEXT_MIN_LENGTH } from '@/lib/constants/employer';
 import HelperCard from '@/components/HelperCard';
 import { fetchEmployerProfile } from '@/lib/api/employer-auth-client';
 import { SEARCH_STATUS_LABELS } from '@/components/EmployerStatusPill';
@@ -161,6 +162,8 @@ const T = {
     verify_banner: 'Please check your email and click the verification link — you need it to send messages and to log in next time.',
     status_hint_searching: 'You’re visible to helpers and will get emails when matching helpers join.',
     status_hint_paused: 'Still listed with a “not hiring now” badge, but you won’t get new-match emails. Existing chats keep working.',
+    job_missing_title: 'Your job post is empty',
+    job_missing_hint: 'Helpers see which kind of help you want, but not what the job is — no hours, no ages, no details. Add a few lines so they can tell whether to apply.',
     status_hint_hidden: 'Hidden from the helper browse list. No new inquiries, no emails. Switch back any time.',
   },
   th: {
@@ -279,6 +282,8 @@ const T = {
     verify_banner: 'กรุณาตรวจสอบอีเมลและคลิกลิงก์ยืนยัน — จำเป็นสำหรับการส่งข้อความและการเข้าสู่ระบบครั้งถัดไป',
     status_hint_searching: 'คุณแสดงต่อผู้ช่วยและจะได้รับอีเมลเมื่อมีผู้ช่วยที่ตรงกับความต้องการสมัครเข้ามา',
     status_hint_paused: 'ยังแสดงอยู่พร้อมป้าย “ตอนนี้ยังไม่หา” แต่จะไม่ได้รับอีเมลแจ้งผู้ช่วยใหม่ การสนทนาที่มีอยู่ยังใช้งานได้',
+    job_missing_title: 'ประกาศงานของคุณยังว่างอยู่',
+    job_missing_hint: 'ผู้ช่วยเห็นว่าคุณต้องการความช่วยเหลือประเภทใด แต่ไม่เห็นรายละเอียดงาน ไม่มีเวลาทำงาน ไม่มีอายุของเด็ก กรุณาเพิ่มรายละเอียดสักสองสามบรรทัด',
     status_hint_hidden: 'ซ่อนจากรายการค้นหาของผู้ช่วย ไม่มีการติดต่อใหม่และไม่มีอีเมล เปลี่ยนกลับได้ทุกเมื่อ',
   },
 };
@@ -346,6 +351,33 @@ export default function EmployerDashboard() {
   // ── Auth + profile state ──────────────────────────────────────────────
   const [profile, setProfile] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
+
+  // Whether this family's post still has no usable description. Mirrors
+  // missingJobTexts() in lib/employer-job-details.js — written out here
+  // rather than imported because that module pulls in the Translate client,
+  // which has no business in a browser bundle (same reason the minimum
+  // itself lives in lib/constants/employer.js).
+  const jobTextMissing = useMemo(() => {
+    if (!profile) return false;
+    const roles = String(profile.looking_for || '')
+      .split(',')
+      .map((r) => r.trim())
+      .filter(Boolean);
+    if (!roles.length) return false;
+
+    const bag = profile.job_details && typeof profile.job_details === 'object' && !Array.isArray(profile.job_details)
+      ? profile.job_details
+      : {};
+    const textOf = (value) => String((typeof value === 'string' ? value : value?.text) || '').trim();
+
+    // A legacy flat job_description counts as described, but only while
+    // there are no per-category texts at all — exactly what the API allows.
+    const anyDetail = Object.values(bag).some((v) => textOf(v).length > 0);
+    const flat = String(profile.job_description || '').trim();
+    if (!anyDetail && flat.length >= JOB_TEXT_MIN_LENGTH) return false;
+
+    return roles.some((cat) => textOf(bag[cat]).length < JOB_TEXT_MIN_LENGTH);
+  }, [profile]);
 
   // ── Responsive breakpoint ─────────────────────────────────────────────
   const [isMobile, setIsMobile] = useState(false);
@@ -1072,6 +1104,33 @@ export default function EmployerDashboard() {
               </strong>
               <span style={{ color: '#6B8999' }}>
                 {t[`status_hint_${profile.search_status}`]}
+              </span>
+            </a>
+          )}
+
+          {/* A post with ticked categories and no text tells a helper
+              nothing: not the hours, not the children's ages, not how big
+              the dogs are. Registration has required a description per
+              category since 2026-10-02, but 63 profiles predate that rule
+              and nothing ever told them. One line, linking straight to the
+              boxes — the same shape as the hiring-status warning above,
+              because it is the same kind of problem: invisible to the
+              family, expensive for the helper reading the post. */}
+          {jobTextMissing && (
+            <a
+              href="/employer-profile#job"
+              style={{
+                display: 'flex', gap: '8px', alignItems: 'baseline', flexWrap: 'wrap',
+                background: '#FDF6EC', border: '1px solid #F0D9B5', borderRadius: '12px',
+                padding: '10px 14px', marginBottom: '16px', textDecoration: 'none',
+                fontSize: '13px', lineHeight: 1.5,
+              }}
+            >
+              <strong style={{ color: '#A6612A', fontWeight: 700 }}>
+                {t.job_missing_title}
+              </strong>
+              <span style={{ color: '#6B8999' }}>
+                {t.job_missing_hint}
               </span>
             </a>
           )}
