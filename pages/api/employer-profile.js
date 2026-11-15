@@ -7,7 +7,7 @@ import { getServiceSupabase } from '../../lib/supabase';
 import { notifyHelpersOfNewEmployer } from '../../lib/match-notifications';
 import { translateForeignText } from '../../lib/translate';
 import { looksLikeFullAddress } from '../../lib/address-guard';
-import { buildJobDetailsPatch } from '../../lib/employer-job-details';
+import { buildJobDetailsPatch, missingJobTexts, MIN_TEXT_LENGTH } from '../../lib/employer-job-details';
 import { VALID_CITY_SLUGS, toCitySlug } from '../../lib/constants/cities';
 
 const EDITABLE_FIELDS = [
@@ -167,13 +167,56 @@ export default async function handler(req, res) {
     // the update and re-fire the match notifier (existing helpers in the
     // employer's new city / new categories should hear about them).
     let prev = null;
-    if ('city' in patch || 'looking_for' in patch) {
+    const touchesJob = 'looking_for' in patch || 'job_details' in body || 'job_description' in patch;
+    if ('city' in patch || 'looking_for' in patch || touchesJob) {
       const { data } = await supabase
         .from('employer_accounts')
-        .select('city, looking_for, first_name, email_verified')
+        .select('city, looking_for, first_name, email_verified, job_details, job_description')
         .eq('employer_ref', ref)
         .single();
       prev = data || null;
+    }
+
+    // A job post has to say what the job is. Ticked chips ("nanny",
+    // "weekdays") never tell a helper how many children there are and how
+    // old, which hours, how big the dogs — so she applies blind or skips it.
+    //
+    // Registration has required one text per selected category since
+    // 2026-10-02 and it worked: of 105 family accounts opened since, 3 are
+    // empty, and all three registered on the deploy day itself. The EDIT
+    // route never checked, so the rule only ever reached new families.
+    //
+    // It fires ONLY when the request touches the categories or their text.
+    // 63 live profiles predate the rule; a family pausing its search or
+    // changing its phone number must not be made to retype a job post
+    // first. Those are reached by the dashboard banner and by
+    // scripts/send-job-description-reminders.js, not by a blocked save of
+    // something unrelated.
+    if (touchesJob) {
+      const roles = String(patch.looking_for ?? prev?.looking_for ?? '')
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const details = 'job_details' in body ? body.job_details : prev?.job_details;
+      const missing = missingJobTexts(details, roles);
+
+      // A legacy flat job_description still counts as describing the job,
+      // but only while there are no per-category texts at all. Otherwise a
+      // family with one filled box could add a second category and let the
+      // first box's text cover for the empty one.
+      const bag = details && typeof details === 'object' && !Array.isArray(details) ? details : {};
+      const anyDetail = Object.values(bag).some((v) => {
+        const t = typeof v === 'string' ? v : v?.text;
+        return String(t || '').trim().length > 0;
+      });
+      const flat = String(patch.job_description ?? prev?.job_description ?? '').trim();
+
+      if (missing.length && !(!anyDetail && flat.length >= MIN_TEXT_LENGTH)) {
+        return res.status(400).json({
+          error: 'Please describe the job for each role you are looking for.',
+          missingJobTexts: missing,
+        });
+      }
     }
 
     const { error } = await supabase

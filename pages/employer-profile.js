@@ -38,7 +38,7 @@ import {
 } from '@/lib/api/employer-auth-client';
 import { CITY_OPTIONS, formatCity } from '@/lib/constants/cities';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
-import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
+import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES, JOB_TEXT_MIN_LENGTH } from '@/lib/constants/employer';
 
 const LOOKING_FOR_OPTIONS = [
   { value: 'nanny',       iconKey: 'baby',   en: 'Nanny & Babysitter',    th: 'พี่เลี้ยงเด็ก' },
@@ -112,8 +112,9 @@ const T = {
     label_schedule_time: 'Time of day',
     label_duration: 'How long',
     label_child_ages: 'Children\u2019s ages',
-    label_job_desc: 'About the job (optional)',
+    label_job_desc: 'About the job',
     job_hint: 'Phone numbers and emails will be hidden automatically.',
+    job_text_required: 'Please describe each job below — a sentence or two is enough.',
     job_per_cat_hint: 'You\'re looking for more than one kind of help — describe each job separately so helpers immediately see which role fits them.',
     job_no_categories: 'Select your helper types above first — you\'ll then get one description box per job.',
     job_legacy_label: 'Your previous description',
@@ -188,8 +189,9 @@ const T = {
     label_schedule_time: 'ช่วงเวลา',
     label_duration: 'ระยะเวลา',
     label_child_ages: 'ช่วงอายุของเด็ก',
-    label_job_desc: 'เกี่ยวกับงาน (ถ้ามี)',
+    label_job_desc: 'เกี่ยวกับงาน',
     job_hint: 'หมายเลขโทรศัพท์และอีเมลจะถูกซ่อนอัตโนมัติ',
+    job_text_required: 'กรุณาอธิบายแต่ละงานด้านล่าง — เพียงหนึ่งถึงสองประโยคก็เพียงพอ',
     job_per_cat_hint: 'คุณกำลังมองหาผู้ช่วยมากกว่าหนึ่งประเภท — อธิบายแต่ละงานแยกกัน เพื่อให้ผู้ช่วยเห็นทันทีว่างานไหนเหมาะกับตน',
     job_no_categories: 'กรุณาเลือกประเภทผู้ช่วยด้านบนก่อน — จากนั้นจะมีช่องอธิบายงานแยกตามแต่ละประเภท',
     job_legacy_label: 'รายละเอียดงานเดิมของคุณ',
@@ -229,6 +231,10 @@ export default function EmployerProfile() {
   const [saving, setSaving] = useState(false);
   const [savedMsg, setSavedMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  // Categories whose description box is empty or too short, so the
+  // family sees WHICH box to fill instead of one red line for the
+  // whole section. Mirrors missingJobTexts() on the server.
+  const [jobTextMissing, setJobTextMissing] = useState([]);
   const [photoUrl, setPhotoUrl] = useState('');
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   // Object URL of a freshly-picked file shown in the crop modal.
@@ -428,6 +434,24 @@ export default function EmployerProfile() {
   async function handleSave() {
     setSaving(true);
     setErrorMsg('');
+
+    // Mirrors the check in /api/employer-profile. A legacy profile that has
+    // only the old flat job_description is left alone until it touches the
+    // boxes — same rule as the server, so the two never disagree.
+    const hadPerCategory = !!(profile?.job_details && Object.keys(profile.job_details).length > 0);
+    const writingPerCategory = Object.values(form.job_details).some(v => v && v.trim());
+    const legacyFlatOnly = !hadPerCategory && !writingPerCategory
+      && String(profile?.job_description || '').trim().length >= JOB_TEXT_MIN_LENGTH;
+    const missingTexts = legacyFlatOnly ? [] : form.looking_for.filter(
+      (cat) => (form.job_details[cat] || '').trim().length < JOB_TEXT_MIN_LENGTH
+    );
+    setJobTextMissing(missingTexts);
+    if (missingTexts.length) {
+      setErrorMsg(t.job_text_required);
+      setSaving(false);
+      return;
+    }
+
     try {
       const payload = {
         ...form,
@@ -1041,7 +1065,7 @@ export default function EmployerProfile() {
               A family looking for a babysitter AND a housekeeper has two
               different jobs to offer; one shared textarea buried the
               childcare details under the household ones. */}
-          <Section title={t.section_job}>
+          <Section title={t.section_job} id="job">
             {editMode ? (
               form.looking_for.length === 0 ? (
                 <div className="text-sm text-gray-500">{t.job_no_categories}</div>
@@ -1080,7 +1104,9 @@ export default function EmployerProfile() {
                           onChange={e => update('job_details', { ...form.job_details, [opt.value]: e.target.value })}
                           rows={4}
                           placeholder={JOB_DESCRIPTION_EXAMPLES[opt.value]?.[lang] || JOB_DESCRIPTION_EXAMPLES[opt.value]?.en || ''}
-                          className={`${inputClass} resize-y font-sans`}
+                          className={`${inputClass} resize-y font-sans${
+                            jobTextMissing.includes(opt.value) ? ' border-red-400 bg-red-50' : ''
+                          }`}
                         />
                       </div>
                     ))}
