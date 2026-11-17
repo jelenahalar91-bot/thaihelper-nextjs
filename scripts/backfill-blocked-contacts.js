@@ -14,9 +14,16 @@
  * A handle must appear in 2+ of the account's conversations to be blocked;
  * see MIN_HANDLE_SPREAD in lib/contact-blocklist.js for why.
  *
+ * --include-single lifts that threshold, and therefore only ever belongs to a
+ * named account (--ref): the threshold exists because a handle seen once may
+ * be a helper's own, echoed back at her, and blocking it platform-wide would
+ * silence her everywhere. Over all suspended accounts at once that risk is
+ * unreviewable, so --include-single without --ref is refused.
+ *
  * Usage:
  *   node scripts/backfill-blocked-contacts.js --dry-run
  *   node scripts/backfill-blocked-contacts.js
+ *   node scripts/backfill-blocked-contacts.js --ref EMP-XXXXXX --include-single
  */
 const fs = require('fs');
 const path = require('path');
@@ -37,7 +44,24 @@ const supabase = createClient(
 
 const { harvestHandles } = require('../lib/contact-blocklist');
 
-const dryRun = process.argv.includes('--dry-run');
+const args = process.argv.slice(2);
+const dryRun = args.includes('--dry-run');
+const includeSingle = args.includes('--include-single');
+const onlyRef = (() => {
+  const i = args.indexOf('--ref');
+  return i >= 0 ? (args[i + 1] || '').toUpperCase() : '';
+})();
+
+if (includeSingle && !onlyRef) {
+  console.error('--include-single needs --ref EMP-XXXXXX|TH-XXXXXX: a one-conversation'
+    + ' handle may belong to the helper it was echoed at, so it is only ever blocked'
+    + ' for an account somebody has looked at.');
+  process.exit(1);
+}
+if (onlyRef && !/^(EMP|TH)-[A-Z0-9]+$/.test(onlyRef)) {
+  console.error(`Not a ref: ${onlyRef}`);
+  process.exit(1);
+}
 
 async function main() {
   const accounts = [];
@@ -55,15 +79,19 @@ async function main() {
     }
   }
 
-  if (!accounts.length) {
-    console.log('No suspended accounts.');
+  const selected = onlyRef ? accounts.filter((a) => a.ref === onlyRef) : accounts;
+
+  if (!selected.length) {
+    console.log(onlyRef
+      ? `${onlyRef} is not a suspended account — nothing to harvest.`
+      : 'No suspended accounts.');
     return;
   }
-  console.log(`${accounts.length} suspended account(s)${dryRun ? ' — dry run' : ''}:\n`);
+  console.log(`${selected.length} suspended account(s)${includeSingle ? ', single-conversation handles included' : ''}${dryRun ? ' — dry run' : ''}:\n`);
 
   let total = 0;
-  for (const { ref, reason } of accounts) {
-    const handles = await harvestHandles(supabase, ref, reason, { dryRun });
+  for (const { ref, reason } of selected) {
+    const handles = await harvestHandles(supabase, ref, reason, { dryRun, includeSingle });
     total += handles.length;
     console.log(`${ref}: ${handles.length || 'no'} handle(s)`);
     for (const h of handles) console.log(`    ${h.handle}  (${h.spread} conversations)`);
