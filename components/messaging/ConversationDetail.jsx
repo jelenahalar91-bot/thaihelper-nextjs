@@ -606,7 +606,7 @@ export default function ConversationDetail({
               </strong>
               <div style={{ margin: '4px 0 10px' }}>
                 {t.msg_offplatform_confirm_body
-                  || 'We cannot see or check what happens outside ThaiHelper, and this is how scams start. You can keep talking here instead.'}
+                  || 'That is allowed, and many people do it. Just keep the job itself — rates, dates and what you agree — in this chat, so you both have a record of it.'}
               </div>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 <button
@@ -620,7 +620,7 @@ export default function ConversationDetail({
                     cursor: sending ? 'wait' : 'pointer',
                   }}
                 >
-                  {t.msg_offplatform_confirm_send || 'Send anyway'}
+                  {t.msg_offplatform_confirm_send || 'Send'}
                 </button>
                 <button
                   type="button"
