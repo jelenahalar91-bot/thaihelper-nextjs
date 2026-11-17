@@ -72,6 +72,7 @@ import MatchPanel from '@/components/MatchPanel';
 import PushNotificationBanner from '@/components/PushNotificationBanner';
 import AndroidAppBanner from '@/components/AndroidAppBanner';
 import PhoneVerificationCard from '@/components/PhoneVerificationCard';
+import InviteFriendCard from '@/components/InviteFriendCard';
 import { readableText } from '@/lib/recent-helpers-display';
 
 const T = {
@@ -1797,6 +1798,9 @@ export default function Profile() {
                   </button>
                 </div>
               )}
+
+              {/* ─── INVITE A FRIEND ────────────────────────────────── */}
+              <InviteFriendCard inviteCode={profile?.inviteCode} lang={lang} isMobile={isMobile} />
 
               {/* ─── EMAIL NOTIFICATIONS SECTION ────────────────────── */}
               <div style={{

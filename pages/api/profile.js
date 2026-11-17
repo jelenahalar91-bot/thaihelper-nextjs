@@ -3,6 +3,7 @@
 // DELETE /api/profile — Permanently delete the helper account + data
 
 import { getSession, clearSessionCookie } from '../../lib/auth';
+import { inviteCodeFor } from '../../lib/invite-code';
 import { getServiceSupabase } from '../../lib/supabase';
 import { translateForeignText } from '../../lib/translate';
 import { getDisplayAge, validateDob } from '../../lib/age';
@@ -46,6 +47,7 @@ export const config = {
 function toFrontend(row) {
   return {
     ref: row.helper_ref,
+    inviteCode: inviteCodeFor(row.helper_ref),
     firstName: row.first_name,
     lastName: row.last_name,
     email: row.email,
