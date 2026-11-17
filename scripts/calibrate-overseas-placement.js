@@ -11,13 +11,16 @@
  * It prints three groups:
  *
  *   WOULD SUSPEND    place of work abroad AND a document demand — the rule
- *   NEAR MISS        a foreign workplace, no document demand (not acted on)
+ *   WOULD ALERT ONLY a foreign workplace, no document demand — in production
+ *                    this sends one admin mail per account per day, never a
+ *                    suspension
  *   DOCUMENTS ONLY   a document demand with no foreign workplace (the old
  *                    alert's territory — families who travel, and the ones
  *                    that are only visible at volume)
  *
- * Read the near misses: that group is where a false positive would appear
- * first if the placement half of the rule is too loose.
+ * Read the alert-only group: that is where a false positive would appear
+ * first if the placement half of the rule is too loose. Anything that moves
+ * from there into WOULD SUSPEND after a regex edit needs a reason.
  *
  *   node scripts/calibrate-overseas-placement.js
  *   node scripts/calibrate-overseas-placement.js --full   # whole messages
