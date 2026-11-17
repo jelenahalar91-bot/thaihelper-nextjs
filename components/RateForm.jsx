@@ -14,8 +14,8 @@
 import { useState } from 'react';
 import { StarRatingInput } from './StarRating';
 
-// A low review is confirmed before it is sent; 3 stars and up go straight
-// through.
+// Every review is read back before it is sent. A low one is asked about in
+// red, the rest in the ordinary teal.
 //
 // 2026-10-20: EMP-NDSUPV gave a helper 1 star with no comment, and it was her
 // only review — so for fifteen hours her entire public score was ★1.0. Asked
@@ -25,14 +25,15 @@ import { StarRatingInput } from './StarRating';
 // accident. Nothing between that tap and a public verdict read the number
 // back to him.
 //
-// The threshold is 2 and not 5 on purpose: a mis-tapped 5 is a review that
-// is slightly too kind, a mis-tapped 1 is the whole reputation of someone
-// who is trying to get hired. Families already need three messages each way
-// and a day's wait to reach this form at all (lib/rating-eligibility.js) —
-// adding a tap to every happy review would cost more reviews than it saves.
-// Same number as the admin alert in pages/api/ratings.js, for the same
-// reason.
-const CONFIRM_AT_OR_BELOW = 2;
+// Until 2026-11-17 only 1-2 stars were asked about, on the theory that a
+// mis-tapped 5 is merely a review that is slightly too kind. Then the founder
+// found her own first name and five stars on the profile of a helper she had
+// only chatted with and never hired, with no memory of sending it. A stray 5
+// is a public endorsement, under a name, of someone the family never employed
+// — the next family reads it as "she worked for Jelena". So the question is
+// now asked for every star count; what still differs is how loudly.
+// LOW_STARS is the same number as the admin alert in pages/api/ratings.js.
+const LOW_STARS = 2;
 
 export default function RateForm({ helperRef, helperName, existingRating, onSubmitted, lang }) {
   const [stars, setStars] = useState(existingRating?.stars || 0);
@@ -42,6 +43,7 @@ export default function RateForm({ helperRef, helperName, existingRating, onSubm
   const [error, setError] = useState('');
   const MAX = 400;
 
+  const low = stars <= LOW_STARS;
   const who = helperName || (lang === 'th' ? 'ผู้ช่วยคนนี้' : 'this helper');
 
   const labels = lang === 'th' ? {
@@ -80,7 +82,7 @@ export default function RateForm({ helperRef, helperName, existingRating, onSubm
 
   function onSubmitClick() {
     if (!stars) { setError(labels.pickStars); return; }
-    if (stars <= CONFIRM_AT_OR_BELOW && !confirming) {
+    if (!confirming) {
       setConfirming(true);
       setError('');
       return;
@@ -180,15 +182,16 @@ export default function RateForm({ helperRef, helperName, existingRating, onSubm
       {confirming && (
         <div style={{
           marginTop: '12px', padding: '12px 14px',
-          background: '#fef2f2', border: '1px solid #fecaca',
+          background: low ? '#fef2f2' : '#f0fdfa',
+          border: `1px solid ${low ? '#fecaca' : '#99f6e4'}`,
           borderRadius: '10px',
         }}>
           <div style={{
-            fontSize: '13px', fontWeight: 700, color: '#991b1b', marginBottom: '4px',
+            fontSize: '13px', fontWeight: 700, color: low ? '#991b1b' : '#134e4a', marginBottom: '4px',
           }}>
             {labels.confirmTitle}
           </div>
-          <p style={{ fontSize: '12px', color: '#7f1d1d', margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: '12px', color: low ? '#7f1d1d' : '#115e59', margin: 0, lineHeight: 1.5 }}>
             {labels.confirmBody}
           </p>
         </div>
@@ -224,7 +227,7 @@ export default function RateForm({ helperRef, helperName, existingRating, onSubm
             padding: '9px 18px',
             borderRadius: '10px',
             border: 'none',
-            background: confirming ? '#b91c1c' : '#006a62',
+            background: confirming && low ? '#b91c1c' : '#006a62',
             color: 'white',
             fontSize: '13px',
             fontWeight: 700,
