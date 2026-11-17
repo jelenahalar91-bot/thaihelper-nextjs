@@ -200,18 +200,30 @@ export default async function handler(req, res) {
       const details = 'job_details' in body ? body.job_details : prev?.job_details;
       const missing = missingJobTexts(details, roles);
 
-      // A legacy flat job_description still counts as describing the job,
-      // but only while there are no per-category texts at all. Otherwise a
-      // family with one filled box could add a second category and let the
-      // first box's text cover for the empty one.
+      // A flat job_description still counts as describing the job in two
+      // cases, and the difference is what the CLIENT can express.
+      //
+      // 1. The mobile app (src/app/edit-profile.tsx) has one description
+      //    field and sends { city, looking_for, job_description } — it has
+      //    no way to write a per-category text at all. Judging it by boxes
+      //    it cannot fill would mean a family who adds a category on their
+      //    phone is refused, in English, with no field to fix it in. So a
+      //    request that carries no job_details key is judged on its flat
+      //    text alone.
+      // 2. A legacy profile on the web, while it has no per-category texts
+      //    at all. The web editor always sends job_details, so once one box
+      //    is filled the strict rule applies — otherwise a family could add
+      //    a second category and let the first box's text cover for it.
+      const sendsPerCategory = 'job_details' in body;
       const bag = details && typeof details === 'object' && !Array.isArray(details) ? details : {};
       const anyDetail = Object.values(bag).some((v) => {
         const t = typeof v === 'string' ? v : v?.text;
         return String(t || '').trim().length > 0;
       });
       const flat = String(patch.job_description ?? prev?.job_description ?? '').trim();
+      const flatCounts = (!sendsPerCategory || !anyDetail) && flat.length >= MIN_TEXT_LENGTH;
 
-      if (missing.length && !(!anyDetail && flat.length >= MIN_TEXT_LENGTH)) {
+      if (missing.length && !flatCounts) {
         return res.status(400).json({
           error: 'Please describe the job for each role you are looking for.',
           missingJobTexts: missing,
