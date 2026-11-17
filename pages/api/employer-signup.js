@@ -310,6 +310,8 @@ export default async function handler(req, res) {
           employerRef: inserted.employer_ref,
           lookingFor: helperTypes,
           createdAt: inserted.created_at,
+          email: inserted.email,
+          jobDescription: hasJobDetails ? jobDetailsPatch.job_description : sanitizedJobDesc,
         }).catch((e) => {
           console.error('Resemblance check failed:', e.message);
           return [];
