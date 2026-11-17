@@ -825,6 +825,9 @@ export default async function handler(req, res) {
             senderName: session.firstName || 'Someone',
             senderRole: session.role,
             recipientRole,
+            // The recipient's dashboard opens the thread from the OTHER
+            // party's ref, i.e. the sender's.
+            senderRef: session.role === 'helper' ? conv.helper_ref : conv.employer_id,
             messagePreview: trimmed,
             unsubscribeUrl,
           });

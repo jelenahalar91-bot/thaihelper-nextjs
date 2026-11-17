@@ -261,6 +261,7 @@ export default async function handler(req, res) {
           senderName,
           senderRole: msg.sender_type,
           recipientRole,
+          senderRef: msg.sender_ref,
           messagePreview: waiting.content_original,
           unsubscribeUrl,
         });
