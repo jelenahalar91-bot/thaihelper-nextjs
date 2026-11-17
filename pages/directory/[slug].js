@@ -18,6 +18,7 @@ import LegalDisclaimer from '@/components/LegalDisclaimer';
 import { useLang } from '../_app';
 import { getServiceSupabase } from '@/lib/supabase';
 import { CITY_OPTIONS, formatCity } from '@/lib/constants/cities';
+import { areaFieldsLatin } from '@/lib/constants/areas';
 import {
   DIRECTORY_TYPES,
   SPECIALTIES,
@@ -79,6 +80,7 @@ const T = {
     pricing_source_link: 'See their price page →',
     section_address: 'Address',
     section_serves: 'Cities served',
+    section_areas: 'Areas covered',
     section_others: 'Other experts in {city}',
     cta_whatsapp: 'WhatsApp',
     cta_line: 'LINE',
@@ -147,6 +149,7 @@ const T = {
     pricing_source_link: 'ดูหน้าราคาของเอเจนซี่ →',
     section_address: 'ที่อยู่',
     section_serves: 'เมืองที่ให้บริการ',
+    section_areas: 'ย่านที่ให้บริการ',
     section_others: 'ผู้เชี่ยวชาญอื่นๆ ใน {city}',
     cta_whatsapp: 'WhatsApp',
     cta_line: 'LINE',
@@ -194,6 +197,8 @@ function toPublicListing(row) {
     type: row.type,
     city: row.city,
     citiesServed: row.cities_served || '',
+    // area / areaTh: the finished line; areaSlugs: what the area filter reads.
+    ...areaFieldsLatin({ city: row.city, area_slugs: row.area_slugs, area: row.area_other }),
     address: row.address || '',
     phone: row.phone || '',
     email: row.email || '',
@@ -732,6 +737,15 @@ export default function DirectoryDetail({ listing, siblings = [] }) {
                       <div>
                         <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.section_license}</dt>
                         <dd className="font-mono text-slate-700 font-semibold">{listing.licenseNumber}</dd>
+                      </div>
+                    )}
+
+                    {listing.area && (
+                      <div className="sm:col-span-2">
+                        <dt className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">{t.section_areas}</dt>
+                        <dd className="text-slate-700">
+                          {formatCity(listing.city)}: {lang === 'th' ? listing.areaTh : listing.area}
+                        </dd>
                       </div>
                     )}
 

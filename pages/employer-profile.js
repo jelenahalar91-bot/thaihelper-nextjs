@@ -37,6 +37,8 @@ import {
   uploadEmployerPhoto,
 } from '@/lib/api/employer-auth-client';
 import { CITY_OPTIONS, formatCity } from '@/lib/constants/cities';
+import AreaPicker from '@/components/AreaPicker';
+import { areaFieldsLatin } from '@/lib/constants/areas';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES, JOB_TEXT_MIN_LENGTH } from '@/lib/constants/employer';
 
@@ -271,7 +273,10 @@ export default function EmployerProfile() {
       last_name: p.last_name || '',
       phone: p.phone || '',
       city: p.city || '',
-      area: p.area || '',
+      // The server's `area` is the finished line; the form edits its two
+      // parts and sends only those (see /api/employer-profile).
+      area_slugs: p.area_slugs || '',
+      area_other: p.area_other ?? '',
       arrangement_preference: p.arrangement_preference || '',
       start_timing: p.start_timing || '',
       preferred_age_range: p.preferred_age_range || '',
@@ -781,26 +786,32 @@ export default function EmployerProfile() {
                 <Field label={t.label_city}>
                   <select
                     value={form.city}
-                    onChange={e => update('city', e.target.value)}
+                    onChange={e => setForm(prev => ({ ...prev, city: e.target.value, area_slugs: '', area_other: '' }))}
                     className={inputClass}
                   >
                     {CITY_OPTIONS.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
                   </select>
                 </Field>
-                <Field label={t.label_area}>
-                  <input
-                    type="text"
-                    value={form.area}
-                    onChange={e => update('area', e.target.value)}
-                    placeholder="e.g. Sukhumvit, Rawai…"
-                    className={inputClass}
-                  />
-                </Field>
+                <div className="sm:col-span-2">
+                  <Field label={t.label_area}>
+                    <AreaPicker
+                      city={form.city}
+                      cityLabel={formatCity(form.city)}
+                      slugs={form.area_slugs}
+                      other={form.area_other}
+                      lang={lang}
+                      max={1}
+                      accent="#b8641a"
+                      anywhereLabel={lang === 'th' ? 'ไม่ระบุ' : 'Not specified'}
+                      onChange={({ slugs, other }) => setForm(prev => ({ ...prev, area_slugs: slugs, area_other: other }))}
+                    />
+                  </Field>
+                </div>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <ViewField label={t.label_city}>{formatCity(form.city)}</ViewField>
-                <ViewField label={t.label_area}>{form.area}</ViewField>
+                <ViewField label={t.label_area}>{(() => { const a = areaFieldsLatin({ city: form.city, area_slugs: form.area_slugs, area: form.area_other }); return lang === 'th' ? a.areaTh : a.area; })()}</ViewField>
               </div>
             )}
           </Section>

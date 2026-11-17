@@ -15,6 +15,7 @@ import { DIRECTORY_TYPE_VALUES } from '@/lib/constants/directory';
 import { sanitizeListingInput, toEditableListing, slugifyName, pricingStamp } from '@/lib/company-listing';
 import { findClaimableListings, pickClaimTarget, fillBlanks } from '@/lib/listing-claim';
 import { refreshListingPages } from '@/lib/directory-revalidate';
+import { cleanAreaSlugs } from '@/lib/constants/areas';
 
 const MIN_PASSWORD = 8;
 
@@ -128,6 +129,9 @@ export default async function handler(req, res) {
   if (!DIRECTORY_TYPE_VALUES.includes(req.body?.type)) {
     fields.type = draft.type || target?.type || fields.type;
   }
+  // fillBlanks can bring back the application's areas after the company
+  // picked a different city in this form — keep only areas of the city saved.
+  fields.area_slugs = cleanAreaSlugs(fields.city, fields.area_slugs).join(',');
   if (!fields.name) fields.name = account.company_name;
   if (!fields.email) fields.email = account.email;
 

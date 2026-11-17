@@ -12,7 +12,8 @@ import {
   DIRECTORY_LANGUAGES,
   NATIONALITIES_PLACED,
 } from '@/lib/constants/directory';
-import { CITY_OPTIONS } from '@/lib/constants/cities';
+import { CITY_OPTIONS, THAI_PROVINCES, formatCity } from '@/lib/constants/cities';
+import AreaPicker from '@/components/AreaPicker';
 import CompanyPricingEditor from '@/components/CompanyPricingEditor';
 
 function csvHas(csv, v) {
@@ -137,14 +138,51 @@ export default function CompanyListingForm({ value, onChange, lang = 'en' }) {
         </Field>
 
         <Field label={th ? 'เมืองหลัก' : 'Main city'}>
-          <select className={inputCls} value={v.city || ''} onChange={set('city')}>
+          {/* The application form offers every province; this select only
+              knew the 20 popular places, so a company approved under
+              "Prachuap Khiri Khan" opened its dashboard to an empty city. */}
+          <select
+            className={inputCls}
+            value={v.city || ''}
+            onChange={(e) => {
+              onChange('city', e.target.value);
+              // Areas belong to a city; the old ones mean nothing in a new one.
+              onChange('areaSlugs', '');
+              onChange('areaOther', '');
+            }}
+          >
             <option value="">{th ? '— เลือก —' : '— Select —'}</option>
-            {CITY_OPTIONS.map(c => (
-              <option key={c.slug} value={c.slug}>{c.name}</option>
-            ))}
+            <optgroup label="★">
+              {CITY_OPTIONS.map(c => (
+                <option key={c.slug} value={c.slug}>{c.name}</option>
+              ))}
+            </optgroup>
+            <optgroup label="A–Z">
+              {THAI_PROVINCES.filter(p => !CITY_OPTIONS.some(c => c.slug === p.slug)).map(p => (
+                <option key={p.slug} value={p.slug}>{p.name}</option>
+              ))}
+            </optgroup>
           </select>
         </Field>
       </div>
+
+      {v.city && (
+        <Field
+          label={th ? `ย่านที่ให้บริการใน${formatCity(v.city)}` : `Areas you cover in ${formatCity(v.city)}`}
+          hint={th
+            ? 'ไม่บังคับ หากให้บริการทั่วทั้งเมือง ไม่ต้องเลือกย่าน'
+            : 'Optional. Families can filter by area — leave it on “Anywhere” if you cover the whole city.'}
+        >
+          <AreaPicker
+            city={v.city}
+            cityLabel={formatCity(v.city)}
+            slugs={v.areaSlugs || ''}
+            other={v.areaOther || ''}
+            lang={lang}
+            onChange={({ slugs, other }) => { onChange('areaSlugs', slugs); onChange('areaOther', other); }}
+          />
+        </Field>
+      )}
 
       <Field
         label={th ? 'พื้นที่ให้บริการ' : 'Cities served'}

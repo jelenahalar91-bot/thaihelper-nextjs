@@ -93,6 +93,8 @@ export default async function handler(req, res) {
     if (!Array.isArray(body.pricing)) delete fields.pricing;
     if (!('paymentFlow' in body) && !('payment_flow' in body)) delete fields.payment_flow;
     if (!('pricingUrl' in body) && !('pricing_url' in body)) delete fields.pricing_url;
+    // Same for a tab opened before the area chips existed.
+    if (!('areaSlugs' in body) && !('area_slugs' in body)) { delete fields.area_slugs; delete fields.area_other; }
     Object.assign(fields, pricingStamp(fields.pricing, existing.pricing));
 
     const { error } = await supabase

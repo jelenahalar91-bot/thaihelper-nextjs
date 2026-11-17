@@ -44,7 +44,7 @@ export async function getStaticProps({ params }) {
     const supabase = getServiceSupabase();
     let query = supabase
       .from('helper_profiles')
-      .select('first_name, last_name, age, date_of_birth, category, city, area, experience, languages, photo_url, bio, bio_en, phone_verified_at, line_linked_at')
+      .select('first_name, last_name, age, date_of_birth, category, city, area, area_en, area_slugs, experience, languages, photo_url, bio, bio_en, phone_verified_at, line_linked_at')
       .or('status.eq.active,status.is.null')
       .or('availability_status.neq.hidden,availability_status.is.null')
       .eq('email_verified', true)
@@ -60,13 +60,14 @@ export async function getStaticProps({ params }) {
 
     const { data } = await query;
     const { getDisplayAge } = await import('@/lib/age');
+    const { areaFields } = await import('@/lib/constants/areas');
     matchingHelpers = (data || []).map((row) => ({
       firstName: row.first_name,
       lastInitial: row.last_name ? row.last_name.charAt(0) + '.' : '',
       age: getDisplayAge(row) || null,
       category: row.category || '',
       city: row.city || '',
-      area: row.area || '',
+      area: areaFields(row).areaEn,
       experience: row.experience || '',
       languages: row.languages || '',
       photo: row.photo_url || '',

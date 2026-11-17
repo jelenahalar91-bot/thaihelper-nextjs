@@ -7,7 +7,7 @@ import { useLang } from './_app';
 import CompanyListingForm from '@/components/CompanyListingForm';
 
 const EMPTY = {
-  name: '', nameTh: '', type: '', city: '', citiesServed: '', address: '',
+  name: '', nameTh: '', type: '', city: '', citiesServed: '', areaSlugs: '', areaOther: '', address: '',
   phone: '', whatsapp: '', lineId: '', email: '', website: '', googleMapsUrl: '',
   openingHours: '', licenseNumber: '', description: '', descriptionTh: '',
   specialties: '', languagesSpoken: '', languagesOther: '',

@@ -12,6 +12,7 @@
 
 import { getServiceSupabase, selectAll } from '../../lib/supabase';
 import { isPubliclyListable, hiddenForMissingJobText } from '../../lib/access';
+import { areaFieldsLatin } from '../../lib/constants/areas';
 
 function toPublicCard(row) {
   return {
@@ -19,7 +20,7 @@ function toPublicCard(row) {
     firstName: row.first_name || '',
     lastName: row.last_name ? row.last_name.charAt(0) + '.' : '',
     city: row.city || '',
-    area: row.area || '',
+    ...areaFieldsLatin(row),
     lookingFor: row.looking_for || '',
     neededSkills: row.needed_skills || '',
     scheduleDays: row.schedule_days || '',
@@ -61,7 +62,7 @@ export default async function handler(req, res) {
       supabase
         .from('employer_accounts')
         .select(
-          'employer_ref, first_name, last_name, city, area, ' +
+          'employer_ref, first_name, last_name, city, area, area_slugs, ' +
           'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
           'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
           'job_description, job_description_en, job_details, photo_url, search_status, status, created_at, updated_at, ' +

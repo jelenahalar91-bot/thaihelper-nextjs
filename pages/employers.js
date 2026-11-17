@@ -329,6 +329,7 @@ export async function getServerSideProps() {
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
     const { getDisplayAge } = await import('@/lib/age');
+    const { areaFields } = await import('@/lib/constants/areas');
     const supabase = getServiceSupabase();
     // Pull a wider candidate pool, then score + curate down to the best 6.
     // We don't want "newest 6" because newest can be incomplete profiles —
@@ -337,7 +338,7 @@ export async function getServerSideProps() {
       .from('helper_profiles')
       .select(
         'helper_ref, first_name, last_name, age, date_of_birth, category, ' +
-        'skills, city, area, experience, languages, rate, ' +
+        'skills, city, area, area_en, area_slugs, experience, languages, rate, ' +
         'bio, bio_en, photo_url, created_at'
       )
       .or('status.eq.active,status.is.null')
@@ -359,7 +360,7 @@ export async function getServerSideProps() {
       if (row.skills && row.skills.split(',').length >= 2) s += 2;
       if (row.languages) s += 1;
       if (row.rate) s += 1;
-      if (row.area) s += 1;
+      if (row.area || row.area_slugs) s += 1;
       if (row.city && row.city !== 'other') s += 1;
       if (row.category && !row.category.includes('multiple')) s += 1;
       // Recency tie-breaker — newer profiles edged ahead when score ties.
@@ -379,7 +380,7 @@ export async function getServerSideProps() {
         category: row.category || '',
         skills: row.skills || '',
         city: row.city || '',
-        area: row.area || '',
+        area: areaFields(row).areaEn,
         experience: row.experience || '',
         languages: row.languages || '',
         rate: row.rate || '',

@@ -23,6 +23,8 @@ import LegalDisclaimer from '@/components/LegalDisclaimer';
 import { useLang } from '../_app';
 import { getServiceSupabase } from '@/lib/supabase';
 import { CITY_OPTIONS, formatCity } from '@/lib/constants/cities';
+import { areaFieldsLatin, areasFor, locationMatches } from '@/lib/constants/areas';
+import AreaFilter from '@/components/AreaFilter';
 import {
   DIRECTORY_TYPES,
   SPECIALTIES,
@@ -251,6 +253,8 @@ function toPublicListing(row) {
     type: row.type,
     city: row.city,
     citiesServed: row.cities_served || '',
+    // area / areaTh: the finished line; areaSlugs: what the area filter reads.
+    ...areaFieldsLatin({ city: row.city, area_slugs: row.area_slugs, area: row.area_other }),
     address: row.address || '',
     phone: row.phone || '',
     email: row.email || '',
@@ -327,6 +331,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
   const router = useRouter();
 
   const [filterCity, setFilterCity] = useState('');
+  const [filterArea, setFilterArea] = useState('');
   const [filterType, setFilterType] = useState('');
   const [filterSpecialty, setFilterSpecialty] = useState('');
   const [clickSource, setClickSource] = useState('direct');
@@ -346,9 +351,13 @@ export default function DirectoryIndex({ initialListings = [] }) {
   const filtered = useMemo(() => {
     return initialListings.filter(l => {
       if (filterCity) {
-        const primary = (l.city || '').toLowerCase();
-        const served = (l.citiesServed || '').toLowerCase();
-        if (primary !== filterCity && !served.split(',').map(s => s.trim()).includes(filterCity)) {
+        // A company's areas belong to its main city. One that is listed here
+        // because it ALSO serves this city has named no area in it, so it
+        // passes any area filter. Otherwise the shared rule applies: no area
+        // named = the whole city, and "Prachuap Khiri Khan → Hua Hin" is
+        // found under Hua Hin (lib/constants/areas.js).
+        const served = (l.citiesServed || '').toLowerCase().split(',').map(s => s.trim());
+        if (!served.includes(filterCity) && !locationMatches(l, { city: filterCity, area: filterArea })) {
           return false;
         }
       }
@@ -359,7 +368,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
       }
       return true;
     });
-  }, [initialListings, filterCity, filterType, filterSpecialty]);
+  }, [initialListings, filterCity, filterArea, filterType, filterSpecialty]);
 
   // Fee comparison rows: the listings of the active provider tab that
   // publish prices. Agencies (you employ the helper) and service companies
@@ -371,7 +380,7 @@ export default function DirectoryIndex({ initialListings = [] }) {
   );
 
   const resetFilters = () => {
-    setFilterCity(''); setFilterType(''); setFilterSpecialty('');
+    setFilterCity(''); setFilterArea(''); setFilterType(''); setFilterSpecialty('');
   };
 
   const resultLabel = filtered.length === 1
@@ -521,6 +530,21 @@ export default function DirectoryIndex({ initialListings = [] }) {
                     ))}
                   </select>
                 </div>
+
+                {/* Second level: the chosen city's areas. Only there when
+                    the city has a list — the directory never had a text
+                    search for areas, so there is nothing to fall back to. */}
+                {areasFor(filterCity).length > 0 && (
+                  <div className="flex-1 min-w-[180px]">
+                    <AreaFilter
+                      city={filterCity}
+                      value={filterArea}
+                      onChange={setFilterArea}
+                      lang={lang}
+                      selectClassName="w-full p-2.5 rounded-lg border border-slate-300 text-sm bg-white"
+                    />
+                  </div>
+                )}
 
                 <div className="flex-1 min-w-[180px]">
                   <select
@@ -733,7 +757,7 @@ function ListingCard({ listing, t, lang, source = 'direct' }) {
           </div>
           <h3 className="text-lg font-extrabold font-headline leading-snug">{displayName}</h3>
           <div className="text-xs text-slate-500 mt-0.5">
-            📍 {cityLabel}
+            📍 {cityLabel}{listing.area ? ` · ${lang === 'th' ? listing.areaTh : listing.area}` : ''}
             {listing.citiesServed && (
               <span> · {formatCsvList(listing.citiesServed, CITY_OPTIONS.map(c => ({ value: c.slug, en: c.name, th: c.name })), lang)}</span>
             )}

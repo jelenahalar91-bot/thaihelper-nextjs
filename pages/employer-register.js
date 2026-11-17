@@ -7,7 +7,8 @@ import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import Turnstile from '@/components/Turnstile';
 import SignupPhoneVerification from '@/components/SignupPhoneVerification';
 import { employerSignup, uploadEmployerPhoto } from '@/lib/api/employer-auth-client';
-import { CITY_OPTIONS } from '@/lib/constants/cities';
+import { CITY_OPTIONS, formatCity } from '@/lib/constants/cities';
+import AreaPicker from '@/components/AreaPicker';
 import { SKILLS_BY_CATEGORY } from '@/lib/constants/categories';
 import { JOB_TEXT_MIN_LENGTH, SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, JOB_DESCRIPTION_EXAMPLES } from '@/lib/constants/employer';
 import LangSwitcher from '@/components/LangSwitcher';
@@ -233,7 +234,8 @@ export default function EmployerRegisterPage() {
   // address again means the person stands by it and the signup proceeds.
   const [emailTypoAcked, setEmailTypoAcked] = useState('');
   const [city, setCity] = useState('');
-  const [area, setArea] = useState('');
+  const [area, setArea] = useState('');           // the "Other" line
+  const [areaSlugs, setAreaSlugs] = useState(''); // the clicked area
   const [lookingFor, setLookingFor] = useState([]);
   const [neededSkills, setNeededSkills] = useState([]);
   const [scheduleDays, setScheduleDays] = useState([]);
@@ -409,7 +411,8 @@ export default function EmployerRegisterPage() {
         lastName: lastName.trim(),
         email: email.trim(),
         city,
-        area: area.trim(),
+        area_slugs: areaSlugs,
+        area_other: area.trim(),
         lookingFor,
         neededSkills,
         scheduleDays,
@@ -766,7 +769,7 @@ export default function EmployerRegisterPage() {
 
               <div className="field">
                 <label htmlFor="f-city">{t.city_label}</label>
-                <select id="f-city" value={city} onChange={e => setCity(e.target.value)} required>
+                <select id="f-city" value={city} onChange={e => { setCity(e.target.value); setAreaSlugs(''); setArea(''); }} required>
                   <option value="">{t.city_ph}</option>
                   {CITY_OPTIONS.map(c => (
                     <option key={c.slug} value={c.slug}>{c.name}</option>
@@ -774,10 +777,26 @@ export default function EmployerRegisterPage() {
                 </select>
               </div>
 
-              <div className="field">
-                <label htmlFor="f-area">{t.area_label}</label>
-                <input id="f-area" type="text" value={area} onChange={e => setArea(e.target.value)} placeholder={t.area_ph} />
-              </div>
+              {/* Where in the city the family lives — one click from the
+                  list (lib/constants/areas.js), or "Other" to type it. Shown
+                  once a city is chosen, because the list depends on it. */}
+              {city && (
+                <div className="field">
+                  <label htmlFor="f-area">{t.area_label}</label>
+                  <AreaPicker
+                    id="f-area"
+                    city={city}
+                    cityLabel={formatCity(city)}
+                    slugs={areaSlugs}
+                    other={area}
+                    lang={lang}
+                    max={1}
+                    accent="#b8641a"
+                    anywhereLabel={lang === 'th' ? 'ไม่ระบุ' : 'Not specified'}
+                    onChange={({ slugs, other }) => { setAreaSlugs(slugs); setArea(other); }}
+                  />
+                </div>
+              )}
 
               {/* Section: Looking For (chip multi-select) */}
               <SectionTitle>{t.section_needs}</SectionTitle>

@@ -5,7 +5,8 @@ import { useLang } from '@/pages/_app';
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { DIRECTORY_TYPES, DIRECTORY_LANGUAGES, NATIONALITIES_PLACED } from '@/lib/constants/directory';
-import { CITY_OPTIONS, THAI_PROVINCES } from '@/lib/constants/cities';
+import { CITY_OPTIONS, THAI_PROVINCES, formatCity } from '@/lib/constants/cities';
+import AreaPicker from '@/components/AreaPicker';
 import { PHONE_COUNTRY_CODES } from '@/lib/constants/phone-countries';
 import {
   validateApplication, DEFAULT_DIAL, MIN_DESCRIPTION, MAX_CITIES_SERVED, PLACEMENT_TYPES,
@@ -74,6 +75,8 @@ const T = {
     hint_phone: 'Pick your country code. Most companies here are on +66.',
     hint_line: 'Optional, but families in Thailand message on LINE far more than they call.',
     hint_cities: `Optional, up to ${MAX_CITIES_SERVED}.`,
+    label_areas_tpl: (city) => `Areas you cover in ${city}`,
+    hint_areas: 'Optional. Families can filter by area — leave it on “Anywhere” if you cover the whole city.',
     hint_proof: 'At least one link is required. This is how we check a company is real before listing it — without one we can’t approve you.',
     hint_license: 'Optional. It lets us mark your listing as verified.',
     hint_pricing: 'Optional.',
@@ -170,6 +173,8 @@ const T = {
     hint_phone: 'เลือกรหัสประเทศ บริษัทส่วนใหญ่ที่นี่ใช้ +66',
     hint_line: 'ไม่บังคับ แต่ครอบครัวในไทยทักผ่าน LINE มากกว่าโทร',
     hint_cities: `ไม่บังคับ สูงสุด ${MAX_CITIES_SERVED} แห่ง`,
+    label_areas_tpl: (city) => `ย่านที่ให้บริการใน${city}`,
+    hint_areas: 'ไม่บังคับ หากให้บริการทั่วทั้งเมือง ไม่ต้องเลือกย่าน',
     hint_proof: 'ต้องมีอย่างน้อยหนึ่งลิงก์ เราใช้ตรวจสอบว่าบริษัทมีอยู่จริงก่อนลงรายชื่อ หากไม่มี เราไม่สามารถอนุมัติได้',
     hint_license: 'ไม่บังคับ ช่วยให้เราติดเครื่องหมายยืนยันให้รายชื่อของคุณ',
     hint_pricing: 'ไม่บังคับ',
@@ -219,6 +224,7 @@ const EMPTY = {
   companyName: '', contactName: '', email: '',
   phoneDial: DEFAULT_DIAL, phoneLocal: '', lineId: '',
   type: '', city: '', citiesServed: [],
+  areaSlugs: '', areaOther: '',
   website: '', googleMapsUrl: '',
   description: '', licenseNumber: '',
   languagesSpoken: [], nationalitiesPlaced: [], pricingUrl: '',
@@ -444,7 +450,7 @@ export default function Partners() {
                   <div>
                     <label htmlFor="f-city" className={labelCls}>{t.label_city} *</label>
                     <select id="f-city" className={cls('city')} value={form.city}
-                      onChange={(e) => set('city', e.target.value)}>
+                      onChange={(e) => setForm((f) => ({ ...f, city: e.target.value, areaSlugs: '', areaOther: '' }))}>
                       <option value="">{t.ph_city}</option>
                       <optgroup label="★">
                         {CITY_OPTIONS.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
@@ -455,6 +461,24 @@ export default function Partners() {
                     </select>
                     <ErrMsg field="city" />
                   </div>
+
+                  {/* Which parts of that city — clickable, with "Other".
+                      Shown once a city is chosen; the list depends on it. */}
+                  {form.city && (
+                    <div>
+                      <label htmlFor="f-areas" className={labelCls}>{t.label_areas_tpl(formatCity(form.city))}</label>
+                      <AreaPicker
+                        id="f-areas"
+                        city={form.city}
+                        cityLabel={formatCity(form.city)}
+                        slugs={form.areaSlugs}
+                        other={form.areaOther}
+                        lang={lang}
+                        onChange={({ slugs, other }) => setForm((f) => ({ ...f, areaSlugs: slugs, areaOther: other }))}
+                      />
+                      <p className={hintCls}>{t.hint_areas}</p>
+                    </div>
+                  )}
 
                   <div>
                     <label className={labelCls}>{t.label_cities}</label>

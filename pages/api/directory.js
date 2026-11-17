@@ -9,6 +9,7 @@
 
 import { getServiceSupabase } from '../../lib/supabase';
 import { normalizePricing } from '../../lib/directory-pricing';
+import { areaFieldsLatin } from '../../lib/constants/areas';
 import {
   DIRECTORY_TYPE_VALUES,
   SPECIALTY_VALUES,
@@ -30,6 +31,8 @@ function toPublicListing(row) {
     type: row.type,
     city: row.city,
     citiesServed: row.cities_served || '',
+    // area / areaTh: the finished line; areaSlugs: what the area filter reads.
+    ...areaFieldsLatin({ city: row.city, area_slugs: row.area_slugs, area: row.area_other }),
     address: row.address || '',
     phone: row.phone || '',
     email: row.email || '',

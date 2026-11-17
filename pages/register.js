@@ -7,7 +7,8 @@ import { useLang } from './_app';
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
 import { registerHelper, uploadProfilePhoto, updateProfile } from '@/lib/api/helpers';
-import { CITY_OPTIONS, THAI_PROVINCES, MAX_ADDITIONAL_CITIES } from '@/lib/constants/cities';
+import { CITY_OPTIONS, THAI_PROVINCES, MAX_ADDITIONAL_CITIES, formatCity } from '@/lib/constants/cities';
+import AreaPicker from '@/components/AreaPicker';
 import { WP_STATUS_OPTIONS } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS } from '@/lib/constants/nationalities';
 import { GENDER_OPTIONS } from '@/lib/constants/gender';
@@ -829,7 +830,8 @@ export default function Register() {
   const [firstname,   setFirstname]   = useState('');
   const [lastname,    setLastname]    = useState('');
   const [city,        setCity]        = useState('');
-  const [area,        setArea]        = useState('');
+  const [area,        setArea]        = useState('');   // the "Other" line
+  const [areaSlugs,   setAreaSlugs]   = useState('');   // CSV of clicked areas
   const [extraCities, setExtraCities] = useState([]); // array of slugs
   const [experience,  setExperience]  = useState('');
   const [languages,   setLanguages]   = useState([]);
@@ -987,7 +989,8 @@ export default function Register() {
       category: categories.join(', '),
       skills:     skills.join(', '),
       city,
-      area,
+      area_slugs: areaSlugs,
+      area_other: area.trim(),
       additional_cities: extraCities.filter(s => s !== city).join(', '),
       experience,
       languages:  languages.join(', '),
@@ -1349,7 +1352,7 @@ export default function Register() {
                     "Philippines") into what is meant to be a Thai location. */}
                 <div className={`field ${errors.city ? 'has-error' : ''}`}>
                   <label htmlFor="f-city">{t.city_label} <span className="req">*</span></label>
-                  <select id="f-city" value={city} onChange={e => { setCity(e.target.value); setErrors(ev => ({...ev, city:'', area:''})); }}>
+                  <select id="f-city" value={city} onChange={e => { setCity(e.target.value); setAreaSlugs(''); setArea(''); setErrors(ev => ({...ev, city:'', area:''})); }}>
                     <option value="">{t.city_ph}</option>
                     <optgroup label={t.city_group_popular}>
                       {CITY_OPTIONS.map(c => (
@@ -1367,20 +1370,25 @@ export default function Register() {
                   <div className="field-error">{errors.city}</div>
                 </div>
 
-                {/* Area / Neighborhood — optional free text, just a finer
-                    locality within the chosen city/province. Never the city
-                    itself anymore. */}
-                <div className="field">
-                  <label htmlFor="f-area">{t.area_label}</label>
-                  <input id="f-area"
-                    type="text"
-                    value={area}
-                    placeholder={t.area_ph}
-                    maxLength={60}
-                    onChange={e => { setArea(e.target.value); }}
-                  />
-                  <div className="field-hint">{t.area_hint}</div>
-                </div>
+                {/* Area — the parts of the chosen city they want to work in.
+                    Clickable (lib/constants/areas.js) with an "Other" line;
+                    a city without a list shows the plain line. Hidden until
+                    a city is picked, because the list depends on it. */}
+                {city && (
+                  <div className="field">
+                    <label htmlFor="f-area">{t.area_label}</label>
+                    <AreaPicker
+                      id="f-area"
+                      city={city}
+                      cityLabel={formatCity(city)}
+                      slugs={areaSlugs}
+                      other={area}
+                      lang={lang}
+                      onChange={({ slugs, other }) => { setAreaSlugs(slugs); setArea(other); }}
+                    />
+                    <div className="field-hint">{t.area_hint}</div>
+                  </div>
+                )}
 
                 {/* Additional cities — optional. Hidden until a primary city
                     is picked. */}

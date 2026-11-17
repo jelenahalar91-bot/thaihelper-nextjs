@@ -20,6 +20,7 @@ import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/con
 import { GENDER_VALUES } from '../../lib/constants/gender';
 import { VALID_CITY_SLUGS } from '../../lib/constants/cities';
 import { looksLikeFullAddress } from '../../lib/address-guard';
+import { resolveAreaInput } from '../../lib/constants/areas';
 import { validateDob } from '../../lib/age';
 
 // LINE link tokens expire in 30 minutes — long enough to add the bot and
@@ -53,7 +54,7 @@ export default async function handler(req, res) {
 
   const {
     first_name, last_name, date_of_birth, category, skills,
-    city, area, additional_cities, experience, languages, rate,
+    city, area, area_other, additional_cities, experience, languages, rate,
     education, certificates, bio, email,
     notify_via_line, notify_via_whatsapp,
     work_permit_status, nationality, gender,
@@ -91,9 +92,13 @@ export default async function handler(req, res) {
   // "Area" is shown publicly and unauthenticated on /helpers cards — reject
   // full street addresses (house number + moo/soi) here rather than storing
   // them, since that's an exact-home-location leak, not a neighbourhood name.
-  if (looksLikeFullAddress(area)) {
+  if (looksLikeFullAddress(area_other ?? area)) {
     return res.status(400).json({ error: 'area_full_address' });
   }
+
+  // Clicked areas + the "Other" line. A name typed into the line that is on
+  // the list ("chaloong") becomes a clicked area too, so it can be filtered.
+  const areaStored = resolveAreaInput(String(city).trim().toLowerCase(), req.body || {});
 
   // Age gate. The form already validates this, but that check lives in the
   // browser — a scripted POST could register a minor, and our terms (and
@@ -158,7 +163,7 @@ export default async function handler(req, res) {
     romanizeThaiName(first_name),
     romanizeThaiName(last_name),
     translateForeignText(sanitizedBio),
-    translateForeignText(area),
+    translateForeignText(areaStored.area),
     translateForeignText(education),
   ]);
 
@@ -176,7 +181,8 @@ export default async function handler(req, res) {
         category,
         skills: skills || null,
         city,
-        area: area || null,
+        area: areaStored.area,
+        area_slugs: areaStored.area_slugs,
         area_en: areaEn || null,
         additional_cities: additional_cities || null,
         experience: experience || null,

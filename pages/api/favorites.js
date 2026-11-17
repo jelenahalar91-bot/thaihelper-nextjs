@@ -5,6 +5,7 @@
 //
 // Employer-only. Requires th_emp_session cookie.
 
+import { areaFields } from '../../lib/constants/areas';
 import { getEmployerSession } from '../../lib/auth';
 import { getServiceSupabase } from '../../lib/supabase';
 import { getDisplayAge } from '../../lib/age';
@@ -44,7 +45,7 @@ export default async function handler(req, res) {
     const { data: helpers } = await supabase
       .from('helper_profiles')
       .select(
-        'helper_ref, first_name, last_name, age, date_of_birth, category, skills, city, area, ' +
+        'helper_ref, first_name, last_name, age, date_of_birth, category, skills, city, area, area_en, area_slugs, ' +
         'experience, languages, rate, bio, bio_en, photo_url, email_verified, status'
       )
       .in('helper_ref', refs)
@@ -64,7 +65,7 @@ export default async function handler(req, res) {
           category: h.category || '',
           skills: h.skills || '',
           city: h.city || '',
-          area: h.area || '',
+          ...areaFields(h),
           experience: h.experience || '',
           languages: h.languages || '',
           rate: h.rate || '',

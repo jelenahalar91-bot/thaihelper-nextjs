@@ -40,6 +40,8 @@ import ConversationList from '@/components/messaging/ConversationList';
 import ConversationDetail from '@/components/messaging/ConversationDetail';
 import HelperProfileModal from '@/components/messaging/HelperProfileModal';
 import { CITIES, parseAdditionalCities, toCitySlug } from '@/lib/constants/cities';
+import AreaFilter from '@/components/AreaFilter';
+import { areaFilterMatches } from '@/lib/constants/areas';
 import { CATEGORIES, CAT_EMOJI } from '@/lib/constants/categories';
 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────
@@ -569,7 +571,13 @@ export default function EmployerDashboard() {
       const target = toCitySlug(filterCity);
       const primary = toCitySlug(h.city);
       const extras = parseAdditionalCities(h.additionalCities).map(toCitySlug);
-      if (primary !== target && !extras.includes(target)) return false;
+      // Areas belong to the primary city; a helper who only ALSO covers this
+      // city passes any area filter. Everyone else: the shared rule in
+      // lib/constants/areas.js ("no area named" = anywhere in the city).
+      const onlyViaExtra = primary !== target && extras.includes(target);
+      if (!onlyViaExtra && !areaFilterMatches(h, filterCity, filterArea)) return false;
+    } else if (filterArea && !areaFilterMatches(h, '', filterArea)) {
+      return false;
     }
     // Category — normalize both sides to slug so the filter works regardless
     // of whether the helper's stored `category` is a slug ("nanny") or a
@@ -583,7 +591,6 @@ export default function EmployerDashboard() {
         .filter(Boolean);
       if (!helperSlugs.includes(filterCat)) return false;
     }
-    if (filterArea && !h.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
 
     // Age range — parse helper age as number, ranges are inclusive/exclusive
     // at the upper bound to keep buckets disjoint (e.g. 25 falls into 25-35).
@@ -1772,12 +1779,13 @@ function FilterSidebar({
 
       {/* Area */}
       <FilterGroup label={t.filter_area_label || 'Area'}>
-        <input
-          type="text"
+        <AreaFilter
+          city={filterCity}
           value={filterArea}
-          onChange={e => setFilterArea(e.target.value)}
+          onChange={setFilterArea}
           placeholder={t.filter_area_ph}
-          style={filterInputStyle}
+          selectStyle={filterSelectStyle}
+          inputStyle={filterInputStyle}
         />
       </FilterGroup>
 

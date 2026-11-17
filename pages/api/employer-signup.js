@@ -21,6 +21,7 @@ import { signupNeedsPhone } from '../../lib/access';
 import { numberTakenBy } from '../../lib/phone-identity';
 import { registrationResemblance } from '../../lib/spam-signals';
 import { VALID_CITY_SLUGS, toCitySlug } from '../../lib/constants/cities';
+import { resolveAreaInput, areaFieldsLatin } from '../../lib/constants/areas';
 
 function generateRef() {
   // crypto.randomBytes is cryptographically secure — Math.random() is
@@ -169,9 +170,12 @@ export default async function handler(req, res) {
   // — reject full street addresses (house number + moo/soi) here rather
   // than storing them, since that's an exact-home-location leak, not a
   // neighbourhood name.
-  if (looksLikeFullAddress(area)) {
+  if (looksLikeFullAddress(req.body?.area_other ?? area)) {
     return res.status(400).json({ error: 'area_full_address' });
   }
+
+  // Clicked area + the "Other" line — see lib/constants/areas.js.
+  const areaStored = resolveAreaInput(citySlug, req.body || {});
 
   // Per-category job descriptions ({ nanny: "text", … }) — sanitised,
   // translated and flattened into the legacy job_description pair by
@@ -243,7 +247,8 @@ export default async function handler(req, res) {
         phone_verified_at: verifiedPhone ? new Date().toISOString() : null,
         phone_verified_channel: verifiedPhone ? 'sms' : null,
         city: citySlug,
-        area: area?.trim() || null,
+        area: areaStored.area,
+        area_slugs: areaStored.area_slugs,
         looking_for: Array.isArray(lookingFor) ? lookingFor.join(', ') : (lookingFor || null),
         needed_skills: Array.isArray(neededSkills) ? (neededSkills.join(', ') || null) : (neededSkills || null),
         schedule_days: Array.isArray(scheduleDays) ? (scheduleDays.join(', ') || null) : (scheduleDays || null),
@@ -335,7 +340,7 @@ export default async function handler(req, res) {
             lastName: lastName.trim(),
             email: email.trim().toLowerCase(),
             city,
-            area: (area || '').trim(),
+            area: areaFieldsLatin({ city: citySlug, ...areaStored }).area,
             helperTypes,
             ref: inserted.employer_ref,
             warnings,

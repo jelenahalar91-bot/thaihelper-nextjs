@@ -18,6 +18,8 @@ import { NATIONALITY_FILTER_OPTIONS } from '@/lib/constants/nationalities';
 import { readableText } from '@/lib/recent-helpers-display';
 import { helperShareUrl, SHARE_SITE_URL } from '@/lib/share-profile';
 import { GENDER_FILTER_OPTIONS } from '@/lib/constants/gender';
+import AreaFilter from '@/components/AreaFilter';
+import { areaFilterMatches } from '@/lib/constants/areas';
 
 // How many helper cards to render at once. Used both for the server-rendered
 // first page (keeps initial HTML small) and as the client-side "reveal" step
@@ -570,7 +572,15 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true, share
       const primary = toCitySlug(h.city);
       const extras = parseAdditionalCities(h.additionalCities).map(toCitySlug);
       const target = toCitySlug(filterCity);
-      if (primary !== target && !extras.includes(target)) return false;
+      // Their areas belong to their primary city. Someone listed here only
+      // because they ALSO cover this city has named no area in it, so they
+      // pass any area filter. Everyone else goes through the shared rule —
+      // "no area named" = anywhere in the city, and Hua Hin finds
+      // "Prachuap Khiri Khan → Hua Hin" (lib/constants/areas.js).
+      const onlyViaExtra = primary !== target && extras.includes(target);
+      if (!onlyViaExtra && !areaFilterMatches(h, filterCity, filterArea)) return false;
+    } else if (filterArea && !areaFilterMatches(h, '', filterArea)) {
+      return false;
     }
     if (filterCat) {
       // A helper may store multiple categories ("nanny, housekeeper"); they
@@ -581,7 +591,6 @@ export default function Helpers({ initialHelpers = [], isAnonymous = true, share
         .filter(Boolean);
       if (!helperSlugs.includes(filterCat)) return false;
     }
-    if (filterArea && !h.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
 
     if (filterAgeRange) {
       const age = parseInt(h.age, 10);
@@ -1231,14 +1240,16 @@ function FilterSidebar({
         </select>
       </FilterGroup>
 
-      {/* Area */}
+      {/* Area — the chosen city's areas to pick from; a search line when
+          the city has no list (or no city is chosen). */}
       <FilterGroup label={t.filter_area_label}>
-        <input
-          type="text"
+        <AreaFilter
+          city={filterCity}
           value={filterArea}
-          onChange={e => setFilterArea(e.target.value)}
+          onChange={setFilterArea}
           placeholder={t.filter_area_ph}
-          style={filterInputStyle}
+          selectStyle={filterSelectStyle}
+          inputStyle={filterInputStyle}
         />
       </FilterGroup>
 

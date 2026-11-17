@@ -154,7 +154,7 @@ export default function EmployerProfileModal({ employer, onClose, t }) {
             {employer.city && (
               <InfoRow icon="📍" label={t?.profile_location || 'Location'}>
                 {formatCity(employer.city)}
-                {employer.area ? ` · ${employer.area}` : ''}
+                {employer.area ? ` · ${lang === 'th' ? (employer.areaTh || employer.area) : employer.area}` : ''}
               </InfoRow>
             )}
             {employer.lookingFor && (

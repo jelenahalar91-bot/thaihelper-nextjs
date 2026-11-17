@@ -9,6 +9,7 @@ import { translateForeignText } from '../../lib/translate';
 import { looksLikeFullAddress } from '../../lib/address-guard';
 import { buildJobDetailsPatch, missingJobTexts, MIN_TEXT_LENGTH } from '../../lib/employer-job-details';
 import { VALID_CITY_SLUGS, toCitySlug } from '../../lib/constants/cities';
+import { areaFieldsLatin, resolveAreaInput, touchesArea } from '../../lib/constants/areas';
 
 const EDITABLE_FIELDS = [
   'first_name',
@@ -55,7 +56,7 @@ export default async function handler(req, res) {
     const { data, error } = await supabase
       .from('employer_accounts')
       .select(
-        'employer_ref, first_name, last_name, email, phone, city, area, ' +
+        'employer_ref, first_name, last_name, email, phone, city, area, area_slugs, ' +
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
         'job_description, job_details, preferred_language, photo_url, notify_on_message, ' +
@@ -73,7 +74,14 @@ export default async function handler(req, res) {
       return res.status(404).json({ error: 'Employer not found' });
     }
 
-    return res.status(200).json({ success: true, profile: data });
+    // `area` stays the finished line (clicked area + "Other" text): it is
+    // what the shipped app shows and sends back. The web form edits the two
+    // parts, area_slugs and area_other.
+    const shown = areaFieldsLatin(data);
+    return res.status(200).json({
+      success: true,
+      profile: { ...data, area_other: data.area || '', area: shown.area, area_th: shown.areaTh, area_slugs: shown.areaSlugs },
+    });
   }
 
   if (req.method === 'PUT') {
@@ -102,8 +110,22 @@ export default async function handler(req, res) {
       patch.city = citySlug;
     }
 
-    if ('area' in patch && looksLikeFullAddress(patch.area)) {
+    if (looksLikeFullAddress(body.area_other ?? body.area)) {
       return res.status(400).json({ error: 'area_full_address' });
+    }
+
+    // Chips + "Other" from the web form, or one plain line from an older
+    // client — both end up as area_slugs + area. A city change alone drops
+    // the chips of the old city.
+    if (touchesArea(body)) {
+      const { data: current } = await supabase
+        .from('employer_accounts')
+        .select('city, area, area_slugs')
+        .eq('employer_ref', ref)
+        .single();
+      const stored = resolveAreaInput(patch.city ?? current?.city, body, current || {});
+      patch.area = stored.area;
+      patch.area_slugs = stored.area_slugs;
     }
 
     // Whitelist arrangement preference (matches DB CHECK constraint)

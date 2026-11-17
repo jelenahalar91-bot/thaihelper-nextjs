@@ -13,6 +13,8 @@ import { SCHEDULE_DAYS, SCHEDULE_TIMES, DURATIONS, CHILD_AGE_GROUPS, formatSlugL
 import { relativeTime } from '@/lib/recent-helpers-display';
 import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '@/lib/utils';
 import { readableText } from '@/lib/recent-helpers-display';
+import AreaFilter from '@/components/AreaFilter';
+import { areaFilterMatches, areaFieldsLatin } from '@/lib/constants/areas';
 
 // Render an employer's "looking for" CSV (e.g. "nanny, housekeeper") as
 // readable labels in the current UI language.
@@ -211,9 +213,12 @@ export default function EmployersBrowse({ initialEmployers = [] }) {
   const filtered = useMemo(() => employers.filter(e => {
     // Compare on slugs — employer_accounts moved from display names to
     // slugs, and older rows still hold the name. toCitySlug() reads both.
-    if (filterCity && toCitySlug(e.city) !== toCitySlug(filterCity)) return false;
+    // City + area in one rule (lib/constants/areas.js): a family that named
+    // no area shows under every area of its city, and Hua Hin finds
+    // "Prachuap Khiri Khan → Hua Hin". toCitySlug() inside reads both the
+    // slug and the display name older rows still hold.
+    if (!areaFilterMatches(e, filterCity, filterArea)) return false;
     if (filterLooking && !e.lookingFor?.toLowerCase().includes(filterLooking.toLowerCase())) return false;
-    if (filterArea && !e.area?.toLowerCase().includes(filterArea.toLowerCase())) return false;
     return true;
   }), [employers, filterCity, filterLooking, filterArea]);
 
@@ -682,7 +687,7 @@ function PublicEmployerCard({ employer, t, arrangementLabel, lang, viewerIsHelpe
           )}
           {e.city && (
             <div className="text-sm text-gray-500 mt-1">
-              📍 {formatCity(e.city)}{e.area ? ` · ${e.area}` : ''}
+              📍 {formatCity(e.city)}{e.area ? ` · ${lang === 'th' ? (e.areaTh || e.area) : e.area}` : ''}
             </div>
           )}
           {e.createdAt && (() => {
@@ -872,6 +877,18 @@ function EmpBrowseSidebar({
         </select>
       </FG>
 
+      {/* Area — the chosen city's areas; a search line when it has no list. */}
+      <FG label={t.filter_area_label}>
+        <AreaFilter
+          city={filterCity}
+          value={filterArea}
+          onChange={setFilterArea}
+          placeholder={t.filter_area_ph}
+          selectStyle={selectStyle}
+          inputStyle={inputStyle}
+        />
+      </FG>
+
       <FG label={t.filter_looking_label}>
         <select value={filterLooking} onChange={e => setFilterLooking(e.target.value)} style={selectStyle}>
           <option value="">{t.filter_looking_all}</option>
@@ -879,15 +896,6 @@ function EmpBrowseSidebar({
         </select>
       </FG>
 
-      <FG label={t.filter_area_label}>
-        <input
-          type="text"
-          value={filterArea}
-          onChange={e => setFilterArea(e.target.value)}
-          placeholder={t.filter_area_ph}
-          style={inputStyle}
-        />
-      </FG>
     </div>
   );
 }
@@ -923,7 +931,7 @@ export async function getServerSideProps({ res }) {
     const { data, error } = await supabase
       .from('employer_accounts')
       .select(
-        'employer_ref, first_name, last_name, city, area, ' +
+        'employer_ref, first_name, last_name, city, area, area_slugs, ' +
         'looking_for, needed_skills, schedule_days, schedule_time, duration, ' +
         'child_age_groups, arrangement_preference, start_timing, preferred_age_range, ' +
         'job_description, job_description_en, job_details, photo_url, search_status, status, created_at, updated_at, ' +
@@ -949,7 +957,7 @@ export async function getServerSideProps({ res }) {
         firstName: row.first_name || '',
         lastName: row.last_name ? row.last_name.charAt(0) + '.' : '',
         city: row.city || '',
-        area: row.area || '',
+        ...areaFieldsLatin(row),
         lookingFor: row.looking_for || '',
         neededSkills: row.needed_skills || '',
         scheduleDays: row.schedule_days || '',

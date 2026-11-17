@@ -11,6 +11,7 @@ import { NATIONALITY_VALUES, deriveWpStatusFromNationality } from '../../lib/con
 import { GENDER_VALUES } from '../../lib/constants/gender';
 import { notifyEmployersOfNewHelper } from '../../lib/match-notifications';
 import { looksLikeFullAddress } from '../../lib/address-guard';
+import { areaFields, resolveAreaInput, touchesArea } from '../../lib/constants/areas';
 
 // Strip phone numbers and email addresses from free-text fields. Mirrors the
 // sanitizer used on registration (pages/api/register.js) so helpers can't
@@ -53,8 +54,11 @@ function toFrontend(row) {
     category: row.category || '',
     skills: row.skills || '',
     city: row.city || '',
-    area: row.area || '',
-    areaEn: row.area_en || '',
+    // `area` / `areaEn` are the finished line (clicked areas + the "Other"
+    // text) — what the shipped app and every card show. The form edits the
+    // two parts separately: areaSlugs + areaOther.
+    ...areaFields(row),
+    areaOther: row.area || '',
     availabilityStatus: row.availability_status || 'available',
     additionalCities: row.additional_cities || '',
     experience: row.experience || '',
@@ -246,8 +250,25 @@ export default async function handler(req, res) {
       // reject full street addresses (house number + moo/soi) rather than
       // storing them, since that's an exact-home-location leak, not a
       // neighbourhood name.
-      if ('area' in updates && looksLikeFullAddress(updates.area)) {
+      if (looksLikeFullAddress(incoming.areaOther ?? incoming.area)) {
         return res.status(400).json({ error: 'area_full_address' });
+      }
+
+      // Areas depend on the city, and an old client sends one plain line
+      // where a new one sends chips + "Other" — resolveAreaInput() sorts both
+      // into the same two columns. A city change alone drops the chips that
+      // belonged to the old city.
+      if (touchesArea(incoming)) {
+        const { data: current } = await supabase
+          .from('helper_profiles')
+          .select('city, area, area_slugs')
+          .eq('helper_ref', session.ref)
+          .eq('email', session.email)
+          .single();
+        const stored = resolveAreaInput(updates.city ?? current?.city, incoming, current || {});
+        const changedText = (stored.area || '') !== (current?.area || '');
+        updates.area_slugs = stored.area_slugs;
+        if (changedText) updates.area = stored.area; else delete updates.area;
       }
 
       if (Object.keys(updates).length === 0) {

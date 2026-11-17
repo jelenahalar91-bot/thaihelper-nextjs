@@ -54,7 +54,10 @@ import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConver
 import { fetchSettings } from '@/lib/api/settings';
 import { fetchEmployers } from '@/lib/api/employers';
 import { matchingEmployersFor } from '@/lib/matching';
-import { CITIES, CITY_OPTIONS, MAX_ADDITIONAL_CITIES, parseAdditionalCities } from '@/lib/constants/cities';
+import { CITIES, CITY_OPTIONS, THAI_PROVINCES, MAX_ADDITIONAL_CITIES, parseAdditionalCities } from '@/lib/constants/cities';
+import AreaPicker from '@/components/AreaPicker';
+import AreaFilter from '@/components/AreaFilter';
+import { areaFilterMatches } from '@/lib/constants/areas';
 import { WP_STATUS_OPTIONS, WP_PUBLIC_BADGES, formatWpStatus } from '@/lib/constants/work-permit';
 import { NATIONALITY_OPTIONS, formatNationality } from '@/lib/constants/nationalities';
 import { GENDER_OPTIONS, formatGender } from '@/lib/constants/gender';
@@ -652,7 +655,9 @@ export default function Profile() {
     setEditData({
       firstName: profile.firstName || '', lastName: profile.lastName || '',
       dateOfBirth: profile.dateOfBirth || '',
-      city: profile.city || '', area: profile.area || '',
+      // The server hands back `area` as the finished line; the form edits
+      // its two parts (clicked areas + "Other") and sends only those.
+      city: toCitySlug(profile.city) || '', areaSlugs: profile.areaSlugs || '', areaOther: profile.areaOther || '',
       additionalCities: profile.additionalCities || '',
       // Seed the chip-selector fields too so toggling preserves prior values.
       // Strip the legacy "multiple" so the orange refine banner triggers a
@@ -1163,9 +1168,10 @@ export default function Profile() {
   const filteredEmployers = employers.filter(e => {
     if (empFilterMatchOnly && !(e.ref && matchRefs.has(e.ref))) return false;
     // Slug comparison — see employers-browse.js for why both spellings exist.
-    if (empFilterCity && toCitySlug(e.city) !== toCitySlug(empFilterCity)) return false;
+    // City + area in one rule: a family that named no area shows under every
+    // area of its city, and Hua Hin finds "Prachuap Khiri Khan → Hua Hin".
+    if (!areaFilterMatches(e, empFilterCity, empFilterArea)) return false;
     if (empFilterLooking && !e.lookingFor?.toLowerCase().includes(empFilterLooking.toLowerCase())) return false;
-    if (empFilterArea && !e.area?.toLowerCase().includes(empFilterArea.toLowerCase())) return false;
     return true;
   });
 
@@ -1994,7 +2000,7 @@ export default function Profile() {
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <h2 style={{ fontSize: isMobile ? '19px' : '22px', fontWeight: 700, color: '#1a1a1a', margin: '0 0 6px', wordBreak: 'break-word' }}>{p.firstName} {p.lastName}</h2>
-                    <p style={{ fontSize: isMobile ? '14px' : '15px', color: '#666', margin: '0 0 10px' }}>{formatCategory(p.category, lang)} &middot; {formatCity(p.city)}{p.area ? ` — ${p.area}` : ''}</p>
+                    <p style={{ fontSize: isMobile ? '14px' : '15px', color: '#666', margin: '0 0 10px' }}>{formatCategory(p.category, lang)} &middot; {formatCity(p.city)}{p.area ? ` — ${lang === 'th' ? p.area : (p.areaEn || p.area)}` : ''}</p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       {p.emailVerified ? (
                         <span style={{ fontSize: '13px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#ecfdf5', color: '#059669' }}>{t.verified} ✓</span>
@@ -2119,8 +2125,40 @@ export default function Profile() {
                       max={new Date(new Date().setFullYear(new Date().getFullYear() - 18)).toISOString().slice(0, 10)}
                       min={new Date(new Date().setFullYear(new Date().getFullYear() - 80)).toISOString().slice(0, 10)}
                     />
-                    <EditField label={t.label_city} value={editData.city} onChange={v => handleFieldChange('city', v)} />
-                    <EditField label={t.label_area} value={editData.area} onChange={v => handleFieldChange('area', v)} placeholder="e.g. Sukhumvit, Rawai..." />
+                    {/* City was a free-text line here, which is how "Bangkok ",
+                        "Rangsit" and a city in South Africa got into the
+                        column. Same list as the signup form now; a stored
+                        value that is not on it stays selectable so opening
+                        the form never changes it by itself. */}
+                    <div>
+                      <label htmlFor="f-edit-city" style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t.label_city}</label>
+                      <select
+                        id="f-edit-city"
+                        value={editData.city || ''}
+                        onChange={e => setEditData(prev => ({ ...prev, city: e.target.value, areaSlugs: '', areaOther: '' }))}
+                        style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '15px', fontFamily: 'inherit', background: 'white' }}
+                      >
+                        {editData.city && !CITY_OPTIONS.some(c => c.slug === editData.city) && !THAI_PROVINCES.some(c => c.slug === editData.city) && (
+                          <option value={editData.city}>{formatCity(editData.city)}</option>
+                        )}
+                        {CITY_OPTIONS.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                        {THAI_PROVINCES.filter(pv => !CITY_OPTIONS.some(c => c.slug === pv.slug)).map(pv => (
+                          <option key={pv.slug} value={pv.slug}>{pv.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="f-edit-area" style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: '#888', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{t.label_area}</label>
+                      <AreaPicker
+                        id="f-edit-area"
+                        city={editData.city}
+                        cityLabel={formatCity(editData.city)}
+                        slugs={editData.areaSlugs}
+                        other={editData.areaOther}
+                        lang={lang}
+                        onChange={({ slugs, other }) => setEditData(prev => ({ ...prev, areaSlugs: slugs, areaOther: other }))}
+                      />
+                    </div>
                     <ExtraCitiesChips
                       label={t.label_extra_cities}
                       hint={t.extra_cities_hint}
@@ -2135,7 +2173,7 @@ export default function Profile() {
                     <ProfileField label={t.label_name} value={`${p.firstName} ${p.lastName}`} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_age} value={p.age} t={t} isMobile={isMobile} />
                     <ProfileField label={t.label_city} value={formatCity(p.city)} t={t} isMobile={isMobile} />
-                    <ProfileField label={t.label_area} value={p.area} t={t} isMobile={isMobile} />
+                    <ProfileField label={t.label_area} value={lang === 'th' ? p.area : (p.areaEn || p.area)} t={t} isMobile={isMobile} />
                     {p.additionalCities && (
                       <ProfileField
                         label={t.label_extra_cities}
@@ -3028,7 +3066,7 @@ function EmployerCard({ employer, t, arrangementLabel, onMessage, isStarting, la
             {e.city && (
               <span style={{ fontSize: '13px', color: '#666', display: 'flex', alignItems: 'center', gap: '3px' }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                {formatCity(e.city)}{e.area ? `, ${e.area}` : ''}
+                {formatCity(e.city)}{e.area ? `, ${lang === 'th' ? (e.areaTh || e.area) : e.area}` : ''}
               </span>
             )}
             {e.source === 'registration' && (
@@ -3206,6 +3244,20 @@ function EmployerFilterSidebar({
         </select>
       </EmpFilterGroup>
 
+      {/* Area — the chosen city's areas to pick from; a search line when
+          the city has no list (or no city is chosen). */}
+      <EmpFilterGroup label={t.browse_filter_area_label}>
+        <AreaFilter
+          city={empFilterCity}
+          value={empFilterArea}
+          onChange={setEmpFilterArea}
+          lang={lang}
+          placeholder={t.browse_filter_area_ph}
+          selectStyle={selectStyle}
+          inputStyle={inputStyle}
+        />
+      </EmpFilterGroup>
+
       {/* Looking for — slugs come from raw employer.lookingFor data; render
           each option through CATEGORIES so "elder_care" shows as "Elder Care". */}
       <EmpFilterGroup label={t.browse_filter_looking_label}>
@@ -3218,16 +3270,6 @@ function EmployerFilterSidebar({
         </select>
       </EmpFilterGroup>
 
-      {/* Area */}
-      <EmpFilterGroup label={t.browse_filter_area_label}>
-        <input
-          type="text"
-          value={empFilterArea}
-          onChange={e => setEmpFilterArea(e.target.value)}
-          placeholder={t.browse_filter_area_ph}
-          style={inputStyle}
-        />
-      </EmpFilterGroup>
     </div>
   );
 }
