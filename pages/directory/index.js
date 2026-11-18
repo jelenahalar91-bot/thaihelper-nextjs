@@ -26,6 +26,7 @@ import { CITY_OPTIONS, formatCity } from '@/lib/constants/cities';
 import {
   DIRECTORY_TYPES,
   SPECIALTIES,
+  groupedSpecialties,
   DIRECTORY_LANGUAGES,
   NATIONALITIES_PLACED,
   formatDirectoryType,
@@ -59,16 +60,16 @@ const T = {
     hero_eyebrow: 'Expert Directory',
     // Per-tab hero copy. The default ('all') is also the SEO title users land
     // on; tab-specific copy makes the page feel responsive to the filter.
-    hero_h1_all:                 'Everything you need to hire household help in Thailand',
-    hero_sub_all:                'Vetted agencies, cleaning & nanny companies, immigration lawyers, visa agents, MOU specialists, trainers and service partners — all in one directory. No commissions, you contact them directly.',
+    hero_h1_all:                 'Agencies, companies, lawyers and visa experts in Thailand',
+    hero_sub_all:                '',
     hero_h1_agency:              'Find a domestic helper agency near you',
     hero_sub_agency:             'Staffing agencies that place nannies, housekeepers, caregivers and drivers with families across Thailand. Curated shortlist, you choose.',
     hero_h1_service_company:     'Find a cleaning, nanny or driver company near you',
     hero_sub_service_company:    'Local companies that send their own teams of cleaners, nannies or drivers to your home on a recurring schedule — staff stay employed by the company.',
     hero_h1_lawyer:              'Find an immigration lawyer in Thailand',
-    hero_sub_lawyer:             'Specialists in work permits, visas, Thai labor law and dispute resolution. Reach out directly — we don\'t take a cut.',
+    hero_sub_lawyer:             'Specialists in work permits, visas, Thai labor law and dispute resolution.',
     hero_h1_visa_agent:          'Find a visa agent near you',
-    hero_sub_visa_agent:         'Tourist, retirement, education and long-stay visa specialists across Thailand. No commissions — you handle the engagement directly.',
+    hero_sub_visa_agent:         'Tourist, retirement, education and long-stay visa specialists across Thailand.',
     hero_h1_mou_agency:          'Find an MOU agency in Thailand',
     hero_sub_mou_agency:         'Foreign-worker paperwork done right: CI (nationality verification), PJ passports, MOU process and work-permit renewals for Myanmar, Lao and Cambodian staff.',
     hero_h1_training:            'Domestic helper training and classes near you',
@@ -155,16 +156,16 @@ const T = {
     nav_faq: 'คำถามที่พบบ่อย',
 
     hero_eyebrow: 'รายชื่อผู้เชี่ยวชาญ',
-    hero_h1_all:                 'ทุกสิ่งที่คุณต้องการเพื่อจ้างแม่บ้านในประเทศไทย',
-    hero_sub_all:                'บริษัทจัดหางาน บริษัทบริการทำความสะอาดและพี่เลี้ยงเด็ก ทนายความตรวจคนเข้าเมือง ตัวแทนวีซ่า ผู้เชี่ยวชาญ MOU ผู้ฝึกอบรม และพันธมิตรบริการ — รวมไว้ในที่เดียว ไม่มีค่าคอมมิชชั่น คุณติดต่อโดยตรง',
+    hero_h1_all:                 'บริษัทจัดหางาน บริษัทบริการ ทนายความ และผู้เชี่ยวชาญวีซ่าในประเทศไทย',
+    hero_sub_all:                '',
     hero_h1_agency:              'ค้นหาบริษัทจัดหาแม่บ้านใกล้คุณ',
     hero_sub_agency:             'บริษัทจัดหางานที่จัดส่งพี่เลี้ยงเด็ก แม่บ้าน ผู้ดูแล และคนขับรถให้กับครอบครัวทั่วประเทศไทย รายชื่อคัดสรร คุณเป็นผู้เลือก',
     hero_h1_service_company:     'ค้นหาบริษัททำความสะอาด พี่เลี้ยง หรือคนขับรถใกล้คุณ',
     hero_sub_service_company:    'บริษัทท้องถิ่นที่ส่งทีมพนักงานทำความสะอาด พี่เลี้ยง หรือคนขับรถมาที่บ้านคุณตามตารางประจำ — พนักงานเป็นลูกจ้างของบริษัท',
     hero_h1_lawyer:              'ค้นหาทนายความตรวจคนเข้าเมืองในประเทศไทย',
-    hero_sub_lawyer:             'ผู้เชี่ยวชาญด้านใบอนุญาตทำงาน วีซ่า กฎหมายแรงงานไทย และการแก้ไขข้อพิพาท ติดต่อโดยตรง — เราไม่หักค่าธรรมเนียม',
+    hero_sub_lawyer:             'ผู้เชี่ยวชาญด้านใบอนุญาตทำงาน วีซ่า กฎหมายแรงงานไทย และการแก้ไขข้อพิพาท',
     hero_h1_visa_agent:          'ค้นหาตัวแทนวีซ่าใกล้คุณ',
-    hero_sub_visa_agent:         'ผู้เชี่ยวชาญด้านวีซ่าท่องเที่ยว เกษียณ การศึกษา และระยะยาว ทั่วประเทศไทย ไม่มีค่าคอมมิชชั่น — คุณดำเนินการโดยตรง',
+    hero_sub_visa_agent:         'ผู้เชี่ยวชาญด้านวีซ่าท่องเที่ยว เกษียณ การศึกษา และระยะยาว ทั่วประเทศไทย',
     hero_h1_mou_agency:          'ค้นหาหน่วยงาน MOU ในประเทศไทย',
     hero_sub_mou_agency:         'งานเอกสารแรงงานต่างด้าวอย่างถูกต้อง: CI (พิสูจน์สัญชาติ) PJ พาสปอร์ต กระบวนการ MOU และต่อใบอนุญาตทำงานสำหรับคนงานจากเมียนมา ลาว และกัมพูชา',
     hero_h1_training:            'หลักสูตรและการฝึกอบรมแม่บ้านใกล้คุณ',
@@ -450,9 +451,13 @@ export default function DirectoryIndex({ initialListings = [] }) {
               <h1 className="text-3xl md:text-5xl font-extrabold font-headline text-on-background mb-3 leading-tight">
                 {t[`hero_h1_${filterType || 'all'}`] || t.hero_h1_all}
               </h1>
-              <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-                {t[`hero_sub_${filterType || 'all'}`] || t.hero_sub_all}
-              </p>
+              {/* The 'all' tab carries no subline: the tab cards below already
+                  say what is listed, so a sentence here only repeats them. */}
+              {(t[`hero_sub_${filterType || 'all'}`] || '') && (
+                <p className="text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                  {t[`hero_sub_${filterType || 'all'}`]}
+                </p>
+              )}
             </div>
           </section>
 
@@ -528,10 +533,17 @@ export default function DirectoryIndex({ initialListings = [] }) {
                     className="w-full p-2.5 rounded-lg border border-slate-300 text-sm bg-white"
                   >
                     <option value="">{t.filter_specialty}</option>
-                    {SPECIALTIES.map(o => (
-                      <option key={o.value} value={o.value}>
-                        {lang === 'th' ? o.th : o.en}
-                      </option>
+                    {/* Grouped: 22 specialties in one flat list is a wall.
+                        The groups are the question the reader actually has —
+                        household service, course, legal help or advice. */}
+                    {groupedSpecialties().map(g => (
+                      <optgroup key={g.value} label={lang === 'th' ? g.th : g.en}>
+                        {g.options.map(o => (
+                          <option key={o.value} value={o.value}>
+                            {lang === 'th' ? o.th : o.en}
+                          </option>
+                        ))}
+                      </optgroup>
                     ))}
                   </select>
                 </div>
