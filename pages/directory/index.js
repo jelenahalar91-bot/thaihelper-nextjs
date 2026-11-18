@@ -62,7 +62,7 @@ const T = {
     hero_eyebrow: 'Expert Directory',
     // Per-tab hero copy. The default ('all') is also the SEO title users land
     // on; tab-specific copy makes the page feel responsive to the filter.
-    hero_h1_all:                 'Agencies, lawyers and visa experts in Thailand',
+    hero_h1_all:                 'Agencies, companies, lawyers and visa experts in Thailand',
     hero_sub_all:                '',
     hero_h1_agency:              'Find a domestic helper agency near you',
     hero_sub_agency:             'Staffing agencies that place nannies, housekeepers, caregivers and drivers with families across Thailand. Curated shortlist, you choose.',
@@ -158,7 +158,7 @@ const T = {
     nav_faq: 'คำถามที่พบบ่อย',
 
     hero_eyebrow: 'รายชื่อผู้เชี่ยวชาญ',
-    hero_h1_all:                 'บริษัทจัดหางาน ทนายความ และผู้เชี่ยวชาญวีซ่าในประเทศไทย',
+    hero_h1_all:                 'บริษัทจัดหางาน บริษัทบริการ ทนายความ และผู้เชี่ยวชาญวีซ่าในประเทศไทย',
     hero_sub_all:                '',
     hero_h1_agency:              'ค้นหาบริษัทจัดหาแม่บ้านใกล้คุณ',
     hero_sub_agency:             'บริษัทจัดหางานที่จัดส่งพี่เลี้ยงเด็ก แม่บ้าน ผู้ดูแล และคนขับรถให้กับครอบครัวทั่วประเทศไทย รายชื่อคัดสรร คุณเป็นผู้เลือก',
