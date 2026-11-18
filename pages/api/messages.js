@@ -26,6 +26,7 @@ import { checkRateLimit } from '../../lib/rate-limit';
 import {
   contactSpread,
   isSolicitation,
+  mentionsPersonalService,
   documentRequestKind,
   documentRequestSpread,
   DOC_SCREEN_SPREAD_ALERT,
@@ -180,7 +181,7 @@ async function suspendForOverseasPlacement(supabase, ref, sample, hit) {
   return !error;
 }
 
-async function notifyAdminOfSolicitation({ senderRef, suspended, sample }) {
+async function notifyAdminOfSolicitation({ senderRef, suspended, asked = true, sample }) {
   const { Resend } = await import('resend');
   const resend = new Resend(process.env.RESEND_API_KEY);
   await resend.emails.send({
@@ -188,11 +189,19 @@ async function notifyAdminOfSolicitation({ senderRef, suspended, sample }) {
     to: process.env.ADMIN_EMAIL,
     subject: suspended
       ? `\u{1F6A8} SUSPENDED: ${senderRef} asked for a massage again after the warning`
-      : `\u{1F6A8} ${senderRef} asked a helper for a massage`,
+      : asked
+        ? `\u{1F6A8} ${senderRef} asked a helper for a massage`
+        : `\u{1F440} ${senderRef} mentioned massage to a helper`,
     text: [
       suspended
         ? `${senderRef} was warned in writing and has now sent another one. The account`
-        : `${senderRef} has asked a helper to massage or stretch them.`,
+        : asked
+          ? `${senderRef} has asked a helper to massage or stretch them.`
+          : `${senderRef} mentioned massage or stretching to a helper. Nobody asked for`
+            + ' anything outright, which is why this is a look rather than an alarm —'
+            + ' it is the shape a job ad takes when the requirement is written into the'
+            + ' wish-list instead (EMP-DZCDRL, 2026-11-10), and also the shape of a'
+            + ' perfectly ordinary reply to a helper who advertises massage herself.',
       suspended ? 'has been SUSPENDED automatically and the message was NOT delivered.' : '',
       '',
       'The message:',
@@ -692,8 +701,11 @@ export default async function handler(req, res) {
     // People sign up here to clean, cook and mind children. Being asked to
     // massage the person who hired them is a different job, asked of somebody
     // who is often alone in a stranger's home. See isSolicitation().
-    if (isEmployer && isSolicitation(trimmed)) {
-      const warned = senderRow?.warned_for === 'solicitation';
+    if (isEmployer && (isSolicitation(trimmed) || mentionsPersonalService(trimmed))) {
+      // Suspension needs BOTH a warning and an actual request. The broader
+      // test only ever raises a flag — an ad that lists "Thai massage" among
+      // its wishes is worth reading, not worth an automatic ban.
+      const warned = senderRow?.warned_for === 'solicitation' && isSolicitation(trimmed);
       if (warned) {
         // The warning letter said this would happen. Suspend first, then
         // refuse — so the message does not reach the helper even if the mail
@@ -714,8 +726,12 @@ export default async function handler(req, res) {
         windowMs: 24 * 60 * 60 * 1000,
       });
       if (fresh && process.env.RESEND_API_KEY && process.env.ADMIN_EMAIL) {
-        notifyAdminOfSolicitation({ senderRef: session.ref, suspended: false, sample: trimmed })
-          .catch((e) => console.error('Solicitation alert failed:', e.message));
+        notifyAdminOfSolicitation({
+          senderRef: session.ref,
+          suspended: false,
+          asked: isSolicitation(trimmed),
+          sample: trimmed,
+        }).catch((e) => console.error('Solicitation alert failed:', e.message));
       }
     }
 
