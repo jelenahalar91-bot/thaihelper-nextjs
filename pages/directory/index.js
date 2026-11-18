@@ -45,8 +45,8 @@ import {
 
 const T = {
   en: {
-    page_title: 'Immigration Experts Directory – ThaiHelper',
-    meta_desc: 'Find immigration lawyers, visa agents and MOU agencies across Thailand. Verified expert directory for families needing work permits or visas for their household helpers.',
+    page_title: 'Agencies, Companies & Visa Experts in Thailand – ThaiHelper',
+    meta_desc: 'Staffing agencies, cleaning and nanny companies, immigration lawyers, visa and MOU agents and training providers across Thailand — all in one directory for families hiring household help.',
     nav_employers: 'For Families',
     nav_helpers: 'For Helpers',
     nav_blog: 'Blog',
@@ -62,7 +62,7 @@ const T = {
     hero_eyebrow: 'Expert Directory',
     // Per-tab hero copy. The default ('all') is also the SEO title users land
     // on; tab-specific copy makes the page feel responsive to the filter.
-    hero_h1_all:                 'Agencies, companies, lawyers and visa experts in Thailand',
+    hero_h1_all:                 'Everything you need to hire household help in Thailand',
     hero_sub_all:                '',
     hero_h1_agency:              'Find a domestic helper agency near you',
     hero_sub_agency:             'Staffing agencies that place nannies, housekeepers, caregivers and drivers with families across Thailand. Curated shortlist, you choose.',
@@ -143,8 +143,8 @@ const T = {
     partner_cta_btn: 'Become a partner →',
   },
   th: {
-    page_title: 'รายชื่อผู้เชี่ยวชาญด้านตรวจคนเข้าเมือง – ThaiHelper',
-    meta_desc: 'ค้นหาทนายความตรวจคนเข้าเมือง ตัวแทนวีซ่า และหน่วยงาน MOU ทั่วประเทศไทย รายชื่อผู้เชี่ยวชาญที่ได้รับการยืนยันสำหรับครอบครัวที่ต้องการใบอนุญาตทำงานหรือวีซ่า',
+    page_title: 'บริษัทจัดหางาน บริษัทบริการ และผู้เชี่ยวชาญวีซ่าในประเทศไทย – ThaiHelper',
+    meta_desc: 'รวมบริษัทจัดหางาน บริษัททำความสะอาดและพี่เลี้ยงเด็ก ทนายความตรวจคนเข้าเมือง ตัวแทนวีซ่าและ MOU และผู้ให้บริการฝึกอบรมทั่วประเทศไทย ไว้ในที่เดียว สำหรับครอบครัวที่กำลังมองหาแม่บ้าน',
     nav_employers: 'สำหรับครอบครัว',
     nav_helpers: 'สำหรับผู้ช่วย',
     nav_blog: 'บล็อก',
@@ -158,7 +158,7 @@ const T = {
     nav_faq: 'คำถามที่พบบ่อย',
 
     hero_eyebrow: 'รายชื่อผู้เชี่ยวชาญ',
-    hero_h1_all:                 'บริษัทจัดหางาน บริษัทบริการ ทนายความ และผู้เชี่ยวชาญวีซ่าในประเทศไทย',
+    hero_h1_all:                 'ทุกสิ่งที่คุณต้องการเพื่อจ้างแม่บ้านในประเทศไทย',
     hero_sub_all:                '',
     hero_h1_agency:              'ค้นหาบริษัทจัดหาแม่บ้านใกล้คุณ',
     hero_sub_agency:             'บริษัทจัดหางานที่จัดส่งพี่เลี้ยงเด็ก แม่บ้าน ผู้ดูแล และคนขับรถให้กับครอบครัวทั่วประเทศไทย รายชื่อคัดสรร คุณเป็นผู้เลือก',
