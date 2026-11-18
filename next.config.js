@@ -1,5 +1,18 @@
 const { withSentryConfig } = require('@sentry/nextjs');
 
+// Hostname of the Supabase project this build talks to, for the image
+// allow-list below. Falls back to the previous wildcard if the variable is
+// not set, so a misconfigured build degrades to the old behaviour instead of
+// serving a page with no photographs on it.
+const SUPABASE_IMAGE_HOST = (() => {
+  try {
+    const u = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    return u ? new URL(u).hostname : '**.supabase.co';
+  } catch {
+    return '**.supabase.co';
+  }
+})();
+
 // Content-Security-Policy. ENFORCING since 2026-10-14; it spent sixteen days
 // in report-only first, and that was not ceremony — the run turned up exactly
 // one real violation, the Meta Pixel posting to facebook.com/tr/, which an
@@ -80,8 +93,20 @@ const nextConfig = {
         // instead of hammering Supabase egress (free 5 GB/mo). Bots
         // scraping /helpers now hit Vercel for compressed WebPs, not
         // 2-5 MB originals on Supabase.
+        //
+        // OUR project, not every Supabase project. This used to read
+        // '**.supabase.co', which matched any subdomain — measured on
+        // 2026-11-18: a request naming a stranger's project passed the
+        // allow-list and was only stopped by DNS, which means the optimiser
+        // would happily have fetched, resized and CDN-cached images from any
+        // Supabase account on the internet, on our bandwidth and our CPU.
+        // Nothing was being abused; the door was simply wider than the room.
+        //
+        // Read from the env so it cannot drift from the project the app talks
+        // to. If the variable is missing at build time we keep the old
+        // wildcard rather than silently breaking every photo on the site.
         protocol: 'https',
-        hostname: '**.supabase.co',
+        hostname: SUPABASE_IMAGE_HOST,
       },
     ],
     formats: ['image/avif', 'image/webp'],
