@@ -6,8 +6,17 @@
  * Inhaltsvarianten (stat / single / steps / list), damit neun Posts nicht
  * neunmal gleich aussehen, der Feed aber trotzdem als Reihe erkennbar ist.
  *
- * Schrift: Avenir Next (auf macOS vorhanden). Die Markenschrift Manrope ist
- * hier nicht installiert — wer sie installiert, aendert nur die Konstante F.
+ * Schrift: dieselben wie die Website (next/font in pages/_app.js) —
+ * Plus Jakarta Sans fuer Zahlen und Headlines, Sarabun fuer Thai.
+ *
+ * WICHTIG: sharp bringt eine eigene fontconfig mit, die ~/Library/Fonts von
+ * sich aus NICHT liest. Ohne FONTCONFIG_PATH rendert alles still in Helvetica
+ * — es gibt keine Fehlermeldung, nur ein falsch aussehendes Bild.
+ *
+ *   FONTCONFIG_PATH=/opt/homebrew/etc/fonts node scripts/build-fb-cards.mjs
+ *
+ * Voraussetzung: Plus Jakarta Sans und Sarabun liegen in ~/Library/Fonts
+ * (TTFs aus github.com/google/fonts, ofl/plusjakartasans und ofl/sarabun).
  */
 
 const CARDS = [
@@ -65,13 +74,14 @@ const OUT  = path.join(REPO, 'public/fb-2026-11');
 fs.mkdirSync(OUT, { recursive: true });
 
 const W = 1080, H = 1080;
-const F = 'Avenir Next, Avenir, Helvetica Neue, sans-serif';
+const F  = 'Plus Jakarta Sans, Manrope, Avenir Next, sans-serif';
+const TH = 'Sarabun, ' + F;
 const esc = s => String(s).replace(/&(?!amp;|#)/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-// Avenir laeuft bei ~0.52em je Zeichen. Reicht als Schaetzung, um Text
+// Plus Jakarta Sans laeuft bei ~0.50em je Zeichen. Reicht als Schaetzung, um Text
 // innerhalb der Satzbreite (88..992) zu halten — resvg kann nicht messen.
 function wrap(text, size, maxW = 904) {
-  const max = Math.floor(maxW / (size * 0.52));
+  const max = Math.floor(maxW / (size * 0.50));
   const out = [];
   for (const chunk of String(text).split('<br/>')) {
     let line = '';
@@ -150,7 +160,7 @@ for (const c of CARDS) {
     ${body(c)}
     <line x1="88" y1="830" x2="992" y2="830" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2"/>
     <text x="88" y="906" font-family="${F}" font-size="30" font-weight="400" fill="#8fc4bc">${esc(c.foot)}</text>
-    <text x="88" y="952" font-family="${F}" font-size="30" font-weight="400" fill="#8fc4bc">${esc(c.footTh)}</text>
+    <text x="88" y="952" font-family="${TH}" font-size="30" font-weight="400" fill="#8fc4bc">${esc(c.footTh)}</text>
   </svg>`;
 
   await sharp(Buffer.from(svg))
