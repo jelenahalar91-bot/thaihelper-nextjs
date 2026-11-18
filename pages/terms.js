@@ -19,7 +19,7 @@ const T = {
     nav_faq_link:  'FAQ',
     nav_cta:       'Register – Free',
     title:         'Terms of Service',
-    updated:       'Last updated: April 2026',
+    updated:       'Last updated: November 2026',
     back:          '← Back to Home',
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff.',
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
@@ -40,7 +40,7 @@ const T = {
     nav_login:     'เข้าสู่ระบบ',
     nav_cta:       'สมัคร – ฟรี',
     title:         'ข้อกำหนดการใช้บริการ',
-    updated:       'อัปเดตล่าสุด: เมษายน 2569',
+    updated:       'อัปเดตล่าสุด: พฤศจิกายน 2569',
     back:          '← กลับหน้าแรก',
     footer_desc: 'ThaiHelper เชื่อมโยงครอบครัวและชาวต่างชาติในประเทศไทยกับพนักงานในบ้านที่ไว้ใจได้',
     footer_product: 'ผลิตภัณฑ์', footer_find: 'ประโยชน์', footer_hire: 'หมวดหมู่', footer_pricing: 'ราคา', footer_employers: 'สำหรับครอบครัว',
@@ -202,6 +202,9 @@ function TermsEN() {
         ThaiHelper welcomes <strong>all families in Thailand</strong> — including international expats, tourists, digital nomads, and local Thai families — who are looking for household help. The platform also serves helpers and service providers seeking work opportunities.
       </p>
       <p>
+        <strong>The work itself must be in Thailand.</strong> Families who live abroad are welcome to look for household help here before or after a move to Thailand, but the position being offered must be located in Thailand. ThaiHelper may not be used to advertise, offer, or enquire about a job in another country, or to recruit anyone for employment abroad — including where the employer would arrange the visa, the work permit, or the flight.
+      </p>
+      <p>
         By registering on ThaiHelper, you confirm that you are at least 18 years of age and that you will use the platform in compliance with all applicable laws.
       </p>
 
@@ -258,6 +261,8 @@ function TermsEN() {
         <li>Solicit or engage in any illegal activities.</li>
         <li>Scrape, copy, or distribute platform content without permission.</li>
         <li>Use the platform for any commercial purpose other than finding or offering household services.</li>
+        <li>Advertise, offer, or enquire about a position located outside Thailand, or recruit anyone for employment abroad.</li>
+        <li>Ask a helper for massage, for any other personal or physical service, or for work other than the household work listed in their profile.</li>
       </ul>
 
       <h2>9. Profile Removal</h2>
@@ -319,6 +324,9 @@ function TermsTH() {
         ThaiHelper ยินดีต้อนรับ <strong>ครอบครัวทุกคนในประเทศไทย</strong> รวมถึงชาวต่างชาติ นักท่องเที่ยว ดิจิทัลโนแมด และครอบครัวชาวไทย ที่ต้องการผู้ช่วยในบ้าน แพลตฟอร์มยังให้บริการผู้ช่วยและผู้ให้บริการที่กำลังหาโอกาสในการทำงาน
       </p>
       <p>
+        <strong>ตัวงานต้องอยู่ในประเทศไทย</strong> ครอบครัวที่อาศัยอยู่ต่างประเทศสามารถหาผู้ช่วยในบ้านที่นี่ได้ ทั้งก่อนและหลังย้ายมาประเทศไทย แต่ตำแหน่งงานที่เสนอต้องอยู่ในประเทศไทย ห้ามใช้ ThaiHelper เพื่อประกาศ เสนอ หรือสอบถามเกี่ยวกับงานในประเทศอื่น หรือเพื่อชักชวนให้ไปทำงานในต่างประเทศ รวมถึงกรณีที่นายจ้างจะจัดการวีซ่า ใบอนุญาตทำงาน หรือตั๋วเครื่องบินให้
+      </p>
+      <p>
         เมื่อลงทะเบียนบน ThaiHelper คุณยืนยันว่าคุณมีอายุอย่างน้อย 18 ปี และจะใช้แพลตฟอร์มตามกฎหมายที่เกี่ยวข้องทั้งหมด
       </p>
 
@@ -376,6 +384,8 @@ function TermsTH() {
         <li>ชักชวนหรือมีส่วนร่วมในกิจกรรมที่ผิดกฎหมาย</li>
         <li>คัดลอก ดึงข้อมูล หรือเผยแพร่เนื้อหาแพลตฟอร์มโดยไม่ได้รับอนุญาต</li>
         <li>ใช้แพลตฟอร์มเพื่อวัตถุประสงค์เชิงพาณิชย์อื่นนอกเหนือจากการหาหรือเสนอบริการในบ้าน</li>
+        <li>ประกาศ เสนอ หรือสอบถามเกี่ยวกับตำแหน่งงานที่อยู่นอกประเทศไทย หรือชักชวนให้ไปทำงานในต่างประเทศ</li>
+        <li>ขอให้ผู้ช่วยนวดให้แก่ตน หรือขอบริการส่วนตัวหรือบริการที่เกี่ยวกับร่างกายในลักษณะอื่น หรือขอให้ทำงานอื่นนอกเหนือจากงานบ้านที่ระบุไว้ในโปรไฟล์ของผู้ช่วย</li>
       </ul>
 
       <h2>9. การลบโปรไฟล์</h2>
