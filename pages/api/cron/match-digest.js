@@ -3,12 +3,24 @@
 // Daily cron (configured in vercel.json) that sends a digest of accumulated
 // matches to recipients whose immediate-match cooldown has expired.
 //
+// DAILY SCHEDULE, WEEKLY CADENCE — and the schedule is not the thing to
+// change if you want it less often. What each person receives is governed by
+// MATCH_COOLDOWN_DAYS (lib/match-notifications.js), which is 7: this run only
+// writes to people whose week is up. The daily schedule is the delivery van,
+// not the frequency.
+//
+// Moving the cron to weekly instead would quietly break it. MAX_RECIPIENTS_
+// PER_RUN caps a single run at 200, and on 2026-11-18 there were 771 helpers
+// eligible inside seven days out of 1,123. One run a week would have served
+// 200 of them and silently dropped the other 571, every week, with nothing in
+// the logs to say so.
+//
 // For each verified helper / employer with last_match_notification_at older
 // than MATCH_COOLDOWN_DAYS (or NULL), we look at the opposite-side users in
 // the same city + matching category whose email_verified happened SINCE the
 // recipient's last notification. If there are any, we send a single digest
 // email + optional LINE push, then stamp last_match_notification_at = now so
-// the next 3-day window starts fresh.
+// the next window starts fresh.
 //
 // Auth: Vercel Cron sends `Authorization: Bearer $CRON_SECRET` automatically
 // when CRON_SECRET is set. Falls back to `x-vercel-cron: 1` header otherwise.
