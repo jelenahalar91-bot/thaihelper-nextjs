@@ -1,22 +1,31 @@
 // GET /api/cron/match-digest
 //
-// Daily cron (configured in vercel.json) that sends a digest of accumulated
-// matches to recipients whose immediate-match cooldown has expired.
+// Weekly cron (configured in vercel.json) that sends a digest of accumulated
+// matches on Monday morning.
 //
-// DAILY SCHEDULE, WEEKLY CADENCE — and the schedule is not the thing to
-// change if you want it less often. What each person receives is governed by
-// MATCH_COOLDOWN_DAYS (lib/match-notifications.js), which is 7: this run only
-// writes to people whose week is up. The daily schedule is the delivery van,
-// not the frequency.
+// MONDAY MORNING, EVERYBODY — Jelena's call on 2026-11-18. Eligibility is not
+// "seven days since your last one" but "nothing since this week's Monday",
+// computed in Bangkok time by weekStartBangkok(). A rolling window drifts:
+// somebody notified on a Tuesday becomes due the next Tuesday, and within a
+// month a "weekly" mail is scattered over every day of it. A fixed Monday
+// boundary keeps it on Monday for everyone, indefinitely.
 //
-// Moving the cron to weekly instead would quietly break it. MAX_RECIPIENTS_
-// PER_RUN caps a single run at 200, and on 2026-11-18 there were 771 helpers
-// eligible inside seven days out of 1,123. One run a week would have served
-// 200 of them and silently dropped the other 571, every week, with nothing in
-// the logs to say so.
+// WHY SEVERAL RUNS, AND WHY A DAILY ONE AS WELL. A run handles at most
+// MAX_RECIPIENTS_PER_RUN people and works through them one at a time — a
+// match query, an email, a LINE push, a stamp, then the next person. On
+// 2026-11-18 there were 549 helpers with something real to report. They do
+// not fit in one invocation, so vercel.json schedules four runs across Monday
+// morning, 09:00 to 10:30 Bangkok.
 //
-// For each verified helper / employer with last_match_notification_at older
-// than MATCH_COOLDOWN_DAYS (or NULL), we look at the opposite-side users in
+// Repeating is safe because the first thing each run does is skip anyone
+// already stamped this week, so a later run finds only the people an earlier
+// one did not reach. The daily run from Tuesday to Sunday is a no-op in the
+// normal case for exactly that reason; it is there so a failed Monday, or a
+// backlog that outgrows four runs, is caught the next morning rather than
+// waiting a week.
+//
+// For each verified helper / employer not written to since this week's
+// Monday (or never), we look at the opposite-side users in
 // the same city + matching category whose email_verified happened SINCE the
 // recipient's last notification. If there are any, we send a single digest
 // email + optional LINE push, then stamp last_match_notification_at = now so
@@ -39,14 +48,14 @@ import {
 import { createUnsubscribeToken, buildUnsubscribeUrl } from '../../../lib/unsubscribe';
 import { sendPush, templates as lineTemplates } from '../../../lib/line';
 import {
-  MATCH_COOLDOWN_DAYS,
+  weekStartBangkok,
   matchOverlap,
   fetchHelpersCoveringCity,
   helperCitySlugs,
 } from '../../../lib/match-notifications';
 import { toCitySlug, cityQueryVariants } from '../../../lib/constants/cities';
 
-const COOLDOWN_MS = MATCH_COOLDOWN_DAYS * 24 * 60 * 60 * 1000;
+// Nobody is written to twice in the same calendar week, Bangkok time.
 // Cap how far back we look on the very first run for a recipient (NULL
 // last_match_notification_at). We don't want to suddenly blast a digest of
 // every helper/employer ever registered — keep the lookback bounded.
@@ -99,7 +108,7 @@ export default async function handler(req, res) {
   }
 
   const supabase = getServiceSupabase();
-  const cooldownCutoff = new Date(Date.now() - COOLDOWN_MS).toISOString();
+  const weekStart = weekStartBangkok();
 
   let helperDigests = 0;
   let employerDigests = 0;
@@ -117,7 +126,7 @@ export default async function handler(req, res) {
       'status, search_status, line_user_id, notify_via_line, last_match_notification_at'
     )
     .eq('email_verified', true)
-    .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${cooldownCutoff}`)
+    .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${weekStart}`)
     .limit(MAX_RECIPIENTS_PER_RUN);
 
   if (empErr) {
@@ -228,7 +237,7 @@ export default async function handler(req, res) {
       'availability_status'
     )
     .eq('email_verified', true)
-    .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${cooldownCutoff}`)
+    .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${weekStart}`)
     .or('status.eq.active,status.is.null')
     // Helpers who hid their profile don't want match mail at all.
     .or('availability_status.neq.hidden,availability_status.is.null')
