@@ -1215,7 +1215,7 @@ function FilterSidebar({
       </div>
 
       {/* Category */}
-      <FilterGroup label={t.filter_cat_label}>
+      <FilterField label={t.filter_cat_label}>
         <select
           value={filterCat}
           onChange={e => setFilterCat(e.target.value)}
@@ -1226,10 +1226,10 @@ function FilterSidebar({
             <option key={c.value} value={c.value}>{c.en}</option>
           ))}
         </select>
-      </FilterGroup>
+      </FilterField>
 
       {/* City */}
-      <FilterGroup label={t.filter_city_label}>
+      <FilterField label={t.filter_city_label}>
         <select
           value={filterCity}
           onChange={e => setFilterCity(e.target.value)}
@@ -1238,11 +1238,11 @@ function FilterSidebar({
           <option value="">{t.filter_city}</option>
           {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
-      </FilterGroup>
+      </FilterField>
 
       {/* Area — the chosen city's areas to pick from; a search line when
           the city has no list (or no city is chosen). */}
-      <FilterGroup label={t.filter_area_label}>
+      <FilterField label={t.filter_area_label}>
         <AreaFilter
           city={filterCity}
           value={filterArea}
@@ -1251,7 +1251,7 @@ function FilterSidebar({
           selectStyle={filterSelectStyle}
           inputStyle={filterInputStyle}
         />
-      </FilterGroup>
+      </FilterField>
 
       {/* Age range */}
       <FilterGroup label={t.filter_age_label}>
@@ -1335,7 +1335,7 @@ function FilterSidebar({
       </FilterGroup>
 
       {/* Nationality */}
-      <FilterGroup label={t.filter_nat_label}>
+      <FilterField label={t.filter_nat_label}>
         <select
           value={filterNationality}
           onChange={e => setFilterNationality(e.target.value)}
@@ -1347,10 +1347,10 @@ function FilterSidebar({
             </option>
           ))}
         </select>
-      </FilterGroup>
+      </FilterField>
 
       {/* Work permit — positive filter only ("Has WP" / "Thai national") */}
-      <FilterGroup label={t.filter_wp_label}>
+      <FilterField label={t.filter_wp_label}>
         <select
           value={filterWp}
           onChange={e => setFilterWp(e.target.value)}
@@ -1362,23 +1362,55 @@ function FilterSidebar({
             </option>
           ))}
         </select>
-      </FilterGroup>
+      </FilterField>
     </div>
   );
 }
 
+// Caption styling shared by both wrappers below, so a filter looks the same
+// whether its caption is decorative or the accessible name of a control.
+const filterCaptionStyle = {
+  fontSize: '11px', fontWeight: 800, color: '#9ca3af',
+  textTransform: 'uppercase', letterSpacing: '0.5px',
+  marginBottom: '8px',
+};
+
+// For filters made of chip BUTTONS (age, rate, availability, gender…).
+// The caption cannot be a <label> here: a label names exactly one control,
+// and clicking it would fire whichever chip came first. role="group" plus
+// aria-label names the set instead, so a screen reader says "Age range,
+// group" before reading the chips. The visible caption is then aria-hidden,
+// or it would be read a second time.
 function FilterGroup({ label, children }) {
   return (
-    <div style={{ marginBottom: '16px' }}>
-      <div style={{
-        fontSize: '11px', fontWeight: 800, color: '#9ca3af',
-        textTransform: 'uppercase', letterSpacing: '0.5px',
-        marginBottom: '8px',
-      }}>
+    <div style={{ marginBottom: '16px' }} role="group" aria-label={label}>
+      <div style={filterCaptionStyle} aria-hidden="true">
         {label}
       </div>
       {children}
     </div>
+  );
+}
+
+// For filters that ARE a single control: the four <select>s, and <AreaFilter>,
+// which renders either a search input or a select but never both.
+//
+// The caption was drawn above these but never attached to them, so a screen
+// reader announced five of the browse filters as an unnamed "combo box" —
+// the controls a family uses to find anybody at all.
+//
+// Wrapping rather than htmlFor/id on purpose. An id has to be unique and has
+// to match, and in September a label fixer in this repo set htmlFor without
+// setting the matching id, which left the markup worse than it found it. A
+// <label> that contains its control needs neither; the link cannot dangle.
+function FilterField({ label, children }) {
+  return (
+    <label style={{ marginBottom: '16px', display: 'block' }}>
+      <span style={{ ...filterCaptionStyle, display: 'block' }}>
+        {label}
+      </span>
+      {children}
+    </label>
   );
 }
 

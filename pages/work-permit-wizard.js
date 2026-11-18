@@ -636,9 +636,15 @@ export default function WorkPermitWizard() {
                       title={t.q1_title}
                       sub={t.q1_sub}
                     >
+                      {/* aria-label carries the question as this control's
+                          accessible name. <Question> is shared with the steps
+                          made of buttons, so its caption cannot become a
+                          <label> there without naming the wrong thing —
+                          naming the one real field is enough. */}
                       <select
                         value={city}
                         onChange={e => setCity(e.target.value)}
+                        aria-label={t.q1_title}
                         className="w-full p-3 rounded-xl border border-slate-300 text-base bg-white"
                       >
                         <option value="">{t.q1_placeholder}</option>
