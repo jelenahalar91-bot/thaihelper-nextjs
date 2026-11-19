@@ -43,6 +43,7 @@ import {
 } from '../../lib/spam-signals';
 import { notifyContactedHelpers } from '../../lib/emails/suspended-contact-notice';
 import { blockedHandlesIn, linkHandles } from '../../lib/contact-blocklist';
+import { helperOpenedTheDoor, linkSpread } from '../../lib/contact-invite';
 // Contact info in messages is still NOT blocked on content — sharing a phone
 // number or LINE ID is the point of a direct-connection platform (server-side
 // block removed 2026-06-08 with the repositioning).
@@ -56,6 +57,13 @@ import { blockedHandlesIn, linkHandles } from '../../lib/contact-blocklist';
 // lib/messaging-filter.js is therefore used again — but as a spam SIGNAL, not
 // as a content gate: see lib/spam-signals.js. Ordinary contact sharing passes
 // untouched; the same handoff repeated across dozens of conversations does not.
+
+// How far back the contact-link alert reads the thread. Long enough that an
+// invitation does not fall out of view while the family is away: replayed
+// over the whole corpus on 2026-11-19, the longest gap between the helper's
+// invitation and the family's answer was 7 messages and 130 minutes. Short
+// enough to stay one indexed query.
+const CONTACT_LINK_HISTORY = 50;
 
 // Tell the admin inbox that someone is spraying contact details across many
 // conversations. Same destination as /api/report-content — moderation is
@@ -573,12 +581,48 @@ export default async function handler(req, res) {
     if (session.role === 'employer') {
       const links = linkHandles(trimmed);
       if (links.length) {
-        const fresh = await checkRateLimit({
+        // The conversation so far, oldest first. The alert used to show the
+        // link and nothing else, which made every one of them a database
+        // query before it could be judged: on 2026-10-26 EMP-HS6UKE was
+        // flagged for answering a helper who had just written "How can I
+        // apply?" — the sentence that settles the case was one line above the
+        // quoted message and not in the mail. A helper asking for the handle
+        // reads very differently from a family volunteering it unprompted.
+        //
+        // The mail shows the last three turns; the suppression below reads
+        // the whole thread, because the invitation and the answer can be an
+        // hour and several messages apart (EMP-XG6SYL, 2026-11-19).
+        //
+        // This message is not written yet (the insert is further down), so
+        // the newest row here is genuinely the one before it.
+        const { data: before } = await supabase
+          .from('messages')
+          .select('sender_type, content_original, content_translated, created_at')
+          .eq('conversation_id', conversation_id)
+          .order('created_at', { ascending: false })
+          .limit(CONTACT_LINK_HISTORY);
+        const history = (before || []).reverse();
+
+        // She asked first, and this account has not linked at anybody else —
+        // see lib/contact-invite.js for why both halves are needed. No mail,
+        // and no token spent either: a suppressed conversation must not use
+        // up the account's one alert for the day and hide a spray sent an
+        // hour later at somebody who said nothing at all.
+        const asked = helperOpenedTheDoor(history);
+        const spread = asked ? await linkSpread(supabase, session.ref, conversation_id) : 0;
+        const invited = asked && spread === 0 ? asked : null;
+        const fresh = invited ? false : await checkRateLimit({
           bucket: 'employer-contact-link-alert',
           key: session.ref,
           max: 1,
           windowMs: 24 * 60 * 60 * 1000,
         });
+        if (invited) {
+          console.log(
+            `Contact-link alert suppressed for ${session.ref}: helper ${invited.reason}`
+            + ` — "${invited.text.slice(0, 120)}"`
+          );
+        }
         if (fresh) {
           const { data: acct } = await supabase
             .from('employer_accounts')
@@ -589,24 +633,7 @@ export default async function handler(req, res) {
             ? Math.round((Date.now() - new Date(acct.created_at)) / 36e5)
             : null;
 
-          // The three messages before this one, oldest first. The alert used to
-          // show the link and nothing else, which made every one of them a
-          // database query before it could be judged: on 2026-10-26 EMP-HS6UKE
-          // was flagged for answering a helper who had just written "How can I
-          // apply?" — the sentence that settles the case was one line above the
-          // quoted message and not in the mail. A helper asking for the handle
-          // reads very differently from a family volunteering it unprompted,
-          // and that difference is almost always in the last few turns.
-          //
-          // This message is not written yet (the insert is further down), so
-          // the newest row here is genuinely the one before it.
-          const { data: before } = await supabase
-            .from('messages')
-            .select('sender_type, content_original, content_translated, created_at')
-            .eq('conversation_id', conversation_id)
-            .order('created_at', { ascending: false })
-            .limit(3);
-          const context = (before || []).reverse().flatMap((m) => {
+          const context = history.slice(-3).flatMap((m) => {
             const who = m.sender_type === 'helper' ? 'Helper  ' : 'Family  ';
             const out = [`  ${who} ${(m.content_original || '').slice(0, 200)}`];
             // Thai and Burmese arrive translated; the English is what tells you
@@ -629,13 +656,24 @@ export default async function handler(req, res) {
               ...(context.length
                 ? ['How the conversation got there:', ...context, '']
                 : ['Nothing was said in this conversation before it.', '']),
+              // The only way an alert still arrives after the helper asked:
+              // the same account is linking at other people too. Say so, or
+              // this mail reads like the false positive it is not.
+              ...(asked ? [
+                `She ${asked.reason} first — this would be suppressed, except the`,
+                `account has sent a link into ${spread} other conversation(s) in 30 days.`,
+                '',
+              ] : []),
               'Message:',
               `  Family   ${trimmed.slice(0, 300)}`,
               '',
               'Families have no reason to send these — every one in the 30 days',
-              'before 2026-09-15 came from a confirmed scam account. A helper who',
-              'asked for it first ("how can I apply?", "what is your LINE?") is the',
-              'ordinary exception, and the lines above usually show which this is:',
+              'before 2026-09-15 came from a confirmed scam account. The ordinary',
+              'exception is a helper who asked for it first ("how can I apply?",',
+              '"what is your LINE?", a number of her own) — since 2026-11-19 those',
+              'are suppressed, so this one is either unprompted or came from an',
+              'account that is linking at other people too. Read the turns above,',
+              'then:',
               `  ${suspendCommand(session.ref)}`,
             ],
           }).catch((e) => console.error('Contact-link alert failed:', e.message));
