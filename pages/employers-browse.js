@@ -918,7 +918,7 @@ export async function getServerSideProps({ res }) {
   res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
-    const { isPubliclyListable, hiddenForMissingJobText } = await import('@/lib/access');
+    const { isPubliclyListable, hiddenForMissingJobText, hiddenForInactivity } = await import('@/lib/access');
     const supabase = getServiceSupabase();
     const { data, error } = await supabase
       .from('employer_accounts')
@@ -943,7 +943,8 @@ export async function getServerSideProps({ res }) {
       // the hole open on the page itself.
       .filter((row) => row.search_status !== 'hidden'
         && isPubliclyListable(row)
-        && !hiddenForMissingJobText(row))
+        && !hiddenForMissingJobText(row)
+        && !hiddenForInactivity(row))
       .map((row) => ({
         ref: row.employer_ref || null,
         firstName: row.first_name || '',

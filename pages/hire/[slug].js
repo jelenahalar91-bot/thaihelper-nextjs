@@ -41,12 +41,17 @@ export async function getStaticProps({ params }) {
   let matchingHelpers = [];
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
+    const { activeSinceFilter } = await import('@/lib/access');
     const supabase = getServiceSupabase();
     let query = supabase
       .from('helper_profiles')
       .select('first_name, last_name, age, date_of_birth, category, city, area, experience, languages, photo_url, bio, bio_en, phone_verified_at, line_linked_at')
       .or('status.eq.active,status.is.null')
       .or('availability_status.neq.hidden,availability_status.is.null')
+      // Dormant profiles, same rule as the browse lists. In the query and not
+      // after it: this fetch takes a .limit(), so a row thinned out afterwards
+      // is a slot on the page that just stays empty.
+      .or(activeSinceFilter())
       .eq('email_verified', true)
       .order('created_at', { ascending: false })
       .limit(6);

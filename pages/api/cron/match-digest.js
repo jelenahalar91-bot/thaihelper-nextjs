@@ -14,7 +14,7 @@
 // when CRON_SECRET is set. Falls back to `x-vercel-cron: 1` header otherwise.
 
 import { getServiceSupabase } from '../../../lib/supabase';
-import { isPubliclyListable, hiddenForMissingJobText } from '../../../lib/access';
+import { isPubliclyListable, hiddenForMissingJobText, hiddenForInactivity } from '../../../lib/access';
 import {
   // Named after what the email CONTAINS, not who receives it — same
   // convention as sendNewHelperMatchEmail / sendNewEmployerMatchEmail:
@@ -136,7 +136,7 @@ export default async function handler(req, res) {
         supabase,
         emp.city,
         'helper_ref, first_name, city, category, additional_cities, email_verified, ' +
-        'status, availability_status',
+        'status, availability_status, last_login_at, created_at',
         { verifiedSince: since, limit: 20 }
       );
 
@@ -148,6 +148,9 @@ export default async function handler(req, res) {
       const matches = (helpers || [])
         .filter((h) => h.status === null || h.status === undefined || h.status === 'active')
         .filter((h) => h.availability_status !== 'hidden')
+        // Not a soul behind the profile for three months. Putting her in a
+        // family's digest is the dead end this mail is supposed to avoid.
+        .filter((h) => !hiddenForInactivity(h))
         .map((h) => ({ helper: h, overlap: matchOverlap(emp, h) }))
         .filter((m) => m.overlap !== null)
         .slice(0, MAX_ROWS_PER_DIGEST);
@@ -220,6 +223,11 @@ export default async function handler(req, res) {
     .or('status.eq.active,status.is.null')
     // Helpers who hid their profile don't want match mail at all.
     .or('availability_status.neq.hidden,availability_status.is.null')
+    // Note the asymmetry with hiddenForInactivity() below: a dormant helper is
+    // left OUT of the lists families see and kept IN as a recipient. Unlisting
+    // her is about not wasting a family's time; the digest is one of the three
+    // things that might bring her back, and cutting it would make dormancy
+    // permanent by design.
     .limit(MAX_RECIPIENTS_PER_RUN);
 
   if (hlpErr) {
@@ -240,7 +248,7 @@ export default async function handler(req, res) {
       // earlier and only verified recently still appears in the digest.
       const { data: employers, error: eErr } = await supabase
         .from('employer_accounts')
-        .select('employer_ref, first_name, city, looking_for, email_verified, status, search_status, job_description, job_details')
+        .select('employer_ref, first_name, city, looking_for, email_verified, status, search_status, job_description, job_details, last_login_at, created_at')
         .in('city', [...new Set(coveredCities.flatMap(cityQueryVariants))])
         .eq('email_verified', true)
         .gt('email_verified_at', since)
@@ -261,7 +269,8 @@ export default async function handler(req, res) {
         .filter((e) => isPubliclyListable(e)
           && !hiddenForMissingJobText(e)
           && e.search_status !== 'hidden'
-          && e.search_status !== 'paused')
+          && e.search_status !== 'paused'
+          && !hiddenForInactivity(e))
         .map((e) => ({ employer: e, overlap: matchOverlap(e, hlp) }))
         .filter((m) => m.overlap !== null)
         .slice(0, MAX_ROWS_PER_DIGEST);

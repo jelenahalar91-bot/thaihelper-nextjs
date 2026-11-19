@@ -11,7 +11,7 @@
 // Shape mirrors /api/helpers for consistency.
 
 import { getServiceSupabase, selectAll } from '../../lib/supabase';
-import { isPubliclyListable, hiddenForMissingJobText } from '../../lib/access';
+import { isPubliclyListable, hiddenForMissingJobText, hiddenForInactivity } from '../../lib/access';
 
 function toPublicCard(row) {
   return {
@@ -94,7 +94,11 @@ export default async function handler(req, res) {
     const employers = (accounts || [])
       .filter((row) => row.search_status !== 'hidden'
         && isPubliclyListable(row)
-        && !hiddenForMissingJobText(row))
+        && !hiddenForMissingJobText(row)
+        // A family that has not opened the site in three months is a dead end
+        // for the helper who writes to it, exactly as a dormant helper is for
+        // the family. Derived, so logging back in re-lists them.
+        && !hiddenForInactivity(row))
       .map(toPublicCard);
 
     res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');

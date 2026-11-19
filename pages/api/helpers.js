@@ -82,7 +82,7 @@ export default async function handler(req, res) {
     }
 
     const helpers = (data || [])
-      .filter(isPubliclyVisible)
+      .filter((row) => isPubliclyVisible(row))
       .map((row) => toPublicCard(row, {
         hasCertificates: certSet.has(row.helper_ref),
         referenceCount: refCounts.get(row.helper_ref) || 0,
