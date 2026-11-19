@@ -298,7 +298,7 @@ export async function getServerSideProps({ req, query }) {
     }
 
     const helpers = (data || [])
-      .filter(isPubliclyVisible)
+      .filter((row) => isPubliclyVisible(row))
       .map((row) => toPublicCard(row, {
         hasCertificates: certSet.has(row.helper_ref),
         referenceCount: refCounts.get(row.helper_ref) || 0,

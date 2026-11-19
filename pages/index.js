@@ -799,6 +799,7 @@ export async function getServerSideProps({ req }) {
   let initialTotalHelpers = null;
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
+    const { activeSinceFilter } = await import('@/lib/access');
     const supabase = getServiceSupabase();
     const [recentResult, countResult] = await Promise.all([
       supabase
@@ -808,6 +809,10 @@ export async function getServerSideProps({ req }) {
         // Mirrors /api/recent-helpers — helpers who hid their profile
         // are out; NULL is pre-migration data and stays visible.
         .or('availability_status.neq.hidden,availability_status.is.null')
+        // Dormant profiles, same rule as the browse lists. In the query and not
+        // after it: this fetch takes a .limit(), so a row thinned out afterwards
+        // is a slot on the page that just stays empty.
+        .or(activeSinceFilter())
         .eq('email_verified', true)
         .order('created_at', { ascending: false })
         .limit(4),
@@ -816,6 +821,10 @@ export async function getServerSideProps({ req }) {
         .select('helper_ref', { count: 'exact', head: true })
         .or('status.eq.active,status.is.null')
         .or('availability_status.neq.hidden,availability_status.is.null')
+        // Dormant profiles, same rule as the browse lists. In the query and not
+        // after it: this fetch takes a .limit(), so a row thinned out afterwards
+        // is a slot on the page that just stays empty.
+        .or(activeSinceFilter())
         .eq('email_verified', true),
     ]);
     if (!recentResult.error) {

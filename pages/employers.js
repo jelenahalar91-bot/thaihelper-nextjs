@@ -328,6 +328,7 @@ const PROFILES = [
 export async function getServerSideProps() {
   try {
     const { getServiceSupabase } = await import('@/lib/supabase');
+    const { activeSinceFilter } = await import('@/lib/access');
     const { getDisplayAge } = await import('@/lib/age');
     const { areaFields } = await import('@/lib/constants/areas');
     const supabase = getServiceSupabase();
@@ -343,6 +344,10 @@ export async function getServerSideProps() {
       )
       .or('status.eq.active,status.is.null')
       .or('availability_status.neq.hidden,availability_status.is.null')
+      // Dormant profiles, same rule as the browse lists. In the query and not
+      // after it: this fetch takes a .limit(), so a row thinned out afterwards
+      // is a slot on the page that just stays empty.
+      .or(activeSinceFilter())
       .eq('email_verified', true)
       .not('photo_url', 'is', null)
       .not('bio', 'is', null)

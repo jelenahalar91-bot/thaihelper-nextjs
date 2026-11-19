@@ -6,6 +6,7 @@
 // ref. Total count is used for the "80+ helpers registered" stat.
 
 import { getServiceSupabase } from '../../lib/supabase';
+import { activeSinceFilter } from '../../lib/access';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -30,6 +31,10 @@ export default async function handler(req, res) {
         // Helpers who took their profile offline. NULL is pre-migration
         // data and counts as visible, hence the .or() rather than .neq().
         .or('availability_status.neq.hidden,availability_status.is.null')
+        // Dormant profiles, same rule as the browse lists. In the query and not
+        // after it: this fetch takes a .limit(), so a row thinned out afterwards
+        // is a slot on the page that just stays empty.
+        .or(activeSinceFilter())
         .eq('email_verified', true)
         .order('created_at', { ascending: false })
         .limit(limit),
@@ -38,6 +43,10 @@ export default async function handler(req, res) {
         .select('helper_ref', { count: 'exact', head: true })
         .or('status.eq.active,status.is.null')
         .or('availability_status.neq.hidden,availability_status.is.null')
+        // Dormant profiles, same rule as the browse lists. In the query and not
+        // after it: this fetch takes a .limit(), so a row thinned out afterwards
+        // is a slot on the page that just stays empty.
+        .or(activeSinceFilter())
         .eq('email_verified', true),
     ]);
 
