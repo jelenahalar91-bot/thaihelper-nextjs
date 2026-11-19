@@ -244,7 +244,7 @@ export function getServiceSchema() {
       '@type': 'Offer',
       price: '0',
       priceCurrency: 'THB',
-      description: 'Free for helpers. Employers pay for verified access.',
+      description: 'Free for helpers and for families — no sign-up fee, no subscription, no commission.',
     },
   };
 }
