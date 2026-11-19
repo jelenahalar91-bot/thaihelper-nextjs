@@ -105,7 +105,7 @@ function getFaqs(page) {
     },
     {
       question: `Is ThaiHelper free for ${catLower}s?`,
-      answer: `Yes! ThaiHelper is 100% free for everyone. Creating a profile is free for helpers, and families pay nothing either — no sign-up fee, no subscription, no commission on salaries, and messaging between families and ${catLower}s is free on both sides.`,
+      answer: `Yes! ThaiHelper is 100% free for everyone. Creating a profile is free for helpers, and families pay nothing either — no sign-up fee, no subscription, no commission on salaries, and messaging is free on both sides.`,
     },
     {
       question: `Can I hire a ${catLower} without an agency in ${city}?`,
