@@ -89,10 +89,42 @@ export async function getStaticProps({ params }) {
 
 // ─── FAQ data per category ──────────────────────────────────────────────────
 
-function getFaqs(page) {
+function getFaqs(page, isEn = true) {
   const cat = page.categoryEn || 'helper';
   const city = page.cityEn || 'Thailand';
   const catLower = cat.toLowerCase();
+
+  // /th/hire/* used to show a Thai heading over five English answers — the
+  // Thai block below is written in Thai rather than translated word for word.
+  // It also feeds the FAQPage schema for that locale, so this is the text
+  // Thai search results and AI answers quote.
+  if (!isEn) {
+    const catTh = page.categoryTh || 'ผู้ช่วยงานบ้าน';
+    const cityTh = page.cityTh || 'ประเทศไทย';
+
+    return [
+      {
+        question: `ค่าจ้าง${catTh}ใน${cityTh}ประมาณเท่าไหร่?`,
+        answer: `ค่าจ้าง${catTh}ใน${cityTh}ขึ้นอยู่กับประสบการณ์ จำนวนชั่วโมง และหน้าที่ที่ต้องดูแล บน ThaiHelper คุณดูโปรไฟล์พร้อมค่าจ้างที่ระบุไว้ชัดเจนได้ งานเต็มเวลาส่วนใหญ่อยู่ที่ประมาณ 10,000–35,000 บาทต่อเดือน ส่วนงานพาร์ทไทม์ประมาณ 150–500 บาทต่อชั่วโมง`,
+      },
+      {
+        question: `หา${catTh}ที่ไว้ใจได้ใน${cityTh}ได้อย่างไร?`,
+        answer: `บน ThaiHelper ${catTh}ทุกคนต้องยืนยันอีเมลก่อนโปรไฟล์จะขึ้นแสดง คุณดูโปรไฟล์ ติดต่อได้โดยตรง แล้วสัมภาษณ์และขอตรวจสอบบุคคลอ้างอิงด้วยตัวเอง ไม่มีนายหน้าคั่นกลาง ไม่มีค่าธรรมเนียมแอบแฝง`,
+      },
+      {
+        question: `ThaiHelper ฟรีสำหรับ${catTh}ไหม?`,
+        answer: `ฟรี 100% สำหรับทุกคน ผู้ช่วยสร้างโปรไฟล์ได้ฟรี และครอบครัวที่จ้างก็ไม่ต้องจ่ายเช่นกัน ไม่มีค่าสมัคร ไม่มีค่าสมาชิกรายเดือน ไม่มีการหักค่าคอมมิชชั่นจากเงินเดือน และการส่งข้อความฟรีทั้งสองฝ่าย`,
+      },
+      {
+        question: `จ้าง${catTh}ใน${cityTh}โดยไม่ผ่านนายหน้าได้ไหม?`,
+        answer: `ได้ ThaiHelper ทำขึ้นเพื่อให้ติดต่อกันโดยตรง คุณเลือก${catTh}เอง ทักหาเอง และตกลงเงื่อนไขกันเอง ไม่มีค่านายหน้า ไม่มีคนกลาง`,
+      },
+      {
+        question: `ThaiHelper ครอบคลุมพื้นที่ไหนบ้างใน${cityTh}?`,
+        answer: `ThaiHelper ครอบคลุมทุกพื้นที่ใน${cityTh} ผู้ช่วยแต่ละคนระบุย่านที่สะดวกไปทำงานไว้ในโปรไฟล์ คุณจึงหาคนที่อยู่ใกล้บ้านได้`,
+      },
+    ];
+  }
 
   return [
     {
@@ -161,9 +193,9 @@ function getRelatedPages(page) {
 
 export default function HirePage({ page, matchingHelpers = [] }) {
   const { lang } = useLang();
-  const faqs = getFaqs(page);
   const related = getRelatedPages(page);
   const isEn = lang === 'en';
+  const faqs = getFaqs(page, isEn);
 
   const title = isEn ? page.title : (page.titleTh || page.title_th || page.title);
   const description = isEn
