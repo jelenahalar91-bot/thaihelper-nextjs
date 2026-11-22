@@ -37,7 +37,7 @@
 // admin inbox say whatever you like about an account.
 
 import { getServiceSupabase, selectAll } from '../../../lib/supabase';
-import { isSolicitation, mentionsPersonalService, suspendCommand } from '../../../lib/spam-signals';
+import { isSolicitation, mentionsPersonalService, suspendCommand, overseasPlacement } from '../../../lib/spam-signals';
 import { documentRequestKind } from '../../../lib/spam-signals';
 import { listingHasJobText } from '../../../lib/access';
 
@@ -95,6 +95,34 @@ const HOUSEHOLD_WORDS = new RegExp(
 // Long enough that two people saying "Hello, are you available?" are not a
 // finding. Short enough to catch a reused job ad.
 const IDENTICAL_MIN_LENGTH = 120;
+
+// A listing that offers work in another country.
+//
+// overseasPlacement() in lib/spam-signals.js reads MESSAGES, and suspends on
+// the first one, because approaching a helper about a job in Grand Cayman is
+// not something to sleep on. It never sees the job description — and that is
+// where EMP-GUYDMR put all of it: seventeen messages asking only "Are you
+// Filipino? Do you have newborn experience?", while the listing every helper
+// can read offers international flights, paid visas, travel with the family
+// and 40,656 baht. Nothing looked at the listing, so nothing fired.
+//
+// This is the listing half, and it only ever reports. A family that genuinely
+// travels and takes its nanny along is a real job and not ours to refuse; a
+// Filipina cannot lawfully do household work in Thailand at all, which is the
+// part worth a human reading rather than a rule deciding. Measured over all
+// 262 listings with any text: two hits, Colin Massias — already suspended by
+// hand for exactly this — and EMP-GUYDMR. No honest listing matched.
+const ABROAD_OFFER = new RegExp(
+  '(international(ly)? (flight|travel)'
+  + '|flights? (and|&) .{0,20}(visa|travel)'
+  + '|visas? (paid|covered|sponsored)'
+  + '|work(ing)? (abroad|overseas)'
+  + '|relocat(e|ion) (abroad|overseas|to)'
+  + '|travel (with|internationally) (the |our )?famil'
+  + '|overseas (position|placement|employment)'
+  + '|based (abroad|overseas))',
+  'i'
+);
 
 function authorize(req) {
   const expected = process.env.CRON_SECRET;
@@ -214,6 +242,23 @@ export default async function handler(req, res) {
     if (lines.length) {
       findings.push([`• ${label(ref)}`, ...lines.map((l) => `    ${l}`)].join('\n'));
     }
+  }
+
+  // ── listings that offer work in another country ───────────────────────
+  for (const e of employers || []) {
+    if (e.status !== 'active') continue;
+    const listing = `${e.job_description || ''} ${e.job_details ? JSON.stringify(e.job_details) : ''}`;
+    if (!listing.trim()) continue;
+    const viaOffer = ABROAD_OFFER.exec(listing);
+    const viaDetector = overseasPlacement(listing);
+    if (!viaOffer && !viaDetector) continue;
+    findings.push([
+      `• ${label(e.employer_ref)}`,
+      '    the LISTING offers work in another country, which the message checks never read:',
+      `    ${viaOffer ? `"…${viaOffer[0]}…"` : ''}${viaDetector?.place ? `  [${viaDetector.place}]` : ''}`,
+      '    A family that travels and takes its nanny along is a real job. A Filipina',
+      '    cannot lawfully do household work in Thailand at all. Read it before deciding.',
+    ].join('\n'));
   }
 
   // ── canaries: things the signup form has made impossible since 2026-10-02 ──
