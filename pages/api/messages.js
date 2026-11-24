@@ -233,7 +233,15 @@ async function notifyAdminOfSolicitation({ senderRef, suspended, asked = true, s
   });
 }
 
-const MESSAGES_PER_PAGE = 50;
+// Page 1 is the NEWEST messages, not the oldest — see the GET handler.
+//
+// 200 rather than 50 because 50 was where conversations died. Nothing in the
+// web app or the mobile app has ever asked for page 2: all four callers in
+// lib/api/messages.js pass 1, and the app sends no page at all. So a thread
+// that passed 50 messages showed its participants the first 50 forever and
+// swallowed every message after that, in both directions. The largest thread
+// on the platform on 2026-11-24 was 74.
+const MESSAGES_PER_PAGE = 200;
 // Max characters per message. Generous enough for long Thai replies but
 // prevents abuse (dumping huge blobs into the DB, bloating translation cost).
 const MAX_MESSAGE_LENGTH = 4000;
@@ -326,6 +334,26 @@ export default async function handler(req, res) {
 
     const offset = (parseInt(page, 10) - 1) * MESSAGES_PER_PAGE;
 
+    // NEWEST FIRST, then turned back round before it goes out.
+    //
+    // This used to read ascending, which made page 1 the OLDEST messages in
+    // the thread. Nothing has ever requested page 2 — the four callers in
+    // lib/api/messages.js all pass 1 and the mobile app sends no page at all
+    // — so once a conversation passed MESSAGES_PER_PAGE it froze: both sides
+    // kept seeing the same first window and every new message vanished.
+    //
+    // It surfaced on 2026-11-24 through two support mails that read like two
+    // different faults and were one: a family saying she could no longer see
+    // any correspondence with her helper, and that same helper, three hours
+    // earlier, saying she could not send. She could. Her messages were saved
+    // and invisible, so she typed them again — the thread has the same
+    // message at 281 characters five times over.
+    //
+    // A chat window wants the end of the conversation, so the query takes the
+    // newest and the array is reversed before returning. The response is
+    // still oldest-first within the page, which is the order every client
+    // already renders, and page 2 is now the window before it rather than
+    // after — the right direction for a "load older" control when one exists.
     const { data: messages, error } = await supabase
       .from('messages')
       .select(
@@ -333,7 +361,7 @@ export default async function handler(req, res) {
         'content_translated, source_language, target_language, is_read, created_at'
       )
       .eq('conversation_id', conversation_id)
-      .order('created_at', { ascending: true })
+      .order('created_at', { ascending: false })
       .range(offset, offset + MESSAGES_PER_PAGE - 1);
 
     if (error) {
@@ -341,8 +369,10 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to load messages' });
     }
 
+    const inOrder = (messages || []).slice().reverse();
+
     // Mask content for free-tier employers
-    const payload = (messages || []).map((m) =>
+    const payload = inOrder.map((m) =>
       isEmployer ? maskMessageForEmployer(m, employerHasAccess) : { ...m, is_locked: false }
     );
 
