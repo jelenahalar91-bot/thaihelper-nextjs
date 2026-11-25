@@ -324,15 +324,16 @@ export default async function handler(req, res) {
 
   // ─── GET messages ─────────────────────────────────────────────────────
   if (req.method === 'GET') {
-    const { conversation_id, page = '1' } = req.query;
+    const { conversation_id, page = '1', before = '' } = req.query;
     if (!conversation_id) {
       return res.status(400).json({ error: 'conversation_id required' });
+    }
+    if (before && Number.isNaN(Date.parse(before))) {
+      return res.status(400).json({ error: 'before must be a timestamp' });
     }
 
     const conv = await loadConversation(supabase, conversation_id, session);
     if (!conv) return res.status(404).json({ error: 'Conversation not found' });
-
-    const offset = (parseInt(page, 10) - 1) * MESSAGES_PER_PAGE;
 
     // NEWEST FIRST, then turned back round before it goes out.
     //
@@ -351,25 +352,54 @@ export default async function handler(req, res) {
     //
     // A chat window wants the end of the conversation, so the query takes the
     // newest and the array is reversed before returning. The response is
-    // still oldest-first within the page, which is the order every client
-    // already renders, and page 2 is now the window before it rather than
-    // after — the right direction for a "load older" control when one exists.
-    const { data: messages, error } = await supabase
+    // still oldest-first within the window, which is the order every client
+    // already renders.
+    //
+    // ── Reaching further back ───────────────────────────────────────────
+    //
+    // `before` is a cursor: the created_at of the oldest message the caller
+    // already holds. It asks for the window immediately older than that one,
+    // and it is what the "load older messages" controls send.
+    //
+    // A cursor and not a page number, because the thread grows at the newest
+    // end while someone is reading the oldest. With offsets, one message
+    // arriving between two requests shifts every window along by one, and the
+    // message at the seam is never shown to the reader at all — the same
+    // class of silent loss as the freeze this endpoint was fixed for.
+    //
+    // The comparison is inclusive, so two messages written inside the same
+    // microsecond can never end up either side of the boundary with one of
+    // them dropped. The cursor message itself comes back with the window and
+    // every client merges by id, where it lands on the copy already held.
+    //
+    // `page` stays for the callers that still send it (all of them send 1;
+    // the shipped mobile app sends nothing) — an offset and a cursor would
+    // fight, so a cursor overrides it.
+    const offset = before ? 0 : (parseInt(page, 10) - 1) * MESSAGES_PER_PAGE;
+
+    let query = supabase
       .from('messages')
       .select(
         'id, conversation_id, sender_type, sender_ref, content_original, ' +
         'content_translated, source_language, target_language, is_read, created_at'
       )
-      .eq('conversation_id', conversation_id)
+      .eq('conversation_id', conversation_id);
+    if (before) query = query.lte('created_at', before);
+
+    // One row past the window, only to answer "is there anything older?".
+    // It is cut off again below and never reaches a client.
+    const { data: probed, error } = await query
       .order('created_at', { ascending: false })
-      .range(offset, offset + MESSAGES_PER_PAGE - 1);
+      .range(offset, offset + MESSAGES_PER_PAGE);
 
     if (error) {
       console.error('Messages fetch error:', error);
       return res.status(500).json({ error: 'Failed to load messages' });
     }
 
-    const inOrder = (messages || []).slice().reverse();
+    const rows = probed || [];
+    const hasMore = rows.length > MESSAGES_PER_PAGE;
+    const inOrder = rows.slice(0, MESSAGES_PER_PAGE).reverse();
 
     // Mask content for free-tier employers
     const payload = inOrder.map((m) =>
@@ -378,6 +408,9 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       messages: payload,
+      // Whether messages exist older than the window just returned. Clients
+      // that know nothing about it carry on as before.
+      hasMore,
       accessStatus: isEmployer ? getAccessStatus(employer) : null,
     });
   }

@@ -20,7 +20,7 @@
  * three clicks and a scroll away and went unused for three and a half months.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import MessageBubble from './MessageBubble';
 import RateForm from '../RateForm';
 import { StarRatingDisplay } from '../StarRating';
@@ -33,6 +33,13 @@ export default function ConversationDetail({
   currentRole = 'helper',
   canSend = true,
   loading,
+  // Reaching back past the window the thread opens with. hasOlder comes
+  // from the API's `hasMore`; onLoadOlder prepends the window before the
+  // oldest message on screen. Omit all three and the thread behaves as it
+  // did before the control existed.
+  hasOlder = false,
+  loadingOlder = false,
+  onLoadOlder,
   msgInput,
   setMsgInput,
   onSend,
@@ -99,6 +106,36 @@ export default function ConversationDetail({
       });
     }
   }, [messages, currentRole]);
+
+  // Holding the reader's place while the thread grows upwards.
+  //
+  // The browser keeps scrollTop when content is inserted above the viewport,
+  // so everything the reader was looking at slides down by exactly the height
+  // that was added. What stays constant is the distance to the BOTTOM: we
+  // measure that before asking for the older window and put it back once the
+  // messages are in the DOM, before the browser paints.
+  //
+  // It runs before the auto-scroll effect above sees the new count, which is
+  // what keeps that one from reading "near the bottom" off the un-restored
+  // position and yanking the reader back down to the composer.
+  const scrollAnchorRef = useRef(null);
+  const useAnchorEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
+  useAnchorEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container || scrollAnchorRef.current == null) return;
+    container.scrollTop = container.scrollHeight - scrollAnchorRef.current;
+    scrollAnchorRef.current = null;
+  }, [messages]);
+
+  const requestOlder = () => {
+    if (loadingOlder || !onLoadOlder) return;
+    const container = scrollContainerRef.current;
+    scrollAnchorRef.current = container
+      ? container.scrollHeight - container.scrollTop
+      : null;
+    onLoadOlder();
+  };
 
   // Asking once, before the contact details leave the app. MessageBubble
   // warns after the fact, which reaches the recipient; this reaches the
@@ -421,7 +458,31 @@ export default function ConversationDetail({
         ) : messages.length === 0 ? (
           <EmptyConversation displayName={cp.firstName || displayName} t={t} />
         ) : (
-          messages.map(msg => (
+          <>
+            {hasOlder && (
+              <div style={{ textAlign: 'center', paddingBottom: '16px' }}>
+                <button
+                  type="button"
+                  onClick={requestOlder}
+                  disabled={loadingOlder}
+                  style={{
+                    padding: '8px 18px',
+                    borderRadius: '999px',
+                    border: '1px solid #d7dde3',
+                    background: '#fff',
+                    color: loadingOlder ? '#9aa4ae' : '#006a62',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: loadingOlder ? 'default' : 'pointer',
+                  }}
+                >
+                  {loadingOlder
+                    ? (t.msg_loading_older || 'Loading…')
+                    : (t.msg_load_older || 'Load older messages')}
+                </button>
+              </div>
+            )}
+            {messages.map(msg => (
             <MessageBubble
               key={msg.id}
               message={msg}
@@ -429,7 +490,8 @@ export default function ConversationDetail({
               t={t}
               onUpgrade={onUpgrade}
             />
-          ))
+            ))}
+          </>
         )}
         <div ref={messagesEndRef} />
       </div>

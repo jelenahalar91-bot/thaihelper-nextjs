@@ -31,6 +31,7 @@ import { fetchHelpers as fetchHelpersApi } from '@/lib/api/helpers';
 import {
   fetchConversations,
   fetchMessages,
+  fetchOlderMessages,
   sendMessage,
   startConversation,
   markAsRead,
@@ -127,6 +128,8 @@ const T = {
     err_phone_required: 'Please verify your phone number to send messages. Scroll down to “Phone verification” on this page — it takes two minutes.',
     err_not_searching: 'Your profile is set to “not searching”, so you can’t start new chats. Your existing conversations still work. Set your profile back to “Searching” above to contact new helpers.',
     msg_delete_error: 'Could not delete the conversation. Please try again.',
+    msg_load_older: 'Load older messages',
+    msg_loading_older: 'Loading…',
     err_translation_failed: '',
     err_too_long: 'Message is too long (max {n} characters).',
     // Conversation empty state
@@ -247,6 +250,8 @@ const T = {
     err_phone_required: 'กรุณายืนยันเบอร์โทรศัพท์ก่อนส่งข้อความ เลื่อนลงไปที่หัวข้อ “Phone verification” ในหน้านี้ ใช้เวลาสองนาที',
     err_not_searching: 'โปรไฟล์ของคุณตั้งค่าเป็น “ไม่ได้กำลังหา” จึงเริ่มแชทใหม่ไม่ได้ การสนทนาที่มีอยู่ยังใช้งานได้ตามปกติ หากต้องการติดต่อผู้ช่วยใหม่ กรุณาเปลี่ยนกลับเป็น “กำลังหา” ด้านบน',
     msg_delete_error: 'ไม่สามารถลบการสนทนาได้ กรุณาลองอีกครั้ง',
+    msg_load_older: 'โหลดข้อความเก่ากว่านี้',
+    msg_loading_older: 'กำลังโหลด…',
     err_translation_failed: '',
     err_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
     // Conversation empty state
@@ -413,6 +418,10 @@ export default function EmployerDashboard() {
   const [selectedConv, setSelectedConv] = useState(null);
   const [messages, setMessages] = useState([]);
   const [messagesLoading, setMessagesLoading] = useState(false);
+  // A thread opens on its newest 200 messages. These two say whether it
+  // reaches back further and whether that older window is on its way.
+  const [hasOlderMsgs, setHasOlderMsgs] = useState(false);
+  const [loadingOlderMsgs, setLoadingOlderMsgs] = useState(false);
   const [msgInput, setMsgInput] = useState('');
   const [sending, setSending] = useState(false);
   // Synchronous "in-flight send" guard. setSending(true) is async (React
@@ -743,6 +752,7 @@ export default function EmployerDashboard() {
         setActiveTab('messages');
         setSelectedConv(newConv);
         setMessages([]);
+        setHasOlderMsgs(false);
         setMessagesLoading(false);
       }
     } catch (err) {
@@ -773,9 +783,11 @@ export default function EmployerDashboard() {
     setSendError('');
     setMessagesLoading(true);
     setMessages([]);
+    setHasOlderMsgs(false);
     try {
       const res = await fetchMessages(conv.id, 1, 'employer');
       setMessages(res.messages || []);
+      setHasOlderMsgs(!!res.hasMore);
       if (res.accessStatus) setAccessStatus(res.accessStatus);
       // Mark incoming messages as read
       if (conv.unread_count > 0) {
@@ -788,6 +800,33 @@ export default function EmployerDashboard() {
       console.error('Load messages error:', err);
     }
     setMessagesLoading(false);
+  }
+
+  // One window further back, from the oldest message currently on screen.
+  // Merged by id, not concatenated: the cursor is inclusive server-side, and
+  // the 10s poll may have added something since the request went out.
+  async function loadOlderMessages() {
+    if (loadingOlderMsgs || !selectedConv) return;
+    const oldest = messages[0];
+    if (!oldest) return;
+    setLoadingOlderMsgs(true);
+    try {
+      const res = await fetchOlderMessages(selectedConv.id, oldest.created_at, 'employer');
+      setMessages(prev => {
+        const byId = new Map(prev.map(m => [m.id, m]));
+        for (const m of (res.messages || [])) if (!byId.has(m.id)) byId.set(m.id, m);
+        return [...byId.values()].sort((a, b) =>
+          new Date(a.created_at) - new Date(b.created_at)
+        );
+      });
+      setHasOlderMsgs(!!res.hasMore);
+      if (res.accessStatus) setAccessStatus(res.accessStatus);
+    } catch (err) {
+      // The button stays where it is so it can simply be pressed again.
+      console.error('Load older messages error:', err);
+    } finally {
+      setLoadingOlderMsgs(false);
+    }
   }
 
   async function handleSendMessage() {
@@ -1279,11 +1318,14 @@ export default function EmployerDashboard() {
                   resendingVerify={resendingVerify}
                   resendVerifyResult={resendVerifyResult}
                   loading={messagesLoading}
+                  hasOlder={hasOlderMsgs}
+                  loadingOlder={loadingOlderMsgs}
+                  onLoadOlder={loadOlderMessages}
                   msgInput={msgInput}
                   setMsgInput={setMsgInput}
                   onSend={handleSendMessage}
                   sending={sending}
-                  onBack={() => { setSelectedConv(null); setMessages([]); setSendError(''); }}
+                  onBack={() => { setSelectedConv(null); setMessages([]); setHasOlderMsgs(false); setSendError(''); }}
                   sendError={sendError}
                   onDismissSendError={() => setSendError('')}
                   onUpgrade={handleUpgrade}

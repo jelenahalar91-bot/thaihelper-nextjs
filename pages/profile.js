@@ -50,7 +50,7 @@ import { logout } from '@/lib/api/auth-client';
 import { useLang } from '@/pages/_app';
 import { fetchDocuments, uploadDocument, deleteDocument } from '@/lib/api/documents';
 import { fetchReferences, addReference, updateReference, deleteReference } from '@/lib/api/references';
-import { fetchConversations, fetchMessages, sendMessage, markAsRead, startConversationAsHelper, deleteConversation } from '@/lib/api/messages';
+import { fetchConversations, fetchMessages, fetchOlderMessages, sendMessage, markAsRead, startConversationAsHelper, deleteConversation } from '@/lib/api/messages';
 import { fetchSettings } from '@/lib/api/settings';
 import { fetchEmployers } from '@/lib/api/employers';
 import { matchingEmployersFor } from '@/lib/matching';
@@ -239,6 +239,8 @@ const T = {
     msg_too_long: 'Message is too long (max {n} characters).',
     msg_send_error: 'Failed to send message. Please try again.',
     msg_delete_error: 'Could not delete the conversation. Please try again.',
+    msg_load_older: 'Load older messages',
+    msg_loading_older: 'Loading…',
     err_profile_hidden: 'Your profile is hidden, so you can’t start new chats. Your existing conversations still work. Make your profile visible again to contact families.',
     msg_empty_title: 'Say hi to {name} 👋',
     msg_empty_hint: 'Send your first reply to get the conversation started.',
@@ -460,6 +462,8 @@ const T = {
     msg_too_long: 'ข้อความยาวเกินไป (สูงสุด {n} ตัวอักษร)',
     msg_send_error: 'ส่งข้อความไม่สำเร็จ กรุณาลองอีกครั้ง',
     msg_delete_error: 'ไม่สามารถลบการสนทนาได้ กรุณาลองอีกครั้ง',
+    msg_load_older: 'โหลดข้อความเก่ากว่านี้',
+    msg_loading_older: 'กำลังโหลด…',
     err_profile_hidden: 'โปรไฟล์ของคุณถูกซ่อนอยู่ จึงเริ่มแชทใหม่ไม่ได้ การสนทนาที่มีอยู่ยังใช้งานได้ กรุณาเปิดโปรไฟล์ให้แสดงอีกครั้งเพื่อติดต่อครอบครัว',
     msg_empty_title: 'ทักทาย {name} กันเถอะ 👋',
     msg_empty_hint: 'ส่งข้อความตอบกลับแรกเพื่อเริ่มการสนทนา',
@@ -573,6 +577,10 @@ export default function Profile() {
   // real gate; state is for the UI spinner.
   const sendingMsgRef = useRef(false);
   const [loadingMsgs, setLoadingMsgs] = useState(false);
+  // A thread opens on its newest 200 messages. These two say whether it
+  // reaches back further and whether that older window is on its way.
+  const [hasOlderMsgs, setHasOlderMsgs] = useState(false);
+  const [loadingOlderMsgs, setLoadingOlderMsgs] = useState(false);
   const [msgToast, setMsgToast] = useState(''); // translation-failed / error banner
   // Why the last send was refused. Kept apart from msgToast because it is the
   // one message that has to appear next to the composer rather than at the top
@@ -921,9 +929,11 @@ export default function Profile() {
     setSelectedConv(conv);
     setSendError('');
     setLoadingMsgs(true);
+    setHasOlderMsgs(false);
     try {
       const res = await fetchMessages(conv.id, 1, 'helper');
       setMessages(res.messages || []);
+      setHasOlderMsgs(!!res.hasMore);
       if (conv.unread_count > 0) {
         await markAsRead(conv.id, 'helper');
         setConversations(prev => prev.map(c => c.id === conv.id ? { ...c, unread_count: 0 } : c));
@@ -932,6 +942,32 @@ export default function Profile() {
       console.error('Failed to load messages:', err);
     } finally {
       setLoadingMsgs(false);
+    }
+  };
+
+  // One window further back, from the oldest message currently on screen.
+  // Merged by id, not concatenated: the cursor is inclusive server-side, and
+  // the 10s poll may have added something since the request went out.
+  const loadOlderMessages = async () => {
+    if (loadingOlderMsgs || !selectedConv) return;
+    const oldest = messages[0];
+    if (!oldest) return;
+    setLoadingOlderMsgs(true);
+    try {
+      const res = await fetchOlderMessages(selectedConv.id, oldest.created_at, 'helper');
+      setMessages(prev => {
+        const byId = new Map(prev.map(m => [m.id, m]));
+        for (const m of (res.messages || [])) if (!byId.has(m.id)) byId.set(m.id, m);
+        return [...byId.values()].sort((a, b) =>
+          new Date(a.created_at) - new Date(b.created_at)
+        );
+      });
+      setHasOlderMsgs(!!res.hasMore);
+    } catch (err) {
+      // The button stays where it is so it can simply be pressed again.
+      console.error('Failed to load older messages:', err);
+    } finally {
+      setLoadingOlderMsgs(false);
     }
   };
 
@@ -1942,11 +1978,14 @@ export default function Profile() {
                   sendError={sendError}
                   onDismissSendError={() => setSendError('')}
                   loading={loadingMsgs}
+                  hasOlder={hasOlderMsgs}
+                  loadingOlder={loadingOlderMsgs}
+                  onLoadOlder={loadOlderMessages}
                   msgInput={msgInput}
                   setMsgInput={setMsgInput}
                   onSend={handleSendMessage}
                   sending={sendingMsg}
-                  onBack={() => { setSelectedConv(null); setMessages([]); setSendError(''); }}
+                  onBack={() => { setSelectedConv(null); setMessages([]); setHasOlderMsgs(false); setSendError(''); }}
                   onViewProfile={(cp) => {
                     // Look up full employer data from loaded employers list
                     const full = employers.find(e => e.ref === cp.ref);
