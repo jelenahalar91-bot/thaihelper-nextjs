@@ -141,6 +141,11 @@ const T = {
     notify_whatsapp_sub: 'Get instant alerts on your phone',
     notify_disclaimer: 'Notifications only — your conversations always stay on ThaiHelper. We never share your LINE or WhatsApp number with families.',
     notify_coming_soon: 'Coming soon',
+    lang_other_label: 'Which other language?',
+    lang_other_ph:    'e.g. Nepali, Hindi, Japanese',
+    nat_other_label:  'Which nationality?',
+    nat_other_ph:     'e.g. Nepali, Indonesian',
+    notify_line_after:'You can link your LINE account from your dashboard after signing up.',
     photo_label:     'Profile Photo',
     photo_optional:  '(optional but recommended)',
     photo_strong:    'Upload a photo of yourself',
@@ -287,6 +292,11 @@ const T = {
     notify_whatsapp_sub: 'รับการแจ้งเตือนทันทีบนมือถือ',
     notify_disclaimer: 'เฉพาะการแจ้งเตือนเท่านั้น — บทสนทนาของคุณจะอยู่บน ThaiHelper เสมอ เราไม่เปิดเผยหมายเลข LINE หรือ WhatsApp ของคุณกับครอบครัว',
     notify_coming_soon: 'เร็วๆ นี้',
+    lang_other_label: 'ภาษาอื่น — โปรดระบุ',
+    lang_other_ph:    'เช่น เนปาล ฮินดี ญี่ปุ่น',
+    nat_other_label:  'สัญชาติอื่น — โปรดระบุ',
+    nat_other_ph:     'เช่น เนปาล อินโดนีเซีย',
+    notify_line_after:'เชื่อมบัญชี LINE ได้ในแดชบอร์ดหลังสมัครเสร็จ',
     photo_label:     'รูปโปรไฟล์',
     photo_optional:  '(ไม่บังคับ แต่แนะนำ)',
     photo_strong:    'อัปโหลดรูปถ่ายของคุณ',
@@ -440,6 +450,11 @@ const T = {
     notify_whatsapp_sub: 'ဖုန်းတွင် ချက်ချင်း အကြောင်းကြားချက် ရယူပါ',
     notify_disclaimer: 'အကြောင်းကြားရန်သာ — စကားပြောဆိုမှုများ ThaiHelper တွင်သာ ရှိနေမည်။ သင့် LINE သို့မဟုတ် WhatsApp နံပါတ်ကို မိသားစုများအား ဘယ်တော့မှ မပေးပါ။',
     notify_coming_soon: 'မကြာမီ',
+    lang_other_label: 'Which other language?',
+    lang_other_ph:    'e.g. Nepali, Hindi, Japanese',
+    nat_other_label:  'Which nationality?',
+    nat_other_ph:     'e.g. Nepali, Indonesian',
+    notify_line_after:'You can link your LINE account from your dashboard after signing up.',
     photo_label:     'ပရိုဖိုင် ဓာတ်ပုံ',
     photo_optional:  '(မဖြည့်လည်းရသည် သို့သော် အကြံပြုသည်)',
     photo_strong:    'သင့်ဓာတ်ပုံ တင်ပါ',
@@ -586,6 +601,11 @@ const T = {
     notify_whatsapp_sub: 'ទទួលការជូនដំណឹងភ្លាមៗលើទូរស័ព្ទ',
     notify_disclaimer: 'សម្រាប់ការជូនដំណឹងតែប៉ុណ្ណោះ — ការសន្ទនានៅតែស្ថិតក្នុង ThaiHelper។ យើងមិនចែករំលែកលេខ LINE ឬ WhatsApp របស់អ្នកជាមួយគ្រួសារឡើយ។',
     notify_coming_soon: 'នឹងមានឆាប់ៗ',
+    lang_other_label: 'Which other language?',
+    lang_other_ph:    'e.g. Nepali, Hindi, Japanese',
+    nat_other_label:  'Which nationality?',
+    nat_other_ph:     'e.g. Nepali, Indonesian',
+    notify_line_after:'You can link your LINE account from your dashboard after signing up.',
     photo_label:     'រូបថតប្រវត្តិរូប',
     photo_optional:  '(មិនចាំបាច់ តែណែនាំ)',
     photo_strong:    'ផ្ទុករូបថតរបស់អ្នក',
@@ -732,6 +752,11 @@ const T = {
     notify_whatsapp_sub: 'ຮັບແຈ້ງເຕືອນທັນທີໃນໂທລະສັບ',
     notify_disclaimer: 'ສຳລັບແຈ້ງເຕືອນເທົ່ານັ້ນ — ການສົນທະນາຢູ່ໃນ ThaiHelper ສະເໝີ. ພວກເຮົາບໍ່ເຄີຍແບ່ງປັນເບີ LINE ຫຼື WhatsApp ຂອງທ່ານໃຫ້ຄອບຄົວ.',
     notify_coming_soon: 'ຈະມີໃນໄວໆນີ້',
+    lang_other_label: 'Which other language?',
+    lang_other_ph:    'e.g. Nepali, Hindi, Japanese',
+    nat_other_label:  'Which nationality?',
+    nat_other_ph:     'e.g. Nepali, Indonesian',
+    notify_line_after:'You can link your LINE account from your dashboard after signing up.',
     photo_label:     'ຮູບໂປຣໄຟລ໌',
     photo_optional:  '(ບໍ່ຈຳເປັນ ແຕ່ແນະນຳ)',
     photo_strong:    'ອັບໂຫລດຮູບຂອງທ່ານ',
@@ -836,6 +861,11 @@ export default function Register() {
   const [experience,  setExperience]  = useState('');
   const [languages,   setLanguages]   = useState([]);
   const [nationality, setNationality] = useState('');
+  // "Other" in a fixed list is where information goes to die: it records that
+  // somebody is not on the list without recording what they are. Both boxes
+  // below capture the actual answer.
+  const [languageOther, setLanguageOther] = useState('');
+  const [nationalityOther, setNationalityOther] = useState('');
   const [gender, setGender] = useState('');
   const [wpStatus,    setWpStatus]    = useState('');
   const [rate,        setRate]        = useState('');
@@ -993,8 +1023,17 @@ export default function Register() {
       area_other: area.trim(),
       additional_cities: extraCities.filter(s => s !== city).join(', '),
       experience,
-      languages:  languages.join(', '),
-      nationality: nationality || null,
+      // The typed answer replaces the 'other' marker rather than sitting
+      // beside it, so the stored string reads "English, Nepali" and not
+      // "English, other". Nothing downstream parses this column — it is
+      // shown as written on the public card.
+      languages:  languages
+        .map(l => (l === 'other' && languageOther.trim() ? languageOther.trim() : l))
+        .join(', '),
+      nationality: ((nationality === 'other' || nationality === 'other_asian')
+        && nationalityOther.trim())
+        ? nationalityOther.trim()
+        : (nationality || null),
       gender,
       work_permit_status: wpStatus || null,
       rate,
@@ -1471,6 +1510,14 @@ export default function Register() {
                       </label>
                     ))}
                   </div>
+                  {languages.includes('other') && (
+                    <div style={{ marginTop: '10px' }}>
+                      <label htmlFor="f-langother">{t.lang_other_label}</label>
+                      <input id="f-langother" type="text" value={languageOther}
+                        onChange={e => setLanguageOther(e.target.value)}
+                        placeholder={t.lang_other_ph} maxLength={60} />
+                    </div>
+                  )}
                   {errors.languages && <div className="field-error" style={{ display: 'block' }}>{errors.languages}</div>}
                 </div>
 
@@ -1513,6 +1560,14 @@ export default function Register() {
                   <div style={{ marginTop: 6, fontSize: '0.85rem', color: 'var(--gray-500)' }}>
                     {t.nat_hint}
                   </div>
+                  {(nationality === 'other' || nationality === 'other_asian') && (
+                    <div style={{ marginTop: '10px' }}>
+                      <label htmlFor="f-natother">{t.nat_other_label}</label>
+                      <input id="f-natother" type="text" value={nationalityOther}
+                        onChange={e => setNationalityOther(e.target.value)}
+                        placeholder={t.nat_other_ph} maxLength={40} />
+                    </div>
+                  )}
                   {errors.nationality && <div className="field-error" style={{ display: 'block' }}>{errors.nationality}</div>}
                   {/* Nationality × category guidance. Informational only —
                       never blocks the signup, never shown to employers. */}
@@ -1675,14 +1730,18 @@ export default function Register() {
                     />
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        {/* No "coming soon" here: LINE notifications have been
+                            live since lib/line.js shipped and
+                            lib/match-notifications.js sends through them. The
+                            badge was left over from when they were not, and it
+                            was talking people out of the one channel that
+                            reaches a helper who does not read email. WhatsApp
+                            below keeps its badge — nothing sends through that
+                            yet. */}
                         <span style={{ fontWeight: 600, fontSize: '15px' }}>{t.notify_line}</span>
-                        <span style={{
-                          fontSize: '11px', fontWeight: 600,
-                          padding: '2px 8px', borderRadius: '999px',
-                          background: '#fef3c7', color: '#92400e',
-                        }}>{t.notify_coming_soon}</span>
                       </div>
                       <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '2px' }}>{t.notify_line_sub}</div>
+                      <div style={{ fontSize: '12px', color: 'var(--gray-400)', marginTop: '4px' }}>{t.notify_line_after}</div>
                     </div>
                   </label>
 
