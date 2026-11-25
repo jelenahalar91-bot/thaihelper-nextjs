@@ -6,6 +6,12 @@ import SEOHead, { getBreadcrumbSchema, getFAQSchema, getSpeakableSchema } from '
 import LangSwitcher from '@/components/LangSwitcher';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { useLang } from './_app';
+import {
+  TRUSTPILOT_URL,
+  TRUSTPILOT_GREEN,
+  TRUSTPILOT_SCORE_LABEL,
+  TRUSTPILOT_REVIEW_COUNT,
+} from '@/lib/constants/trustpilot';
 
 const FAQS = [
   {
@@ -448,15 +454,24 @@ export default function Legit() {
                   </div>
                 ))}
                 <a
-                  href="https://www.trustpilot.com/review/thaihelper.app"
+                  href={TRUSTPILOT_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-primary/40 transition-colors"
                 >
-                  <div className="w-9 h-9 shrink-0 rounded-full bg-[#00B67A] text-white font-bold flex items-center justify-center">★</div>
+                  <div
+                    className="w-9 h-9 shrink-0 rounded-full text-white font-bold flex items-center justify-center"
+                    style={{ backgroundColor: TRUSTPILOT_GREEN }}
+                  >
+                    ★
+                  </div>
                   <div>
-                    <h3 className="font-bold text-on-background mb-1">Read reviews on Trustpilot →</h3>
-                    <p className="text-sm text-on-surface-variant leading-relaxed">Independent third-party reviews from real ThaiHelper families.</p>
+                    <h3 className="font-bold text-on-background mb-1">
+                      {`${TRUSTPILOT_SCORE_LABEL} / 5 on Trustpilot →`}
+                    </h3>
+                    <p className="text-sm text-on-surface-variant leading-relaxed">
+                      {`Independent third-party reviews from real ThaiHelper families — ${TRUSTPILOT_REVIEW_COUNT} reviews so far.`}
+                    </p>
                   </div>
                 </a>
               </div>

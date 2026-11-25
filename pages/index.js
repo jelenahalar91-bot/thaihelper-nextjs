@@ -9,6 +9,13 @@ import LangSwitcher, { HELPER_LANGS } from '@/components/LangSwitcher';
 import HelperCard from '@/components/HelperCard';
 import { MobileMenu, ResourcesDropdown } from '@/components/MobileMenu';
 import { SUPABASE_IMAGE_OPTIMIZER_DISABLED } from '@/lib/utils';
+import {
+  TRUSTPILOT_URL,
+  TRUSTPILOT_GREEN,
+  TRUSTPILOT_FULL_STARS,
+  TRUSTPILOT_SCORE_LABEL,
+  TRUSTPILOT_REVIEW_COUNT,
+} from '@/lib/constants/trustpilot';
 import { useLang } from './_app';
 import {
   roleLabel, cityLabel, relativeTime, entryInitials, FALLBACK_HELPERS,
@@ -426,19 +433,35 @@ export default function Home({ initialRecentHelpers = null, initialTotalHelpers 
                   <>เป็นหนึ่งใน<span className="font-bold text-gold">ผู้ช่วยที่ผ่านการยืนยัน</span>กลุ่มแรก</>
                 )}
               </p>
-              {/* Trustpilot signal — dofollow so Google discovers our profile. */}
+              {/* Trustpilot signal — score lives in lib/constants/trustpilot.js.
+                  dofollow so Google discovers our profile. */}
               <p className="mt-3 text-xs text-on-surface-variant">
                 <a
-                  href="https://www.trustpilot.com/review/thaihelper.app"
+                  href={TRUSTPILOT_URL}
                   target="_blank"
                   rel="noopener"
                   className="inline-flex items-center gap-1.5 hover:text-primary transition-colors"
+                  aria-label={
+                    lang === 'en'
+                      ? `${TRUSTPILOT_SCORE_LABEL} out of 5 from ${TRUSTPILOT_REVIEW_COUNT} reviews on Trustpilot`
+                      : `${TRUSTPILOT_SCORE_LABEL} จาก 5 จาก ${TRUSTPILOT_REVIEW_COUNT} รีวิวบน Trustpilot`
+                  }
                 >
-                  <span className="text-[#00B67A] font-bold">★★★★</span>
-                  <span className="text-[#00B67A]/60 font-bold">★</span>
-                  <span className="font-semibold">3.8 / 5</span>
+                  <span aria-hidden="true" className="font-bold" style={{ color: TRUSTPILOT_GREEN }}>
+                    {'★'.repeat(TRUSTPILOT_FULL_STARS)}
+                  </span>
+                  {TRUSTPILOT_FULL_STARS < 5 && (
+                    <span aria-hidden="true" className="font-bold opacity-40" style={{ color: TRUSTPILOT_GREEN }}>
+                      {'★'.repeat(5 - TRUSTPILOT_FULL_STARS)}
+                    </span>
+                  )}
+                  <span className="font-semibold">{TRUSTPILOT_SCORE_LABEL} / 5</span>
                   <span>·</span>
-                  <span>{lang === 'en' ? 'Reviews on Trustpilot' : 'รีวิวบน Trustpilot'}</span>
+                  <span>
+                    {lang === 'en'
+                      ? `${TRUSTPILOT_REVIEW_COUNT} reviews on Trustpilot`
+                      : `${TRUSTPILOT_REVIEW_COUNT} รีวิวบน Trustpilot`}
+                  </span>
                 </a>
               </p>
             </div>

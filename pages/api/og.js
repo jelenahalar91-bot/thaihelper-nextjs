@@ -20,11 +20,15 @@
 // Edge runtime renders the image in <50ms once warm and gets cached
 // at the Vercel CDN per unique query string.
 import { ImageResponse } from 'next/og';
+import {
+  TRUSTPILOT_SCORE_LABEL,
+  TRUSTPILOT_FULL_STARS,
+} from '@/lib/constants/trustpilot';
 
 export const config = { runtime: 'edge' };
 
-const Star = ({ size = 28 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="#F4A261">
+const Star = ({ size = 28, dim = false }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={dim ? 'rgba(244,162,97,0.3)' : '#F4A261'}>
     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
   </svg>
 );
@@ -168,14 +172,12 @@ export default function handler(req) {
             }}
           >
             <div style={{ display: 'flex', gap: '2px' }}>
-              <Star />
-              <Star />
-              <Star />
-              <Star />
-              <Star />
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} dim={i >= TRUSTPILOT_FULL_STARS} />
+              ))}
             </div>
             <div style={{ display: 'flex', paddingLeft: '8px', fontWeight: 600 }}>
-              4.1 on Trustpilot
+              {`${TRUSTPILOT_SCORE_LABEL} on Trustpilot`}
             </div>
           </div>
         </div>

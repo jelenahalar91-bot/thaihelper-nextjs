@@ -1,4 +1,9 @@
 import Head from 'next/head';
+import {
+  TRUSTPILOT_URL,
+  TRUSTPILOT_SCORE,
+  TRUSTPILOT_REVIEW_COUNT,
+} from '@/lib/constants/trustpilot';
 
 const SITE_URL = 'https://thaihelper.app';
 const SITE_NAME = 'ThaiHelper';
@@ -375,18 +380,19 @@ export function getLocalBusinessSchema(city, categorySlug) {
       opens: '00:00',
       closes: '23:59',
     },
-    // Live Trustpilot rating — refreshed when it moves on the public SERP.
-    // Pulling it in here means the EmploymentAgency entity on every city
-    // landing page carries real third-party review signal, not just the
-    // homepage. Current reading: 4.1 / 5 across 8 verified reviews (2026-11-02).
+    // Live Trustpilot rating — the numbers live in lib/constants/trustpilot.js
+    // so the landing page, /legit, the OG image and this structured data can
+    // never drift apart again. Pulling it in here means the EmploymentAgency
+    // entity on every city landing page carries real third-party review
+    // signal, not just the homepage.
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '4.1',
-      reviewCount: '8',
+      ratingValue: String(TRUSTPILOT_SCORE),
+      reviewCount: String(TRUSTPILOT_REVIEW_COUNT),
       bestRating: '5',
       worstRating: '1',
     },
-    sameAs: ['https://www.trustpilot.com/review/thaihelper.app'],
+    sameAs: [TRUSTPILOT_URL],
     ...(serviceLabel && {
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
