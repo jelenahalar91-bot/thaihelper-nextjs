@@ -460,7 +460,10 @@ export default async function handler(req, res) {
     if (senderRow?.status === 'suspended') {
       return res.status(403).json({ error: 'account_suspended' });
     }
-    if (!senderRow?.email_verified) {
+    // Either channel, for the reason spelled out in accessDenialReason():
+    // an address nobody can open is not proof of anything, and a verified
+    // number is. Both columns are selected above for both roles.
+    if (!senderRow?.email_verified && !senderRow?.phone_verified_at) {
       return res.status(403).json({ error: 'email_not_verified' });
     }
 
