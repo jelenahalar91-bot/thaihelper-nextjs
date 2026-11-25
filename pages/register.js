@@ -3,6 +3,7 @@ import SEOHead, { getBreadcrumbSchema } from '@/components/SEOHead';
 import LangSwitcher, { HELPER_LANGS } from '@/components/LangSwitcher';
 import { MobileMenu } from '@/components/MobileMenu';
 import Turnstile from '@/components/Turnstile';
+import SignupPhoneVerification from '@/components/SignupPhoneVerification';
 import { useLang } from './_app';
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
@@ -141,6 +142,15 @@ const T = {
     notify_whatsapp_sub: 'Get instant alerts on your phone',
     notify_disclaimer: 'Notifications only — your conversations always stay on ThaiHelper. We never share your LINE or WhatsApp number with families.',
     notify_coming_soon: 'Coming soon',
+    contact_choose:  'How would you like to log in?',
+    contact_email:   'Email',
+    contact_phone:   'Phone number',
+    contact_no_email:'No email address? Use your phone number instead.',
+    contact_phone_note:'This number is only for logging in and notifications. It is never shown on your profile.',
+    contact_phone_err:'Please verify your phone number first.',
+    notify_sms:      'SMS',
+    notify_sms_sub:  'Always on — we text you when a family writes',
+    ref_keep:        'This is your reference number. Write it down — you can also log in with it.',
     lang_other_label: 'Which other language?',
     lang_other_ph:    'e.g. Nepali, Hindi, Japanese',
     nat_other_label:  'Which nationality?',
@@ -292,6 +302,15 @@ const T = {
     notify_whatsapp_sub: 'รับการแจ้งเตือนทันทีบนมือถือ',
     notify_disclaimer: 'เฉพาะการแจ้งเตือนเท่านั้น — บทสนทนาของคุณจะอยู่บน ThaiHelper เสมอ เราไม่เปิดเผยหมายเลข LINE หรือ WhatsApp ของคุณกับครอบครัว',
     notify_coming_soon: 'เร็วๆ นี้',
+    contact_choose:  'เลือกวิธีเข้าสู่ระบบของคุณ',
+    contact_email:   'อีเมล',
+    contact_phone:   'เบอร์โทรศัพท์',
+    contact_no_email:'ยังไม่มีอีเมลใช่ไหม ใช้เบอร์โทรศัพท์ได้เลย',
+    contact_phone_note:'เบอร์นี้ใช้สำหรับเข้าสู่ระบบและแจ้งเตือนเท่านั้น ไม่แสดงในโปรไฟล์ของคุณ',
+    contact_phone_err:'โปรดยืนยันเบอร์โทรศัพท์ก่อน',
+    notify_sms:      'SMS',
+    notify_sms_sub:  'เปิดเสมอ — เราส่งข้อความหาคุณเมื่อมีครอบครัวติดต่อ',
+    ref_keep:        'นี่คือหมายเลขอ้างอิงของคุณ กรุณาจดไว้',
     lang_other_label: 'ภาษาอื่น — โปรดระบุ',
     lang_other_ph:    'เช่น เนปาล ฮินดี ญี่ปุ่น',
     nat_other_label:  'สัญชาติอื่น — โปรดระบุ',
@@ -450,6 +469,15 @@ const T = {
     notify_whatsapp_sub: 'ဖုန်းတွင် ချက်ချင်း အကြောင်းကြားချက် ရယူပါ',
     notify_disclaimer: 'အကြောင်းကြားရန်သာ — စကားပြောဆိုမှုများ ThaiHelper တွင်သာ ရှိနေမည်။ သင့် LINE သို့မဟုတ် WhatsApp နံပါတ်ကို မိသားစုများအား ဘယ်တော့မှ မပေးပါ။',
     notify_coming_soon: 'မကြာမီ',
+    contact_choose:  'How would you like to log in?',
+    contact_email:   'Email',
+    contact_phone:   'Phone number',
+    contact_no_email:'No email address? Use your phone number instead.',
+    contact_phone_note:'This number is only for logging in and notifications. It is never shown on your profile.',
+    contact_phone_err:'Please verify your phone number first.',
+    notify_sms:      'SMS',
+    notify_sms_sub:  'Always on — we text you when a family writes',
+    ref_keep:        'This is your reference number. Write it down — you can also log in with it.',
     lang_other_label: 'Which other language?',
     lang_other_ph:    'e.g. Nepali, Hindi, Japanese',
     nat_other_label:  'Which nationality?',
@@ -601,6 +629,15 @@ const T = {
     notify_whatsapp_sub: 'ទទួលការជូនដំណឹងភ្លាមៗលើទូរស័ព្ទ',
     notify_disclaimer: 'សម្រាប់ការជូនដំណឹងតែប៉ុណ្ណោះ — ការសន្ទនានៅតែស្ថិតក្នុង ThaiHelper។ យើងមិនចែករំលែកលេខ LINE ឬ WhatsApp របស់អ្នកជាមួយគ្រួសារឡើយ។',
     notify_coming_soon: 'នឹងមានឆាប់ៗ',
+    contact_choose:  'How would you like to log in?',
+    contact_email:   'Email',
+    contact_phone:   'Phone number',
+    contact_no_email:'No email address? Use your phone number instead.',
+    contact_phone_note:'This number is only for logging in and notifications. It is never shown on your profile.',
+    contact_phone_err:'Please verify your phone number first.',
+    notify_sms:      'SMS',
+    notify_sms_sub:  'Always on — we text you when a family writes',
+    ref_keep:        'This is your reference number. Write it down — you can also log in with it.',
     lang_other_label: 'Which other language?',
     lang_other_ph:    'e.g. Nepali, Hindi, Japanese',
     nat_other_label:  'Which nationality?',
@@ -752,6 +789,15 @@ const T = {
     notify_whatsapp_sub: 'ຮັບແຈ້ງເຕືອນທັນທີໃນໂທລະສັບ',
     notify_disclaimer: 'ສຳລັບແຈ້ງເຕືອນເທົ່ານັ້ນ — ການສົນທະນາຢູ່ໃນ ThaiHelper ສະເໝີ. ພວກເຮົາບໍ່ເຄີຍແບ່ງປັນເບີ LINE ຫຼື WhatsApp ຂອງທ່ານໃຫ້ຄອບຄົວ.',
     notify_coming_soon: 'ຈະມີໃນໄວໆນີ້',
+    contact_choose:  'How would you like to log in?',
+    contact_email:   'Email',
+    contact_phone:   'Phone number',
+    contact_no_email:'No email address? Use your phone number instead.',
+    contact_phone_note:'This number is only for logging in and notifications. It is never shown on your profile.',
+    contact_phone_err:'Please verify your phone number first.',
+    notify_sms:      'SMS',
+    notify_sms_sub:  'Always on — we text you when a family writes',
+    ref_keep:        'This is your reference number. Write it down — you can also log in with it.',
     lang_other_label: 'Which other language?',
     lang_other_ph:    'e.g. Nepali, Hindi, Japanese',
     nat_other_label:  'Which nationality?',
@@ -885,8 +931,20 @@ export default function Register() {
   const [photoPreview,setPhotoPreview]= useState('');
   const [photoText,   setPhotoText]   = useState('');
 
+  // Email or a verified number — her choice. The address used to be the only
+  // way in, and the reference number that logs her back in is delivered to
+  // it, so an inbox she cannot open was an account she could not reach.
+  const [contactMethod, setContactMethod] = useState('email');
+  const [phoneToken, setPhoneToken] = useState('');
+  // A Turnstile token is single-use and this form can spend two: one on the
+  // SMS request, one on submit. Bumping the signal makes the widget re-solve.
+  const [turnstileReset, setTurnstileReset] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState('');
   const handleTurnstileToken = useCallback((token) => setTurnstileToken(token), []);
+  const spendTurnstileToken = useCallback(() => {
+    setTurnstileToken('');
+    setTurnstileReset((n) => n + 1);
+  }, []);
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
 
@@ -967,7 +1025,9 @@ export default function Register() {
       if (bio.trim().length < 30)errs.bio         = t.bio_error;
     }
     if (stepNum === 3) {
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      if (contactMethod === 'phone') {
+        if (!phoneToken) errs.email = t.contact_phone_err;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         errs.email = t.email_error;
       } else {
         // Warn once when the typo detector has a confident suggestion
@@ -1043,6 +1103,9 @@ export default function Register() {
       email:      email.trim(),
       notify_via_line:     notifyLine,
       notify_via_whatsapp: notifyWhatsapp,
+      // Exactly one of the two reaches the API; see pages/api/register.js.
+      email: contactMethod === 'phone' ? '' : email,
+      phoneToken: contactMethod === 'phone' ? phoneToken : undefined,
       turnstileToken,
     };
 
@@ -1196,6 +1259,17 @@ export default function Register() {
                 <p>{t.success_p1}</p>
                 <p>{t.success_p2}</p>
                 <div className="success-ref">Ref: {refNumber}</div>
+                {/* With no address there is no confirmation mail, so this
+                    screen is the only place she will ever see the number.
+                    She can log in without it — the phone and a code are
+                    enough — but it is on her public card and support asks
+                    for it, so it is worth writing down. */}
+                {contactMethod === 'phone' && (
+                  <p style={{
+                    fontSize: '14px', color: 'var(--gray-500)',
+                    marginTop: '8px', maxWidth: '420px',
+                  }}>{t.ref_keep}</p>
+                )}
 
                 {/* If the helper opted into LINE, show the connect-card
                     inline so they can finish the handshake right here
@@ -1658,7 +1732,60 @@ export default function Register() {
                 <h2 className="step-title">{t.step3_title}</h2>
                 <p className="step-sub">{t.step3_sub}</p>
 
-                {/* Email */}
+                {/* Email or phone — she picks. Two tabs rather than a
+                    checkbox, because "I have no email address" is not an
+                    edge case to be opted into here: for a migrant domestic
+                    worker it is the normal state, and the old form treated
+                    it as impossible. */}
+                <div className="field">
+                  <label style={{ marginBottom: '8px' }}>{t.contact_choose}</label>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    {[['email', t.contact_email], ['phone', t.contact_phone]].map(([key, label]) => (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => { setContactMethod(key); setErrors(ev => ({ ...ev, email: '' })); }}
+                        style={{
+                          flex: 1, padding: '12px 10px', borderRadius: '12px',
+                          fontSize: '15px', fontWeight: 700, cursor: 'pointer',
+                          background: contactMethod === key ? 'var(--primary)' : '#fff',
+                          color: contactMethod === key ? '#fff' : 'var(--gray-500)',
+                          border: `1px solid ${contactMethod === key ? 'var(--primary)' : '#e5e7eb'}`,
+                        }}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  {contactMethod === 'email' && (
+                    <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '8px' }}>
+                      {t.contact_no_email}
+                    </div>
+                  )}
+                </div>
+
+                {contactMethod === 'phone' && (
+                  <div className="field">
+                    <SignupPhoneVerification
+                      lang={lang}
+                      onVerified={(token) => {
+                        setPhoneToken(token || '');
+                        if (token) setErrors(ev => ({ ...ev, email: '' }));
+                      }}
+                      turnstileToken={turnstileToken}
+                      onSpendToken={spendTurnstileToken}
+                      invalid={!!errors.email && !phoneToken}
+                    />
+                    <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '8px' }}>
+                      {t.contact_phone_note}
+                    </div>
+                    {errors.email && !phoneToken && (
+                      <div className="field-error" style={{ display: 'block' }}>{errors.email}</div>
+                    )}
+                  </div>
+                )}
+
+                {contactMethod === 'email' && (
                 <div className={`field ${errors.email ? 'has-error' : ''}`}>
                   <label htmlFor="f-email">{t.email_label} <span className="req">*</span></label>
                   <input id="f-email" type="email" value={email} placeholder="your@email.com"
@@ -1689,6 +1816,7 @@ export default function Register() {
                   )}
                   <div className="field-error">{errors.email}</div>
                 </div>
+                )}
 
                 {/* Notification channels — multi-channel opt-in. Email is
                     always on; LINE / WhatsApp are opt-in extras that ping
@@ -1705,10 +1833,18 @@ export default function Register() {
                     background: '#f0fdfa', border: '1px solid #99f6e4',
                     marginBottom: '8px',
                   }}>
-                    <span style={{ fontSize: '20px', lineHeight: 1, marginTop: '2px' }}>✉️</span>
+                    <span style={{ fontSize: '20px', lineHeight: 1, marginTop: '2px' }}>{contactMethod === 'phone' ? '💬' : '✉️'}</span>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 600, fontSize: '15px', color: '#0f766e' }}>{t.notify_email}</div>
-                      <div style={{ fontSize: '13px', color: '#0d9488', marginTop: '2px' }}>{t.notify_email_sub}</div>
+                      {/* Says what we will actually use. Claiming "Email —
+                          always on" to somebody who just chose to register
+                          with a number is a promise to an address that does
+                          not exist. */}
+                      <div style={{ fontWeight: 600, fontSize: '15px', color: '#0f766e' }}>
+                        {contactMethod === 'phone' ? t.notify_sms : t.notify_email}
+                      </div>
+                      <div style={{ fontSize: '13px', color: '#0d9488', marginTop: '2px' }}>
+                        {contactMethod === 'phone' ? t.notify_sms_sub : t.notify_email_sub}
+                      </div>
                     </div>
                     <span style={{ fontSize: '18px', color: '#14b8a6', marginTop: '2px' }}>✓</span>
                   </div>
@@ -1829,7 +1965,7 @@ export default function Register() {
                 </div>
 
                 {/* Cloudflare Turnstile CAPTCHA */}
-                <Turnstile onToken={handleTurnstileToken} />
+                <Turnstile onToken={handleTurnstileToken} resetSignal={turnstileReset} />
 
                 {submitError && (
                   <div style={{

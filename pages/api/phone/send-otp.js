@@ -125,7 +125,17 @@ export default async function handler(req, res) {
   // main one; this closes the gap behind it.
   //
   // Read live from the DB, not from the JWT — sessions last a year.
-  if (!row.email_verified) {
+  //
+  // Either channel, since 2026-11-25. Checking the address alone was correct
+  // while every account had one; now that a helper may register with a
+  // number instead (scripts/supabase-helper-email-optional.sql), this exact
+  // line would lock a phone-only account out of ever changing its number —
+  // it has no address to confirm and never will. Same predicate as
+  // accessDenialReason() in lib/access.js.
+  //
+  // What still falls through is the account with neither channel confirmed,
+  // which is the case this gate was written for and keeps refusing.
+  if (!row.email_verified && !row.phone_verified_at) {
     return res.status(403).json({ error: 'email_not_verified' });
   }
 

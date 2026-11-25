@@ -8,6 +8,8 @@ import { getServiceSupabase } from '../../lib/supabase';
 import { impersonationBlock, impersonationNotes, IMPERSONATION_ERROR } from '../../lib/impersonation';
 import { createToken, setSessionCookie } from '../../lib/auth';
 import { sendHelperConfirmation, sendAdminNotification } from '../../lib/send-confirmation-email';
+import { readPhoneProof } from '../../lib/phone-signup-token';
+import { numberTakenBy } from '../../lib/phone-identity';
 import { verifyTurnstile } from '../../lib/turnstile';
 import { romanizeThaiName, translateForeignText } from '../../lib/translate';
 import { formatAttributionString } from '../../lib/utm';
@@ -55,7 +57,7 @@ export default async function handler(req, res) {
   const {
     first_name, last_name, date_of_birth, category, skills,
     city, area, area_other, additional_cities, experience, languages, rate,
-    education, certificates, bio, email,
+    education, certificates, bio, email, phoneToken,
     notify_via_line, notify_via_whatsapp,
     work_permit_status, nationality, gender,
     turnstileToken, attribution,
@@ -67,9 +69,21 @@ export default async function handler(req, res) {
     return res.status(403).json({ error: captcha.error });
   }
 
-  // Validate required fields
-  if (!first_name?.trim() || !last_name?.trim() || !email?.trim() || !city || !category) {
-    return res.status(400).json({ error: 'Missing required fields: first name, last name, email, city, and category are required.' });
+  // Validate required fields.
+  //
+  // Email is no longer among them. A helper may hand over an address or a
+  // verified phone number, and the number is the stronger of the two: Twilio
+  // Verify proves the handset, lib/phone-identity.js allows it on one account
+  // only, and an SMS costs an attacker money. An address proves none of that,
+  // and for the women this platform is for it is frequently an inbox opened
+  // once, at our request, and never read again. See
+  // scripts/supabase-helper-email-optional.sql.
+  const wantsEmail = !!email?.trim();
+  if (!first_name?.trim() || !last_name?.trim() || !city || !category) {
+    return res.status(400).json({ error: 'Missing required fields: first name, last name, city, and category are required.' });
+  }
+  if (!wantsEmail && !phoneToken) {
+    return res.status(400).json({ error: 'contact_required' });
   }
 
   // Nobody registers as "Support" or with our own name in theirs. See
@@ -143,7 +157,33 @@ export default async function handler(req, res) {
   const supabase = getServiceSupabase();
   const ref = generateRef();
   const verificationToken = crypto.randomBytes(32).toString('hex');
-  const cleanEmail = email.trim().toLowerCase();
+  const cleanEmail = wantsEmail ? email.trim().toLowerCase() : null;
+
+  // The number, if she gave one. The proof is minted by
+  // /api/phone/signup-verify-otp once Twilio approves a code and names the
+  // number it was minted for; a proof lasts 30 minutes, so the ownership
+  // check runs again here, immediately before the row is written. Same three
+  // checks and the same reasoning as pages/api/employer-signup.js.
+  let verifiedPhone = null;
+  if (phoneToken) {
+    const proof = await readPhoneProof(phoneToken);
+    if (!proof) {
+      return res.status(400).json({ error: 'phone_not_verified' });
+    }
+    const owner = await numberTakenBy(supabase, proof.phone, null);
+    if (owner.taken) {
+      console.warn(`[register] refused: number already held by ${owner.ref}`);
+      return res.status(409).json({ error: owner.suspended ? 'phone_blocked' : 'phone_in_use' });
+    }
+    verifiedPhone = proof;
+  }
+
+  // Nothing to confirm when there is no address, and nothing to confirm it
+  // with. The number was proved by SMS a moment ago, which is a stronger
+  // claim than a clicked link; leaving this false would leave her account
+  // in the unverified state for a letter that is never coming.
+  // accessDenialReason() in lib/access.js accepts either channel.
+  const emailVerifiedAtBirth = !wantsEmail && !!verifiedPhone;
   const sanitizedBio = bio ? sanitizeFreeText(bio.trim()) : null;
 
   // If the helper opted in to LINE notifications, pre-generate the link
@@ -176,6 +216,10 @@ export default async function handler(req, res) {
         first_name: cleanFirstName,
         last_name: cleanLastName,
         email: cleanEmail,
+        phone_number: verifiedPhone?.phone || null,
+        phone_country_code: verifiedPhone?.countryCode || null,
+        phone_verified_at: verifiedPhone ? new Date().toISOString() : null,
+        phone_verified_channel: verifiedPhone ? 'sms' : null,
         date_of_birth: date_of_birth || null,
         age: null, // exact age is now derived from date_of_birth at display time
         category,
@@ -201,8 +245,9 @@ export default async function handler(req, res) {
         line_link_token: lineLinkToken,
         line_link_expires: lineLinkExpires,
         source: formatAttributionString(attribution),
-        email_verified: false,
-        verification_token: verificationToken,
+        email_verified: emailVerifiedAtBirth,
+        email_verified_at: emailVerifiedAtBirth ? new Date().toISOString() : null,
+        verification_token: wantsEmail ? verificationToken : null,
         // Someone actively registering IS an activity moment — see the
         // matching comment in pages/api/employer-signup.js. Without this,
         // every fresh helper signup showed last_login_at = NULL because
@@ -236,6 +281,8 @@ export default async function handler(req, res) {
       .from('user_preferences')
       .upsert(
         { helper_ref: ref, email: cleanEmail, preferred_language: helperPreferredLanguage },
+        // cleanEmail is NULL for a phone-only signup; the column is only a
+        // convenience copy and nothing reads it as a contact channel.
         { onConflict: 'helper_ref' }
       );
 
@@ -251,17 +298,25 @@ export default async function handler(req, res) {
     setSessionCookie(res, token, 'helper');
 
     // Send confirmation email (don't fail registration if email fails)
+    //
+    // sendHelperConfirmation is skipped entirely without an address — it
+    // carries the verification link and the reference number, and both are
+    // meaningless to a phone-only account: there is nothing to verify, and
+    // she logs in with the number. The success screen shows her the
+    // reference number instead, which is the only place she will ever see
+    // it. sendAdminNotification still goes out, so a signup never becomes
+    // invisible to us just because it had no inbox.
     try {
       if (process.env.RESEND_API_KEY) {
         await Promise.all([
-          sendHelperConfirmation({
+          ...(cleanEmail ? [sendHelperConfirmation({
             firstName: cleanFirstName,
             email: cleanEmail,
             ref,
             category,
             city,
             verificationToken,
-          }),
+          })] : []),
           sendAdminNotification({
             type: 'helper',
             firstName: cleanFirstName,
