@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { PHONE_COUNTRY_CODES } from '@/lib/constants/phone-countries';
 import Head from 'next/head';
 import Link from 'next/link';
 import BrandWordmark from '@/components/BrandWordmark';
@@ -58,8 +59,48 @@ const T = {
     url_error_invalid: 'That login link is not valid. Please request a new one.',
     url_error_expired: 'That login link has expired or was already used. Please request a new one below.',
     url_error_unavailable: 'Your account is not available. Please contact support@thaihelper.app',
+    phone_switch: 'Use your phone number instead of email',
+    phone_h: 'Log in with your phone number',
+    phone_sub: 'This must be a number already verified on your account.',
+    phone_country: 'Country',
+    phone_label: 'Phone number',
+    phone_ph: '08X XXX XXXX',
+    phone_send: 'Send code',
+    phone_sending: 'Sending…',
+    phone_code_label: 'Enter the code you received by SMS',
+    phone_code_ph: '6 digits',
+    phone_verify: 'Log in',
+    phone_verifying: 'Logging in…',
+    phone_resend: 'Send a new code',
+    phone_back: 'Log in with email instead',
+    phone_err_none: 'No account found with this number. Please check it, or log in with your email.',
+    phone_err_wrong: 'That code is not right. Please try again.',
+    phone_err_invalid: 'That does not look like a phone number.',
+    phone_err_rate: 'Too many codes requested. Please wait a little and try again.',
+    phone_err_suspended: 'This account is not available. Please contact support@thaihelper.app',
+    phone_err_generic: 'Something went wrong. Please try again.',
   },
   th: {
+    phone_switch: 'ใช้เบอร์โทรศัพท์แทนอีเมล',
+    phone_h: 'เข้าสู่ระบบด้วยเบอร์โทรศัพท์',
+    phone_sub: 'เบอร์นี้ต้องเป็นเบอร์ที่ยืนยันไว้ในบัญชีของคุณแล้ว',
+    phone_country: 'ประเทศ',
+    phone_label: 'เบอร์โทรศัพท์',
+    phone_ph: '08X XXX XXXX',
+    phone_send: 'ส่งรหัส',
+    phone_sending: 'กำลังส่ง…',
+    phone_code_label: 'กรอกรหัสที่ได้รับทาง SMS',
+    phone_code_ph: '6 หลัก',
+    phone_verify: 'เข้าสู่ระบบ',
+    phone_verifying: 'กำลังเข้าสู่ระบบ…',
+    phone_resend: 'ส่งรหัสใหม่อีกครั้ง',
+    phone_back: 'เข้าสู่ระบบด้วยอีเมลแทน',
+    phone_err_none: 'ไม่พบบัญชีที่ใช้เบอร์นี้ กรุณาตรวจสอบอีกครั้ง หรือเข้าสู่ระบบด้วยอีเมล',
+    phone_err_wrong: 'รหัสไม่ถูกต้อง กรุณาลองใหม่',
+    phone_err_invalid: 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง',
+    phone_err_rate: 'ขอรหัสบ่อยเกินไป กรุณารอสักครู่แล้วลองใหม่',
+    phone_err_suspended: 'บัญชีนี้ใช้งานไม่ได้ กรุณาติดต่อ support@thaihelper.app',
+    phone_err_generic: 'เกิดข้อผิดพลาด กรุณาลองใหม่',
     page_title: 'เข้าสู่ระบบ – ThaiHelper',
     h1: 'ยินดีต้อนรับกลับ',
     sub: 'เข้าสู่ระบบบัญชี ThaiHelper ของคุณ',
@@ -126,6 +167,14 @@ export default function Login() {
   // have to repeat the dance every launch. Ref-number login happens
   // entirely inside the app's WebView, so the cookie persists.
   const [mode, setMode] = useState('magic');
+  // Phone login. 'enter' collects the number, 'code' the six digits.
+  const [phoneStage, setPhoneStage] = useState('enter');
+  const [phoneCountry, setPhoneCountry] = useState('+66');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneCode, setPhoneCode] = useState('');
+  const [phoneBusy, setPhoneBusy] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
+  const [phoneRole, setPhoneRole] = useState(null);
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const isNativeApp =
@@ -224,6 +273,83 @@ export default function Login() {
       setError(t.error_generic);
     } finally {
       setMagicSubmitting(false);
+    }
+  };
+
+  // Phone login. The number is the credential, the SMS code proves it, and
+  // the API decides whether it belongs to a helper or a family — the form
+  // never asks, because somebody who cannot reach her email is the last
+  // person who should have to classify herself first.
+  const phoneBody = () => ({
+    phone_number: phoneNumber,
+    country_code: phoneCountry,
+    language: lang === 'th' ? 'th' : 'en',
+    ...(phoneRole ? { role: phoneRole } : {}),
+  });
+
+  const phoneErrorText = (code) => ({
+    no_account: t.phone_err_none,
+    wrong_code: t.phone_err_wrong,
+    invalid_phone: t.phone_err_invalid,
+    rate_limited: t.phone_err_rate,
+    too_many_attempts: t.phone_err_rate,
+    account_suspended: t.phone_err_suspended,
+  }[code] || t.phone_err_generic);
+
+  const sendPhoneCode = async (e) => {
+    e?.preventDefault();
+    setPhoneError('');
+    setPhoneBusy(true);
+    try {
+      const res = await fetch('/api/phone-login/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(phoneBody()),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 300 && Array.isArray(data.roles)) {
+        // One number on a helper and a family account. Default to helper and
+        // let the next call carry it; the alternative is a chooser nobody
+        // but a handful of pre-2026-10 rows would ever see.
+        setPhoneRole(data.roles.includes('helper') ? 'helper' : data.roles[0]);
+        setPhoneBusy(false);
+        return sendPhoneCode();
+      }
+      if (!res.ok) {
+        setPhoneError(phoneErrorText(data.error));
+        return;
+      }
+      setPhoneRole(data.role || null);
+      setPhoneStage('code');
+    } catch {
+      setPhoneError(t.phone_err_generic);
+    } finally {
+      setPhoneBusy(false);
+    }
+  };
+
+  const verifyPhoneCode = async (e) => {
+    e?.preventDefault();
+    setPhoneError('');
+    setPhoneBusy(true);
+    try {
+      const res = await fetch('/api/phone-login/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...phoneBody(), code: phoneCode }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setPhoneError(phoneErrorText(data.error));
+        return;
+      }
+      router.replace(
+        nextPath || (data.role === 'employer' ? '/employer-dashboard' : '/profile'),
+      );
+    } catch {
+      setPhoneError(t.phone_err_generic);
+    } finally {
+      setPhoneBusy(false);
     }
   };
 
@@ -362,6 +488,20 @@ export default function Login() {
                     {t.magic_switch_to_ref}
                   </button>
                 </div>
+
+                <div style={{ marginTop: '10px', textAlign: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => { setMode('phone'); setError(''); setUrlError(''); }}
+                    style={{
+                      background: 'none', border: 'none',
+                      color: 'var(--primary)', fontSize: '14px',
+                      fontWeight: 600, cursor: 'pointer', textDecoration: 'underline',
+                    }}
+                  >
+                    {t.phone_switch}
+                  </button>
+                </div>
               </>
             )}
 
@@ -389,6 +529,105 @@ export default function Login() {
                   {t.magic_sent_resend}
                 </button>
               </div>
+            )}
+
+            {mode === 'phone' && (
+              <>
+                <h2 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '4px' }}>{t.phone_h}</h2>
+                <p style={{ fontSize: '14px', color: 'var(--gray-500)', marginBottom: '16px' }}>
+                  {t.phone_sub}
+                </p>
+
+                {phoneError && (
+                  <div style={{
+                    background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px',
+                    padding: '12px 14px', marginBottom: '14px', fontSize: '14px', color: '#991b1b',
+                  }}>
+                    {phoneError}
+                  </div>
+                )}
+
+                {phoneStage === 'enter' ? (
+                  <form onSubmit={sendPhoneCode}>
+                    <div className="field">
+                      <label htmlFor="f-phonecc">{t.phone_country}</label>
+                      <select id="f-phonecc"
+                        value={phoneCountry}
+                        onChange={e => setPhoneCountry(e.target.value)}
+                        disabled={phoneBusy}
+                      >
+                        {PHONE_COUNTRY_CODES.map((c) => (
+                          <option key={c.code} value={c.code}>{c.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="field">
+                      <label htmlFor="f-phonenum">{t.phone_label}</label>
+                      <input id="f-phonenum"
+                        type="tel"
+                        inputMode="numeric"
+                        value={phoneNumber}
+                        onChange={e => setPhoneNumber(e.target.value)}
+                        placeholder={t.phone_ph}
+                        autoComplete="tel"
+                        required
+                        disabled={phoneBusy}
+                      />
+                    </div>
+                    <button type="submit" className="btn-next" disabled={phoneBusy}
+                      style={{ width: '100%', marginTop: '8px' }}>
+                      {phoneBusy ? t.phone_sending : t.phone_send}
+                    </button>
+                  </form>
+                ) : (
+                  <form onSubmit={verifyPhoneCode}>
+                    <div className="field">
+                      <label htmlFor="f-phonecode">{t.phone_code_label}</label>
+                      <input id="f-phonecode"
+                        type="text"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        value={phoneCode}
+                        onChange={e => setPhoneCode(e.target.value.replace(/[^0-9]/g, ''))}
+                        placeholder={t.phone_code_ph}
+                        maxLength={8}
+                        required
+                        disabled={phoneBusy}
+                      />
+                    </div>
+                    <button type="submit" className="btn-next" disabled={phoneBusy}
+                      style={{ width: '100%', marginTop: '8px' }}>
+                      {phoneBusy ? t.phone_verifying : t.phone_verify}
+                    </button>
+                    <div style={{ marginTop: '14px', textAlign: 'center' }}>
+                      <button type="button" disabled={phoneBusy}
+                        onClick={() => { setPhoneCode(''); setPhoneStage('enter'); setPhoneError(''); }}
+                        style={{
+                          background: 'none', border: 'none', color: 'var(--gray-500)',
+                          fontSize: '14px', cursor: 'pointer', textDecoration: 'underline',
+                        }}>
+                        {t.phone_resend}
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode('magic'); setPhoneError(''); setPhoneCode('');
+                      setPhoneStage('enter'); setPhoneRole(null);
+                    }}
+                    style={{
+                      background: 'none', border: 'none', color: 'var(--primary)',
+                      fontSize: '14px', cursor: 'pointer', textDecoration: 'underline',
+                    }}
+                  >
+                    {t.phone_back}
+                  </button>
+                </div>
+              </>
             )}
 
             {mode === 'ref' && (
