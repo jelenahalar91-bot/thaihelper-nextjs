@@ -155,6 +155,11 @@ module.exports = {
     if (path.startsWith('/hire/')) {
       return { loc: path, changefreq: 'weekly', priority: 0.9, lastmod, alternateRefs };
     }
+    // Job pages — the supply side of the same landing-page network, and
+    // the only pages on the site a helper searching for work can land on.
+    if (path.startsWith('/jobs/')) {
+      return { loc: path, changefreq: 'daily', priority: 0.9, lastmod, alternateRefs };
+    }
     // Blog posts
     if (path.startsWith('/blog/')) {
       return { loc: path, changefreq: 'monthly', priority: 0.8, lastmod, alternateRefs };

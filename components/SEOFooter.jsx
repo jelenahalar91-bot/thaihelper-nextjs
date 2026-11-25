@@ -39,13 +39,20 @@ const CATEGORIES = [
   { slug: 'petsitter',   en: 'Pet Sitters',   th: 'ผู้ดูแลสัตว์เลี้ยง' },
 ];
 
+// The /jobs/ side of the network. Only the seven cities those pages exist
+// for (see JOB_CITY_SLUGS in lib/seo/job-pages.js) — a footer link to a page
+// that redirects is a link Google follows once and discounts after.
+const JOB_CITIES = TOP_CITIES.filter((c) =>
+  ['bangkok', 'phuket', 'chiang-mai', 'pattaya', 'koh-samui', 'hua-hin', 'krabi'].includes(c.slug),
+);
+
 export default function SEOFooter({ lang = 'en' }) {
   const isEn = lang === 'en';
 
   return (
     <footer className="bg-[#001b3d] text-white/70 border-t border-white/10">
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Cities */}
           <div>
             <h3 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">
@@ -78,6 +85,22 @@ export default function SEOFooter({ lang = 'en' }) {
                     className="hover:text-white transition-colors"
                   >
                     {isEn ? `${c.en} in Thailand` : `${c.th}ในประเทศไทย`}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Jobs — the helper side */}
+          <div>
+            <h3 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">
+              {isEn ? 'Jobs for Helpers' : 'งานสำหรับผู้ช่วยในบ้าน'}
+            </h3>
+            <ul className="space-y-2 text-sm">
+              {JOB_CITIES.map((c) => (
+                <li key={c.slug}>
+                  <Link href={`/jobs/${c.slug}`} className="hover:text-white transition-colors">
+                    {isEn ? `Jobs in ${c.en}` : `งานใน${c.th}`}
                   </Link>
                 </li>
               ))}
