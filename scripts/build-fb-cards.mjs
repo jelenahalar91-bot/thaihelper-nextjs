@@ -27,7 +27,10 @@ const CARDS = [
 
   { slug:'how-messaging-works', kind:'steps', eyebrow:'HOW CONTACT WORKS',
     steps:[['01','Browse the profiles'],['02','Write to the one that fits'],['03','Agree the terms between you']],
-    foot:'No fee to see a phone number', footTh:'ไม่มีค่าธรรมเนียมในการดูเบอร์โทร' },
+    // Nicht "no fee to see a phone number": Nummern stehen ueberhaupt nicht im
+    // Profil, weder gratis noch gegen Geld (lib/public-helper-card.js liefert
+    // nur das Abzeichen phoneVerified). Die beiden tauschen sie im Chat selbst.
+    foot:'Messaging is free on both sides', footTh:'การส่งข้อความไม่มีค่าใช้จ่ายทั้งสองฝ่าย' },
 
   { slug:'app-available', kind:'single', eyebrow:'ON YOUR PHONE',
     big:'iOS + Android', bigSize:112, bigSub:'New messages arrive as a notification,<br/>not as an unread email',
