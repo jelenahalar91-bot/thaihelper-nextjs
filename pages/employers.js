@@ -36,7 +36,7 @@ const EMPLOYER_FAQS = {
     },
     {
       question: 'Does ThaiHelper verify helpers?',
-      answer: 'ThaiHelper is a directory platform, not an agency. We verify each helper\'s email address but do not perform ID checks or background checks. Please conduct your own interview, ask for references, and confirm legal employment requirements (e.g. work permit, Social Security registration) before hiring.',
+      answer: 'ThaiHelper is a directory platform, not an agency. We verify each helper\'s email address but do not perform ID checks or background checks. Please conduct your own interview, ask for references and confirm legal employment requirements (e.g. work permit, Social Security registration) before hiring.',
     },
     {
       question: 'How do I find a nanny or maid in my city?',
@@ -44,11 +44,11 @@ const EMPLOYER_FAQS = {
     },
     {
       question: 'How much does a nanny or maid cost in Thailand?',
-      answer: 'In 2026, a full-time live-out housekeeper in Thailand costs 12,000–18,000 THB/month. A full-time nanny in Bangkok costs 15,000–25,000 THB/month, and 12,000–18,000 THB/month in Chiang Mai. A private chef costs 18,000–35,000 THB/month and a personal driver 15,000–25,000 THB/month.',
+      answer: 'In 2026, a full-time live-out housekeeper in Thailand costs 12,000–18,000 THB/month. A full-time nanny in Bangkok costs 15,000–25,000 THB/month and 12,000–18,000 THB/month in Chiang Mai. A private chef costs 18,000–35,000 THB/month and a personal driver 15,000–25,000 THB/month.',
     },
     {
       question: 'Is it legal to hire household staff in Thailand?',
-      answer: 'Yes. Hiring domestic workers is legal and common in Thailand. Employers must pay at least minimum wage (370 THB/day in Bangkok), provide one rest day per week, six annual leave days, and 13 paid holidays. For full-time roles, employers must register helpers with Social Security. Foreigners can legally hire Thai nationals without a separate work permit for the helper.',
+      answer: 'Yes. Hiring domestic workers is legal and common in Thailand. Employers must pay at least minimum wage (370 THB/day in Bangkok), provide one rest day per week, six annual leave days and 13 paid holidays. For full-time roles, employers must register helpers with Social Security. Foreigners can legally hire Thai nationals without a separate work permit for the helper.',
     },
   ],
   th: [
@@ -101,7 +101,7 @@ const T = {
     // Work permit banner (just below hero)
     wp_label: 'Work Permits & Visas',
     wp_title: 'Need a work permit for your helper?',
-    wp_p: 'Take our 2-minute wizard to find out whether you really need a WP, what it costs, and how long it takes — or jump straight to a vetted lawyer in your city.',
+    wp_p: 'Take our 2-minute wizard to find out whether you really need a WP, what it costs and how long it takes — or jump straight to a vetted lawyer in your city.',
     wp_cta_wizard: 'Start the Wizard →',
     wp_cta_directory: 'Find an Expert',
     nav_wizard: 'Work Permit Wizard',
@@ -124,7 +124,7 @@ const T = {
     why_title: 'A better way to find help',
     why_sub: 'We built ThaiHelper because finding trusted help should be simple, transparent and affordable.',
     why1_h: '100% Free to Start',
-    why1_p: 'No sign-up fees, no subscriptions, no commissions. Browse profiles, message helpers, and connect — all free.',
+    why1_p: 'No sign-up fees, no subscriptions, no commissions. Browse profiles, message helpers and connect — all free.',
     why2_h: 'No Middleman Fees',
     why2_p: 'Connect directly with helpers. No platform fees, no commissions on salaries.',
     why3_h: 'Email-Verified Profiles',
@@ -170,16 +170,16 @@ const T = {
     // FAQ
     faq_label: 'FAQ',
     faq_title: 'Common questions from families',
-    faq_sub: 'Quick answers about pricing, verification, and how to hire household staff in Thailand.',
+    faq_sub: 'Quick answers about pricing, verification and how to hire household staff in Thailand.',
     faq_more: 'See all FAQs →',
     // CTA
     cta_title: 'Know a great helper?',
-    cta_sub: 'Tell your nanny, housekeeper, or driver about ThaiHelper. They can register for free and get discovered by families like yours.',
+    cta_sub: 'Tell your nanny, housekeeper or driver about ThaiHelper. They can register for free and get discovered by families like yours.',
     cta_btn: 'Share with Helpers',
     // Footer
     footer_desc: 'ThaiHelper connects families and expats in Thailand with trusted household staff. Direct connections, no middlemen.',
     footer_app: 'Get the free app',
-    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labour and immigration laws is the sole responsibility of the users.',
     footer_product: 'Product',
     footer_fp1: 'For Helpers',
     footer_fp2: 'For Families',

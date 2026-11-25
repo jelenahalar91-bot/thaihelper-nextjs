@@ -229,7 +229,7 @@ export default function BlogPost({ post }) {
               </strong>{' '}
               {lang === 'th'
                 ? 'บทความนี้จัดทำขึ้นเพื่อให้ข้อมูลทั่วไปเท่านั้น ไม่ถือเป็นคำแนะนำทางกฎหมาย ภาษี หรือทางการเงิน ThaiHelper ไม่ใช่สำนักงานกฎหมายและไม่ได้ให้บริการทางกฎหมาย กฎหมายแรงงานไทย อัตราค่าจ้างขั้นต่ำ และข้อกำหนดด้านประกันสังคมอาจมีการเปลี่ยนแปลง กรุณาตรวจสอบข้อมูลล่าสุดกับกระทรวงแรงงาน (mol.go.th) หรือปรึกษาทนายความที่มีคุณสมบัติก่อนตัดสินใจ'
-                : 'This article is provided for general informational purposes only and does not constitute legal, tax, or financial advice. ThaiHelper is not a law firm and does not provide legal services. Thai labor laws, minimum wage rates, and social security requirements are subject to change. Please verify all information with the Thai Ministry of Labour (mol.go.th) or consult a qualified lawyer before making any decisions.'}
+                : 'This article is provided for general informational purposes only and does not constitute legal, tax or financial advice. ThaiHelper is not a law firm and does not provide legal services. Thai labour laws, minimum wage rates and social security requirements are subject to change. Please verify all information with the Thai Ministry of Labour (mol.go.th) or consult a qualified lawyer before making any decisions.'}
             </p>
           </div>
 

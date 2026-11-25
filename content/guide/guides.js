@@ -23,7 +23,7 @@ export const guides = [
     slug: 'hire-a-nanny-in-thailand',
     title: 'How to Hire a Nanny in Thailand — The Complete 2026 Guide',
     description:
-      'Salary ranges, work-permit rules, where to find nannies, what to ask in interviews, and how to write a fair contract. Updated for 2026 with city-specific data for Bangkok, Phuket, Chiang Mai, and more.',
+      'Salary ranges, work-permit rules, where to find nannies, what to ask in interviews and how to write a fair contract. Updated for 2026 with city-specific data for Bangkok, Phuket, Chiang Mai and more.',
     date: '2026-06-02',
     updated: '2026-06-02',
     readTime: 14,
@@ -37,16 +37,16 @@ export const guides = [
         h2: 'What you\'ll learn in this guide',
         html: `
           <p>Hiring a nanny in Thailand is one of the most common decisions for expat and Thai families alike. For about <strong>15,000–25,000 THB per month</strong> (Bangkok rates, 2026), a family can have full-time, experienced childcare — a fraction of what the same arrangement costs in most Western countries. But the process is unfamiliar to first-time employers and the visible options (agencies, Facebook groups, word-of-mouth) all have trade-offs.</p>
-          <p>This guide walks through the entire process: what nannies actually cost city by city, the difference between live-in and live-out arrangements, where to find candidates (with the trade-offs of each channel), what to ask in interviews, the work-permit rules for foreign nannies (Filipino, Burmese, etc.), how to structure a fair contract, and the mistakes most first-time families make.</p>
+          <p>This guide walks through the entire process: what nannies actually cost city by city, the difference between live-in and live-out arrangements, where to find candidates (with the trade-offs of each channel), what to ask in interviews, the work-permit rules for foreign nannies (Filipino, Burmese, etc.), how to structure a fair contract and the mistakes most first-time families make.</p>
           <p>It is written for families hiring directly — without going through an agency — but the salary and legal information applies regardless of how you find your nanny.</p>
-          <p><em>Last updated: 2 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data, and direct family-employer interviews. Legal references are to Thai Ministry of Labour regulations in force as of 2026.</em></p>
+          <p><em>Last updated: 2 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data and direct family-employer interviews. Legal references are to Thai Ministry of Labour regulations in force as of 2026.</em></p>
         `,
       },
       {
         id: 'cost',
         h2: 'How much does a nanny in Thailand cost?',
         html: `
-          <p>Nanny salaries in Thailand vary by three main factors: <strong>city</strong>, <strong>arrangement</strong> (live-in, live-out, part-time), and <strong>experience or specialised skills</strong> (English, infant care, special needs). Below are the typical monthly ranges for 2026.</p>
+          <p>Nanny salaries in Thailand vary by three main factors: <strong>city</strong>, <strong>arrangement</strong> (live-in, live-out, part-time) and <strong>experience or specialised skills</strong> (English, infant care, special needs). Below are the typical monthly ranges for 2026.</p>
 
           <h3>By city (full-time, live-out)</h3>
           <table>
@@ -80,27 +80,27 @@ export const guides = [
             <li>Is willing to <strong>travel with the family</strong> (domestic trips or overseas). Add a travel stipend and per-diem on top of base.</li>
           </ul>
 
-          <p>Pay also includes the implicit cost of <strong>social-security contributions</strong> for full-time employees (5 % each from employer and employee, covering medical, maternity, and pension benefits) and the <strong>13th-month bonus</strong> that is customary in Thai household employment — most families pay it before Songkran or at New Year.</p>
+          <p>Pay also includes the implicit cost of <strong>social-security contributions</strong> for full-time employees (5 % each from employer and employee, covering medical, maternity and pension benefits) and the <strong>13th-month bonus</strong> that is customary in Thai household employment — most families pay it before Songkran or at New Year.</p>
         `,
       },
       {
         id: 'arrangements',
         h2: 'Live-in vs live-out vs part-time — which is right for your family?',
         html: `
-          <p>There is no objectively best arrangement; the right one depends on your home, your hours, and how comfortable you are with another adult living in your space. Here is the trade-off in plain terms.</p>
+          <p>There is no objectively best arrangement; the right one depends on your home, your hours and how comfortable you are with another adult living in your space. Here is the trade-off in plain terms.</p>
 
           <h3>Live-in</h3>
-          <p><strong>Choose live-in when:</strong> you have a spare room with its own bathroom, one or both parents travel for work, you have newborns or multiple young children, or you simply want help available before school in the morning and after the kids go to bed.</p>
-          <p><strong>What's included:</strong> private room (en-suite where possible), three meals a day, one full day off per week, and reasonable use of the family's amenities. Cash salary 12,000–20,000 THB/month plus the value of room and board.</p>
-          <p><strong>What to think about:</strong> Privacy on both sides matters. A nanny who lives in your home should have somewhere to retreat in the evening. Set ground rules early about working hours, off-time, and family visits.</p>
+          <p><strong>Choose live-in when:</strong> you have a spare room with its own bathroom, one or both parents travel for work, you have newborns or multiple young children or you simply want help available before school in the morning and after the kids go to bed.</p>
+          <p><strong>What's included:</strong> private room (en-suite where possible), three meals a day, one full day off per week and reasonable use of the family's amenities. Cash salary 12,000–20,000 THB/month plus the value of room and board.</p>
+          <p><strong>What to think about:</strong> Privacy on both sides matters. A nanny who lives in your home should have somewhere to retreat in the evening. Set ground rules early about working hours, off-time and family visits.</p>
 
           <h3>Live-out</h3>
-          <p><strong>Choose live-out when:</strong> you have a typical working-hours pattern (e.g. 8 am – 6 pm), your home doesn't have a spare bedroom, or you prefer to separate work and home life.</p>
+          <p><strong>Choose live-out when:</strong> you have a typical working-hours pattern (e.g. 8 am – 6 pm), your home doesn't have a spare bedroom or you prefer to separate work and home life.</p>
           <p><strong>What's included:</strong> Cash salary (no room, no meals — although many families provide lunch as a courtesy). Typically 5–6 days per week. The nanny commutes from her own home, so her ability to start very early or stay very late depends on transport.</p>
           <p><strong>What to think about:</strong> Bangkok and Phuket traffic. A nanny who lives an hour away by motorbike may not be reliable for 7 am drop-offs. Many families pay a small <strong>transport allowance</strong> (500–2,000 THB/month) on top of base salary.</p>
 
           <h3>Part-time</h3>
-          <p><strong>Choose part-time when:</strong> you only need help during peak hours (after school, weekday afternoons), you want a date-night sitter, or you're not ready for the commitment of full-time employment.</p>
+          <p><strong>Choose part-time when:</strong> you only need help during peak hours (after school, weekday afternoons), you want a date-night sitter or you're not ready for the commitment of full-time employment.</p>
           <p><strong>What's included:</strong> Hourly or daily rate. Typical hourly rate in Bangkok is 150–300 THB; in smaller towns 100–200 THB. Many part-time nannies have several families and a tight schedule, so be punctual with start and end times.</p>
         `,
       },
@@ -111,26 +111,26 @@ export const guides = [
           <p>There are four mainstream channels. None of them is uniquely "best" — they all surface different candidates, and many families use two or three in parallel.</p>
 
           <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
-          <p><strong>How it works:</strong> Nannies create their own free profiles with experience, skills, photo, language, and availability. Families browse the listings, message nannies directly, conduct their own interviews and reference checks, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a recruiter or placement agency. It does not screen candidates, verify qualifications, conduct background checks, place workers, hold deposits, or take any share of salary.</strong></p>
+          <p><strong>How it works:</strong> Nannies create their own free profiles with experience, skills, photo, language and availability. Families browse the listings, message nannies directly, conduct their own interviews and reference checks, then agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a recruiter or placement agency. It does not screen candidates, verify qualifications, conduct background checks, place workers, hold deposits or take any share of salary.</strong></p>
           <p><strong>Pros:</strong> Structured profiles, no placement fee, you control the entire hiring conversation, no contract lock-in. Open 24/7.</p>
-          <p><strong>Cons:</strong> The platform verifies email addresses at signup; identity, qualifications, and reference checks are on you. Plan time to actually call references — it's the single highest-value step.</p>
+          <p><strong>Cons:</strong> The platform verifies email addresses at signup; identity, qualifications and reference checks are on you. Plan time to actually call references — it's the single highest-value step.</p>
 
           <h3>2. Recruitment agencies</h3>
-          <p><strong>How it works:</strong> The agency screens candidates, sends you a shortlist, and you interview and choose. The agency typically charges a one-time placement fee (6,000–25,000 THB) plus, in some cases, a replacement guarantee if the match fails within the first few months.</p>
+          <p><strong>How it works:</strong> The agency screens candidates and sends you a shortlist; you interview and choose. The agency typically charges a one-time placement fee (6,000–25,000 THB) plus, in some cases, a replacement guarantee if the match fails within the first few months.</p>
           <p><strong>Pros:</strong> Pre-screened candidates, replacement guarantee, hands-off process.</p>
-          <p><strong>Cons:</strong> Placement fee on top of salary, less direct insight into the candidate pool, and the agency's incentive is to fill the role quickly — not necessarily perfectly.</p>
+          <p><strong>Cons:</strong> Placement fee on top of salary, less direct insight into the candidate pool and the agency's incentive is to fill the role quickly — not necessarily perfectly.</p>
 
           <h3>3. Facebook groups & expat forums</h3>
-          <p><strong>How it works:</strong> Groups like Bangkok Expat Families, Phuket Expat Moms, and Chiang Mai Mums regularly have posts from departing families looking to place their long-term nanny, or from nannies looking directly for work.</p>
+          <p><strong>How it works:</strong> Groups like Bangkok Expat Families, Phuket Expat Moms and Chiang Mai Mums regularly have posts from departing families looking to place their long-term nanny or from nannies looking directly for work.</p>
           <p><strong>Pros:</strong> Often the best candidates — a nanny whose previous expat family is recommending her has a strong implicit reference. No fees.</p>
-          <p><strong>Cons:</strong> Unstructured, no verification, lots of irrelevant noise, and timing-dependent (good candidates appear and disappear quickly).</p>
+          <p><strong>Cons:</strong> Unstructured, no verification, lots of irrelevant noise and timing-dependent (good candidates appear and disappear quickly).</p>
 
           <h3>4. Word of mouth and condo notice boards</h3>
-          <p><strong>How it works:</strong> Ask neighbours, colleagues, your condo juristic-person office, and other parents at your kids' school.</p>
+          <p><strong>How it works:</strong> Ask neighbours, colleagues, your condo juristic-person office and other parents at your kids' school.</p>
           <p><strong>Pros:</strong> The deepest references — your neighbour has actually worked with this person.</p>
           <p><strong>Cons:</strong> Tiny candidate pool. Only works if you already have a network.</p>
 
-          <p><em>Mix-and-match tip:</em> a common pattern is to <strong>shortlist on a marketplace</strong> (structured search across many candidates), <strong>verify with a Facebook post</strong> ("anyone worked with [name]?"), and <strong>finalise with an in-person interview</strong> at home.</p>
+          <p><em>Mix-and-match tip:</em> a common pattern is to <strong>shortlist on a marketplace</strong> (structured search across many candidates), <strong>verify with a Facebook post</strong> ("anyone worked with [name]?") and <strong>finalise with an in-person interview</strong> at home.</p>
         `,
       },
       {
@@ -185,7 +185,7 @@ export const guides = [
           <h3>Nationalities outside that list</h3>
           <p>There is no Thailand&ndash;Philippines MOU for domestic workers. Vietnam sits inside the wider CLMV labour framework, but for fishery and construction &mdash; not household work. So for Filipino, Vietnamese, Indian, Nepali and Western candidates, <strong>a private family cannot obtain a domestic-worker permit at all</strong>.</p>
           <p>The Non-Immigrant B route that gets suggested a lot online does not fill this gap. It requires the employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A household is not that, and no visa agent can turn one into it.</p>
-          <p>Narrow exceptions do exist &mdash; diplomatic households, BOI-promoted employers, and genuinely skilled roles such as a private tutor, governess or household manager sponsored by a registered Thai employer, where the role matches the permit category in substance and not only on paper. Those need qualified legal advice rather than a template.</p>
+          <p>Narrow exceptions do exist &mdash; diplomatic households, BOI-promoted employers and genuinely skilled roles such as a private tutor, governess or household manager sponsored by a registered Thai employer, where the role matches the permit category in substance and not only on paper. Those need qualified legal advice rather than a template.</p>
 
           <h3>One task is closed to every foreigner</h3>
           <p><strong>Driving</strong> is on List 1 of the 2020 notification: reserved for Thai nationals, with no permit of any kind available &mdash; MOU or otherwise. If the role includes school runs or errands behind the wheel, that part has to go to a Thai national, whatever other paperwork your candidate holds.</p>
@@ -203,13 +203,13 @@ export const guides = [
       },
       {
         id: 'contract',
-        h2: 'Contracts, benefits, and salary negotiation',
+        h2: 'Contracts, benefits and salary negotiation',
         html: `
           <p>A written contract is <strong>not legally required</strong> for household employment in Thailand, but it is strongly recommended. A simple contract protects both parties from misunderstandings and is required if you want to register your nanny for social security.</p>
 
           <h3>What a basic contract should specify</h3>
           <ul>
-            <li>Full name, ID number, and contact of both parties</li>
+            <li>Full name, ID number and contact of both parties</li>
             <li>Job description — what specifically she is and is not expected to do (e.g. childcare only, vs. childcare + light cleaning)</li>
             <li>Working hours, days off, public holidays</li>
             <li>Monthly salary and how it's paid (bank transfer is best — creates a record)</li>
@@ -224,7 +224,7 @@ export const guides = [
           <p>ThaiHelper publishes a free bilingual contract template at <a href="/blog/employment-contract-template-thailand">/blog/employment-contract-template-thailand</a>.</p>
 
           <h3>Legally protected rights</h3>
-          <p>Household workers in Thailand are covered by <strong>Ministerial Regulation No. 14 (2012)</strong>, which extends key labour protections to domestic employees: at least one day off per week, public-holiday entitlement, paid sick leave, and overtime pay if the employee works more than the contracted hours. For full-time arrangements, employers must also register the worker for <strong>Social Security (Section 33)</strong> — both employer and employee contribute 5 % of monthly salary, and the worker gets medical care, maternity benefits, disability cover, and a pension.</p>
+          <p>Household workers in Thailand are covered by <strong>Ministerial Regulation No. 14 (2012)</strong>, which extends key labour protections to domestic employees: at least one day off per week, public-holiday entitlement, paid sick leave and overtime pay if the employee works more than the contracted hours. For full-time arrangements, employers must also register the worker for <strong>Social Security (Section 33)</strong> — both employer and employee contribute 5 % of monthly salary, and the worker gets medical care, maternity benefits, disability cover and a pension.</p>
 
           <h3>Customary benefits beyond the law</h3>
           <ul>
@@ -255,7 +255,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>If you're ready to start the search, you can browse nanny profiles on ThaiHelper for free. Filter by city, languages, experience level, and availability, then message candidates directly — ThaiHelper is just the listings and messaging channel; the hiring decision, reference checks, and interview are entirely yours.</p>
+          <p>If you're ready to start the search, you can browse nanny profiles on ThaiHelper for free. Filter by city, languages, experience level and availability, then message candidates directly — ThaiHelper is just the listings and messaging channel; the hiring decision, reference checks and interview are entirely yours.</p>
           <ul>
             <li><a href="/hire/nanny">Browse nannies across Thailand</a></li>
             <li><a href="/hire/nanny-bangkok">Nannies in Bangkok</a></li>
@@ -277,7 +277,7 @@ export const guides = [
       {
         question: 'Can I hire a nanny in Thailand without going through an agency?',
         answer:
-          'Yes. Most Thai families hire nannies directly through referrals, condo notice boards, or online platforms. Expat families increasingly do the same — direct hire saves the agency placement fee (typically 6,000–25,000 THB) and gives you control over the interview and reference-check process. Platforms like ThaiHelper are listings + messaging only: they provide structured profiles but do not screen, place, or take any share of salary.',
+          'Yes. Most Thai families hire nannies directly through referrals, condo notice boards or online platforms. Expat families increasingly do the same — direct hire saves the agency placement fee (typically 6,000–25,000 THB) and gives you control over the interview and reference-check process. Platforms like ThaiHelper are listings + messaging only: they provide structured profiles but do not screen, place or take any share of salary.',
       },
       {
         question: 'Do nannies in Thailand need a work permit?',
@@ -287,17 +287,17 @@ export const guides = [
       {
         question: 'What is the difference between live-in and live-out nannies?',
         answer:
-          'A live-in nanny resides at the employer\'s home, receives a private room and meals as part of compensation, and typically works 6 days per week. A live-out nanny commutes daily from her own home. Live-in cash salaries are usually 20–30 % lower than live-out for the same role because food and accommodation are included.',
+          'A live-in nanny resides at the employer\'s home, receives a private room and meals as part of compensation and typically works 6 days per week. A live-out nanny commutes daily from her own home. Live-in cash salaries are usually 20–30 % lower than live-out for the same role because food and accommodation are included.',
       },
       {
         question: 'Is a written contract required when hiring a nanny in Thailand?',
         answer:
-          'A written contract is not legally required for household employment in Thailand, but it is strongly recommended. It should specify duties, working hours, salary, days off, leave entitlement, notice period, and any benefits (room and meals if live-in). Both parties keep a signed copy. ThaiHelper publishes a free bilingual contract template.',
+          'A written contract is not legally required for household employment in Thailand, but it is strongly recommended. It should specify duties, working hours, salary, days off, leave entitlement, notice period and any benefits (room and meals if live-in). Both parties keep a signed copy. ThaiHelper publishes a free bilingual contract template.',
       },
       {
         question: 'What benefits should I provide beyond the basic salary?',
         answer:
-          'Customary benefits in Thailand include: a 13th-month bonus paid before Songkran, paid annual leave (6 days minimum, 10–15 days is common), paid sick leave, and Social Security registration for full-time employees (5 % each from employer and employee, covers medical and pension). Many families also provide a transport allowance for live-out nannies (500–2,000 THB/month) and phone-card top-ups.',
+          'Customary benefits in Thailand include: a 13th-month bonus paid before Songkran, paid annual leave (6 days minimum, 10–15 days is common), paid sick leave and Social Security registration for full-time employees (5 % each from employer and employee, covers medical and pension). Many families also provide a transport allowance for live-out nannies (500–2,000 THB/month) and phone-card top-ups.',
       },
     ],
   },
@@ -306,7 +306,7 @@ export const guides = [
     slug: 'hire-a-housekeeper-in-thailand',
     title: 'How to Hire a Housekeeper or Maid in Thailand — The Complete 2026 Guide',
     description:
-      'Daily, weekly, or full-time? Salary ranges by city and frequency, what scope the role should cover, where to find candidates, interview questions, contract checklist. Updated for 2026 with Bangkok, Phuket, and Chiang Mai data.',
+      'Daily, weekly or full-time? Salary ranges by city and frequency, what scope the role should cover, where to find candidates, interview questions, contract checklist. Updated for 2026 with Bangkok, Phuket and Chiang Mai data.',
     date: '2026-06-02',
     updated: '2026-06-02',
     readTime: 13,
@@ -319,16 +319,16 @@ export const guides = [
         id: 'overview',
         h2: 'What you\'ll learn in this guide',
         html: `
-          <p>"Housekeeper", "maid", and "cleaner" mean slightly different things in Thailand. A <strong>weekly cleaner</strong> may only do bathrooms, floors, and laundry on one set day. A <strong>full-time housekeeper</strong> typically handles cleaning, laundry, light cooking, light shopping, and basic organisation across a six-day week. A <strong>live-in maid</strong> is housed and fed by the family in exchange for a lower cash salary. Pricing, contracts, and the interview process differ for each.</p>
-          <p>This guide covers all three. You'll learn: what each arrangement actually costs in 2026 (with city-by-city tables), how to scope the role so neither side ends up frustrated, where to find candidates, what to ask in interviews, the work-permit picture for foreign housekeepers (Burmese, Filipino, Lao, Cambodian), and the contract and benefit basics. It's written for families hiring directly — without going through a cleaning agency or a placement service — but the salary and legal information applies regardless.</p>
-          <p><em>Last updated: 2 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data, and direct family-employer interviews. Legal references are to Thai Ministry of Labour regulations in force as of 2026.</em></p>
+          <p>"Housekeeper", "maid" and "cleaner" mean slightly different things in Thailand. A <strong>weekly cleaner</strong> may only do bathrooms, floors and laundry on one set day. A <strong>full-time housekeeper</strong> typically handles cleaning, laundry, light cooking, light shopping and basic organisation across a six-day week. A <strong>live-in maid</strong> is housed and fed by the family in exchange for a lower cash salary. Pricing, contracts and the interview process differ for each.</p>
+          <p>This guide covers all three. You'll learn: what each arrangement actually costs in 2026 (with city-by-city tables), how to scope the role so neither side ends up frustrated, where to find candidates, what to ask in interviews, the work-permit picture for foreign housekeepers (Burmese, Filipino, Lao, Cambodian), plus the contract and benefit basics. It's written for families hiring directly — without going through a cleaning agency or a placement service — but the salary and legal information applies regardless.</p>
+          <p><em>Last updated: 2 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data and direct family-employer interviews. Legal references are to Thai Ministry of Labour regulations in force as of 2026.</em></p>
         `,
       },
       {
         id: 'cost',
         h2: 'How much does a housekeeper or maid in Thailand cost?',
         html: `
-          <p>Housekeeper salaries in Thailand vary by three factors: <strong>frequency</strong> (one-off, weekly, daily, full-time), <strong>city</strong>, and <strong>scope</strong> (cleaning only, or cleaning plus cooking / shopping / childcare overlap). 2026 ranges below.</p>
+          <p>Housekeeper salaries in Thailand vary by three factors: <strong>frequency</strong> (one-off, weekly, daily, full-time), <strong>city</strong> and <strong>scope</strong> (cleaning only or cleaning plus cooking / shopping / childcare overlap). 2026 ranges below.</p>
 
           <h3>By frequency (Bangkok rates, scope: standard cleaning)</h3>
           <table>
@@ -369,29 +369,29 @@ export const guides = [
           <p>Be honest with yourself about which of these you actually need. Asking a 12,000 THB/month housekeeper to also "watch the kids when needed" is the single most common reason for turnover.</p>
 
           <h3>What's included in the law</h3>
-          <p>Full-time housekeepers in Thailand are covered by <strong>Ministerial Regulation No. 14 (2012)</strong>, which extends key labour protections to household employees: at least one day off per week, public-holiday entitlement, paid sick leave, and overtime pay for work beyond the contracted hours. For full-time employees, employers must register under <strong>Social Security Section 33</strong> — both sides contribute 5 % of monthly salary; the worker gets medical care, maternity benefits, disability cover, and a pension.</p>
+          <p>Full-time housekeepers in Thailand are covered by <strong>Ministerial Regulation No. 14 (2012)</strong>, which extends key labour protections to household employees: at least one day off per week, public-holiday entitlement, paid sick leave and overtime pay for work beyond the contracted hours. For full-time employees, employers must register under <strong>Social Security Section 33</strong> — both sides contribute 5 % of monthly salary; the worker gets medical care, maternity benefits, disability cover and a pension.</p>
         `,
       },
       {
         id: 'arrangements',
         h2: 'Daily, weekly, live-out, live-in — which is right for your home?',
         html: `
-          <p>Pick by how big your home is, how often you actually need things cleaned, and how much daily flow you want.</p>
+          <p>Pick by how big your home is, how often you actually need things cleaned and how much daily flow you want.</p>
 
           <h3>Weekly cleaner (4 hours, one day a week)</h3>
           <p><strong>Right for:</strong> a small apartment, a one-bedroom condo, a single person or a couple without kids. You'll come home to a clean place once a week and that's enough.</p>
           <p><strong>Trade-off:</strong> Between visits the place is your problem. Laundry doesn't get done daily.</p>
 
           <h3>Twice-weekly or daily morning cleaner (3–4 hours)</h3>
-          <p><strong>Right for:</strong> a family with young children, a condo where laundry piles up fast, or anyone who wants the kitchen reset every morning. Common pattern: she comes 7–11 am, washes breakfast dishes, throws in a load of laundry, mops floors, cleans one bathroom in rotation, leaves before lunch.</p>
+          <p><strong>Right for:</strong> a family with young children, a condo where laundry piles up fast or anyone who wants the kitchen reset every morning. Common pattern: she comes 7–11 am, washes breakfast dishes, throws in a load of laundry, mops floors, cleans one bathroom in rotation, leaves before lunch.</p>
           <p><strong>Trade-off:</strong> You're paying for hours rather than visible deep-cleans. The condo feels great daily but a deep clean of e.g. windows or oven still needs to be scheduled separately.</p>
 
           <h3>Full-time live-out housekeeper (6 days)</h3>
-          <p><strong>Right for:</strong> a house rather than a small condo. Detached homes with gardens, multiple bathrooms, family laundry, and meal prep need someone present for most of the day.</p>
+          <p><strong>Right for:</strong> a house rather than a small condo. Detached homes with gardens, multiple bathrooms, family laundry and meal prep need someone present for most of the day.</p>
           <p><strong>Trade-off:</strong> Cash salary is the biggest jump (12,000–18,000 THB/month vs. ~6,000 for daily). The reward is that the house is consistently clean and meals can be on the table when you get home.</p>
 
           <h3>Full-time live-in housekeeper</h3>
-          <p><strong>Right for:</strong> villas, large houses, and families who travel often. The housekeeper sleeps in a maid's room (most Bangkok houses and Phuket villas have one), takes one full day off per week, and is effectively part of the household routine.</p>
+          <p><strong>Right for:</strong> villas, large houses and families who travel often. The housekeeper sleeps in a maid's room (most Bangkok houses and Phuket villas have one), takes one full day off per week and is effectively part of the household routine.</p>
           <p><strong>Trade-off:</strong> Bigger up-front conversation about boundaries — her room, her food, her time. Cash salary is 20–30 % below live-out because room and food are included; budget for the real cost (food + utility share) when you compare.</p>
         `,
       },
@@ -402,7 +402,7 @@ export const guides = [
           <p>Five channels are common in Thailand. None is exclusively "best"; many families combine two or three.</p>
 
           <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
-          <p>Housekeepers create their own free profiles with skills, languages, areas they're willing to commute to, and availability. Families browse the listings, message housekeepers directly, conduct their own interviews and reference checks, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a recruiter or placement agency. It does not screen candidates, vet credentials, conduct background checks, place workers, or take any share of salary.</strong> Best for: structured comparison, no placement fee, full control of the conversation. Limitation: email-verification at signup only; identity and reference checks are on you.</p>
+          <p>Housekeepers create their own free profiles with skills, languages, areas they're willing to commute to and availability. Families browse the listings, message housekeepers directly, conduct their own interviews and reference checks, then agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a recruiter or placement agency. It does not screen candidates, vet credentials, conduct background checks, place workers or take any share of salary.</strong> Best for: structured comparison, no placement fee, full control of the conversation. Limitation: email-verification at signup only; identity and reference checks are on you.</p>
 
           <h3>2. Cleaning agencies</h3>
           <p>The agency sends a cleaner (often a different person each visit) and handles supplies. Best for: zero hiring effort, easy cancellation, no employer obligations. Limitation: 30–50 % more expensive than direct-hire on a per-hour basis (Bangkok rates: 400–700 THB/hour with supplies, vs. 200–350 direct), no consistency of who shows up, no scope for cooking or pet care.</p>
@@ -411,10 +411,10 @@ export const guides = [
           <p>Different from a cleaning agency: they screen candidates and place ONE housekeeper with you long-term. You pay a one-time placement fee (5,000–20,000 THB) plus sometimes a replacement guarantee. Best for: hands-off process, vetted shortlist. Limitation: placement fee, less direct insight into the candidate pool, agency's incentive is to fill quickly.</p>
 
           <h3>4. Facebook groups and condo notice boards</h3>
-          <p>Bangkok Expat Families, Phuket Expat Moms, and Chiang Mai Mums regularly have posts from departing families recommending their long-term housekeeper, or housekeepers looking directly for work. Strong implicit references — but timing-dependent and noisy.</p>
+          <p>Bangkok Expat Families, Phuket Expat Moms and Chiang Mai Mums regularly have posts from departing families recommending their long-term housekeeper or housekeepers looking directly for work. Strong implicit references — but timing-dependent and noisy.</p>
 
           <h3>5. Word of mouth</h3>
-          <p>Ask neighbours, your condo juristic office, the building security guards (they know everyone), and other parents at your kids' school. Tiny candidate pool, deepest references.</p>
+          <p>Ask neighbours, your condo juristic office, the building security guards (they know everyone) and other parents at your kids' school. Tiny candidate pool, deepest references.</p>
 
           <p><em>Mix-and-match pattern:</em> shortlist on a marketplace, validate with a Facebook post if the name comes up, finalise with an in-person interview at your home.</p>
         `,
@@ -428,7 +428,7 @@ export const guides = [
           <h3>Experience and references</h3>
           <ul>
             <li>How long did you work for your last two families? Why did each role end?</li>
-            <li>How big were their homes — condo, townhouse, or detached house?</li>
+            <li>How big were their homes — condo, townhouse or detached house?</li>
             <li>What sort of cleaning products are you used to?</li>
             <li>May I contact your two most recent employers?</li>
           </ul>
@@ -446,7 +446,7 @@ export const guides = [
           <ul>
             <li>Where do you live and how do you commute? What time can you reliably start?</li>
             <li>Are there days you can't work? Any planned trips or family events in the next 6 months?</li>
-            <li>What hours fit your routine — morning only, full day, or split shifts?</li>
+            <li>What hours fit your routine — morning only, full day or split shifts?</li>
             <li>What salary feels fair to you for this scope?</li>
           </ul>
 
@@ -457,7 +457,7 @@ export const guides = [
             <li>Have you ever had a serious disagreement with a previous family? How did it resolve?</li>
           </ul>
 
-          <p>A short paid trial day is far more revealing than any interview. Pay her a fair day rate, give her the standard scope, and see how the place looks at 5 pm.</p>
+          <p>A short paid trial day is far more revealing than any interview. Pay her a fair day rate, give her the standard scope and see how the place looks at 5 pm.</p>
         `,
       },
       {
@@ -474,7 +474,7 @@ export const guides = [
           <h3>Nationalities outside that list</h3>
           <p>There is no Thailand&ndash;Philippines MOU for domestic workers. Vietnam sits inside the wider CLMV labour framework, but for fishery and construction &mdash; not household work. So for Filipino, Vietnamese, Indian, Nepali and Western candidates, <strong>a private family cannot obtain a domestic-worker permit at all</strong>.</p>
           <p>The Non-Immigrant B route that gets suggested a lot online does not fill this gap. It requires the employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A household is not that, and no visa agent can turn one into it.</p>
-          <p>Narrow exceptions do exist &mdash; diplomatic households, BOI-promoted employers, and genuinely skilled roles such as a private tutor, governess or household manager sponsored by a registered Thai employer, where the role matches the permit category in substance and not only on paper. Those need qualified legal advice rather than a template.</p>
+          <p>Narrow exceptions do exist &mdash; diplomatic households, BOI-promoted employers and genuinely skilled roles such as a private tutor, governess or household manager sponsored by a registered Thai employer, where the role matches the permit category in substance and not only on paper. Those need qualified legal advice rather than a template.</p>
 
           <p>This is why you will see Filipino candidates presented for housekeeping and childcare roles even though no permit exists for them. It is a real gap in the market, not a loophole, and the legal exposure of hiring into it sits with the family.</p>
 
@@ -494,9 +494,9 @@ export const guides = [
       },
       {
         id: 'contract',
-        h2: 'Scope, contract, and benefits',
+        h2: 'Scope, contract and benefits',
         html: `
-          <p>The single biggest source of housekeeper turnover is <strong>scope creep</strong> — a job that starts as "cleaning and laundry" expands week by week into cooking, errands, watching the dog, picking up dry-cleaning, and a bit of nanny duty. Write the scope down on day one.</p>
+          <p>The single biggest source of housekeeper turnover is <strong>scope creep</strong> — a job that starts as "cleaning and laundry" expands week by week into cooking, errands, watching the dog, picking up dry-cleaning and a bit of nanny duty. Write the scope down on day one.</p>
 
           <h3>What a basic contract should specify</h3>
           <ul>
@@ -529,9 +529,9 @@ export const guides = [
         h2: 'Common mistakes families make',
         html: `
           <ul>
-            <li><strong>Vague scope.</strong> "Cleaning and helping out" expands into cooking, errands, and childcare. Write it down on day one.</li>
+            <li><strong>Vague scope.</strong> "Cleaning and helping out" expands into cooking, errands and childcare. Write it down on day one.</li>
             <li><strong>Skipping the trial day.</strong> Pay for one full day with standard scope. The cleanliness at 5 pm tells you more than any reference call.</li>
-            <li><strong>Not providing cleaning supplies.</strong> Don't expect her to bring her own mop, vacuum, or chemicals. Buy decent supplies; she'll use them better than budget ones and the job lasts longer.</li>
+            <li><strong>Not providing cleaning supplies.</strong> Don't expect her to bring her own mop, vacuum or chemicals. Buy decent supplies; she'll use them better than budget ones and the job lasts longer.</li>
             <li><strong>Comparing direct-hire prices to cleaning-agency prices.</strong> They're not the same product. An agency charges more because they handle scheduling, supplies, replacement on sick days. Direct hire is cheaper but you absorb that overhead.</li>
             <li><strong>Skipping Social Security for full-time live-in.</strong> It's a legal requirement and a real benefit for her (free public-system medical care). It also makes the relationship more formal in a way that reduces small day-to-day arguments.</li>
             <li><strong>Not paying the 13th-month bonus.</strong> Universal expectation in Thailand. Skipping it signals you don't see the role as serious; she'll find a family who does.</li>
@@ -566,14 +566,14 @@ export const guides = [
           'Full-time live-out housekeepers in Bangkok cost 13,000–18,000 THB/month. Full-time live-in is 10,000–15,000 THB cash plus a room and meals. Part-time arrangements: weekly cleaner about 2,000–3,600 THB/month for one 4-hour visit; daily morning cleaner 5,500–10,000 THB/month for 22 working days.',
       },
       {
-        question: 'What is the difference between a maid, a housekeeper, and a cleaner in Thailand?',
+        question: 'What is the difference between a maid, a housekeeper and a cleaner in Thailand?',
         answer:
-          'In practice the terms overlap, but: a "cleaner" usually means a part-time worker on a fixed cleaning task (4 hours, scoped); a "maid" is the more traditional full-time role focused on cleaning + laundry; a "housekeeper" typically expands to include light cooking, light shopping, and general home upkeep. Salary scales with scope, not job title.',
+          'In practice the terms overlap, but: a "cleaner" usually means a part-time worker on a fixed cleaning task (4 hours, scoped); a "maid" is the more traditional full-time role focused on cleaning + laundry; a "housekeeper" typically expands to include light cooking, light shopping and general home upkeep. Salary scales with scope, not job title.',
       },
       {
         question: 'Should I use a cleaning agency or hire a housekeeper directly?',
         answer:
-          'An agency is right if you want zero hiring effort, a different person is fine each visit, and you only need 4–8 hours a week. Direct hire is better for full-time arrangements, longer relationships, scope beyond pure cleaning (cooking, pet care, laundry), and lower per-hour cost (typically 30–50 % less). Many families use both: weekly agency cleaner for deep cleans, direct-hire person for daily upkeep.',
+          'An agency is right if you want zero hiring effort, a different person is fine each visit and you only need 4–8 hours a week. Direct hire is better for full-time arrangements, longer relationships, scope beyond pure cleaning (cooking, pet care, laundry) and lower per-hour cost (typically 30–50 % less). Many families use both: weekly agency cleaner for deep cleans, direct-hire person for daily upkeep.',
       },
       {
         question: 'Do housekeepers in Thailand need a work permit?',
@@ -588,7 +588,7 @@ export const guides = [
       {
         question: 'Can I ask my housekeeper to also watch the kids occasionally?',
         answer:
-          'It is the most common scope-creep mistake. Housekeeping and childcare are different jobs with different training and different legal liability. If you genuinely need occasional childcare, either hire a dedicated nanny, hire a "nanny-housekeeper" hybrid at the higher 17,000–25,000 THB/month rate from the start, or use a babysitter for evenings only — but don\'t silently add it to a housekeeper\'s role for free.',
+          'It is the most common scope-creep mistake. Housekeeping and childcare are different jobs with different training and different legal liability. If you genuinely need occasional childcare, either hire a dedicated nanny, hire a "nanny-housekeeper" hybrid at the higher 17,000–25,000 THB/month rate from the start or use a babysitter for evenings only — but don\'t silently add it to a housekeeper\'s role for free.',
       },
     ],
   },
@@ -610,9 +610,9 @@ export const guides = [
         id: 'overview',
         h2: 'What you\'ll learn in this guide',
         html: `
-          <p>Hiring a caregiver for an ageing parent or partner is a different decision from hiring a nanny or a housekeeper. The work is more <strong>specialised</strong> (mobility transfers, medication, sometimes incontinence and dementia behaviours), the <strong>emotional stakes are higher</strong> (you're trusting someone with a family member's safety), and the <strong>price tag is bigger</strong> (especially for 24-hour care or specialist conditions). Thailand is also one of the most cost-effective countries in the region for high-quality elder care, which is why Thai families with adult children abroad and retiring expats both increasingly choose home care over residential facilities.</p>
-          <p>This guide covers what's involved: how to <strong>match the level of care to your real need</strong> (companion, basic personal care, nursing-level, dementia-specialist, end-of-life), what each tier costs in 2026, the difference between hiring one caregiver and rotating a team of two or three, where to find candidates with real training, what to ask in interviews, the work-permit logic for foreign caregivers (Filipino caregivers are common in this profession), how to structure a contract that protects both sides, and the mistakes families make when they hire under emotional pressure after a sudden health event.</p>
-          <p><em>Last updated: 8 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data, and direct family-employer interviews. Legal references are to Thai Ministry of Labour regulations in force as of 2026.</em></p>
+          <p>Hiring a caregiver for an ageing parent or partner is a different decision from hiring a nanny or a housekeeper. The work is more <strong>specialised</strong> (mobility transfers, medication, sometimes incontinence and dementia behaviours), the <strong>emotional stakes are higher</strong> (you're trusting someone with a family member's safety) and the <strong>price tag is bigger</strong> (especially for 24-hour care or specialist conditions). Thailand is also one of the most cost-effective countries in the region for high-quality elder care, which is why Thai families with adult children abroad and retiring expats both increasingly choose home care over residential facilities.</p>
+          <p>This guide covers what's involved: how to <strong>match the level of care to your real need</strong> (companion, basic personal care, nursing-level, dementia-specialist, end-of-life), what each tier costs in 2026, the difference between hiring one caregiver and rotating a team of two or three, where to find candidates with real training, what to ask in interviews, the work-permit logic for foreign caregivers (Filipino caregivers are common in this profession), how to structure a contract that protects both sides and the mistakes families make when they hire under emotional pressure after a sudden health event.</p>
+          <p><em>Last updated: 8 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data and direct family-employer interviews. Legal references are to Thai Ministry of Labour regulations in force as of 2026.</em></p>
         `,
       },
       {
@@ -622,26 +622,26 @@ export const guides = [
           <p>"Caregiver" covers five distinct roles in Thai practice. Hiring above your need is expensive; hiring below it is dangerous. Use this section before any salary research.</p>
 
           <h3>1. Companion caregiver</h3>
-          <p>For an older person who is <strong>physically independent</strong> but lonely, forgetful with errands, or unsafe alone (mild fall risk, mild confusion). Tasks: company, conversation, walks, meal preparation, light tidying, reminders to take medication, accompanying to appointments. No personal care (bathing, toileting).</p>
+          <p>For an older person who is <strong>physically independent</strong> but lonely, forgetful with errands or unsafe alone (mild fall risk, mild confusion). Tasks: company, conversation, walks, meal preparation, light tidying, reminders to take medication, accompanying to appointments. No personal care (bathing, toileting).</p>
 
           <h3>2. Personal-care caregiver</h3>
           <p>For someone who needs <strong>help with daily living</strong>: bathing, dressing, toileting, transfers from bed to chair, eating. Many Thai caregivers in this tier have learned on the job rather than through formal training but are very experienced. The caregiver typically reports to a family member or part-time visiting nurse.</p>
 
           <h3>3. Nursing-assistant level</h3>
-          <p>For people with <strong>chronic conditions managed at home</strong>: diabetes, hypertension, post-surgical recovery, mobility limitations, or feeding tubes. The caregiver should have either a nursing-assistant qualification, hospital experience, or formal training. They handle medication scheduling, basic wound care, blood-pressure / blood-sugar monitoring, and know when to escalate to a doctor.</p>
+          <p>For people with <strong>chronic conditions managed at home</strong>: diabetes, hypertension, post-surgical recovery, mobility limitations or feeding tubes. The caregiver should have either a nursing-assistant qualification, hospital experience or formal training. They handle medication scheduling, basic wound care, blood-pressure / blood-sugar monitoring and know when to escalate to a doctor.</p>
 
           <h3>4. Specialist caregiver (dementia, post-stroke, palliative)</h3>
-          <p>For specific conditions that change what good care looks like. Dementia care requires patience for repetition, redirection rather than correction, safe-environment setup, and a sleep schedule the family understands. Post-stroke care emphasises physiotherapy continuity and swallowing safety. Palliative / end-of-life care is its own field with very different communication and dignity considerations. Expect a real premium here — the caregivers who can do this well are rare and command it.</p>
+          <p>For specific conditions that change what good care looks like. Dementia care requires patience for repetition, redirection rather than correction, safe-environment setup and a sleep schedule the family understands. Post-stroke care emphasises physiotherapy continuity and swallowing safety. Palliative / end-of-life care is its own field with very different communication and dignity considerations. Expect a real premium here — the caregivers who can do this well are rare and command it.</p>
 
           <h3>5. 24-hour or live-in caregiver</h3>
-          <p>An orthogonal choice on top of the four levels above. One caregiver cannot realistically work 24 hours a day, every day, sustainably. Pick one of: <strong>two-caregiver rotation</strong> (one days, one nights), <strong>three-caregiver rotation</strong> (12-hour shifts with one day off each per week), or a <strong>live-in caregiver plus night sitter</strong> for the heaviest cases. Solo live-in works only for low-needs companion-tier roles.</p>
+          <p>An orthogonal choice on top of the four levels above. One caregiver cannot realistically work 24 hours a day, every day, sustainably. Pick one of: <strong>two-caregiver rotation</strong> (one days, one nights), <strong>three-caregiver rotation</strong> (12-hour shifts with one day off each per week) or a <strong>live-in caregiver plus night sitter</strong> for the heaviest cases. Solo live-in works only for low-needs companion-tier roles.</p>
         `,
       },
       {
         id: 'cost',
         h2: 'How much does an elder caregiver in Thailand cost?',
         html: `
-          <p>Pricing varies by <strong>care level</strong>, <strong>shift pattern</strong>, <strong>language requirement</strong>, and <strong>city</strong>. Below are 2026 ranges for the most common arrangements.</p>
+          <p>Pricing varies by <strong>care level</strong>, <strong>shift pattern</strong>, <strong>language requirement</strong> and <strong>city</strong>. Below are 2026 ranges for the most common arrangements.</p>
 
           <h3>By care level (full-time, day shift, Bangkok)</h3>
           <table>
@@ -702,19 +702,19 @@ export const guides = [
           <p>The channels overlap with general household hiring, but the right channel is more level-dependent than for nannies or housekeepers.</p>
 
           <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
-          <p>Caregivers create their own free profiles with experience, training, languages, and the care levels they're comfortable handling. Families browse the listings, message caregivers directly, interview at home, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a recruiter, placement agency, or home-care service. It does not screen candidates, verify training credentials, conduct background checks, place workers, or supervise care.</strong> Best for: companion and personal-care levels, full control of the hiring process, no placement fee.</p>
+          <p>Caregivers create their own free profiles with experience, training, languages and the care levels they're comfortable handling. Families browse the listings, message caregivers directly, interview at home and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a recruiter, placement agency or home-care service. It does not screen candidates, verify training credentials, conduct background checks, place workers or supervise care.</strong> Best for: companion and personal-care levels, full control of the hiring process, no placement fee.</p>
 
           <h3>2. Specialist home-care agencies</h3>
-          <p>Companies like ElderThai, Bangkok Hospital Home Care, and several others operate dedicated home-care services with trained caregivers (often nursing-assistant or RN level), supervisor oversight, scheduling, and replacement on sick days. Rates are typically 1.5–2× direct-hire on a per-hour basis. Best for: nursing-level needs, complex medical situations, families who want a managed-service relationship and zero hiring effort. Limitation: cost, less choice of who exactly shows up each day, contract lock-in.</p>
+          <p>Companies like ElderThai, Bangkok Hospital Home Care and several others operate dedicated home-care services with trained caregivers (often nursing-assistant or RN level), supervisor oversight, scheduling and replacement on sick days. Rates are typically 1.5–2× direct-hire on a per-hour basis. Best for: nursing-level needs, complex medical situations, families who want a managed-service relationship and zero hiring effort. Limitation: cost, less choice of who exactly shows up each day, contract lock-in.</p>
 
           <h3>3. Hospital-affiliated discharge programmes</h3>
-          <p>Bumrungrad, Bangkok Hospital, Samitivej, and BNH all have discharge-planning teams that recommend caregivers when a patient leaves after a major event (stroke, surgery, late-stage diagnosis). The caregivers they recommend are usually known to the hospital, often nursing-assistant trained, and the hospital can intervene if something goes wrong. Best for: post-surgical and post-stroke transitions. Limitation: focused on first 30–90 days; long-term arrangement still has to be negotiated separately.</p>
+          <p>Bumrungrad, Bangkok Hospital, Samitivej and BNH all have discharge-planning teams that recommend caregivers when a patient leaves after a major event (stroke, surgery, late-stage diagnosis). The caregivers they recommend are usually known to the hospital, often nursing-assistant trained and the hospital can intervene if something goes wrong. Best for: post-surgical and post-stroke transitions. Limitation: focused on first 30–90 days; long-term arrangement still has to be negotiated separately.</p>
 
-          <h3>4. Facebook groups, expat forums, and family referrals</h3>
-          <p>Bangkok Expat Families, Phuket Expat Moms, and Chiang Mai retiree groups regularly have posts. Family-of-elderly support groups (e.g. Thailand Dementia Support, expat retirement communities) are gold for specialist referrals — caregivers who have done good work for one family in this space are often recommended onward by name.</p>
+          <h3>4. Facebook groups, expat forums and family referrals</h3>
+          <p>Bangkok Expat Families, Phuket Expat Moms and Chiang Mai retiree groups regularly have posts. Family-of-elderly support groups (e.g. Thailand Dementia Support, expat retirement communities) are gold for specialist referrals — caregivers who have done good work for one family in this space are often recommended onward by name.</p>
 
           <h3>5. Word of mouth at residential communities</h3>
-          <p>Retirement villages, condo communities with older residents, and high-end serviced apartments often have a network of vetted caregivers who already work for neighbours. Ask the juristic-person office, building manager, or other residents.</p>
+          <p>Retirement villages, condo communities with older residents and high-end serviced apartments often have a network of vetted caregivers who already work for neighbours. Ask the juristic-person office, building manager or other residents.</p>
 
           <p><em>Mix pattern:</em> for personal-care level, shortlist on a marketplace + validate via Facebook. For nursing-level or specialist conditions, lead with an agency or hospital discharge programme and use direct-hire for relief / weekend shifts.</p>
         `,
@@ -737,7 +737,7 @@ export const guides = [
           <h3>Approach to the patient</h3>
           <ul>
             <li>How would you handle our parent on a day when they are confused / agitated / refusing to eat?</li>
-            <li>What's your view on restraints, sedatives, or asking the doctor for sleep medication?</li>
+            <li>What's your view on restraints, sedatives or asking the doctor for sleep medication?</li>
             <li>How would you involve our parent in their own care to preserve dignity and independence?</li>
             <li>If they ask the same question fifteen times, what do you do?</li>
           </ul>
@@ -745,7 +745,7 @@ export const guides = [
           <h3>Safety and judgment</h3>
           <ul>
             <li>What would you do if our parent fell? Even a minor fall.</li>
-            <li>How would you handle a fever, a sudden behavioural change, or unusual symptom you didn't recognise?</li>
+            <li>How would you handle a fever, a sudden behavioural change or unusual symptom you didn't recognise?</li>
             <li>At what point do you call us? At what point do you call an ambulance directly?</li>
             <li>If we have to be away for a day, what does your independent decision-making look like?</li>
           </ul>
@@ -775,7 +775,7 @@ export const guides = [
           <h3>Nationalities outside that list</h3>
           <p>There is no Thailand&ndash;Philippines MOU for domestic workers. Vietnam sits inside the wider CLMV labour framework, but for fishery and construction &mdash; not household work. So for Filipino, Vietnamese, Indian, Nepali and Western candidates, <strong>a private family cannot obtain a domestic-worker permit at all</strong>.</p>
           <p>The Non-Immigrant B route that gets suggested a lot online does not fill this gap. It requires the employer to be a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. A household is not that, and no visa agent can turn one into it.</p>
-          <p>Narrow exceptions do exist &mdash; diplomatic households, BOI-promoted employers, and genuinely skilled roles such as a private tutor, governess or household manager sponsored by a registered Thai employer, where the role matches the permit category in substance and not only on paper. Those need qualified legal advice rather than a template.</p>
+          <p>Narrow exceptions do exist &mdash; diplomatic households, BOI-promoted employers and genuinely skilled roles such as a private tutor, governess or household manager sponsored by a registered Thai employer, where the role matches the permit category in substance and not only on paper. Those need qualified legal advice rather than a template.</p>
 
           <p>Nursing-level care adds a second layer: clinical tasks such as medication administration, wound care or tube feeding touch Thai professional-licensing rules, which are separate from immigration law and are not solved by a work permit. If the care need is genuinely clinical, a licensed home-nursing provider or a hospital home-care programme is the route that holds up.</p>
 
@@ -803,14 +803,14 @@ export const guides = [
       },
       {
         id: 'contract',
-        h2: 'Contract, benefits, and what to spell out',
+        h2: 'Contract, benefits and what to spell out',
         html: `
           <p>A caregiver contract should be more specific than a nanny or housekeeper one. The work changes when the patient's condition changes; both sides need clarity on what's included and what triggers a renegotiation.</p>
 
           <h3>What a caregiver contract should specify</h3>
           <ul>
             <li>Full name, ID number, training credentials, contact of both parties</li>
-            <li>Patient's name, condition summary, and care goals (without sharing medical records beyond what's needed)</li>
+            <li>Patient's name, condition summary and care goals (without sharing medical records beyond what's needed)</li>
             <li><strong>Scope:</strong> bathing, toileting, dressing, transfers, meals, medication reminders, medication administration, blood-pressure checks, wound care, escort to appointments — whichever applies. Be specific about what's <em>not</em> in scope (e.g. "no overnight stays", "no cleaning beyond patient's room").</li>
             <li>Working days, shift hours, public-holiday list, day(s) off each week</li>
             <li>What happens if the patient's condition deteriorates — does scope renegotiate? Salary renegotiate?</li>
@@ -828,7 +828,7 @@ export const guides = [
           <p>ThaiHelper publishes a free bilingual contract template that can be adapted for caregiver roles: <a href="/blog/employment-contract-template-thailand">/blog/employment-contract-template-thailand</a></p>
 
           <h3>Legally protected rights</h3>
-          <p>Household and home-care employees are covered by <strong>Ministerial Regulation No. 14 (2012)</strong>: at least one day off per week, public-holiday entitlement, paid sick leave, and overtime pay for hours beyond the contract. For full-time staff, <strong>Social Security Section 33</strong> registration is mandatory; both sides contribute 5 % of monthly salary.</p>
+          <p>Household and home-care employees are covered by <strong>Ministerial Regulation No. 14 (2012)</strong>: at least one day off per week, public-holiday entitlement, paid sick leave and overtime pay for hours beyond the contract. For full-time staff, <strong>Social Security Section 33</strong> registration is mandatory; both sides contribute 5 % of monthly salary.</p>
         `,
       },
       {
@@ -852,7 +852,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>You can start by browsing caregiver profiles on ThaiHelper — filter by city, languages, training level, and the type of care they're comfortable handling. Message directly, interview at home — ThaiHelper provides the listings and messaging channel; vetting credentials, calling references, and the hiring decision are yours.</p>
+          <p>You can start by browsing caregiver profiles on ThaiHelper — filter by city, languages, training level and the type of care they're comfortable handling. Message directly, interview at home — ThaiHelper provides the listings and messaging channel; vetting credentials, calling references and the hiring decision are yours.</p>
           <ul>
             <li><a href="/hire/caregiver">Browse caregivers across Thailand</a></li>
             <li><a href="/hire/caregiver-bangkok">Caregivers in Bangkok</a></li>
@@ -874,12 +874,12 @@ export const guides = [
       {
         question: 'Can one caregiver work 24 hours a day for my elderly parent?',
         answer:
-          'Sustainably, no — except for very low-needs companion-tier patients who sleep through the night. For anyone who needs night attention, overnight transfers, or has dementia behaviours, you need a two- or three-caregiver rotation. Standard arrangements: two 12-hour shifts with one caregiver each, or three caregivers doing 8-hour shifts with one day off per week.',
+          'Sustainably, no — except for very low-needs companion-tier patients who sleep through the night. For anyone who needs night attention, overnight transfers or has dementia behaviours, you need a two- or three-caregiver rotation. Standard arrangements: two 12-hour shifts with one caregiver each, or three caregivers doing 8-hour shifts with one day off per week.',
       },
       {
         question: 'Do I need a nursing-trained caregiver, or is a regular caregiver enough?',
         answer:
-          'Depends entirely on the medical needs. For companionship, mobility assistance, and basic personal care (bathing, dressing, toileting, meals), an experienced non-nursing caregiver is appropriate and far less expensive. For medication administration, wound care, insulin injections, NG-tube feeding, post-surgical recovery, or chronic-condition monitoring, hire at the nursing-assistant level or above. Don\'t hire below the medical need — the cost difference is small compared to the risk.',
+          'Depends entirely on the medical needs. For companionship, mobility assistance and basic personal care (bathing, dressing, toileting, meals), an experienced non-nursing caregiver is appropriate and far less expensive. For medication administration, wound care, insulin injections, NG-tube feeding, post-surgical recovery or chronic-condition monitoring, hire at the nursing-assistant level or above. Don\'t hire below the medical need — the cost difference is small compared to the risk.',
       },
       {
         question: 'Are Filipino caregivers in Thailand allowed to work without a work permit?',
@@ -894,7 +894,7 @@ export const guides = [
       {
         question: 'What should I do in the first week after a parent comes home from hospital?',
         answer:
-          'Use a hospital-recommended caregiver or short-term agency for the first 2–4 weeks. Hiring under emotional pressure right after a hospital discharge is the single most common cause of bad long-term caregiver matches. Use the stabilisation period to interview properly, do paid trial days, and choose the long-term caregiver with a clear head. The slight premium on the interim placement is worth it.',
+          'Use a hospital-recommended caregiver or short-term agency for the first 2–4 weeks. Hiring under emotional pressure right after a hospital discharge is the single most common cause of bad long-term caregiver matches. Use the stabilisation period to interview properly, do paid trial days and choose the long-term caregiver with a clear head. The slight premium on the interim placement is worth it.',
       },
     ],
   },
@@ -916,9 +916,9 @@ export const guides = [
         id: 'overview',
         h2: 'What you\'ll learn in this guide',
         html: `
-          <p>Hiring a tutor in Thailand is more decision-heavy than hiring a nanny or housekeeper. The right tutor depends on five things: <strong>the subject</strong>, <strong>the goal</strong> (catch-up, exam prep, enrichment, full-time homeschooling), <strong>the curriculum</strong> the child is following (Thai system, Cambridge / IGCSE, IB, American common-core, homeschool), <strong>the language of instruction</strong>, and <strong>the format</strong> (one-on-one in person, small group, online, hybrid). Each combination has a different sensible price point.</p>
-          <p>This guide walks through the entire decision: how to <strong>match a tutor type to your child's actual need</strong>, what each combination costs in 2026 (the hourly market in Thailand is wider than most parents realise — 200 THB to 2,000+ THB per hour for different profiles), how to evaluate native vs non-native English speakers honestly, when online beats in-person and vice versa, where to find candidates, what to ask in interviews and trial lessons, and the work-permit picture for foreign tutors — which matters more in this category than in any other, because most expat parents specifically want native-English-speaking tutors.</p>
-          <p><em>Last updated: 8 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data, and direct family interviews. Legal references are to Thai Ministry of Labour and Ministry of Education regulations in force as of 2026.</em></p>
+          <p>Hiring a tutor in Thailand is more decision-heavy than hiring a nanny or housekeeper. The right tutor depends on five things: <strong>the subject</strong>, <strong>the goal</strong> (catch-up, exam prep, enrichment, full-time homeschooling), <strong>the curriculum</strong> the child is following (Thai system, Cambridge / IGCSE, IB, American common-core, homeschool), <strong>the language of instruction</strong> and <strong>the format</strong> (one-on-one in person, small group, online, hybrid). Each combination has a different sensible price point.</p>
+          <p>This guide walks through the entire decision: how to <strong>match a tutor type to your child's actual need</strong>, what each combination costs in 2026 (the hourly market in Thailand is wider than most parents realise — 200 THB to 2,000+ THB per hour for different profiles), how to evaluate native vs non-native English speakers honestly, when online beats in-person and vice versa, where to find candidates, what to ask in interviews and trial lessons, plus the work-permit picture for foreign tutors — which matters more in this category than in any other, because most expat parents specifically want native-English-speaking tutors.</p>
+          <p><em>Last updated: 8 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data and direct family interviews. Legal references are to Thai Ministry of Labour and Ministry of Education regulations in force as of 2026.</em></p>
         `,
       },
       {
@@ -931,7 +931,7 @@ export const guides = [
           <p>Your child is following a school curriculum and falling behind, or struggling with one specific subject. You need someone who understands the curriculum and can fill specific gaps. Often a strong university student or a recent graduate works fine; a senior teacher is overkill.</p>
 
           <h3>2. Subject deepening / enrichment</h3>
-          <p>Your child is doing fine in school but you want them ahead in math, advanced reading, or a second language. The tutor's own depth in the subject matters here more than teaching credentials.</p>
+          <p>Your child is doing fine in school but you want them ahead in math, advanced reading or a second language. The tutor's own depth in the subject matters here more than teaching credentials.</p>
 
           <h3>3. Exam preparation (IELTS, TOEFL, SAT, ACT, IB, IGCSE, AP)</h3>
           <p>Specific test, specific format, specific timeline. You want a tutor who has personally prepared multiple students for the exact same exam and can name their score outcomes. This is the highest-stakes tutor category and the hardest to fake — past student score reports are a real reference check.</p>
@@ -940,7 +940,7 @@ export const guides = [
           <p>For Thai-system kids whose parents want stronger English, or expat kids in a non-English school environment. Look for someone with TEFL / CELTA / TESOL certification at minimum; native-speaker accent matters more here than for academic subjects.</p>
 
           <h3>5. Thai language for expats</h3>
-          <p>Adult learners and expat children. Look for tutors with experience teaching foreigners specifically — teaching Thai to Thais is a very different skill set. Methods like Cracking Thai Fundamentals, Becker, or PALV vary in suitability.</p>
+          <p>Adult learners and expat children. Look for tutors with experience teaching foreigners specifically — teaching Thai to Thais is a very different skill set. Methods like Cracking Thai Fundamentals, Becker or PALV vary in suitability.</p>
 
           <h3>6. Music, art, sport, code, drama</h3>
           <p>Specialist domains where the tutor's own track record matters most. Piano tutors who play at recital level themselves, coding tutors with shipped projects, art tutors with exhibition history.</p>
@@ -1008,7 +1008,7 @@ export const guides = [
       },
       {
         id: 'format',
-        h2: 'Online, in-person, or hybrid?',
+        h2: 'Online, in-person or hybrid?',
         html: `
           <p>Post-2020, online tutoring became a real option in Thailand — and it stuck around for some learner types but not others.</p>
 
@@ -1040,19 +1040,19 @@ export const guides = [
           <p>Five channels are common, and the right one depends heavily on what level of tutor you need.</p>
 
           <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
-          <p>Tutors create their own free profiles with subjects, qualifications, languages, and rates. Families browse the listings, message tutors directly, do a paid trial lesson, agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a tutoring agency. It does not screen tutors, verify teaching credentials, vet exam-prep claims, or take any share of fees.</strong> Best for: any tutor profile from university student up to subject specialist. No platform commission. Limitation: you have to ask for and check teaching credentials, exam-prep claims, and references yourself.</p>
+          <p>Tutors create their own free profiles with subjects, qualifications, languages and rates. Families browse the listings, message tutors directly, do a paid trial lesson, agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a tutoring agency. It does not screen tutors, verify teaching credentials, vet exam-prep claims or take any share of fees.</strong> Best for: any tutor profile from university student up to subject specialist. No platform commission. Limitation: you have to ask for and check teaching credentials, exam-prep claims and references yourself.</p>
 
           <h3>2. Tutoring agencies</h3>
-          <p>Agencies like Tutor Group, BangkokTutor, and several boutiques screen tutors, match them to families, and handle billing. Best for: families who want a vetted shortlist and the agency to manage scheduling. Limitation: 30–60 % higher hourly cost than direct-hire (the agency's margin), less control over which exact tutor you get.</p>
+          <p>Agencies like Tutor Group, BangkokTutor and several boutiques screen tutors, match them to families and handle billing. Best for: families who want a vetted shortlist and the agency to manage scheduling. Limitation: 30–60 % higher hourly cost than direct-hire (the agency's margin), less control over which exact tutor you get.</p>
 
           <h3>3. International school parent networks</h3>
-          <p>Almost every international school has a parent WhatsApp / Line group where tutor recommendations circulate. If your child is at NIST, ISB, KIS, Patana, or Shrewsbury, this is often the highest-signal channel — recommendations come from parents whose children are at the same school, doing the same exam track, and the tutor is already known to that community.</p>
+          <p>Almost every international school has a parent WhatsApp / Line group where tutor recommendations circulate. If your child is at NIST, ISB, KIS, Patana or Shrewsbury, this is often the highest-signal channel — recommendations come from parents whose children are at the same school, doing the same exam track and the tutor is already known to that community.</p>
 
           <h3>4. Facebook groups and expat forums</h3>
-          <p>Bangkok Expat Families, Thai-language groups (for adult learners), and homeschool parent communities have regular tutor recommendations. Best for: ESL, Thai-language tutors, and homeschool support. Limitation: unverified, noisy.</p>
+          <p>Bangkok Expat Families, Thai-language groups (for adult learners) and homeschool parent communities have regular tutor recommendations. Best for: ESL, Thai-language tutors and homeschool support. Limitation: unverified, noisy.</p>
 
           <h3>5. University job boards</h3>
-          <p>Chulalongkorn, Thammasat, Mahidol, AUA, and AIT have tutor job boards where graduate students post availability. Best for: math, science, and Thai-language tutoring at student rates. Limitation: turnover is high — your tutor finishes their thesis and disappears.</p>
+          <p>Chulalongkorn, Thammasat, Mahidol, AUA and AIT have tutor job boards where graduate students post availability. Best for: math, science and Thai-language tutoring at student rates. Limitation: turnover is high — your tutor finishes their thesis and disappears.</p>
 
           <p><em>Pattern for serious hires (e.g. SAT prep with a real score target):</em> ask in your school's parent network, shortlist three tutors with documented student outcomes, do a paid trial hour with each, decide on results.</p>
         `,
@@ -1112,7 +1112,7 @@ export const guides = [
 
           <h3>The part most families get wrong: who the employer is</h3>
           <p>A work permit is issued against a specific employer, and a private household cannot be that employer for this kind of role. The Non-Immigrant B route requires a registered Thai company with 2 million THB of paid-up capital and four Thai employees per foreign hire. So “we will just sort out a work permit for our tutor” is not something a family can do on its own, however willing everyone is and whichever agent is asked.</p>
-          <p>Teaching is at least a category where a lawful route exists — unlike household work for most nationalities — but it runs through an employing entity: a school, a language centre, or a tutoring company that employs the tutor and assigns them to you.</p>
+          <p>Teaching is at least a category where a lawful route exists — unlike household work for most nationalities — but it runs through an employing entity: a school, a language centre or a tutoring company that employs the tutor and assigns them to you.</p>
 
           <h3>Where most expat tutors actually sit</h3>
           <ul>
@@ -1143,10 +1143,10 @@ export const guides = [
             <li><strong>Hiring on accent alone.</strong> "Native English speaker" doesn't mean "good teacher". A Thai or Filipino tutor with TEFL training and patience often outperforms an untrained native speaker, especially for young children.</li>
             <li><strong>Hiring without a trial lesson.</strong> An hour costs 500–2,000 THB and tells you what three interviews can't. Pay for it and run it.</li>
             <li><strong>Stacking too many tutors.</strong> A child with school + 4 tutors + homework + sports is being prepared for burnout, not for an exam. Two well-chosen tutors is almost always better than four mediocre ones.</li>
-            <li><strong>No clear goal.</strong> "Improve in English" can mean reading level, conversational fluency, IELTS band, or grammar. Different goals, different tutors. Define the outcome.</li>
+            <li><strong>No clear goal.</strong> "Improve in English" can mean reading level, conversational fluency, IELTS band or grammar. Different goals, different tutors. Define the outcome.</li>
             <li><strong>Skipping the work-permit conversation for a long-term hire.</strong> If you're paying someone 40,000 THB/month for homeschool, you need them legally able to work. This is the most-skipped item in this category.</li>
             <li><strong>Not checking exam-prep claims.</strong> Anyone can claim "I helped a student get a 7.0 IELTS". Ask for specific past students you can call, or score-report screenshots with names redacted.</li>
-            <li><strong>Letting the tutor mark their own homework.</strong> No accountability loop. Build in independent progress checks — a mock exam every 4–6 weeks, a periodic conversation with the school teacher, or a written progress note you actually read.</li>
+            <li><strong>Letting the tutor mark their own homework.</strong> No accountability loop. Build in independent progress checks — a mock exam every 4–6 weeks, a periodic conversation with the school teacher or a written progress note you actually read.</li>
             <li><strong>No exit clause.</strong> A tutor relationship that's not working should end at the end of a month, not drag on for a school year. Agree the off-ramp in writing on day one.</li>
           </ul>
         `,
@@ -1155,7 +1155,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>You can start by browsing tutor profiles on ThaiHelper. Filter by subject, language, and city; message tutors directly; book a paid trial lesson before committing. ThaiHelper provides the listings and messaging channel — verifying teaching credentials and exam-prep claims is on you.</p>
+          <p>You can start by browsing tutor profiles on ThaiHelper. Filter by subject, language and city; message tutors directly; book a paid trial lesson before committing. ThaiHelper provides the listings and messaging channel — verifying teaching credentials and exam-prep claims is on you.</p>
           <ul>
             <li><a href="/hire/tutor">Browse tutors across Thailand</a></li>
             <li><a href="/hire/tutor-bangkok">Tutors in Bangkok</a></li>
@@ -1177,7 +1177,7 @@ export const guides = [
       {
         question: 'Should I hire a native English speaker or a non-native tutor with TEFL?',
         answer:
-          'For accent and pronunciation work, a native speaker matters. For grammar, structured curriculum, exam prep below the top band, and patience with young learners, a Thai or Filipino tutor with TEFL/CELTA training often outperforms an untrained native speaker. Match the tutor profile to the specific goal — "native speaker" is not automatically the right answer and it doubles the budget.',
+          'For accent and pronunciation work, a native speaker matters. For grammar, structured curriculum, exam prep below the top band and patience with young learners, a Thai or Filipino tutor with TEFL/CELTA training often outperforms an untrained native speaker. Match the tutor profile to the specific goal — "native speaker" is not automatically the right answer and it doubles the budget.',
       },
       {
         question: 'How do I find a tutor who actually knows the IB / IGCSE / SAT exam?',
@@ -1192,7 +1192,7 @@ export const guides = [
       {
         question: 'Is online tutoring as effective as in-person in Thailand?',
         answer:
-          'For teenagers, adults, test prep, and subject deepening — yes, online is essentially as effective and 15–25 % cheaper. For young children (under 9), music, art, and learning-support tutoring, in-person is materially better. Many families settle into a hybrid pattern: 2 in-person sessions and 1 online per week during term, fully online during international holidays.',
+          'For teenagers, adults, test prep and subject deepening — yes, online is essentially as effective and 15–25 % cheaper. For young children (under 9), music, art and learning-support tutoring, in-person is materially better. Many families settle into a hybrid pattern: 2 in-person sessions and 1 online per week during term, fully online during international holidays.',
       },
       {
         question: 'How many tutoring sessions per week is reasonable for a school-age child?',
@@ -1220,8 +1220,8 @@ export const guides = [
         h2: 'What you\'ll learn in this guide',
         html: `
           <p>Hiring a personal driver in Thailand sits in an unusual price position. A full-time Bangkok driver costs about as much as a part-time tutor — 18,000–25,000 THB/month — yet shifts how a family lives more than almost any other helper hire. The trade-off against Grab and Bolt is real and changes with how many trips you make per day; the trade-off against ride-share goes one way for school-running families and the other way for couples who occasionally need an airport run.</p>
-          <p>This guide covers all of that. You'll learn: <strong>when a personal driver beats ride-hailing economically</strong> (and when it doesn't), the four driver-role archetypes and what each one actually costs in 2026, the big <strong>family-car vs driver-owned-car decision</strong> that most expats get wrong, the <strong>insurance picture</strong> (the single most overlooked risk in this category — a driver crashing your car can become a major financial problem if you didn't structure cover correctly), where to find drivers, how to run a useful test drive, the work-permit question (mostly irrelevant for Thai drivers, important for the rare foreign-citizen driver), and the mistakes families make.</p>
-          <p><em>Last updated: 8 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data, and direct family interviews in Bangkok, Phuket, and Chiang Mai. Legal and insurance references are to Thai regulations in force as of 2026.</em></p>
+          <p>This guide covers all of that. You'll learn: <strong>when a personal driver beats ride-hailing economically</strong> (and when it doesn't), the four driver-role archetypes and what each one actually costs in 2026, the big <strong>family-car vs driver-owned-car decision</strong> that most expats get wrong, the <strong>insurance picture</strong> (the single most overlooked risk in this category — a driver crashing your car can become a major financial problem if you didn't structure cover correctly), where to find drivers, how to run a useful test drive, the work-permit question (mostly irrelevant for Thai drivers, important for the rare foreign-citizen driver) and the mistakes families make.</p>
+          <p><em>Last updated: 8 June 2026. Salary figures reflect rates current in 2026 and are sourced from active listings, recruitment data and direct family interviews in Bangkok, Phuket and Chiang Mai. Legal and insurance references are to Thai regulations in force as of 2026.</em></p>
         `,
       },
       {
@@ -1237,7 +1237,7 @@ export const guides = [
           <ul>
             <li>Two children at different international schools with two drop-offs and two pick-ups daily (4 trips/day base before any errands)</li>
             <li>A parent with a daily commute plus a child's school run</li>
-            <li>A family that does heavy errand running, shopping, weekend trips out of town, and airport runs</li>
+            <li>A family that does heavy errand running, shopping, weekend trips out of town and airport runs</li>
             <li>A retiree couple in a less-served part of Bangkok (Bang Na, Ramkhamhaeng, Nonthaburi) where Grab availability and pricing are worse than in Sukhumvit</li>
           </ul>
 
@@ -1266,13 +1266,13 @@ export const guides = [
           <p>Most common arrangement. Drives the family vehicle, on standby during the working day, school-runs in the morning and afternoon, errands and shopping in between, evening home by ~6 pm. 6 days per week.</p>
 
           <h3>2. Full-time live-in driver</h3>
-          <p>Lives in the maid's quarters (common in Bangkok villas and Phuket pool villas) or a shared family-staff room. On standby for early-morning airport runs and late-night returns. Higher monthly cost but absorbs the time you'd otherwise lose to a driver commuting in. Suits families with irregular schedules, multiple children's evening activities, or frequent late-night events.</p>
+          <p>Lives in the maid's quarters (common in Bangkok villas and Phuket pool villas) or a shared family-staff room. On standby for early-morning airport runs and late-night returns. Higher monthly cost but absorbs the time you'd otherwise lose to a driver commuting in. Suits families with irregular schedules, multiple children's evening activities or frequent late-night events.</p>
 
           <h3>3. School-run only / part-time driver</h3>
           <p>The driver works mornings (drop-offs) and afternoons (pick-ups), about 4–5 hours total per day, with the middle of the day free. Pay can be split — half-salary plus paid additional trips, or a flat reduced monthly. Suits families with one or two school-age children and parents who don't need a driver during work hours.</p>
 
           <h3>4. Executive / VIP driver</h3>
-          <p>Drives the principal (an executive or business owner) on a working schedule that maps to their day. Often expected to wear a suit, drive a black sedan, speak English well, and conduct themselves at executive level. Different price band (30,000–50,000 THB/month) and often comes with specific defensive-driving training. Common for senior expats on company packages.</p>
+          <p>Drives the principal (an executive or business owner) on a working schedule that maps to their day. Often expected to wear a suit, drive a black sedan, speak English well and conduct themselves at executive level. Different price band (30,000–50,000 THB/month) and often comes with specific defensive-driving training. Common for senior expats on company packages.</p>
 
           <h3>5. Occasional / day-rate driver</h3>
           <p>Not really a hire — a known driver booked for a specific trip (a Saturday day out, a Hua Hin weekend, a multi-stop wedding day, a multi-day Chiang Mai trip). 1,500–3,000 THB per day for the driver's time, fuel separate, plus the driver's accommodation if overnight. Many families maintain two or three such drivers in a contacts list rather than employing one.</p>
@@ -1317,7 +1317,7 @@ export const guides = [
           </ul>
 
           <h3>The driver-owned-car alternative (cost shifts entirely)</h3>
-          <p>Some drivers own their own car (typically a Toyota Vios, Honda City, or similar) and offer a full package — driver + vehicle + petrol + maintenance — billed monthly. Rates: 30,000 – 50,000 THB/month all-in for a sedan in Bangkok. Useful when you don't want to own a car at all (no purchase, no registration, no maintenance headaches). Less common in Phuket and Chiang Mai. Discussed more in the next section.</p>
+          <p>Some drivers own their own car (typically a Toyota Vios, Honda City or similar) and offer a full package — driver + vehicle + petrol + maintenance — billed monthly. Rates: 30,000 – 50,000 THB/month all-in for a sedan in Bangkok. Useful when you don't want to own a car at all (no purchase, no registration, no maintenance headaches). Less common in Phuket and Chiang Mai. Discussed more in the next section.</p>
         `,
       },
       {
@@ -1328,7 +1328,7 @@ export const guides = [
 
           <h3>Option A: You own the car, driver drives it</h3>
           <p><strong>Cost:</strong> car purchase (or lease) + maintenance + insurance + registration + petrol + driver salary.</p>
-          <p><strong>Right for:</strong> families who plan to be in Thailand 2+ years, want a specific car (SUV, 7-seater, electric), and value control over the vehicle's condition.</p>
+          <p><strong>Right for:</strong> families who plan to be in Thailand 2+ years, want a specific car (SUV, 7-seater, electric) and value control over the vehicle's condition.</p>
           <p><strong>Watch out for:</strong> insurance is your problem (covered below); maintenance is your problem; if the driver leaves, you still have a car you have to maintain or sell.</p>
 
           <h3>Option B: Driver owns and provides the car (and petrol)</h3>
@@ -1337,7 +1337,7 @@ export const guides = [
           <p><strong>Watch out for:</strong> car condition varies; agree explicitly that the car must be a specific year-or-newer with first-class insurance. The driver replaces tyres, services, repairs — but on the cheapest schedule. If you have small children, request a four-door sedan with rear-seat airbags and ISOFIX.</p>
 
           <h3>Option C: Hybrid — driver only, family rents or leases a car separately</h3>
-          <p>Less common but increasingly popular in Bangkok with the rise of long-term lease services. You lease a car from a company (Toyota Sure, Mazda Lease, MG Sure, or independents like Tipperary) for 25,000–45,000 THB/month, then hire a driver separately. Some leases include first-class insurance and replacement during service, which removes the maintenance-burden objection from Option A.</p>
+          <p>Less common but increasingly popular in Bangkok with the rise of long-term lease services. You lease a car from a company (Toyota Sure, Mazda Lease, MG Sure or independents like Tipperary) for 25,000–45,000 THB/month, then hire a driver separately. Some leases include first-class insurance and replacement during service, which removes the maintenance-burden objection from Option A.</p>
         `,
       },
       {
@@ -1364,7 +1364,7 @@ export const guides = [
           </ol>
 
           <h3>If the car is a company car</h3>
-          <p>If you're driving a corporate car (provided by your employer in Thailand), the corporate insurance probably does <em>not</em> automatically cover personal drivers. Check with HR or the company secretary, get the cover extended in writing before the driver touches the keys, and budget the upgrade if needed.</p>
+          <p>If you're driving a corporate car (provided by your employer in Thailand), the corporate insurance probably does <em>not</em> automatically cover personal drivers. Check with HR or the company secretary, get the cover extended in writing before the driver touches the keys and budget the upgrade if needed.</p>
         `,
       },
       {
@@ -1374,19 +1374,19 @@ export const guides = [
           <p>Four channels are realistic for a long-term hire.</p>
 
           <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
-          <p>Drivers create their own profiles with experience, licence type, English level, areas they're willing to commute, and the type of work they prefer (school-run, family, executive). Families browse the listings, message drivers directly, conduct their own test drives and reference checks, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a placement firm. It does not screen drivers, verify driving licences, conduct background checks, or take any share of salary.</strong> Best for: standard family driver hires, no placement fee, structured comparison. You must verify the driving licence and run the test drive yourself.</p>
+          <p>Drivers create their own profiles with experience, licence type, English level, areas they're willing to commute and the type of work they prefer (school-run, family, executive). Families browse the listings, message drivers directly, conduct their own test drives and reference checks, then agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a placement firm. It does not screen drivers, verify driving licences, conduct background checks or take any share of salary.</strong> Best for: standard family driver hires, no placement fee, structured comparison. You must verify the driving licence and run the test drive yourself.</p>
 
           <h3>2. Driver placement / company-secretary firms</h3>
           <p>Several Bangkok firms place drivers for companies and high-net-worth families. They typically vet candidates more thoroughly (defensive-driving certification, background check, English assessment) and charge a placement fee of 8,000–25,000 THB. Best for: executive drivers, families wanting a fully managed shortlist.</p>
 
-          <h3>3. Word of mouth — condo, building, and school networks</h3>
+          <h3>3. Word of mouth — condo, building and school networks</h3>
           <p>The single strongest channel for school-run drivers. Other parents at your school's drop-off line know which drivers are reliable; condo juristic-person offices know which drivers serve other residents well. A driver recommended by another family at your child's school usually beats any other channel.</p>
 
           <h3>4. Departing-expat handovers</h3>
-          <p>An expat family leaving Thailand often wants to place their long-term driver with another family. The implicit reference is strong (this person has done the job well for years), the driver is already trained on Bangkok traffic patterns, and continuity for the driver is meaningful. Watch the Facebook groups and your school's parent network for these handover posts — they go quickly.</p>
+          <p>An expat family leaving Thailand often wants to place their long-term driver with another family. The implicit reference is strong (this person has done the job well for years), the driver is already trained on Bangkok traffic patterns and continuity for the driver is meaningful. Watch the Facebook groups and your school's parent network for these handover posts — they go quickly.</p>
 
           <h3>5. Grab / Bolt poaching — the grey method</h3>
-          <p>Some families "discover" a particular ride-hailing driver, ask if he'd drive for them full-time, and convert him into a personal driver. Surprisingly common; works fine if the driver wants the stable income. Note: the Grab platform doesn't love this and the driver may need to actually leave the platform if he becomes full-time with you.</p>
+          <p>Some families "discover" a particular ride-hailing driver, ask if he'd drive for them full-time and convert him into a personal driver. Surprisingly common; works fine if the driver wants the stable income. Note: the Grab platform doesn't love this and the driver may need to actually leave the platform if he becomes full-time with you.</p>
         `,
       },
       {
@@ -1403,7 +1403,7 @@ export const guides = [
             <li>Have you ever had an accident? Tell me about it. (Everyone has; the answer is in how they handle the question.)</li>
             <li>What's your typical commute to our area? Will you be reliably on time for 7 am drop-offs?</li>
             <li>How is your English / Thai for our purposes?</li>
-            <li>Are you comfortable driving in heavy rain, late at night, on tollways, and outside Bangkok?</li>
+            <li>Are you comfortable driving in heavy rain, late at night, on tollways and outside Bangkok?</li>
             <li>How do you handle a tense passenger or a child crying in the back?</li>
             <li>References — may we contact your last two employers?</li>
           </ul>
@@ -1417,7 +1417,7 @@ export const guides = [
             <li><strong>A small unfamiliar destination</strong> using only the navigation app — to see how they handle directions and unexpected detours</li>
           </ul>
 
-          <p>What you're looking for: smooth braking and acceleration (your back tells you), lane discipline, distance to the car in front (defensive driving is mostly distance management), calm in heavy traffic, mirror checks before lane changes, comfort with the navigation app. Hard braking, weaving between lanes, very close following, and impatience are disqualifiers — they will not improve, no matter how good the references look.</p>
+          <p>What you're looking for: smooth braking and acceleration (your back tells you), lane discipline, distance to the car in front (defensive driving is mostly distance management), calm in heavy traffic, mirror checks before lane changes, comfort with the navigation app. Hard braking, weaving between lanes, very close following and impatience are disqualifiers — they will not improve, no matter how good the references look.</p>
         `,
       },
       {
@@ -1452,7 +1452,7 @@ export const guides = [
             <li><strong>Not verifying the licence is current.</strong> Photograph it on day one. Set a calendar reminder for the renewal date.</li>
             <li><strong>Not checking that insurance covers the hired driver.</strong> Many 1st-Class policies in Thailand only cover named drivers or the owner. A claim denied because your driver wasn't on the policy can cost six figures. Confirm in writing with the insurer before day one.</li>
             <li><strong>No personal accident cover for the driver.</strong> A driver injured at work has limited Social Security coverage. The add-on costs ~2,000 THB/year and removes a real risk for both sides.</li>
-            <li><strong>Driver-owned-car arrangement without specifying car class.</strong> "I'll provide a car" without specifying year, make, and that it must carry first-class insurance leads to families being driven around in 15-year-old cars with bald tyres. Specify in the contract.</li>
+            <li><strong>Driver-owned-car arrangement without specifying car class.</strong> "I'll provide a car" without specifying year, make and that it must carry first-class insurance leads to families being driven around in 15-year-old cars with bald tyres. Specify in the contract.</li>
             <li><strong>Treating the driver like a 24/7 on-call resource.</strong> 7 am to 6 pm with a clear lunch break is sustainable. Calling them out at 11 pm three nights a week is not — the driver will quit, often without notice.</li>
             <li><strong>No fuel-account discipline.</strong> If the driver fills up the family car, they pay first and you reimburse against the receipt. Don't hand them cash up front; receipts get vague.</li>
             <li><strong>Skipping the 13th-month bonus.</strong> Universally expected. Skipping it ends the relationship faster in this role than almost any other helper category — drivers talk to each other.</li>
@@ -1465,7 +1465,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>Browse driver profiles on ThaiHelper — filter by city, English level, and the type of driving you need (school-run, family, executive). Free to look, free to message, no placement fees. ThaiHelper is the listings and messaging channel only; the test drive, licence check, and insurance setup are on you.</p>
+          <p>Browse driver profiles on ThaiHelper — filter by city, English level and the type of driving you need (school-run, family, executive). Free to look, free to message, no placement fees. ThaiHelper is the listings and messaging channel only; the test drive, licence check and insurance setup are on you.</p>
           <ul>
             <li><a href="/hire/driver">Browse drivers across Thailand</a></li>
             <li><a href="/hire/driver-bangkok">Drivers in Bangkok</a></li>
@@ -1516,7 +1516,7 @@ export const guides = [
     slug: 'hire-a-pet-sitter-in-thailand',
     title: 'How to Hire a Pet Sitter or Dog Walker in Thailand — The Complete 2026 Guide',
     description:
-      'House-visit, dog-walking, overnight, and boarding rates by city. How to find a pet sitter for travel cover, work-hour cover, or post-surgery care. Emergency vet authorisation, insurance gaps, and the questions that actually matter at interview. Updated for 2026.',
+      'House-visit, dog-walking, overnight and boarding rates by city. How to find a pet sitter for travel cover, work-hour cover or post-surgery care. Emergency vet authorisation, insurance gaps and the questions that actually matter at interview. Updated for 2026.',
     date: '2026-06-08',
     updated: '2026-11-02',
     readTime: 14,
@@ -1529,8 +1529,8 @@ export const guides = [
         id: 'overview',
         h2: 'What you\'ll learn in this guide',
         html: `
-          <p>The Bangkok and Phuket expat dog-and-cat populations have grown sharply post-2020, and pet-sitting services in Thailand have followed. But the market is still informal: most pet sitters here are not insured, emergency-vet procedures aren't standardised, and the price range for the same service is much wider than in Western markets. A bad pet-sitting hire becomes a real problem fast — a missed medication, a heatstroke incident, a dog that escapes the property.</p>
-          <p>This guide covers what works in 2026. You'll learn: <strong>the five pet-care arrangements</strong> (drop-in visits, dog walks only, overnight in your home, boarding at the sitter's place, full-time pet caregiver) and what each costs, how to think about <strong>vacation cover vs work-hour cover vs post-surgery care</strong>, what to look for in a sitter who can handle medication, emergencies, and big dogs in Thai heat, the <strong>emergency-vet authorisation</strong> document you must have signed before you leave the country, where to find sitters whose previous clients you can actually verify, and the mistakes that lead to bad pet-sit outcomes.</p>
+          <p>The Bangkok and Phuket expat dog-and-cat populations have grown sharply post-2020, and pet-sitting services in Thailand have followed. But the market is still informal: most pet sitters here are not insured, emergency-vet procedures aren't standardised and the price range for the same service is much wider than in Western markets. A bad pet-sitting hire becomes a real problem fast — a missed medication, a heatstroke incident, a dog that escapes the property.</p>
+          <p>This guide covers what works in 2026. You'll learn: <strong>the five pet-care arrangements</strong> (drop-in visits, dog walks only, overnight in your home, boarding at the sitter's place, full-time pet caregiver) and what each costs, how to think about <strong>vacation cover vs work-hour cover vs post-surgery care</strong>, what to look for in a sitter who can handle medication, emergencies and big dogs in Thai heat, the <strong>emergency-vet authorisation</strong> document you must have signed before you leave the country, where to find sitters whose previous clients you can actually verify and the mistakes that lead to bad pet-sit outcomes.</p>
           <p><em>Last updated: 8 June 2026.</em></p>
         `,
       },
@@ -1545,7 +1545,7 @@ export const guides = [
           <p>One or two walks per weekday, typically 45–60 minutes each, often coordinated with other dogs in the building (group walks). Best for: working owners with high-energy dogs who can't be left alone all day. Bangkok heat means morning (6–8 am) and evening (5–7 pm) are the sane windows.</p>
 
           <h3>3. Overnight in your home (the gold standard for longer trips)</h3>
-          <p>The sitter sleeps at your place every night, manages morning + evening routine, and either lives there or only leaves the pets alone for short blocks during the day. Pet stays in their own space, gets nighttime company, and you have one person responsible end-to-end. Best for: anxious dogs, multi-pet households, owners away 1+ week.</p>
+          <p>The sitter sleeps at your place every night, manages morning + evening routine and either lives there or only leaves the pets alone for short blocks during the day. Pet stays in their own space, gets nighttime company and you have one person responsible end-to-end. Best for: anxious dogs, multi-pet households, owners away 1+ week.</p>
 
           <h3>4. Boarding at the sitter's place</h3>
           <p>Your pet stays in the sitter's home (with their pets and family) for the duration. Best for: friendly social dogs, short trips, owners willing to do meet-and-greets to verify the sitter's home. Limitation: hugely variable quality. A sitter who looks great on a profile can have a chaotic home with too many dogs and not enough space. Always visit before booking.</p>
@@ -1595,7 +1595,7 @@ export const guides = [
         id: 'vet-authorisation',
         h2: 'The emergency-vet authorisation — get this signed before you leave',
         html: `
-          <p>The most-skipped item in pet-sitting hires in Thailand: a written document authorising the sitter to seek emergency vet care while you are away, and capping the expense. Without it, vets can refuse non-routine treatment (legitimate concern over the bill), or the sitter doesn't act quickly enough because they don't know what they're allowed to spend.</p>
+          <p>The most-skipped item in pet-sitting hires in Thailand: a written document authorising the sitter to seek emergency vet care while you are away, and capping the expense. Without it, vets can refuse non-routine treatment (legitimate concern over the bill) or the sitter doesn't act quickly enough because they don't know what they're allowed to spend.</p>
 
           <h3>What the authorisation should specify</h3>
           <ul>
@@ -1604,7 +1604,7 @@ export const guides = [
             <li><strong>Sitter's name and ID number</strong>, authorising them to act on your behalf at named clinics</li>
             <li><strong>Two preferred vets</strong> (your usual vet and one 24-hour clinic — Thonglor Pet Hospital, Sukhumvit Veterinary Centre, Phuket Animal Hospital, etc.)</li>
             <li><strong>Spending cap</strong> — e.g. "up to 15,000 THB for emergency treatment without further authorisation"</li>
-            <li><strong>How over-cap decisions are made</strong> — sitter calls you first, second-line contact second, vet exercises clinical judgement third</li>
+            <li><strong>How over-cap decisions are made</strong> — sitter calls you first, second-line contact second, vet exercises clinical judgment third</li>
             <li><strong>Payment method</strong>: most expat families either pre-load credit at the regular vet, or set the sitter's authorisation to "owner will pay invoice directly via bank transfer within 48 hours"</li>
             <li><strong>End-of-life decisions</strong> — for older or chronically ill pets, explicit guidance (most families say "any euthanasia decision requires owner contact first; if owner is genuinely unreachable for more than 12 hours, decision is sitter + vet jointly based on suffering, not cost")</li>
             <li><strong>Both parties sign</strong>, dated; photo of both IDs attached</li>
@@ -1618,19 +1618,19 @@ export const guides = [
         h2: 'Where to find a pet sitter in Thailand',
         html: `
           <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
-          <p>Pet sitters create their own profiles with the types of animals they handle, areas they cover, and the services they offer. Families browse the listings, message sitters directly, do a meet-and-greet at home, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a pet-care service. It does not screen sitters, verify pet-care training, conduct background checks, hold pet insurance, or take any share of fees.</strong> Best for: structured comparison, free messaging, no platform fee. Limitation: email-verification only at signup; identity, training, and references are on you to check.</p>
+          <p>Pet sitters create their own profiles with the types of animals they handle, areas they cover and the services they offer. Families browse the listings, message sitters directly, do a meet-and-greet at home and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a pet-care service. It does not screen sitters, verify pet-care training, conduct background checks, hold pet insurance or take any share of fees.</strong> Best for: structured comparison, free messaging, no platform fee. Limitation: email-verification only at signup; identity, training and references are on you to check.</p>
 
           <h3>2. Pet-sitting agencies / pet hotels</h3>
-          <p>Pet hotels like Pet Hotel Bangkok, Lovely Lovely Pet Hotel, Pet Lovers, and Phuket Pet Sitters operate as service businesses. Best for: hands-off booking, established procedures, business-grade insurance. Limitation: 30–60 % more expensive than direct-hire on a per-day basis; less flexibility on specific instructions.</p>
+          <p>Pet hotels like Pet Hotel Bangkok, Lovely Lovely Pet Hotel, Pet Lovers and Phuket Pet Sitters operate as service businesses. Best for: hands-off booking, established procedures, business-grade insurance. Limitation: 30–60 % more expensive than direct-hire on a per-day basis; less flexibility on specific instructions.</p>
 
           <h3>3. Vet recommendations</h3>
           <p>Most Bangkok and Phuket vets keep an informal list of pet sitters their clients have used successfully. The vet has skin in the game — a sitter who creates problems gets removed from the list. Ask at your regular vet.</p>
 
           <h3>4. Expat parent and pet networks on Facebook</h3>
-          <p>Bangkok Expat Families, Phuket Pet Owners, and similar groups have regular sitter recommendations. Best for: verifying a candidate's reputation ("anyone used [name]?") rather than discovering candidates from scratch.</p>
+          <p>Bangkok Expat Families, Phuket Pet Owners and similar groups have regular sitter recommendations. Best for: verifying a candidate's reputation ("anyone used [name]?") rather than discovering candidates from scratch.</p>
 
           <h3>5. Word of mouth from your condo or building</h3>
-          <p>Condo neighbours, building staff, and the juristic-person office often know pet sitters who already work the building. Same-building sitters are operationally simpler (no commute risk) and have references you can check by talking to the neighbour two floors down.</p>
+          <p>Condo neighbours, building staff and the juristic-person office often know pet sitters who already work the building. Same-building sitters are operationally simpler (no commute risk) and have references you can check by talking to the neighbour two floors down.</p>
 
           <p><em>Pattern for a multi-week vacation cover:</em> identify two candidates 6–8 weeks before travel, do meet-and-greet visits with your pet in both your home and the sitter's home, book a paid "test night" with one of them 2–4 weeks before the trip. Hiring a stranger to live with your animal for 10 days without these checks is the most common cause of pet-sit problems.</p>
         `,
@@ -1645,7 +1645,7 @@ export const guides = [
           <ul>
             <li>How long have you been pet sitting and how many pets do you handle per year?</li>
             <li>What types of animals are you comfortable with — small dogs, large dogs, cats, exotics?</li>
-            <li>Have you handled medication, post-surgical care, or chronic-condition pets before?</li>
+            <li>Have you handled medication, post-surgical care or chronic-condition pets before?</li>
             <li>What's your backup plan if you're sick during a booked sit?</li>
             <li>May I contact your last two clients?</li>
           </ul>
@@ -1661,7 +1661,7 @@ export const guides = [
           <h3>Emergency readiness</h3>
           <ul>
             <li>What would you do if my dog stopped eating for a full day?</li>
-            <li>What would you do if you saw blood, sudden lethargy, or vomiting?</li>
+            <li>What would you do if you saw blood, sudden lethargy or vomiting?</li>
             <li>Do you know my vet's address? Do you know the nearest 24-hour clinic?</li>
             <li>What's your transport plan to a vet — own car, taxi, sitter has a friend on call?</li>
             <li>For dog walkers: have you been trained in basic canine first aid?</li>
@@ -1691,7 +1691,7 @@ export const guides = [
           </ul>
 
           <h3>The vet run is the catch nobody expects</h3>
-          <p>Pet sitting drifts into driving faster than any other household role: a sick cat at 9pm, a routine vaccination, a trip to the pet shop for the right food. <strong>Driving a motor vehicle is reserved for Thai nationals outright</strong> under List 1 of the 2020 Ministry of Labour notification, with no permit available to any foreigner — including one holding a valid MOU household permit. If your emergency plan involves the sitter driving your animal somewhere, that plan needs a Thai national, a neighbour, or a vet who does home visits.</p>
+          <p>Pet sitting drifts into driving faster than any other household role: a sick cat at 9pm, a routine vaccination, a trip to the pet shop for the right food. <strong>Driving a motor vehicle is reserved for Thai nationals outright</strong> under List 1 of the 2020 Ministry of Labour notification, with no permit available to any foreigner — including one holding a valid MOU household permit. If your emergency plan involves the sitter driving your animal somewhere, that plan needs a Thai national, a neighbour or a vet who does home visits.</p>
 
           <h3>What this means practically</h3>
           <p>For a one-week holiday with drop-in visits, most households never think about any of this, and enforcement has not historically reached casual pet care. That is an observation, not advice: the penalties under the Royal Decree run to 10,000–100,000 THB per worker for the employer, and the worker faces deportation and a two-year bar. The exposure is lopsided, and it lands on the sitter.</p>
@@ -1706,9 +1706,9 @@ export const guides = [
 
           <h3>Leave this in writing, not in a conversation</h3>
           <ul>
-            <li><strong>Feeding:</strong> amount, times, which food, and what happens if the animal refuses it. "A scoop" means nothing — a scoop of what, how full?</li>
-            <li><strong>Medication:</strong> dose, timing, how it is given, and what it is for. If there is a chronic condition, say what a bad day looks like.</li>
-            <li><strong>The vet:</strong> clinic name, address, phone, your account there if you have one, and the signed emergency authorisation covered earlier in this guide.</li>
+            <li><strong>Feeding:</strong> amount, times, which food and what happens if the animal refuses it. "A scoop" means nothing — a scoop of what, how full?</li>
+            <li><strong>Medication:</strong> dose, timing, how it is given and what it is for. If there is a chronic condition, say what a bad day looks like.</li>
+            <li><strong>The vet:</strong> clinic name, address, phone, your account there if you have one and the signed emergency authorisation covered earlier in this guide.</li>
             <li><strong>Your second contact:</strong> someone in Thailand who can decide if you cannot be reached. Flights, time zones and dead phones all happen.</li>
             <li><strong>Boundaries:</strong> which rooms, whether the animal goes on furniture or outside, whether anyone else may enter the home.</li>
             <li><strong>The quirk list:</strong> bolts out of open doors, hates the broom, bites when startled while sleeping. This is the part owners forget and sitters most need.</li>
@@ -1718,10 +1718,10 @@ export const guides = [
           <p>Agree how the sitter gets in and how the key comes back. For longer trips a key handed to a neighbour or left in a lockbox beats a key in someone's pocket for three weeks. Change nothing about your door while you are away, and tell the sitter if anyone else — a cleaner, a gardener — will also be coming in.</p>
 
           <h3>Money</h3>
-          <p>Drop-in visits are usually paid at the end of the booking, overnight stays half up front and half on return. For bookings over a week, paying something in advance is normal and reasonable. Agree in advance who pays for food, litter and an unplanned vet bill, and roughly up to what amount the sitter may spend without reaching you.</p>
+          <p>Drop-in visits are usually paid at the end of the booking, overnight stays half up front and half on return. For bookings over a week, paying something in advance is normal and reasonable. Agree in advance who pays for food, litter and an unplanned vet bill, plus roughly what the sitter may spend without reaching you.</p>
 
           <h3>Ask for a daily message</h3>
-          <p>One photo and a line a day. It costs the sitter nothing, it tells you the visits are happening, and it is the single thing holiday pet owners say afterwards that they were most glad of.</p>
+          <p>One photo and a line a day. It costs the sitter nothing, it tells you the visits are happening and it is the single thing holiday pet owners say afterwards that they were most glad of.</p>
         `,
       },
       {
@@ -1735,9 +1735,9 @@ export const guides = [
             <li><strong>Underestimating Thai heat for dog walks.</strong> Pavement temperature in Bangkok afternoon sun can exceed 50 °C and burns paw pads. Walks must be early morning and after sunset. Sitters who walk at noon are dangerous, however cheerful they are.</li>
             <li><strong>Not specifying photo updates.</strong> Daily photos with timestamps are the simplest way to confirm visits happened. Specify in advance; reputable sitters do this naturally.</li>
             <li><strong>Cash up front for multi-week sits.</strong> 30 % deposit on booking, 70 % on completion is the typical and fair split. 100 % up front for a 2-week sit transfers all the risk to you.</li>
-            <li><strong>No backup plan.</strong> The sitter gets sick, has a family emergency, or has a Songkran conflict at the last minute. Always know your second option before the first sit starts.</li>
+            <li><strong>No backup plan.</strong> The sitter gets sick, has a family emergency or has a Songkran conflict at the last minute. Always know your second option before the first sit starts.</li>
             <li><strong>Multi-dog boarding without checking pet compatibility.</strong> Most boarding sitters take multiple dogs. Some homes are stressful environments for shy or reactive dogs. Ask which other dogs will be there during your sit.</li>
-            <li><strong>Not putting it in writing.</strong> Schedule, fees, key handover, what's in scope (walks vs medication vs grooming), and the emergency-vet authorisation — all on paper. The pet doesn\'t speak; the paperwork has to.</li>
+            <li><strong>Not putting it in writing.</strong> Schedule, fees, key handover, what's in scope (walks vs medication vs grooming) and the emergency-vet authorisation — all on paper. The pet doesn\'t speak; the paperwork has to.</li>
           </ul>
         `,
       },
@@ -1745,7 +1745,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>Browse pet-sitter profiles on ThaiHelper. Filter by city, animal types, and the services offered. Free to browse, free to message, no platform fees. ThaiHelper is the listings and messaging channel only; the meet-and-greet, reference checks, and emergency-vet authorisation are yours to handle.</p>
+          <p>Browse pet-sitter profiles on ThaiHelper. Filter by city, animal types and the services offered. Free to browse, free to message, no platform fees. ThaiHelper is the listings and messaging channel only; the meet-and-greet, reference checks and emergency-vet authorisation are yours to handle.</p>
           <ul>
             <li><a href="/hire/petsitter">Browse pet sitters across Thailand</a></li>
             <li><a href="/hire/petsitter-bangkok">Pet sitters in Bangkok</a></li>
@@ -1764,12 +1764,12 @@ export const guides = [
       {
         question: 'Drop-in visits or overnight stays — which is better for a vacation?',
         answer:
-          'For cats and small low-energy dogs, drop-in visits 2–3 times a day in their own environment are usually best — less stress, normal routine. For anxious dogs, multi-pet households, or trips longer than a week, overnight in your home is worth the premium because it gives night company and one person fully responsible end-to-end. Boarding at the sitter\'s place suits social dogs and short trips but quality varies hugely — always visit the home in person first.',
+          'For cats and small low-energy dogs, drop-in visits 2–3 times a day in their own environment are usually best — less stress, normal routine. For anxious dogs, multi-pet households or trips longer than a week, overnight in your home is worth the premium because it gives night company and one person fully responsible end-to-end. Boarding at the sitter\'s place suits social dogs and short trips but quality varies hugely — always visit the home in person first.',
       },
       {
         question: 'Do I need to authorise emergency vet treatment in advance?',
         answer:
-          'Yes. Without a signed authorisation document, vets can refuse non-routine treatment over billing concerns, and sitters hesitate to act because they don\'t know what they\'re allowed to spend. A simple one-page document specifying the pet, the sitter, two preferred clinics, a spending cap (e.g. 15,000 THB without further approval), and how over-cap decisions are made fixes this. Print, sign, leave copies with the sitter, the vet, and a second-line contact.',
+          'Yes. Without a signed authorisation document, vets can refuse non-routine treatment over billing concerns, and sitters hesitate to act because they don\'t know what they\'re allowed to spend. A simple one-page document specifying the pet, the sitter, two preferred clinics, a spending cap (e.g. 15,000 THB without further approval) and how over-cap decisions are made fixes this. Print, sign, leave copies with the sitter, the vet and a second-line contact.',
       },
       {
         question: 'Are pet sitters in Thailand insured?',
@@ -1779,7 +1779,7 @@ export const guides = [
       {
         question: 'What about pet boarding while I travel — at a sitter\'s home or at a pet hotel?',
         answer:
-          'Pet hotels are more expensive (700–1,500 THB/night for a small dog) but have established procedures, larger staffs, and business insurance. Sitter\'s-home boarding is cheaper (500–1,200 THB/night) and your pet stays in a home environment with usually 2–4 other animals max, which is less stressful than a kennel setting. The tradeoff: hotel quality is more predictable; home-boarding quality varies hugely between sitters. Always visit the home in person before booking, and ask which other animals will be there during your stay.',
+          'Pet hotels are more expensive (700–1,500 THB/night for a small dog) but have established procedures, larger staffs and business insurance. Sitter\'s-home boarding is cheaper (500–1,200 THB/night) and your pet stays in a home environment with usually 2–4 other animals max, which is less stressful than a kennel setting. The trade-off: hotel quality is more predictable; home-boarding quality varies hugely between sitters. Always visit the home in person before booking, and ask which other animals will be there during your stay.',
       },
       {
         question: 'Does a pet sitter in Thailand need a work permit?',
@@ -1789,12 +1789,12 @@ export const guides = [
       {
         question: 'What should I write down before leaving my pet with a sitter?',
         answer:
-          'Feeding amounts and times with the exact food, medication doses and timing, the vet clinic details plus a signed emergency treatment authorisation, a second contact in Thailand who can decide if you cannot be reached, house boundaries, and the animal\u2019s quirks — bolting through open doors, biting when startled awake. Agree how keys are handed over and returned, who pays for food and an unplanned vet bill, and up to what amount the sitter may spend without reaching you. Ask for one photo and one line a day.',
+          'Feeding amounts and times with the exact food, medication doses and timing, the vet clinic details plus a signed emergency treatment authorisation, a second contact in Thailand who can decide if you cannot be reached, house boundaries and the animal\u2019s quirks — bolting through open doors, biting when startled awake. Agree how keys are handed over and returned, who pays for food and an unplanned vet bill, plus up to what amount the sitter may spend without reaching you. Ask for one photo and one line a day.',
       },
       {
         question: 'Can I hire a full-time pet caregiver to look after my dog while I work?',
         answer:
-          'Yes, though it\'s rare and usually combined with light housekeeping or as part of a larger household-staff role. A live-out pet caregiver runs 12,000–20,000 THB/month for 5–6 days a week; live-in is 15,000–25,000 plus a room. Suits owners with high-energy dogs in condos who can\'t be left alone all day, working dogs, or chronic-condition pets that need daily monitoring. For most expat families with a single dog, twice-daily dog walking (4,000–8,000 THB/month) is the more sensible setup.',
+          'Yes, though it\'s rare and usually combined with light housekeeping or as part of a larger household-staff role. A live-out pet caregiver runs 12,000–20,000 THB/month for 5–6 days a week; live-in is 15,000–25,000 plus a room. Suits owners with high-energy dogs in condos who can\'t be left alone all day, working dogs or chronic-condition pets that need daily monitoring. For most expat families with a single dog, twice-daily dog walking (4,000–8,000 THB/month) is the more sensible setup.',
       },
     ],
   },
@@ -1803,7 +1803,7 @@ export const guides = [
     slug: 'hire-a-private-chef-in-thailand',
     title: 'How to Hire a Private Chef or Cook in Thailand — The Complete 2026 Guide',
     description:
-      'Daily-cook to live-in private chef rates, how to choose between Thai, Western, and fusion specialists, the tasting-day protocol, grocery-budget governance, work-permit logic for foreign chefs. Updated for 2026.',
+      'Daily-cook to live-in private chef rates, how to choose between Thai, Western and fusion specialists, the tasting-day protocol, grocery-budget governance, work-permit logic for foreign chefs. Updated for 2026.',
     date: '2026-06-08',
     updated: '2026-06-08',
     readTime: 13,
@@ -1817,7 +1817,7 @@ export const guides = [
         h2: 'What you\'ll learn in this guide',
         html: `
           <p>A private chef in Thailand sits between two worlds. On one side, a daily home cook (a "แม่ครัว") who prepares two Thai-family-style meals a day costs about as much as a housekeeper. On the other, a Western-trained chef with restaurant background who runs a five-course tasting menu twice a week costs as much as a senior executive. Both are called "private chef" and the price gap is 5x. Knowing which one fits your need is most of the decision.</p>
-          <p>This guide covers the full range. You'll learn: <strong>five chef archetypes</strong> and what each one actually costs in 2026, the difference between cuisine specialisations (Thai daily, Western, Italian, French, healthy / dietary-restricted, fusion), how to <strong>structure the grocery-budget side</strong> (the single most common point of friction in private-chef arrangements — the chef shops with your money), how to run a useful <strong>tasting day</strong> before hiring, where to find chefs whose work you can actually verify, work-permit logic for foreign chefs (genuinely complex in this category), and the mistakes that produce a 35,000 THB/month chef relationship neither side enjoys.</p>
+          <p>This guide covers the full range. You'll learn: <strong>five chef archetypes</strong> and what each one actually costs in 2026, the difference between cuisine specialisations (Thai daily, Western, Italian, French, healthy / dietary-restricted, fusion), how to <strong>structure the grocery-budget side</strong> (the single most common point of friction in private-chef arrangements — the chef shops with your money), how to run a useful <strong>tasting day</strong> before hiring, where to find chefs whose work you can actually verify, work-permit logic for foreign chefs (genuinely complex in this category) and the mistakes that produce a 35,000 THB/month chef relationship neither side enjoys.</p>
           <p><em>Last updated: 8 June 2026.</em></p>
         `,
       },
@@ -1927,7 +1927,7 @@ export const guides = [
             <li>Debrief: what would they do differently next time? What did they learn about your kitchen / pantry / preferences? What would they shop differently for? A chef whose answer is "everything was perfect" is the wrong hire.</li>
           </ul>
 
-          <p>What to look for: ability to plan and execute on a budget, kitchen hygiene, calmness during the actual cook, real food that survives the move from "tasted at the table" to "eaten the next day at home" (because half of what a private chef makes you eats reheated), and curiosity about your tastes. Skills you can teach: timing, specific dish techniques. Skills you can't: hygiene, calm, attention.</p>
+          <p>What to look for: ability to plan and execute on a budget, kitchen hygiene, calmness during the actual cook, real food that survives the move from "tasted at the table" to "eaten the next day at home" (because half of what a private chef makes you eat reheated) and curiosity about your tastes. Skills you can teach: timing, specific dish techniques. Skills you can't: hygiene, calm, attention.</p>
         `,
       },
       {
@@ -1935,7 +1935,7 @@ export const guides = [
         h2: 'Where to find a chef in Thailand',
         html: `
           <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
-          <p>Cooks and chefs create their own profiles with cuisine specialisations, experience, languages, and availability. Families browse the listings, message cooks directly, run a paid tasting day, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a culinary agency. It does not screen chefs, verify culinary training, vet restaurant claims, or take any share of fees.</strong> Best for: daily home cooks and mid-tier chefs; growing for higher-tier but still limited. Free messaging, no placement fee.</p>
+          <p>Cooks and chefs create their own profiles with cuisine specialisations, experience, languages and availability. Families browse the listings, message cooks directly, run a paid tasting day and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a culinary agency. It does not screen chefs, verify culinary training, vet restaurant claims or take any share of fees.</strong> Best for: daily home cooks and mid-tier chefs; growing for higher-tier but still limited. Free messaging, no placement fee.</p>
 
           <h3>2. Restaurant-industry networks and culinary schools</h3>
           <p>For mid-tier and high-end hires: the best chefs come from existing restaurants. Approach a sous-chef at a restaurant you like and ask if they (or someone they know) would be interested in private work. Many are looking for lifestyle changes (out of restaurant-late hours, into reliable family schedules). Le Cordon Bleu Bangkok and Dusit Thani Culinary School have placement networks too.</p>
@@ -1944,7 +1944,7 @@ export const guides = [
           <p>In Phuket and Koh Samui, the villa-rental ecosystem includes chef networks. Property managers at the larger villa companies (Inspirato, Elite Havens, Asia Villa Holidays) know which chefs work well at which villas and what they charge.</p>
 
           <h3>4. Expat Facebook groups</h3>
-          <p>Bangkok Foodies, Phuket Expat Cooking groups, and home-entertaining communities have regular chef recommendations. Best for: validating shortlisted candidates ("anyone used [name]?").</p>
+          <p>Bangkok Foodies, Phuket Expat Cooking groups and home-entertaining communities have regular chef recommendations. Best for: validating shortlisted candidates ("anyone used [name]?").</p>
 
           <h3>5. Word of mouth in social circles</h3>
           <p>In the high-end-chef tier, almost all hires come from personal recommendation. Ask friends who entertain at home. The same chef often serves several households on different days.</p>
@@ -1993,7 +1993,7 @@ export const guides = [
         id: 'next-steps',
         h2: 'Next steps',
         html: `
-          <p>Browse chef and cook profiles on ThaiHelper. Filter by cuisine specialisation, city, and the tier of hire you're looking for. ThaiHelper provides the listings and messaging channel only; the tasting day, scope agreement, and grocery-budget governance are yours to set.</p>
+          <p>Browse chef and cook profiles on ThaiHelper. Filter by cuisine specialisation, city and the tier of hire you're looking for. ThaiHelper provides the listings and messaging channel only; the tasting day, scope agreement and grocery-budget governance are yours to set.</p>
           <ul>
             <li><a href="/hire/chef">Browse chefs across Thailand</a></li>
             <li><a href="/hire/chef-bangkok">Private chefs in Bangkok</a></li>
@@ -2013,7 +2013,7 @@ export const guides = [
       {
         question: 'Do I need to provide the chef with a grocery budget, or do they shop with their own money first?',
         answer:
-          'The chef shops with your money — never their own. Three workable models: weekly fixed budget (chef manages within it), cost-plus (chef submits receipts weekly), or a loaded debit card you can monitor in real time. Settle the model day one, agree where they can shop (importers vs wet markets), and set a small "no-receipt allowance" for wet-market purchases where receipts don\'t exist. This conversation prevents 90 % of future arguments.',
+          'The chef shops with your money — never their own. Three workable models: weekly fixed budget (chef manages within it), cost-plus (chef submits receipts weekly) or a loaded debit card you can monitor in real time. Settle the model day one, agree where they can shop (importers vs wet markets) and set a small "no-receipt allowance" for wet-market purchases where receipts don\'t exist. This conversation prevents 90 % of future arguments.',
       },
       {
         question: 'Can foreigners legally work as private chefs in Thailand?',
@@ -2023,7 +2023,7 @@ export const guides = [
       {
         question: 'How does a tasting day work and what should I look for?',
         answer:
-          'Pay the chef their normal day rate (3,000–8,000 THB) and a grocery budget (1,500–4,000 THB). Ask them to plan and cook three or four dishes that match your real future ordering — a family dinner, a guest dish, and one dietary-restricted item. Let them work in your kitchen unaided. Eat the food with everyone in the household who will actually eat the chef\'s cooking. Look for budget discipline, kitchen hygiene, calmness, and food that survives reheating — half of what a private chef makes you eat the next day. A chef whose tasting-day post-mortem is "everything was perfect" is the wrong hire.',
+          'Pay the chef their normal day rate (3,000–8,000 THB) and a grocery budget (1,500–4,000 THB). Ask them to plan and cook three or four dishes that match your real future ordering — a family dinner, a guest dish and one dietary-restricted item. Let them work in your kitchen unaided. Eat the food with everyone in the household who will actually eat the chef\'s cooking. Look for budget discipline, kitchen hygiene, calmness and food that survives reheating — half of what a private chef makes you eat the next day. A chef whose tasting-day post-mortem is "everything was perfect" is the wrong hire.',
       },
       {
         question: 'When does hiring a chef make financial sense?',
@@ -2033,7 +2033,7 @@ export const guides = [
       {
         question: 'Should I pay the chef for groceries before or after they shop?',
         answer:
-          'Before — but never in cash and never without limits. Either: (1) load a debit card you both can see in real time, (2) set a weekly budget paid at the start of the week, with reconciliation at the end, or (3) reimburse against receipts within 48 hours of submission. Don\'t hand cash up front for groceries beyond the day\'s shop. Receipts get vague when money is loose, and the cleanest relationships keep weekly settlements crisp.',
+          'Before — but never in cash and never without limits. Either: (1) load a debit card you both can see in real time, (2) set a weekly budget paid at the start of the week, with reconciliation at the end or (3) reimburse against receipts within 48 hours of submission. Don\'t hand cash up front for groceries beyond the day\'s shop. Receipts get vague when money is loose, and the cleanest relationships keep weekly settlements crisp.',
       },
     ],
   },
@@ -2042,7 +2042,7 @@ export const guides = [
     slug: 'hire-a-gardener-in-thailand',
     title: 'How to Hire a Gardener or Pool-Care Helper in Thailand — The Complete 2026 Guide',
     description:
-      'Weekly, monthly, and full-time gardener rates. Pool-care combinations, equipment ownership decisions, what to specify in scope (lawn vs. ornamental vs. tree work), where to find a gardener whose previous gardens you can see. Updated for 2026.',
+      'Weekly, monthly and full-time gardener rates. Pool-care combinations, equipment ownership decisions, what to specify in scope (lawn vs. ornamental vs. tree work), where to find a gardener whose previous gardens you can see. Updated for 2026.',
     date: '2026-06-08',
     updated: '2026-11-02',
     readTime: 13,
@@ -2055,7 +2055,7 @@ export const guides = [
         id: 'overview',
         h2: 'What you\'ll learn in this guide',
         html: `
-          <p>Garden help in Thailand is the most informal of the helper categories: most work is done by the visit, paid in cash, with verbal agreements about scope. This works fine when your garden is small and stable, less well when you have a villa with a pool, mature trees, ornamental beds, and a sprinkler system that needs real upkeep. Either way, the right hire is mostly about scope clarity and the right cadence — not the hourly rate.</p>
+          <p>Garden help in Thailand is the most informal of the helper categories: most work is done by the visit, paid in cash, with verbal agreements about scope. This works fine when your garden is small and stable, less well when you have a villa with a pool, mature trees, ornamental beds and a sprinkler system that needs real upkeep. Either way, the right hire is mostly about scope clarity and the right cadence — not the hourly rate.</p>
           <p>This guide covers what works in 2026: <strong>five common arrangements</strong> (one-off cleanup, weekly visit, monthly visit, full-time gardener, gardener-and-pool combo) and what each costs, the <strong>equipment-ownership question</strong> (their tools or yours — surprisingly decisive), what scope to specify (lawn alone, ornamental beds, tree work, irrigation, leaf-burn vs. compost), and where to find a gardener whose previous gardens you can actually go look at. Light guide; small section.</p>
           <p><em>Last updated: 8 June 2026.</em></p>
         `,
@@ -2065,7 +2065,7 @@ export const guides = [
         h2: 'Five common arrangements',
         html: `
           <h3>1. One-off cleanup</h3>
-          <p>The garden has been neglected (you just moved in, or a previous gardener stopped showing up). A team comes once, cuts everything back, hauls away the waste, mows, edges, and resets the garden to a maintainable baseline. Best for: starting fresh. Cost: 2,000 – 8,000 THB depending on size and overgrowth.</p>
+          <p>The garden has been neglected (you just moved in, or a previous gardener stopped showing up). A team comes once, cuts everything back, hauls away the waste, mows, edges and resets the garden to a maintainable baseline. Best for: starting fresh. Cost: 2,000 – 8,000 THB depending on size and overgrowth.</p>
 
           <h3>2. Weekly visit (3–4 hours)</h3>
           <p>The standard arrangement for small-to-medium gardens in Bangkok and Phuket. Mow, edge, weed beds, water if no automation, clear leaves. Most condos with shared garden have something like this for individual paid units. Best for: small lawn, modest ornamental beds, garden that mostly takes care of itself between visits.</p>
@@ -2101,7 +2101,7 @@ export const guides = [
           </table>
 
           <h3>Provincial / smaller-city variation</h3>
-          <p>Chiang Mai, Hua Hin, and provincial cities are typically 25–40 % below Bangkok across the board. Hua Hin in particular has a large retiree population and a competitive gardener market.</p>
+          <p>Chiang Mai, Hua Hin and provincial cities are typically 25–40 % below Bangkok across the board. Hua Hin in particular has a large retiree population and a competitive gardener market.</p>
 
           <h3>What's not in the base rate</h3>
           <ul>
@@ -2139,7 +2139,7 @@ export const guides = [
             <li><strong>Ornamental beds:</strong> who weeds them, who plants seasonal colour, who decides what gets pulled vs. kept</li>
             <li><strong>Trees:</strong> trimming frequency, who does big tree work (most regular gardeners shouldn't be climbing ladders with chainsaws — hire a tree service)</li>
             <li><strong>Irrigation:</strong> hand-water or sprinkler system, who manages the timer, who fixes broken sprinkler heads</li>
-            <li><strong>Leaf management:</strong> compost (better), bag and remove (acceptable), or burn (unhealthy; some neighbourhoods actively penalise it)</li>
+            <li><strong>Leaf management:</strong> compost (better), bag and remove (acceptable) or burn (unhealthy; some neighbourhoods actively penalise it)</li>
             <li><strong>Pesticides / herbicides:</strong> who decides, who applies, what's stored on site</li>
             <li><strong>Pool</strong> (if applicable): chemical management, skimming frequency, filter cleaning, equipment check, when to call a specialist</li>
             <li><strong>Water-feature maintenance</strong> (fountain, pond, koi): often skipped from scope; not all gardeners know what they're doing here</li>
@@ -2154,7 +2154,7 @@ export const guides = [
         h2: 'Where to find a gardener',
         html: `
           <h3>1. Direct-connection platforms (e.g. ThaiHelper)</h3>
-          <p>Gardeners create their own profiles with experience, areas they cover, and the equipment they bring. Families browse the listings, message gardeners directly, view previous work, and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a landscaping or gardening service. It does not screen gardeners, verify horticultural training, conduct background checks, or take any share of fees.</strong> Best for: structured comparison, free messaging.</p>
+          <p>Gardeners create their own profiles with experience, areas they cover and the equipment they bring. Families browse the listings, message gardeners directly, view previous work and agree on terms. <strong>The platform provides the listings and messaging channel only — it is not a landscaping or gardening service. It does not screen gardeners, verify horticultural training, conduct background checks or take any share of fees.</strong> Best for: structured comparison, free messaging.</p>
 
           <h3>2. Neighbour referrals — the strongest channel</h3>
           <p>For garden help more than any other category, the right gardener is one you can see the previous work of. Walk around your neighbourhood; admire a particularly nice garden; ask the owner. In Thai-language communities this is normal and welcome. In Bangkok expat communities, condo juristic offices know who serves which house.</p>
@@ -2163,10 +2163,10 @@ export const guides = [
           <p>Nurseries (Chatuchak weekend plant market, JJ Green) and garden-supply shops know which gardeners buy regularly and seem competent. Ask the staff.</p>
 
           <h3>4. Pool-service companies (for gardener-and-pool combo)</h3>
-          <p>If you need pool care, start with a specialised pool-service company (Crystal Pools, Aqua Pools in Bangkok and Phuket) and ask if they have gardeners who also do pool work, or if they can recommend one.</p>
+          <p>If you need pool care, start with a specialised pool-service company (Crystal Pools, Aqua Pools in Bangkok and Phuket) and ask if they have gardeners who also do pool work or if they can recommend one.</p>
 
           <h3>5. Facebook expat groups</h3>
-          <p>Bangkok Expat Families, Phuket Expat Homeowners, and similar groups regularly have gardener recommendations for villa and house properties.</p>
+          <p>Bangkok Expat Families, Phuket Expat Homeowners and similar groups regularly have gardener recommendations for villa and house properties.</p>
         `,
       },
       {
@@ -2207,14 +2207,14 @@ export const guides = [
           <p>Garden jobs drift into driving. The gardener picks up soil from the nursery, runs to the hardware shop, moves the car. <strong>Driving a motor vehicle is on List 1 of the 2020 Ministry of Labour notification</strong> — reserved for Thai nationals outright, with no permit available to any foreigner, including one holding a valid MOU household permit. If errands by car are part of what you need, that part has to go to a Thai national, however the job is described on paper.</p>
 
           <h3>Coming: social security</h3>
-          <p>On 25 August 2026 the Cabinet approved in principle a draft Royal Decree bringing household staff — gardeners named explicitly, alongside nannies, housekeepers, cooks and family drivers — into compulsory social security under Section 33, for Thai and foreign employees alike. It is not in force yet: the Council of State has to finish its review, it must be published in the Royal Gazette, and a 180-day transition follows. When it lands, the employer contributes 5 % of wages within the 1,650–17,500 THB band. For a weekly gardener the amounts are small, but it is worth knowing it is coming.</p>
+          <p>On 25 August 2026 the Cabinet approved in principle a draft Royal Decree bringing household staff — gardeners named explicitly, alongside nannies, housekeepers, cooks and family drivers — into compulsory social security under Section 33, for Thai and foreign employees alike. It is not in force yet: the Council of State has to finish its review, it must be published in the Royal Gazette and a 180-day transition follows. When it lands, the employer contributes 5 % of wages within the 1,650–17,500 THB band. For a weekly gardener the amounts are small, but it is worth knowing it is coming.</p>
 
           <p>The full picture is on our <a href="/legal">work-permit rules page</a>, and the <a href="/work-permit-wizard">Work Permit Wizard</a> answers it for one specific candidate in five questions.</p>
         `,
       },
       {
         id: 'contract',
-        h2: 'Pay, cadence, and what to write down',
+        h2: 'Pay, cadence and what to write down',
         html: `
           <p>Garden arrangements are usually looser than indoor ones, which is fine until the first disagreement about money. A few lines written down at the start prevent almost all of them.</p>
 
@@ -2249,8 +2249,8 @@ export const guides = [
             <li><strong>Hiring without seeing previous work.</strong> Photos lie about gardens worse than about anything else. Visit one of the gardener\'s current clients before hiring.</li>
             <li><strong>Letting the gardener buy plants and materials with your money unsupervised.</strong> Receipts vague, mark-ups creep. Pick plants together; pay the nursery directly when possible.</li>
             <li><strong>No scope document.</strong> "Take care of the garden" leads to 12 months of mismatched expectations. One page, signed.</li>
-            <li><strong>Leaf burning.</strong> Some gardeners default to it. Bad for air quality, illegal in parts of Bangkok and Phuket, and a fire risk in dry season. Specify compost or removal.</li>
-            <li><strong>Pesticide/herbicide application without PPE.</strong> Many Thai gardeners spray with bare hands and no mask. Concerning around kids, pets, and edible-garden areas. Either provide PPE or do the chemical work yourself.</li>
+            <li><strong>Leaf burning.</strong> Some gardeners default to it. Bad for air quality, a fire risk in dry season and illegal in parts of Bangkok and Phuket. Specify compost or removal.</li>
+            <li><strong>Pesticide/herbicide application without PPE.</strong> Many Thai gardeners spray with bare hands and no mask. Concerning around kids, pets and edible-garden areas. Either provide PPE or do the chemical work yourself.</li>
             <li><strong>Tree work by a regular gardener.</strong> Big tree work (climbing, chainsaws, large branches) is a specialist service. A general gardener doing it without training has injury liability you don\'t want.</li>
             <li><strong>Gardener-and-pool combo without verifying pool knowledge.</strong> A green pool from poor chemistry is a 5,000–15,000 THB fix. Ask specific questions: chlorine vs. salt, free vs. total chlorine, when to shock.</li>
             <li><strong>Skipping the 13th-month bonus for full-time gardeners.</strong> Universal expectation in Thai household employment.</li>
@@ -2275,7 +2275,7 @@ export const guides = [
       {
         question: 'How much does a gardener in Thailand cost in 2026?',
         answer:
-          'Weekly visits (3–4 hours) in Bangkok or Phuket cost 500–1,200 THB per visit, or 2,000–5,000 THB/month. Twice-monthly visits run 1,600–3,600 THB/month. Full-time gardeners are 12,000–18,000 THB/month in Bangkok and Phuket, 9,000–14,000 upcountry. A combined gardener-and-pool-care arrangement is 14,000–22,000 THB/month full-time. Pool-care alone (twice-weekly visits) costs 1,500–3,000 THB/month.',
+          'Weekly visits (3–4 hours) in Bangkok or Phuket cost 500–1,200 THB per visit or 2,000–5,000 THB/month. Twice-monthly visits run 1,600–3,600 THB/month. Full-time gardeners are 12,000–18,000 THB/month in Bangkok and Phuket, 9,000–14,000 upcountry. A combined gardener-and-pool-care arrangement is 14,000–22,000 THB/month full-time. Pool-care alone (twice-weekly visits) costs 1,500–3,000 THB/month.',
       },
       {
         question: 'Should the gardener bring their own equipment or use ours?',
@@ -2285,17 +2285,17 @@ export const guides = [
       {
         question: 'Can my regular gardener handle pool maintenance too?',
         answer:
-          'A combined gardener-and-pool-care arrangement is common at villa-scale properties (14,000–22,000 THB/month full-time). But verify pool knowledge before hiring — ask specific questions about chlorine levels (free vs. total), salt vs. chlorine systems, when to shock the pool, and how often to clean the filter. A gardener faking pool knowledge produces a green pool every 2–3 months, and the recovery cost (5,000–15,000 THB per incident) negates the savings.',
+          'A combined gardener-and-pool-care arrangement is common at villa-scale properties (14,000–22,000 THB/month full-time). But verify pool knowledge before hiring — ask specific questions about chlorine levels (free vs. total), salt vs. chlorine systems, when to shock the pool and how often to clean the filter. A gardener faking pool knowledge produces a green pool every 2–3 months, and the recovery cost (5,000–15,000 THB per incident) negates the savings.',
       },
       {
         question: 'How do I find a gardener whose work I can actually verify?',
         answer:
-          'The strongest channel for gardener referrals is neighbour recommendations. Walk around; find a garden you like; ask who maintains it. Condo juristic offices, plant shops at JJ Green and the Chatuchak weekend market, and pool-service companies (for combo hires) are all useful secondary channels. For full-time villa gardeners, ask the property manager — they\'ve seen what works in the local area.',
+          'The strongest channel for gardener referrals is neighbour recommendations. Walk around; find a garden you like; ask who maintains it. Condo juristic offices, pool-service companies (for combo hires) and the plant shops at JJ Green and the Chatuchak weekend market are all useful secondary channels. For full-time villa gardeners, ask the property manager — they\'ve seen what works in the local area.',
       },
       {
         question: 'Should I let my gardener buy plants and materials with my money?',
         answer:
-          'No, or only at small scale (under 500 THB per visit) with receipts. Receipts get vague when money is loose, and mark-ups creep in. For larger purchases — new plants, mulch, fertiliser, irrigation parts — go to the nursery together, choose the items, and pay the nursery directly. The gardener picks for what works in your specific micro-climate; you pay for what gets installed. Cleaner relationship, no surprises.',
+          'No, or only at small scale (under 500 THB per visit) with receipts. Receipts get vague when money is loose, and mark-ups creep in. For larger purchases — new plants, mulch, fertiliser, irrigation parts — go to the nursery together, choose the items and pay the nursery directly. The gardener picks for what works in your specific micro-climate; you pay for what gets installed. Cleaner relationship, no surprises.',
       },
       {
         question: 'Can a foreign gardener work legally in Thailand?',
@@ -2305,12 +2305,12 @@ export const guides = [
       {
         question: 'Do I have to pay social security for a gardener in Thailand?',
         answer:
-          'Not yet. Household staff including gardeners have long been excluded from Thailand\u2019s compulsory social security system. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree that removes the exclusion and brings gardeners, nannies, housekeepers, cooks and family drivers into Section 33 coverage for Thai and foreign employees alike. It is not in force: the Council of State must complete its review, it must be published in the Royal Gazette, and a 180-day transition period follows. Once it applies the employer contributes 5 per cent of wages within the 1,650 to 17,500 THB band.',
+          'Not yet. Household staff including gardeners have long been excluded from Thailand\u2019s compulsory social security system. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree that removes the exclusion and brings gardeners, nannies, housekeepers, cooks and family drivers into Section 33 coverage for Thai and foreign employees alike. It is not in force: the Council of State must complete its review, it must be published in the Royal Gazette and a 180-day transition period follows. Once it applies the employer contributes 5 per cent of wages within the 1,650 to 17,500 THB band.',
       },
       {
         question: 'What about big tree work — can my regular gardener do it?',
         answer:
-          'No. Tree work that involves climbing, chainsaws, or removing branches over 5–10 cm thick should go to a specialist tree service. A general gardener doing it without training is an injury liability you don\'t want, and the technical work (cuts that don\'t damage the tree, debris management, sometimes municipal permits) is genuinely different. Tree services in Bangkok and Phuket charge 1,500–8,000 THB per tree depending on size and access. Worth the specialist hire.',
+          'No. Tree work that involves climbing, chainsaws or removing branches over 5–10 cm thick should go to a specialist tree service. A general gardener doing it without training is an injury liability you don\'t want, and the technical work (cuts that don\'t damage the tree, debris management, sometimes municipal permits) is genuinely different. Tree services in Bangkok and Phuket charge 1,500–8,000 THB per tree depending on size and access. Worth the specialist hire.',
       },
     ],
   },

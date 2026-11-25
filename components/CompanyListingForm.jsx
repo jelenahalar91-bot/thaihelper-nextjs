@@ -220,7 +220,7 @@ export default function CompanyListingForm({ value, onChange, lang = 'en' }) {
         <Field label={th ? 'เวลาทำการ' : 'Opening hours'}>
           <input className={inputCls} value={v.openingHours || ''} onChange={set('openingHours')} maxLength={200} placeholder={th ? 'จ–ศ 9:00–18:00' : 'Mon–Fri 9am–6pm'} />
         </Field>
-        <Field label={th ? 'เลขทะเบียน / ใบอนุญาต' : 'License / registration no.'}>
+        <Field label={th ? 'เลขทะเบียน / ใบอนุญาต' : 'Licence / registration no.'}>
           <input className={inputCls} value={v.licenseNumber || ''} onChange={set('licenseNumber')} maxLength={80} />
         </Field>
       </div>

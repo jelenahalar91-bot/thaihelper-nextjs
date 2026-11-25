@@ -10,15 +10,15 @@ import { useLang } from './_app';
 const FAQS = [
   {
     question: 'Is ThaiHelper a real, legitimate platform?',
-    answer: 'Yes. ThaiHelper.app launched in April 2026 and is operated by a family of four living in Thailand. Helpers and families create real accounts, every email is verified before any profile goes live, and there are currently hundreds of registered helpers across Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, Hua Hin, Krabi and other cities. You can browse the public helper directory at thaihelper.app/helpers to confirm.',
+    answer: 'Yes. ThaiHelper.app launched in April 2026 and is operated by a family of four living in Thailand. Helpers and families create real accounts, every email is verified before any profile goes live and there are currently hundreds of registered helpers across Bangkok, Chiang Mai, Phuket, Pattaya, Koh Samui, Hua Hin, Krabi and other cities. You can browse the public helper directory at thaihelper.app/helpers to confirm.',
   },
   {
     question: 'Is ThaiHelper a scam?',
-    answer: 'No. ThaiHelper is free for both families and helpers — there is no sign-up fee, no subscription, no commission on salary, and no paywall on messaging. The platform makes no money from placements. Because it is free, there is nothing to "scam" — we never ask for payment, banking details or fees of any kind.',
+    answer: 'No. ThaiHelper is free for both families and helpers — there is no sign-up fee, no subscription, no commission on salary and no paywall on messaging. The platform makes no money from placements. Because it is free, there is nothing to "scam" — we never ask for payment, banking details or fees of any kind.',
   },
   {
     question: 'Is ThaiHelper free?',
-    answer: 'Yes, completely free. Helpers create profiles for free and never pay to be contacted or hired. Families browse for free and message helpers directly for free. There are no hidden costs, no premium tiers, and no placement fees.',
+    answer: 'Yes, completely free. Helpers create profiles for free and never pay to be contacted or hired. Families browse for free and message helpers directly for free. There are no hidden costs, no premium tiers and no placement fees.',
   },
   {
     question: 'Who runs ThaiHelper?',
@@ -26,7 +26,7 @@ const FAQS = [
   },
   {
     question: 'How does ThaiHelper verify helpers and families?',
-    answer: 'Every account on ThaiHelper is email-verified before the profile is published or messaging is enabled. We do NOT claim to do background checks, ID verification, or credential checks — that is the family\'s responsibility during the interview. We tell you this honestly so you can make informed hiring decisions.',
+    answer: 'Every account on ThaiHelper is email-verified before the profile is published or messaging is enabled. We do NOT claim to do background checks, ID verification or credential checks — that is the family\'s responsibility during the interview. We tell you this honestly so you can make informed hiring decisions.',
   },
   {
     question: 'Is my personal data safe on ThaiHelper?',
@@ -46,7 +46,7 @@ const FAQS = [
   },
   {
     question: 'What happens if I have a bad experience with a helper I hired?',
-    answer: 'Because ThaiHelper is a direct-connection platform (not an agency), the employment relationship is between you and the helper directly — we do not place workers, sign contracts on either side, or mediate disputes. We do encourage you to use a written contract (a free template is available at thaihelper.app/blog/employment-contract-template-thailand). If you discover a profile is fraudulent or abusive, email support@thaihelper.app and we will investigate and remove it.',
+    answer: 'Because ThaiHelper is a direct-connection platform (not an agency), the employment relationship is between you and the helper directly — we do not place workers, sign contracts on either side or mediate disputes. We do encourage you to use a written contract (a free template is available at thaihelper.app/blog/employment-contract-template-thailand). If you discover a profile is fraudulent or abusive, email support@thaihelper.app and we will investigate and remove it.',
   },
 ];
 
@@ -133,7 +133,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_press: 'Press', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labour and immigration laws is the sole responsibility of the users.',
   },
 
   th: {

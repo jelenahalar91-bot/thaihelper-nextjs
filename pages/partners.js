@@ -67,7 +67,7 @@ const T = {
     ph_city: 'Choose a city or province…',
     ph_website: 'yourcompany.com or facebook.com/yourpage',
     ph_maps: 'Paste your Google Maps link',
-    ph_description: 'What does your company do, who do you help, and what makes you a good choice? A few honest sentences are plenty — families read this on your listing.',
+    ph_description: 'What does your company do, who do you help and what makes you a good choice? A few honest sentences are plenty — families read this on your listing.',
     ph_license: 'e.g. 0105560123456',
     ph_pricing: 'yourcompany.com/pricing',
 

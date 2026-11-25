@@ -81,7 +81,7 @@ const T = {
     status_subtitle: 'Control whether helpers can find and contact you.',
     status_hint_searching: 'You’re visible to helpers and will get emails when matching helpers join.',
     status_hint_paused: 'Still listed with a “not hiring now” badge, but you won’t get new-match emails. Existing chats keep working.',
-    status_hint_hidden: 'Hidden from the helper browse list. No new inquiries, no emails. Switch back any time.',
+    status_hint_hidden: 'Hidden from the helper browse list. No new enquiries, no emails. Switch back any time.',
     status_save_error: 'Could not update your status. Please try again.',
     section_notifications: 'Email notifications',
     notify_label: 'Email me when I receive a new message',

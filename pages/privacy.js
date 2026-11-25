@@ -25,7 +25,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_press: 'Press', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labour and immigration laws is the sole responsibility of the users.',
   },
   th: {
     nav_employers: 'สำหรับครอบครัว',
@@ -198,7 +198,7 @@ function PrivacyEN() {
         <li>Full name</li>
         <li>Age</li>
         <li>City / location in Thailand</li>
-        <li>Neighborhood / Area within the city</li>
+        <li>Neighbourhood / Area within the city</li>
         <li>Service category and specific skills</li>
         <li>Years of experience</li>
         <li>Languages spoken</li>

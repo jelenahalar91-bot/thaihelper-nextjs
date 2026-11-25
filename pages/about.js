@@ -26,14 +26,14 @@ const T = {
 
     story_title: 'Our story',
     story_p1: 'In December 2024 our family of four packed up our life and moved to Thailand. New country, new language, new everything — and like most expat families with kids, one of the first things we needed was a nanny.',
-    story_p2: 'We searched for weeks. Facebook groups felt chaotic — endless posts, dozens of replies, no way to tell who was serious. Half the messages disappeared into the "message requests" folder we never thought to check. We sent enquiries to several agencies, waited days for an answer, and at the end of it all still had no one in our region.',
+    story_p2: 'We searched for weeks. Facebook groups felt chaotic — endless posts, dozens of replies, no way to tell who was serious. Half the messages disappeared into the "message requests" folder we never thought to check. We sent enquiries to several agencies, waited days for an answer and at the end of it all still had no one in our region.',
     story_p3: 'When applications did come in, they often had no real information — no background, no photo, no idea whether the person had ever cared for children. We wanted detailed profiles and a more direct way to connect with the people who might become part of our daily life.',
     story_p4: 'It wasn\'t just a nanny. We were also looking for a gardener for our pool and garden, and tutors for our kids. Every single search was the same chaos all over again. We kept thinking: in other countries we\'ve lived in, there were proper platforms for exactly this. Why not here?',
     story_p5: 'So we built one.',
 
     values_title: 'What we wanted to fix',
     val1_h: 'Direct contact',
-    val1_p: 'No middleman standing between you and the person you might welcome into your home. You message helpers directly, ask the questions that matter to you, and decide for yourselves.',
+    val1_p: 'No middleman standing between you and the person you might welcome into your home. You message helpers directly, ask the questions that matter to you and decide for yourselves.',
     val2_h: 'Free for everyone',
     val2_p: 'No sign-up fees, no subscriptions, no commissions. Both families and helpers use ThaiHelper at no cost — every baht a helper earns from a job stays with them.',
     val3_h: 'Verified profiles',
@@ -56,7 +56,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_press: 'Press', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labour and immigration laws is the sole responsibility of the users.',
   },
 
   th: {

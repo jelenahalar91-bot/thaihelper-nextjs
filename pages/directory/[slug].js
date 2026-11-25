@@ -60,7 +60,7 @@ const T = {
     section_languages: 'Languages',
     section_nationalities: 'Nationalities placed',
     section_hours: 'Opening hours',
-    section_license: 'License',
+    section_license: 'Licence',
     section_pricing: 'Fees, as published by the agency',
     // A cleaning or housekeeping company sells visits, not placements: its
     // rate page has no helper salary in it, but it does have tax and travel.

@@ -106,7 +106,7 @@ export default function SalaryCalculator() {
       </div>
 
       <p className="text-[11px] text-gray-400 mt-4 leading-relaxed">
-        Estimates based on 2026 market data and provincial minimum wage rates. Actual salaries vary based on specific skills, references, and negotiation. Use as a guideline, not a guarantee.
+        Estimates based on 2026 market data and provincial minimum wage rates. Actual salaries vary based on specific skills, references and negotiation. Use as a guideline, not a guarantee.
       </p>
     </div>
   );

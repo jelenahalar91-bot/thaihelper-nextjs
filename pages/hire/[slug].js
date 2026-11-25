@@ -134,19 +134,19 @@ function getFaqs(page, isEn = true) {
   return [
     {
       question: `How much does a ${catLower} cost in ${city}?`,
-      answer: `${cat} rates in ${city} vary based on experience, hours, and duties. On ThaiHelper you can browse profiles with transparent pricing — typically ranging from 10,000–35,000 THB/month for full-time positions, or 150–500 THB/hour for part-time work.`,
+      answer: `${cat} rates in ${city} vary based on experience, hours and duties. On ThaiHelper you can browse profiles with transparent pricing — typically ranging from 10,000–35,000 THB/month for full-time positions or 150–500 THB/hour for part-time work.`,
     },
     {
       question: `How do I find a trusted ${catLower} in ${city}?`,
-      answer: `On ThaiHelper, every ${catLower} verifies their email before their profile goes live. Browse profiles, contact them directly, and conduct your own interview and reference checks — no agency middleman, no hidden fees.`,
+      answer: `On ThaiHelper, every ${catLower} verifies their email before their profile goes live. Browse profiles, contact them directly, then run your own interview and reference checks — no agency middleman, no hidden fees.`,
     },
     {
       question: `Is ThaiHelper free for ${catLower}s?`,
-      answer: `Yes! ThaiHelper is 100% free for everyone. Creating a profile is free for helpers, and families pay nothing either — no sign-up fee, no subscription, no commission on salaries, and messaging is free on both sides.`,
+      answer: `Yes! ThaiHelper is 100% free for everyone. Creating a profile is free for helpers, and families pay nothing either — no sign-up fee, no subscription, no commission on salaries and messaging is free on both sides.`,
     },
     {
       question: `Can I hire a ${catLower} without an agency in ${city}?`,
-      answer: `Absolutely. ThaiHelper is designed for direct connections. You find the ${catLower}, contact them directly, and agree on terms — no agency fees, no middleman.`,
+      answer: `Absolutely. ThaiHelper is designed for direct connections. You find the ${catLower}, contact them directly and agree on terms — no agency fees, no middleman.`,
     },
     {
       question: `What areas in ${city} does ThaiHelper cover?`,
@@ -448,7 +448,7 @@ export default function HirePage({ page, matchingHelpers = [] }) {
                 </div>
                 {isEn && (
                   <p className="text-sm text-gray-500 mt-3">
-                    Helpers on ThaiHelper specify their preferred working areas — filter by neighborhood to find someone near you.
+                    Helpers on ThaiHelper specify their preferred working areas — filter by neighbourhood to find someone near you.
                   </p>
                 )}
               </div>
@@ -509,7 +509,7 @@ export default function HirePage({ page, matchingHelpers = [] }) {
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { icon: '1', h: isEn ? 'Browse Profiles' : 'ดูโปรไฟล์', p: isEn ? 'Search helpers by city, category, and experience. Every profile uses an email-verified account.' : 'ค้นหาผู้ช่วยตามเมือง ประเภท และประสบการณ์ ทุกโปรไฟล์ใช้บัญชีที่ยืนยันอีเมลแล้ว' },
+                { icon: '1', h: isEn ? 'Browse Profiles' : 'ดูโปรไฟล์', p: isEn ? 'Search helpers by city, category and experience. Every profile uses an email-verified account.' : 'ค้นหาผู้ช่วยตามเมือง ประเภท และประสบการณ์ ทุกโปรไฟล์ใช้บัญชีที่ยืนยันอีเมลแล้ว' },
                 { icon: '2', h: isEn ? 'Connect Directly' : 'ติดต่อโดยตรง', p: isEn ? 'Contact helpers directly. No middleman, no hidden fees. Agree on terms together.' : 'ติดต่อโดยตรง ไม่มีคนกลาง ไม่มีค่าธรรมเนียมแอบแฝง ตกลงเงื่อนไขร่วมกัน' },
                 { icon: '3', h: isEn ? 'Hire with Confidence' : 'จ้างอย่างมั่นใจ', p: isEn ? 'Structured profiles and direct messaging help you compare candidates and make the right choice.' : 'โปรไฟล์ที่มีโครงสร้างและการส่งข้อความโดยตรงช่วยให้คุณเปรียบเทียบและเลือกได้อย่างมั่นใจ' },
               ].map((step) => (

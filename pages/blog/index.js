@@ -30,7 +30,7 @@ export default function BlogIndex() {
     <>
       <SEOHead
         title="Blog — Hiring Tips, Salary Guides & Career Advice for Thailand"
-        description="Expert guides for families hiring household help in Thailand and career tips for nannies, housekeepers, and domestic helpers. Salary guides, interview tips, and more."
+        description="Expert guides for families hiring household help in Thailand and career tips for nannies, housekeepers and domestic helpers. Salary guides, interview tips and more."
         path="/blog"
         lang={lang}
         jsonLd={getBreadcrumbSchema(breadcrumbs)}

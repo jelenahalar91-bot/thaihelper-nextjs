@@ -173,7 +173,7 @@ const FAQS = [
   },
   {
     question: 'What should a Thai nanny contract include?',
-    answer: 'A complete nanny employment contract in Thailand should include: full names and ID/passport numbers of both parties, position and start date, specific duties, working hours, weekly rest day, monthly salary and payment terms, overtime rate, annual leave, sick leave, public holidays, Social Security registration (Section 33), termination notice period, severance pay rights per the Labour Protection Act, and signatures with date.',
+    answer: 'A complete nanny employment contract in Thailand should include: full names and ID/passport numbers of both parties, position and start date, specific duties, working hours, weekly rest day, monthly salary and payment terms, overtime rate, annual leave, sick leave, public holidays, Social Security registration (Section 33), termination notice period, severance pay rights per the Labour Protection Act and signatures with date.',
   },
   {
     question: 'How much notice is required to fire a nanny in Thailand?',
@@ -216,7 +216,7 @@ const T = {
 
     what_h: 'What it covers',
     what_items: [
-      'Position, start date, and indefinite-term clause',
+      'Position, start date and indefinite-term clause',
       'Specific duties (and what is explicitly NOT included)',
       'Working hours with mandatory weekly rest day (per MR No. 14)',
       'Salary, payment date, overtime rate, optional 13th-month bonus',
@@ -250,7 +250,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_press: 'Press', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labour and immigration laws is the sole responsibility of the users.',
   },
 
   th: {

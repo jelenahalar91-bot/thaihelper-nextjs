@@ -50,11 +50,11 @@ const FAQS = [
   },
   {
     question: 'Can a private family in Thailand sponsor a work permit?',
-    answer: 'Only through the MOU route for household workers from Myanmar or Laos (Cambodia is on the same treaty list but closed to new workers since November 2025). For every other permit type the employer must be a registered Thai company meeting the capital and Thai-staffing requirements, so a household cannot sponsor a Non-Immigrant B visa. Narrow exceptions exist for diplomatic households, BOI-promoted employers, and genuinely skilled tutor, governess or household-manager roles under a registered Thai employer.',
+    answer: 'Only through the MOU route for household workers from Myanmar or Laos (Cambodia is on the same treaty list but closed to new workers since November 2025). For every other permit type the employer must be a registered Thai company meeting the capital and Thai-staffing requirements, so a household cannot sponsor a Non-Immigrant B visa. Narrow exceptions exist for diplomatic households, BOI-promoted employers and genuinely skilled tutor, governess or household-manager roles under a registered Thai employer.',
   },
   {
     question: 'Do I have to pay social security for a nanny or housekeeper in Thailand?',
-    answer: 'Not yet, but it is coming. Household staff have long been excluded from Thailand\u2019s compulsory social security system. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree that removes that exclusion and brings nannies, housekeepers, cooks, gardeners and family drivers into Section 33 coverage, for Thai and foreign employees alike. It is not in force: the Council of State must complete its review, the decree must be published in the Royal Gazette, and a 180-day transition period follows. Once it applies, the employer contributes 5 per cent of wages within the 1,650 to 17,500 THB band, which is roughly 9,000 THB a year on a 15,000 THB salary.',
+    answer: 'Not yet, but it is coming. Household staff have long been excluded from Thailand\u2019s compulsory social security system. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree that removes that exclusion and brings nannies, housekeepers, cooks, gardeners and family drivers into Section 33 coverage, for Thai and foreign employees alike. It is not in force: the Council of State must complete its review, the decree must be published in the Royal Gazette and a 180-day transition period follows. Once it applies, the employer contributes 5 per cent of wages within the 1,650 to 17,500 THB band, which is roughly 9,000 THB a year on a 15,000 THB salary.',
   },
   {
     question: 'What are the penalties for employing a helper without a work permit in Thailand?',
@@ -81,7 +81,7 @@ const T = {
 
     hero_eyebrow: 'Work Permit Rules',
     hero_h1: 'Who can legally work in a Thai household?',
-    hero_sub: 'Two claims get made constantly, and both are wrong. Here is the actual rule, the law it comes from, and what it means for your hire.',
+    hero_sub: 'Two claims get made constantly, and both are wrong. Here is the actual rule, the law it comes from and what it means for your hire.',
 
     myths_title: 'The two things everybody gets wrong',
     myth1_label: 'Claim',
@@ -128,7 +128,7 @@ const T = {
         tutoring:  { ok: 'partial', text: 'Yes, but the permit is held by the school or company, never by the family' },
       },
     ],
-    table_note: 'Narrow exceptions sit outside this table: diplomatic households are statutorily exempt, BOI-promoted employers have their own framework, and a genuinely skilled tutor, governess or household-manager role can be sponsored by a registered Thai employer where the role matches the permit category in substance rather than only in wording. Those are conversations with an immigration lawyer, not shortcuts.',
+    table_note: 'Narrow exceptions sit outside this table: diplomatic households are statutorily exempt, BOI-promoted employers have their own framework and a genuinely skilled tutor, governess or household-manager role can be sponsored by a registered Thai employer where the role matches the permit category in substance rather than only in wording. Those are conversations with an immigration lawyer, not shortcuts.',
 
     law_title: 'Where these rules come from',
     law1_h: 'The 2020 notification',
@@ -144,14 +144,14 @@ const T = {
     law5_p: 'Thailand signed a labour MOU and an employment agreement with Sri Lanka on 14 September 2026 for an initial 10,000 workers on two-year contracts, and frameworks with Nepal and Bangladesh have been announced for 2027. This gets cited as evidence that Thailand is opening up to more nationalities, and for construction, manufacturing and agriculture it is. Household work is not among the announced sectors, so for a family hiring a nanny, housekeeper or carer nothing has changed. We will update this page if the implementing rules add domestic service.',
 
     law6_h: 'Coming separately: social security for household staff',
-    law6_p: 'Not a work-permit question, but the other obligation families ask about. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree bringing household staff — nanny, housekeeper, cook, gardener, family driver — into compulsory social security under Section 33, removing an exclusion that has stood for decades. It covers Thai and foreign employees alike, provided the worker holds valid documents. It is not in force: the Council of State must finish its review, it must be published in the Royal Gazette, and a 180-day transition follows. When it does land, the employer contributes 5 % of wages within the 1,650–17,500 THB band, roughly 9,000 THB a year on a 15,000 THB salary.',
+    law6_p: 'Not a work-permit question, but the other obligation families ask about. On 25 August 2026 the Cabinet approved in principle a draft Royal Decree bringing household staff — nanny, housekeeper, cook, gardener, family driver — into compulsory social security under Section 33, removing an exclusion that has stood for decades. It covers Thai and foreign employees alike, provided the worker holds valid documents. It is not in force: the Council of State must finish its review, it must be published in the Royal Gazette and a 180-day transition follows. When it does land, the employer contributes 5 % of wages within the 1,650–17,500 THB band, roughly 9,000 THB a year on a 15,000 THB salary.',
 
     fair_title: 'Who actually carries the risk',
-    fair_p: 'Worth saying plainly, because it shapes the decision: the penalties are not symmetrical. A family that hires without permission pays a fine. The helper loses her livelihood, is deported, and cannot reapply for a work permit for two years. If you are weighing whether to hire into the gap, that asymmetry belongs in the calculation.',
+    fair_p: 'Worth saying plainly, because it shapes the decision: the penalties are not symmetrical. A family that hires without permission pays a fine. The helper loses her livelihood, is deported and cannot reapply for a work permit for two years. If you are weighing whether to hire into the gap, that asymmetry belongs in the calculation.',
 
     us_title: 'What ThaiHelper does and does not do',
     us1_h: 'We list, we do not place',
-    us1_p: 'ThaiHelper is a listings and messaging platform. We are not an agency and not a recruiter. We do not place workers, arrange permits, or sign anything on either side.',
+    us1_p: 'ThaiHelper is a listings and messaging platform. We are not an agency and not a recruiter. We do not place workers, arrange permits or sign anything on either side.',
     us2_h: 'Work-permit status is self-reported',
     us2_p: 'Helpers state their own status on their profile. We verify email addresses, not documents — we have never claimed otherwise. Always ask to see the actual permit before you hire.',
     us3_h: 'Some listed helpers have no lawful route',
@@ -160,7 +160,7 @@ const T = {
     us4_p: 'Under Thai law the obligation to check permission to work sits with the employer — the family. Nothing on this platform transfers that, and no platform could.',
 
     cta_h2: 'Check your specific candidate',
-    cta_p: 'Five questions, no signup. The wizard tells you which route applies, what it costs, and how long it takes.',
+    cta_p: 'Five questions, no signup. The wizard tells you which route applies, what it costs and how long it takes.',
     cta_btn_wizard: 'Open the Work Permit Wizard',
     cta_btn_browse: 'Browse Thai helpers',
     cta_guide: 'Or read the full work-permit guide for families',

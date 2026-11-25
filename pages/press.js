@@ -65,7 +65,7 @@ const T = {
     accurate_title: 'Please get these right',
     accurate_sub: 'The four things that are most often reported inaccurately about us. We would rather hand you the precise version up front.',
     acc1_h: 'We are not a recruitment agency.',
-    acc1_p: 'ThaiHelper provides listings and a messaging channel, nothing more. We do not place candidates, do not screen them on a family\'s behalf, do not employ anyone, and take no part in the hiring decision or the employment relationship that follows.',
+    acc1_p: 'ThaiHelper provides listings and a messaging channel, nothing more. We do not place candidates, do not screen them on a family\'s behalf, do not employ anyone and take no part in the hiring decision or the employment relationship that follows.',
     acc2_h: '"Verified" means email and phone — not a background check.',
     acc2_p: 'Every account is email-verified before it goes live, and families additionally confirm a phone number by SMS before they can message anyone. We do not carry out identity checks, criminal-record checks or background screening, and we ask that we are never described as doing so.',
     acc3_h: 'Free means free, on both sides.',
@@ -90,9 +90,9 @@ const T = {
     ang2_h: 'Who may legally work in a Thai household — and who may not',
     ang2_p: 'In practice only a narrow set of nationalities has a legal route into private households, and driving is closed to foreign nationals altogether. Many families only discover this after hiring. We have the figures on how widespread the misunderstanding is.',
     ang3_h: 'The scams targeting domestic workers',
-    ang3_p: 'Fake employers, impersonated support staff, requests for passport scans. We have documented cases, the moderation data behind them, and practical advice for readers.',
+    ang3_p: 'Fake employers, impersonated support staff, requests for passport scans. We have documented cases, the moderation data behind them and practical advice for readers.',
     ang4_h: 'A family that built the thing it needed',
-    ang4_p: 'The founder story: moving countries with two children, weeks of fruitless searching, and the decision to build a platform instead of giving up. Interviews available in English and German.',
+    ang4_p: 'The founder story: moving countries with two children, weeks of fruitless searching and the decision to build a platform instead of giving up. Interviews available in English and German.',
 
     about_title: 'Background',
     about_p1: 'ThaiHelper was built by a family of four who moved from Europe to Thailand in December 2024. Like most expat families with children, one of the first things they needed was a nanny — and finding one took weeks of chaotic Facebook threads and unanswered agency enquiries.',
@@ -124,7 +124,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_faq: 'FAQ', footer_press: 'Press',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labour and immigration laws is the sole responsibility of the users.',
   },
 
   th: {

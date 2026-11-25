@@ -147,7 +147,7 @@ export function getOrganizationSchema() {
     alternateName: 'Thai Helper',
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
-    description: 'ThaiHelper is Thailand\'s free direct-connection platform for household staff. Helpers create their own profiles; families browse and message helpers directly. ThaiHelper provides the listings and messaging channel only — it is not an agency, recruiter, or placement service. Covers nannies, housekeepers, chefs, drivers, gardeners, elder caregivers, tutors, and pet sitters across Thailand. No middleman, no placement fees.',
+    description: 'ThaiHelper is Thailand\'s free direct-connection platform for household staff. Helpers create their own profiles; families browse and message helpers directly. ThaiHelper provides the listings and messaging channel only — it is not an agency, recruiter or placement service. Covers nannies, housekeepers, chefs, drivers, gardeners, elder caregivers, tutors and pet sitters across Thailand. No middleman, no placement fees.',
     // Brand disambiguation for Google Knowledge Graph + AI engines.
     // Without this, "ThaiHelper" was routinely confused with two
     // unrelated products that share the name. As of the 2026-06-12
@@ -164,7 +164,7 @@ export function getOrganizationSchema() {
       'but entirely different product; (4) the Thai TDAC Arrival Card Helper iOS app ' +
       '(id6758918267), a tourist arrival-card utility. ThaiHelper.app is the only ThaiHelper ' +
       'that connects Thai families and helpers for nanny, housekeeper, chef, driver, ' +
-      'caregiver, tutor, gardener, and pet-sitter roles.',
+      'caregiver, tutor, gardener and pet-sitter roles.',
     foundingDate: '2026-03',
     areaServed: {
       '@type': 'Country',

@@ -25,7 +25,7 @@ const T = {
     footer_product: 'Product', footer_find: 'Benefits', footer_hire: 'Categories', footer_pricing: 'Pricing', footer_employers: 'For Families',
     footer_company: 'Company', footer_contact: 'Contact', footer_line: 'LINE', footer_about: 'About', footer_press: 'Press', footer_faq: 'FAQ',
     footer_legal: 'Legal', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Service',
-    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labor and immigration laws is the sole responsibility of the users.',
+    footer_disclaimer: 'ThaiHelper.app is free to use. We are not a recruitment agency and do not provide placement services. Compliance with Thai labour and immigration laws is the sole responsibility of the users.',
   },
   th: {
     nav_employers: 'สำหรับครอบครัว',
@@ -199,10 +199,10 @@ function TermsEN() {
 
       <h2>2. Who ThaiHelper Is For</h2>
       <p>
-        ThaiHelper welcomes <strong>all families in Thailand</strong> — including international expats, tourists, digital nomads, and local Thai families — who are looking for household help. The platform also serves helpers and service providers seeking work opportunities.
+        ThaiHelper welcomes <strong>all families in Thailand</strong> — including international expats, tourists, digital nomads and local Thai families — who are looking for household help. The platform also serves helpers and service providers seeking work opportunities.
       </p>
       <p>
-        <strong>The work itself must be in Thailand.</strong> Families who live abroad are welcome to look for household help here before or after a move to Thailand, but the position being offered must be located in Thailand. ThaiHelper may not be used to advertise, offer, or enquire about a job in another country, or to recruit anyone for employment abroad — including where the employer would arrange the visa, the work permit, or the flight.
+        <strong>The work itself must be in Thailand.</strong> Families who live abroad are welcome to look for household help here before or after a move to Thailand, but the position being offered must be located in Thailand. ThaiHelper may not be used to advertise, offer or enquire about a job in another country or to recruit anyone for employment abroad — including where the employer would arrange the visa, the work permit or the flight.
       </p>
       <p>
         By registering on ThaiHelper, you confirm that you are at least 18 years of age and that you will use the platform in compliance with all applicable laws.
@@ -210,10 +210,10 @@ function TermsEN() {
 
       <h2>3. Nature of Service — Digital Bulletin Board, Not an Agency</h2>
       <p>
-        ThaiHelper.app is a digital bulletin board that allows users to post profiles and communicate. We do not provide local employment services in Thailand. We are a venue, not an employer, agent, or recruiter. We are not a recruitment agency and do not engage in placement services as defined under Thai law.
+        ThaiHelper.app is a digital bulletin board that allows users to post profiles and communicate. We do not provide local employment services in Thailand. We are a venue, not an employer, agent or recruiter. We are not a recruitment agency and do not engage in placement services as defined under Thai law.
       </p>
       <p>
-        Any agreement between a "Helper" (service provider) and a "Family" (employer) is a private contract to which ThaiHelper.app is not a party. ThaiHelper does not employ, supervise, or control any service providers listed on the platform and accepts no liability arising from any such agreement.
+        Any agreement between a "Helper" (service provider) and a "Family" (employer) is a private contract to which ThaiHelper.app is not a party. ThaiHelper does not employ, supervise or control any service providers listed on the platform and accepts no liability arising from any such agreement.
       </p>
 
       <h2>4. For Service Providers (Helpers)</h2>
@@ -222,18 +222,18 @@ function TermsEN() {
         <li>You are at least 18 years of age.</li>
         <li>All information you provide is accurate and truthful to the best of your knowledge.</li>
         <li>You have the legal right to work in Thailand (appropriate visa or work permit where required).</li>
-        <li>You understand that your profile — including your name, photo, skills, experience, and contact details — will be visible to families on the platform.</li>
-        <li>You are responsible for negotiating and agreeing on your own working conditions, rate, and schedule directly with families.</li>
-        <li>You are solely responsible for your own compliance with Thai immigration and labor laws.</li>
+        <li>You understand that your profile — including your name, photo, skills, experience and contact details — will be visible to families on the platform.</li>
+        <li>You are responsible for negotiating and agreeing on your own working conditions, rate and schedule directly with families.</li>
+        <li>You are solely responsible for your own compliance with Thai immigration and labour laws.</li>
       </ul>
 
       <h2>5. For Families (Employers)</h2>
       <p>By using ThaiHelper to find a service provider, you acknowledge that:</p>
       <ul>
-        <li>ThaiHelper does not conduct background checks, verify identities or credentials, or guarantee the suitability or legal eligibility of any service provider.</li>
-        <li>You are responsible for conducting your own due diligence, including interviews, reference checks, and any applicable legal employment steps.</li>
+        <li>ThaiHelper does not conduct background checks, does not verify identities or credentials and does not guarantee the suitability or legal eligibility of any service provider.</li>
+        <li>You are responsible for conducting your own due diligence, including interviews, reference checks and any applicable legal employment steps.</li>
         <li>Any hiring or working arrangement you enter into is entirely at your own risk and discretion.</li>
-        <li>ThaiHelper accepts no liability for any loss, damage, or injury arising from a service provider found through the platform.</li>
+        <li>ThaiHelper accepts no liability for any loss, damage or injury arising from a service provider found through the platform.</li>
         <li>You are strictly advised to consult with the Thai Department of Employment or a legal professional before formalizing an employment arrangement.</li>
       </ul>
 
@@ -244,25 +244,25 @@ function TermsEN() {
 
       <h2>7. Work Permits &amp; Visas</h2>
       <p>
-        Users acknowledge that working in Thailand is subject to strict regulations under the Thai Labor Act, the Foreign Employment Act, and immigration laws. ThaiHelper.app does not guarantee that any candidate is legally permitted to work in a specific role or that any employer is compliant with applicable labor regulations.
+        Users acknowledge that working in Thailand is subject to strict regulations under the Thai Labour Act, the Foreign Employment Act and immigration laws. ThaiHelper.app does not guarantee that any candidate is legally permitted to work in a specific role or that any employer is compliant with applicable labour regulations.
       </p>
       <p>
-        Compliance with all work permit, visa, and employment regulations under Thai law is the <strong>sole responsibility of the employer and the candidate</strong>. ThaiHelper does not provide legal advice regarding work permits, visas, or employment law.
+        Compliance with all work permit, visa and employment regulations under Thai law is the <strong>sole responsibility of the employer and the candidate</strong>. ThaiHelper does not provide legal advice regarding work permits, visas or employment law.
       </p>
       <p>
-        <strong>Directory &amp; Wizard Disclaimer:</strong> The expert directory and work permit wizard on ThaiHelper provide general information only. ThaiHelper does not endorse, guarantee, or verify the qualifications of any listed professional. Users are solely responsible for verifying credentials and making hiring decisions. ThaiHelper is not liable for the quality, legality, or outcome of any services provided by listed professionals.
+        <strong>Directory &amp; Wizard Disclaimer:</strong> The expert directory and work permit wizard on ThaiHelper provide general information only. ThaiHelper does not endorse, guarantee or verify the qualifications of any listed professional. Users are solely responsible for verifying credentials and making hiring decisions. ThaiHelper is not liable for the quality, legality or outcome of any services provided by listed professionals.
       </p>
 
       <h2>8. Prohibited Use</h2>
       <p>You may not use ThaiHelper to:</p>
       <ul>
-        <li>Post false, misleading, or fraudulent information.</li>
-        <li>Harass, intimidate, or threaten other users.</li>
+        <li>Post false, misleading or fraudulent information.</li>
+        <li>Harass, intimidate or threaten other users.</li>
         <li>Solicit or engage in any illegal activities.</li>
-        <li>Scrape, copy, or distribute platform content without permission.</li>
+        <li>Scrape, copy or distribute platform content without permission.</li>
         <li>Use the platform for any commercial purpose other than finding or offering household services.</li>
-        <li>Advertise, offer, or enquire about a position located outside Thailand, or recruit anyone for employment abroad.</li>
-        <li>Ask a helper for massage, for any other personal or physical service, or for work other than the household work listed in their profile.</li>
+        <li>Advertise, offer or enquire about a position located outside Thailand or recruit anyone for employment abroad.</li>
+        <li>Ask a helper for massage, for any other personal or physical service, or for any work beyond the household work listed in their profile.</li>
       </ul>
 
       <h2>9. Profile Removal</h2>
@@ -272,18 +272,18 @@ function TermsEN() {
 
       <h2>10. Disclaimer of Warranties</h2>
       <p>
-        ThaiHelper is provided "as is" without any warranties, express or implied. We make no guarantees regarding the availability, accuracy, or completeness of the platform or any profiles listed on it. We do not guarantee that you will find work or find a suitable helper through the platform.
+        ThaiHelper is provided "as is" without any warranties, express or implied. We make no guarantees regarding the availability, accuracy or completeness of the platform or any profiles listed on it. We do not guarantee that you will find work or find a suitable helper through the platform.
       </p>
 
       <h2>11. Limitation of Liability</h2>
       <p>
-        To the fullest extent permitted by applicable law, ThaiHelper.app and its operator shall not be held liable for any disputes, legal issues, or damages arising from connections made through the platform. This includes, but is not limited to:
+        To the fullest extent permitted by applicable law, ThaiHelper.app and its operator shall not be held liable for any disputes, legal issues or damages arising from connections made through the platform. This includes, but is not limited to:
       </p>
       <ul>
         <li>The inability to obtain a work permit or visa for any candidate.</li>
-        <li>Any breach of labor laws, immigration laws, or tax obligations by users.</li>
-        <li>Any loss, injury, theft, or damage arising from an employment or service arrangement.</li>
-        <li>Any indirect, incidental, special, or consequential damages arising out of or in connection with the use of this platform.</li>
+        <li>Any breach of labour laws, immigration laws or tax obligations by users.</li>
+        <li>Any loss, injury, theft or damage arising from an employment or service arrangement.</li>
+        <li>Any indirect, incidental, special or consequential damages arising out of or in connection with the use of this platform.</li>
       </ul>
 
       <h2>12. Governing Law</h2>

@@ -22,7 +22,7 @@ const T = {
       'Your profile (name, photo, bio, contact details)',
       'Your messages — both sent and received conversations',
       'Uploaded references, certificates and ID documents',
-      'Favorites, search history, push subscriptions',
+      'Favourites, search history, push subscriptions',
       'LINE Bot link (if linked)',
     ],
     kept_h: 'What we keep — and for how long',

@@ -74,7 +74,7 @@ export default function HelperCard({
 
   const showFavBtn = typeof onToggleFavorite === 'function' && helper.ref;
   const hintText = favoriteHint ||
-    (isFavorite ? (t?.fav_remove || 'Remove from favorites') : (t?.fav_add || 'Save to favorites'));
+    (isFavorite ? (t?.fav_remove || 'Remove from favourites') : (t?.fav_add || 'Save to favourites'));
 
   const clickable = typeof onViewProfile === 'function' && helper.ref;
   // Open the profile modal on card click. The heart button and the CTA

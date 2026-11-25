@@ -11,7 +11,7 @@ export const blogPosts = [
     slug: 'real-thaihelper-reviews-trustpilot-july-2026',
     title: 'What Real Users Say: 6 Trustpilot Reviews for ThaiHelper (2026)',
     description:
-      'Independent Trustpilot reviews from real ThaiHelper helpers and families. Full 5-star to 2-star breakdown, TrustScore 3.9, and what the platform actually delivers according to people who use it.',
+      'Independent Trustpilot reviews from real ThaiHelper helpers and families. Full 5-star to 2-star breakdown, TrustScore 3.9 and what the platform actually delivers according to people who use it.',
     category: 'families',
     date: '2026-07-27',
     readTime: 4,
@@ -60,7 +60,7 @@ export const blogPosts = [
       </p>
 
       <h2>Still deciding whether ThaiHelper is legit?</h2>
-      <p>See our full trust page with the founder story, verification methods, and disambiguation from the several similarly-named apps and sites: <a href="/legit"><strong>Is ThaiHelper legit?</strong></a></p>
+      <p>See our full trust page with the founder story, verification methods and disambiguation from the several similarly-named apps and sites: <a href="/legit"><strong>Is ThaiHelper legit?</strong></a></p>
 
       <h2>Ready to browse helpers?</h2>
       <p>Browse the public helper directory — no signup required to look — at <a href="/helpers"><strong>thaihelper.app/helpers</strong></a>. Register free as a family at <a href="/employer-register">thaihelper.app/employer-register</a>.</p>
@@ -83,7 +83,7 @@ export const blogPosts = [
     slug: 'how-to-hire-a-maid-in-thailand',
     title: 'How to Hire a Maid in Thailand (2026 Guide)',
     description:
-      'Complete guide to hiring a maid or housekeeper in Thailand. Learn about costs, legal requirements, where to find trusted helpers, and how to avoid common mistakes.',
+      'Complete guide to hiring a maid or housekeeper in Thailand. Learn about costs, legal requirements, where to find trusted helpers and how to avoid common mistakes.',
     category: 'families',
     date: '2026-04-10',
     readTime: 8,
@@ -144,13 +144,13 @@ export const blogPosts = [
       <p>Moving to Thailand or finally ready to get some household help? Hiring a maid in Thailand is more affordable than in most countries — but finding <strong>trustworthy, reliable help</strong> can feel overwhelming. This guide walks you through everything you need to know in 2026.</p>
 
       <h2>Why Families in Thailand Hire Household Help</h2>
-      <p>Thailand's cost of living makes domestic help accessible to a much wider range of families than back home. Whether you're an expat in Bangkok, a digital nomad in Chiang Mai, or a Thai family in Phuket — having a part-time or full-time housekeeper is common and culturally normal.</p>
+      <p>Thailand's cost of living makes domestic help accessible to a much wider range of families than back home. Whether you're an expat in Bangkok, a digital nomad in Chiang Mai or a Thai family in Phuket — having a part-time or full-time housekeeper is common and culturally normal.</p>
 
       <h2>Where to Find a Maid in Thailand</h2>
       <p>There are three main ways families find household help:</p>
       <ul>
-        <li><strong>Word of mouth</strong> — Ask neighbors, colleagues, or your condo management. This is how many Thai families hire, but it limits your options.</li>
-        <li><strong>Facebook groups</strong> — Expat groups in Bangkok, Phuket, and Chiang Mai have constant posts. The downside: no verification, no profiles, and lots of spam.</li>
+        <li><strong>Word of mouth</strong> — Ask neighbours, colleagues or your condo management. This is how many Thai families hire, but it limits your options.</li>
+        <li><strong>Facebook groups</strong> — Expat groups in Bangkok, Phuket and Chiang Mai have constant posts. The downside: no verification, no profiles and lots of spam.</li>
         <li><strong>Online platforms like ThaiHelper</strong> — Browse email-verified profiles with experience, skills, languages and photos. Contact helpers directly — no middleman fees.</li>
       </ul>
 
@@ -164,28 +164,28 @@ export const blogPosts = [
       <p>Bangkok and Phuket tend to be on the higher end. Chiang Mai and Isaan are more affordable.</p>
 
       <h2>Legal Requirements</h2>
-      <p>Domestic workers in Thailand are covered under <strong>Ministerial Regulation No. 14 (B.E. 2555)</strong>, which extends key labor protections to household employees. If you hire a Thai national, there are no work permit issues. Here's what the law requires:</p>
+      <p>Domestic workers in Thailand are covered under <strong>Ministerial Regulation No. 14 (B.E. 2555)</strong>, which extends key labour protections to household employees. If you hire a Thai national, there are no work permit issues. Here's what the law requires:</p>
       <ul>
-        <li><strong>Social Security:</strong> If your helper works full-time, you must register them under the Social Security Act (Section 33). Both employer and employee contribute 5% of salary each — covering medical care, maternity, disability, and pension.</li>
+        <li><strong>Social Security:</strong> If your helper works full-time, you must register them under the Social Security Act (Section 33). Both employer and employee contribute 5% of salary each — covering medical care, maternity, disability and pension.</li>
         <li><strong>Rest days:</strong> At least 1 rest day per week (Ministerial Regulation No. 14). Most helpers take Sunday off.</li>
         <li><strong>Annual leave:</strong> At least 6 days of paid annual leave after 1 year of continuous employment.</li>
         <li><strong>Public holidays:</strong> Helpers are entitled to at least 13 paid public holidays per year. If they work on a holiday, overtime pay applies.</li>
         <li><strong>Minimum wage:</strong> Pay at least the provincial minimum wage — currently 370 THB/day in Bangkok/Phuket, 330-370 THB/day in other provinces (2026 rates, adjusted annually by the Wage Committee).</li>
-        <li><strong>Hiring foreign helpers:</strong> If you hire a helper from Myanmar, Laos, or Cambodia, they need a valid work permit (MOU or border pass system). Read our <a href="/blog/work-permits-foreign-helpers-thailand">complete guide to work permits</a>.</li>
+        <li><strong>Hiring foreign helpers:</strong> If you hire a helper from Myanmar, Laos or Cambodia, they need a valid work permit (MOU or border pass system). Read our <a href="/blog/work-permits-foreign-helpers-thailand">complete guide to work permits</a>.</li>
       </ul>
-      <p><em>Note: Thai labor law is updated periodically. Always check the latest rates at the <a href="https://www.mol.go.th" target="_blank" rel="noopener">Ministry of Labour website</a>.</em></p>
+      <p><em>Note: Thai labour law is updated periodically. Always check the latest rates at the <a href="https://www.mol.go.th" target="_blank" rel="noopener">Ministry of Labour website</a>.</em></p>
 
       <h2>Tips for a Successful Hire</h2>
       <ol>
         <li><strong>Check references</strong> — Always ask for and call previous employers.</li>
         <li><strong>Do a trial period</strong> — Start with 1-2 weeks before committing long-term.</li>
-        <li><strong>Set clear expectations</strong> — Write down tasks, schedule, and pay in advance.</li>
+        <li><strong>Set clear expectations</strong> — Write down tasks, schedule and pay in advance.</li>
         <li><strong>Communicate respectfully</strong> — Thai culture values politeness. A good relationship goes both ways.</li>
         <li><strong>Use a platform with verified profiles</strong> — It saves you time and reduces risk.</li>
       </ol>
 
       <h2>Ready to Find Your Perfect Helper?</h2>
-      <p>On <a href="/helpers">ThaiHelper</a>, you can browse verified helper profiles for free. Filter by city, service type, experience, and language. When you find someone you like, simply send them a message.</p>
+      <p>On <a href="/helpers">ThaiHelper</a>, you can browse verified helper profiles for free. Filter by city, service type, experience and language. When you find someone you like, simply send them a message.</p>
       <p><a href="/employer-register">Create your free family account</a> and start browsing today.</p>
 
       <h2>Browse by City</h2>
@@ -212,7 +212,7 @@ export const blogPosts = [
     slug: 'nanny-costs-thailand',
     title: 'Nanny Cost Thailand 2026: Real Rates from 285+ Verified Nannies',
     description:
-      'How much does a nanny cost in Thailand in 2026? Full-time 15–25k THB, part-time 4–8k, live-in 12–18k, premium-tier 28–70k. Salary breakdown by city, hidden costs, 13th-month bonus, Social Security, and true total monthly cost.',
+      'How much does a nanny cost in Thailand in 2026? Full-time 15–25k THB, part-time 4–8k, live-in 12–18k, premium-tier 28–70k. Salary breakdown by city, hidden costs, 13th-month bonus, Social Security and true total monthly cost.',
     category: 'families',
     date: '2026-04-08',
     updated: '2026-08-25',
@@ -223,11 +223,11 @@ export const blogPosts = [
     faq: [
       {
         question: 'How much does it cost to hire a nanny in Thailand in 2026?',
-        answer: 'A full-time nanny in Thailand costs 15,000–25,000 THB per month in Bangkok and 12,000–18,000 THB in smaller cities like Chiang Mai. Live-in nannies earn 12,000–18,000 THB cash plus room and meals. Add about 20–35% to the headline salary for the true total monthly cost once Social Security (5% employer share), 13th-month bonus, transport, and meals are included.',
+        answer: 'A full-time nanny in Thailand costs 15,000–25,000 THB per month in Bangkok and 12,000–18,000 THB in smaller cities like Chiang Mai. Live-in nannies earn 12,000–18,000 THB cash plus room and meals. Add about 20–35% to the headline salary for the true total monthly cost once Social Security (5% employer share), 13th-month bonus, transport and meals are included.',
       },
       {
         question: 'Is a live-in or live-out nanny cheaper in Bangkok?',
-        answer: 'Live-in nannies look cheaper on paper (12,000–18,000 THB vs 15,000–25,000 THB for live-out), but the room, meals, and utilities you provide typically close the gap. In Bangkok the true all-in cost of a live-in nanny is roughly the same as live-out once you count accommodation value. Choose on fit and family routine, not on headline salary.',
+        answer: 'Live-in nannies look cheaper on paper (12,000–18,000 THB vs 15,000–25,000 THB for live-out), but the room, meals and utilities you provide typically close the gap. In Bangkok the true all-in cost of a live-in nanny is roughly the same as live-out once you count accommodation value. Choose on fit and family routine, not on headline salary.',
       },
       {
         question: 'How much more do English-speaking nannies cost in Thailand?',
@@ -239,7 +239,7 @@ export const blogPosts = [
       },
       {
         question: 'What does Social Security add to the total nanny cost?',
-        answer: 'For full-time staff the employer contributes 5% of salary (capped at 750 THB per month) to Thai Social Security under Section 33. On a 20,000 THB salary that is 750 THB per month, or 9,000 THB per year. In return the nanny gets state-funded medical care, maternity, and pension benefits, and the employment relationship becomes formally documented.',
+        answer: 'For full-time staff the employer contributes 5% of salary (capped at 750 THB per month) to Thai Social Security under Section 33. On a 20,000 THB salary that is 750 THB per month or 9,000 THB per year. In return the nanny gets state-funded medical care, maternity and pension benefits, and the employment relationship becomes formally documented.',
       },
     ],
     author: 'ThaiHelper Team',
@@ -290,14 +290,14 @@ export const blogPosts = [
       <p>กับ <a href="/helpers">ThaiHelper</a> ไม่มีค่าธรรมเนียมเอเจนซี่ เลือกดูโปรไฟล์พี่เลี้ยงที่ผ่านการยืนยันได้ฟรี เปรียบเทียบประสบการณ์และอัตราค่าจ้าง แล้วติดต่อพี่เลี้ยงได้โดยตรง <a href="/employer-register">สมัครที่นี่</a> เพื่อเริ่มค้นหา</p>
     `,
     content: `
-      <p>One of the first questions expat families ask when moving to Thailand: <strong>how much does a nanny cost?</strong> Childcare here is significantly more affordable than in Europe, the US, or Australia — but the headline monthly salary is only part of the picture. This guide breaks down 2026 nanny costs by city, by arrangement, and most importantly by <em>true total monthly cost</em> after Social Security, bonuses, and the other items families forget to budget for.</p>
-      <p><em>Last updated: 25 August 2026. Salary figures are sourced from 285+ verified nanny profiles on ThaiHelper (part of 800+ verified helpers on the platform), 2026 job listings, and direct family-employer conversations in Bangkok, Phuket, and Chiang Mai.</em></p>
+      <p>One of the first questions expat families ask when moving to Thailand: <strong>how much does a nanny cost?</strong> Childcare here is significantly more affordable than in Europe, the US, or Australia — but the headline monthly salary is only part of the picture. This guide breaks down 2026 nanny costs by city, by arrangement and most importantly by <em>true total monthly cost</em> after Social Security, bonuses and the other items families forget to budget for.</p>
+      <p><em>Last updated: 25 August 2026. Salary figures are sourced from 285+ verified nanny profiles on ThaiHelper (part of 800+ verified helpers on the platform), 2026 job listings and direct family-employer conversations in Bangkok, Phuket and Chiang Mai.</em></p>
 
       <h2>Quick Answer</h2>
-      <p>In 2026 a full-time nanny in Thailand costs <strong>15,000–25,000 THB per month</strong> in Bangkok and <strong>12,000–18,000 THB</strong> in Chiang Mai. Live-in nannies are 12,000–18,000 cash plus a room and meals. Add roughly <strong>20–35%</strong> for true total cost (Social Security, 13th-month bonus, transport, meals). English-fluent nannies add another <strong>30–50%</strong> to the base. The premium tier — nursing-trained, multilingual, or international-school-experienced nannies — runs <strong>28,000–70,000 THB/month</strong>.</p>
+      <p>In 2026 a full-time nanny in Thailand costs <strong>15,000–25,000 THB per month</strong> in Bangkok and <strong>12,000–18,000 THB</strong> in Chiang Mai. Live-in nannies are 12,000–18,000 cash plus a room and meals. Add roughly <strong>20–35%</strong> for true total cost (Social Security, 13th-month bonus, transport, meals). English-fluent nannies add another <strong>30–50%</strong> to the base. The premium tier — nursing-trained, multilingual or international-school-experienced nannies — runs <strong>28,000–70,000 THB/month</strong>.</p>
 
       <h2>Written by a family who did this themselves</h2>
-      <p>Full transparency on where these numbers come from: we are the family who built <a href="/">ThaiHelper</a>. We moved from Germany to Phuket in late 2024, spent three weeks trying to find a nanny for our two kids through Facebook groups and slow-moving agencies, and eventually built the platform we wished had existed. The salary numbers in this guide are cross-checked against 285+ verified nanny profiles on our own platform (part of 800+ helpers total, serving 100+ families), publicly listed rates from Kiidu, Ayasan and Madawa, and what families and helpers tell us in weekly conversations. If you want to hear directly from families and helpers actually using ThaiHelper today, our <a href="/blog/thaihelper-reviews-real-users-2026">verified Trustpilot reviews</a> are public.</p>
+      <p>Full transparency on where these numbers come from: we are the family who built <a href="/">ThaiHelper</a>. We moved from Germany to Phuket in late 2024, spent three weeks trying to find a nanny for our two kids through Facebook groups and slow-moving agencies, then built the platform we wished had existed. The salary numbers in this guide are cross-checked against 285+ verified nanny profiles on our own platform (part of 800+ helpers total, serving 100+ families), publicly listed rates from Kiidu, Ayasan and Madawa, plus what families and helpers tell us in weekly conversations. If you want to hear directly from families and helpers actually using ThaiHelper today, our <a href="/blog/thaihelper-reviews-real-users-2026">verified Trustpilot reviews</a> are public.</p>
 
       <h2>Real platform data (from 285+ verified nannies on ThaiHelper)</h2>
       <p>Most nanny-cost articles quote the same generic ranges without saying where the numbers come from. Here are the figures we actually see on our own platform in August 2026 — from 285 verified nanny profiles across Thailand:</p>
@@ -373,28 +373,28 @@ export const blogPosts = [
       </ul>
 
       <h2>Premium-Tier Nannies — 28,000 – 70,000 THB/month</h2>
-      <p>A separate segment exists at the top of the market in Bangkok and Phuket. These are the nannies who international-school families, C-suite expats, and high-net-worth Thai families compete for. They cost <strong>28,000 – 70,000 THB per month</strong> — and the upper end is real, not a typo.</p>
+      <p>A separate segment exists at the top of the market in Bangkok and Phuket. These are the nannies who international-school families, C-suite expats and high-net-worth Thai families compete for. They cost <strong>28,000 – 70,000 THB per month</strong> — and the upper end is real, not a typo.</p>
       <p>The profile is usually one of the following:</p>
       <ul>
-        <li><strong>Filipino nanny with nursing-assistant or RN training</strong> — fluent English, hospital experience, comfortable with feeding tubes, medication schedules, newborns, and dietary restrictions. 35,000–55,000 THB/month is the typical range; more for highly qualified candidates with multiple language skills.</li>
+        <li><strong>Filipino nanny with nursing-assistant or RN training</strong> — fluent English, hospital experience, comfortable with feeding tubes, medication schedules, newborns and dietary restrictions. 35,000–55,000 THB/month is the typical range; more for highly qualified candidates with multiple language skills.</li>
         <li><strong>Former international-school early-childhood-education staff</strong> — qualified to design and lead structured play and learning at home. Strong communication with parents. 30,000–45,000 THB.</li>
-        <li><strong>Multilingual nannies</strong> with fluent English plus Mandarin, Japanese, French, or German. 35,000–60,000 THB, depending on language demand.</li>
+        <li><strong>Multilingual nannies</strong> with fluent English plus Mandarin, Japanese, French or German. 35,000–60,000 THB, depending on language demand.</li>
         <li><strong>Live-in 24-hour newborn specialists</strong> ("baby nurses" / postpartum doulas). 45,000–70,000 THB for the first few months after birth, then often transitioning to a regular nanny role at lower salary.</li>
         <li><strong>Travel-with-the-family nannies</strong> who accompany the family on domestic trips and overseas holidays. Base salary plus per-diem; budget 40,000+ THB/month all-in.</li>
       </ul>
-      <p>Recruitment at this level usually happens through international-school parent networks, specialist agencies (placement fee 1–2 months' salary), or direct word-of-mouth from departing expat families. Trial periods are essential — premium nannies who don't click with your specific child still cost premium money.</p>
+      <p>Recruitment at this level usually happens through international-school parent networks, specialist agencies (placement fee 1–2 months' salary) or direct word-of-mouth from departing expat families. Trial periods are essential — premium nannies who don't click with your specific child still cost premium money.</p>
 
       <h2>True Total Monthly Cost (the part most families miss)</h2>
       <p>The headline salary is roughly <strong>70–80%</strong> of what your nanny actually costs you each month. The remaining 20–30% breaks down as:</p>
       <ul>
-        <li><strong>Social Security (Section 33):</strong> 5% employer contribution on full-time staff, capped at THB 750/month. Mandatory. In return your nanny gets state-funded medical care, maternity, and pension benefits — and the relationship becomes formally documented.</li>
+        <li><strong>Social Security (Section 33):</strong> 5% employer contribution on full-time staff, capped at THB 750/month. Mandatory. In return your nanny gets state-funded medical care, maternity and pension benefits — and the relationship becomes formally documented.</li>
         <li><strong>13th-month bonus:</strong> universally expected, paid before Songkran (mid-April) or at Thai New Year. Not legally required, but skipping it is the fastest way to lose a good nanny. Budget one full month's salary divided across the year.</li>
         <li><strong>Transport allowance</strong> (live-out): 500–2,000 THB/month for nannies with a long commute. Particularly important if you need 7 am drop-offs.</li>
         <li><strong>Meals during work hours:</strong> often free at the family's table; otherwise a daily food allowance of ~150 THB.</li>
         <li><strong>Annual leave + paid sick leave:</strong> 6 days minimum by Ministerial Regulation 14 (2012); 10–15 days customary.</li>
         <li><strong>Songkran / New Year gifts:</strong> typically 500–2,000 THB. Optional but expected.</li>
       </ul>
-      <p><strong>Worked example:</strong> a 20,000-THB Bangkok live-out nanny actually costs roughly 25,000–28,000 THB/month all-in once you account for Social Security, the prorated 13th-month bonus, a transport stipend, and meals. Plan around the higher number, not the salary line.</p>
+      <p><strong>Worked example:</strong> a 20,000-THB Bangkok live-out nanny actually costs roughly 25,000–28,000 THB/month all-in once you account for Social Security, the prorated 13th-month bonus, a transport stipend and meals. Plan around the higher number, not the salary line.</p>
 
       <h2>Foreign Nannies — What the Legal Route Actually Costs</h2>
       <p>If you hire a non-Thai citizen, the first question is not cost but whether a permit can be issued at all. Household work is open to foreigners only through Thailand's government-to-government labour MOUs, and those cover <strong>Myanmar, Laos and Cambodia</strong> — though Cambodia has been closed to new workers since November 2025, which leaves Myanmar and Laos in practice. There is no such MOU with the Philippines, so a private family cannot obtain a work permit for a Filipino nanny — the Non-Immigrant B route needs a registered Thai company with 2 million THB of paid-up capital as the employer, which a household is not.</p>
@@ -409,7 +409,7 @@ export const blogPosts = [
 
       <h2>Agency vs Direct Hire — Cost Comparison</h2>
       <p>Recruitment agencies in Thailand typically charge a placement fee of <strong>1–3 months' salary</strong>. For a 20,000-THB nanny in Bangkok, that's 20,000–60,000 THB <em>before she starts</em>. Some include a replacement guarantee; many do not.</p>
-      <p>Hiring directly through a platform like ThaiHelper has <strong>no placement fee</strong>. You browse profiles, interview candidates yourself, and agree on terms directly. The platform provides the listings and the messaging channel — it is not a recruitment agency.</p>
+      <p>Hiring directly through a platform like ThaiHelper has <strong>no placement fee</strong>. You browse profiles, interview candidates yourself and agree on terms directly. The platform provides the listings and the messaging channel — it is not a recruitment agency.</p>
 
       <h2>How to Find a Nanny at a Fair Price</h2>
       <p>Three things make the biggest difference between a fair-priced hire and an expensive one:</p>
@@ -437,7 +437,7 @@ export const blogPosts = [
         <li><a href="/blog/tutor-bangkok-cost-2026"><strong>Tutor Bangkok 2026</strong></a> — 99+ verified Bangkok tutors, 97 % English-speaking, 10+ year experience heavy</li>
       </ul>
 
-      <p><strong>Ready to start?</strong> Browse nanny profiles on <a href="/hire/nanny">ThaiHelper</a> for free — filter by city, languages, experience level. Message nannies directly with no platform fees on either side. The reference checks, interview, and hire decision are entirely yours.</p>
+      <p><strong>Ready to start?</strong> Browse nanny profiles on <a href="/hire/nanny">ThaiHelper</a> for free — filter by city, languages, experience level. Message nannies directly with no platform fees on either side. The reference checks, interview and hire decision are entirely yours.</p>
       <p>Or read the complete hiring guide first: <a href="/guide/hire-a-nanny-in-thailand">How to Hire a Nanny in Thailand — the full 2026 process</a>.</p>
     `,
   },
@@ -446,7 +446,7 @@ export const blogPosts = [
     slug: 'hiring-helper-without-agency-thailand',
     title: 'Hiring a Helper Without an Agency in Thailand — Is It Worth It?',
     description:
-      'Should you use an agency or hire a helper directly in Thailand? Compare costs, pros and cons, and learn how online platforms offer a better alternative.',
+      'Should you use an agency or hire a helper directly in Thailand? Compare the costs and the trade-offs, then see how online platforms offer a better alternative.',
     category: 'families',
     date: '2026-04-05',
     readTime: 7,
@@ -509,7 +509,7 @@ export const blogPosts = [
       <p><a href="/helpers">เลือกดูผู้ช่วยที่ผ่านการยืนยันบน ThaiHelper</a> — เริ่มต้นใช้งานได้ฟรี</p>
     `,
     content: `
-      <p>When you need a housekeeper, nanny, or cook in Thailand, the first thing many people think is: <em>should I use an agency?</em> Agencies offer convenience — but they come with significant costs and limitations. Here's a comparison to help you decide.</p>
+      <p>When you need a housekeeper, nanny or cook in Thailand, the first thing many people think is: <em>should I use an agency?</em> Agencies offer convenience — but they come with significant costs and limitations. Here's a comparison to help you decide.</p>
 
       <h2>The Traditional Agency Route</h2>
       <p><strong>Pros:</strong></p>
@@ -528,7 +528,7 @@ export const blogPosts = [
       </ul>
 
       <h2>Hiring Directly Through Facebook Groups</h2>
-      <p>This is how many expats in Bangkok, Phuket, and Chiang Mai try first. It's free, but:</p>
+      <p>This is how many expats in Bangkok, Phuket and Chiang Mai try first. It's free, but:</p>
       <ul>
         <li>No verification — anyone can post</li>
         <li>No structured profiles</li>
@@ -539,7 +539,7 @@ export const blogPosts = [
       <h2>The Platform Approach: Best of Both Worlds</h2>
       <p>Online platforms like <strong>ThaiHelper</strong> combine the safety of agencies with the affordability of direct hiring:</p>
       <ul>
-        <li><strong>Email-verified profiles</strong> — every helper confirms their email before going live, with detailed experience, skills, and photos</li>
+        <li><strong>Email-verified profiles</strong> — every helper confirms their email before going live, with detailed experience, skills and photos</li>
         <li><strong>No placement fee</strong> — Browse for free, contact directly</li>
         <li><strong>Large pool</strong> — Compare dozens of candidates in your city</li>
         <li><strong>Direct communication</strong> — Talk to the helper yourself, agree on terms without a middleman</li>
@@ -558,7 +558,7 @@ export const blogPosts = [
       </table>
 
       <h2>Our Recommendation</h2>
-      <p>Unless you have very specific needs (e.g. a Mandarin-speaking live-in nanny with medical training), you don't need an agency. A verified platform gives you more choice, more transparency, and saves you thousands of baht.</p>
+      <p>Unless you have very specific needs (e.g. a Mandarin-speaking live-in nanny with medical training), you don't need an agency. A verified platform gives you more choice, more transparency and saves you thousands of baht.</p>
       <p><a href="/helpers">Browse verified helpers on ThaiHelper</a> — it's free to get started.</p>
     `,
   },
@@ -567,7 +567,7 @@ export const blogPosts = [
     slug: 'questions-to-ask-when-hiring-helper-thailand',
     title: '15 Questions to Ask When Hiring a Household Helper in Thailand',
     description:
-      'Essential interview questions for hiring a maid, nanny, or cook in Thailand. Make sure you find the right fit for your family with these proven questions.',
+      'Essential interview questions for hiring a maid, nanny or cook in Thailand. Make sure you find the right fit for your family with these proven questions.',
     category: 'families',
     date: '2026-04-01',
     readTime: 6,
@@ -650,7 +650,7 @@ export const blogPosts = [
       </ol>
 
       <h2>Bonus Tip: Do a Working Interview</h2>
-      <p>Instead of just talking, invite the helper for a paid half-day trial. Watch how they interact with your kids, clean, or cook. It tells you more than any question ever could.</p>
+      <p>Instead of just talking, invite the helper for a paid half-day trial. Watch how they interact with your kids, clean or cook. It tells you more than any question ever could.</p>
 
       <p>Looking for helpers to interview? <a href="/helpers">Browse verified profiles on ThaiHelper</a> and find someone who matches your family's needs.</p>
     `,
@@ -660,7 +660,7 @@ export const blogPosts = [
     slug: 'expat-guide-domestic-help-bangkok',
     title: 'Expat Guide: Finding Reliable Domestic Help in Bangkok (2026)',
     description:
-      'New to Bangkok? Expat guide to finding maids, nannies, cooks, and drivers — real 2026 rates, neighborhood-by-neighborhood availability, and cultural tips. Data from 400+ verified helpers in Bangkok.',
+      'New to Bangkok? Expat guide to finding maids, nannies, cooks and drivers — real 2026 rates, neighbourhood-by-neighbourhood availability and cultural tips. Data from 400+ verified helpers in Bangkok.',
     category: 'families',
     date: '2026-03-28',
     updated: '2026-09-09',
@@ -715,34 +715,34 @@ export const blogPosts = [
       <p><a href="/employer-register">สร้างบัญชีฟรี</a> แล้วหาผู้ช่วยที่ใช่สำหรับคุณวันนี้</p>
     `,
     content: `
-      <p>Bangkok is one of the most popular expat destinations in the world — and one of the best places to find affordable, skilled household help. Whether you need a nanny for your toddler, a housekeeper for your condo, or a private cook for dinner parties, this guide has you covered.</p>
-      <p><em>Updated 9 September 2026. All availability and pricing below is cross-checked against 412 verified helpers currently listed in Bangkok on ThaiHelper — 150 nannies, 136 housekeepers, 97 drivers, 111 elder-care specialists, 99 tutors, 60 chefs, and 109 pet-sitters.</em></p>
+      <p>Bangkok is one of the most popular expat destinations in the world — and one of the best places to find affordable, skilled household help. Whether you need a nanny for your toddler, a housekeeper for your condo or a private cook for dinner parties, this guide has you covered.</p>
+      <p><em>Updated 9 September 2026. All availability and pricing below is cross-checked against 412 verified helpers currently listed in Bangkok on ThaiHelper — 150 nannies, 136 housekeepers, 97 drivers, 111 elder-care specialists, 99 tutors, 60 chefs and 109 pet-sitters.</em></p>
 
       <h2>Types of Household Help Available in Bangkok</h2>
       <ul>
-        <li><strong>Housekeeper / Maid</strong> — Cleaning, laundry, ironing, organizing. Part-time (2-3x/week) or full-time.</li>
+        <li><strong>Housekeeper / Maid</strong> — Cleaning, laundry, ironing, organising. Part-time (2-3x/week) or full-time.</li>
         <li><strong>Nanny / Babysitter</strong> — Childcare, school pickup, activities. English-speaking nannies are in high demand.</li>
-        <li><strong>Private Chef / Cook</strong> — Thai, Western, or fusion cooking. Some families hire a cook just for weekday dinners.</li>
+        <li><strong>Private Chef / Cook</strong> — Thai, Western or fusion cooking. Some families hire a cook just for weekday dinners.</li>
         <li><strong>Driver / Chauffeur</strong> — Navigating Bangkok traffic is a job in itself. Many families hire a full-time driver.</li>
         <li><strong>Gardener & Pool Care</strong> — Common for villa owners in suburbs or on the outskirts of Bangkok.</li>
-        <li><strong>Elder Care</strong> — Specialized helpers for aging parents, increasingly in demand.</li>
+        <li><strong>Elder Care</strong> — Specialised helpers for ageing parents, increasingly in demand.</li>
       </ul>
 
       <h2>Where Expats in Bangkok Find Help</h2>
       <p>The expat community in Bangkok is huge, and everyone has an opinion on where to find help:</p>
       <ul>
         <li><strong>Facebook groups</strong> — "Bangkok Expats", "Bangkok Mums", "Farang in Bangkok" all have helper posts. Very hit-or-miss.</li>
-        <li><strong>Condo notice boards</strong> — Some helpers leave their number at popular buildings in Sukhumvit, Sathorn, and Silom.</li>
-        <li><strong>Agencies</strong> — Several Bangkok agencies specialize in English-speaking staff. Expect to pay 20,000-50,000 THB placement fee.</li>
-        <li><strong>ThaiHelper.app</strong> — The modern alternative. Browse verified profiles, filter by neighborhood, language, and service type. No middleman.</li>
+        <li><strong>Condo notice boards</strong> — Some helpers leave their number at popular buildings in Sukhumvit, Sathorn and Silom.</li>
+        <li><strong>Agencies</strong> — Several Bangkok agencies specialise in English-speaking staff. Expect to pay 20,000-50,000 THB placement fee.</li>
+        <li><strong>ThaiHelper.app</strong> — The modern alternative. Browse verified profiles, filter by neighbourhood, language and service type. No middleman.</li>
       </ul>
 
-      <h2>Bangkok Neighborhoods & What to Expect</h2>
+      <h2>Bangkok Neighbourhoods & What to Expect</h2>
       <p>Helper availability and pricing varies by area:</p>
       <ul>
         <li><strong>Sukhumvit (Thonglor, Ekkamai, Phrom Phong)</strong> — Most expat-dense area. High demand = higher prices. Many English-speaking helpers available.</li>
         <li><strong>Sathorn / Silom</strong> — Corporate expat area. Good availability, slightly lower prices than Sukhumvit.</li>
-        <li><strong>Ari / Ratchathewi</strong> — Growing expat neighborhood. More affordable, but fewer English speakers.</li>
+        <li><strong>Ari / Ratchathewi</strong> — Growing expat neighbourhood. More affordable, but fewer English speakers.</li>
         <li><strong>Bang Na / Bearing</strong> — Outer Bangkok suburbs. Much more affordable. Most helpers speak Thai only.</li>
       </ul>
 
@@ -751,7 +751,7 @@ export const blogPosts = [
         <li><strong>Be polite and patient</strong> — "Kreng jai" (consideration for others) is core to Thai culture. A gentle approach gets better results than demanding one.</li>
         <li><strong>Give clear instructions</strong> — Don't assume your helper knows Western cleaning standards or routines. Show, don't just tell.</li>
         <li><strong>Pay on time, every time</strong> — Many helpers support extended families. Late payment causes real hardship.</li>
-        <li><strong>Respect holidays</strong> — Songkran, Chinese New Year, and Buddhist holidays matter. Be flexible.</li>
+        <li><strong>Respect holidays</strong> — Songkran, Chinese New Year and Buddhist holidays matter. Be flexible.</li>
         <li><strong>Build a relationship</strong> — The best employer-helper relationships in Thailand are built on mutual respect, not just transactions.</li>
       </ol>
 
@@ -768,7 +768,7 @@ export const blogPosts = [
     title: 'How to Create a Helper Profile That Gets You Hired',
     title_th: 'วิธีสร้างโปรไฟล์ผู้ช่วยที่ทำให้คุณได้งาน',
     description:
-      'Tips for nannies, housekeepers, and domestic helpers in Thailand to create a standout profile that attracts families. Get more job offers with these simple steps.',
+      'Tips for nannies, housekeepers and domestic helpers in Thailand to create a standout profile that attracts families. Get more job offers with these simple steps.',
     description_th:
       'เคล็ดลับสำหรับพี่เลี้ยง แม่บ้าน และผู้ช่วยในประเทศไทย เพื่อสร้างโปรไฟล์ที่โดดเด่นและดึงดูดครอบครัว รับข้อเสนองานมากขึ้นด้วยขั้นตอนง่ายๆ',
     category: 'helpers',
@@ -795,7 +795,7 @@ export const blogPosts = [
       <ol>
         <li><strong>Who are you?</strong> — "I'm a professional nanny with 6 years of experience caring for children aged 0-5."</li>
         <li><strong>What makes you special?</strong> — "I speak fluent English and Thai, and I'm certified in first aid."</li>
-        <li><strong>What do you offer?</strong> — "I can help with childcare, light cooking, and school pickup."</li>
+        <li><strong>What do you offer?</strong> — "I can help with childcare, light cooking and school pickup."</li>
       </ol>
       <p>Keep it concise — 3-4 sentences is perfect.</p>
 
@@ -803,7 +803,7 @@ export const blogPosts = [
       <p>Don't be modest. If you can do it, list it:</p>
       <ul>
         <li>Cooking (Thai, Western, healthy meals for kids)</li>
-        <li>Driving (mention if you have a license)</li>
+        <li>Driving (mention if you have a licence)</li>
         <li>Languages (especially English, Mandarin, Japanese, Russian)</li>
         <li>First aid certification</li>
         <li>Pet care experience</li>
@@ -811,11 +811,11 @@ export const blogPosts = [
       </ul>
 
       <h2>4. Be Specific About Your Experience</h2>
-      <p>Instead of "3 years experience", write: <em>"3 years caring for twin boys aged 2-5 in an expat family in Sukhumvit. Duties included meals, school pickup, bath time, and bedtime routine."</em></p>
+      <p>Instead of "3 years experience", write: <em>"3 years caring for twin boys aged 2-5 in an expat family in Sukhumvit. Duties included meals, school pickup, bath time and bedtime routine."</em></p>
       <p>Specific details build trust. Families can picture you in their home.</p>
 
       <h2>5. Set the Right Location</h2>
-      <p>Families search by city. Make sure your profile shows the correct area — Bangkok, Chiang Mai, Phuket, Pattaya, or Koh Samui. If you're willing to work in multiple areas, mention this in your description.</p>
+      <p>Families search by city. Make sure your profile shows the correct area — Bangkok, Chiang Mai, Phuket, Pattaya or Koh Samui. If you're willing to work in multiple areas, mention this in your description.</p>
 
       <h2>6. Keep Your Profile Updated</h2>
       <p>Log in regularly and update your availability. Families prefer helpers who are active on the platform. An outdated profile = missed opportunities.</p>
@@ -875,7 +875,7 @@ export const blogPosts = [
     title: 'Your Rights as a Household Helper in Thailand',
     title_th: 'สิทธิของคุณในฐานะผู้ช่วยในครัวเรือนในประเทศไทย',
     description:
-      'Know your rights as a domestic worker in Thailand. Learn about minimum wage, rest days, social security, and what employers must provide by law.',
+      'Know your rights as a domestic worker in Thailand. Learn about minimum wage, rest days, social security and what employers must provide by law.',
     description_th:
       'รู้สิทธิของคุณในฐานะแรงงานในบ้านในประเทศไทย เรียนรู้เรื่องค่าแรงขั้นต่ำ วันหยุด ประกันสังคม และสิ่งที่นายจ้างต้องจัดให้ตามกฎหมาย',
     category: 'helpers',
@@ -886,7 +886,7 @@ export const blogPosts = [
     keywords: 'domestic helper rights Thailand, maid labor law Thailand, household worker rights, minimum wage helper Thailand',
     keywords_th: 'สิทธิแม่บ้านไทย, กฎหมายแรงงานแม่บ้าน, สิทธิคนงานในบ้าน, ค่าแรงขั้นต่ำผู้ช่วย',
     content: `
-      <p>Working as a household helper in Thailand can be a great job — but it's important to <strong>know your rights</strong>. Since 2012, <strong>Ministerial Regulation No. 14 (B.E. 2555)</strong> extended key labor protections specifically to domestic workers. Here's what you're legally entitled to.</p>
+      <p>Working as a household helper in Thailand can be a great job — but it's important to <strong>know your rights</strong>. Since 2012, <strong>Ministerial Regulation No. 14 (B.E. 2555)</strong> extended key labour protections specifically to domestic workers. Here's what you're legally entitled to.</p>
 
       <h2>Minimum Wage</h2>
       <p>Thailand's minimum wage is set by the National Wage Committee and adjusted periodically. Current rates (2026):</p>
@@ -896,7 +896,7 @@ export const blogPosts = [
         <li><strong>Phuket:</strong> 370 THB/day</li>
         <li><strong>Other provinces:</strong> 330-370 THB/day</li>
       </ul>
-      <p>For full-time live-out helpers working 26 days/month, this means a minimum of approximately <strong>9,100-9,600 THB/month</strong>. Many experienced helpers earn significantly more — especially those with English skills or specialized experience.</p>
+      <p>For full-time live-out helpers working 26 days/month, this means a minimum of approximately <strong>9,100-9,600 THB/month</strong>. Many experienced helpers earn significantly more — especially those with English skills or specialised experience.</p>
       <p><em>Tip: Check the latest rates at the <a href="https://www.mol.go.th" target="_blank" rel="noopener">Ministry of Labour website</a>. Rates are typically reviewed every 1-2 years.</em></p>
 
       <h2>Rest Days & Leave</h2>
@@ -1020,10 +1020,10 @@ export const blogPosts = [
       <p>Thailand's demand for skilled nannies is growing — especially among expat families. But what exactly are families looking for? Here are the <strong>10 most in-demand nanny skills</strong> based on what employers on ThaiHelper search for most.</p>
 
       <h2>1. English Communication</h2>
-      <p>The #1 skill expat families look for. You don't need to be perfect, but you should be able to communicate about the child's day, meals, and any concerns. Even basic conversational English gives you a huge advantage.</p>
+      <p>The #1 skill expat families look for. You don't need to be perfect, but you should be able to communicate about the child's day, meals and any concerns. Even basic conversational English gives you a huge advantage.</p>
 
       <h2>2. Experience with Young Children (0-5 years)</h2>
-      <p>Most families hiring nannies have young children. Experience with feeding, diaper changing, sleep routines, and developmental activities is essential.</p>
+      <p>Most families hiring nannies have young children. Experience with feeding, diaper changing, sleep routines and developmental activities is essential.</p>
 
       <h2>3. First Aid & Safety Knowledge</h2>
       <p>Knowing what to do in an emergency — choking, falls, allergic reactions — matters enormously to parents. A first aid certificate (even a free online one) makes your profile stand out.</p>
@@ -1032,22 +1032,22 @@ export const blogPosts = [
       <p>Many families want a nanny who can prepare healthy meals and snacks for kids. If you can cook both Thai and simple Western meals (pasta, sandwiches, scrambled eggs), mention it.</p>
 
       <h2>5. Patience and Calmness</h2>
-      <p>Toddlers test everyone's patience. Families look for nannies who stay calm, kind, and consistent — even when kids are having a bad day.</p>
+      <p>Toddlers test everyone's patience. Families look for nannies who stay calm, kind and consistent — even when kids are having a bad day.</p>
 
       <h2>6. Reliability and Punctuality</h2>
-      <p>This sounds basic, but it's the #1 complaint families have. Being on time, every time, and showing up consistently is worth more than any certificate.</p>
+      <p>This sounds basic, but it's the #1 complaint families have. Being on time, every time and showing up consistently is worth more than any certificate.</p>
 
       <h2>7. Light Housekeeping</h2>
-      <p>Most nanny jobs include some tidying — children's laundry, keeping the play area clean, washing dishes after meals. Families love it when a nanny keeps things organized without being asked.</p>
+      <p>Most nanny jobs include some tidying — children's laundry, keeping the play area clean, washing dishes after meals. Families love it when a nanny keeps things organised without being asked.</p>
 
       <h2>8. Educational Activities</h2>
       <p>Can you read stories, do crafts, teach basic numbers or letters? Families increasingly want nannies who can provide <em>enriching</em> activities, not just supervision.</p>
 
       <h2>9. Flexibility</h2>
-      <p>Sometimes plans change — a work meeting runs late, travel dates shift, or a child is sick. Nannies who can adapt earn loyalty and better pay.</p>
+      <p>Sometimes plans change — a work meeting runs late, travel dates shift or a child is sick. Nannies who can adapt earn loyalty and better pay.</p>
 
       <h2>10. Honesty and Trustworthiness</h2>
-      <p>Families are inviting you into their home. Trust is everything. Being honest about mistakes, transparent about the child's day, and respectful of the family's privacy are non-negotiable.</p>
+      <p>Families are inviting you into their home. Trust is everything. Being honest about mistakes, transparent about the child's day and respectful of the family's privacy are non-negotiable.</p>
 
       <h2>How to Showcase These Skills</h2>
       <p>When creating your <a href="/register">ThaiHelper profile</a>, mention specific examples for each skill you have. Instead of "good with kids," write "5 years caring for toddlers, prepared daily meals, managed school pickup." Specifics get you hired.</p>
@@ -1095,7 +1095,7 @@ export const blogPosts = [
     title: 'How to Negotiate Your Salary as a Helper in Thailand',
     title_th: 'วิธีเจรจาเงินเดือนในฐานะผู้ช่วยในประเทศไทย',
     description:
-      'Salary negotiation tips for domestic helpers, nannies, and housekeepers in Thailand. Learn what to say, when to ask, and how to know your worth.',
+      'Salary negotiation tips for domestic helpers, nannies and housekeepers in Thailand. Learn what to say, when to ask and how to know your worth.',
     description_th:
       'เคล็ดลับการเจรจาเงินเดือนสำหรับแม่บ้าน พี่เลี้ยง และผู้ช่วยในประเทศไทย เรียนรู้ว่าควรพูดอะไร เมื่อไหร่ควรถาม และรู้คุณค่าของตัวเอง',
     category: 'helpers',
@@ -1129,9 +1129,9 @@ export const blogPosts = [
       <h2>How to Ask — The Right Way</h2>
       <ol>
         <li><strong>Be confident, not aggressive.</strong> Say: "Based on my experience and the responsibilities of this position, I believe [amount] is fair."</li>
-        <li><strong>Focus on value.</strong> Instead of "I need more money," try: "I speak English, have 4 years of nanny experience, and can also help with cooking — I'd like this reflected in the salary."</li>
-        <li><strong>Be open to benefits.</strong> If the family can't raise the salary, ask about transportation allowance, meals, or an annual bonus.</li>
-        <li><strong>Put it in writing.</strong> Once you agree, have a simple written agreement with salary, schedule, duties, and rest days.</li>
+        <li><strong>Focus on value.</strong> Instead of "I need more money," try: "I speak English, have 4 years of nanny experience and can also help with cooking — I'd like this reflected in the salary."</li>
+        <li><strong>Be open to benefits.</strong> If the family can't raise the salary, ask about transportation allowance, meals or an annual bonus.</li>
+        <li><strong>Put it in writing.</strong> Once you agree, have a simple written agreement with salary, schedule, duties and rest days.</li>
       </ol>
 
       <h2>What NOT to Do</h2>
@@ -1143,7 +1143,7 @@ export const blogPosts = [
       </ul>
 
       <h2>Your Profile = Your Leverage</h2>
-      <p>Families pay more for helpers with detailed profiles, strong references from previous employers, and clear evidence of experience. The better your <a href="/register">ThaiHelper profile</a> (photo, full work history, skills, languages), the more bargaining power you have. Invest time in your profile — it pays off literally.</p>
+      <p>Families pay more for helpers with detailed profiles, strong references from previous employers and clear evidence of experience. The better your <a href="/register">ThaiHelper profile</a> (photo, full work history, skills, languages), the more bargaining power you have. Invest time in your profile — it pays off literally.</p>
     `,
     content_th: `
       <p>ผู้ช่วยหลายคนในไทยรับข้อเสนอแรกโดยไม่เจรจา แต่การรู้<strong>วิธีพูดเรื่องเงิน</strong>อาจหมายถึงเงินเดือนที่มากขึ้นหลายพันบาทต่อเดือน — และความสัมพันธ์ในการทำงานที่ดีขึ้น</p>
@@ -1192,7 +1192,7 @@ export const blogPosts = [
     title: 'How to Build Your Reputation and Get More Jobs in Thailand',
     title_th: 'วิธีสร้างชื่อเสียงและรับงานมากขึ้นในประเทศไทย',
     description:
-      'Grow your career as a domestic helper in Thailand. Learn how to build trust with families, earn strong references, and get more job offers through your reputation.',
+      'Grow your career as a domestic helper in Thailand. Learn how to build trust with families, earn strong references and get more job offers through your reputation.',
     description_th:
       'เติบโตในอาชีพผู้ช่วยในครัวเรือนในไทย เรียนรู้วิธีสร้างความไว้วางใจกับครอบครัว ได้รับการแนะนำที่ดี และรับข้อเสนองานมากขึ้นผ่านชื่อเสียง',
     category: 'helpers',
@@ -1203,10 +1203,10 @@ export const blogPosts = [
     keywords: 'build reputation helper Thailand, get more jobs helper, domestic worker career, helper references Thailand, grow career household staff',
     keywords_th: 'สร้างชื่อเสียงผู้ช่วย, รับงานมากขึ้น, อาชีพแม่บ้าน, การแนะนำผู้ช่วยไทย, เติบโตในอาชีพ',
     content: `
-      <p>In Thailand's household help market, <strong>reputation is everything</strong>. Families talk to each other. Recommendations spread. A strong reputation means more offers, better pay, and the ability to choose the families you want to work for.</p>
+      <p>In Thailand's household help market, <strong>reputation is everything</strong>. Families talk to each other. Recommendations spread. A strong reputation means more offers, better pay and the ability to choose the families you want to work for.</p>
 
       <h2>Why Reputation Matters More Than Ever</h2>
-      <p>Helpers have always relied on word of mouth — a happy family becomes your best advertisement, telling friends and neighbors. Today, platforms like ThaiHelper let you build a <strong>structured profile with your experience, skills and photos</strong>, so the next family can find you before they ever start asking around. Your online presence works for you 24/7.</p>
+      <p>Helpers have always relied on word of mouth — a happy family becomes your best advertisement, telling friends and neighbours. Today, platforms like ThaiHelper let you build a <strong>structured profile with your experience, skills and photos</strong>, so the next family can find you before they ever start asking around. Your online presence works for you 24/7.</p>
 
       <h2>7 Ways to Build a Great Reputation</h2>
 
@@ -1214,10 +1214,10 @@ export const blogPosts = [
       <p>Nothing destroys trust faster than being late or not showing up. If you say you'll be there at 8am, be there at 7:55. If you're sick, communicate early. Reliability is the foundation.</p>
 
       <h3>2. Go Above and Beyond (Sometimes)</h3>
-      <p>You don't need to overwork yourself, but small extras make a big impression: folding the laundry a little neater, surprising the kids with their favorite snack, or noticing that the plants need water. These moments get remembered — and mentioned when families recommend you to their friends.</p>
+      <p>You don't need to overwork yourself, but small extras make a big impression: folding the laundry a little neater, surprising the kids with their favourite snack or noticing that the plants need water. These moments get remembered — and mentioned when families recommend you to their friends.</p>
 
       <h3>3. Communicate Proactively</h3>
-      <p>Don't wait for families to ask. Tell them about the child's day, if you noticed anything unusual, or if supplies are running low. Families appreciate helpers who communicate without being prompted.</p>
+      <p>Don't wait for families to ask. Tell them about the child's day, if you noticed anything unusual or if supplies are running low. Families appreciate helpers who communicate without being prompted.</p>
 
       <h3>4. Ask Families to Recommend You</h3>
       <p>After a job ends well (or during a long-term position), politely ask: <em>"If you know any family looking for help, would you mind passing along my name?"</em> Most families are happy to help — they just need the nudge. In Thailand, word of mouth between expats and Thai families travels fast.</p>
@@ -1229,7 +1229,7 @@ export const blogPosts = [
       <p>Never borrow money from employers. Agree on pay before starting. Don't ask for advances unless it's an emergency. Financial professionalism builds deep trust.</p>
 
       <h3>7. Handle Problems Gracefully</h3>
-      <p>Things go wrong sometimes — you break a glass, the child gets a scrape, you misunderstand an instruction. How you handle mistakes matters more than the mistake itself. Be honest, apologize, and fix it. Families respect integrity.</p>
+      <p>Things go wrong sometimes — you break a glass, the child gets a scrape, you misunderstand an instruction. How you handle mistakes matters more than the mistake itself. Be honest, apologise and fix it. Families respect integrity.</p>
 
       <h2>The Compound Effect</h2>
       <p>Every family that recommends you, every skill you add, every reliable shift — it all compounds. After 6-12 months of building your reputation, you'll find that families come to <em>you</em> instead of the other way around.</p>
@@ -1280,7 +1280,7 @@ export const blogPosts = [
     slug: 'work-permits-foreign-helpers-thailand',
     title: 'Work Permits for Foreign Helpers in Thailand: Complete Guide',
     description:
-      'Everything families need to know about hiring foreign domestic helpers from Myanmar, Laos, or Cambodia in Thailand — MOU process, border passes, costs, and legal requirements.',
+      'Everything families need to know about hiring foreign domestic helpers from Myanmar, Laos or Cambodia in Thailand — MOU process, border passes, costs and legal requirements.',
     category: 'families',
     date: '2026-04-14',
     readTime: 10,
@@ -1363,7 +1363,7 @@ export const blogPosts = [
       <p>บน <a href="/helpers">ThaiHelper</a> คุณสามารถหาทั้งผู้ช่วยชาวไทยและผู้ช่วยชาวต่างชาติที่มีเอกสารถูกต้องพร้อมโปรไฟล์ที่ผ่านการยืนยัน <a href="/employer-register">สร้างบัญชีฟรี</a> เพื่อเริ่มเรียกดู</p>
     `,
     content: `
-      <p>Many families in Thailand — both Thai and expat — hire helpers from <strong>Myanmar, Laos, or Cambodia</strong>. These workers often bring years of experience and strong work ethics. But hiring foreign helpers legally requires navigating Thailand's work permit system. This guide breaks it down.</p>
+      <p>Many families in Thailand — both Thai and expat — hire helpers from <strong>Myanmar, Laos or Cambodia</strong>. These workers often bring years of experience and strong work ethics. But hiring foreign helpers legally requires navigating Thailand's work permit system. This guide breaks it down.</p>
 
       <h2>Why Families Hire Foreign Helpers</h2>
       <p>Foreign domestic workers, particularly from Myanmar, make up a significant portion of Thailand's household workforce. Reasons include:</p>
@@ -1377,12 +1377,12 @@ export const blogPosts = [
       <h2>The Two Legal Pathways</h2>
 
       <h3>1. MOU (Memorandum of Understanding) System</h3>
-      <p>The MOU system is the official, government-to-government process for bringing workers from Myanmar, Laos, and Cambodia into Thailand legally.</p>
+      <p>The MOU system is the official, government-to-government process for bringing workers from Myanmar, Laos and Cambodia into Thailand legally.</p>
       <p><strong>How it works:</strong></p>
       <ol>
         <li>You (or a licensed recruitment agency) submit a demand letter to the <strong>Department of Employment</strong></li>
         <li>The demand letter is forwarded to the worker's home country</li>
-        <li>The worker is recruited, undergoes medical checks, and receives a passport</li>
+        <li>The worker is recruited, undergoes medical checks and receives a passport</li>
         <li>A 2-year work permit is issued (renewable for another 2 years)</li>
         <li>The worker enters Thailand legally with a Non-Immigrant LA visa</li>
       </ol>
@@ -1393,7 +1393,7 @@ export const blogPosts = [
       <p>For workers already in Thailand, the government periodically opens <strong>registration windows</strong> allowing undocumented workers to register for temporary work permits (often called "pink cards").</p>
       <p><strong>Requirements:</strong></p>
       <ul>
-        <li>Worker must be from Myanmar, Laos, or Cambodia</li>
+        <li>Worker must be from Myanmar, Laos or Cambodia</li>
         <li>Employer must register the worker at the local Employment Office</li>
         <li>Medical examination required</li>
         <li>Work permit is typically valid for 1-2 years</li>
@@ -1420,15 +1420,15 @@ export const blogPosts = [
 
       <h2>Practical Tips</h2>
       <ol>
-        <li><strong>Use a licensed agency</strong> — For MOU workers, a licensed recruitment agency handles the paperwork. Verify their license at the Department of Employment.</li>
+        <li><strong>Use a licensed agency</strong> — For MOU workers, a licensed recruitment agency handles the paperwork. Verify their licence at the Department of Employment.</li>
         <li><strong>Keep copies of all documents</strong> — Work permit, passport copy, visa, medical certificates. You'll need these for renewals and inspections.</li>
         <li><strong>Set calendar reminders for renewals</strong> — Work permits and visas expire. Late renewal means starting over.</li>
         <li><strong>Learn basic phrases in their language</strong> — Even a few words in Myanmar/Khmer/Lao goes a long way in building trust.</li>
-        <li><strong>Treat them fairly</strong> — Foreign helpers are far from home. Fair pay, rest days, and respectful treatment aren't just legal requirements — they're the right thing to do.</li>
+        <li><strong>Treat them fairly</strong> — Foreign helpers are far from home. Fair pay, rest days and respectful treatment aren't just legal requirements — they're the right thing to do.</li>
       </ol>
 
       <h2>Frequently Asked Questions</h2>
-      <p><strong>Can I hire a helper from the Philippines or Indonesia?</strong><br/>Not for household work. Thailand's domestic-worker MOUs cover Myanmar, Laos and Cambodia only (and Cambodia has been closed to new workers since November 2025), while the Non-Immigrant B alternative requires the employer to be a registered Thai company with 2 million THB of paid-up capital — a household is not that. So there is no permit a private family can obtain for a Filipino or Indonesian helper. The same applies to Vietnamese nationals: Vietnam is inside the wider CLMV labour framework, but for fishery and construction, not household work. Narrow exceptions exist for diplomatic households, BOI-promoted employers, and genuinely skilled tutor or household-manager roles under a registered Thai employer — those need a Thai immigration lawyer.</p>
+      <p><strong>Can I hire a helper from the Philippines or Indonesia?</strong><br/>Not for household work. Thailand's domestic-worker MOUs cover Myanmar, Laos and Cambodia only (and Cambodia has been closed to new workers since November 2025), while the Non-Immigrant B alternative requires the employer to be a registered Thai company with 2 million THB of paid-up capital — a household is not that. So there is no permit a private family can obtain for a Filipino or Indonesian helper. The same applies to Vietnamese nationals: Vietnam is inside the wider CLMV labour framework, but for fishery and construction, not household work. Narrow exceptions exist for diplomatic households, BOI-promoted employers and genuinely skilled tutor or household-manager roles under a registered Thai employer — those need a Thai immigration lawyer.</p>
       <p><strong>Can a foreign helper drive for us?</strong><br/>No. Driving a motor vehicle is on List 1 of the 2020 Ministry of Labour notification — reserved for Thai nationals, with no permit available to any foreigner. A Burmese helper with a valid MOU permit for household work still cannot lawfully drive. If the role includes school runs, that part has to go to a Thai national.</p>
       <p><strong>What if my helper's work permit expires?</strong><br/>They must stop working immediately. Apply for renewal at least 30 days before expiry. If it lapses, the worker may need to leave the country and re-enter under a new MOU.</p>
       <p><strong>Can my helper change employers?</strong><br/>Yes, but the new employer must apply for a transfer at the Employment Office. The worker cannot work during the transfer period.</p>
@@ -1444,7 +1444,7 @@ export const blogPosts = [
     slug: 'thailand-helper-salary-calculator',
     title: 'Thailand Helper Salary Calculator — What Should You Pay?',
     description:
-      'Use our interactive salary calculator to estimate fair pay for nannies, housekeepers, cooks, and drivers in Thailand. Based on city, experience, and job type.',
+      'Use our interactive salary calculator to estimate fair pay for nannies, housekeepers, cooks and drivers in Thailand. Based on city, experience and job type.',
     category: 'families',
     date: '2026-04-14',
     readTime: 4,
@@ -1486,7 +1486,7 @@ export const blogPosts = [
       <p>บน <a href="/helpers">ThaiHelper</a> ผู้ช่วยทุกคนกำหนดอัตราค่าจ้างที่คาดหวังเอง เรียกดูโปรไฟล์ เปรียบเทียบอัตราค่าจ้างและประสบการณ์ แล้วหาคนที่เหมาะกับงบประมาณของคุณ <a href="/employer-register">เริ่มต้นใช้งานฟรี</a></p>
     `,
     content: `
-      <p>One of the most common questions from families: <strong>"How much should I pay?"</strong> Use our interactive salary calculator below to get a fair estimate based on your city, the type of help you need, and the experience level you're looking for.</p>
+      <p>One of the most common questions from families: <strong>"How much should I pay?"</strong> Use our interactive salary calculator below to get a fair estimate based on your city, the type of help you need and the experience level you're looking for.</p>
 
       <div id="salary-calculator"></div>
 
@@ -1497,7 +1497,7 @@ export const blogPosts = [
         <li><strong>Market data</strong> — Real salary data from ThaiHelper profiles and job listings</li>
         <li><strong>Experience premiums</strong> — More experienced helpers command higher pay</li>
         <li><strong>Language premiums</strong> — English-speaking helpers typically earn 20-40% more</li>
-        <li><strong>City cost-of-living</strong> — Bangkok and Phuket are higher than Chiang Mai or Isan</li>
+        <li><strong>City cost-of-living</strong> — Bangkok and Phuket are higher than Chiang Mai or Isaan</li>
       </ul>
 
       <h2>Beyond the Monthly Salary</h2>
@@ -1511,11 +1511,11 @@ export const blogPosts = [
       </ul>
 
       <h2>Download: Employment Agreement Template</h2>
-      <p>We've prepared a <strong>free bilingual employment agreement</strong> (Thai + English) that you can use as a starting point. It covers salary, schedule, duties, rest days, and termination terms.</p>
+      <p>We've prepared a <strong>free bilingual employment agreement</strong> (Thai + English) that you can use as a starting point. It covers salary, schedule, duties, rest days and termination terms.</p>
       <p><a href="/blog/employment-contract-template-thailand">Download the free template here</a></p>
 
       <h2>Find Helpers at the Right Price</h2>
-      <p>On <a href="/helpers">ThaiHelper</a>, every helper sets their own expected rate. Browse profiles, compare rates and experience, and find the right fit for your budget. <a href="/employer-register">Get started for free</a>.</p>
+      <p>On <a href="/helpers">ThaiHelper</a>, every helper sets their own expected rate. Browse profiles, compare rates and experience, then find the right fit for your budget. <a href="/employer-register">Get started for free</a>.</p>
     `,
   },
 
@@ -1525,7 +1525,7 @@ export const blogPosts = [
     slug: 'employment-contract-template-thailand',
     title: 'Free Employment Contract Template for Household Helpers in Thailand',
     description:
-      'Download our free bilingual (Thai & English) employment contract template for hiring a maid, nanny, cook, or driver in Thailand. Covers salary, duties, leave, and termination.',
+      'Download our free bilingual (Thai & English) employment contract template for hiring a maid, nanny, cook or driver in Thailand. Covers salary, duties, leave and termination.',
     // This post and /contract-template hold the same content (the post
     // was the original, the page is the lead-magnet). Point the canonical
     // at the dedicated page so Google consolidates ranking signal there —
@@ -1677,7 +1677,7 @@ export const blogPosts = [
       <p>บน <a href="/helpers">ThaiHelper</a> คุณสามารถเรียกดูโปรไฟล์ผู้ช่วยที่ผ่านการยืนยันได้ฟรี เมื่อพบคนที่ใช่แล้ว ใช้แบบฟอร์มนี้เพื่อทำข้อตกลงอย่างเป็นทางการ <a href="/employer-register">เริ่มต้นที่นี่</a></p>
     `,
     content: `
-      <p>A clear written agreement protects both you and your helper. While verbal agreements are common in Thailand, putting everything in writing prevents misunderstandings and shows professionalism. Here's what to include — and a free template you can customize.</p>
+      <p>A clear written agreement protects both you and your helper. While verbal agreements are common in Thailand, putting everything in writing prevents misunderstandings and shows professionalism. Here's what to include — and a free template you can customise.</p>
 
       <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:20px 22px;margin:24px 0;">
         <p style="margin:0 0 10px;font-weight:700;color:#006a62;">📄 Skip the copy-paste — download the ready-to-fill template</p>
@@ -1689,7 +1689,7 @@ export const blogPosts = [
       <ul>
         <li><strong>Clarity</strong> — Both parties know exactly what's expected</li>
         <li><strong>Legal protection</strong> — In case of disputes, a written contract is your evidence</li>
-        <li><strong>Professionalism</strong> — Good helpers prefer employers who are organized</li>
+        <li><strong>Professionalism</strong> — Good helpers prefer employers who are organised</li>
         <li><strong>Cultural sensitivity</strong> — A bilingual contract ensures your helper understands every term</li>
       </ul>
 
@@ -1747,7 +1747,7 @@ export const blogPosts = [
       <ul>
         <li>Notice period (typically 30 days or 1 pay cycle)</li>
         <li>Grounds for immediate termination (theft, violence, serious misconduct)</li>
-        <li>Severance pay obligations per Thai labor law:
+        <li>Severance pay obligations per Thai labour law:
           <ul>
             <li>120 days - 1 year: 30 days' pay</li>
             <li>1-3 years: 90 days' pay</li>
@@ -1768,7 +1768,7 @@ export const blogPosts = [
       </ul>
 
       <h2>Sample Contract Template</h2>
-      <p>Below is a simplified template you can copy and customize. We recommend having it translated into Thai by a professional translator or bilingual friend.</p>
+      <p>Below is a simplified template you can copy and customise. We recommend having it translated into Thai by a professional translator or bilingual friend.</p>
 
       <div style="background: #f8faf9; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 24px 0; font-size: 14px; line-height: 1.8;">
         <p style="text-align: center; font-weight: bold; font-size: 16px; margin-bottom: 16px;">EMPLOYMENT AGREEMENT<br/>สัญญาจ้างงาน</p>
@@ -1801,14 +1801,14 @@ export const blogPosts = [
         The Employer will register the Employee for Social Security and contribute 5% of salary as required by law.</p>
 
         <p><strong>7. Termination</strong><br/>
-        Either party may terminate with 30 days written notice. Severance pay per Thai labor law applies.</p>
+        Either party may terminate with 30 days written notice. Severance pay per Thai labour law applies.</p>
 
         <p><strong>8. Signatures</strong></p>
         <p>Employer: _________________________ Date: _________</p>
         <p>Employee: _________________________ Date: _________</p>
       </div>
 
-      <p><em>Disclaimer: This template is provided for informational purposes only and does not constitute legal advice. For complex employment situations (especially involving foreign workers), consult a Thai labor lawyer.</em></p>
+      <p><em>Disclaimer: This template is provided for informational purposes only and does not constitute legal advice. For complex employment situations (especially involving foreign workers), consult a Thai labour lawyer.</em></p>
 
       <h2>Need Help Finding Your Next Helper?</h2>
       <p>On <a href="/helpers">ThaiHelper</a>, you can browse verified helper profiles for free. Once you find the right match, use this template to formalize the arrangement. <a href="/employer-register">Get started here</a>.</p>
@@ -1821,7 +1821,7 @@ export const blogPosts = [
     slug: 'best-ways-to-find-household-help-thailand-compared',
     title: 'Best Ways to Find Household Help in Thailand: ThaiHelper vs Agencies vs Facebook (2026)',
     description:
-      'Comparing the best ways to find a maid, nanny, or helper in Thailand in 2026. See how ThaiHelper, traditional agencies, and Facebook groups compare on cost, trust, and convenience.',
+      'Comparing the best ways to find a maid, nanny or helper in Thailand in 2026. See how ThaiHelper, traditional agencies and Facebook groups compare on cost, trust and convenience.',
     category: 'families',
     date: '2026-04-15',
     readTime: 7,
@@ -1868,7 +1868,7 @@ export const blogPosts = [
       <p>สำหรับครอบครัวที่ต้องการความสะดวก ปลอดภัย และไม่อยากจ่ายค่านายหน้าแพง <a href="/">ThaiHelper</a> เป็นทางเลือกที่ดีที่สุด สมัครฟรีแล้วเริ่มค้นหาผู้ช่วยที่ผ่านการยืนยันตัวตนได้เลยวันนี้</p>
     `,
     content: `
-      <p>If you're looking for a maid, nanny, cook, or driver in Thailand, you have three main options. Each has clear trade-offs in cost, trust, and convenience. Here's an honest comparison to help you decide.</p>
+      <p>If you're looking for a maid, nanny, cook or driver in Thailand, you have three main options. Each has clear trade-offs in cost, trust and convenience. Here's an honest comparison to help you decide.</p>
 
       <h2>Option 1: ThaiHelper (Online Marketplace)</h2>
       <p><a href="/">ThaiHelper</a> is a purpose-built platform for finding household staff in Thailand. It works like this:</p>
@@ -1881,7 +1881,7 @@ export const blogPosts = [
         <li><strong>Languages:</strong> Interface available in English and Thai.</li>
         <li><strong>Cities:</strong> All Thailand — <a href="/hire/bangkok">Bangkok</a>, <a href="/hire/chiang-mai">Chiang Mai</a>, <a href="/hire/phuket">Phuket</a>, <a href="/hire/pattaya">Pattaya</a>, <a href="/hire/koh-samui">Koh Samui</a>, <a href="/hire/hua-hin">Hua Hin</a>.</li>
       </ul>
-      <p><strong>Best for:</strong> Families who want to browse verified profiles, compare options, and connect directly — without paying agency fees.</p>
+      <p><strong>Best for:</strong> Families who want to browse verified profiles, compare options and connect directly — without paying agency fees.</p>
 
       <h2>Option 2: Traditional Recruitment Agencies</h2>
       <p>Agencies have been the traditional route for decades, especially for expat families. Here's the reality:</p>
@@ -1903,7 +1903,7 @@ export const blogPosts = [
         <li><strong>Profile information:</strong> Unstructured — a photo and a few sentences at best.</li>
         <li><strong>Spam/scams:</strong> Common. No moderation, no verification.</li>
       </ul>
-      <p><strong>Best for:</strong> Quick, informal inquiries — but you take on all the risk yourself.</p>
+      <p><strong>Best for:</strong> Quick, informal enquiries — but you take on all the risk yourself.</p>
 
       <h2>Side-by-Side Comparison</h2>
       <table>
@@ -1922,8 +1922,8 @@ export const blogPosts = [
       </table>
 
       <h2>Our Recommendation</h2>
-      <p>For most families in Thailand — especially expats — <strong>starting with ThaiHelper gives you the best balance</strong> of verified profiles, direct communication, and zero agency fees. You can browse profiles for free, and only pay when you're ready to contact someone.</p>
-      <p>If you need a highly specialized placement (e.g., a live-in nanny with medical training), an agency may be worth the premium. For quick, informal asks, Facebook groups can supplement your search — but never rely on them as your only source.</p>
+      <p>For most families in Thailand — especially expats — <strong>starting with ThaiHelper gives you the best balance</strong> of verified profiles, direct communication and zero agency fees. You can browse profiles for free, and only pay when you're ready to contact someone.</p>
+      <p>If you need a highly specialised placement (e.g., a live-in nanny with medical training), an agency may be worth the premium. For quick, informal asks, Facebook groups can supplement your search — but never rely on them as your only source.</p>
 
       <h2>Ready to Start?</h2>
       <ul>
@@ -1947,7 +1947,7 @@ export const blogPosts = [
   {
     slug: 'part-time-helper-jobs-thailand',
     title: 'Part-Time Household Jobs in Thailand: How to Find Them',
-    description: 'Complete guide to finding part-time cleaning, nanny, and household jobs in Thailand. Work flexible hours, earn extra income, and choose your own schedule.',
+    description: 'Complete guide to finding part-time cleaning, nanny and household jobs in Thailand. Work flexible hours, earn extra income and choose your own schedule.',
     category: 'helpers',
     date: '2026-04-16',
     readTime: 7,
@@ -1990,7 +1990,7 @@ export const blogPosts = [
       <p>พร้อมเริ่มแล้วหรือยัง? <a href="/register">สมัครฟรีที่นี่</a></p>
     `,
     content: `
-      <p>Looking for flexible work that lets you control your schedule? <strong>Part-time household jobs</strong> are one of the most flexible ways to earn in Thailand — you can work 2-3 days a week, do hourly cleaning, or take weekend-only assignments.</p>
+      <p>Looking for flexible work that lets you control your schedule? <strong>Part-time household jobs</strong> are one of the most flexible ways to earn in Thailand — you can work 2-3 days a week, do hourly cleaning or take weekend-only assignments.</p>
 
       <h2>Popular Part-Time Job Types</h2>
       <ul>
@@ -2005,18 +2005,18 @@ export const blogPosts = [
       <ul>
         <li><strong>Flexible schedule</strong> — You choose the days and hours that work for you.</li>
         <li><strong>Work for multiple families</strong> — Increase your income without being tied to one employer.</li>
-        <li><strong>Time for studies or other work</strong> — Great for parents, students, or side-hustlers.</li>
+        <li><strong>Time for studies or other work</strong> — Great for parents, students or side-hustlers.</li>
         <li><strong>Test before committing</strong> — Figure out which work you enjoy most before going full-time.</li>
       </ul>
 
       <h2>Where to Find Part-Time Jobs</h2>
       <p>On <a href="/register">ThaiHelper</a>, you can specify in your profile that you only accept part-time work. Families looking for part-time help will see your profile and contact you directly — no middleman, no fees taken from your pay.</p>
-      <p>Beyond ThaiHelper, you can try word of mouth (neighbors, condo notice boards) and local Facebook groups — but expect less verification and more spam.</p>
+      <p>Beyond ThaiHelper, you can try word of mouth (neighbours, condo notice boards) and local Facebook groups — but expect less verification and more spam.</p>
 
       <h2>Part-Time Jobs by City</h2>
       <p>Demand varies by location:</p>
       <ul>
-        <li><a href="/hire/housekeeper-bangkok">Bangkok</a> — High demand for hourly cleaning, especially in Sukhumvit, Sathorn, and Thonglor.</li>
+        <li><a href="/hire/housekeeper-bangkok">Bangkok</a> — High demand for hourly cleaning, especially in Sukhumvit, Sathorn and Thonglor.</li>
         <li><a href="/hire/nanny-phuket">Phuket</a> — Expat families often need weekend nannies and part-time housekeepers.</li>
         <li><a href="/hire/housekeeper-chiang-mai">Chiang Mai</a> — Digital nomads and students commonly hire part-time.</li>
         <li><a href="/hire/nanny-pattaya">Pattaya</a> — Short-term visitors often need part-time childcare.</li>
@@ -2028,11 +2028,11 @@ export const blogPosts = [
         <li><strong>Set a minimum</strong> (e.g., 3 hours per visit) — Makes travel time worthwhile.</li>
         <li><strong>Collect references</strong> from every family you work with (contact name + permission to be contacted) — References build trust with new families faster than anything else.</li>
         <li><strong>Clearly list your coverage areas</strong> — Save time on long commutes.</li>
-        <li><strong>Keep records</strong> — Track hours, payments, and contact info for each family.</li>
+        <li><strong>Keep records</strong> — Track hours, payments and contact info for each family.</li>
       </ol>
 
       <h2>Can Part-Time Become Full-Time?</h2>
-      <p>Absolutely. Many helpers start part-time with one family, do excellent work, and get offered a full-time role. Others combine multiple part-time gigs into a full work week with higher total income than a single full-time job.</p>
+      <p>Absolutely. Many helpers start part-time with one family, do excellent work and get offered a full-time role. Others combine multiple part-time gigs into a full work week with higher total income than a single full-time job.</p>
 
       <h2>Ready to Find Part-Time Work?</h2>
       <p><a href="/register">Create your free profile</a> on ThaiHelper today. Specify your availability and let families find you.</p>
@@ -2096,13 +2096,13 @@ export const blogPosts = [
       <ul>
         <li><strong>Children attend international schools</strong> and need help with English homework.</li>
         <li><strong>Bilingual upbringing</strong> — Many families want their kids exposed to English at home.</li>
-        <li><strong>Parents don't speak Thai</strong> — They need to communicate directly with the nanny about schedules, preferences, and the child's day.</li>
+        <li><strong>Parents don't speak Thai</strong> — They need to communicate directly with the nanny about schedules, preferences and the child's day.</li>
         <li><strong>Safety and trust</strong> — Parents feel safer when they can understand what their nanny is saying.</li>
       </ul>
 
       <h2>Cities With the Highest Demand</h2>
       <ul>
-        <li><a href="/hire/nanny-bangkok">Bangkok</a> — By far the largest expat market. Areas like Sukhumvit, Sathorn, and Thonglor have international schools and families.</li>
+        <li><a href="/hire/nanny-bangkok">Bangkok</a> — By far the largest expat market. Areas like Sukhumvit, Sathorn and Thonglor have international schools and families.</li>
         <li><a href="/hire/nanny-phuket">Phuket</a> — Growing expat community, international schools, luxury villas.</li>
         <li><a href="/hire/nanny-koh-samui">Koh Samui</a> — Smaller but affluent expat population, villa rentals.</li>
         <li><a href="/hire/nanny-chiang-mai">Chiang Mai</a> — Digital nomad families, long-term stays.</li>
@@ -2111,7 +2111,7 @@ export const blogPosts = [
       <h2>How to Improve Your English</h2>
       <ol>
         <li><strong>Daily practice with YouTube</strong> — Channels like BBC Learning English, "English Addict with Mr. Duncan", and "Speak English With Vanessa" are free and excellent.</li>
-        <li><strong>Use free apps</strong> — Duolingo, Cake, and BBC Learning English app are all solid starting points.</li>
+        <li><strong>Use free apps</strong> — Duolingo, Cake and BBC Learning English app are all solid starting points.</li>
         <li><strong>Listen to podcasts while working</strong> — "6 Minute English" is perfect for beginners.</li>
         <li><strong>Practice with the kids</strong> you care for — They're patient teachers and you learn together.</li>
         <li><strong>Watch English-language kids' shows</strong> — Peppa Pig, Bluey — simple, clear vocabulary.</li>
@@ -2126,14 +2126,14 @@ export const blogPosts = [
       </ol>
 
       <h2>Ready to Leverage Your English Skills?</h2>
-      <p><a href="/register">Create your free ThaiHelper profile</a>, tick "English" as a language, and let international families find you.</p>
+      <p><a href="/register">Create your free ThaiHelper profile</a>, tick "English" as a language and let international families find you.</p>
     `,
   },
 
   {
     slug: 'live-in-vs-live-out-helper-thailand',
     title: 'Live-In vs Live-Out Helper: Which Is Right for You?',
-    description: 'Compare live-in and live-out household jobs in Thailand — pay, pros, cons, typical hours, and which type fits your lifestyle best.',
+    description: 'Compare live-in and live-out household jobs in Thailand — pay, pros, cons, typical hours and which type fits your lifestyle best.',
     category: 'helpers',
     date: '2026-04-16',
     readTime: 6,
@@ -2175,17 +2175,17 @@ export const blogPosts = [
       <p>ระบุประเภทที่คุณต้องการใน <a href="/register">โปรไฟล์ ThaiHelper</a></p>
     `,
     content: `
-      <p>One of the first questions you'll need to answer as a helper is: live-in or live-out? Both have very different pros and cons — and the right choice depends on your lifestyle, family situation, and financial goals.</p>
+      <p>One of the first questions you'll need to answer as a helper is: live-in or live-out? Both have very different pros and cons — and the right choice depends on your lifestyle, family situation and financial goals.</p>
 
       <h2>Live-In Jobs</h2>
-      <p><strong>What it means:</strong> You live at the employer's home. They provide a room, usually meals, and you work longer hours but save on rent.</p>
+      <p><strong>What it means:</strong> You live at the employer's home. They provide a room, usually meals and you work longer hours but save on rent.</p>
       <p><strong>Pros:</strong></p>
       <ul>
         <li>No rent or utilities to pay.</li>
         <li>Free meals (usually).</li>
         <li>No daily commute.</li>
         <li>Lower total living costs, so more of your salary is saved.</li>
-        <li>Often includes transport, internet, and other perks.</li>
+        <li>Often includes transport, internet and other perks.</li>
       </ul>
       <p><strong>Cons:</strong></p>
       <ul>
@@ -2240,7 +2240,7 @@ export const blogPosts = [
       </ol>
 
       <h2>Ready to Find the Right Fit?</h2>
-      <p>On ThaiHelper, you can specify whether you want live-in, live-out, or either. <a href="/register">Create your free profile</a> and let the right families find you.</p>
+      <p>On ThaiHelper, you can specify whether you want live-in, live-out or either. <a href="/register">Create your free profile</a> and let the right families find you.</p>
     `,
   },
 
@@ -2297,7 +2297,7 @@ export const blogPosts = [
       <p><em>Updated 25 August 2026. Salary ranges are cross-checked against 250+ verified housekeeper profiles currently on ThaiHelper (part of 800+ helpers total).</em></p>
 
       <h2>Housekeeper Salary in Thailand — What You Can Expect per Month</h2>
-      <p>The real number depends on your city, your skills, and whether you live in. As of August 2026 the median monthly full-time salary on ThaiHelper looks like this:</p>
+      <p>The real number depends on your city, your skills and whether you live in. As of August 2026 the median monthly full-time salary on ThaiHelper looks like this:</p>
       <table>
         <thead><tr><th>City</th><th>Full-time live-out (THB/mo)</th><th>Full-time live-in (THB/mo)</th></tr></thead>
         <tbody>
@@ -2310,7 +2310,7 @@ export const blogPosts = [
       <p>Part-time (2–3 days/week) generally pays 6,000–10,000 THB/month. Daily/deep-clean visits average 500–1,000 THB per 4-hour session in Bangkok. The 10 skills below are what pushes you toward the top end of each range — not the bottom.</p>
 
       <h2>1. Deep Cleaning</h2>
-      <p>Surface cleaning isn't enough. Learn to clean under furniture, behind appliances, inside ovens, and along baseboards. Families notice — and pay for — thorough work.</p>
+      <p>Surface cleaning isn't enough. Learn to clean under furniture, behind appliances, inside ovens and along baseboards. Families notice — and pay for — thorough work.</p>
 
       <h2>2. Laundry and Ironing</h2>
       <p>Different fabrics need different care:</p>
@@ -2324,8 +2324,8 @@ export const blogPosts = [
       <h2>3. Cooking</h2>
       <p>Know at least 3–5 basic Thai dishes. Bonus: basic Western cooking (pasta, grilled meats, salads) can add 3,000–5,000 THB/month to your pay with expat families.</p>
 
-      <h2>4. Organization & Tidying</h2>
-      <p>Wardrobes, pantries, kids' rooms, under-sink storage. Marie Kondo-style organization is trendy with international clients.</p>
+      <h2>4. Organisation & Tidying</h2>
+      <p>Wardrobes, pantries, kids' rooms, under-sink storage. Marie Kondo-style organisation is trendy with international clients.</p>
 
       <h2>5. Furniture & Surface Care</h2>
       <ul>
@@ -2336,7 +2336,7 @@ export const blogPosts = [
       <p>Knowing what NOT to do protects expensive furniture.</p>
 
       <h2>6. Cleaning Product Knowledge</h2>
-      <p>Understand which products are safe for children, pets, and pregnant women. Eco-friendly cleaning is also a plus for many expat families.</p>
+      <p>Understand which products are safe for children, pets and pregnant women. Eco-friendly cleaning is also a plus for many expat families.</p>
 
       <h2>7. Time Management</h2>
       <p>Finish tasks within agreed hours without compromising quality. Being efficient — not slow — builds trust.</p>
@@ -2358,8 +2358,8 @@ export const blogPosts = [
       <h2>How to Upskill</h2>
       <ol>
         <li><strong>YouTube tutorials</strong> — "Clean with me" videos, ironing tutorials, Thai cooking channels.</li>
-        <li><strong>Free online courses</strong> — LinkedIn Learning, Coursera, and YouTube have housekeeping and cooking courses.</li>
-        <li><strong>Short courses in Bangkok</strong> — Some training centers offer 1-day courses on specialized cleaning.</li>
+        <li><strong>Free online courses</strong> — LinkedIn Learning, Coursera and YouTube have housekeeping and cooking courses.</li>
+        <li><strong>Short courses in Bangkok</strong> — Some training centres offer 1-day courses on specialised cleaning.</li>
         <li><strong>Learn from other helpers</strong> — Join helper networks and share tips.</li>
       </ol>
 
@@ -2379,7 +2379,7 @@ export const blogPosts = [
   {
     slug: 'hire-driver-bangkok-guide',
     title: 'How to Hire a Private Driver in Bangkok (2026 Guide)',
-    description: 'Complete guide to hiring a private driver or chauffeur in Bangkok. Real 2026 costs, legal requirements, and where to find trusted drivers directly — no middleman fees.',
+    description: 'Complete guide to hiring a private driver or chauffeur in Bangkok. Real 2026 costs, legal requirements and where to find trusted drivers directly — no middleman fees.',
     category: 'families',
     date: '2026-04-16',
     updated: '2026-09-09',
@@ -2442,9 +2442,9 @@ export const blogPosts = [
 
       <h2>What to Check Before Hiring</h2>
       <ol>
-        <li><strong>Valid Thai driver's license</strong> — Required. Request to see it and verify the expiration date.</li>
+        <li><strong>Valid Thai driving licence</strong> — Required. Request to see it and verify the expiration date.</li>
         <li><strong>Clean driving record</strong> — Ask about accidents and traffic violations. Request references.</li>
-        <li><strong>Bangkok area knowledge</strong> — A good Bangkok driver knows shortcuts, which sois connect to which, and which areas to avoid during peak hours.</li>
+        <li><strong>Bangkok area knowledge</strong> — A good Bangkok driver knows shortcuts, which sois connect to which and which areas to avoid during peak hours.</li>
         <li><strong>Experience</strong> — Has driven for families or companies before. Ideally 3+ years.</li>
         <li><strong>Language skills</strong> — Important for expat families. Basic English should be standard.</li>
         <li><strong>Clean appearance & politeness</strong> — Your driver represents you when picking up guests.</li>
@@ -2452,7 +2452,7 @@ export const blogPosts = [
 
       <h2>Legal Requirements</h2>
       <ul>
-        <li><strong>Thai driver's license</strong> — Your driver must have one.</li>
+        <li><strong>Thai driving licence</strong> — Your driver must have one.</li>
         <li><strong>Vehicle insurance</strong> — If they drive your car, make sure they're listed as a named driver.</li>
         <li><strong>Social Security</strong> — Full-time drivers must be registered under Thai social security (5% each from employer and employee).</li>
         <li><strong>Rest days</strong> — Legally entitled to 1 day off per week.</li>
@@ -2466,7 +2466,7 @@ export const blogPosts = [
       <h2>Where to Find a Trusted Driver</h2>
       <ul>
         <li><a href="/hire/driver-bangkok">ThaiHelper's driver directory for Bangkok</a> — Verified profiles, direct contact.</li>
-        <li>Word of mouth — Ask colleagues or neighbors.</li>
+        <li>Word of mouth — Ask colleagues or neighbours.</li>
         <li>Facebook groups — Less verification, more spam.</li>
       </ul>
 
@@ -2506,7 +2506,7 @@ export const blogPosts = [
   {
     slug: 'private-chef-thailand-cost-guide',
     title: 'Private Chef in Thailand: Costs, Benefits & How to Hire',
-    description: 'Thinking about a private chef in Thailand? Learn real costs, what chefs can do for your family, and how to hire directly with no middleman fees.',
+    description: 'Thinking about a private chef in Thailand? Learn real costs, what chefs can do for your family and how to hire directly with no middleman fees.',
     category: 'families',
     date: '2026-04-16',
     updated: '2026-08-25',
@@ -2541,14 +2541,14 @@ export const blogPosts = [
       <p>พร้อมหาพ่อครัวที่ใช่แล้วหรือยัง? <a href="/hire/chef">เลือกดูพ่อครัวในประเทศไทย</a></p>
     `,
     content: `
-      <p>A private chef used to be reserved for the wealthy. In Thailand — especially in Bangkok, Phuket, and Koh Samui — having a <strong>private chef</strong> is increasingly accessible to middle- and upper-middle-class families.</p>
+      <p>A private chef used to be reserved for the wealthy. In Thailand — especially in Bangkok, Phuket and Koh Samui — having a <strong>private chef</strong> is increasingly accessible to middle- and upper-middle-class families.</p>
 
       <div style="background:linear-gradient(135deg,#006a6210,#006a6205);border:1px solid #006a6230;border-radius:14px;padding:16px 20px;margin:20px 0;">
         <p style="margin:0 0 6px;font-weight:700;color:#006a62;">📊 Looking specifically for Bangkok?</p>
-        <p style="margin:0;font-size:14px;color:#334155;">Read our detailed <a href="/blog/private-chef-bangkok-cost-2026" style="color:#006a62;font-weight:600;">Private Chef Bangkok Cost 2026 breakdown</a> with the full hourly-rate distribution from 60+ verified Bangkok chefs, top neighborhoods, and English-speaker share.</p>
+        <p style="margin:0;font-size:14px;color:#334155;">Read our detailed <a href="/blog/private-chef-bangkok-cost-2026" style="color:#006a62;font-weight:600;">Private Chef Bangkok Cost 2026 breakdown</a> with the full hourly-rate distribution from 60+ verified Bangkok chefs, top neighbourhoods and English-speaker share.</p>
       </div>
 
-      <p><em>Updated August 2026. Rate ranges cross-checked against 130+ verified chef profiles currently on ThaiHelper across Bangkok, Phuket, and Koh Samui.</em></p>
+      <p><em>Updated August 2026. Rate ranges cross-checked against 130+ verified chef profiles currently on ThaiHelper across Bangkok, Phuket and Koh Samui.</em></p>
 
       <h2>Private Chef Rates in Thailand</h2>
       <ul>
@@ -2558,7 +2558,7 @@ export const blogPosts = [
         <li><strong>Weekly meal prep:</strong> 1,000–2,500 THB per session</li>
         <li><strong>Dinner party chef:</strong> 3,000–8,000 THB per event</li>
       </ul>
-      <p>Chefs with international experience (5-star hotels, Michelin-starred restaurants, or expat families) can charge 50–100% more.</p>
+      <p>Chefs with international experience (5-star hotels, Michelin-starred restaurants or expat families) can charge 50–100% more.</p>
 
       <h2>What a Private Chef Can Do for You</h2>
       <ul>
@@ -2590,7 +2590,7 @@ export const blogPosts = [
       <h2>How to Hire a Private Chef</h2>
       <ol>
         <li><strong>Define your needs</strong> — Full-time? Part-time? Specific cuisine? Dietary restrictions?</li>
-        <li><strong>Browse profiles</strong> — On <a href="/hire/chef">ThaiHelper</a>, filter by city, cuisine, experience, and languages.</li>
+        <li><strong>Browse profiles</strong> — On <a href="/hire/chef">ThaiHelper</a>, filter by city, cuisine, experience and languages.</li>
         <li><strong>Request a trial</strong> — Pay for 1–2 meals to test their skills before hiring.</li>
         <li><strong>Check references</strong> — Always call previous families.</li>
         <li><strong>Write a contract</strong> — Define hours, menu planning process, grocery budget, days off.</li>
@@ -2632,7 +2632,7 @@ export const blogPosts = [
   {
     slug: 'hire-elder-care-thailand',
     title: 'Hiring Elder Care & Caregivers in Thailand: A Family Guide',
-    description: 'How to hire a trusted caregiver for aging parents in Thailand. Learn about costs, qualifications, medical training, live-in options, and legal requirements.',
+    description: 'How to hire a trusted caregiver for aging parents in Thailand. Learn about costs, qualifications, medical training, live-in options and legal requirements.',
     category: 'families',
     date: '2026-04-16',
     readTime: 9,
@@ -2663,11 +2663,11 @@ export const blogPosts = [
       <p>พร้อมหาผู้ดูแลที่ใช่แล้วหรือยัง? <a href="/hire/caregiver">เลือกดูผู้ดูแลในประเทศไทย</a></p>
     `,
     content: `
-      <p>Caring for aging parents is one of life's most important responsibilities. Hiring the <strong>right caregiver</strong> in Thailand gives your family quality care and peace of mind. This guide walks you through costs, qualifications, and how to find trusted caregivers.</p>
+      <p>Caring for aging parents is one of life's most important responsibilities. Hiring the <strong>right caregiver</strong> in Thailand gives your family quality care and peace of mind. This guide walks you through costs, qualifications and how to find trusted caregivers.</p>
 
       <h2>Types of Caregivers</h2>
       <ul>
-        <li><strong>Companion caregiver</strong> — For healthy seniors who need company, conversation, light meal prep, and errands.</li>
+        <li><strong>Companion caregiver</strong> — For healthy seniors who need company, conversation, light meal prep and errands.</li>
         <li><strong>Personal care aide</strong> — Assistance with bathing, dressing, eating, toileting.</li>
         <li><strong>Nursing assistant</strong> — Medical training, can manage medications, monitor vital signs, handle mobility devices.</li>
         <li><strong>Dementia specialist</strong> — Trained for Alzheimer's and dementia patients. Knows de-escalation and engagement techniques.</li>
@@ -2687,17 +2687,17 @@ export const blogPosts = [
       <h2>Qualifications to Look For</h2>
       <ol>
         <li><strong>Experience with seniors</strong> — 2+ years minimum. References should vouch for reliability and compassion.</li>
-        <li><strong>Medical training</strong> (if needed) — CNA (Certified Nursing Assistant), Nurse Aide certification, or hospital experience.</li>
+        <li><strong>Medical training</strong> (if needed) — CNA (Certified Nursing Assistant), Nurse Aide certification or hospital experience.</li>
         <li><strong>First aid / CPR certification</strong> — Essential for any caregiver.</li>
         <li><strong>Physical ability</strong> — Must be able to assist with transfers (bed to wheelchair, etc.) if needed.</li>
         <li><strong>Language</strong> — Can they communicate with your parent? With you?</li>
-        <li><strong>Cultural fit</strong> — Patience, respect, and warmth matter more than almost anything else.</li>
+        <li><strong>Cultural fit</strong> — Patience, respect and warmth matter more than almost anything else.</li>
       </ol>
 
-      <h2>Specialized Care Scenarios</h2>
-      <p><strong>Dementia & Alzheimer's:</strong> Look for caregivers with specific training. They know how to handle memory loss, sundowning, and repetitive behaviors calmly.</p>
+      <h2>Specialised Care Scenarios</h2>
+      <p><strong>Dementia & Alzheimer's:</strong> Look for caregivers with specific training. They know how to handle memory loss, sundowning and repetitive behaviours calmly.</p>
       <p><strong>Stroke recovery:</strong> Requires physical therapy assistance and patience with speech/mobility issues.</p>
-      <p><strong>Parkinson's:</strong> Caregiver should understand tremors, mobility challenges, and medication timing.</p>
+      <p><strong>Parkinson's:</strong> Caregiver should understand tremors, mobility challenges and medication timing.</p>
       <p><strong>End-of-life / palliative care:</strong> Emotional intelligence is critical. Experience with hospice care is a huge plus.</p>
 
       <h2>Live-In vs Visiting Care</h2>
@@ -2717,7 +2717,7 @@ export const blogPosts = [
       <ol>
         <li><strong>Interview both in person</strong> — Bring your parent. Watch their interaction.</li>
         <li><strong>Ask situational questions</strong> — "What would you do if Mom refuses to take her medication?" "How do you handle a fall?"</li>
-        <li><strong>Call at least 2 references</strong> — Ask specifically about reliability, patience, and how they handled difficult days.</li>
+        <li><strong>Call at least 2 references</strong> — Ask specifically about reliability, patience and how they handled difficult days.</li>
         <li><strong>Start with a paid trial week</strong> — Before committing long-term.</li>
         <li><strong>Check their physical care style</strong> — Gentle? Respectful? Confident?</li>
       </ol>
@@ -2741,7 +2741,7 @@ export const blogPosts = [
       </ol>
 
       <h2>Where to Find Trusted Caregivers</h2>
-      <p>On <a href="/hire/caregiver">ThaiHelper</a>, browse verified caregiver profiles. Filter by city, medical training, language, and experience.</p>
+      <p>On <a href="/hire/caregiver">ThaiHelper</a>, browse verified caregiver profiles. Filter by city, medical training, language and experience.</p>
 
       <h3>Caregivers by City</h3>
       <ul>
@@ -2756,7 +2756,7 @@ export const blogPosts = [
   {
     slug: 'find-tutor-bangkok',
     title: 'How to Find a Qualified Tutor in Bangkok for Your Kids',
-    description: 'Guide to finding the right private tutor in Bangkok — whether for maths, English, Thai, music, or exam prep. Learn rates, qualifications, and what to expect.',
+    description: 'Guide to finding the right private tutor in Bangkok — whether for maths, English, Thai, music or exam prep. Learn rates, qualifications and what to expect.',
     category: 'families',
     date: '2026-04-16',
     readTime: 7,
@@ -2786,7 +2786,7 @@ export const blogPosts = [
       <p>พร้อมหาติวเตอร์ที่ใช่แล้วหรือยัง? <a href="/hire/tutor-bangkok">ดูติวเตอร์ในกรุงเทพฯ</a></p>
     `,
     content: `
-      <p>Education in Thailand is highly competitive. Hiring a <strong>qualified tutor</strong> can help your child catch up in a tough subject, prepare for entrance exams, or learn a new skill. This guide explains your options in Bangkok.</p>
+      <p>Education in Thailand is highly competitive. Hiring a <strong>qualified tutor</strong> can help your child catch up in a tough subject, prepare for entrance exams or learn a new skill. This guide explains your options in Bangkok.</p>
 
       <h2>Types of Tutors</h2>
       <ul>
@@ -2794,7 +2794,7 @@ export const blogPosts = [
         <li><strong>Exam prep tutor</strong> — SAT, IELTS, TOEFL, IGCSE, A-Levels, GAT/PAT, university entrance.</li>
         <li><strong>Language tutor</strong> — English, Chinese (Mandarin), Russian, German, French, Japanese.</li>
         <li><strong>Music / art tutor</strong> — Piano, guitar, violin, singing, drawing, ballet.</li>
-        <li><strong>Special needs tutor</strong> — For dyslexia, ADHD, and learning differences.</li>
+        <li><strong>Special needs tutor</strong> — For dyslexia, ADHD and learning differences.</li>
         <li><strong>Coding / STEM tutor</strong> — Scratch, Python, robotics.</li>
       </ul>
 
@@ -2871,7 +2871,7 @@ export const blogPosts = [
   {
     slug: 'household-staff-phuket-guide',
     title: 'Complete Guide to Hiring Household Staff in Phuket (Updated 2026)',
-    description: 'Moving to or living in Phuket? Complete guide to hiring nannies, housekeepers, villa managers, drivers, and chefs. Real 2026 rates, best areas by role, seasonal considerations.',
+    description: 'Moving to or living in Phuket? Complete guide to hiring nannies, housekeepers, villa managers, drivers and chefs. Real 2026 rates, best areas by role, seasonal considerations.',
     category: 'families',
     date: '2026-04-16',
     updated: '2026-08-25',
@@ -2906,12 +2906,12 @@ export const blogPosts = [
       <p>พร้อมเลือกดูพนักงานในภูเก็ตแล้วหรือยัง? <a href="/hire/phuket">ดูพนักงานทั้งหมดในภูเก็ต</a></p>
     `,
     content: `
-      <p>Phuket is paradise for expat families and long-term visitors. Hiring <strong>household staff in Phuket</strong> is slightly different from Bangkok — there's a strong villa culture, seasonal demand patterns, and a large expat community. This guide covers everything you need to know.</p>
-      <p><em>Updated 25 August 2026. ThaiHelper currently has 55+ verified helpers in Phuket alone (27 nannies, plus villa housekeepers, chefs, drivers, and villa managers) — one of the fastest-growing pools on the platform since Q2.</em></p>
+      <p>Phuket is paradise for expat families and long-term visitors. Hiring <strong>household staff in Phuket</strong> is slightly different from Bangkok — there's a strong villa culture, seasonal demand patterns and a large expat community. This guide covers everything you need to know.</p>
+      <p><em>Updated 25 August 2026. ThaiHelper currently has 55+ verified helpers in Phuket alone (27 nannies, plus villa housekeepers, chefs, drivers and villa managers) — one of the fastest-growing pools on the platform since Q2.</em></p>
 
       <h2>Types of Staff Needed in Phuket</h2>
       <ul>
-        <li><strong>Villa housekeeper</strong> — Maintains vacation homes and rental villas. Often manages laundry, cleaning, and restocking between guests.</li>
+        <li><strong>Villa housekeeper</strong> — Maintains vacation homes and rental villas. Often manages laundry, cleaning and restocking between guests.</li>
         <li><strong>Villa manager</strong> — Oversees all staff, handles guest relations, manages maintenance vendors.</li>
         <li><strong>Nanny</strong> — Often includes beach and pool supervision skills.</li>
         <li><strong>Villa chef</strong> — Prepares meals for families and guests. International cuisine is in high demand.</li>
@@ -3009,7 +3009,7 @@ export const blogPosts = [
     content: `
       <p>Three months into ThaiHelper's public run we started asking every helper and every family on the platform a simple question: <em>how is this actually working for you?</em> Over 600 got the email. Many replied. And a handful took the extra two minutes to leave a public review on Trustpilot.</p>
 
-      <p>Here is what they said — the good, the mixed, and the misunderstandings — with the full profile linked at the end.</p>
+      <p>Here is what they said — the good, the mixed and the misunderstandings — with the full profile linked at the end.</p>
 
       <h2>Why we asked publicly</h2>
       <p>ThaiHelper is a direct-connection platform — no agency in the middle, no placement fees on either side. That model only works if people genuinely trust it. We wanted a public, third-party place where a nanny in Chiang Mai or a family in Bangkok could hear from other real users before signing up. Trustpilot is that place.</p>
@@ -3029,12 +3029,12 @@ export const blogPosts = [
       <p>"I can't say much about it yet because I haven't needed it, but I registered and looked around anyway, in case I might need it someday. I'm very happy to have the option to use it."</p>
 
       <h3>⭐⭐ "Can't download the app" — Kitsitorn, helper</h3>
-      <p>The one lower-star review turned out to be a misunderstanding: Kitsitorn thought ThaiHelper is a phone app and couldn't download it on her iPhone. It's not — ThaiHelper is a <strong>website</strong> that works on every phone, tablet and computer through Safari, Chrome, or any browser. There's nothing to install. We're building native iOS and Android apps for later this year, but right now the website is where everything happens.</p>
+      <p>The one lower-star review turned out to be a misunderstanding: Kitsitorn thought ThaiHelper is a phone app and couldn't download it on her iPhone. It's not — ThaiHelper is a <strong>website</strong> that works on every phone, tablet and computer through Safari, Chrome or any browser. There's nothing to install. We're building native iOS and Android apps for later this year, but right now the website is where everything happens.</p>
 
       <p>We replied to her review publicly with the fix. If you're on this page for the same reason: open <a href="/">thaihelper.app</a> directly in your phone's browser and you're in.</p>
 
       <h2>The full profile</h2>
-      <p>All six reviews (including the newest one that came in the day we asked warm families for honest feedback), our public replies, and the current TrustScore are on our verified Trustpilot profile:</p>
+      <p>All six reviews (including the newest one that came in the day we asked warm families for honest feedback), our public replies and the current TrustScore are on our verified Trustpilot profile:</p>
       <p style="text-align:center;margin:24px 0;">
         <a href="https://www.trustpilot.com/review/thaihelper.app" style="display:inline-block;background:#00B67A;color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">
           ★ Read all reviews on Trustpilot →
@@ -3043,13 +3043,13 @@ export const blogPosts = [
       <p style="text-align:center;font-size:14px;color:#666;">TrustScore 3.9 · 6 reviews · <a href="https://www.trustpilot.com/review/thaihelper.app">trustpilot.com/review/thaihelper.app</a></p>
 
       <h2>Want to add your own review?</h2>
-      <p>If ThaiHelper worked for you — as a family or as a helper — a two-minute review helps other Thai families and helpers find us instead of paying a month of salary to an agency. Write in Thai, English, or any language you like:</p>
+      <p>If ThaiHelper worked for you — as a family or as a helper — a two-minute review helps other Thai families and helpers find us instead of paying a month of salary to an agency. Write in Thai, English or any language you like:</p>
       <p style="text-align:center;margin:20px 0;">
         <a href="https://www.trustpilot.com/evaluate/thaihelper.app" style="display:inline-block;background:#006a62;color:#fff;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;">Leave a review</a>
       </p>
 
       <h2>Not sure if ThaiHelper is right for you?</h2>
-      <p>Everything about who we are, what we do, and what we deliberately don't do (no ID checks, no background checks — see <a href="/legit">our transparent trust page</a>) is public. Or just have a look at the current <a href="/helpers">helper directory</a> — no login needed to browse.</p>
+      <p>Everything about who we are, what we do and what we deliberately don't do (no ID checks, no background checks — see <a href="/legit">our transparent trust page</a>) is public. Or just have a look at the current <a href="/helpers">helper directory</a> — no login needed to browse.</p>
     `,
     content_th: `
       <p>สามเดือนหลังจาก ThaiHelper เปิดให้ใช้บริการ เราเริ่มถามผู้ช่วยและครอบครัวทุกคนบนแพลตฟอร์มด้วยคำถามง่ายๆ ว่า <em>สำหรับคุณ ระบบนี้ใช้งานได้ดีแค่ไหน?</em> อีเมลถูกส่งไปมากกว่า 600 ฉบับ หลายคนตอบกลับ และบางส่วนใช้เวลาอีก 2 นาทีเขียนรีวิวสาธารณะบน Trustpilot</p>
@@ -3082,7 +3082,7 @@ export const blogPosts = [
     slug: 'private-chef-bangkok-cost-2026',
     title: 'Private Chef Bangkok Cost 2026: Real Rates from 60+ Verified Chefs',
     description:
-      'What a private chef actually costs in Bangkok in 2026, based on live rates from 60+ verified chefs on ThaiHelper. Hourly and monthly ranges, English-speaking share, top Sukhumvit neighborhoods, hire-tips.',
+      'What a private chef actually costs in Bangkok in 2026, based on live rates from 60+ verified chefs on ThaiHelper. Hourly and monthly ranges, English-speaking share, top Sukhumvit neighbourhoods, hire-tips.',
     // 2026-09-28: after 19 days without ranking on target queries, Google
     // kept ranking the older /blog/private-chef-thailand-cost-guide (16.04.)
     // instead — up from #3 to #2 on "private chef bangkok cost" after our
@@ -3097,19 +3097,19 @@ export const blogPosts = [
     faq: [
       {
         question: 'How much does a private chef cost in Bangkok?',
-        answer: 'A full-time live-out private chef in Bangkok costs 25,000–45,000 THB per month. Live-in chefs earn 20,000–35,000 THB plus room and board. Part-time (3–4 sessions per week) is 8,000–15,000 THB per month. Chefs with international experience — 5-star hotels, Michelin backgrounds, or expat family work — charge 50–100% more.',
+        answer: 'A full-time live-out private chef in Bangkok costs 25,000–45,000 THB per month. Live-in chefs earn 20,000–35,000 THB plus room and board. Part-time (3–4 sessions per week) is 8,000–15,000 THB per month. Chefs with international experience — 5-star hotels, Michelin backgrounds or expat family work — charge 50–100% more.',
       },
       {
         question: 'Is a private chef cheaper than eating out in Bangkok?',
-        answer: 'For a family of four it usually is. Eating out and ordering in runs 60,000–80,000 THB per month at mid-market Bangkok prices. A full-time live-out chef at 30,000 THB plus roughly 25,000 THB of groceries lands around 55,000 THB per month — plus you get fresher meals, dietary control, and the time back. The break-even is around three family dinners per week.',
+        answer: 'For a family of four it usually is. Eating out and ordering in runs 60,000–80,000 THB per month at mid-market Bangkok prices. A full-time live-out chef at 30,000 THB plus roughly 25,000 THB of groceries lands around 55,000 THB per month — plus you get fresher meals, dietary control and the time back. The break-even is around three family dinners per week.',
       },
       {
         question: 'What qualifications should I check before hiring a private chef?',
-        answer: 'Ask for a hands-on trial of 1–2 meals paid at your home before committing. Check references from previous families or restaurants, verify any Food Hygiene certificate, and watch kitchen behaviour (cleanliness, time management, plating). On ThaiHelper, 80% of verified Bangkok chefs speak English and most list cuisines they are strongest in — filter the directory on both.',
+        answer: 'Ask for a hands-on trial of 1–2 meals paid at your home before committing. Check references from previous families or restaurants, verify any Food Hygiene certificate and watch kitchen behaviour (cleanliness, time management, plating). On ThaiHelper, 80% of verified Bangkok chefs speak English and most list cuisines they are strongest in — filter the directory on both.',
       },
       {
         question: 'Should a private chef also do the grocery shopping?',
-        answer: 'Yes, almost always — it is part of the role. Agree a weekly grocery budget (typically 15,000–30,000 THB for a family of four in Bangkok), decide whether the chef or the family picks the markets and supermarkets, and settle on a simple receipt-plus-ledger routine. Chefs who shop deliver fresher ingredients and plan meals more cost-effectively than families picking the groceries themselves.',
+        answer: 'Yes, almost always — it is part of the role. Agree a weekly grocery budget (typically 15,000–30,000 THB for a family of four in Bangkok), decide whether the chef or the family picks the markets and supermarkets, then settle on a simple receipt-plus-ledger routine. Chefs who shop deliver fresher ingredients and plan meals more cost-effectively than families picking the groceries themselves.',
       },
     ],
     author: 'ThaiHelper Team',
@@ -3158,13 +3158,13 @@ export const blogPosts = [
 
       <h2>Where Bangkok chefs actually work</h2>
 
-      <p>Bangkok chefs on ThaiHelper cluster in the neighborhoods with the strongest expat and Thai-family concentration:</p>
+      <p>Bangkok chefs on ThaiHelper cluster in the neighbourhoods with the strongest expat and Thai-family concentration:</p>
 
       <ul>
         <li><strong>Sukhumvit</strong> — the biggest concentration, especially between Asoke and Ekkamai</li>
         <li><strong>Sathorn / Silom</strong> — condo residents, corporate expat families</li>
         <li><strong>Nonthaburi / Din Daeng</strong> — Thai families with premium home-cooking needs</li>
-        <li><strong>Bang Na, Prawet, Bangkae</strong> — larger homes, weekly cook arrangements</li>
+        <li><strong>Bang Na, Prawet, Bang Khae</strong> — larger homes, weekly cook arrangements</li>
       </ul>
 
       <p>Beyond Bangkok, our chef pool spans <strong>Chiang Mai (11), Phuket (11), Pattaya (8), Chonburi (5), Samut Prakan (3)</strong>, plus smaller pools in Nonthaburi and Rayong.</p>
@@ -3189,7 +3189,7 @@ export const blogPosts = [
 
       <h2>How to hire a private chef in Bangkok — the direct route</h2>
 
-      <p>The full step-by-step process (including interviews, tasting days, contract templates, and the grocery-budget question that trips up most families) is in our <a href="/guide/hire-a-private-chef-in-thailand"><strong>complete private-chef hiring guide</strong></a>. The short version:</p>
+      <p>The full step-by-step process (including interviews, tasting days, contract templates and the grocery-budget question that trips up most families) is in our <a href="/guide/hire-a-private-chef-in-thailand"><strong>complete private-chef hiring guide</strong></a>. The short version:</p>
 
       <ol>
         <li><strong>Browse</strong> Bangkok chef profiles at <a href="/hire/chef-bangkok">thaihelper.app/hire/chef-bangkok</a> — filter by hourly rate and experience.</li>
@@ -3214,7 +3214,7 @@ export const blogPosts = [
     slug: 'housekeeper-cost-bangkok-2026',
     title: 'Housekeeper Cost Bangkok 2026: Real Rates from 136+ Verified Housekeepers',
     description:
-      'What a housekeeper or maid actually costs in Bangkok in 2026, based on 136+ verified housekeepers on ThaiHelper. Hourly, monthly, and live-in rate ranges. English-speaking share, top neighborhoods, hire-tips.',
+      'What a housekeeper or maid actually costs in Bangkok in 2026, based on 136+ verified housekeepers on ThaiHelper. Hourly, monthly and live-in rate ranges. English-speaking share, top neighbourhoods, hire-tips.',
     // 2026-09-28: after 19 days no Top-10 traction. The Housekeeper Guide
     // /guide/hire-a-housekeeper-in-thailand keeps ranking (#6 on
     // "housekeeper cost bangkok", plus #4/#6/#8 on adjacent long-tails).
@@ -3231,11 +3231,11 @@ export const blogPosts = [
       },
       {
         question: 'What is the difference between a housekeeper and a maid in Thailand?',
-        answer: 'In Thai households the roles overlap. "Maid" (mae ban) typically covers cleaning, laundry, and basic cooking. "Housekeeper" implies broader responsibility — household management, inventory, running the home when the family travels. On ThaiHelper the distinction shows up in salary: housekeepers who take on management duties earn 3,000–6,000 THB more per month than cleaning-only roles.',
+        answer: 'In Thai households the roles overlap. "Maid" (mae ban) typically covers cleaning, laundry and basic cooking. "Housekeeper" implies broader responsibility — household management, inventory, running the home when the family travels. On ThaiHelper the distinction shows up in salary: housekeepers who take on management duties earn 3,000–6,000 THB more per month than cleaning-only roles.',
       },
       {
         question: 'Do I have to register my full-time housekeeper for Social Security?',
-        answer: 'Yes. Full-time household staff are covered under Section 33 of the Thai Social Security Act. The employer contributes 5% of salary (capped at 750 THB per month), and the worker contributes the same. In return the housekeeper gets state medical care, maternity benefits, and pension coverage. Part-time staff below the threshold are not required.',
+        answer: 'Yes. Full-time household staff are covered under Section 33 of the Thai Social Security Act. The employer contributes 5% of salary (capped at 750 THB per month), and the worker contributes the same. In return the housekeeper gets state medical care, maternity benefits and pension coverage. Part-time staff below the threshold are not required.',
       },
       {
         question: 'How many days off should a full-time housekeeper get?',
@@ -3289,7 +3289,7 @@ export const blogPosts = [
 
       <h2>Where Bangkok housekeepers actually work</h2>
 
-      <p>Bangkok housekeepers on ThaiHelper concentrate in the biggest expat and Thai-family neighborhoods. Top areas from live profile data:</p>
+      <p>Bangkok housekeepers on ThaiHelper concentrate in the biggest expat and Thai-family neighbourhoods. Top areas from live profile data:</p>
 
       <ul>
         <li><strong>Sukhumvit</strong> — dominant, spanning Asoke, Thonglor, Ekkamai, Phrom Phong, On Nut, Bang Na</li>
@@ -3316,7 +3316,7 @@ export const blogPosts = [
         <li>Just starting: 19 housekeepers</li>
       </ul>
 
-      <p>The 10+ tier (32 housekeepers) is your pool for households that need a head-housekeeper who can also manage the laundry, groceries, and occasional light cooking. For a first-time hire in a smaller apartment, the 1–3 year tier is usually a better fit at a lower rate.</p>
+      <p>The 10+ tier (32 housekeepers) is your pool for households that need a head-housekeeper who can also manage the laundry, groceries and occasional light cooking. For a first-time hire in a smaller apartment, the 1–3 year tier is usually a better fit at a lower rate.</p>
 
       <h2>How to hire a housekeeper in Bangkok — the direct route</h2>
 
@@ -3345,7 +3345,7 @@ export const blogPosts = [
     slug: 'tutor-bangkok-cost-2026',
     title: 'Tutor Bangkok 2026: Real Rates from 99+ Verified Tutors (97 % Speak English)',
     description:
-      'What a private tutor in Bangkok actually costs in 2026, from 99+ verified tutors on ThaiHelper. Hourly ranges, English-speaker share (97 %!), experience distribution, top neighborhoods, hire-tips.',
+      'What a private tutor in Bangkok actually costs in 2026, from 99+ verified tutors on ThaiHelper. Hourly ranges, English-speaker share (97 %!), experience distribution, top neighbourhoods, hire-tips.',
     // 2026-09-28: after 19 days no Top-10 traction. The Tutor Guide is the
     // established topic anchor for tutor-in-Thailand search intent.
     // Consolidate signals to the guide.
@@ -3373,7 +3373,7 @@ export const blogPosts = [
 
       <h2>Hourly rate breakdown (real Bangkok tutors, 2026)</h2>
 
-      <p>Tutor rates in Bangkok skew higher than housekeeper or chef rates — reflecting the higher education level, English proficiency, and specialised skills. The full distribution:</p>
+      <p>Tutor rates in Bangkok skew higher than housekeeper or chef rates — reflecting the higher education level, English proficiency and specialised skills. The full distribution:</p>
 
       <table>
         <thead><tr><th>Hourly rate (THB)</th><th>Share</th><th>Typical profile</th></tr></thead>
@@ -3402,12 +3402,12 @@ export const blogPosts = [
 
       <h2>Where Bangkok tutors actually teach</h2>
 
-      <p>Tutors on the platform concentrate in Bangkok's international-school and expat neighborhoods:</p>
+      <p>Tutors on the platform concentrate in Bangkok's international-school and expat neighbourhoods:</p>
 
       <ul>
         <li><strong>Sathorn</strong> — closest to the biggest international schools</li>
         <li><strong>Sukhumvit</strong> — the corridor from Nana through Ekkamai, dense expat family concentration</li>
-        <li><strong>Tha Phra, Bangkhae</strong> — Thai family neighborhoods with strong tutoring demand</li>
+        <li><strong>Tha Phra, Bang Khae</strong> — Thai family neighbourhoods with strong tutoring demand</li>
         <li><strong>Srinakarin, Prawet</strong> — eastern Bangkok, growing international-school corridor</li>
       </ul>
 
@@ -3429,7 +3429,7 @@ export const blogPosts = [
         <li>Just starting: 5 tutors</li>
       </ul>
 
-      <p>The 10+ tier (37 tutors, 37 % of the Bangkok pool) is exceptional. For families preparing kids for IGCSE, IB, university entrance, or long-term English-language mastery, this is where the pool is strongest. Most other cities on our platform show a distribution weighted toward 1–3 years' experience; tutors buck that.</p>
+      <p>The 10+ tier (37 tutors, 37 % of the Bangkok pool) is exceptional. For families preparing kids for IGCSE, IB, university entrance or long-term English-language mastery, this is where the pool is strongest. Most other cities on our platform show a distribution weighted toward 1–3 years' experience; tutors buck that.</p>
 
       <h2>How to hire a tutor in Bangkok — the direct route</h2>
 
@@ -3459,7 +3459,7 @@ export const blogPosts = [
     slug: 'hire-myanmar-helper-thailand-mou3-guide',
     title: 'Hiring Myanmar (Burmese) Helpers in Thailand 2026: MOU3 Legal Guide + Real Rates',
     description:
-      'How to hire a Myanmar nanny, housekeeper, or caregiver in Thailand legally in 2026. MOU3 work permit explained, real pay rates, and data from 117 verified Myanmar helpers on ThaiHelper.',
+      'How to hire a Myanmar nanny, housekeeper or caregiver in Thailand legally in 2026. MOU3 work permit explained, real pay rates and data from 117 verified Myanmar helpers on ThaiHelper.',
     // 2026-10-29: 24 days after deploy + 15 days after sitemap fix, the
     // post is still not in top-20 for "myanmar nanny bangkok" (Kiidu +
     // Ayasan + Madawa + Facebook dominate). Repeat the pattern that
@@ -3477,11 +3477,11 @@ export const blogPosts = [
     faq: [
       {
         question: 'Can I legally hire a Myanmar nanny in Thailand?',
-        answer: 'Yes. Thailand\'s MOU3 agreement with Myanmar is the formal legal pathway for Myanmar nationals to work in Thai households as nannies, housekeepers, caregivers, cooks, and gardeners. The Thai employer (the family) sponsors the permit. Permits run 2 years and renew for another 2 years before a mandatory border re-entry. Private driving by non-Thai workers is NOT covered — that role is reserved for Thai nationals.',
+        answer: 'Yes. Thailand\'s MOU3 agreement with Myanmar is the formal legal pathway for Myanmar nationals to work in Thai households as nannies, housekeepers, caregivers, cooks and gardeners. The Thai employer (the family) sponsors the permit. Permits run 2 years and renew for another 2 years before a mandatory border re-entry. Private driving by non-Thai workers is NOT covered — that role is reserved for Thai nationals.',
       },
       {
         question: 'What does MOU3 cover and who is eligible?',
-        answer: 'MOU3 is the 2023-renewed Thailand–Myanmar Memorandum of Understanding on labour cooperation. It covers Myanmar nationals working in domestic roles (nanny, housekeeper, caregiver, gardener, cook) plus the main labour categories (construction, fishing, agriculture, food processing). Workers must enter via official channels, be registered with the Thai Ministry of Labour, and hold a Non-Immigrant LA visa plus work permit. Driving a private car for a family is excluded from MOU3.',
+        answer: 'MOU3 is the 2023-renewed Thailand–Myanmar Memorandum of Understanding on labour cooperation. It covers Myanmar nationals working in domestic roles (nanny, housekeeper, caregiver, gardener, cook) plus the main labour categories (construction, fishing, agriculture, food processing). Workers must enter via official channels, be registered with the Thai Ministry of Labour and hold a Non-Immigrant LA visa plus work permit. Driving a private car for a family is excluded from MOU3.',
       },
       {
         question: 'How much does a Myanmar nanny or housekeeper cost in Bangkok?',
@@ -3489,7 +3489,7 @@ export const blogPosts = [
       },
       {
         question: 'How much does the MOU3 paperwork cost per year?',
-        answer: 'Expect 25,000–45,000 THB in year 1 and 10,000–15,000 THB per renewal year on top of salary. That covers the work permit (6,500–10,000 THB/year, employer-paid), Non-Immigrant LA visa (~2,000 THB/year), the initial medical check and worker\'s health-insurance contribution (~3,500 THB), and a MOU-registered agency fee if you use one (15,000–30,000 THB setup, 5,000–8,000 THB per renewal).',
+        answer: 'Expect 25,000–45,000 THB in year 1 and 10,000–15,000 THB per renewal year on top of salary. That covers the work permit (6,500–10,000 THB/year, employer-paid), Non-Immigrant LA visa (~2,000 THB/year), the initial medical check and worker\'s health-insurance contribution (~3,500 THB) and an MOU-registered agency fee if you use one (15,000–30,000 THB setup, 5,000–8,000 THB per renewal).',
       },
       {
         question: 'What happens if I hire an undocumented Myanmar helper?',
@@ -3515,7 +3515,7 @@ export const blogPosts = [
       <p>พร้อมดูโปรไฟล์แล้วหรือยัง? <a href="/helpers">เลือกดูผู้ช่วยทั้งหมด</a> รวมถึงชาวพม่าที่ยืนยันแล้วใน Bangkok, Chiang Mai, Phuket และจังหวัดอื่น ๆ</p>
     `,
     content: `
-      <p><strong>Quick answer:</strong> Yes, you can hire Myanmar (Burmese) nannies, housekeepers, and caregivers in Thailand <strong>legally</strong>. The route is the Thailand–Myanmar <strong>MOU3</strong> agreement — the only formal pathway that lets a non-Thai household worker get a real work permit for domestic roles. This guide covers the law, the realistic pay ranges, and what we actually see on the ThaiHelper platform from 117 verified Myanmar helpers.</p>
+      <p><strong>Quick answer:</strong> Yes, you can hire Myanmar (Burmese) nannies, housekeepers and caregivers in Thailand <strong>legally</strong>. The route is the Thailand–Myanmar <strong>MOU3</strong> agreement — the only formal pathway that lets a non-Thai household worker get a real work permit for domestic roles. This guide covers the law, the realistic pay ranges and what we actually see on the ThaiHelper platform from 117 verified Myanmar helpers.</p>
 
       <p><em>Updated 5 October 2026. Platform figures below are cross-checked against 117 verified Myanmar helper profiles currently on ThaiHelper (part of 1 000 verified helpers total).</em></p>
 
@@ -3524,9 +3524,9 @@ export const blogPosts = [
       <ul>
         <li>Long, open border and well-established recruitment corridors (Mae Sot, Mae Sai, Ranong).</li>
         <li>Many Myanmar helpers already live in Thailand with family networks that help new arrivals settle quickly.</li>
-        <li>The MOU3 renewal (signed 2023, extended through 2026) explicitly covers household-domestic roles including nanny, housekeeper, caregiver, and gardener.</li>
+        <li>The MOU3 renewal (signed 2023, extended through 2026) explicitly covers household-domestic roles including nanny, housekeeper, caregiver and gardener.</li>
       </ul>
-      <p>Filipino, Nepali, and other foreign-nationality nannies that families sometimes ask about are rarely legal for Thai civilian households — their legal routes exist only through diplomatic households (embassies, UN) or education-work permits (as tutors or international-school staff). See our <a href="/blog/work-permits-foreign-helpers-thailand">complete work-permit guide</a>.</p>
+      <p>Filipino, Nepali and other foreign-nationality nannies that families sometimes ask about are rarely legal for Thai civilian households — their legal routes exist only through diplomatic households (embassies, UN) or education-work permits (as tutors or international-school staff). See our <a href="/blog/work-permits-foreign-helpers-thailand">complete work-permit guide</a>.</p>
 
       <h2>Real platform data: 117 verified Myanmar helpers on ThaiHelper</h2>
       <p>As of October 2026 we see 117 Myanmar helpers who have completed verification on ThaiHelper. The distribution reflects exactly where Thai families (and expat families) hire them:</p>
@@ -3546,12 +3546,12 @@ export const blogPosts = [
 
       <h3>By city</h3>
       <ul>
-        <li><strong>Bangkok:</strong> 81 verified — the overwhelming majority. Sukhumvit, Sathorn, and the northern suburbs (Nonthaburi, Pathum Thani) are the strongest clusters.</li>
+        <li><strong>Bangkok:</strong> 81 verified — the overwhelming majority. Sukhumvit, Sathorn and the northern suburbs (Nonthaburi, Pathum Thani) are the strongest clusters.</li>
         <li><strong>Chiang Mai:</strong> 11 verified. Growing expat community, lower cost of living.</li>
         <li><strong>Phuket:</strong> 6 verified. Villa staff for both long-term residents and seasonal rentals.</li>
         <li><strong>Pattaya:</strong> 4 verified. Mixed expat and Thai households.</li>
         <li><strong>Tak:</strong> 4 verified. Border province — Mae Sot is the main MOU3 entry point for Myanmar workers.</li>
-        <li><strong>Other provinces:</strong> 11 verified across Surat Thani, Khon Kaen, Rayong, and others.</li>
+        <li><strong>Other provinces:</strong> 11 verified across Surat Thani, Khon Kaen, Rayong and others.</li>
       </ul>
       <p><em>Data source: ThaiHelper platform, verified Myanmar helper profiles as of 5 October 2026. Numbers update as new helpers join.</em></p>
 
@@ -3600,7 +3600,7 @@ export const blogPosts = [
 
       <h2>How to hire a Myanmar helper on ThaiHelper</h2>
       <ol>
-        <li><strong>Browse</strong> Myanmar helper profiles directly — filter by city, category, language, and years of experience. <a href="/helpers">Start on the helper directory</a>.</li>
+        <li><strong>Browse</strong> Myanmar helper profiles directly — filter by city, category, language and years of experience. <a href="/helpers">Start on the helper directory</a>.</li>
         <li><strong>Message</strong> 3–5 candidates whose profile and location match. Ask directly about their current paperwork status: are they in Thailand with valid MOU, or will they need fresh sponsorship?</li>
         <li><strong>Interview</strong> — in person or via video. Many Myanmar helpers speak Thai and basic English; some fluent English (especially those with 5+ years of expat-family experience).</li>
         <li><strong>Trial period</strong> — a 1–4 week paid trial is standard and strongly recommended before committing to full MOU paperwork.</li>
@@ -3624,7 +3624,7 @@ export const blogPosts = [
       </ol>
 
       <h2>Ready to browse?</h2>
-      <p>Every Myanmar helper on ThaiHelper is email-verified and lists their category, city, languages, and whether they currently have MOU paperwork in Thailand or will need fresh sponsorship. There are no middleman fees — you message directly, verify documents yourself, and agree on terms with the helper.</p>
+      <p>Every Myanmar helper on ThaiHelper is email-verified and lists their category, city, languages and whether they currently have MOU paperwork in Thailand or will need fresh sponsorship. There are no middleman fees — you message directly, verify documents yourself and agree on terms with the helper.</p>
       <p style="text-align:center;margin:24px 0;">
         <a href="/helpers" style="display:inline-block;background:#006a62;color:#fff;padding:14px 28px;border-radius:12px;font-weight:700;text-decoration:none;font-size:16px;">Browse verified helpers →</a>
       </p>
