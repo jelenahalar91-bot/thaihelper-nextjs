@@ -495,7 +495,7 @@ export default function Login() {
                     onClick={() => { setMode('phone'); setError(''); setUrlError(''); }}
                     style={{
                       background: 'none', border: 'none',
-                      color: 'var(--primary)', fontSize: '14px',
+                      color: 'var(--teal)', fontSize: '14px',
                       fontWeight: 600, cursor: 'pointer', textDecoration: 'underline',
                     }}
                   >
@@ -522,7 +522,7 @@ export default function Login() {
                   onClick={() => { setMagicSent(false); setMagicEmail(''); }}
                   style={{
                     background: 'none', border: 'none',
-                    color: 'var(--primary)', fontSize: '14px',
+                    color: 'var(--teal)', fontSize: '14px',
                     cursor: 'pointer', textDecoration: 'underline',
                   }}
                 >
@@ -620,7 +620,7 @@ export default function Login() {
                       setPhoneStage('enter'); setPhoneRole(null);
                     }}
                     style={{
-                      background: 'none', border: 'none', color: 'var(--primary)',
+                      background: 'none', border: 'none', color: 'var(--teal)',
                       fontSize: '14px', cursor: 'pointer', textDecoration: 'underline',
                     }}
                   >
@@ -675,7 +675,7 @@ export default function Login() {
                     onClick={() => { setMode('magic'); setError(''); }}
                     style={{
                       background: 'none', border: 'none',
-                      color: 'var(--primary)', fontSize: '14px',
+                      color: 'var(--teal)', fontSize: '14px',
                       cursor: 'pointer', textDecoration: 'underline',
                     }}
                   >
@@ -693,7 +693,7 @@ export default function Login() {
                   onClick={() => { setShowForgot(true); setForgotResult(''); }}
                   style={{
                     background: 'none', border: 'none',
-                    color: 'var(--primary)', fontSize: '15px',
+                    color: 'var(--teal)', fontSize: '15px',
                     cursor: 'pointer', textDecoration: 'underline',
                   }}
                 >

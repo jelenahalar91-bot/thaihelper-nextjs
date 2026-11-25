@@ -926,7 +926,6 @@ export default function Register() {
   const [emailTypoAcked, setEmailTypoAcked] = useState('');
   const [terms,       setTerms]       = useState(false);
   const [notifyLine,     setNotifyLine]     = useState(false);
-  const [notifyWhatsapp, setNotifyWhatsapp] = useState(false);
   const [photoFile,   setPhotoFile]   = useState(null);
   const [photoPreview,setPhotoPreview]= useState('');
   const [photoText,   setPhotoText]   = useState('');
@@ -1102,7 +1101,7 @@ export default function Register() {
       bio:        bio.trim(),
       email:      email.trim(),
       notify_via_line:     notifyLine,
-      notify_via_whatsapp: notifyWhatsapp,
+      notify_via_whatsapp: false,
       // Exactly one of the two reaches the API; see pages/api/register.js.
       email: contactMethod === 'phone' ? '' : email,
       phoneToken: contactMethod === 'phone' ? phoneToken : undefined,
@@ -1748,9 +1747,14 @@ export default function Register() {
                         style={{
                           flex: 1, padding: '12px 10px', borderRadius: '12px',
                           fontSize: '15px', fontWeight: 700, cursor: 'pointer',
-                          background: contactMethod === key ? 'var(--primary)' : '#fff',
+                          /* --primary is not a variable this stylesheet
+                             defines; the brand teal is --teal. With the
+                             undefined one the selected tab lost its fill and
+                             kept its white label, so the option she had just
+                             chosen read as an empty box. */
+                          background: contactMethod === key ? 'var(--teal)' : '#fff',
                           color: contactMethod === key ? '#fff' : 'var(--gray-500)',
-                          border: `1px solid ${contactMethod === key ? 'var(--primary)' : '#e5e7eb'}`,
+                          border: `1px solid ${contactMethod === key ? 'var(--teal)' : '#e5e7eb'}`,
                         }}
                       >
                         {label}
@@ -1881,20 +1885,28 @@ export default function Register() {
                     </div>
                   </label>
 
-                  {/* WhatsApp row — checkbox */}
-                  <label style={{
-                    display: 'flex', alignItems: 'flex-start', gap: '12px',
-                    padding: '12px 14px', borderRadius: '12px',
-                    background: notifyWhatsapp ? '#f0fdf4' : '#fafafa',
-                    border: `1px solid ${notifyWhatsapp ? '#86efac' : '#e5e7eb'}`,
-                    marginBottom: '10px', cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                  }}>
+                  {/* WhatsApp row — announced, not offered. Nothing sends
+                      through WhatsApp yet, so a tickable box here collects a
+                      preference we cannot honour and promises a channel that
+                      will stay silent. It stays on the page so she knows it is
+                      coming, but it does not take a click. */}
+                  <div
+                    aria-disabled="true"
+                    style={{
+                      display: 'flex', alignItems: 'flex-start', gap: '12px',
+                      padding: '12px 14px', borderRadius: '12px',
+                      background: '#fafafa', border: '1px solid #e5e7eb',
+                      marginBottom: '10px', cursor: 'default', opacity: 0.7,
+                    }}
+                  >
                     <input
                       type="checkbox"
-                      checked={notifyWhatsapp}
-                      onChange={e => setNotifyWhatsapp(e.target.checked)}
-                      style={{ width: '18px', height: '18px', marginTop: '2px', flexShrink: 0, cursor: 'pointer' }}
+                      checked={false}
+                      disabled
+                      readOnly
+                      tabIndex={-1}
+                      aria-hidden="true"
+                      style={{ width: '18px', height: '18px', marginTop: '2px', flexShrink: 0, cursor: 'not-allowed' }}
                     />
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
@@ -1907,7 +1919,7 @@ export default function Register() {
                       </div>
                       <div style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '2px' }}>{t.notify_whatsapp_sub}</div>
                     </div>
-                  </label>
+                  </div>
 
                   {/* Disclaimer — privacy reassurance */}
                   <div style={{
