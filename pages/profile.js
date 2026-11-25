@@ -1524,6 +1524,26 @@ export default function Profile() {
                 </div>
               </div>
 
+              {/* No number yet → ask here, first thing after the greeting.
+                  She is NOT logged out and nothing blocks her: she can scroll
+                  straight past it, and it disappears for good once the number
+                  is in. Two reasons are named because they are the two she
+                  feels — getting back in without her email, and hearing that
+                  a family wrote. */}
+              {process.env.NEXT_PUBLIC_PHONE_VERIFICATION_ENABLED === 'true' && !profile?.phoneVerifiedAt && (
+                <div style={{ marginBottom: '20px' }}>
+                  <PhoneVerificationCard
+                    role="helper"
+                    prompt
+                    phoneVerifiedAt={profile?.phoneVerifiedAt}
+                    phoneNumber={profile?.phoneNumber}
+                    phoneCountryCode={profile?.phoneCountryCode}
+                    lang={lang}
+                    onVerified={fetchProfile}
+                  />
+                </div>
+              )}
+
               {/* Availability quick toggle */}
               <div style={{ marginBottom: '20px', background: 'white', borderRadius: '16px', border: '1px solid #E2ECF0', padding: isMobile ? '16px' : '20px' }}>
                 <div style={{ marginBottom: '12px' }}>
@@ -1879,10 +1899,13 @@ export default function Profile() {
               {/* ─── PUSH NOTIFICATIONS SECTION ─────────────────────── */}
               <PushNotificationToggle lang={lang} />
 
-              {/* Optional — a verified number raises the outreach ceiling
-                  (see lib/spam-signals.js) and reassures families.
+              {/* Already verified: the card stays here, at the bottom, as a
+                  plain settings card for changing the number. The ASK lives
+                  at the top of this tab instead (see above) — buried down
+                  here behind the word "optional" it collected 94 numbers in
+                  ten weeks out of ~1000 helpers who have none.
                   Hidden until SMS is configured, so nobody meets a dead button. */}
-              {process.env.NEXT_PUBLIC_PHONE_VERIFICATION_ENABLED === 'true' && (
+              {process.env.NEXT_PUBLIC_PHONE_VERIFICATION_ENABLED === 'true' && profile?.phoneVerifiedAt && (
               <PhoneVerificationCard
                 role="helper"
                 phoneVerifiedAt={profile?.phoneVerifiedAt}

@@ -32,6 +32,14 @@ import { PHONE_COUNTRY_CODES as COUNTRY_CODES } from '@/lib/constants/phone-coun
 const T = {
   en: {
     title: 'Phone Verification',
+    // Prompt variant — shown at the TOP of the helper dashboard to anyone who
+    // has no number yet. The settings-card wording below sells a checkmark
+    // badge, which is our concern, not hers. These two lines name the two
+    // things she actually loses without a number: she cannot get back in
+    // without her email, and she never hears that a family wrote.
+    prompt_title: 'Add your phone number',
+    prompt_sub: 'So you can log in without your email — and we can text you when a family writes you.',
+    prompt_cta: 'Add number',
     sub_unverified: 'Verify your phone number so families know your account is real. Your number is never shown publicly — only the green checkmark badge appears on your profile.',
     sub_verified_helper: 'Your number is verified. The green checkmark badge is now visible on your profile.',
     sub_verified_employer: 'Your number is verified.',
@@ -73,6 +81,9 @@ const T = {
   },
   th: {
     title: 'ยืนยันเบอร์โทรศัพท์',
+    prompt_title: 'เพิ่มเบอร์โทรศัพท์ของคุณ',
+    prompt_sub: 'คุณจะเข้าสู่ระบบได้โดยไม่ต้องใช้อีเมล และเราจะแจ้งคุณทาง SMS เมื่อมีครอบครัวส่งข้อความถึงคุณ',
+    prompt_cta: 'เพิ่มเบอร์โทร',
     sub_unverified: 'ยืนยันเบอร์โทรเพื่อให้ครอบครัวเห็นว่าบัญชีของคุณเป็นของจริง เบอร์ของคุณจะไม่ถูกเปิดเผยต่อสาธารณะ — เห็นเพียงเครื่องหมายถูกสีเขียวบนโปรไฟล์',
     sub_verified_helper: 'เบอร์ของคุณยืนยันแล้ว เครื่องหมายถูกสีเขียวจะปรากฏบนโปรไฟล์',
     sub_verified_employer: 'เบอร์ของคุณยืนยันแล้ว',
@@ -110,6 +121,10 @@ const T = {
 
 export default function PhoneVerificationCard({
   role = 'helper',
+  // `prompt` turns the card into the first thing on the dashboard: accent
+  // ring, plain-language reason, shorter button. It only changes wording and
+  // framing — the flow, the API calls and the verified state are identical.
+  prompt = false,
   phoneVerifiedAt,
   phoneNumber,
   phoneCountryCode,
@@ -119,6 +134,9 @@ export default function PhoneVerificationCard({
 }) {
   const t = T[lang] || T.en;
   const isVerified = !!phoneVerifiedAt;
+  // Once the number is in, the prompt framing has done its job and the card
+  // goes back to being an ordinary settings card.
+  const asPrompt = prompt && !isVerified;
   const lineLinked = !!lineLinkedAt;
 
   const [countryCode, setCountryCode] = useState(phoneCountryCode || '+66');
@@ -243,11 +261,15 @@ export default function PhoneVerificationCard({
   // ─── render ──────────────────────────────────────────────────────
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+    <div className={
+      asPrompt
+        ? 'rounded-2xl border-2 border-[#006a62] bg-white p-6 shadow-sm'
+        : 'rounded-2xl border border-gray-200 bg-white p-6 shadow-sm'
+    }>
       <div className="flex items-start justify-between mb-1">
         <div className="flex items-center gap-2">
           <Phone size={18} className="text-[#006a62]" />
-          <h3 className="text-lg font-bold text-[#001b3d]">{t.title}</h3>
+          <h3 className="text-lg font-bold text-[#001b3d]">{asPrompt ? t.prompt_title : t.title}</h3>
         </div>
         {state === 'verified' && (
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
@@ -271,7 +293,7 @@ export default function PhoneVerificationCard({
         </>
       ) : (
         <>
-          <p className="text-sm text-gray-600 mb-4">{t.sub_unverified}</p>
+          <p className="text-sm text-gray-600 mb-4">{asPrompt ? t.prompt_sub : t.sub_unverified}</p>
 
           {/* Country code + number input */}
           <div className="grid grid-cols-1 sm:grid-cols-[180px,1fr] gap-3 mb-3">
@@ -314,7 +336,7 @@ export default function PhoneVerificationCard({
                   <RefreshCw size={14} className="animate-spin" /> {t.btn_sending}
                 </>
               ) : (
-                t.btn_send
+                asPrompt ? t.prompt_cta : t.btn_send
               )}
             </button>
           )}
