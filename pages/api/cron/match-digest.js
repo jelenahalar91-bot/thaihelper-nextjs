@@ -62,7 +62,20 @@ import { toCitySlug, cityQueryVariants } from '../../../lib/constants/cities';
 const FIRST_RUN_LOOKBACK_DAYS = 7;
 
 // Bound a single cron run so it can't time out on a large backlog.
-const MAX_RECIPIENTS_PER_RUN = 200;
+//
+// Raised from 200 on 2026-11-25, once the run became resumable. Every
+// candidate's scan cursor is written as that candidate is finished with, so a
+// run that is cut off mid-way loses only the person it was holding — the next
+// run carries on from there instead of starting again. Measured on the first
+// Monday of the weekly schedule, a run of 200 helpers plus 200 families took
+// 86 seconds end to end, emails included; 400 of each lands around three
+// minutes against the 300 the function is now allowed.
+const MAX_RECIPIENTS_PER_RUN = 400;
+
+// Six runs of 400 is 2400 people a week against a base of roughly 1100 today
+// — the headroom is there because the cost of a run with nothing left to do
+// is one query that returns no rows.
+export const config = { maxDuration: 300 };
 
 // Cap the rows inside one digest email. The city query runs twice (home city
 // + additional_cities) and each side is capped at 20, so an unbounded digest
@@ -93,6 +106,28 @@ function parseLookingFor(lookingFor) {
     .split(',')
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
+}
+
+// Mark a candidate as dealt with for this week.
+//
+// Called for everyone a run RESOLVES, not only for the people it writes to:
+// someone with no new match, with notifications off, with a paused profile or
+// with no city to match on is resolved just as finally as someone who gets a
+// digest, and leaving them unstamped is what used to clog the head of the
+// next run's window. See scripts/supabase-match-scan-cursor.sql.
+//
+// Not called on an error path. A failed lookup or a delivery that threw is
+// unresolved, and must come back on the next run.
+async function markScanned(supabase, table, idColumn, idValue) {
+  const { error } = await supabase
+    .from(table)
+    .update({ last_match_scan_at: new Date().toISOString() })
+    .eq(idColumn, idValue);
+  if (error) {
+    // Worth knowing about: a cursor that cannot be written is the old bug
+    // coming back, and it is quiet.
+    console.error(`Match digest: scan cursor failed for ${idValue}:`, error.message);
+  }
 }
 
 // Lower-bound timestamp for "what's new since you last heard from us".
@@ -126,25 +161,31 @@ export default async function handler(req, res) {
       'status, search_status, line_user_id, notify_via_line, last_match_notification_at'
     )
     .eq('email_verified', true)
-    .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${weekStart}`)
+    // The SCAN cursor, not the notification one: whoever this week's runs
+    // have already looked at is done, however that look ended.
+    .or(`last_match_scan_at.is.null,last_match_scan_at.lt.${weekStart}`)
     .limit(MAX_RECIPIENTS_PER_RUN);
 
   if (empErr) {
     console.error('Match digest: employer fetch error:', empErr);
   } else {
     for (const emp of empCandidates || []) {
-      if (!emp.email && !emp.line_user_id) continue;
+      // Each of these is a settled answer for this week, so each one writes
+      // the cursor on its way out. None of them is an error.
+      const skip = () => markScanned(supabase, 'employer_accounts', 'employer_ref', emp.employer_ref);
+
+      if (!emp.email && !emp.line_user_id) { await skip(); continue; }
       // No digest for a suspended or closed family — same rule as the listing
       // and the helper→employer notifier in lib/match-notifications.js.
-      if (!isPubliclyListable(emp)) continue;
+      if (!isPubliclyListable(emp)) { await skip(); continue; }
       // Respect paused/hidden — those employers opted out of new-match
       // alerts. NULL (pre-migration) counts as actively searching.
-      if (emp.search_status === 'paused' || emp.search_status === 'hidden') continue;
+      if (emp.search_status === 'paused' || emp.search_status === 'hidden') { await skip(); continue; }
       // 'other' / blank city can't be matched to anyone.
       const empCitySlug = toCitySlug(emp.city);
-      if (!empCitySlug || empCitySlug === 'other') continue;
+      if (!empCitySlug || empCitySlug === 'other') { await skip(); continue; }
       const wanted = parseLookingFor(emp.looking_for);
-      if (wanted.length === 0) continue;
+      if (wanted.length === 0) { await skip(); continue; }
 
       const since = newSinceCutoff(emp.last_match_notification_at);
 
@@ -162,6 +203,7 @@ export default async function handler(req, res) {
       );
 
       if (hErr) {
+        // Unresolved on purpose: no cursor, so the next run tries again.
         console.error(`Match digest: helpers fetch failed for emp ${emp.employer_ref}:`, hErr);
         continue;
       }
@@ -176,9 +218,12 @@ export default async function handler(req, res) {
         .filter((m) => m.overlap !== null)
         .slice(0, MAX_ROWS_PER_DIGEST);
 
-      if (matches.length === 0) continue;
+      if (matches.length === 0) { await skip(); continue; }
 
       let didNotify = false;
+      // True only when a channel we actually tried threw. Someone whose
+      // delivery failed is not resolved — they must come back next run.
+      let deliveryFailed = false;
 
       // Email — gated by notify_on_message.
       if (emp.email && emp.notify_on_message !== false) {
@@ -198,6 +243,7 @@ export default async function handler(req, res) {
           employerDigests++;
           didNotify = true;
         } catch (err) {
+          deliveryFailed = true;
           console.error(`Match digest: email failed for emp ${emp.employer_ref}:`, err.message);
         }
       }
@@ -215,6 +261,7 @@ export default async function handler(req, res) {
             didNotify = true;
           }
         } catch (err) {
+          deliveryFailed = true;
           console.error(`Match digest: LINE failed for emp ${emp.employer_ref}:`, err.message);
         }
       }
@@ -222,8 +269,15 @@ export default async function handler(req, res) {
       if (didNotify) {
         await supabase
           .from('employer_accounts')
-          .update({ last_match_notification_at: new Date().toISOString() })
+          .update({
+            last_match_notification_at: new Date().toISOString(),
+            last_match_scan_at: new Date().toISOString(),
+          })
           .eq('employer_ref', emp.employer_ref);
+      } else if (!deliveryFailed) {
+        // Had matches, sent nothing, and nothing threw — notifications are
+        // switched off on every channel. Settled; don't re-read next run.
+        await skip();
       }
     }
   }
@@ -240,7 +294,8 @@ export default async function handler(req, res) {
       'availability_status'
     )
     .eq('email_verified', true)
-    .or(`last_match_notification_at.is.null,last_match_notification_at.lt.${weekStart}`)
+    // The SCAN cursor, not the notification one — see the employer query.
+    .or(`last_match_scan_at.is.null,last_match_scan_at.lt.${weekStart}`)
     .or('status.eq.active,status.is.null')
     // Helpers who hid their profile don't want match mail at all.
     .or('availability_status.neq.hidden,availability_status.is.null')
@@ -255,11 +310,13 @@ export default async function handler(req, res) {
     console.error('Match digest: helper fetch error:', hlpErr);
   } else {
     for (const hlp of hlpCandidates || []) {
-      if (!hlp.email && !hlp.line_user_id) continue;
-      if (!hlp.category) continue;
+      const skip = () => markScanned(supabase, 'helper_profiles', 'helper_ref', hlp.helper_ref);
+
+      if (!hlp.email && !hlp.line_user_id) { await skip(); continue; }
+      if (!hlp.category) { await skip(); continue; }
       // Every city this helper covers — home plus "I can also travel to …".
       const coveredCities = helperCitySlugs(hlp);
-      if (coveredCities.length === 0) continue;
+      if (coveredCities.length === 0) { await skip(); continue; }
 
       const since = newSinceCutoff(hlp.last_match_notification_at);
 
@@ -276,6 +333,7 @@ export default async function handler(req, res) {
         .limit(20);
 
       if (eErr) {
+        // Unresolved on purpose: no cursor, so the next run tries again.
         console.error(`Match digest: employers fetch failed for hlp ${hlp.helper_ref}:`, eErr);
         continue;
       }
@@ -296,9 +354,10 @@ export default async function handler(req, res) {
         .filter((m) => m.overlap !== null)
         .slice(0, MAX_ROWS_PER_DIGEST);
 
-      if (matches.length === 0) continue;
+      if (matches.length === 0) { await skip(); continue; }
 
       let didNotify = false;
+      let deliveryFailed = false;
 
       // Email — gated by notify_on_message.
       if (hlp.email && hlp.notify_on_message !== false) {
@@ -320,6 +379,7 @@ export default async function handler(req, res) {
           helperDigests++;
           didNotify = true;
         } catch (err) {
+          deliveryFailed = true;
           console.error(`Match digest: email failed for hlp ${hlp.helper_ref}:`, err.message);
         }
       }
@@ -337,6 +397,7 @@ export default async function handler(req, res) {
             didNotify = true;
           }
         } catch (err) {
+          deliveryFailed = true;
           console.error(`Match digest: LINE failed for hlp ${hlp.helper_ref}:`, err.message);
         }
       }
@@ -344,8 +405,13 @@ export default async function handler(req, res) {
       if (didNotify) {
         await supabase
           .from('helper_profiles')
-          .update({ last_match_notification_at: new Date().toISOString() })
+          .update({
+            last_match_notification_at: new Date().toISOString(),
+            last_match_scan_at: new Date().toISOString(),
+          })
           .eq('helper_ref', hlp.helper_ref);
+      } else if (!deliveryFailed) {
+        await skip();
       }
     }
   }
@@ -355,5 +421,10 @@ export default async function handler(req, res) {
     employerLineSent,
     helperDigests,
     helperLineSent,
+    // How full the windows came back. Equal to MAX_RECIPIENTS_PER_RUN means
+    // there is more waiting and another run is needed — the number to read
+    // when asking whether Monday's schedule is still long enough.
+    employerCandidates: (empCandidates || []).length,
+    helperCandidates: (hlpCandidates || []).length,
   });
 }
