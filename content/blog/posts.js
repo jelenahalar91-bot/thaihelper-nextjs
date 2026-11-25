@@ -500,7 +500,7 @@ export const blogPosts = [
         <tbody>
           <tr><td>เอเจนซี่</td><td>15,000-75,000 THB</td><td>ไม่มี</td><td>ปานกลาง-สูง</td></tr>
           <tr><td>Facebook</td><td>ฟรี</td><td>ไม่มี</td><td>ต่ำ</td></tr>
-          <tr><td>ThaiHelper</td><td>เลือกดูฟรี</td><td>เริ่มต้น $9/เดือน สำหรับส่งข้อความ</td><td>สูง (ผ่านการยืนยัน)</td></tr>
+          <tr><td>ThaiHelper</td><td>ฟรี</td><td>ไม่มี</td><td>สูง (ผ่านการยืนยัน)</td></tr>
         </tbody>
       </table>
 
@@ -553,7 +553,7 @@ export const blogPosts = [
         <tbody>
           <tr><td>Agency</td><td>15,000-75,000 THB</td><td>None</td><td>Medium-High</td></tr>
           <tr><td>Facebook</td><td>Free</td><td>None</td><td>Low</td></tr>
-          <tr><td>ThaiHelper</td><td>Free to browse</td><td>From $9/mo for messaging</td><td>High (verified)</td></tr>
+          <tr><td>ThaiHelper</td><td>Free</td><td>None</td><td>High (verified)</td></tr>
         </tbody>
       </table>
 
@@ -1838,7 +1838,7 @@ export const blogPosts = [
       <h3>1. ThaiHelper (แพลตฟอร์มออนไลน์)</h3>
       <ul>
         <li><strong>ค่าใช้จ่ายสำหรับผู้ช่วย:</strong> ฟรีตลอดไป</li>
-        <li><strong>ค่าใช้จ่ายสำหรับครอบครัว:</strong> ทดลองใช้ฟรี + แพ็กเกจที่ย่อมเยา</li>
+        <li><strong>ค่าใช้จ่ายสำหรับครอบครัว:</strong> ฟรีตลอดไป ไม่มีค่าดำเนินการ</li>
         <li><strong>การยืนยันโปรไฟล์:</strong> ยืนยันอีเมล (ไม่มีการตรวจสอบบัตรประชาชนหรือประวัติ)</li>
         <li><strong>การติดต่อโดยตรง:</strong> ใช่ — ส่งข้อความหาผู้ช่วยได้เลย</li>
         <li><strong>ข้อมูลโปรไฟล์:</strong> ครบถ้วน — ประสบการณ์ ทักษะ ภาษา รูปถ่าย</li>
@@ -1874,7 +1874,7 @@ export const blogPosts = [
       <p><a href="/">ThaiHelper</a> is a purpose-built platform for finding household staff in Thailand. It works like this:</p>
       <ul>
         <li><strong>Cost for helpers:</strong> 100% free — forever. No sign-up fees, no commission.</li>
-        <li><strong>Cost for families:</strong> Free trial + affordable access plans to contact helpers.</li>
+        <li><strong>Cost for families:</strong> 100% free — no fees to browse profiles or to message helpers.</li>
         <li><strong>Profile verification:</strong> Email verification only — ThaiHelper does NOT perform ID checks or background checks. You interview and reference-check helpers yourself.</li>
         <li><strong>Direct communication:</strong> Yes — message helpers directly, no middleman.</li>
         <li><strong>Profile information:</strong> Comprehensive — experience, skills, languages, photos, city, availability.</li>
@@ -1910,8 +1910,8 @@ export const blogPosts = [
         <thead><tr><th>Feature</th><th>ThaiHelper</th><th>Agency</th><th>Facebook</th></tr></thead>
         <tbody>
           <tr><td>Cost for helpers</td><td>Free forever</td><td>Sometimes charged</td><td>Free</td></tr>
-          <tr><td>Cost for families</td><td>Free trial + affordable plans</td><td>1-3 months' salary</td><td>Free</td></tr>
-          <tr><td>ID-verified profiles</td><td>Yes</td><td>Varies</td><td>No</td></tr>
+          <tr><td>Cost for families</td><td>Free forever</td><td>1-3 months' salary</td><td>Free</td></tr>
+          <tr><td>Email-verified profiles</td><td>Yes</td><td>Varies</td><td>No</td></tr>
           <tr><td>Structured profiles</td><td>Yes</td><td>Limited</td><td>No</td></tr>
           <tr><td>Direct messaging</td><td>Yes</td><td>No (through agency)</td><td>Yes (public)</td></tr>
           <tr><td>Filter by city/service</td><td>Yes</td><td>Limited</td><td>No</td></tr>
@@ -1922,7 +1922,7 @@ export const blogPosts = [
       </table>
 
       <h2>Our Recommendation</h2>
-      <p>For most families in Thailand — especially expats — <strong>starting with ThaiHelper gives you the best balance</strong> of verified profiles, direct communication and zero agency fees. You can browse profiles for free, and only pay when you're ready to contact someone.</p>
+      <p>For most families in Thailand — especially expats — <strong>starting with ThaiHelper gives you the best balance</strong> of verified profiles, direct communication and zero agency fees. Browsing profiles and messaging helpers are both free — there is nothing to pay on either side.</p>
       <p>If you need a highly specialised placement (e.g., a live-in nanny with medical training), an agency may be worth the premium. For quick, informal asks, Facebook groups can supplement your search — but never rely on them as your only source.</p>
 
       <h2>Ready to Start?</h2>
