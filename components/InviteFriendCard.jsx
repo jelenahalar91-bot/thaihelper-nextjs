@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { inviteUrl } from '../lib/invite-url';
 
 // Helpers know other helpers. This card hands them a personal link to pass
 // on, with LINE first because that is where they already talk to each other.
@@ -29,12 +30,7 @@ const T = {
   },
 };
 
-export function inviteUrl(inviteCode, lang) {
-  const base = `https://www.thaihelper.app${lang === 'th' ? '/th' : ''}/register`;
-  const params = new URLSearchParams({ utm_source: 'invite' });
-  if (inviteCode) params.set('utm_campaign', inviteCode);
-  return `${base}?${params.toString()}`;
-}
+export { inviteUrl };
 
 export default function InviteFriendCard({ inviteCode, lang = 'en', isMobile = false }) {
   const t = T[lang] || T.en;

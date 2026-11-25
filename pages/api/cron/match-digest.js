@@ -308,6 +308,7 @@ export default async function handler(req, res) {
           await sendEmployerMatchDigestEmail({
             recipientName: hlp.first_name || '',
             recipientEmail: hlp.email,
+            helperRef: hlp.helper_ref,
             employers: matches.map(({ employer, overlap }) => ({
               ref: employer.employer_ref || null,
               firstName: employer.first_name || 'A new family',
